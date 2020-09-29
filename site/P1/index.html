@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>RPI-II</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="..">RPI-II</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="..">Index</a>
+                            </li>
+                            <li class="active">
+                                <a href="./">Práctica 1</a>
+                            </li>
+                            <li >
+                                <a href="../P2/about/">Práctica 2</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="..">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../P2/about/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#practica-1-programacion-con-sockets-en-python">Práctica 1. Programación con sockets en Python</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#la-api-de-sockets-en-python">La API de sockets en Python</a></li>
+            <li><a href="#sockets-tcp">Sockets TCP</a></li>
+            <li><a href="#clienteservidor-echo-tcp">Cliente/servidor echo TCP</a></li>
+            <li><a href="#ejecucion-del-cliente-y-servidor-echo">Ejecución del cliente y servidor echo</a></li>
+            <li><a href="#herramientas-para-observar-el-estado-del-socket">Herramientas para observar el estado del socket</a></li>
+            <li><a href="#sockets-udp">Sockets UDP</a></li>
+            <li><a href="#envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="practica-1-programacion-con-sockets-en-python">Práctica 1. Programación con sockets en Python</h1>
+<h2 id="objetivos">Objetivos</h2>
+<h2 id="introduccion">Introducción</h2>
+<p>La historia de los <em>sockets</em> se remonta al origen de ARPANET, en 1971, y su
+posterior estandarización en forma de API dentro del sistema operativo
+<em>Berkeley Software Distribution (BSD), liberado en 1983, bajo el nombre
+de </em>sockets de Berkeley*.</p>
+<p>Con la popularización de Internet en los años 90, y de la mano de la
+<em>World Wide Web</em>, la programación de red sufrió también una notable evolución.
+Los servidores web y los navegadores no fueron (ni son) las únicas aplicaciones
+basadas en <em>sockets</em>. De hecho, los sistemas cliente/servidor son a día de hoy
+ubicuos e incluyen, por supuesto, a todos los protocolos de alto nivel que
+dan soporte a Internet de las Cosas. De hecho, a día de hoy, aunque los 
+potocolos de alto nivel (capa de aplicación) han evolucionado hasta niveles
+de sofisticación no considerados en sus inicios, la API de bajo nivel sobre
+la que se basan se mantienen inalterada.</p>
+<p>El tipo más común de aplicaciones basadas en <em>sockets</em> se basa en el paradigma
+cliente/servidor, donde una de las partes actúa como <strong>servidor</strong>, esperando
+pasivamente conexiones desde un conjunto de uno o más <strong>clientes</strong>. A 
+continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
+utilizando <em>sockets Berkeley</em>. Existen también los llamados <em>Unix domain
+sockets</em>, que permiten la comunicación directa entre procesos en el mismo
+<em>host</em>, aunque quedan fuera de nuestro interés en el ámbito de IoT.</p>
+<div class="admonition type">
+<p class="admonition-title">optional explicit title within double quotes</p>
+<p>Any number of other indented markdown elements.</p>
+<p>This is the second paragraph.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Testing</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Cuidado</p>
+<p>Testing</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Recuerda</p>
+<p>Warning</p>
+<p>Otro párrafo</p>
+</div>
+<h2 id="la-api-de-sockets-en-python">La API de sockets en Python</h2>
+<p>El <a href="https://docs.python.org/3/library/socket.html">módulo socket</a> de Python 
+proporciona una interfaz completa para trabajar con la <a href="https://en.wikipedia.org/wiki/Berkeley_sockets">API de sockets
+de Berkeley</a>. En la presente
+práctica, trabajaremos exclusivamente con esta API para desarrollar
+aplicaciones cliente/servidor utilizando los protocolos TCP y UDP.</p>
+<p>Las funciones y métodos principales de la API de sockets son:</p>
+<ul>
+<li><code>socket()</code> - </li>
+<li><code>bind()</code> - </li>
+<li><code>listen()</code> - </li>
+<li><code>accept()</code> - </li>
+<li><code>connect()</code> - </li>
+<li><code>connect_ex()</code> - </li>
+<li><code>send()</code> - </li>
+<li><code>recv()</code> - </li>
+<li><code>close()</code> - </li>
+</ul>
+<p>Python prorpocina una API consistente y completa mapeada directamente
+a las anteriores llamadas al sistema, típicamente escritas en lenguaje C. 
+Como parte de su biblioteca estándar, Python también proporciona clases que
+facilitan el trabajo con las funciones de bajo nivel. Aunque no lo cubriremos,
+el <a href="https://docs.python.org/3/library/socketserver.html">módulo socketserver</a>
+proporciona una forma sencilla de crear servidores de red. Existen también
+numerosos módulos disponibles para implementar protocolos de alto nivel (por
+ejemplo HTTP o SMTP), véase <a href="https://docs.python.org/3/library/internet.html"></a>.</p>
+<h2 id="sockets-tcp">Sockets TCP</h2>
+<p>En Python, los <em>sockets</em> TCP se crean en Python utilizando <code>socket.socket()</code>,
+especificando el tipo de <em>socket</em> como <code>socket.SOCK_STREAM</code>. El protocolo
+de control de transmisión (TCP) se caracteriza por dos rasgos principales:</p>
+<ul>
+<li>
+<p><strong>Es confiable</strong>: se implementan mecanismos de detección de pérdidas en la
+red y reenvío de paquetes perdidos.</p>
+</li>
+<li>
+<p><strong>Garantiza una entrega de paquetes en orden</strong>: los datos se entregan a las
+capas superiores (aplicaciones) en el mismo orden en el que fueron enviados.</p>
+</li>
+</ul>
+<p>En contra, los <em>sockets</em> UDP se crean a través de <code>socket.SOCK_DGRAM</code>, y no
+son confiables ni garantizan la entrega de paquetes en orden. Por tanto, es
+el desarrollador de aplicaciones quien, en caso de así desearlo en el diseño
+de la aplicación, debe implementar estos mecanismos de forma específica.</p>
+<p>En el siguiente diagrama se muestra la secuencia típica de invocaciones a 
+la API de <em>sockets</em> para TCP:</p>
+<p><img alt="foo" src="img/sockets-tcp-flow.png" /></p>
+<p>En la figura, la columna de la izquierda representa al servidor, mientras que
+la columna de la derecha representa al cliente en la conexión TCP. Observa
+las invocaciones necesarias para configurar un <em>socket</em> a la escucha de 
+conexiones entrantes:</p>
+<ul>
+<li><code>socket()</code></li>
+<li><code>bind()</code></li>
+<li><code>listen()</code></li>
+<li><code>accept()</code></li>
+</ul>
+<p>En este extremo, un <em>socket</em> escucha (<em>listen</em>) potenciales conexiones entrantes
+desde clientes. Cuando un cliente solicita conectar, el servidor acepta 
+(<em>accept</em>) la conexión, completándola.</p>
+<p>El cliente invoca a <code>connect()</code> para establecer una conexión con el servidor
+e inicia el proceso de conexión a tres vías (<em>three-way connection</em>). </p>
+<p>Una vez establecida la conexión, los datos se intercambian entre cliente y 
+servidor a través de invocaciones a <code>send()</code> y <code>recv()</code>. </p>
+<p>Finalmente, el <em>socket</em> se destruye (esto es, la conexión entre ambos extremos
+se cierra) a través de una invocación a <code>close()</code> en cada extremo.</p>
+<h2 id="clienteservidor-echo-tcp">Cliente/servidor <em>echo</em> TCP</h2>
+<p>Veamos un ejemplo sencillo para crear un par cliente-servidor. En este caso,
+el servidor simplemente responderá con la misma cadena que reciba desde el
+cliente.</p>
+<h3 id="servidor-echo">Servidor <em>echo</em></h3>
+<pre><code class="python">#!/usr/bin/env python3
+
+#### servidor_echo.py
+
+import socket
+
+HOST = '127.0.0.1'  # Interfaz estándar de loopback (localhost)
+PORT = 65432        # Puerto de escucha (los puertos mayores a 1023 son no privilegiados)
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+    conn, addr = s.accept()
+    with conn:
+        print('Conectado ', addr)
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            conn.sendall(data)
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>De momento, no importa si no entiendes todas las líneas en el anterior 
+código. Simplemente se trata de un punto de partida para desarrollar un 
+servidor sencillo. Sin embargo, es conveniente que copies el código en 
+un fichero de texto (por ejemplo, llamado <code>servidor_echo.py</code>) para que 
+podeamos probarlo.</p>
+</div>
+<p>Veamos línea a línea las partes más importantes del anterior código. </p>
+<p><code>socket.socket()</code> crea un objeto <em>socket</em>. Observa que, al crearse a través
+de una construcción <code>with</code>, no es necesario invocar explícitamente a 
+<code>s.close()</code>, aunque debes tener en cuenta que el objeto es destruido al 
+finalizar la construcción:</p>
+<pre><code class="python">with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    pass  # Es posible usar el socket win invocar a s.close().
+</code></pre>
+
+<p>Los argumentos que se proporcionan a <code>socket()</code> especifican la familia de
+direcciones (<code>AF_INET</code>) y tipo de <em>socket</em> (<code>SOCK_STREAM</code>). 
+<code>AF_INET</code> es la familia de direcciones de Internet para IPv4. 
+<code>SOCK_STREAM</code> es el tipo de <em>socket</em> que permite la creación de conexiones
+TCP.</p>
+<p><code>bind()</code> se utiliza para asociar el socket a una interfaz de red y número de
+puerto específicos:</p>
+<pre><code class="python">HOST = '127.0.0.1'  # Interfaz estándar de loopback (localhost)
+PORT = 65432        # Puerto de escucha (los puertos mayores a 1023 son no privilegiados)
+
+# ...
+
+s.bind((HOST, PORT))
+</code></pre>
+
+<p>Los valores proporcionados a <code>bind()</code> dependen de la familia de direcciones 
+seleccionada para el <em>socket</em>. En este ejemplo, al utilizar <code>AF_INET</code>, 
+espera una tupla con únicamente dos valores <em>(host, puerto)</em>.</p>
+<p>Para determinar el <em>host</em>, es posible utilizar un nombre de <em>host</em>, una 
+dirección IP o una cadena vacía. Si utilizamos una dirección IP, ésta debe
+ser especificarse mediante una cadena que contenga una dirección IPv4 bien
+formada. La dirección 127.0.0.1 es la dirección IPv4 estándar para la 
+interfaz de <em>loopback</em>, por lo que únicamente procesos que estén ejecutándose
+en el propio <em>host</em> podrán comunicar con el servidor. Si proporcionamos una
+cadena vacía, el servidro aceptará conexiones entrantes a través de todas
+las interfaces IPv4 disponibles en el sistema.</p>
+<p>El número de puerto (<em>port</em>) se especifica con un valor entero entre 1 y 65535,
+y espcifica el puerto (en este caso, TCP) a través del cual el servidor aceptará
+conexiones desde los clientes. La mayoría de sistemas requieren permisos de
+superusuario para escuchar a través de los puertos (<em>well-known</em>), es decir, 
+con valor inferior a 1024.</p>
+<p>Continuando con el ejemplo, <code>listen()</code> posibilita que un servidor pueda, en el
+futuro, aceptar (<code>accept()</code>) conexiones entrantes. En otras palabras, pone a
+la escucha al <em>socket</em>:</p>
+<pre><code class="python">s.listen()
+conn, addr = s.accept()
+</code></pre>
+
+<p>La invocación a <code>accept()</code> <strong>bloquea</strong> el proceso y espera a una conexión
+entrante. Cuando un cliente conecta, devuelve un objeto <code>socket</code> que representa
+la conexión, así como una tupla (<code>addr</code>) que contiene la dirección del cliente.
+Concretamente, esta tupla contiene los valores <code>(host, port)</code> que almacenan
+la dirección IPv4 y puerto del cliente que solicita la conexión.</p>
+<p>Observa que, en el ejemplo, <code>conn</code> es el objeto <em>socket</em> que usaremos para 
+comunicar con el cliente:</p>
+<pre><code class="python">conn, addr = s.accept()
+with conn:
+    print('Conectado ', addr)
+    while True:
+        data = conn.recv(1024)
+        if not data:
+            break
+        conn.sendall(data)
+</code></pre>
+
+<p>Tras obtener el objeto devuelto por <code>accept()</code>, diseñamos el servidor como un
+bucle infinito que invoca repetidamente a llamadas <strong>bloqueantes</strong> a 
+<code>conn.recv()</code>. Así, leemos los datos enviados por el cliente y los reenviamos
+sin modificación utilizando <code>conn.sendall()</code>.</p>
+<p>Si <code>conn.recv()</code> devuelve un objeto de tipo <code>bytes</code> vacío (<code>b''</code>) significa
+que el cliente cerró la conexión, en cuyo caso el bucle termina, destruyéndose
+el <em>socket</em> al salir de la sentencia <code>with</code>.</p>
+<h3 id="cliente-echo">Cliente <em>echo</em></h3>
+<p>Veamos a continuación la estructura general del cliente (puedes usar, por 
+ejemplo, <code>cliente_echo.py</code> como nombre para el fichero):</p>
+<pre><code class="python">#!/usr/bin/env python3
+
+### cliente_echo.py
+
+import socket
+
+HOST = '127.0.0.1'  # IP del servidor
+PORT = 65432        # Puerto de escucha del servidor
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((HOST, PORT))
+    s.sendall(b'Hola, mundo')
+    data = s.recv(1024)
+
+print('Recibido ', repr(data))
+</code></pre>
+
+<p>En comparación con el servidor, la estructura del cliente es más simple;
+simplemente crea un nuevo objeto <em>socket</em>, conecta con el servidor e invoca
+a <code>s.sendall()</code> para enviar el mensaje. Finalmente, espera la recepción de 
+la respuesta utilizando <code>s.recv()</code> y la imprime por pantalla.</p>
+<h2 id="ejecucion-del-cliente-y-servidor-echo">Ejecución del cliente y servidor echo</h2>
+<p>A continuación, ejecutaremos cliente y servidor para observar el estado de 
+las conexiones durante su ciclo de vida. </p>
+<p>Ejecuta en una terminal el servidor:</p>
+<pre><code class="bash">$ python3 ./servidor-echo.py
+</code></pre>
+
+<p>Como ves, la terminal se bloquea (de hecho, el servidor permanece en 
+estado bloqueado) en la invocación:</p>
+<pre><code class="python">conn, addr = s.accept()
+</code></pre>
+
+<p>Realmente, el servidor está esperando a que haya conexiones entrantes por parte
+de un cliente. Abre otra terminal y ejecuta el cliente:</p>
+<pre><code class="bash">$ python3 cliente-echo.py
+Recibido 'Hola, mundo'
+</code></pre>
+
+<p>En la ventana del servidor, deberías ver algo similar a:</p>
+<pre><code class="bash">$ python3 ./servidor-echo.py
+Conectado ('127.0.0.1, 61234')
+</code></pre>
+
+<p>En esta salida, el servidor ha mostrado por pantalla la tupla devuelta por
+<code>s.accept()</code>, que incluye la dirección IP y el número de puerto TCP. Dicho
+número de puerto (en el ejemplo anterior, 61234) es seleccionado aleatoriamente
+por el sistema operativo y puede variar en tu ejecución.</p>
+<h2 id="herramientas-para-observar-el-estado-del-socket">Herramientas para observar el estado del socket</h2>
+<p>Podemos utilizar la herramienta <em>netstat</em> para observar el estado actual de 
+los sockets en cualquier sistema operativo (macOS, Linux e incluso Windows). Por
+ejemplo, esta sería la salida de <code>netstat</code> en Linux tras ejecutar el servidor:</p>
+<pre><code class="bash">netstat -an | grep 65432
+Conexiones activas de Internet (servidores y establecidos)
+Proto  Recib Enviad Dirección local         Dirección remota       Estado
+tcp        0      0 127.0.0.1:65432         0.0.0.0:*               ESCUCHAR
+</code></pre>
+
+<p>Observa que hemos filtrado la salida de la orden <code>netcat</code> según el número de 
+puerto utilizado. Observa el valor de las columnas <em>Proto, Dirección local</em> y 
+<em>Estado</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Otra forma de observar el estado de las conexiones es a través de la orden
+<code>lsof -i -n</code>. Ejecútala y observa su salida.</p>
+</div>
+<h2 id="sockets-udp">Sockets UDP</h2>
+<p>La creación y gestión de <em>sockets</em> UDP en Python resulta todavía más sencilla.
+Observa el siguiente código, que crea un servidor UDP utilizando la API
+de <em>sockets</em> Python:</p>
+<pre><code class="python">import socket
+
+udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+udp_socket.bind((&quot;localhost&quot;, 5005))
+
+data = udp_socket.recv(512)
+print(data)
+</code></pre>
+
+<p>Primero, importamos la biblioteca <code>socket</code> de recepción, igual
+que en el caso de TCP. Obviamente, en este caso el tipo de <em>socket</em> pasa a ser
+<code>socket.DOCK_DGRAM</code>, para indicar que deseamos utilizar UDP en la comunicación.</p>
+<p>El programa espera a la recepción de un paquete utilizando el método bloqueante
+<code>recv</code>, cuyo único parámetro indica el número máximo de bytes que deseamos
+recibir. Cuando un paquete llega al socket, el metodo <code>recv</code> devolverá un 
+<em>array</em> de bytes, que será almacenado en la variable que deseemos.</p>
+<p>El envío de datos a través de un <em>socket</em> UDP es también sencillo:</p>
+<pre><code class="python">import socket
+
+udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+udp_socket.bind((&quot;localhost&quot;, 0))
+
+data = b&quot;Hola, mundo!&quot;
+udp_socket.sendto(data,(&quot;localhost&quot;, 5005))
+</code></pre>
+
+<p>Observa que, en este caso, asociamos (<em>bind</em>) el socket a un puerto especificado
+como 0. Este valor especial indica al sistema operativo que elija para la 
+transimisión un puerto <em>origen</em> aleatorio de entre los disponibles en el sistema.</p>
+<p>A continuación, creamos los datos a enviar y  los enviamos utilizando el método
+<code>sendto()</code>. Este método tomados argumentos: datos a enviar, y precisamente la
+dirección de envío. Los datos enviados a través del socket deben formar parte
+de un <em>array de bytes</em> (por ello, la cadena a enviar viene precedida por el
+carácter <code>b</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba que, efectivamente, los códigos de envío y recepción 
+a través de UDP funcionan como se espera. </p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Nota</p>
+<p>Desde la versión 3 de Python, las cadenas se codifican utilizando Unicode.
+Al contrario que ASCII, conde cada caracter tiene una representación
+en byte directa, Unicode utiliza enteros par representar cada caracter, que
+deben ser codificados para obtener una representación en forma de byte.
+Uno de esos esquemas de codificación es UTF-8. Por ejemplo, el siguiente 
+código muestra cómo codificar una cadena Unicode en una representación de
+bytes:</p>
+<p><code>cadena= "Hola"
+data = cadena.encode("UTF-8")
+print(data, type(data))</code></p>
+<p>lo cual genera</p>
+<p><code>b"Hola" &lt;class 'bytes'&gt;</code></p>
+<p>que puede ya ser enviado directamente por red.</p>
+</div>
+<p>Hasta este punto, los programas UDP han sido totalmente unidireccionales en el
+envío/recepción de datos, pero obviamente, un socket UDP es un canal de 
+comunicación bidireccional.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Implementa una funcionalidad similar al servidor <em>echo</em> que vimos para 
+TCP, pero utilizando en este caso UDP.</p>
+</div>
+<h2 id="envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</h2>
+<p>Hasta este punto, hemos visto únicamente cómo enviar cadenas de texto a través
+de sockets TCP o UDP, pero es muy probable que sea necesario (o conveniente),
+en ocasiones, enviar datos directamente en formato binario (por ejemplo, 
+valores numéricos en punto flotante o enteros). Utilizando el módulo 
+<code>struct</code> de Python podemos especificar qué tipo o tipos de datos se almacenan
+en una secuencia de bytes y cómo decodificarlos. También es posible especificar
+en qué lugar de la secuencia se alojan dichos datos, permitiendo el empaquetado 
+de múltiples datos de distintos tipos de forma sencilla, y su posterior 
+decodificación en el otro extremo de la comunicación.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para todos los detalles del módulo <code>struct</code>, consulta la página oficial de
+<a href="https://docs.python.org/3/library/struct.html">documentación</a>.</p>
+</div>
+<p>El módulo <code>struct</code> proporciona dos métodos de interés: <code>pack</code> y <code>unpack</code>.</p>
+<p>La siguiente sentencia:</p>
+<pre><code class="python">struct.pack(&quot;&gt;iii&quot;, 1, 2, 3)
+</code></pre>
+
+<p>utiliza el método <code>pack</code> para realizar un empaquetado de datos. Concretamente, 
+observa como el método recibe dos parámetros:</p>
+<ul>
+<li>
+<p>En primer lugar, el parámetro de formato <em>"&gt;iii"</em>. Define como debe 
+  codificarse cada valor en la secuencia de bytes. El primer carácter 
+  indica el <em>endianness</em> utilizado, en este caso <em>big endian</em> (utilizaríamos "&gt;" 
+  para <em>big endian</em>, "&lt;" para <em>little endian</em> y "=" para <em>network</em> (big) endian).</p>
+</li>
+<li>
+<p>En segundo lugar, los valores a empaquetar.</p>
+</li>
+</ul>
+<p>Observa que el formato, además, incluye el número y tipo de los datos a 
+empaquetar (en este caso, tres valores detipo entero). Para otros tipos
+de datos, consulta la documentación del módulo.</p>
+<p>Desempaquetar los datos enviados en el extremo opuesto es intuitivo:</p>
+<pre><code class="python">a, b, c = struct.unpack( &quot;&gt;iii&quot; )
+</code></pre>
+
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Se pide diseñar un sistema cliente/servidor programado en Python, que 
+simule el envío de un conjunto de datos sensorizados desde un cliente
+hacia un servidor. El protocolo a utilizar (formato de datos enviado
+por la red) debe ser propuesto por el propio alumno y descrito previamente
+al desarrollo. Se valorará el uso de múltiples tipos de datos tanto en
+el envío de datos sensorizados como de posibles respuestas por parte
+del servidor. Se desarrollará una versión utilizando TCP y otra
+equivalente usando UDP. Los datos se enviarán de forma periódica y se
+generarán de modo aleatorio.</p>
+</div></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2020-09-29 15:33:49
+-->
