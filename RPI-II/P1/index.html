@@ -160,8 +160,10 @@
             <li><a href="#clienteservidor-echo-tcp">Cliente/servidor echo TCP</a></li>
             <li><a href="#ejecucion-del-cliente-y-servidor-echo">Ejecución del cliente y servidor echo</a></li>
             <li><a href="#herramientas-para-observar-el-estado-del-socket">Herramientas para observar el estado del socket</a></li>
+            <li><a href="#capturas-de-trafico-via-wireshark">Capturas de tráfico vía Wireshark</a></li>
             <li><a href="#sockets-udp">Sockets UDP</a></li>
             <li><a href="#envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</a></li>
+            <li><a href="#tarea-entregable">Tarea entregable</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -218,7 +220,7 @@ aplicaciones cliente/servidor utilizando los protocolos TCP y UDP.</p>
 <li><code>recv()</code> - </li>
 <li><code>close()</code> - </li>
 </ul>
-<p>Python prorpocina una API consistente y completa mapeada directamente
+<p>Python prorpociona una API consistente y completa mapeada directamente
 a las anteriores llamadas al sistema, típicamente escritas en lenguaje C. 
 Como parte de su biblioteca estándar, Python también proporciona clases que
 facilitan el trabajo con las funciones de bajo nivel. Aunque no lo cubriremos,
@@ -441,6 +443,31 @@ puerto utilizado. Observa el valor de las columnas <em>Proto, Dirección local</
 <p>Otra forma de observar el estado de las conexiones es a través de la orden
 <code>lsof -i -n</code>. Ejecútala y observa su salida.</p>
 </div>
+<h2 id="capturas-de-trafico-via-wireshark">Capturas de tráfico vía Wireshark</h2>
+<p>Wireshark es una herramienta de código abierto ampliamente utilizada para 
+analizar protocolos de comunicación de red en cualquiera de las capas de la pila 
+TCP/IP (como también en otros protocolos). Wireshark implementa un amplio 
+abanico de filtros para definir criterios de búsqueda en las capturas de
+tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtros
+específicos.</p>
+<p>Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
+instalación básica Linux), teclea en tu terminal:</p>
+<pre><code class="bash">$ sudo wireshark
+</code></pre>
+
+<p>Tras el arranque, podemos comenzar una nueva captura de tráfico a través
+del menú <code>Capture</code>, opción <code>Start</code>. La pantalla de selección de interfaz 
+nos permitirá definir en qué interfaz de red se realizará la captura. En 
+nuestro caso, ya que vamos a comunicar dos procesos en la misma máquina, 
+elegiremos la interfaz de <em>Loopback</em> (lo) y comenzaremos la captura.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Arranca Wireshark y prepara una captura sobre la interfaz de <em>loopback</em>.
+Ejecuta el servidor <em>echo</em> TCP y el cliente correspondiente, y analiza
+el tráfico generado. Especialmente, fíjate en el proceso de establecimiento
+de conexión en tres vías, paquetes de <em>Acknowledge</em> tras el envío de cada
+mensaje y, en general, en cualquier otro aspecto que consideres de interés.</p>
+</div>
 <h2 id="sockets-udp">Sockets UDP</h2>
 <p>La creación y gestión de <em>sockets</em> UDP en Python resulta todavía más sencilla.
 Observa el siguiente código, que crea un servidor UDP utilizando la API
@@ -506,7 +533,9 @@ comunicación bidireccional.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Implementa una funcionalidad similar al servidor <em>echo</em> que vimos para 
-TCP, pero utilizando en este caso UDP.</p>
+TCP, pero utilizando en este caso UDP. Realiza una captura de tráfico 
+en <em>Wireshark</em> similar a la realizada en el caso de TCP, y observa las
+principales diferencias entre ellas a nivel de tráfico generado.</p>
 </div>
 <h2 id="envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</h2>
 <p>Hasta este punto, hemos visto únicamente cómo enviar cadenas de texto a través
@@ -548,6 +577,69 @@ de datos, consulta la documentación del módulo.</p>
 <pre><code class="python">a, b, c = struct.unpack( &quot;&gt;iii&quot; )
 </code></pre>
 
+<p>A continuación, mostramos un ejemplo de sistema cliente/servidor TCP que hace
+uso del módulo <code>struct</code> para realizar el envío de dos datos enteros y uno
+flotante entre un cliente y un servidor.</p>
+<pre><code class="python">
+# Cliente
+
+import binascii                                                                             
+import socket                                                                               
+import struct                                                                               
+import sys                                                                                  
+
+# Socket TCP                                                                                
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                                    
+server_address = ('localhost', 10001)                                                       
+sock.connect(server_address)                                                                
+
+packed_data = struct.pack(&quot;=iif&quot;, 1, 4, 2.7)                                                
+
+try:                                                                                        
+    # Envio de datos                                                                        
+    print('Enviando &quot;%s&quot;' % binascii.hexlify(packed_data))                                  
+    sock.sendall(packed_data)                                                               
+
+finally:                                                                                    
+    print('Cerrando socket')                                                                
+    sock.close()                                                                            
+</code></pre>
+
+<pre><code class="python">
+# Servidor
+
+import binascii                                                                             
+import socket                                                                               
+import struct                                                                               
+import sys                                                                                  
+
+# Socket TCP                                                                                
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                                    
+server_address = ('localhost', 10001)                                                       
+sock.bind(server_address)                                                                   
+sock.listen(1)                                                                              
+
+while True:                                                                                 
+    print('Esperando conexiones entrantes')                                                 
+    connection, client_address = sock.accept()                                              
+    try:                                                                                    
+        data = connection.recv(1024)                                                        
+        print('Recibido &quot;%s&quot;' % binascii.hexlify(data))                                     
+
+        unpacked_data = struct.unpack(&quot;=iif&quot;, data)                                         
+        print('Desempaquetado:', unpacked_data)                                             
+
+    finally:                                                                                
+        connection.close()
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Ejecuta el anterior sistema cliente servidor y analiza el tráfico generado,
+en busca de los datos binarios empaquetados. Experimenta con otros tipos
+de datos y <em>endianess</em> y observa las diferencias.</p>
+</div>
+<h2 id="tarea-entregable">Tarea entregable</h2>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Se pide diseñar un sistema cliente/servidor programado en Python, que 
@@ -559,6 +651,9 @@ el envío de datos sensorizados como de posibles respuestas por parte
 del servidor. Se desarrollará una versión utilizando TCP y otra
 equivalente usando UDP. Los datos se enviarán de forma periódica y se
 generarán de modo aleatorio.</p>
+<p>A modo de entrega, se solicitan los códigos desarrollados, así como un 
+análisis del tráfico generado, considerando la sobrecarga (en bytes 
+reales enviados) introducida por cada protocolo de capa de transporte.</p>
 </div></div>
         </div>
 
