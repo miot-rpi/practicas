@@ -645,15 +645,21 @@ de datos y <em>endianess</em> y observa las diferencias.</p>
 <p>Se pide diseñar un sistema cliente/servidor programado en Python, que 
 simule el envío de un conjunto de datos sensorizados desde un cliente
 hacia un servidor. El protocolo a utilizar (formato de datos enviado
-por la red) debe ser propuesto por el propio alumno y descrito previamente
+por la red a nivel de aplicación) 
+debe ser propuesto por el propio alumno y descrito previamente
 al desarrollo. Se valorará el uso de múltiples tipos de datos tanto en
 el envío de datos sensorizados como de posibles respuestas por parte
 del servidor. Se desarrollará una versión utilizando TCP y otra
-equivalente usando UDP. Los datos se enviarán de forma periódica y se
-generarán de modo aleatorio.</p>
+equivalente usando UDP. El cliente enviará los datos de forma periódica y se
+éstos generarán de modo aleatorio.</p>
 <p>A modo de entrega, se solicitan los códigos desarrollados, así como un 
 análisis del tráfico generado, considerando la sobrecarga (en bytes 
 reales enviados) introducida por cada protocolo de capa de transporte.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable opcional</p>
+<p>Modifica el anterior sistema para considerar una implementación multihilo
+del servidor, siguiendo los códigos de ejemplo anteriormente proporcionados.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable opcional</p>
