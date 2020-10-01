@@ -164,6 +164,9 @@
             <li><a href="#sockets-udp">Sockets UDP</a></li>
             <li><a href="#envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</a></li>
             <li><a href="#tarea-entregable">Tarea entregable</a></li>
+            <li><a href="#ejemplo-de-sistema-clienteservidor-multi-hilo">Ejemplo de sistema cliente/servidor multi-hilo</a></li>
+            <li><a href="#tarea-entregable-opcional">Tarea entregable opcional</a></li>
+            <li><a href="#tarea-entregable-opcional_1">Tarea entregable opcional</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -180,6 +183,7 @@
   cliente/servidor utilizando TCP y UDP.</li>
 <li>Observar la diferencia en tráfico generado para una misma aplicación
   utilizando TCP y UDP.</li>
+<li>Implementar servidores multi-hilo en Python.</li>
 </ul>
 <h2 id="introduccion">Introducción</h2>
 <p>La historia de los <em>sockets</em> se remonta al origen de ARPANET, en 1971, y su
@@ -656,11 +660,94 @@ equivalente usando UDP. El cliente enviará los datos de forma periódica y se
 análisis del tráfico generado, considerando la sobrecarga (en bytes 
 reales enviados) introducida por cada protocolo de capa de transporte.</p>
 </div>
+<h2 id="ejemplo-de-sistema-clienteservidor-multi-hilo">Ejemplo de sistema cliente/servidor multi-hilo</h2>
+<p>Los ejemplos anteriormente descritos, aunque funcionales, adolecen en su diseño
+de una característica esencial: el servidor deja de atender peticiones entrantes
+mientras trata cada nuevo envío por parte del cliente. Los siguientes ejemplos
+muestran implementaciones sencillas con soporte multi-hilo para un sistema
+cliente/servidor escrito en Python. </p>
+<pre><code class="python"># Servidor TCP concurrente
+
+import socket, threading
+
+class ClientThread(threading.Thread):
+    def __init__(self,clientAddress,clientsocket):
+        threading.Thread.__init__(self)
+        self.csocket = clientsocket
+        print (&quot;Nueva conexion anyadida: &quot;, clientAddress)
+    def run(self):
+        print (&quot;Conexion desde: &quot;, clientAddress)
+        #self.csocket.send(bytes(&quot;Hi, This is from Server..&quot;,'utf-8'))
+        msg = ''
+        while True:
+            data = self.csocket.recv(2048)
+            msg = data.decode()
+
+            if msg=='bye':
+              break
+
+            print (&quot;Desde el cliente&quot;, msg)
+            self.csocket.send(bytes(msg,'UTF-8'))
+
+        print (&quot;Cliente &quot;, clientAddress , &quot; desconectado...&quot;)
+
+LOCALHOST = &quot;127.0.0.1&quot;
+PORT = 8080
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server.bind((LOCALHOST, PORT))
+
+print(&quot;Servidor arrancado...&quot;)
+print(&quot;Esperando petición de clientes...&quot;)
+
+server.listen(1)
+
+while True:
+    clientsock, clientAddress = server.accept()
+    newthread = ClientThread(clientAddress, clientsock)
+    newthread.start()
+</code></pre>
+
+<pre><code class="python"># Cliente TCP. El envío de la cadena bye indica petición de desconexión.
+
+import socket
+
+SERVER = &quot;127.0.0.1&quot;
+PORT = 8080
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((SERVER, PORT))
+client.sendall(bytes(&quot;Hola, soy un cliente!!&quot;,'UTF-8'))
+
+while True:
+  in_data =  client.recv(1024)
+
+  print(&quot;Desde el servidor :&quot; ,in_data.decode())
+  out_data = input()
+  client.sendall(bytes(out_data,'UTF-8'))
+
+  if out_data=='end':
+    break
+
+client.close()
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Estudia el código del servidor concurrente y observa cómo gestiona la 
+creación de hilos para atender cada petición entrante. Conecta simultáneamente
+múltiples clientes y observa el estado de los sockets mediante las herramientas
+correspondientes.</p>
+</div>
+<h2 id="tarea-entregable-opcional">Tarea entregable opcional</h2>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable opcional</p>
 <p>Modifica el anterior sistema para considerar una implementación multihilo
-del servidor, siguiendo los códigos de ejemplo anteriormente proporcionados.</p>
+del servidor TCP, siguiendo las directrices de los códigos de ejemplo 
+anteriormente proporcionados.</p>
 </div>
+<h2 id="tarea-entregable-opcional_1">Tarea entregable opcional</h2>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable opcional</p>
 <p>Modifica el protocolo de envío para que tu aplicación cliente/servidor 
