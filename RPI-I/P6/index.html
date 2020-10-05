@@ -9,138 +9,130 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 6 - Redes, Protocolos e Interfaces</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
-                </div>
+                <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 6</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../P8/">Práctica 8</a>
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-II/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P9/">Práctica 9</a>
+<li>
+    <a href="../../RPI-II/P9/" class="dropdown-item">Práctica 9</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 10</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 10</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P5/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P5/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P7/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P7/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -150,14 +142,29 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-6-6lowpan-simulacion-en-cooja">Práctica 6. 6LowPAN (simulación en Cooja)</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-6-6lowpan-simulacion-en-cooja" class="nav-link">Práctica 6. 6LowPAN (simulación en Cooja)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-6-6lowpan-simulacion-en-cooja">Práctica 6. 6LowPAN (simulación en Cooja)</h1></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -171,21 +178,21 @@
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
                 <p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form role="form">
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
                 <div id="mkdocs-search-results"></div>
@@ -194,12 +201,12 @@
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
