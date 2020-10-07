@@ -156,6 +156,38 @@
             
             <li class="nav-item" data-level="1"><a href="#practica-2-sockets-tcp-y-udp-en-esp-idf" class="nav-link">Práctica 2. Sockets TCP y UDP en ESP-IDF</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#documentacion-de-apoyo-y-consulta" class="nav-link">Documentación de apoyo y consulta</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#la-api-de-sockets-en-c" class="nav-link">La API de sockets en C</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejemplos" class="nav-link">Ejemplos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#sistemas-clienteservidor-en-el-esp32" class="nav-link">Sistemas cliente/servidor en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-udp-en-el-esp32" class="nav-link">Cliente/servidor UDP en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-tcp-en-el-esp32" class="nav-link">Cliente/servidor TCP en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -163,7 +195,616 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-2-sockets-tcp-y-udp-en-esp-idf">Práctica 2. Sockets TCP y UDP en ESP-IDF</h1></div>
+<h1 id="practica-2-sockets-tcp-y-udp-en-esp-idf">Práctica 2. Sockets TCP y UDP en ESP-IDF</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Familiarizarse con la API de <em>sockets</em> en C.</li>
+<li>Desarrollar esquemas básicos de sistemas cliente/servidor TCP y UDP
+  utilizando C.</li>
+<li>Ser capaces de analizar el tráfico generado en una conexión TCP y UDP a 
+  través de Wireshark.</li>
+<li>Diseñar un protocolo de capa de aplicación para simular una aplicación
+  cliente/servidor utilizando TCP y UDP para interactuar entre un host y 
+  la placa ESP32</li>
+</ul>
+<h2 id="documentacion-de-apoyo-y-consulta">Documentación de apoyo y consulta</h2>
+<h2 id="introduccion">Introducción</h2>
+<p>En la práctica anterior, vimos cómo desarrollar sistemas cliente/servidor
+sencillos utilizando Python, tanto en sus variantes TCP como UDP.
+El objetivo de la presente práctica es estudiar y desarrollar componentes
+de red (clientes y servidores TCP y UDP) que puedan ejecutarse sobre el 
+ESP32 haciendo uso de las facilidades propuestas por ESP-IDF. Además, 
+demostraremos que es posible hacer interactuar clientes y servidores ejecutándose
+indistintamente en la máquina virtual (programados vía Python) y en la propia
+placa (utilizando la API de sockets de C).</p>
+<h2 id="la-api-de-sockets-en-c">La API de sockets en C</h2>
+<h3 id="funciones-para-ordenacion-de-bytes">Funciones para ordenacion de bytes</h3>
+<p>Como TCP/IP es un estándar universal, y permite comunicaciones entre cualquier
+plataforma y arquitectura, es necesario disponer de un método de ordenación
+de los bytes para que máquinas <em>big-endian</em> y <em>little-endian</em> puedan comunicarse
+de forma transparente y correcta. Para ello, se suelen proporcionar rutinas
+de reordenación de bytes. En plataformas donde los datos ya están correctamente
+ordenados, estas funciones no tienen ninguna funcionalidad especial, pero en
+cualquier caso, es necesario utilizarlas siempre para que la comunicación
+entre pares sea correcta. Las funciones típicas de reordenación de datos
+son cuatro: <code>htons</code>, <code>htonl</code>, <code>ntohs</code> y <code>ntohl</code>. Su nombre explica correctamente
+su semántica: <em>host to network (short)</em>
+<em>host to network (long)</em>, <em>network to host (short)</em> y <em>network to host (long)</em>,
+convirtiendo tipos de datos <em>short</em> y <em>long</em> desde el formato utilizado en
+transmisiones de red (<em>network</em>) a representación en el <em>host</em>. Así, siempre
+que enviemos un dato binario por la red, deberá ser transformado utilizando 
+<code>hton*</code> y cuando lo recibamos y debamos procesarlo, utilizando <code>ntoh*</code>.</p>
+<h3 id="estructuras-de-datos">Estructuras de datos</h3>
+<p>Antes de estudiar la API de <em>sockets</em> básica, es necesario mostrar el cometido
+de un conjunto de estructuras de datos utilizadas comunmente en todas ellas. La
+más importante es <code>sockaddr_in</code>, que se define como sigue:</p>
+<pre><code class="c">struct sockaddr_in
+{
+    short          sin_family;
+    u_short        sin_port;
+    struct in_addr sin_addr;
+    char           sin_zero[8];
+};
+</code></pre>
+
+<p>La estructura <code>in_addr</code> utilizada en <code>sockaddr_in</code> se define como:</p>
+<pre><code class="c">struct in_addr
+{
+    u_long s_addr;
+};
+</code></pre>
+
+<p>Ésta consiste en un campo de tipo <code>unsigned long int</code> que contiene la 
+dirección IP que se asociará con el socket. </p>
+<p>La estructura <code>sockaddr_in</code> contiene dos campos importantes: </p>
+<ul>
+<li><code>sin_family</code>: que indica al socket qué familia de protocolos se utiliarán 
+  (usaremos la constante <code>AF_INET</code> para IPv4).</li>
+<li><code>sin_port</code>: que indica el puerto asociado al socket.</li>
+</ul>
+<h3 id="api-basica">API básica</h3>
+<h4 id="socket"><code>socket()</code></h4>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">int socket(int family, int type, int protocol);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Crea un <em>endpoint</em> de comunicación y devuelve un descriptor 
+  de fichero para manejarlo.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>family</code>:  <code>AF_INET</code> (IPv4), <code>AF_INET6</code> (IPv6).</li>
+<li><code>type</code>: <code>SOCK_DGRAM</code> (UDP), <code>SOCK_STREAM</code> (TCP), <code>SOCK_RAW</code>.</li>
+<li><code>protocol</code>: Típicamente 0 (no usado en sockets de Internet).</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve el descriptor de <em>socket</em>.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>socket</code> (<code>man socket</code>).</p>
+</li>
+</ul>
+<h4 id="bind"><code>bind()</code></h4>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Asocia un <em>socket</em> a una dirección especificada por <code>addr</code>.
+  Normalmente, es necesario asignar una dirección local vía esta función
+  antes de que un socket TCP pueda recibir conexiones.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
+<li><code>addr</code>: dirección a asociar (véase estructura en sección anterior).</li>
+<li><code>addrlen</code>: longitud (en bytes) de la anterior estructura.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve 0.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>bind</code> (<code>man bind</code>).</p>
+</li>
+</ul>
+<h4 id="listen"><code>listen()</code></h4>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">int listen(int sockfd, int backlog);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Marca el <em>socket</em> proporcionado como <em>pasivo</em>, esto es, 
+  un <em>socket</em> que podrá ser utilizado para aceptar conexiones entrantes
+  usando la llamada <code>accept</code>.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
+<li><code>backlog</code>: longitud máxima que podrá tener la cola de conexiones pendientes
+para el <em>socket</em>. Si se sobrepasa, el cliente recibirá un error en su
+intento de conexión.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve 0.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>listen</code> (<code>man listen</code>).</p>
+</li>
+</ul>
+<h4 id="accept"><code>accept()</code></h4>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: En <em>sockets</em> orientados a conexión, extrae la primera solicitud
+  de conexión de la cola de conexiones pendientes para el <em>socket</em> proporcionado,
+  crea un nuevo <em>socket conectado</em> y devuelve su descriptor. </p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
+<li><code>addr</code>:  es un puntero a una estructura de tipo <code>sockaddr</code>, cuyos campos
+  serán rellenados con los datos de dirección del socket remoto.</li>
+<li><code>addrlen</code>: tamaño de la estructura <code>addr</code>.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve el descriptor de socket.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>accept</code> (<code>man accept</code>).</p>
+</li>
+</ul>
+<h4 id="connect"><code>connect()</code></h4>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Conecta el <em>socket</em> proporcionada a la dirección específicada por
+  <code>addr</code>. Si el <em>socket</em> es UDP, <code>addr</code> será la dirección a la que se enviarán
+  los datagramas por defecto, y la única desde la que se recibirán datagramas.
+  En caso de TCP, esta llamada inicia el proceso de conexión a la dirección
+  especificada.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
+<li><code>addr</code>:  es un puntero a una estructura de tipo <code>sockaddr</code>, cuyos campos
+  indican la dirección de conexión destino.</li>
+<li><code>addrlen</code>: tamaño de la estructura <code>addr</code>.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve el descriptor de socket.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>connect</code> (<code>man connect</code>).</p>
+</li>
+</ul>
+<h4 id="send"><code>send()</code></h4>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: En un <em>socket</em> en estado <em>conectado</em> (con receptor conocido)
+  transmite mensajes a un socket remoto.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>sockfd</code>:  descriptor de <em>socket</em> de envío.</li>
+<li><code>buf</code>:  <em>buffer</em> de envío donde se almacena el mensaje a enviar.</li>
+<li><code>len</code>: número de bytes a enviar.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve el número de bytes enviados.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>send</code> (<code>man send</code>).</p>
+</li>
+</ul>
+<h4 id="recvrecvfrom"><code>recv()</code>/<code>recvfrom()</code></h4>
+<ul>
+<li>Prototipos:</li>
+</ul>
+<pre><code class="c">ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+
+ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
+                 struct sockaddr *src_addr, socklen_t *addrlen);
+
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Reciben mensajes desde un  <em>socket</em>, tanto en sockets orientados
+  como no orientados a conexión. <code>recvfrom</code>, a diferencia de <code>recv</code>, recibe
+  parámetrosd de salida adicionales que almacenan información sobre la dirección
+  origen del mensaje.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>sockfd</code>:  descriptor de <em>socket</em> de recepción.</li>
+<li><code>buf</code>:  <em>buffer</em> de recepción donde se almacena el mensaje a recibir.</li>
+<li><code>len</code>: número de bytes a recibir.</li>
+<li><code>src_addr</code>: dirección del extremo remoto del socket (origen de la comunicación).</li>
+<li><code>addrlen</code>: tamaño de la estructura <code>src_addr</code>.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Si tiene éxito, devuelve el número de bytes recibidos.
+                    Devuelve <code>-1</code> si se produce un error.</p>
+</li>
+<li>
+<p>Detalles: consultad las páginas de manual de <code>recv</code> y <code>recv_from</code> (<code>man recv</code> y 
+  <code>man recv_from</code>).</p>
+</li>
+</ul>
+<h4 id="close"><code>close()</code></h4>
+<ul>
+<li>Prototipos:</li>
+</ul>
+<pre><code class="c">int close(int fd);
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Cierra un socket.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>fd</code>:  descriptor de <em>socket</em>.</li>
+</ul>
+</li>
+<li>
+<p>Detalles: consultad la página de manual de <code>close</code> (<code>man close</code>).</p>
+</li>
+</ul>
+<h2 id="ejemplos">Ejemplos</h2>
+<p>Se proporcionan a continuación ejemplos completos de uso de la API de <em>sockets</em>
+en C para el desarrollo de sistemas cliente/servidor sencillos. Para cada 
+uno de ellos, comprueba que, efectivamente, el uso y secuencia de aplicación
+de cada llamada sigue las directivas de la figura:</p>
+<p><img alt="flow" src="img/flow.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Compila (<code>gcc ejemplo.c -o ejemplo.x</code>) y ejecuta (<code>./ejemplo.x</code>) cada par
+de códigos y comprueba su funcionamiento. Estudia con detenimiento el uso
+de cada rutina y como efectivamente siguen las directivas marcadas 
+anteriormente.</p>
+</div>
+<h3 id="ejemplo-un-cliente-tcp">Ejemplo: un cliente TCP</h3>
+<pre><code class="c">#include &lt;arpa/inet.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;netinet/in.h&gt;
+
+
+int main() {
+        const int server_port = 9000;
+
+        struct sockaddr_in server_address;
+        memset(&amp;server_address, 0, sizeof(server_address));
+        server_address.sin_family = AF_INET;
+
+        server_address.sin_addr.s_addr = inet_addr(&quot;127.0.0.1&quot;);
+        server_address.sin_port = htons(server_port);
+
+        int sock;
+        if ((sock = socket(PF_INET, SOCK_STREAM, 0)) &lt; 0) {
+                printf(&quot;Error en socket\n&quot;);
+                return 1;
+        }
+
+        if (connect(sock, (struct sockaddr*)&amp;server_address,
+                    sizeof(server_address)) &lt; 0) {
+                printf(&quot;Error en connect\n&quot;);
+                return 1;
+        }
+
+        const char* data_to_send = &quot;Hola, RPI!!&quot;;
+        send(sock, data_to_send, strlen(data_to_send), 0);
+
+        int n = 0;
+        int len = 0, maxlen = 100;
+        char buffer[maxlen];
+        char* pbuffer = buffer;
+
+        while ((n = recv(sock, pbuffer, maxlen, 0)) &gt; 0) {
+                pbuffer += n;
+                maxlen -= n;
+                len += n;
+
+                buffer[len] = '\0';
+                printf(&quot;Recibido: '%s'\n&quot;, buffer);
+        }
+
+        close(sock);
+        return 0;
+}
+</code></pre>
+
+<h3 id="ejemplo-un-servidor-tcp">Ejemplo: un servidor TCP</h3>
+<pre><code class="c">#include &lt;arpa/inet.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(int argc, char *argv[]) {
+        int SERVER_PORT = 9000;
+
+        struct sockaddr_in server_address;
+        memset(&amp;server_address, 0, sizeof(server_address));
+        server_address.sin_family = AF_INET;
+
+        server_address.sin_port = htons(SERVER_PORT);
+
+        server_address.sin_addr.s_addr = htonl(INADDR_ANY);
+
+        int listen_sock;
+        if ((listen_sock = socket(PF_INET, SOCK_STREAM, 0)) &lt; 0) {
+                printf(&quot;Error en socket\n&quot;);
+                return 1;
+        }
+
+        if ((bind(listen_sock, (struct sockaddr *)&amp;server_address,
+                  sizeof(server_address))) &lt; 0) {
+                printf(&quot;Error en bind\n&quot;);
+                return 1;
+        }
+
+        int wait_size = 16;  
+
+        if (listen(listen_sock, wait_size) &lt; 0) {
+                printf(&quot;Error en listen\n&quot;);
+                return 1;
+        }
+
+        struct sockaddr_in client_address;
+        int client_address_len = 0;
+
+        while (true) {
+                int sock;
+                if ((sock =
+                         accept(listen_sock, (struct sockaddr *)&amp;client_address,
+                                &amp;client_address_len)) &lt; 0) {
+                        printf(&quot;Error en accept\n&quot;);
+                        return 1;
+                }
+
+                int n = 0;
+                int len = 0, maxlen = 100;
+                char buffer[maxlen];
+                char *pbuffer = buffer;
+
+                printf(&quot;Cliente conectado con IP: %s\n&quot;,
+                       inet_ntoa(client_address.sin_addr));
+
+                while ((n = recv(sock, pbuffer, maxlen, 0)) &gt; 0) {
+                        pbuffer += n;
+                        maxlen -= n;
+                        len += n;
+
+                        printf(&quot;Recibido: '%s'\n&quot;, buffer);
+
+                        send(sock, buffer, len, 0);
+                }
+
+                close(sock);
+        }
+
+        close(listen_sock);
+        return 0;
+}
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Reproduce el funcionamiento del anterior sistema cliente/servidor <em>echo</em>
+utilizando UDP.</p>
+</div>
+<h3 id="construccion-de-mensajes">Construcción de mensajes</h3>
+<p>Para enviar mensajes que encapsulen distintos tipos de datos en una sola
+invocación, puedes definir un mensaje como el siguiente:</p>
+<pre><code class="c">typedef struct {
+  int x;
+  int y;
+} mensaje;
+</code></pre>
+
+<p>Dando valor a cada campo y a continuación enviándolo proporcionando la dirección
+de inicio de la estructura, del siguiente modo:</p>
+<pre><code class="c">mensaje.x = x; mensaje.y = y;
+send( socketfd, &amp;mensaje, sizeof( mensaje ), 0 );
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Modifica el cliente UDP para que encapsule y envíe una estructura con 
+distintos campos (por ejemplo, dos enteros),
+que sea recibida por un servidor Python siguiendo las
+directivas de la anterior práctica. En este caso, no utilices campos
+de tipo flotante (veremos cómo hacerlo más adelante). El objetivo del
+ejercicio es simplemente comprobar que la comunicación entre un cliente
+programado en C y un servidor programado en Python es posible. No se 
+pretende que desarrolles un sistema complejo.</p>
+</div>
+<h2 id="sistemas-clienteservidor-en-el-esp32">Sistemas cliente/servidor en el ESP32</h2>
+<p>La razón por la que hemos ejercitado el uso de la API de sockets desde C
+en Linux es que la implementación de la pila TCP/IP en ESP-IDF 
+(llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/lwip.html">Lightweight TCP/IP (lwIP)</a>) implementa al 100% dicha API. Por tanto, tanto
+la estructura básica de un <em>firmware</em> que implemente un cliente o servidor
+como la API utilizada permanece inalterada. </p>
+<p>En esta última sección, se pide trabajar con dos ejemplos básicos de implementación
+de sistemas cliente/servidor UDP y TCP sobre el ESP32, con el objetivo de estudiar
+su funcionalidad, comprobar su interoperabilidad y realizar modificaciones para
+adaptarlas a una hipotética aplicación IoT.</p>
+<h2 id="clienteservidor-udp-en-el-esp32">Cliente/servidor UDP en el ESP32</h2>
+<p>En esta parte, trabajarás con dos ejemplos proporcionados dentro de la colección
+de ejemplos de ESP-IDF. Por tanto, copia en tu espacio de trabajo (fuera del
+árbol principal de ESP-IDF) los ejemplos:</p>
+<ul>
+<li><strong>Servidor UDP</strong>: <code>examples/protocols/sockets/udp_server/</code></li>
+<li><strong>Cliente UDP</strong>: <code>examples/protocols/sockets/udp_client/</code></li>
+</ul>
+<h3 id="estructura-general">Estructura general</h3>
+<p>Observa sus códigos (<code>udp_server.c</code> para el servidor, y <code>udp_client.c</code> para el
+cliente). Comprueba que, tanto la estructura básica de ambos componentes como
+las invocaciones a la API de sockets concuerdan con las que vimos para el 
+sistema <em>echo</em> programado en C. </p>
+<p>Acerca de la tarea principal (funcion <code>app_main</code>) observa que realiza 
+una serie de llamadas a APIs de configuración de algunos subsistemas de
+FreeRTOS, principalmente:</p>
+<pre><code class="c">// Inicializa la partición NVS (Non-volatile storage) por defecto. 
+ESP_ERROR_CHECK(nvs_flash_init());
+// Inicializa la infraestructura ESP-NETIF.
+ESP_ERROR_CHECK(esp_netif_init());
+// Crea un bucle de eventos por defecto.
+ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+/* Esta función configura WiFi o Ethernet, tal y como seleccionemos via menuconfig.
+*/
+ESP_ERROR_CHECK(example_connect());
+
+xTaskCreate(udp_server_task, &quot;udp_server&quot;, 4096, NULL, 5, NULL);
+</code></pre>
+
+<ul>
+<li>
+<p><code>example_connect()</code>, función que no forma parte de ESP-IDF, establece una 
+conexión WiFi o Ethernet. La función es bloqueante, y retorna cuando se ha
+conseguido establecer una conexión.</p>
+</li>
+<li>
+<p>Las características de la conexión WiFi (SSID y contraseña) se deben proporcionar
+a través de <code>menuconfig</code>.</p>
+</li>
+<li>
+<p>El objetivo de ESP-NETIF es proporcionar una capa de abstracción por encima de 
+  la pila TCP/IP, de modo que pueda migrarse la pila sin que los códigos del 
+  usuario cambien. Puedes consultar su documentación en la 
+  <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_netif.html">página oficial</a>.</p>
+</li>
+<li>
+<p>Por último, se cerea una tarea que ejecutará la lógica del servidor (lo mismo
+  ocurre en el cliente).</p>
+</li>
+<li>
+<p>Observa que, en todo el código, los mensajes de error se anotan utilizando
+  la macro <code>ESP_LOGE</code> y los informativos con <code>ESP_LOGI</code>; intenta seguir este 
+  convenio en tus códigos.</p>
+</li>
+</ul>
+<h3 id="despliegue-opcion-1">Despliegue. Opción 1</h3>
+<p>En este caso, desplegarás el cliente en un ESP32 y el servidor en otro. Si
+no dispones de dos ESP32, puedes trabajar con un compañero.</p>
+<p>En cualquier caso, ambos ESP32 deben pertenecer a la misma red inalámbrica,
+por lo que deberán conectarse a un mismo punto de acceso (el profesor te
+proporcionará los datos, o simplemente puedes utilizar tu punto de acceso
+doméstico). Configura los siguientes puntos de la infraestructura:</p>
+<ul>
+<li>
+<p>Configura el SSID y contraseña del punto de acceso vía <code>menuconfig</code> antes
+de compilar y flashear el código tanto en el cliente como en el servidor. </p>
+</li>
+<li>
+<p>En el servidor, configura vía <code>menuconfig</code> el puerto sobre el que escuchará.</p>
+</li>
+<li>
+<p>Arranca primero el nodo servidor y apunta la IP proporcionada por el punto de 
+ acceso; utilízala en el cliente para
+configurar la IP destino de la comunicación. No olvides configurar también
+el puerto destino de acuerdo al configurado en el servidor vía <code>menuconfig</code>.</p>
+</li>
+</ul>
+<p>Ên este punto, podrás arrancar el cliente y deberías estar comunicando dos
+nodos ESP32 vía UDP.</p>
+<h3 id="despliegue-opcion-2">Despliegue. Opción 2</h3>
+<p>Si sólo dispones de un nodo, o si simplemente quieres probar otra forma de 
+comunicación en la que uno de los equipos es un PC, puedes utilizar alguna
+de las herramientas del sistema:</p>
+<div class="admonition danger">
+<p class="admonition-title">Nota</p>
+<p>Ten en cuenta que portátil (es decir, máquina virtual) y ESP32 deben
+pertenecera la misma red. Para conseguirlo, para tu máquina virtual y añade
+una nueva interfaz de red de tipo <em>bridge</em> conectada a la interfaz Wifi
+física de tu PC. Así, tendrás una interfaz con IP en la misma red, otorgada
+directamente por tu punto de acceso.</p>
+</div>
+<ul>
+<li>Para recibir un paquete UDP a través de un puerto (es decir, emular un
+  servidor UDP):</li>
+</ul>
+<pre><code class="sh">nc -ul -p 3333
+</code></pre>
+
+<ul>
+<li>Para enviar un paquete UDP a una IP/puerto remotos (es decir, emular un cliente):</li>
+</ul>
+<pre><code class="sh">nc -u IP_REMOTA 3333
+</code></pre>
+
+<p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
+servidores UDP Python que puedes también utilizar.</p>
+<h2 id="clienteservidor-tcp-en-el-esp32">Cliente/servidor TCP en el ESP32</h2>
+<p>El despliegue de cliente y servidor TCP es equivalente al UDP.</p>
+<ul>
+<li>Para recibir un paquete TCP a través de un puerto (es decir, emular un
+  servidor TCP):</li>
+</ul>
+<pre><code class="sh">nc -l IP -p 3333
+</code></pre>
+
+<ul>
+<li>Para enviar un paquete TCP a una IP/puerto remotos (es decir, emular un cliente):</li>
+</ul>
+<pre><code class="sh">nc IP 3333
+</code></pre>
+
+<p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
+servidores TCP Python que puedes también utilizar.</p></div>
             </div>
         </div>
 
