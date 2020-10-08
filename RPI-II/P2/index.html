@@ -474,7 +474,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
 </ul>
 <h4 id="close"><code>close()</code></h4>
 <ul>
-<li>Prototipos:</li>
+<li>Prototipo:</li>
 </ul>
 <pre><code class="c">int close(int fd);
 </code></pre>
@@ -799,7 +799,42 @@ servidores UDP Python que puedes también utilizar.</p>
 </code></pre>
 
 <p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
-servidores TCP Python que puedes también utilizar.</p></div>
+servidores TCP Python que puedes también utilizar.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Experimenta con los ejemplos proporcionados en ESP-IDF (cliente/servidor
+TCP y UDP) y consigue ejecutar todos los elementos en la placa. Si sólo
+dispones de una placa, utiliza la máquina virtual como cliente/servidor
+para comprobar el correcto funcionamiento de cada código.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>En este punto, deberías disponer de un conjunto de códigos que implementan
+sistemas cliente/servidor tanto en un host (utilizando Python y/o C) como en
+la placa ESP32 (utilizando C y ESP-IDF), y deberías haber comprobado su
+correcto funcionamiento.</p>
+<p>Específicamente, dispondrás de:</p>
+<ul>
+<li>
+<p>Sistema cliente/servidor desarrollado en la Práctica 1, escrito en Python
+e implementando un protocolo básico de aplicacion (tipo de mensaje) propuesto
+por ti.</p>
+</li>
+<li>
+<p>Código básico en C para implementación de un servidor/cliente <em>echo</em> 
+programado en C, cuyos códigos se proporcionan en este boletín.</p>
+</li>
+<li>
+<p>Códigos básicos en C/ESP-IDF para implementar servidores/clientes
+<em>echo</em> sobre el ESP32.</p>
+</li>
+</ul>
+<p>Como tarea entregable, se pide que adaptes tu entrega de la Práctica 1 para
+que tanto cliente como servidor puedan funcionar en el host (bien usando
+tu implementación Python, o bien utilizando una nueva implementación en 
+C) o en el ESP32. Se entregarán los códigos y una breve memoria con capturas
+de tráfico que demuestren el correcto funcionamiento del sistema.</p>
+</div></div>
             </div>
         </div>
 
