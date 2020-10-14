@@ -476,7 +476,7 @@ static const char *payload = &quot;Hola, mundo via TLS&quot;;
 
 // ...
 
-static void tcp_client_task( void  *pvParameters )
+static void tls_client_task( void  *pvParameters )
 {
   // ...
 
@@ -511,6 +511,14 @@ void app_main( void )
 }
 </code></pre>
 
+<p>Observa como, efectivamente, el código del cliente se simplifica en gran 
+medida con respecto a tu cliente TCP original. Toma el código del proyecto que
+utilizaste para desarrollar tu cliente TCP original y, siguiendo las anteriores
+directivas, adapta la única tarea a crear (por ejemplo, puede recibir el
+nombre <code>tls_client_task</code>) para que realice un envío y recepción de datos 
+(una cadena) al servidor TLS que probaste en el <em>host</em>. Puedes valerte para ello
+de la base del ejemplo <code>examples/protocols/https_request</code>, obviamente adaptando
+la totalidad de su código para que se comporte como un simple cliente <em>echo</em>.</p>
 <div class="admonition note tarea">
 <p class="admonition-title">Note</p>
 <p>Compila y ejecuta el cliente TLS en el ESP32, y consigue que interactúe con
