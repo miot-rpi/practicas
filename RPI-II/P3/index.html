@@ -481,7 +481,7 @@ static void tls_client_task( void  *pvParameters )
 {
   // ...
 
-  // Configuración de ESP-TLS (por defecto).
+  // Configuración de ESP-TLS (vacío para opciones defecto).
   esp_tls_cfg_t cfg = { };
 
   // Creación de conexión.
@@ -513,7 +513,8 @@ void app_main( void )
 </code></pre>
 
 <p>Observa como, efectivamente, el código del cliente se simplifica en gran 
-medida con respecto a tu cliente TCP original. Toma el código del proyecto que
+medida con respecto a tu cliente TCP original. </p>
+<p>Toma el código del proyecto que
 utilizaste para desarrollar tu cliente TCP original y, siguiendo las anteriores
 directivas, adapta la única tarea a crear (por ejemplo, puede recibir el
 nombre <code>tls_client_task</code>) para que realice un envío y recepción de datos 
