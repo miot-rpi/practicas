@@ -733,19 +733,17 @@ pasos:</p>
 <li>Descarga el certificado de la CA de la UCM desde 
 <a href="https://ssii.ucm.es/file/eduroam">este enlace</a>. Copia el fichero descargado, 
 con nombre <code>eduroam.crt</code> al directorio <code>main</code>, y asígnale el nombre <code>wpa2_ca.pem</code>.</li>
-<li>
-<p>Configura el proyecto a través de <code>idf.py menuconfig</code> con los siguientes
-parámetros:</p>
-</li>
-<li>
-<p>SSID: eduroam</p>
-</li>
+<li>Configura el proyecto a través de <code>idf.py menuconfig</code> con los siguientes
+parámetros:<ul>
+<li>SSID: eduroam</li>
 <li>Validate server: activo</li>
 <li>EAP method: TTLS</li>
 <li>Phase2 method for TTLS: PAP</li>
 <li>EAP ID: anonymous@ucm.es</li>
 <li>EAP USERNAME: tuusuario@ucm.es</li>
 <li>EAP PASSWORD: (tu contraseña UCM)</li>
+</ul>
+</li>
 </ol>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
