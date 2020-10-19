@@ -567,7 +567,7 @@ utilizando el parámetro <code>ESP_MODE_APSTA</code> en la invocación a la ruti
 <p>Además, obviamente el <em>firmware</em> combinado requerirá la creación de dos
 estructuras de tipo <code>wifi_config_t</code>, una con los datos asociados al punto
 de acceso (campo <code>.ap</code>) y otra con los campos asociados a la 
-<em>station</em> (campa <code>.sta</code>). A continuación, será necesario invocar a la rutina
+<em>station</em> (campo <code>.sta</code>). A continuación, será necesario invocar a la rutina
 de configuración (<code>esp_wifi_set_config</code>) con cada una de dichas estructuras
 (por último, también es necesario invocar a la inicialización de
 <code>netif</code> tanto en modo <em>station</em> --<code>esp_netif_create_default_wifi_sta()</code>--
