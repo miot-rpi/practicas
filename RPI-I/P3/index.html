@@ -160,7 +160,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#wifi-mesh-esp-mesh" class="nav-link">WiFi Mesh (ESP MESH)</a>
+            <li class="nav-item" data-level="2"><a href="#parte-1-wifi-mesh-esp-mesh" class="nav-link">Parte 1. WiFi Mesh (ESP MESH)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -168,11 +168,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#provisionamiento-wifi" class="nav-link">Provisionamiento WiFi</a>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-en-clase-despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones" class="nav-link">Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh de menores dimensiones</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#modos-de-ahorro-de-consumo-wifi" class="nav-link">Modos de ahorro de consumo WiFi</a>
+            <li class="nav-item" data-level="2"><a href="#parte-2provisionamiento-wifi" class="nav-link">Parte 2.Provisionamiento WiFi</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#parte-3-modos-de-ahorro-de-consumo-wifi" class="nav-link">Parte 3. Modos de ahorro de consumo WiFi</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -220,7 +224,7 @@ del modo aplicado.</li>
 </ul>
 </li>
 </ul>
-<h2 id="wifi-mesh-esp-mesh">WiFi Mesh (ESP MESH)</h2>
+<h2 id="parte-1-wifi-mesh-esp-mesh">Parte 1. WiFi Mesh (ESP MESH)</h2>
 <p>El <em>stack</em> ESP-MESH está construido por encima del <em>driver</em> WiFi
 (es decir, obviamente hace uso de sus servicios), y en algunos
 casos también haciendo uso de servicios de la pila IP (<em>lwIP</em>), por ejemplo
@@ -488,6 +492,7 @@ la topología de la misma.</p>
 <p>Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
 que tengas asignado. Observa los colores asignados a cada grupo de puestos
 en la siguiente <a href="https://docs.google.com/spreadsheets/d/1w6FULacAM76yQZLzPQrUOyjbSryeYI9GUK2P8WBDsZc/edit?usp=sharing">hoja</a>.</p>
+<h2 id="ejercicio-en-clase-despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones">Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh de menores dimensiones</h2>
 <p>Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
 configuracion del ejemplo (<em>channel</em>) y el identificador modificando
@@ -505,7 +510,7 @@ la topología de la misma.</p>
 ejercicio para el alumno. Observa el tratamiento de eventos y la fase
 de configuración de la red. Intenta entender el funcionamiento del código
 (envíos y recepciones, destinatarios de los mismos, etc.).</p>
-<h2 id="provisionamiento-wifi">Provisionamiento WiFi</h2>
+<h2 id="parte-2provisionamiento-wifi">Parte 2.Provisionamiento WiFi</h2>
 <p>ESP-IDF proporciona un componente específico que ofrece un servicio
 de provisionamiento WiFi. Entendemos por provisionamiento WiFi el mecanismo
 o mecanismos mediante los cuales es posible proporcionar, de forma externa y 
@@ -752,7 +757,7 @@ A continuación,
 pasa a un modo seguro (opción <code>--sec_ver 1</code>) y observa cómo las claves
 se intercambian cifradas.</p>
 </div>
-<h2 id="modos-de-ahorro-de-consumo-wifi">Modos de ahorro de consumo WiFi</h2>
+<h2 id="parte-3-modos-de-ahorro-de-consumo-wifi">Parte 3. Modos de ahorro de consumo WiFi</h2>
 <p>En la versión actual de ESP-IDF, el <em>framework</em> soporta distintos modos
 de ahorro de energía, con soporte tanto a nivel de dispositivo (<em>station</em>) como
 de punto de acceso (<em>AP</em>). Todos estos modos se basan en las características
@@ -815,7 +820,7 @@ disponibles (sin ahorro, con ahorro mínimo y con ahorro máximo). En el
 caso del ahorro máximo, varía el tiempo de escucha para que tome distintos
 valores. En todos los casos, conecta tu ESP32 a un punto de acceso y, 
 desde un portátil conectado al mismo AP, ejecuta una serie de <code>pings</code> hacia
-la estaćión. Para cada modo, representa gráficamente el tiempo de 
+la estación. Para cada modo, representa gráficamente el tiempo de 
 respuesta de la estación en una gráfica para cada petición <code>ping</code>, relacionando
 su comportamiento con los tiempos <em>DTIM</em> y de escucha.</p>
 </div></div>
