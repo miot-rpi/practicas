@@ -521,6 +521,12 @@ Energy (modo <em>BLE</em>) o a través de un mecanismo de punto de acceso WiFi t
 (modo <em>SoftAP</em>). ESP-IDF proporciona una serie de APIs (con prototipos
 <code>wifi_prov_mgr_*</code>) para implementar de forma sencilla ambos modos de 
 provisionamiento.</p>
+<p>Para completar esta parte de la práctica deberás trabajar
+con los ejemplos
+<code>examples/provisioning/softap_prov</code>(para la versión de provisionamiento
+vía WiFi) y 
+<code>examples/provisioning/ble_prov</code>(para la versión de provisionamiento
+via Bluetooth Low Energy).</p>
 <h3 id="inicializacion-del-servicio-de-provisionamiento">Inicialización del servicio de provisionamiento</h3>
 <p>La rutina <code>wifi_prov_mgr_init()</code> se utiliza para configurar e inicializar
 el componente de provisionamiento, y debe invocarse antes de cualquier
