@@ -164,6 +164,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-en-clase-despliegue-conjunto-de-una-red-wifi-mesh" class="nav-link">Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#provisionamiento-wifi" class="nav-link">Provisionamiento WiFi</a>
               <ul class="nav flex-column">
               </ul>
@@ -430,6 +434,77 @@ ESP_ERROR_CHECK(esp_mesh_start());
 si la conexión a la red ha sido exitosa. En dicho caso, tras la conexión,
 la aplicación puede comenzar a transmitir paquetes a través de la red MESH
 utilizando las rutinas <code>esp_mesh_send()</code> y <code>esp_mesh_recv()</code>.</p>
+<h2 id="ejercicio-en-clase-despliegue-conjunto-de-una-red-wifi-mesh">Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh</h2>
+<p>La forma más conveniente de observar el comportamiento de una red WiFi
+Mesh es desplegar una infraestructura con suficiente número de nodos pertenecientes
+a una misma red. Desafortunadamente, para ello es necesario disponer
+de dichos nodos en un espacio cercano.</p>
+<p>En la presente práctica, desplegaremos una red WiFi Mesh en el laboratorio,
+utilizando vuestro o vuestros ESP32 como elementos de la red. Para ello,
+configuraremos, compilaremos y ejecutaremos el ejemplo
+<code>examples/mesh/internal_communication</code>. Antes de proceder, configuraremos
+el proyecto para:</p>
+<ol>
+<li>Conectar al punto de acceso común del laboratorio (<em>Router SSID y Router
+password</em>).</li>
+<li>Configurar la red ESP-MESH para utilizar WPA2_PSK y seleccionar
+como contraseña <code>password</code>.</li>
+<li>Aumentar el número de conexiones al AP a 10.</li>
+</ol>
+<p>De momento, no realizaremos ningún cambio en el código del ejemplo.</p>
+<p>Compila y ejecuta tu código. En la dirección
+del <a href="https://docs.google.com/spreadsheets/d/1dbes8Z8myNAahG1cWl0rKxZCKgXcEM2h1SpcKP6Ns78/edit?usp=sharing">enlace</a>
+dispones de una primera pestaña en la que deberás completar cierta información
+que observarás en la salida de monitorización una vez arranques el ESP32, 
+en la celda correspondiente a tu puesto.
+Esta información, en principio, incluye:</p>
+<ol>
+<li>Tu nombre.</li>
+<li>Direcciones MAC de las interfaces <code>STA</code> y <code>SoftAP</code> (lo observarás en los
+primeros mensajes de salida).</li>
+<li>Capa de la topología en la que se encuentra tu nodo (lo observarás
+en formato <code>[L:XX]</code> en los envíos y recepciones de datos).</li>
+<li>En caso de haber sido elegido nodo raíz, anotar también esta circunstancia
+y la IP asignada por el <em>router</em> (observa la respuesta al evento correspondiente).</li>
+</ol>
+<p>Además, anota la ID de la red Mesh que se ha utilizado para conectar.</p>
+<p>Antes de rellenar la información, espera que el profesor te indique que la
+topología ha convergido, y que por tanto no habrá ningún cambio más en ella
+(siempre que ningun nodo deje de formar parte de la misma).</p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio entregable</p>
+<p>Captura el estado de la red cuando todos tus compañeros hayan llegado al
+punto de convergencia, e intenta determinar, en forma de grafo, 
+la topología de la misma.</p>
+</div>
+<p>A continuación, apagaremos el nodo raíz y esperaremos a la vuelta a la 
+convergencia de la red.</p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio entregable</p>
+<p>Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
+llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
+la topología de la misma.</p>
+</div>
+<p>Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
+que tengas asignado. Observa los colores asignados a cada grupo de puestos
+en la siguiente <a href="https://docs.google.com/spreadsheets/d/1w6FULacAM76yQZLzPQrUOyjbSryeYI9GUK2P8WBDsZc/edit?usp=sharing">hoja</a>.</p>
+<p>Modifica tu código para que el canal de escucha y el identificador de red
+coincidan con el indicado. Puedes configurar el canal a través del menú de 
+configuracion del ejemplo (<em>channel</em>) y el identificador modificando
+la variable correspondiente en el fichero <code>mesh_main.c</code>.</p>
+<p>Una vez hecho esto, reconstruid la información de las tablas para reflejar
+las nuevas topologías. Podéis hacer pruebas posteriores apagando el 
+nodo raíz y observando la convergencia de la red.</p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio entregable</p>
+<p>Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
+llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
+la topología de la misma.</p>
+</div>
+<p>El estudio detallado del código para el despliegue de la red queda como
+ejercicio para el alumno. Observa el tratamiento de eventos y la fase
+de configuración de la red. Intenta entender el funcionamiento del código
+(envíos y recepciones, destinatarios de los mismos, etc.).</p>
 <h2 id="provisionamiento-wifi">Provisionamiento WiFi</h2>
 <p>ESP-IDF proporciona un componente específico que ofrece un servicio
 de provisionamiento WiFi. Entendemos por provisionamiento WiFi el mecanismo
