@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 3 - Redes, Protocolos e Interfaces</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                    
+<li>
+    <a href="../P9/" class="dropdown-item">Práctica 9</a>
+</li>
+                                    
+<li>
+    <a href="../P10/" class="dropdown-item">Práctica 10</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P2/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../P4/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-3-seguridad-tls-y-dtls" class="nav-link">Práctica 3. Seguridad (TLS y DTLS)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#contenido-del-paquete-proporcionado-y-setup-basico" class="nav-link">Contenido del paquete proporcionado y setup básico</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-tls-ejemplo-basico-en-host" class="nav-link">Cliente/servidor TLS. Ejemplo básico en host</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-dtls-ejemplo-basico-en-host" class="nav-link">Cliente/servidor DTLS. Ejemplo básico en host</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tls-en-el-esp32-el-componente-esp-tls" class="nav-link">TLS en el ESP32. El componente ESP-TLS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-3-seguridad-tls-y-dtls">Práctica 3. Seguridad (TLS y DTLS)</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Observar el comportamiento de TLS y DTLS para el intercambio cifrado de mensajes.</li>
+<li>Conocer las diferencias básicas entre TLS y DTLS.</li>
+<li>Conocer una API básica de programación de sistemas cliente/servidor usando TLS y DTLS (WolfSSL).</li>
+<li>Conocer una API básica de programación de sistemas cliente/servidor en ESP-IDF (ESP-TLS).</li>
+</ul>
+<h2 id="contenido-del-paquete-proporcionado-y-setup-basico">Contenido del paquete proporcionado y setup básico</h2>
+<p>El paquete proporcionado (puedes descargarlo <a href="https://drive.google.com/file/d/1JCtaubo8GC7fxiqxWhAlOPh9zqzQblb2/view?usp=sharing">aquí</a>) 
+incluye ejemplos de sistemas cliente/servidor
+programados utilizando TLS y DTLS mediante el uso de la biblioteca WolfSSL.
+Estos códigos están diseñados para ejecutarse exclusivamente en un sistema
+Linux, y requieren la instalación de los paquetes de desarrollo WolfSSL. </p>
+<p>Para realizar la instalación, ejecuta en tu máquina virtual (esta línea
+podría cambiar si usas otra distribución de Linux, en cuyo caso deberás
+buscar los paquetes equivalentes):</p>
+<pre><code class="sh">sudo apt-get install libwolfssl-dev libwolfssl24
+</code></pre>
+
+<p>Una vez hecho esto, prueba a realizar la compilación tanto del ejemplo
+TLS como DTLS utilizando la orden <code>make</code> en el directorio correspondiente. Si
+todo ha ido bien, puedes continuar con el análisis de los códigos en la 
+siguiente sección.</p>
+<h2 id="clienteservidor-tls-ejemplo-basico-en-host">Cliente/servidor TLS. Ejemplo básico en host</h2>
+<h3 id="servidor-tls">Servidor TLS</h3>
+<p>Analizaremos en primer lugar el código básico del servidor TLS. Para ello, 
+observa el contenido del fchero <code>tls/server-tls.c</code>.</p>
+<h3 id="cabeceras-y-constantes">Cabeceras y constantes</h3>
+<p>El uso de WolfSSL requiere la inclusión de dos cabeceras básicas:</p>
+<pre><code class="c">#include &lt;wolfssl/options.h&gt;
+#include &lt;wolfssl/ssl.h&gt;
+</code></pre>
+
+<p>Además, ya que serán necesarios en el desarrollo, definiremos las rutas al
+certificado (clave pública) del servidor y su clave privada:</p>
+<pre><code class="c">#define CERT_FILE &quot;../certs/server-cert.pem&quot;
+#define KEY_FILE  &quot;../certs/server-key.pem&quot;
+</code></pre>
+
+<p>Observa además que el puerto de escucha del servidor será el <code>11111</code>.</p>
+<h3 id="objetos-basicos-wolfssl-contexto-y-objeto-ssl">Objetos básicos WolfSSL. Contexto y objeto SSL</h3>
+<p>Definiremos dos objetos básicos que se utilizarán de forma recurrente
+en el código:</p>
+<pre><code class="c">WOLFSSL_CTX* ctx;
+WOLFSSL*     ssl;
+</code></pre>
+
+<p>El contexto (<code>ctx</code>) incluye valores globales para cada conexión SSL, incluyendo
+información sobre certificados. Es posible utilizar un mismo contexto para 
+múltiples conexiones, siempre que compartan características. Para crear un 
+nuevo contexto, utilizaremos la función <code>wolfSSL_CTX_new</code> como sigue:</p>
+<pre><code class="c">/* Create and initialize WOLFSSL_CTX */
+if ((ctx = wolfSSL_CTX_new(wolfTLSv1_2_server_method())) == NULL) {
+  fprintf(stderr, &quot;ERROR: failed to create WOLFSSL_CTX\n&quot;);
+  return -1;
+}
+</code></pre>
+
+<p>El argumento proporcionado incluye información sobre la versión de protocolo
+a utilizar. Actualmente, WolfSSL soporta SSL 3.0,
+TLS 1.1, TLS 1.2,  DTLS 1.0 y DTLS 1.2. En este caso, para la parte cliente,
+las funciones a utilizar como argumento serían:</p>
+<ul>
+<li><code>wolfSSLv3_server_method();     // SSLv3</code></li>
+<li><code>wolfTLSv1_server_method();     // TLSv1</code></li>
+<li><code>wolfTLSv1_1_server_method();   // TLSv1.1</code></li>
+<li><code>wolfTLSv1_2_server_method();   // TLSv1.2</code></li>
+<li><code>wolfDTLSv1_server_method();    // DTLS</code></li>
+<li><code>wolfDTLSv1_2_server_method();  // DTLS 1.2</code></li>
+</ul>
+<p>En segundo lugar, es necesario cargar nuestra CA (Autoridad Certificadora)
+en el contexto, para que cualquier cliente pueda verificar, en el momento de
+su conexión, la identidad del sevidor. Para ello, usamos la función
+<code>wolfSSL_CTX_use_certificate_file</code> de la siguiente manera:</p>
+<pre><code class="c">/* Load server certificates into WOLFSSL_CTX */
+if (wolfSSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM)
+        != SSL_SUCCESS) {
+  fprintf(stderr, &quot;ERROR: failed to load %s, please check the file.\n&quot;,
+                CERT_FILE);
+  return -1;
+}
+</code></pre>
+
+<p>Del mismo modo, el servidor deberá incluir su clave privada en formato PEM:</p>
+<pre><code class="c">/* Load server key into WOLFSSL_CTX */
+if (wolfSSL_CTX_use_PrivateKey_file(ctx, KEY_FILE, SSL_FILETYPE_PEM)
+        != SSL_SUCCESS) {
+  fprintf(stderr, &quot;ERROR: failed to load %s, please check the file.\n&quot;,
+                KEY_FILE);
+  return -1;
+}
+</code></pre>
+
+<p>A continuación, observa como el código de escucha y aceptación de conexiones
+entrantes no difier de cualquier código que hayas desarrollado previamente
+para aceptar conexiones entrantes TCP (<code>bind</code>, + <code>listen</code> + <code>accept</code>).</p>
+<p>Justo tras la conexión (<code>accept</code>), resulta necesario crear un nuevo objeto
+SSL, así como asociar el descriptor de socket con la nueva sesión (conexión)
+TLS:</p>
+<pre><code class="c">/* Create a WOLFSSL object */
+if ((ssl = wolfSSL_new(ctx)) == NULL) {
+  fprintf(stderr, &quot;ERROR: failed to create WOLFSSL object\n&quot;);
+  return -1;
+}
+
+/* Attach wolfSSL to the socket */
+wolfSSL_set_fd(ssl, connd);
+
+/* Establish TLS connection */
+ret = wolfSSL_accept(ssl);
+if (ret != SSL_SUCCESS) {
+  fprintf(stderr, &quot;wolfSSL_accept error = %d\n&quot;,
+                wolfSSL_get_error(ssl, ret));
+  return -1;
+}
+</code></pre>
+
+<p>A partir de este punto, podemos enviar y recibir datos a través del socket
+(y por tanto de la conexión TLS) de forma muy similar a como lo hacemos 
+con el enfoque clásico. Así, para recibir datos:</p>
+<pre><code class="c">if (wolfSSL_read(ssl, buff, sizeof(buff)-1) == -1) {
+  fprintf(stderr, &quot;ERROR: failed to read\n&quot;);
+  return -1;
+}
+</code></pre>
+
+<p>Y para enviar datos de vuelta:</p>
+<pre><code class="c">/* Reply back to the client */
+if (wolfSSL_write(ssl, buff, len) != len) {
+  fprintf(stderr, &quot;ERROR: failed to write\n&quot;);
+  return -1;
+}
+</code></pre>
+
+<p>Por último, finalizaremos la conexión con la invocación de la función
+<code>wolfSSL_free(ssl)</code>.</p>
+<div class="admonition note tarea">
+<p class="admonition-title">Note</p>
+<p>El cliente proporcionado sigue una estrategia de implementación similar.
+Compara ambos códigos (cliente y servidor) y asegúrate de entender las
+diferencias entre ellos.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Compila y ejecuta el sistema cliente/servidor TLS y obtén capturas de
+tráfico tanto de las fases de establecimiento de conexión como de las
+fases de transferencia de datos. En base a lo aprendido en las clases
+de teoría y la documentación adicional sobre TLS y wolfSSL, redacta 
+un breve informe que resuma el proceso de <em>handshake</em> y transferencia
+de datos en TLS tomando como base los paquetes reales observados para
+esta conexión.</p>
+</div>
+<h2 id="clienteservidor-dtls-ejemplo-basico-en-host">Cliente/servidor DTLS. Ejemplo básico en host</h2>
+<p>El desarrollo de un sistema básico cliente/servidor con soporte DTLS utilizando
+WolfSSL es muy similar al visto anteriormente para TLS. Como detalle adicional,
+la inicialización de la infraestructura debe realizarse indicando el soporte
+para DTLS en sus versiones 1.0 o 1.2:</p>
+<ul>
+<li>
+<p><code>wolfDTLSv1_client_method();    // DTLS 1.0</code></p>
+</li>
+<li>
+<p><code>wolfDTLSv1_2_client_method();  // DTLS 1.2</code></p>
+</li>
+</ul>
+<p>El resto del código sigue una filosofía similar a TLS, adaptado, obviamente,
+a las características de UDP (tipo de socket, ausencia de conexión, etc.), por
+lo que se deja como ejercicio su análisis y ejecución.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Analiza, compila y ejecuta los códigos correspondientes al sistema cliente/servidor
+DTLS. Realiza capturas de tráfico y compáralas, paquete a paquete, con las generadas
+para un patrón de tráfico similar en el caso de TLS. Incide en sus similitudes
+y diferencias, tanto a nivel de <em>handshake</em> como de transferencia de datos. Observa,
+en este último caso, la aparición de nuevos campos de encabezado en los envíos
+de datos DTLS. ¿Cuál/cuáles son esos campos y por qué aparecen? Realiza una comparativa
+del tráfico total generado en ambos casos para exactamente la misma cantidad de datos 
+transferidos.</p>
+</div>
+<h2 id="tls-en-el-esp32-el-componente-esp-tls">TLS en el ESP32. El componente ESP-TLS</h2>
+<p>ESP-IDF proporciona un componente (ESP-TLS) que ofrece una interfaz (API)
+simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece 
+una funcionalidad suficientemente amplia como para implementar casos de uso
+comunes en entornos IoT. </p>
+<p>La API de ESP-TLS es sencilla,y se basa en el uso de cuatro funciones básicas:</p>
+<h3 id="establecimiento-de-conexion-tls-esp_tls_conn_new">Establecimiento de conexión TLS (<code>esp_tls_conn_new()</code>)</h3>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="c">esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
+  conexión contra un servidor establecido. </p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>hostname</code>: Identificación del host.</li>
+<li><code>hostlen</code>: Longitud del parámetro <code>hostname</code>.</li>
+<li><code>port</code>: Puerto de conexión con el host.</li>
+<li><code>cfg</code>: Configuración de la conexión TLS.</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: Puntero a <code>esp_tls_t</code> (manejador de la conexión).
+                    Devuelve <code>NULL</code> si se produce un error en la conexión.</p>
+</li>
+</ul>
+<h3 id="destruccion-de-conexion-tls-esp_tls_conn_delete">Destrucción de conexión TLS (<code>esp_tls_conn_delete()</code>)</h3>
+<pre><code class="c">void esp_tls_conn_delete(esp_tls_t *tls)
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Cierra la conexión TLS/SSL. </p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>tls</code>: Manejador de la conexión.</li>
+</ul>
+</li>
+</ul>
+<h3 id="escritura-de-datos-esp_tls_conn_read">Escritura de datos (<code>esp_tls_conn_read()</code>)</h3>
+<pre><code class="c">static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
+  <code>data</code>.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>tls</code>: Manejador de la conexión. </li>
+<li><code>data</code>: Buffer de envío.</li>
+<li><code>datalen</code>: Longitud del buffer de envío (o número máximo 
+   de bytes a escribir).</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: </p>
+<ul>
+<li><code>&gt;=0</code>: éxito en el envío. Número de bytes efectivamente enviados.</li>
+<li><code>&lt;0</code>: error en el envío.</li>
+</ul>
+</li>
+</ul>
+<h3 id="lectura-de-datos-esp_tls_conn_read">Lectura de datos (<code>esp_tls_conn_read()</code>)</h3>
+<pre><code class="c">static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
+</code></pre>
+
+<ul>
+<li>
+<p>Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer <code>data</code>.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>tls</code>: Manejador de la conexión. </li>
+<li><code>data</code>: Buffer de recepción.</li>
+<li><code>datalen</code>: Longitud del buffer de recepción (o número máximo 
+   de bytes a leer).</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: </p>
+<ul>
+<li><code>&gt;0</code>: éxito en la recepción. Número de bytes efectivamente leídos.</li>
+<li><code>=0</code>: error en la recepción. La conexión se cerró.</li>
+<li><code>&lt;0</code>: error en la recepción. </li>
+</ul>
+</li>
+</ul>
+<h3 id="estructura-basica-de-un-cliente-tcp-usando-esp-idf">Estructura básica de un cliente TCP usando ESP-IDF</h3>
+<p>Un cliente TCP implementado sobre ESP-IDF para dar soporte TLS, 
+requiere ciertas modificaciones con respecto a la versión sin TLS. 
+De hecho, el uso de ESP-IDF simplifica el código del cliente (puedes 
+compararlo con tus clientes TCP desarrollados en sesiones anteriores). La
+estructura básica resultaría:</p>
+<pre><code class="c">/// Includes anteriores.
+#include &quot;esp_tls.h&quot;
+
+// Puede tomarse desde menuconfig.
+#define HOST_IP_ADDR DIRECCION_DE_HOST
+#define PORT PUERTO 
+
+static const char *payload = &quot;Hola, mundo via TLS&quot;;
+
+// ...
+
+static void tls_client_task( void  *pvParameters )
+{
+  // ...
+
+  // Configuración de ESP-TLS (vacío para opciones defecto).
+  esp_tls_cfg_t cfg = { };
+
+  // Creación de conexión.
+  struct esp_tls *tls = esp_tls_conn_new( HOST_IP_ADDR, longitud, PORT, &amp;cfg);
+
+  // Chequeo de errores.
+  // ...
+
+  // Envío de datos.
+  ret = esp_tls_conn_write(tls, payload, strlen(payload));
+
+  // Chequeo de errores.
+  // ...
+
+  // Lectura de datos
+  ret = esp_tls_conn_read(tls, (char *)rx_buffer, 128);
+
+  // Chequeo de errores.
+  // ...
+
+  // Destrucción de la conexión
+  esp_tls_conn_delete( tls );
+
+  vTaskDelete( NULL );
+}
+
+void app_main( void )
+{
+  // ...
+}
+</code></pre>
+
+<p>Observa como, efectivamente, el código del cliente se simplifica en gran 
+medida con respecto a tu cliente TCP original. </p>
+<p>Toma el código del proyecto que
+utilizaste para desarrollar tu cliente TCP original y, siguiendo las anteriores
+directivas, adapta la única tarea a crear (por ejemplo, puede recibir el
+nombre <code>tls_client_task</code>) para que realice un envío y recepción de datos 
+(una cadena) al servidor TLS que probaste en el <em>host</em>. Puedes valerte para ello
+de la base del ejemplo <code>examples/protocols/https_request</code>, obviamente adaptando
+la totalidad de su código para que se comporte como un simple cliente <em>echo</em>.</p>
+<div class="admonition note tarea">
+<p class="admonition-title">Note</p>
+<p>Compila y ejecuta el cliente TLS en el ESP32, y consigue que interactúe con
+el servidor TLS que probaste anteriormente en el <em>host</em>. Comprueba que, efectivamente,
+los datos se transfieren cifrados entre ambos extremos, y que el intercambio de 
+paquetes es similar al que observaste entre cliente y servidor en el <em>host</em>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Adapta tu sistema cliente/servidor TCP desarrollado en la anterior práctica
+para que se ejecute sobre el binomio <em>host</em>/ESP32 utlizando TLS. 
+Entrega el código generado junto con una captura de tráfico que demuestre su 
+correcto funcionamiento.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

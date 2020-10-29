@@ -2,11 +2,22 @@
 
 ## Objetivos
 
+* Familiarizarse con la API de *sockets* en Python.
+* Desarrollar esquemas básicos de sistemas cliente/servidor TCP y UDP
+  utilizando Python.
+* Ser capaces de analizar el tráfico generado en una conexión TCP y UDP a 
+  través de Wireshark.
+* Diseñar un protocolo de capa de aplicación para simular una aplicación
+  cliente/servidor utilizando TCP y UDP.
+* Observar la diferencia en tráfico generado para una misma aplicación
+  utilizando TCP y UDP.
+* Implementar servidores multi-hilo en Python.
+
 ## Introducción
 
 La historia de los *sockets* se remonta al origen de ARPANET, en 1971, y su
 posterior estandarización en forma de API dentro del sistema operativo
-*Berkeley Software Distribution (BSD), liberado en 1983, bajo el nombre
+*Berkeley Software Distribution (BSD)*, liberado en 1983, bajo el nombre
 de *sockets de Berkeley*.
 
 Con la popularización de Internet en los años 90, y de la mano de la
@@ -17,7 +28,7 @@ ubicuos e incluyen, por supuesto, a todos los protocolos de alto nivel que
 dan soporte a Internet de las Cosas. De hecho, a día de hoy, aunque los 
 potocolos de alto nivel (capa de aplicación) han evolucionado hasta niveles
 de sofisticación no considerados en sus inicios, la API de bajo nivel sobre
-la que se basan se mantienen inalterada.
+la que se basan se mantiene inalterada.
 
 El tipo más común de aplicaciones basadas en *sockets* se basa en el paradigma
 cliente/servidor, donde una de las partes actúa como **servidor**, esperando
@@ -26,22 +37,6 @@ continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
 utilizando *sockets Berkeley*. Existen también los llamados *Unix domain
 sockets*, que permiten la comunicación directa entre procesos en el mismo
 *host*, aunque quedan fuera de nuestro interés en el ámbito de IoT.
-
-!!! type "optional explicit title within double quotes"
-    Any number of other indented markdown elements.
-
-    This is the second paragraph.
-
-!!! note "Tarea"
-    Testing
-
-!!! danger "Cuidado"
-    Testing
-
-!!! warning "Recuerda"
-    Warning
-
-    Otro párrafo
 
 ## La API de sockets en Python
 
@@ -63,7 +58,7 @@ Las funciones y métodos principales de la API de sockets son:
 * `recv()` - 
 * `close()` - 
 
-Python prorpocina una API consistente y completa mapeada directamente
+Python prorpociona una API consistente y completa mapeada directamente
 a las anteriores llamadas al sistema, típicamente escritas en lenguaje C. 
 Como parte de su biblioteca estándar, Python también proporciona clases que
 facilitan el trabajo con las funciones de bajo nivel. Aunque no lo cubriremos,
@@ -329,6 +324,35 @@ puerto utilizado. Observa el valor de las columnas *Proto, Dirección local* y
     Otra forma de observar el estado de las conexiones es a través de la orden
     `lsof -i -n`. Ejecútala y observa su salida.
 
+## Capturas de tráfico vía Wireshark
+
+Wireshark es una herramienta de código abierto ampliamente utilizada para 
+analizar protocolos de comunicación de red en cualquiera de las capas de la pila 
+TCP/IP (como también en otros protocolos). Wireshark implementa un amplio 
+abanico de filtros para definir criterios de búsqueda en las capturas de
+tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtros
+específicos.
+
+Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
+instalación básica Linux), teclea en tu terminal:
+
+```bash
+$ sudo wireshark
+```
+
+Tras el arranque, podemos comenzar una nueva captura de tráfico a través
+del menú `Capture`, opción `Start`. La pantalla de selección de interfaz 
+nos permitirá definir en qué interfaz de red se realizará la captura. En 
+nuestro caso, ya que vamos a comunicar dos procesos en la misma máquina, 
+elegiremos la interfaz de *Loopback* (lo) y comenzaremos la captura.
+
+!!! note "Tarea"
+    Arranca Wireshark y prepara una captura sobre la interfaz de *loopback*.
+    Ejecuta el servidor *echo* TCP y el cliente correspondiente, y analiza
+    el tráfico generado. Especialmente, fíjate en el proceso de establecimiento
+    de conexión en tres vías, paquetes de *Acknowledge* tras el envío de cada
+    mensaje y, en general, en cualquier otro aspecto que consideres de interés.
+
 ## Sockets UDP
 
 La creación y gestión de *sockets* UDP en Python resulta todavía más sencilla.
@@ -410,7 +434,9 @@ comunicación bidireccional.
 
 !!! note "Tarea"
     Implementa una funcionalidad similar al servidor *echo* que vimos para 
-    TCP, pero utilizando en este caso UDP.
+    TCP, pero utilizando en este caso UDP. Realiza una captura de tráfico 
+    en *Wireshark* similar a la realizada en el caso de TCP, y observa las
+    principales diferencias entre ellas a nivel de tráfico generado.
 
 ## Envío de datos binarios a través de sockets
 
@@ -455,16 +481,184 @@ Desempaquetar los datos enviados en el extremo opuesto es intuitivo:
 a, b, c = struct.unpack( ">iii" )
 ```
 
+A continuación, mostramos un ejemplo de sistema cliente/servidor TCP que hace
+uso del módulo `struct` para realizar el envío de dos datos enteros y uno
+flotante entre un cliente y un servidor.
+
+```python
+
+# Cliente
+
+import binascii                                                                             
+import socket                                                                               
+import struct                                                                               
+import sys                                                                                  
+                                                                                             
+# Socket TCP                                                                                
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                                    
+server_address = ('localhost', 10001)                                                       
+sock.connect(server_address)                                                                
+                                                                                             
+packed_data = struct.pack("=iif", 1, 4, 2.7)                                                
+                                                                                             
+try:                                                                                        
+    # Envio de datos                                                                        
+    print('Enviando "%s"' % binascii.hexlify(packed_data))                                  
+    sock.sendall(packed_data)                                                               
+                                                                                             
+finally:                                                                                    
+    print('Cerrando socket')                                                                
+    sock.close()                                                                            
+```
+
+```python
+
+# Servidor
+
+import binascii                                                                             
+import socket                                                                               
+import struct                                                                               
+import sys                                                                                  
+                                                                                             
+# Socket TCP                                                                                
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                                    
+server_address = ('localhost', 10001)                                                       
+sock.bind(server_address)                                                                   
+sock.listen(1)                                                                              
+                                                                                             
+while True:                                                                                 
+    print('Esperando conexiones entrantes')                                                 
+    connection, client_address = sock.accept()                                              
+    try:                                                                                    
+        data = connection.recv(1024)                                                        
+        print('Recibido "%s"' % binascii.hexlify(data))                                     
+                                                                                            
+        unpacked_data = struct.unpack("=iif", data)                                         
+        print('Desempaquetado:', unpacked_data)                                             
+                                                                                            
+    finally:                                                                                
+        connection.close()
+```
+
+!!! note "Tarea"
+    Ejecuta el anterior sistema cliente servidor y analiza el tráfico generado,
+    en busca de los datos binarios empaquetados. Experimenta con otros tipos
+    de datos y *endianess* y observa las diferencias.
+
+## Tarea entregable
+
 !!! danger "Tarea entregable"
     Se pide diseñar un sistema cliente/servidor programado en Python, que 
     simule el envío de un conjunto de datos sensorizados desde un cliente
     hacia un servidor. El protocolo a utilizar (formato de datos enviado
-    por la red) debe ser propuesto por el propio alumno y descrito previamente
+    por la red a nivel de aplicación) 
+    debe ser propuesto por el propio alumno y descrito previamente
     al desarrollo. Se valorará el uso de múltiples tipos de datos tanto en
     el envío de datos sensorizados como de posibles respuestas por parte
     del servidor. Se desarrollará una versión utilizando TCP y otra
-    equivalente usando UDP. Los datos se enviarán de forma periódica y se
-    generarán de modo aleatorio.
+    equivalente usando UDP. El cliente enviará los datos de forma periódica y se
+    éstos generarán de modo aleatorio.
 
+    A modo de entrega, se solicitan los códigos desarrollados, así como un 
+    análisis del tráfico generado, considerando la sobrecarga (en bytes 
+    reales enviados) introducida por cada protocolo de capa de transporte.
 
+## Ejemplo de sistema cliente/servidor multi-hilo
 
+Los ejemplos anteriormente descritos, aunque funcionales, adolecen en su diseño
+de una característica esencial: el servidor deja de atender peticiones entrantes
+mientras trata cada nuevo envío por parte del cliente. Los siguientes ejemplos
+muestran implementaciones sencillas con soporte multi-hilo para un sistema
+cliente/servidor escrito en Python. 
+
+```python
+# Servidor TCP concurrente
+
+import socket, threading
+
+class ClientThread(threading.Thread):
+    def __init__(self,clientAddress,clientsocket):
+        threading.Thread.__init__(self)
+        self.csocket = clientsocket
+        print ("Nueva conexion anyadida: ", clientAddress)
+    def run(self):
+        print ("Conexion desde: ", clientAddress)
+        #self.csocket.send(bytes("Hi, This is from Server..",'utf-8'))
+        msg = ''
+        while True:
+            data = self.csocket.recv(2048)
+            msg = data.decode()
+
+            if msg=='bye':
+              break
+
+            print ("Desde el cliente", msg)
+            self.csocket.send(bytes(msg,'UTF-8'))
+
+        print ("Cliente ", clientAddress , " desconectado...")
+
+LOCALHOST = "127.0.0.1"
+PORT = 8080
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server.bind((LOCALHOST, PORT))
+
+print("Servidor arrancado...")
+print("Esperando petición de clientes...")
+
+server.listen(1)
+
+while True:
+    clientsock, clientAddress = server.accept()
+    newthread = ClientThread(clientAddress, clientsock)
+    newthread.start()
+```
+
+```python
+# Cliente TCP. El envío de la cadena bye indica petición de desconexión.
+
+import socket
+
+SERVER = "127.0.0.1"
+PORT = 8080
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((SERVER, PORT))
+client.sendall(bytes("Hola, soy un cliente!!",'UTF-8'))
+
+while True:
+  in_data =  client.recv(1024)
+
+  print("Desde el servidor :" ,in_data.decode())
+  out_data = input()
+  client.sendall(bytes(out_data,'UTF-8'))
+
+  if out_data=='end':
+    break
+
+client.close()
+```
+
+!!! note "Tarea"
+    Estudia el código del servidor concurrente y observa cómo gestiona la 
+    creación de hilos para atender cada petición entrante. Conecta simultáneamente
+    múltiples clientes y observa el estado de los sockets mediante las herramientas
+    correspondientes.
+
+## Tarea entregable opcional
+
+!!! danger "Tarea entregable opcional"
+    Modifica tu primer entregable para considerar una implementación multihilo
+    del servidor TCP, siguiendo las directrices de los códigos de ejemplo 
+    anteriormente proporcionados.
+
+## Tarea entregable opcional
+
+!!! danger "Tarea entregable opcional"
+    Modifica el protocolo de envío para que tu aplicación cliente/servidor 
+    UDP garantice en la medida de lo posible la recepción de los paquetes
+    enviados desde el cliente, así como su recepción en orden. Vuelve a analizar
+    el tráfico necesario en este caso comparado con una comunicación básica 
+    basada en TCP (donde sí se garantizan, a nivel de transporte, dichas
+    características).

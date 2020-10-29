@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 5 - Redes, Protocolos e Interfaces</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                    
+<li>
+    <a href="../P9/" class="dropdown-item">Práctica 9</a>
+</li>
+                                    
+<li>
+    <a href="../P10/" class="dropdown-item">Práctica 10</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P4/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../P6/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-5-servidores-rest-y-representacion-de-la-informacion" class="nav-link">Práctica 5. Servidores REST y representación de la información</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#desarrollo-de-un-servidor-rest-en-esp-idf" class="nav-link">Desarrollo de un servidor REST en ESP-IDF</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#representacion-de-la-informacion-json" class="nav-link">Representación de la información. JSON</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-5-servidores-rest-y-representacion-de-la-informacion">Práctica 5. Servidores REST y representación de la información</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>
+<p>Entender los mecanismos ofrecidos por ESP-IDF para la creación de 
+un servidor REST HTTP.</p>
+</li>
+<li>
+<p>Entender los conceptos básicos de representación de datos a través
+de JSON.</p>
+</li>
+<li>
+<p>Entender los conceptos básicos de representación de datos a través
+de CBOR, y evaluar sus ventajas con respecto a JSON.</p>
+</li>
+</ul>
+<h2 id="desarrollo-de-un-servidor-rest-en-esp-idf">Desarrollo de un servidor REST en ESP-IDF</h2>
+<p>En la primera parte de la práctica, veremos cómo desarrollar, utilizando las
+funcionalidades ofrecidas por ESP-IDF, un servidor HTTP que exponga una API
+REST mediante la cual será posible interactuar, en modos lectura y escritura,
+con un servidor (en nuestro caso, un dispositivo ESP32). 
+Concretamente, trabajaremos con el ejemplo 
+<code>example/protocols/http_server/rest_server</code> de la distribución de IDF 
+(versión 4.1).</p>
+<h3 id="descripcion-de-la-api">Descripción de la API</h3>
+<p>El ejemplo que estudiaremos construye una sencilla interfaz (API) con
+tres <em>endpoints</em> que permiten interactuar con distintas funcionalidades
+del ESP32. Nótese que tanto las URLs como la funcionalidad asociada a ellas
+es totalmente personalizable, y puede ser ampliada de acuerdo a las necesidades
+de nuestra aplicación.</p>
+<p>La siguiente tabla resume la funcionalidad de cada <em>endpoint</em>, así como
+posibles ejemplos de valores enviados o devueltos a/por el servidor:</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Método</th>
+<th>Ejemplo de recurso leído/escrito</th>
+<th>Descripción</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/v1/system/info</code></td>
+<td><code>GET</code></td>
+<td>{<br />version:"v4.0-dev",<br />cores:2<br />}</td>
+<td>Utilizado por los clientes para obtener información de la placa (versión, número de cores, ...)</td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>/api/v1/temp/raw</code></td>
+<td><code>GET</code></td>
+<td>{<br />raw:22<br />}</td>
+<td>Utilizado por los clientes para obtener datos de temperatura desde un sensor (no disponible en el ESP32)</td>
+<td><code>/chart</code></td>
+</tr>
+<tr>
+<td><code>/api/v1/light/brightness</code></td>
+<td><code>POST</code></td>
+<td>{ <br />red:160,<br />green:160,<br />blue:160<br />}</td>
+<td>Utilizado por los clientes para escribir en la placa valores de control para controlar la luminosidad de LEDs</td>
+<td><code>/light</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuracion-y-compilacion-del-ejemplo">Configuración y compilación del ejemplo</h3>
+<p>En primer lugar, configura, compila y flashea el ejemplo mencionado. En este
+caso, las instrucciones se dividen en dos partes: compilación del <em>firmware</em>
+para el ESP32, y preparación de un cliente web sencillo que nos permitirá 
+observar la interacción con el mismo. Esta última parte no es estrictamente
+necesaria, pero nos ayudará en la interacción con el dispositivo de forma 
+visual hasta que veamos cómo hacerlo a través de línea de comandos.</p>
+<p>A través del menú de configuración,
+configura un nombre para el dispositivo (por ejemplo, 'esp_home_tunombre'),
+e indica que el modo de despliegue (<code>Website deploy mode</code>) sea
+<em>Deploy website to SPI Nor Flash</em>. Por último, configura las credenciales
+del punto de acceso WiFi al que conectará, siguiendo la metodología habitual.</p>
+<p>En segundo lugar, necesitamos instalar los componentes necesarios para 
+desplegar el cliente web. Para ello, navega al subdirectorio <code>front/web-demo</code>,
+donde reside el código fuente del cliente. Ejecuta los siguientes comandos
+para instalar las dependencias necesarias:</p>
+<pre><code class="sh">sudo apt-get install npm node-vue*
+npm install
+npm run build 
+</code></pre>
+
+<p>En este punto, ya podrás ejecutar, desde el directorio base del ejemplo, la
+orden de compilación y flasheado:</p>
+<pre><code class="sh">idf.py build
+idf.py flash
+idf.py monitor
+</code></pre>
+
+<h3 id="interaccion-con-el-dispositivo-via-interfaz-web">Interacción con el dispositivo vía interfaz web</h3>
+<p>Si todo ha ido bien, podrás observar en la salida de monitorización la
+IP proporcionada al ESP32. Abre un navegador en la máquina virtual o 
+en tu PC (estando conectada a la misma red que tu ESP32), navega hacia 
+la dirección IP del ESP32, y deberías observar una página como la siguiente:</p>
+<p><img alt="" src="img/captura1.png" /></p>
+<p>Esta es una página web servida por el propio ESP32, que te permitirá interactuar
+con él. Concretamente, la página dispone de dos funcionalidades:</p>
+<ul>
+<li>
+<p><strong>Chart</strong>: consulta periódicamente el valor de temperatura devuelto por
+el ESP32 a través del <em>endpoint</em> <code>/api/v1/temp/raw</code>.</p>
+</li>
+<li>
+<p><strong>Light</strong>: permite enviar al ESP32 nuevos valores para las tres componentes
+de luminosidad que hipotéticamente podría equipar el ESP32.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Interactúa con el sensor de luminosidad del ESP32 enviando distintos
+valores. Observa cómo la salida de monitorización del ESP32 responde mostrando
+los valores recibidos. Analiza el tráfico generado para una de dichas peticiones
+utilizando Wireshark. ¿Cómo se codifican los datos en el envío? ¿Cómo se
+codifican los datos periódicos de temperatura recibidos?</p>
+</div>
+<h3 id="interaccion-con-el-dispositivo-via-linea-de-comandos-curl">Interacción con el dispositivo vía línea de comandos (<code>curl</code>)</h3>
+<p><code>curl</code> es una herramienta orientada a la transferencia de archivos por red.     Entre
+otras (muchas) funcionalidades, <code>curl</code> soporta los métodos <code>GET</code> y <code>PUT</code> del 
+protocolo HTTP, justo las necesarias para realizar peticiones de lectura y 
+escritura sobre nuestro servidor HTTP REST. </p>
+<p>Concretamente, para realizar una petición HTTP <code>GET</code> sobre nuestro servidor, 
+podemos ejecutar:</p>
+<pre><code class="sh">curl http://IP/URI
+</code></pre>
+
+<p>Por ejemplo, la petición:</p>
+<pre><code class="sh">curl http://192.168.1.26/api/v1/temp/raw
+</code></pre>
+
+<p>nos responderá con el valor de temperatura instantánea.</p>
+<p>Del mismo modo, para escribir (método <code>POST</code>) sobre el servidor, utilizaremos
+el parámetro <code>-d</code>, seguido del recurso que queramos enviar. Ten en cuenta
+que es responsabilidad del cliente enviar un recurso bien formado e interpretable
+por el dispositivo:</p>
+<pre><code class="sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
+-X POST http://192.168.1.26/api/v1/light/brightness
+</code></pre>
+
+<p>Observa que hemos incluido el tipo de recurso enviado (<code>JSON</code>) y la operacion
+solicitada (<code>POST</code>). Volveremos a esto en breve.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba que, efectivamente, el tráfico generado por las anteriores órdenes
+es el mismo que el que observaste en el caso del  cliente web. Observa qué 
+ocurre si consultas un <em>endpoint</em> inexistente, o si envías un JSON mal
+formado o con información incorrecta.</p>
+</div>
+<h3 id="implementacion-de-un-servidor-http-con-api-rest">Implementación de un servidor HTTP con API REST</h3>
+<p>La implementación de un servidor HTTP en ESP-IDF se delega al componente
+<em>HTTP Server</em>, que implementa toda la funcionalida necesaria para tal fin
+de forma eficiente y ligera. La construcción de un servidor puede
+resumirse en tres funciones principales (observa la implementación de la
+funcion <code>start_rest_server</code> en el fichero <code>rest_server.c</code>) del ejemplo:</p>
+<ul>
+<li>
+<p><code>httpd_start</code>: crea una instancia de servidor HTTP, y aloja recursos para
+ella según la configuración proporcionada. En función del tráfico generado
+(URIs solicitadas), se utilizarán manejadores específicos definidos por el 
+usuario para analizarlo y, en caso necesario, enviar respuestas al cliente
+correspondiente.</p>
+</li>
+<li>
+<p><code>httpd_stop</code>: finaliza el servidor HTTP, cerrando cualquier conexión
+previamente establecida con clientes.</p>
+</li>
+<li>
+<p><code>httpd_register_uri_handler</code>: registra un manejador (una función definida
+por el usuario) para tratar una petición sobre una URI determinada. La estructura
+proporcionada dispone de campos para indicar la URI destino (<code>uri</code>), el 
+método que se espera recibir (<code>method</code>, por ejemplo <code>HTTPD_GET</code>
+o <code>HTTPD_POST</code>) y un puntero a una función que procesará la petición
+recibida a través de la URI indicada. Dicha función sólo se ejecutará si
+el método coincide con el indicado.</p>
+</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Observa los códigos de los manejadores implementados en el ejemplo. 
+Extiende la API proporcionada para crear un nuevo <em>endpoint</em> que permita
+obtener la temperatura (número aleatorio), pero transformándola a 
+grados Fahrenheit. En este caso, el valor devuelto en el fichero 
+JSON será un número en punto flotante (en la siguiente sección te
+se explicará cómo hacerlo, por lo que de momento puedes enviar 
+únicamente la parte entera del mismo). </p>
+</div>
+<h2 id="representacion-de-la-informacion-json">Representación de la información. JSON</h2>
+<p>JSON es un formato de representación de datos en modo texto para el
+intercambio de datos entre sistemas informáticos. Se creó inicialmente
+como una notación literal de los objetos Javascript, pero dada su amplia
+aceptación (realmente como alternativa a XML), se considera a día de hoy
+un componente totalmente independiente al lenguaje.</p>
+<p>Los tipos de datos soportados por JSON incluyen:</p>
+<ul>
+<li>
+<p>Valores numéricos: permitiendo números con y sin signo, y con parte
+decimla en notación separada por puntos.</p>
+</li>
+<li>
+<p>Cadenas: secuencias de cero o más caracteres.</p>
+</li>
+<li>
+<p>Booleanos: <code>true</code> y <code>false</code>.</p>
+</li>
+<li>
+<p>Arrays: listas ordenadas de cero o más valores de cualquier tipo, separados
+por comas y encerrados entre corchetes.</p>
+</li>
+<li>
+<p>Objetos: colecciones no ordenadas de pares <code>&lt;nombre&gt;:&lt;valor&gt;</code>, separados
+por comas y encerrados entre llaves.</p>
+</li>
+</ul>
+<p>ESP-IDF incluye el componente <a href="https://github.com/DaveGamble/cJSON">cJSON</a>
+para parsear y construir objetos de tipo JSON de forma sencilla y consistente.
+La biblioteca cJSON representa datos JSON utilizando una estructura sencilla, 
+véase:</p>
+<pre><code class="c">/* The cJSON structure: */
+typedef struct cJSON
+{
+    struct cJSON *next;
+    struct cJSON *prev;
+    struct cJSON *child;
+    int type;
+    char *valuestring;
+    /* writing to valueint is DEPRECATED, use cJSON_SetNumberValue instead */
+    int valueint;
+    double valuedouble;
+    char *string;
+} cJSON;
+</code></pre>
+
+<p>El campo <code>type</code> informa sobre el tipo de dato contenido en el objeto, véase:</p>
+<ul>
+<li><code>cJSON_False</code> (<code>cJSON_IsFalse()</code>): representa un valor booleano falso.</li>
+<li><code>cJSON_True</code> (<code>cJSON_IsTrue()</code>): representa un valor booleano verdadero.</li>
+<li><code>cJSON_NULL</code> (<code>cJSON_IsNULL()</code>): representa un valor nulo.</li>
+<li><code>cJSON_Number</code> (<code>cJSON_IsNumber()</code>): representa un valor numérico. Dicho
+valor se almacena en el campo <code>valuedouble</code> como flotante y en <code>valueint</code>
+como entero.</li>
+<li><code>cJSON_String</code> (<code>cJSON_IsString()</code>): representa un valor cadena, y se 
+almacena en el campo <code>valuestring</code> como un array de bytes terminado por
+el carácter nulo ('\0').</li>
+<li><code>cJSON_Array</code> (<code>cJSON_IsArray()</code>): representa un array de valores. En el
+campo <code>child</code> se almacena una lista enlazada con los elementos del array, 
+terminada en NULL.</li>
+<li><code>cJSON_Object</code> (<code>cJSON_IsObject()</code>): representa un valor objeto. Sus
+valores se almacenan de la misma manera que el array anterior, pero en el
+campo <code>string</code> se almacenan además las claves del objeto a modo de lista.</li>
+</ul>
+<h3 id="creacion-y-parseado-de-una-estructura-json">Creación y parseado de una estructura JSON</h3>
+<p>Para cada tipo de datos, existe una rutina asociada con nombre
+<code>cJSON_Create...</code> que permite crear un item del tipo correspondiente.
+Todas estas funciones alojan memoria suficiente como para albergar 
+el dato creado. </p>
+<p>Dado un objeto JSON en forma de cadena, es posible analizarlo (parsearlo)
+utilizando la función <code>cJSON_Parse</code>:</p>
+<pre><code class="c">cJSON * json = cJSON_Parse( string );
+</code></pre>
+
+<p>Para imprimir el contenido de una estructura JSON en modo texto, podemos
+hacer uso de la función <code>cJSON_Print(json)</code>:</p>
+<pre><code class="c">char * string = cJSON_Print( json );
+</code></pre>
+
+<h3 id="ejemplos">Ejemplos</h3>
+<p>Observa de nuevo el contenido de las funciones manejadoras en nuestro servidor
+REST. Concretamente, céntrate en la función <code>system_info_get_handler</code>, que
+construye un objeto JSON con dos campos, de tipo cadena ("version")
+y numérico ("cores"):</p>
+<pre><code class="c">/* Simple handler for getting system handler */
+static esp_err_t system_info_get_handler(httpd_req_t *req)
+{
+    // Preparación del tipo de datos de la respuesta.
+    httpd_resp_set_type(req, &quot;application/json&quot;);
+    // Creación del objeto JSON.
+    cJSON *root = cJSON_CreateObject();
+    // Obtención del dato.
+    esp_chip_info_t chip_info;
+    esp_chip_info(&amp;chip_info);
+    // Anyadimos un campo de tipo cadena.
+    cJSON_AddStringToObject(root, &quot;version&quot;, IDF_VER);
+    // Anyadimos un campo de tipo numérico.
+    cJSON_AddNumberToObject(root, &quot;cores&quot;, chip_info.cores);
+    // Imprimimos a cadena previo al envío.
+    const char *sys_info = cJSON_Print(root);
+    // Enviamos cabecera + objeto JSON en modo texto vía HTTP.
+    httpd_resp_sendstr(req, sys_info);
+    // Liberamos recursos.
+    free((void *)sys_info);
+    // Liberamos recursos del objeto JSON.
+    cJSON_Delete(root);
+    return ESP_OK;
+}
+</code></pre>
+
+<p>La función <code>light_brightness_post_handler</code> realiza un parseado del objeto
+JSON recibido. Observa su cuerpo:</p>
+<pre><code class="c">    // buf contiene la cadena recibida a través de HTTP (método POST).
+    // ...
+    // Parseamos el objeto JSON.
+    cJSON *root = cJSON_Parse(buf);
+    // Obtenemos tres valores numéricos (RGB).
+    int red = cJSON_GetObjectItem(root, &quot;red&quot;)-&gt;valueint;
+    int green = cJSON_GetObjectItem(root, &quot;green&quot;)-&gt;valueint;
+    int blue = cJSON_GetObjectItem(root, &quot;blue&quot;)-&gt;valueint;
+    // Mostramos por pantalla los valores parseados.
+    ESP_LOGI(REST_TAG, &quot;Light control: red = %d, green = %d, blue = %d&quot;, red, green, blue);
+    // Liberamos recursos JSON.
+    cJSON_Delete(root);
+    // Enviamos una respuesta generica en modo texto.
+    httpd_resp_sendstr(req, &quot;Post control value successfully&quot;);
+    return ESP_OK;
+</code></pre>
+
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Extiende la tarea anterior para añadir el dato en formato punto flotante
+de la temperatura en grados Fahrenheit.
+Crea nuevos <em>endpoints</em> que utilicen formatos más complejos de objetos
+JSON, incluyendo distintos tipos de datos que puedan dar respuesta a 
+un hipotético entorno IoT. Documenta la API generada y el formato de los
+objetos que has diseñado. Puedes, si así lo deseas, incluir capturas
+Wireshark.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
