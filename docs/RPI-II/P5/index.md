@@ -1,4 +1,4 @@
-# Práctica 5. Servidores REST y representación de la información
+# Práctica 5. Servidores REST y representación de la información. JSON y CBOR
 
 ## Objetivos
 

@@ -25,7 +25,7 @@
 | 2        |08/10|[Sockets TCP/UDP (ESP32)](RPI-II/P2/index.md) |
 | 3        |15/10|[TLS y DTLS](RPI-II/P3/index.md)              |
 | 4        |22/10|[Websockets](RPI-II/P4/index.md)              |
-| 5        |29/11|[Servidores REST y representación de la información](RPI-II/P5/index.md)       |
+| 5        |29/11|[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
 | 6        |05/11|MQTT (I)                                      |
 | 6        |12/11|MQTT (II)                                     |
 | 7        |19/11|CoAP                                          |
