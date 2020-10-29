@@ -5,11 +5,21 @@
 * Entender los mecanismos ofrecidos por ESP-IDF para la creación de 
 un servidor REST HTTP.
 
+* Implementar, a través de los mecanismos ofrecidos por ESP-IDF, una API
+REST extendida en el ESP32.
+
 * Entender los conceptos básicos de representación de datos a través
 de JSON.
 
+* Implementar, a través de la biblioteca `cJSON`, un tipo de mensaje
+personalizado para los intercambios de datos entre cliente y servidor.
+
 * Entender los conceptos básicos de representación de datos a través
 de CBOR, y evaluar sus ventajas con respecto a JSON.
+
+* Implementar, a través de la biblioteca `tinycbor`, un tipo de mensaje
+personalizado para los intercambios de datos entre cliente y servidor, comparando
+los tamaños de *payload* con respecto al intercambio JSON.
 
 ## Desarrollo de un servidor REST en ESP-IDF
 
@@ -118,6 +128,7 @@ Por ejemplo, la petición:
 ```sh
 curl http://192.168.1.26/api/v1/temp/raw
 ```
+(siendo `192.168.1.26` la IP del ESP32)
 nos responderá con el valor de temperatura instantánea.
 
 Del mismo modo, para escribir (método `POST`) sobre el servidor, utilizaremos
@@ -164,8 +175,98 @@ o `HTTPD_POST`) y un puntero a una función que procesará la petición
 recibida a través de la URI indicada. Dicha función sólo se ejecutará si
 el método coincide con el indicado.
 
+La función `start_rest_server` del ejemplo proporciona los mecanismos básicos
+para la creación de la API anteriormente descrita. Así, para crear el 
+*endpoint* `/api/v1/system/info`, procederemos, en primer lugar, registrándolo
+en el servidor, preparando previamente la estructura de tipo `httpd_uri_t`:
+
+```c
+httpd_uri_t system_info_get_uri = {
+        .uri = "/api/v1/system/info",
+        .method = HTTP_GET,
+        .handler = system_info_get_handler,
+        .user_ctx = rest_context
+    };
+    httpd_register_uri_handler(server, &system_info_get_uri);
+```
+
+En este caso, la operación asociada a la invocación del handler será, exclusivamente
+`GET`; de hecho, si invocamos a un método `POST` sobre este *endpoint*, el 
+servidor nos responderá automáticamente con un aviso que indicará que dicho método
+no está soportado.
+
+El procesamiento de la petición `GET` se realiza en la función 
+`system_info_get_handler`, y el esquema que se sigue es, en cualquier caso,
+sencillo:
+
+```c
+static esp_err_t system_info_get_handler(httpd_req_t *req)
+{
+    // Preparación del tipo de respuesta.
+    httpd_resp_set_type(req, "application/json");
+
+    // Preparación del buffer de respuesta.
+    char * buffer = // En el ejemplo preparamos un buffer JSON.
+
+    // Envío de respuesta.
+    https_resp_sendstr( req, buffer  );
+
+    return ESP_OK;
+```
+
+Alternativamente, si la respuesta es binaria, podríamos utilizar la función
+`https_resp_send( req, buffer, buffer_len  )` para procesarla y enviarla 
+(lo necesitarás para enviar un buffer binario CBOR).
+
+La creación de un *endpoint* con soporte para método `POST`
+resulta algo más larga, aunque el registro del mismo no difiere del ejemplo
+anterior:
+
+```c
+    /* URI handler for light brightness control */
+    httpd_uri_t light_brightness_post_uri = {
+        .uri = "/api/v1/light/brightness",
+        .method = HTTP_POST,
+        .handler = light_brightness_post_handler,
+        .user_ctx = rest_context
+    };
+    httpd_register_uri_handler(server, &light_brightness_post_uri);
+```
+
+Observa el cuerpo de la función `light_brightness_post_handler`. La recepción
+del objeto enviado por parte del cliente se realiza en base a múltiples
+invocaciones a la rutina `httpd_req_recv`:
+
+```c
+/* Simple handler for light brightness control */
+static esp_err_t light_brightness_post_handler(httpd_req_t *req)
+{
+    int total_len = req->content_len;
+    int cur_len = 0;
+    char *buf = ((rest_server_context_t *)(req->user_ctx))->scratch;
+    int received = 0;
+    if (total_len >= SCRATCH_BUFSIZE) {
+        /* Respond with 500 Internal Server Error */
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "content too long");
+        return ESP_FAIL;
+    }
+    while (cur_len < total_len) {
+        received = httpd_req_recv(req, buf + cur_len, total_len);
+        if (received <= 0) {
+            /* Respond with 500 Internal Server Error */
+            httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to post control value");
+            return ESP_FAIL;
+        }
+        cur_len += received;
+    }
+    buf[total_len] = '\0';
+
+    /// A partir de este punto, disponemos en buf del objeto recibido vía HTTP.
+    /// ... 
+```
+
 !!! danger "Tarea entregable"
-    Observa los códigos de los manejadores implementados en el ejemplo. 
+    Observa y estudia los códigos de los manejadores implementados en el ejemplo. 
     Extiende la API proporcionada para crear un nuevo *endpoint* que permita
     obtener la temperatura (número aleatorio), pero transformándola a 
     grados Fahrenheit. En este caso, el valor devuelto en el fichero 
@@ -269,23 +370,32 @@ static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Preparación del tipo de datos de la respuesta.
     httpd_resp_set_type(req, "application/json");
+
     // Creación del objeto JSON.
     cJSON *root = cJSON_CreateObject();
+
     // Obtención del dato.
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);
+
     // Anyadimos un campo de tipo cadena.
     cJSON_AddStringToObject(root, "version", IDF_VER);
+
     // Anyadimos un campo de tipo numérico.
     cJSON_AddNumberToObject(root, "cores", chip_info.cores);
+
     // Imprimimos a cadena previo al envío.
     const char *sys_info = cJSON_Print(root);
+
     // Enviamos cabecera + objeto JSON en modo texto vía HTTP.
     httpd_resp_sendstr(req, sys_info);
+
     // Liberamos recursos.
     free((void *)sys_info);
+
     // Liberamos recursos del objeto JSON.
     cJSON_Delete(root);
+
     return ESP_OK;
 }
 ```
@@ -298,25 +408,311 @@ JSON recibido. Observa su cuerpo:
     // ...
     // Parseamos el objeto JSON.
     cJSON *root = cJSON_Parse(buf);
+
     // Obtenemos tres valores numéricos (RGB).
     int red = cJSON_GetObjectItem(root, "red")->valueint;
     int green = cJSON_GetObjectItem(root, "green")->valueint;
     int blue = cJSON_GetObjectItem(root, "blue")->valueint;
+
     // Mostramos por pantalla los valores parseados.
     ESP_LOGI(REST_TAG, "Light control: red = %d, green = %d, blue = %d", red, green, blue);
+
     // Liberamos recursos JSON.
     cJSON_Delete(root);
+
     // Enviamos una respuesta generica en modo texto.
     httpd_resp_sendstr(req, "Post control value successfully");
+
     return ESP_OK;
 ```
 
 !!! danger "Tarea entregable"
     Extiende la tarea anterior para añadir el dato en formato punto flotante
     de la temperatura en grados Fahrenheit.
-    Crea nuevos *endpoints* que utilicen formatos más complejos de objetos
+
+!!! danger "Tarea entregable"
+    Crea un nuevo *endpoint* que utilice un formato más complejo de objetos
     JSON, incluyendo distintos tipos de datos que puedan dar respuesta a 
     un hipotético entorno IoT. Documenta la API generada y el formato de los
     objetos que has diseñado. Puedes, si así lo deseas, incluir capturas
-    Wireshark.
+    Wireshark para ilustrar el intercambio de mensajes producido. Nos interesará,
+    especialmente, el número de bytes transportados para enviar/recibir tus
+    mensajes JSON.
 
+## Representación de la información. CBOR
+
+CBOR (*Concise Binary Object Representation*) es el formato de serialización
+de datos recomendado en muchos de los *stacks* IoT, específicamente en aquellos
+basados en CoAP. Pese a ser un formato binario, CBOR guarda similitudes con
+JSON, ya que sigue su mismo modelo de datos: valores numéricos, *strings*,
+arrays, mapas (objetos en JSON) y valores booleanos y nulos. 
+
+Sin embargo, a diferencia de JSON, un objeto CBOR es autodescriptivo, y en
+este punto radica una de sus ventajas: es posible intercambiar datos entre
+un cliente y un servidor sin ceñirse a un esquema de datos concreto conocido
+por ambas partes.
+
+El hecho de ser un formato binario implica mejoras sustanciales con respecto a
+JSON, por ejemplo al transportar datos binarios (claves de cifrado, datos
+gráficos, o valores flotantes sensorizados, entre otros muchos); estos
+datos solían codificarse en JSON utilizando, por ejemplo, formato *base64*, 
+añadiendo complejidad al proceso de codificación/decodificación. 
+En general, el uso de un formato binario implica menor complejidad a la hora
+de ser integrado en aplicaciones, y es por esta razón por la que se considera
+óptimo para nodos de bajas prestaciones, típicos en IoT. 
+
+El formato CBOR está documentado en el [RFC 7049](https://tools.ietf.org/html/rfc7049),
+y por tanto se considera un estándar bien documentado y estable de cara al futuro.
+
+### CBOR en el ESP32
+
+ESP-IDF incluye la biblioteca `tinyCBOR` como implementación ligera del estándar,
+que permite tanto codificar distintos tipos de datos a formato CBOR, parsear
+estructuras CBOR y convertir dichas estructuras tanto a formato texto visualizable
+como a JSON. TinyCBOR está mantenido como proyecto de software libre por parte
+de Intel, y su documentación detallada (se sugiere consultarla) se encuentra
+disponible en el siguiente [enlace](https://intel.github.io/tinycbor/current/).
+
+Estudiaremos el funcionamiento de `tinyCBOR` a través de un ejemplo
+funcional (lo puedes encontrar en `examples/protocols/cbor`). El ejemplo
+muestra los mecanismos necesarios para, en primer lugar, crear un objeto
+CBOR completo utilizando la biblioteca, y en segundo lugar, el mecanismo
+para convertir dicho objeto a representación JSON, así como para parsearlo
+manualmente.
+
+En primer lugar, compila, flashea y ejecuta el ejemplo. 
+Verás que la salida debería ser similar a la siguiente:
+
+```sh
+I (320) example: encoded buffer size 67
+I (320) example: convert CBOR to JSON
+[{"chip":"esp32","unicore":false,"ip":[192,168,1,100]},3.1400001049041748,"simple(99)","2019-07-10 09:00:00+0000","undefined"]
+I (340) example: decode CBOR manually
+Array[
+  Map{
+    chip
+    esp32
+    unicore
+    false
+    ip
+    Array[
+      192
+      168
+      1
+      100
+    ]
+  }
+  3.14
+  simple(99)
+  2019-07-10 09:00:00+0000
+  undefined
+]
+```
+
+Observa que la estructura del objeto CBOR será medianamente compleja: constará
+de un array formado por cinco elementos:
+
+1. Un *mapa* (conjunto no ordenado de pares *clave-valor*), combinando cadenas,
+booleanos y un segundo array para especificar una dirección IP.
+2. Un valor flotante (3.14).
+3. Un valor numérico "simple" (99).
+4. Una fecha (en forma de cadena).
+5. Un valor indefinido.
+
+El *firmware* procede en tres etapas:
+
+### Etapa 1: creación (codificación) del objeto CBOR
+
+Observa el cuerpo de la tarea principal (`app_main`). El codificador 
+CBOR se basa en dos variables:
+
+```c
+CborEncoder Root_encoder; // Codificador CBOR.
+uint8_t buf[100];         // Buffer para alojar el objeto CBOR (array de bytes). 
+```
+
+En segundo lugar, y ya que utilizaremos un array y un mapa, necesitaremos
+constructores especiales para dichos objetos:
+
+```c
+// Creación de Array.
+CborEncoder array_encoder;
+CborEncoder map_encoder;
+
+cbor_encoder_create_array(&root_encoder, &array_encoder, 5); // [
+  // 1. Creación del Mapa.
+  cbor_encoder_create_map(&array_encoder, &map_encoder, 3); // {
+```
+
+A partir de este punto, podemos proceder con la construcción de los objetos
+siguiendo el esquema deseado:
+
+```c
+  // chip: esp32 (cadena:cadena)
+  cbor_encode_text_stringz(&map_encoder, "chip");
+  cbor_encode_text_stringz(&map_encoder, "esp32");
+
+  // unicore: false (cadena:booleano)
+  cbor_encode_text_stringz(&map_encoder, "unicore");
+  cbor_encode_boolean(&map_encoder, false);
+
+  // IP:[192,168,1,100] (cadena:array)
+  cbor_encode_text_stringz(&map_encoder, "ip");
+
+    CborEncoder array2;
+
+    cbor_encoder_create_array(&map_encoder, &array2, 4); // [
+
+    // Valores numéricos.
+    cbor_encode_uint(&array2, 192);
+    cbor_encode_uint(&array2, 168);
+    cbor_encode_uint(&array2, 1);
+    cbor_encode_uint(&array2, 100);
+
+    cbor_encoder_close_container(&map_encoder, &array2);        // ]
+
+ cbor_encoder_close_container(&array_encoder, &map_encoder); // }
+
+// 2. Flotante
+cbor_encode_float(&array_encoder, 3.14);
+
+// 3. Valor simple
+cbor_encode_simple_value(&array_encoder, 99);
+
+// 4. Cadena
+cbor_encode_text_stringz(&array_encoder, "2019-07-10 09:00:00+0000");
+
+// 5. Undefined value.
+cbor_encode_undefined(&array_encoder);
+cbor_encoder_close_container(&root_encoder, &array_encoder); // ]
+
+// Mostramos el tamaño del buffer creado.
+ESP_LOGI(TAG, "encoded buffer size %d", cbor_encoder_get_buffer_size(&root_encoder, buf));
+```
+
+### Etapa 2: conversión a JSON
+
+La conversión a JSON (típicamente por motivos de visualización o depuración), 
+puede realizarse del siguiente modo:
+
+```c
+    // Initialize the cbor parser and the value iterator
+    cbor_parser_init(buf, sizeof(buf), 0, &root_parser, &it);
+
+    ESP_LOGI(TAG, "convert CBOR to JSON");
+    // Dump the values in JSON format
+    cbor_value_to_json(stdout, &it, 0);
+```
+
+### Etapa 3: parseado manual de un objeto CBOR
+
+Por último, el parseado manual del objeto CBOR se deja como ejercicio de estudio
+para el alumno, y está implementado en la función `example_dump_cbor_buffer`
+del ejemplo. Básicamente, la función itera por cada uno de los elementos
+del objeto CBOR, consultando el tipo de cada elemento y actuando en consecuencia.
+Para aquellos tipos complejos (e.g. arrays o mapas), la función se invoca
+recursivamente hasta encontrar un elemento de tipo básico. En este caso, 
+simplemente imprime por pantalla su valor (e.g. en el caso de un entero,
+caso `CborIntegerType`).
+
+!!! danger "Tarea entregable"
+    Se pide extender la API REST con un nuevo *endpoint* que permita obtener
+    la misma información que el *endpoint* JSON desarrollado en la anterior
+    tarea, pero en esta ocasión, utilizando formato CBOR. El objetivo del 
+    ejercicio es comparar la cantidad de tráfico generado en cada 
+    representación, por lo que se sugiere que el objeto intercambiado 
+    sea relativamente complejo (es decir, incluya disintos tipos de datos numéricos,
+    arrays, o mapas). A continuación se incluyen notas adicionales que te 
+    permitirán depurar tu desarrollo, observando los valores devueltos
+    por el servidor HTTP.
+
+### Notas adicionales: creación y consulta de un *endpoint* CBOR en la API REST
+
+Las modificaciones a realizar en la función manejadora del *endpoint* para 
+responder con un objeto CBOR son mínimas. De hecho, se centran simplemente en 
+el tipo de respuesta y el mecanismo a usar para enviarla, véase:
+
+```c
+static esp_err_t system_info_get_handler(httpd_req_t *req)
+{
+    // Tipo de respuesta.
+    httpd_resp_set_type(req, "application/cbor");
+
+    CborEncoder root_encoder;
+    uint8_t buf[100];
+
+    // Codificador CBOR.
+    cbor_encoder_init(&root_encoder, buf, sizeof(buf), 0);
+
+    // Codificamos CBOR.
+    // ...
+
+    // Enviamos respuesta, consultando previamente el tamaño del buffer codificado.
+    httpd_resp_send(req, (char*)buf, cbor_encoder_get_buffer_size( &root_encoder, buf));
+
+    return ESP_OK;
+```
+
+Para consultar desde línea de comandos sobre este *endpoint*, podemos utilizar
+directamente `curl`, volcando la salida recibida a un fichero (por
+ejemplo, `output.cbor`):
+
+```sh
+curl http://192.168.1.26/api/v1/system/info > output.cbor
+```
+
+Si visualizas el contenido del fichero, verás que contiene datos binarios
+difícilmente interpretables. A continuación veremos distintos mecanismos
+de visualización.
+
+### Notas adicionales: visualización de datos CBOR
+
+Una opción de visualización consiste en utilizar la web [cbor.me](http://cbor.me/).
+En el panel derecho, podrás pegar el contenido binario leído. Si necesitas
+realizar la conversión antes de pegarlo en la web, puedes hacerlo con la orden:
+
+```sh
+xxd -ps output.cbor
+```
+
+Un ejemplo de salida (a pegar en el panel derecho de la web), podría ser:
+
+```sh
+$ xxd -ps output.cbor 
+85a3646368697065657370333267756e69636f7265f46269708418c018a8
+011864fa4048f5c3f8637818323031392d30372d31302030393a30303a30
+302b30303030f7
+```
+
+Deberías observar una salida similar a la siguiente (ten en cuenta que 
+la herramiente automáticamente indenta el contenido del panel derecho; 
+recuerda que simplemente debes pegar la salida generada por `xxd`):
+
+![](img/cbor.me.png)
+
+Otra opción de visualización puede ser un programa Python (podrías integrarlo
+en tu servidor TCP/UDP, por ejemplo), que haga uso del módulo `cbor2`
+ ([documentación](https://pypi.org/project/cbor2/)). Para
+comprobar su funcionamiento, primero instálalo:
+
+```sh
+pip install cbor2
+```
+
+Y comprueba si efectivamente funciona utilizando el siguiente programa Python:
+
+```python
+from cbor2 import dumps, loads, dump, load
+
+with open('output.cbor', 'rb') as fp:
+    obj = load(fp)
+
+print(obj)
+```
+
+Al ejecutarlo, observarás el contenido del objeto:
+
+```sh
+python cbor.py
+[{'chip': 'esp32', 'unicore': False, 'ip': [192, 168, 1, 100]}, 3.140000104904175, CBORSimpleValue(value=99), '2019-07-10 09:00:00+0000', undefined]
+```
