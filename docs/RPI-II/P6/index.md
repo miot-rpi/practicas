@@ -2,6 +2,15 @@
 
 ## Objetivos
 
+* Familiarizarse con el uso de *brokers* y clientes de suscripción/publicación
+utilizando MQTT.
+
+* Desplegar un sistema basado en MQTT local, incluyendo *broker* y clientes.
+
+* Utilizar Eclipse Paho para integrar funcionalidad MQTT en programas Python.
+
+* Familiarizarse con el uso de *wildcards* MQTT.
+
 ## Publicación/suscripción contra un *broker* en la nube
 
 En la primera parte de la práctica, utilizaremos un servidor/*broker* disponible 
@@ -223,10 +232,42 @@ print("%s %s" % (msg.topic, msg.payload))
 Toda la información y documentación asociada al módulo puede consultarse
 [aquí](https://pypi.org/project/paho-mqtt/).
 
+### Wildcards
+
+Además de permitir el uso de *topics* completos para el proceso de suscripción,
+los topics pueden incluir *wildcards* o comodines en su estructura. `+` es la
+*wildcard* utilizada para obtener correspondencias con un único nivel de la 
+jerarquía. Así, para un *topic* `a/b/c/d`, las siguientes suscripciones 
+corresponderán con éxito:
+
+* `a/b/c/d`
+* `+/b/c/d`
+* `a/+/c/d`
+* `a/+/+/d`
+* `+/+/+/+`
+
+Pero no las siguientes:
+
+* `a/b/c`
+* `b/+/c/d`
+* `+/+/+`
+
+La segunda *wildcard* soportada es `#`, y permite corresponencias con cualquier
+nivel sucesivo de la jerarquía.  Así, para un *topic* `a/b/c/d`, las siguientes suscripciones 
+corresponderán con éxito:
+
+* `a/b/c/d`
+* `#`
+* `a/#`
+* `a/b/#`
+* `a/b/c/#`
+* `+/b/c/#`
+
 !!! danger "Tarea entregable"
     Cada alumno propondrá una solución para monitorizar un edificio inteligente a
     través de un sistema de mensajería MQTT. Para ello, cabe destacar que el
     edificio constará de:
+
     * Un identificador del tipo EDIFICIO_TUPUESTODELABORATORIO.
     * Un conjunto de plantas, identificadas por la cadena "P_NUMPLANTA".
     * En cada planta, cuatro alas (norte -N-, sur -S-, este -E-, oeste -O-)
@@ -237,14 +278,25 @@ Toda la información y documentación asociada al módulo puede consultarse
     monitorización de los edificios.
 
     En segundo lugar, se desarrollará un programa Python cliente que publique, periódicamente
-    y de forma aleatoria, objetos JSON que incluyan el valor de temperatura, humedad, luminosidad o
+    y de forma aleatoria, objetos JSON 
+    (opcionalmente puedes utilizar CBOR) que incluyan el valor de temperatura, humedad, luminosidad o
     vibración para una determinada sala del edificio, elegida también aleatoriamente, a través
     del *topic* correspondiente. Estos mensajes 
     estarán espaciados en el tiempo un número aleatorio de segundos.
 
     En tercer lugar, se piden las *wildcards* que permitan consultar distintos tipos de información
     jerárquica. Por ejemplo:
+
     * Todos los mensajes de temperatura para el edificio.
     * Todos los mensajes de vibración del ala oeste de la planta 2 del edificio.
     * Todos los mensajes de sensorización de la sala 4 del ala Sur de la planta 7 del edificio.
     * ...
+
+    En último lugar, se pide desarrollar un programa Python que actúe a modo de
+    alarma, y que muestre mensajes sólo si algún valor recibido para los 
+    datos sensorizados supera un umbral preestablecido. En dicho caso, el programa
+    mostrará el edificio, planta, ala, sala y sensor que ha producido la alarma, 
+    junto con su valor numérico.
+
+    Puedes utilizar el [módulo JSON](https://docs.python.org/3/library/json.html)
+    para parsear los objetos recibidos.
