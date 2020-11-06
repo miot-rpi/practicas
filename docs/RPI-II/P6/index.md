@@ -69,7 +69,7 @@ A continuación, vamos a realizar un proceso de publicación/suscripcion con un
 bajo dicho *topic*:
 
 ```sh
-mosquitto_pub -h test.mosquitto.org -t "/MIOT/tunombre/" -m "Hola, soy tunombre"
+mosquitto_pub -h test.mosquitto.org -t "/MIOT/tunombre" -m "Hola, soy tunombre"
 ```
 
 !!! note "Tarea"
@@ -143,6 +143,8 @@ vía:
 ```sh
 pip install paho-mqtt
 ```
+
+Dispones de la documentación del módulo a través de [este enlace](https://pypi.org/project/paho-mqtt/#usage-and-api).
 
 El despliegue de un ejemplo sencillo para un cliente que se conecta a un *broker*
 y se suscribe al tópico `$SYS`, imprimiendo los mensajes recibidos, resultaría,
