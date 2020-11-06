@@ -226,7 +226,7 @@ a utilizar y, en el caso de la publicación, el <em>mensaje</em> a enviar. </p>
 <p>A continuación, vamos a realizar un proceso de publicación/suscripcion con un 
 <em>topic</em> conocido (por ejemplo, <code>/MIOT/tunombre/</code>). Para publicar un mensaje
 bajo dicho <em>topic</em>:</p>
-<pre><code class="language-sh">mosquitto_pub -h test.mosquitto.org -t &quot;/MIOT/tunombre/&quot; -m &quot;Hola, soy tunombre&quot;
+<pre><code class="language-sh">mosquitto_pub -h test.mosquitto.org -t &quot;/MIOT/tunombre&quot; -m &quot;Hola, soy tunombre&quot;
 </code></pre>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
@@ -288,6 +288,7 @@ se centra exclusivamente en MQTT.</p>
 vía:</p>
 <pre><code class="language-sh">pip install paho-mqtt
 </code></pre>
+<p>Dispones de la documentación del módulo a través de <a href="https://pypi.org/project/paho-mqtt/#usage-and-api">este enlace</a>.</p>
 <p>El despliegue de un ejemplo sencillo para un cliente que se conecta a un <em>broker</em>
 y se suscribe al tópico <code>$SYS</code>, imprimiendo los mensajes recibidos, resultaría,
 utilizando Paho, en el siguiente código Python:</p>
