@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 6 (II) - Redes, Protocolos e Interfaces</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../RPI-I/P1/">Práctica 1</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P2/">Práctica 2</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P3/">Práctica 3</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P4/">Práctica 4</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P5/">Práctica 5</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P6/">Práctica 6</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P7/">Práctica 7</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P8/">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../P1/">Práctica 1</a>
+</li>
+                                    
+<li >
+    <a href="../P2/">Práctica 2</a>
+</li>
+                                    
+<li >
+    <a href="../P3/">Práctica 3</a>
+</li>
+                                    
+<li >
+    <a href="../P4/">Práctica 4</a>
+</li>
+                                    
+<li >
+    <a href="../P5/">Práctica 5</a>
+</li>
+                                    
+<li >
+    <a href="../P6/">Práctica 6 (I)</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">Práctica 6 (II)</a>
+</li>
+                                    
+<li >
+    <a href="../P7/">Práctica 7</a>
+</li>
+                                    
+<li >
+    <a href="../P8/">Práctica 8</a>
+</li>
+                                    
+<li >
+    <a href="../P9/">Práctica 9</a>
+</li>
+                                    
+<li >
+    <a href="../P10/">Práctica 10</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../P6/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../P7/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#practica-6-el-protocolo-mqtt-ii-despliegue-de-clientes-en-el-esp32">Práctica 6. El protocolo MQTT (II). Despliegue de clientes en el ESP32</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#el-componente-mqtt-en-esp-idf">El componente MQTT en ESP-IDF</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="practica-6-el-protocolo-mqtt-ii-despliegue-de-clientes-en-el-esp32">Práctica 6. El protocolo MQTT (II). Despliegue de clientes en el ESP32</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>
+<p>Familiarizarse con el componente MQTT en ESP-IDF.</p>
+</li>
+<li>
+<p>Desplegar un cliente completo MQTT en el ESP32, incluyendo rutinas de publicación y suscripción.</p>
+</li>
+<li>
+<p>Implementar QoS y LWT en el ESP32.</p>
+</li>
+</ul>
+<h2 id="el-componente-mqtt-en-esp-idf">El componente MQTT en ESP-IDF</h2>
+<p>El componente ESP-MQTT es una implementación del protocolo MQTT en su parte
+cliente, que permite la implementación completa de clientes MQTT en el ESP32,
+incluyendo rutinas de publicación y suscripción a <em>brokers</em> existentes.</p>
+<p>El componente soporte MQTT sobre TCP por defecto, así como funcionalidades 
+avanzadas como SSL/TLS o MQTT sobre Websockets. Además, permite el despliegue
+de múltiples instancias de cliente MQTT sobre la misma placa; el componente
+implementa también parámetros avanzados soportados por el protocolo MQTT, como
+autenticación (mediante nombre de usuario y contraseña), mensajes <em>last will</em> y
+tres niveles de calidad de servicio (QoS).</p>
+<h3 id="eventos">Eventos</h3>
+<p>Como otros componentes, la interacción entre el cliente MQTT y la aplicación
+se basa en la recepción de eventos, entre los que destacan:</p>
+<ul>
+<li><code>MQTT_EVENT_BEFORE_CONNECT</code>: El cliente se ha inicializado y va a comenzar el
+proceso de conexión con el <em>broker</em>.</li>
+<li><code>MQTT_EVENT_CONNECTED</code>: El cliente ha establecido de forma exitosa una conexión 
+con el <em>broker</em> y está listo para enviar y recibir datos.</li>
+<li><code>MQTT_EVENT_DISCONNECTED</code>: El cliente ha abortado la conexión.</li>
+<li><code>MQTT_EVENT_SUBSCRIBED</code>: El <em>broker</em> ha confirmado la petición de suscripción
+del cliente. Los datos contendrán el ID del mensaje de suscripción.</li>
+<li><code>MQTT_EVENT_UNSUBSCRIBED</code>: El <em>broker</em> confirma la petición de <em>desuscripción</em>
+del cliente. Los datos contendrán el ID del mensaje de <em>desuscripción</em>.</li>
+<li><code>MQTT_EVENT_PUBLISHED</code>: El <em>broker</em> ha acusado la recepción de un mensaje
+previamente publicado por el cliente. Este evento sólo se producirá cuando QoS sea
+1 o 2, ya que el nivel 0 de QoS no utiliza acuses de recibo. Los datos asociados
+al evento contendrán el ID del mensaje publicado.</li>
+<li><code>MQTT_EVENT_DATA</code>: El cliente ha recibido un mensaje publicado en el <em>broker</em>.
+Los datos asociados al evento contienen el ID del mensaje, nombre del <em>topic</em>,
+datos recibidos y su longitud. </li>
+</ul>
+<h3 id="api">API</h3>
+<ul>
+<li><code>esp_mqtt_client_handle_t esp_mqtt_client_init(const esp_mqtt_client_config_t *config)</code></li>
+</ul>
+<p>Rutina de inicialización del cliente MQTT. Devuelve un manejador de la conexión,
+o <code>NULL</code> en caso de error. El parámetro <code>config</code> es una estructura con los 
+parámetros que regirán la conexión, entre los que destacan 
+(véase <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/mqtt.html#_CPPv424esp_mqtt_client_config_t">la documentación del componente</a>
+para parámetros adicionales):</p>
+<ul>
+<li><code>esp_event_loop_handle_t event_loop_handle</code>: manejador para eventos MQTT.</li>
+<li><code>const char *uri</code>: URI del <em>broker</em> MQTT.</li>
+<li><code>uint32_t port</code>: puerto del <em>broker</em> MQTT.</li>
+<li><code>const char *username</code>: nombre de usuario, en caso de estar soportado por el
+  <em>broker</em>.</li>
+<li><code>const char *password</code>: contraseña, en caso de estar soportada por el <em>broker</em>.</li>
+<li><code>const char *lwt_topic</code>: topic del mensaje LWT (<em>Last Will and Testament</em>).</li>
+<li><code>const char *lwt_msg</code>: contenido del mensaje LWT.</li>
+<li><code>int lwt_qos</code>: QoS del mensaje LWT.</li>
+<li><code>int lwt_retain</code>: flag <em>retain</em> para el mensaje LWT.</li>
+<li><code>int lwt_msg_len</code>: longitud del mensaje LWT.</li>
+<li>
+<p><code>int keepalive</code>: valor del temporizador de <em>keepalive</em> (por defecto 120 segundos).</p>
+</li>
+<li>
+<p><code>esp_err_t esp_mqtt_client_start(esp_mqtt_client_handle_t client)</code></p>
+</li>
+</ul>
+<p>Rutina de arranque del cliente MQTT. Su único parámetro es el manejador devuelto 
+por la anterior rutina.</p>
+<ul>
+<li><code>int esp_mqtt_client_subscribe(esp_mqtt_client_handle_t client, const char *topic, int qos)</code></li>
+</ul>
+<p>Realiza la suscripción del cliente a un topic con el QoS determinado a través de 
+su tercer parámetro. El cliente debe estar conectado al <em>broker</em> para enviar
+el mensaje de suscripción.</p>
+<ul>
+<li><code>int esp_mqtt_client_unsubscribe(esp_mqtt_client_handle_t client, const char *topic)</code></li>
+</ul>
+<p><em>Desuscribe</em> al cliente de un determinado topic. El ciente debe estar conectado
+al <em>broker</em> para poder enviar el mensaje correspondiente.</p>
+<ul>
+<li><code>int esp_mqtt_client_publish(esp_mqtt_client_handle_t client, const char *topic, const char *data, int len, int qos, int retain)</code></li>
+</ul>
+<p>El cliente publica un mensaje en el <em>broker</em>. El cliente no tiene que estar conectado
+al <em>broker</em> para enviar el mensaje de publicación. En dicho caso, si <code>qos=0</code>, los
+mensajes se descartarán, y si <code>qos&gt;=1</code>, los mensajes se encolarán a la espera de 
+ser enviados. Devuelve el identificador del mensaje publicado (si <code>qos=0</code>, el valor
+de retorno siempre será 0), o <code>-1</code> en caso de error.</p>
+<p>Parámetros de interés:</p>
+<ul>
+<li><code>client</code>: manejador del cliente MQTT.</li>
+<li><code>topic</code>: topic (en forma de cadena) bajo el cual se publicará el mensaje.</li>
+<li><code>data</code>: contenido del mensaje a publicar (es posible publicar un mensaje sin
+  contenido, en cuyo caso se proporcionará un valor <code>NULL</code> en este parámetro).</li>
+<li><code>len</code>: longitud de los datos a enviar. Si se proporciona el valor <code>0</code>, se calcula
+  su longitud a partir de la cadena <code>data</code>.</li>
+<li><code>qos</code>: nivel de QoS deseado.</li>
+<li><code>retain</code>: flag <em>Retain</em>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Analiza el ejemplo <code>examples/protocols/mqtt/tcp</code>, y configuralo para que 
+utilice como <em>broker</em> el que desplegaste en la máquina virtual (asegúrate
+de que tanto máquina virtual como ESP32 pertenecen a la misma red).</p>
+<p>Realiza procesos de publicación y suscripción en la máquina virtual que 
+permitan visualizar los mensajes publicados por el ESP32 en tu terminal
+Linux, y los mensajes publicados desde el terminal Linux en la salida
+de monitorización del ESP32.</p>
+<p>Modifica el ejemplo y analiza el tráfico generado (a través de Wireshark)
+para los siguientes casos:</p>
+<ol>
+<li>Publicación de mensajes con niveles de QoS 0, 1 y 2.</li>
+<li>Activación o desactivación del flag <em>retain</em> en la publicación desde el
+ESP32.</li>
+<li>Configuración de un mensaje LWT con el topic <em>/disconnected</em>. Para ello,
+reduce el valor de <em>keepalive</em> a 10 segundos, para que la detección de 
+desconexión sea más rápida. Deberás observar el envío del mensaje con 
+dicho <em>topic</em> transcurrido dicho tiempo desde una desconexión forzada del
+ESP32 si estás suscrito al mismo desde tu terminal Linux.</li>
+</ol>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Modifica el ejemplo proporcionado para que se integre en tu entorno de 
+monitorización de un edificio. Así, el <em>firmware</em> procederá creando una
+tarea que, periódicamente (cada <em>interval</em> segundos), publique un valor
+aleatorio para los cuatro parámetros monitorizados.</p>
+<p>Además, deberás diseña un sistema basado en MQTT mediante el cual puedas 
+controlar, externamente, el comportamiento del sensor, atendiendo a los
+siguientes criterios:</p>
+<ol>
+<li>El tiempo (<em>interval</em>) mediante que transcurrirá entre publicaciones
+será configurable a través de un proceso de publicación desde tu terminal 
+Linux y suscripción del ESP32 a un topic determinado.</li>
+<li>La sensorización (y publicación de datos) 
+podrá activarse o desactivarse bajo demanda
+a través de la publicación desde tu terminal Linux y suscripción del 
+ESP32 a un topic determinado.</li>
+</ol>
+<p>Por ejemplo, imagina que tu sensor publica mensajes de sensorización
+en el topic <code>/EDIFICIO_3/P_4/N/12/(TEMP|HUM|LUX|VIBR)</code>. Para controlar el 
+intervalo de publicación de datos desde dicho ESP32 y fijarlo a 1 segundo, 
+podríamos publicar un mensaje utilizando la orden:</p>
+<p><code>mosquitto_pub -t /EDIFICIO_3/P_4/N/12/interval</code> -m "1000" -h IP_BROKER</p>
+<p>Para desactivar el sensor, podríamos utilizar:</p>
+<p><code>mosquitto_pub -t /EDIFICIO_3/P_4/N/12/disable</code> -m "" -h IP_BROKER</p>
+<p>Para activar el sensor, podríamos utilizar:</p>
+<p><code>mosquitto_pub -t /EDIFICIO_3/P_4/N/12/enable</code> -m "" -h IP_BROKER</p>
+<ol>
+<li>Opcionalmente, puedes ampliar tu solución para que cada sensor se active
+o desactive individualmente bajo demanda. En este caso, elige y documenta
+el topic utilizado.</li>
+</ol>
+</div></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
