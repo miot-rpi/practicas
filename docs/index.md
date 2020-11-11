@@ -27,7 +27,7 @@
 | 4        |22/10|[Websockets](RPI-II/P4/index.md)              |
 | 5        |29/11|[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
 | 6        |05/11|[MQTT (I)](RPI-II/P6/index.md)                |
-| 6        |12/11|MQTT (II)                                     |
+| 6        |12/11|[MQTT (II)](RPI-II/P6-II/index.md)            |
 | 7        |19/11|CoAP                                          |
 | 8        |26/11|LWM2M (I)                                     |
 | 8        |03/12|LWM2M (II)                                    |
