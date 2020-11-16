@@ -2,19 +2,38 @@
 
 # Objetivos
 
-* Bla
-* Bla
-* Bla
+* Diseccionar en detalle un *firmware* de construcción de tabla GATT (servidor
+GATT) utilizando la API de ESP-IDF.
+* Aprender a utilizar la herramienta `gatttool` para interactuar con el servidor GATT.
+* Modificar el servidor GATT para que acepte peticiones de notificación por parte del cliente,
+y para que publique bajo demanda valores actualizados para una determinada característica.
 
 # Implementación de un servidor GATT basado en tablas
 
 ## Introducción
 
-This document presents a walkthrough of the GATT Server Service Table example code for the ESP32. This example implements a Bluetooth Low Energy (BLE) Generic Attribute (GATT) Server using a table-like data structure to define the server services and characteristics such as the one shown in the figure below Therefore, it demonstrates a practical way to define the server functionality in one place instead of adding services and characteristics one by one. 
+En esta práctica, desplegaremos un servidor GATT utilizando la API de ESP-IDF
+para tal fin. Dicha API expone las funcionalidades de Bluedroid, la pila
+Bluetooth (incluyendo BLE) que proporciona ESP-IDF para el desarrollo de 
+aplicaciones Bluetooth. 
 
-This example implements the *Heart Rate Profile* as defined by the [Traditional Profile Specifications](https://www.bluetooth.com/specifications/profiles-overview).
+El ejemplo con el que trabajaremos reside en el directorio 
+`examples/bluetooth/bluedroid/ble/gatt_server_service_table`. Debido a la 
+complejidad del ejemplo (al menos en su parte inicial), la presente práctica
+procede, en primer lugar, con un recorrido por la preparación y construcción
+del servidor siguiendo una estructura de tabla que define los servicios y
+características que se implementarán en el mismo. 
 
-<div align="center"><img src="image/Heart_Rate_Service.png" width = "450" alt="Table-like data structure representing the Heart Rate Service" align=center /> </div>
+El ejemplo implementa el perfile *Heart Rate Profile* definido en la
+[especificación Bluetooth](https://www.bluetooth.com/specifications/profiles-overview),
+y sigue la siguiente estructura:
+
+<div align="center"><img src="img/Heart_Rate_Service.png" width = "450" alt="Table-like data structure representing the Heart Rate Service" align=center /> </div>
+
+Desplegaremos, por tanto, tres características. De ellas, la más importante
+para nosotros será el valor de medición de ritmo cardiaco, con su valor
+(*Heart Rate Measurement Value*) y su configuración de notificaciones
+(*Heart Rate Measurement Notification Configuration*).
 
 ## Inclusión de encabezados
 
@@ -645,4 +664,234 @@ struct gatts_profile_inst {
     esp_bt_uuid_t descr_uuid;
 };
 ```
+# Interacción a través de un cliente GATT
+
+!!! note "Nota"
+    Para desarrollar esta parte de la práctica, deberás importar la máquina 
+    virtual del curso en el PC del laboratorio, y hacer visible a ella el
+    dispositivo Bluetooth del equipo de laboratorio.
+
+!!! note "Nota"
+    Existen multitud de herramientas que permiten gestionar la conexión
+    al servidor GATT. En Linux, utilizaremos `hcitool` y `gatttool`; en 
+    Windows, puedes utilizar una herramienta llamada `Bluetooth LE Explorer`,
+    que implementa, aunque de forma gráfica, la misma funcionalidad.
+
+## Uso de `hcitool` y `gatttool` en modo cliente
+
+### Escaneando dispositivos disponibles: `hcitool`
+
+`hcitool` es una herramienta de línea de comandos que permite gestionar
+la interfaz Bluetooth del equipo en el que se ejecuta. En nuestro caso, 
+necesitaremos determinar la dirección MAC Bluetooth de nuestro servidor.
+Para ello, en primer lugar, realizaremos un escaneado de los dispsitivos
+BLE disponibles en el entorno utilizando la orden:
+
+```sh
+sudo hcitool lescan
+```
+
+Si todo ha ido bien, se mostrará una línea por dispositivo BLE disponible
+y en fase de anuncio. Entre ellos, deberemos encontrar nuestro dispositivo,
+para recordar su dirección MAC.
+
+!!! note "Tarea"
+    Edita el fichero `main/gatts_table_creat_demo.c` y modifica el nombre
+    de tu dispositivo, que se anunciará en cada anuncio emitido en la fase
+    de `advertising`. Para ello, debes modificar el valor de la macro
+    `SAMPLE_DEVICE_NAME`.
+    A continuación, compila y flashea el ejemplo, y comienza una sesión de
+    escaneado de dispositivos BLE mediante la orden:
+    ```
+    sudo hcitool lescan
+    ```.
+    Deberás observar tu dispositivo en una de las líneas. Anota o recuerda
+    su dirección MAC.
+
+### Interactuando con el servidor GATT: `gatttool`
+
+Una vez obtenida la dirección MAC Bluetooth del dispositivo, deberemos proceder
+en dos fases. La primera de ellas es el emparejado al dispostivo desde tu
+consola. La segunda, la interacción con la tabla GATT. En ambos casos, se
+utilizará la herramienta `gatttool` desde línea de comandos.
+
+Para comenzar una sesión `gatttool`, invocaremos a la herramienta en modo
+interactivo, utilizando la orden:
+
+```sh
+gatttool -b MAC -I
+```
+
+Esto abrirá una consola interactiva, a la espera de las ordenes correspondientes.
+
+Para realizar el emparejamiento, y considerando que la MAC Bluetooth es 
+ya conocida, utilizaremos la orden `connect`. Si todo ha ido bien, deberemos observar
+un cambio en el color del prompt, y un mensaje *Connection successful*. En este punto,
+observa como en la salida de depuración del ESP32 se muestran los mensajes
+correspondientes al proceso de emparejamiento.
+
+Desde la terminal de `gatttool`, puedes ejecutar en cualquier momento la 
+orden `help` para obtener ayuda (en forma de lista de comandos disponibles):
+
+```sh
+gatttool -b 24:6F:28:36:60:B2 -I
+[24:6F:28:36:60:B2][LE]> connect
+Attempting to connect to 24:6F:28:36:60:B2
+Connection successful
+[24:6F:28:36:60:B2][LE]> help
+help                                           Show this help
+exit                                           Exit interactive mode
+quit                                           Exit interactive mode
+connect         [address [address type]]       Connect to a remote device
+disconnect                                     Disconnect from a remote device
+primary         [UUID]                         Primary Service Discovery
+included        [start hnd [end hnd]]          Find Included Services
+characteristics [start hnd [end hnd [UUID]]]   Characteristics Discovery
+char-desc       [start hnd] [end hnd]          Characteristics Descriptor Discovery
+char-read-hnd   <handle>                       Characteristics Value/Descriptor Read by handle
+char-read-uuid  <UUID> [start hnd] [end hnd]   Characteristics Value/Descriptor Read by UUID
+char-write-req  <handle> <new value>           Characteristic Value Write (Write Request)
+char-write-cmd  <handle> <new value>           Characteristic Value Write (No response)
+sec-level       [low | medium | high]          Set security level. Default: low
+mtu             <value>                        Exchange MTU for GATT/ATT
+```
+
+Comenzaremos consultando la lista de características del servidor GATT.
+
+!!! note "Tarea"
+    Mediante el comando correspondiente (`characteristics`), 
+    consulta y anota las características disponibles en tu servidor GATT.
+
+Una de estas características será de crucial interés, ya que nos permitirá
+acceder, a través de su UUID, a la medición instantánea de ritmo cardíaco, así
+como a la configuración de notificaciones sobre dicho valor. Para determinar 
+cuál de las líneas es la que nos interesa, observa el valor de UUID devuelta
+para cada una de ellas, y determina, en función de la macro `GATTS_CHAR_UUID_TEST_A`
+de cuál se trata.
+
+Para interactuar con dicha característica, necesitaremos un manejador 
+(*handler*) que permita un uso más sencillo de la misma desde la herramienta
+`gatttool`. Dicho manejador se muestra, para cada línea, tras la cadena
+*char value handle*. 
+
+!!! note "Tarea"
+    El manejador que permite leer desde la característica *Heart Rate Value"
+    tiene un manejador de tipo carácter asociado. Anota su valor.
+
+Para leer el valor de la característica, podemos utilizar su manejador asociado.
+Así, podemos obtener dicho valor con un comando de lectura, en este caso
+`char-read-hnd manejador`.
+
+!!! note "Tarea"
+    Obtén los datos de lectura de la característica de medición del valor
+    de monitorización de ritmo cardíaco. ¿Cuáles son? Deberías observar un 
+    valor de retorno de cuatro bytes con valor 0x00. Estos valores corresponden
+    a los de la variable `char_value` de tu código. Modifícalos, recompila y 
+    vuelve a *flashear* el código. ¿Han variado?
+
+!!! note "Tarea"
+    Intenta ahora escribir en la anterior característica. Para ello, utiliza
+    el comando `char-write-cmd handler valor`, siendo valor, por ejemplo, 
+    `11223344`. ¿Es posible? ¿Por qué?
+
+Escribiremos a continuación en la característica de configuración del servicio
+de montorización. Para ello, utilizaremos el manejador siguiente al utilizado
+anteriormente. Esto es, si se nos devolvió, por ejemplo, un manejador
+`0x0001` para el valor de monitorización, el valor de configuración será 
+`0x0002`.
+
+!!! note "Tarea"
+    Intenta ahora escribir en la característica de configuración. Para ello, utiliza
+    el comando `char-write-cmd handler valor`, siendo valor, por ejemplo, 
+    `0100`. ¿Es posible? ¿Por qué?
+
+Como habrás observado, es posible leer desde el valor de monitorización, y 
+escribir en el valor de configuración. Utilizaremos esta última característica
+para configurar las notificaciones sobre el valor de monitorización. De este
+modo, cada vez que se desee enviar dicho valor a los clientes que tengan 
+activada la notificación, éstos la recibirán sin necesidad de cambio alguno.
+
+Para ello, necesitamos modificar algunas partes de nuestro código. Específicamente, 
+necesitaremos:
+
+1. Crear una nueva tarea que, periódicamente, modifique el valor de monitorización
+de ritmo cardíaco (leyéndolo desde un sensor, si está disponible, o, en nuestro caso
+generando un valor aleatorio). Dicha tarea consistirá en un bucle infinito que, 
+en cualquier caso, sólo enviará datos al cliente si la notificación está activa,
+con un intervalo de envío de un segundo:
+
+```c
+static void publish_data_task(void *pvParameters)
+{
+    while (1) {
+        ESP_LOGI("APP", "Sending data..."); 
+
+        // Paso 1: Actualizo valor...
+    
+        // Paso 2: Si notificación activa...
+
+        // Paso 3: Envío datos...
+
+        // Paso 4: Duermo un segundo...
+        vTaskDelay( 1000. / portTICK_PERIOD_MS);
+    }
+}
+```
+
+Esta rutina deberá crearse en respuesta al evento de conexión por parte de un
+cliente, utilizando, por ejemplo, la invocación a:
+
+```c
+xTaskCreate(&publish_data_task, "publish_data_task", 4096, NULL, 5, NULL);
+```
+
+2. La actualización del valor, realizada periódicamente y de forma aleatoria,
+modificará el byte 1 de la variable `char_value`, tomando un valor aleatorio
+entre 0 y 255 (como nota adicional, los pulsómetros actuales soportan valores
+mayores para ritmo cardiaco, aunque la configuración de esta funcionalidad
+está fuera del alcance de la práctica).
+
+3. La comprobación de la activación o no de la notificación se realiza consultando
+los dos bytes de la variable `heart_meaurement_ccc`. Si dichos valores
+son `0x01` y `0x00` (posiciones 0 y 1, respectivamente), las notificaciones 
+están activas, y por tanto, se realizará el envío de notificación.
+
+4. Para enviar la notificación, utilizaremos la siguiente función:
+
+```c
+esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if, 
+                                      heart_rate_profile_tab[0].conn_id,
+                                      heart_rate_handle_table[IDX_CHAR_VAL_A],
+                                      sizeof(char_value), char_value, false);
+```
+
+La activación de notificaciones desde `gatttool` se realizará mediante 
+la escritura del valor `0x0100` en la característica de configuración, esto es:
+
+```sh
+char-write-cmd HANDLER 0100
+```
+
+Nuestro *firmware* deberá modificarse para que, al recibir dicho valor en 
+la característica, se sobreescriba el contenido de la variable
+`heart_measurement_ccc`. Esta escritura debe realizarse en respuesta al
+evento `ESP_GATTS_WRITE_EVT`.
+
+!!! danger "Tarea entregable"
+    Modifica el firmware original para que, periódicamente (cada segundo) notifique
+    el valor de ritmo cardíaco a los clientes conectados.
+
+    Si además modificas las UUID por las proporcionadas en la especificación 
+    Bluetooth para el Servicio *Heart Rate* y todo ha sido configurado correctamente,
+    tu ESP32 debería poder interactuar con cualquier monitor de ritmo cardiaco para, 
+    por ejemplo, Android. Para ello, utiliza las siguientes UUIDs:
+
+    * static const uint16_t GATTS_SERVICE_UUID_TEST      = 0x180D; //0x00FF;
+    * static const uint16_t GATTS_CHAR_UUID_TEST_A       = 0x2A37; //0xFF01;
+    * static const uint16_t GATTS_CHAR_UUID_TEST_B       = 0x2A38; //0xFF02;
+    * static const uint16_t GATTS_CHAR_UUID_TEST_C       = 0x2A39; //0xFF03;
+
+    Entrega el código modificado, así como evidencias (capturas de pantalla)
+    que demuestren que un cliente `gatttool` suscrito a notificaciones recibe, 
+    cada segundo, la actualización de ritmo cardíaco por parte del sensor.
 

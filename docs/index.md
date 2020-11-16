@@ -10,7 +10,7 @@
 | 3        |26/10|[WiFi. Conceptos avanzados (WiFi Mesh, provisionamiento y ahorro de energía)](RPI-I/P3/index.md) |
 |          |02/11|**FESTIVO**                                               |
 |          |09/11|**FESTIVO**                                               |
-| 4        |16/11|Bluetooth Low Energy                                      |
+| 4        |16/11|[Bluetooth Low Energy](RPI-I/P4/index.md)                 |
 | 5        |23/11|BLE Mesh                                                  |
 | 6        |30/11|6LowPAN (Simulación)                                      |
 |          |07/12|**FESTIVO**                                               |
