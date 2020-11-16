@@ -67,7 +67,6 @@ para la implementación del *firmware*:
 
 * ``bt.h``: implementa el controlador Bluetooth.
 * ``esp_bt_main.h``: implementa las rutinas de inicialización y activación de la pila Bluedroid.
-* ``esp_gap_ble_api.h``: implements GAP configuration such as advertising and connection parameters.
 * ``esp_gap_ble_api.h``: implementa la configuración GAP (parámetros de anuncios y conexión).
 * ``esp_gatts_api.h``: immplementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).
 
