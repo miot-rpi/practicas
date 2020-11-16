@@ -698,7 +698,8 @@ para recordar su dirección MAC.
     Edita el fichero `main/gatts_table_creat_demo.c` y modifica el nombre
     de tu dispositivo, que se anunciará en cada anuncio emitido en la fase
     de `advertising`. Para ello, debes modificar el valor de la macro
-    `SAMPLE_DEVICE_NAME`.
+    `SAMPLE_DEVICE_NAME` o (en tu caso) el campo correspondiente de la 
+    estructura `raw_adv_data`.
     A continuación, compila y flashea el ejemplo, y comienza una sesión de
     escaneado de dispositivos BLE mediante la orden:
     ```
