@@ -29,7 +29,7 @@
 | 6        |05/11|[MQTT (I)](RPI-II/P6/index.md)                |
 | 6        |12/11|[MQTT (II)](RPI-II/P6-II/index.md)            |
 | 7        |19/11|[CoAP](RPI-II/P7/index.md)                    |
-| 8        |26/11|LWM2M (I)                                     |
+| 8        |26/11|[LWM2M (I)](RPI-II/P8/index.md)               |
 | 8        |03/12|LWM2M (II)                                    |
 | 9        |10/12|Node-RED                                      |
 | 10       |17/12|Entornos Cloud / Frameworks IoT               |
