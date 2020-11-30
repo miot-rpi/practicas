@@ -496,4 +496,5 @@ El funcionamiento general del sistema es:
     del botón no sean **todos** los del modelo del **último** nodo provisonado, como ahora se hace, sino únicamente los
     datos de sensorización (*Sensor Data State*) de **todos**  los nodos provisionados. Así, si hay tres nodos provisionados,
     cada pulsación nos devolverá el valor de sensorización de uno de ellos, por orden de provisionamiento.
-    Además, opcionalmente, se pide que el valor sensorizado varíe aleatoriamente de forma periódica en el servidor, con una cadencia predeterminada (la modificación remota de la cadencia queda como ejercicio avanzado).
+    Como funcionalidad adicional, sólo se provisionará automáticamente a aquellos nodos autorizados (los que pertenecen a tu sala, por ejemplo).
+    Por últiom, opcionalmente, se pide que el valor sensorizado varíe aleatoriamente de forma periódica en el servidor, con una cadencia predeterminada (la modificación remota de la cadencia queda como ejercicio avanzado).
