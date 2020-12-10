@@ -157,11 +157,288 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#practica-9-node-red">Práctica 9. Node-RED</a></li>
+            <li><a href="#introduccion-y-objetivos">Introducción y objetivos</a></li>
+            <li><a href="#instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</a></li>
+            <li><a href="#ejemplo-1">Ejemplo 1</a></li>
+            <li><a href="#ejemplo-2">Ejemplo 2</a></li>
+            <li><a href="#cliente-mqtt-y-despliegue-de-un-panel-de-control">Cliente MQTT y despliegue de un panel de control</a></li>
+            <li><a href="#documentacion-adicional">Documentación adicional</a></li>
+            <li><a href="#ejercicio-entregable">Ejercicio entregable</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="practica-9-node-red">Práctica 9. Node-RED</h1></div>
+<h1 id="practica-9-node-red">Práctica 9. Node-RED</h1>
+<h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
+<p>Node-RED es una herramienta de código abierto desarrollada inicialmente por IBM 
+y que, estando orientada a flujos de datos, proporciona mecanismos para asociar
+dispositivos hardware, APIs y servicios online dentro de un ecosistema IoT. 
+Node-RED es una herramienta gráfica, utilizable desde cualquier navegador web, 
+que permite la cración y edición de flujos de datos que tomen datos de entrada 
+(mediante nodos de entrada), los procesen (mediante nodos de procesamiento) y 
+proporcionen salidas (mediante nodos de salida). 
+Todos los elementos, incluyendo flujos complejos definidos por el usuario, 
+pueden almacenarse en formato JSON para ser importados a continuación en otras 
+instalaciones. Node-RED permite la interconexión de elementos software y 
+hardware mediante virtualmente cualquier protocolo conocido, facilitando el 
+despliegue de infraestructuras IoT.</p>
+<p>El desarrollo de la práctica difiere sobre el utilizado en prácticas anteriores. 
+En este caso, el presente boletín únicamente incluye información e instrucciones
+para la instalación de la herramienta Node-RED en la máquina virtual del curso
+(alternativamente, es posible instalar Node-RED en cualquier máquina física), 
+así como la propuesta de ejercicio entregable a diseñar e implementar. 
+Se proporcionarán las explicaciones y demostraciones necesarias durante la 
+sesión de laboratorio para entender los conceptos básicos relativos a la 
+instalación y uso básico de la herramienta Node-RED. </p>
+<h2 id="instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</h2>
+<p>Para instalar Node-RED en la máquina virtual del curso, es suficiente con 
+utilizar el gestor <code>npm</code>:</p>
+<pre><code class="language-sh">sudo npm install -g --unsafe-perm node-red
+</code></pre>
+<p>Al finalzar, si todo ha ido bien, deberías observar una salida similar a la
+siguiente:</p>
+<pre><code class="language-sh">+ node-red@1.1.0
+added 332 packages from 341 contributors in 18.494s
+found 0 vulnerabilities
+</code></pre>
+<p>Para ejecutar Node-RED, una vez instalado, es posible utilizar la orden
+<code>node-red</code> desde cualquier terminal. Para detener el proceso, es suficiente
+con utilizar <code>Ctrl-C</code>:</p>
+<pre><code class="language-sh">$ node-red
+
+Welcome to Node-RED
+===================
+
+30 Jun 23:43:39 - [info] Node-RED version: v1.1.0
+30 Jun 23:43:39 - [info] Node.js  version: v10.21.0
+30 Jun 23:43:39 - [info] Darwin 18.7.0 x64 LE
+30 Jun 23:43:39 - [info] Loading palette nodes
+30 Jun 23:43:44 - [warn] rpi-gpio : Raspberry Pi specific node set inactive
+30 Jun 23:43:44 - [info] Settings file  : /Users/nol/.node-red/settings.js
+30 Jun 23:43:44 - [info] HTTP Static    : /Users/nol/node-red/web
+30 Jun 23:43:44 - [info] Context store  : 'default' [module=localfilesystem]
+30 Jun 23:43:44 - [info] User directory : /Users/nol/.node-red
+30 Jun 23:43:44 - [warn] Projects disabled : set editorTheme.projects.enabled=true to enable
+30 Jun 23:43:44 - [info] Creating new flows file : flows_noltop.json
+30 Jun 23:43:44 - [info] Starting flows
+30 Jun 23:43:44 - [info] Started flows
+30 Jun 23:43:44 - [info] Server now running at http://127.0.0.1:1880/red/
+</code></pre>
+<p>Con el <em>software</em> arrancado, es posible acceder al editor Node-RED a través
+de la dirección <code>http://localhost:1880</code> en cualquier navegador.</p>
+<p>Tras arrancarlo, observarás cuatro áreas en el editor:</p>
+<ol>
+<li>
+<p><strong>Barra principal</strong>, en la parte superior, con los botones <em>Deploy</em> y 
+de <em>Menú principal</em>.</p>
+</li>
+<li>
+<p><strong>Panel de nodos</strong>, en la parte
+izquierda, que proporciona acceso directo a todos los nodos
+disponibles en Node-RED. Es posible instalar nuevos nodos a través de 
+la Paleta de Nodos, disponible a través del menú principal (<em>Manage Palette</em>).
+Estos nodos pueden ser arrastrados al editor para conformar nuevos
+flujos de datos.</p>
+</li>
+<li>
+<p><strong>Panel de edición o espacio de trabajo</strong>, en la parte central de la pantalla, donde podrás
+arrastrar y unir nuevos nodos. Es posible crear nuevos flujos en pestañas
+independientes.</p>
+</li>
+<li>
+<p><strong>Panel de información</strong>, en la parte derecha de la pantalla, donde
+destaca el botón <em>Debug</em>, mediante el cual veremos la salida de los
+nodos de tipo <em>Debug</em> en nuestros flujos.</p>
+</li>
+</ol>
+<h2 id="ejemplo-1">Ejemplo 1</h2>
+<p>Se muestra a continuación un breve ejemplo básico de utilización del editor
+Node-RED, que incluye el uso de nodos <em>Inject</em>, <em>Debug</em> y <em>Function</em>.</p>
+<h3 id="nodo-inject">Nodo <em>Inject</em></h3>
+<p>El nodo <em>Inject</em> permite inyectar mensajes en un flujo, bien pulsando en 
+el botón asociado al nodo, o estableciendo un intervalo de tiempo entre
+inyecciones. Busca en el panel izquierdo un nodo de tipo <em>Inject</em> y 
+arrástralo al espacio de trabajo. En el panel de información podrás
+consultar los datos asociados al nodo, así como información de ayuda para 
+utilizarlo.</p>
+<h3 id="nodo-debug">Nodo <em>Debug</em></h3>
+<p>El nodo <em>Debug</em> permite que cualquier mensaje entrante se muestre en 
+el panel de depuración, en la parte derecha de la pantalla. Por defecto, 
+únicamente muestra el <em>payload</em> del mensaje, aunque puede configurarse
+para mostrar el objeto completo. Arrastra un nodo de tipo <em>Debug</em> al
+espacio de trabajo.</p>
+<h3 id="union-y-despliegue-deploy">Unión y despliegue (<em>Deploy</em>)</h3>
+<p>Conecta los nodos <em>Inject</em> y <em>Debug</em> estableciendo un enlace (<em>Wire</em>) entre
+ambos. Despliega el flujo usando el botón <em>Deploy</em> en la barra principal de
+Node-RED. Esto desplegará el fujo en el servidor. </p>
+<p>Selecciona la opción <em>Debug</em> en el panel de información, y presiona el
+botón del nodo <em>Inject</em>. Deberías ver números aparecer en el panel. Por
+defecto, el nodo <em>Inject</em> emite el número de milisegundos desde
+el 1 de enero de 1970 como <em>payload</em>.</p>
+<p>Modifica (temporalmente) el nodo <em>Debug</em> para que muestre todo el mensaje
+en lugar del <em>payload</em>. Despliega de nuevo el flujo y observa las diferencias.</p>
+<p>Vuelve a configurar el nodo <em>Debug</em> tal y como estaba cuando lo insertaste.</p>
+<h3 id="nodo-function">Nodo <em>Function</em></h3>
+<p>El nodo <em>Function</em> permite procesar el mensaje de entrada mediante una
+función JavaScript. Borra el <em>Wire</em> existente y añade un nodo <em>Function</em>
+entre los nodos <em>Inject</em> y <em>Debug</em>.</p>
+<p>Haz doble clic en el nuevo nodo para abrir el diálogo de edición. Copia el
+siguiente código en el campo <em>Function</em>:</p>
+<pre><code class="language-javascript">// Create a Date object from the payload
+var date = new Date(msg.payload);
+// Change the payload to be a formatted Date string
+msg.payload = date.toString();
+// Return the message so it can be sent on
+return msg;
+</code></pre>
+<p>Clica en <em>Done</em> y despliega el flujo. Observa que, ahora, los mensajes
+de depuración muestran marcas de tiempo en formato visible. Ten en cuenta
+que un nodo siempre recibe un mensaje (<em>msg</em>) de entrada y devuelve un 
+mensaje (<em>msg</em>) de salida. Ambos objetos contienen, por convenio, un 
+campo <em>payload</em>.</p>
+<p>Para más información sobre el uso de funciones y trabajo con mensajes, 
+incluyendo múltiples valores de retorno y trabajo con valores globales a 
+todo el entorno, se recomienda estudiar la siguiente documentación:</p>
+<ul>
+<li><strong>Trabajo con mensajes</strong>: <a href="https://nodered.org/docs/user-guide/messages">enlace a documentación</a>.</li>
+<li><strong>Trabajo con funciones</strong>: <a href="https://nodered.org/docs/user-guide/writing-functions">enlace a documentación</a>.</li>
+</ul>
+<h2 id="ejemplo-2">Ejemplo 2</h2>
+<h3 id="nodo-inject_1">Nodo <em>Inject</em></h3>
+<p>En el anterior ejemplo, vimos cómo crear un nodo <em>Inject</em> para activar el
+flujo cuando se pulsaba su botón asociado. En este ejemplo, vamos a configurar
+el nodo <em>Inject</em> para que active el flujo en intervalos regulares. </p>
+<p>Arrastra un nuevo nodo <em>Inject</em> en el espacio de trabajo. Clica en él dos
+veces y, en el diálogo de edición, usala opción <em>Repeat interval</em>, fijándolo
+en un intervalo regular. Cierra el diálogo de edición.</p>
+<h3 id="nodo-http-request">Nodo <em>HTTP Request</em></h3>
+<p>El nodo de tipo <em>HTTP Request</em> puede utilizarse para descargar una página web o
+recurso HTTP. Añade uno al espacio de trabajo, y edítalo para que su propiedad
+<em>URL</em> apunte a <code>https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.csv</code>.</p>
+<p>Esta URL es un repositorio de terremotos en el último mes, pulicado por 
+el organismo oficial correspondiente, devueltos en formato CSV.</p>
+<h3 id="nodo-csv">Nodo <em>CSV</em></h3>
+<p>Añade un nuevo nodo <em>CSV</em> y edita sus propiedades. Activa la opción 
+<em>First row contains column names</em> y finaliza la edición.</p>
+<h3 id="nodo-debug-y-cableado">Nodo <em>Debug</em> y cableado</h3>
+<p>Añade un nodo <em>Debug</em> y une los nodos creados:</p>
+<ul>
+<li>Conecta la salida del nodo <em>Inject</em> a la entrada del nodo <em>HTTP Request</em>.</li>
+<li>Conecta la salida del nodo <em>HTTP Request</em> a la entrada del nodo <em>CSV</em>.</li>
+<li>Conecta la salida del nodo <em>CSV</em> a la entrada del nodo <em>Debug</em>.</li>
+</ul>
+<h3 id="nodo-switch">Nodo <em>Switch</em></h3>
+<p>Añade un nodo <em>Switch</em> al espacio de trabajo. Edita sus propiedades y configuralo
+para comprobar la propiedad <code>msg.payload.mag</code>, usando la operación <code>&gt;=</code> sobre
+un valor numérico y el valor <code>6.2</code>, por ejemplo.</p>
+<p>Añade un segundo <em>Wire</em> entre el nodo <em>CSV</em> y el nodo <em>Switch</em>.</p>
+<h3 id="nodo-change">Nodo <em>Change</em></h3>
+<p>Añade un nodo <em>Change</em>, conectado a la salida del nodo <em>Switch</em>. Configuralo para
+establecer el valor de <code>msg.payload</code> a <code>ALARMA</code>.</p>
+<h3 id="nodo-debug_1">Nodo <em>Debug</em></h3>
+<p>Añade un nodo <em>Debug</em> y despliega el flujo.</p>
+<p>En el panel de <em>Debug</em>, deberás obsevar, para cada activación del nodo 
+<em>Inject</em>, una salida similar a esta:</p>
+<pre><code class="language-sh">msg.payload : Object
+{&quot;time&quot;:&quot;2017-11-19T15:09:03.120Z&quot;,&quot;latitude&quot;:-21.5167,&quot;longitude&quot;:168.5426,&quot;depth&quot;:14.19,&quot;mag&quot;:6.6,&quot;magType&quot;:&quot;mww&quot;,&quot;gap&quot;:21,&quot;dmin&quot;:0.478,&quot;rms&quot;:0.86,&quot;net&quot;:&quot;us&quot;,&quot;id&quot;:&quot;us2000brgk&quot;,&quot;updated&quot;:&quot;2017-11-19T17:10:58.449Z&quot;,&quot;place&quot;:&quot;68km E of Tadine, New Caledonia&quot;,&quot;type&quot;:&quot;earthquake&quot;,&quot;horizontalError&quot;:6.2,&quot;depthError&quot;:2.8,&quot;magError&quot;:0.037,&quot;magNst&quot;:72,&quot;status&quot;:&quot;reviewed&quot;,&quot;locationSource&quot;:&quot;us&quot;,&quot;magSource&quot;:&quot;us&quot;}
+</code></pre>
+<p>Puedes clicar en la pequeña flecha a la izquierda de cada propiedad para 
+expandirla y examinar sus contenidos. </p>
+<p>Si existe cualquier terremoto de magnitud mayor a <code>6.2</code>, observarás una
+salida adicional:</p>
+<pre><code class="language-sh">msg.payload : string(6)
+&quot;ALARMA&quot;
+</code></pre>
+<p>Para más información sobre los nodos básicos en Node-RED, puedes consultar:</p>
+<ul>
+<li><strong>The Core Nodes</strong>: <a href="https://nodered.org/docs/user-guide/nodes">enlace a documentación</a>.</li>
+</ul>
+<h2 id="cliente-mqtt-y-despliegue-de-un-panel-de-control">Cliente MQTT y despliegue de un panel de control</h2>
+<p>El nodo <em>MQTT in</em> permite realizar suscripciones a <em>topics</em> determinados en
+<em>brokers</em> MQTT. </p>
+<p>Arrastra un nuevo nodo <em>MQTT in</em> en tu espacio de trabajo y configura el 
+<em>broker</em> asociado a <em>localhost</em>, puerto por defecto. Establece un <em>topic</em>
+de interés. Conecta un nodo <em>Debug</em> y despliega el flujo.</p>
+<p>Desde tu consola, publica mensajes vía <em>mosquitto_pub</em> y comprueba que, efectivamente,
+son visibles en Node-RED.</p>
+<p>A continuación, crearemos un pequeño panel de control para la representación
+gráfica del valor publicado. En primer lugar, deberás instalar el 
+nodo <code>node-red-dashboard</code> desde el menú principal, opción 
+<em>Manage palette</em>. Tras su instalación, verás que aparecen nuevos nodos
+en el panel de nodos; éstos nos permitirán diseñar e implementar un panel
+de control básico basado en <em>Widgets</em>.</p>
+<p>Arrastra un nodo de tipo <em>Gauge</em> al espacio de trabajo, y configura sus valores
+por defecto. Conecta la salida de tu nodo <em>MQTT in</em> a la entrada del nuevo
+nodo <em>Gauge</em>.</p>
+<p>Despliega el flujo, y navega hasta <code>http://localhost:1880/ui</code>, donde deberás
+observar el panel de control con el <em>widget</em> que has creado. Interactúa con
+él publicando mensajes vía MQTT.</p>
+<p>Para más información sobre el despliegue de paneles de control, puedes
+consultar:</p>
+<ul>
+<li><strong>Node-Red-Dashboard</strong>: <a href="https://flows.nodered.org/node/node-red-dashboard">enlace a documentación</a>.</li>
+</ul>
+<h2 id="documentacion-adicional">Documentación adicional</h2>
+<p>Las guías de usuario oficiales de Node-RED son un buen punto de partida para 
+profundizar en el uso de la infraestructura. De entre ellas, la parte más 
+importante para comenzar es la que introduce los conceptos básicos de
+Node-RED, incluyendo el trabajo con nodos, flujos, contexto (importante
+para trabajar con valores globales y compartidos por todos los nodos en un 
+flujo, por ejemplo), mensajes, <em>wires</em>, etc.:</p>
+<ul>
+<li><strong>Node-RED Concepts</strong>: <a href="https://nodered.org/docs/user-guide/concepts">enlace a documentación</a>.</li>
+</ul>
+<p>La guía <em>Node-RED Guide</em> contiene interesante documentación adicional/avanzada
+tanto en el despliegue de flujos como en el uso de paneles de control locales
+o usando servicios remotos (por ejemplo, <em>Freeboard</em>):</p>
+<ul>
+<li><strong>Node-RED Guide</strong>: <a href="http://noderedguide.com">enlace a documentación</a>.</li>
+</ul>
+<h2 id="ejercicio-entregable">Ejercicio entregable</h2>
+<p>Se pide estudiar la documentación asociada a Node-RED, tanto en su web
+oficial como en la guía de programación <em>Node-RED Guide</em> (específicamente sus 
+cuatro primeras partes. 
+Junto con la explicación proporcionada por el profesor y los anteriores 
+ejemplos, este estudio permitirá el desarrollo de la práctica.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>La práctica consiste en el diseño y desarrollo de un sistema basado en 
+flujos de datos construido sobre Node-RED, que implemente un mecanismo de 
+monitorización de parámetros ambientales (por ejemplo, temperatura) y 
+notificación (alarmas) ante ciertas circunstancias (por ejemplo, superar una 
+determinada temperatura fijada como umbral).  </p>
+<p>Los alumnos diseñarán el sistema y lo implementarán, cumpliendo las siguientes premisas:</p>
+<ul>
+<li>
+<p><strong>(2 puntos)</strong>. El sistema utilizará, <strong>al menos</strong>, un dispositivo externo 
+(ESP32, SensorTag, Teléfono Móvil, ...) para la recolección de datos. 
+Se valorará el uso de más de un dispositivo.</p>
+</li>
+<li>
+<p><strong>(2 puntos)</strong>. El sistema depositará o interactuará con, <strong>al menos</strong>, 
+un sistema externo (servidor de correo, Twitter, Telegram, IBM Bluemix, ...). </p>
+</li>
+<li>
+<p><strong>(2 puntos)</strong>. El sistema depositará los datos observados en algún medio 
+persistente (Base de Datos no relacional, ficheros, ...) para permitir 
+su posterior análisis y en un panel de control.</p>
+</li>
+<li>
+<p><strong> (2 puntos)</strong>. El sistema actuará como un sistema de alarma únicamente 
+ante ciertas condiciones de entrada (por ejemplo, al recibir un valor desde 
+un sensor superior a un umbral establecido; dicho valor podría, por ejemplo,
+configurarse vía MQTT o a través de un panel de control).</p>
+</li>
+<li>
+<p><strong>(2 puntos)</strong>. El sistema utilizará, al menos, un tipo de nodo no 
+instalado por defecto en la instalación básica de Node-RED.</p>
+</li>
+</ul>
+<p>Se entregará el fichero o ficheros JSON que describen los nodos, así como 
+una breve memoria que describa el sistema diseñado y el trabajo realizado, 
+haciendo hincapié en las dificultades encontradas y aquellos aspectos que se 
+consideren de interés por parte del alumno/a. </p>
+</div></div>
         </div>
 
         <footer class="col-md-12">
