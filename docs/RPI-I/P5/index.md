@@ -497,4 +497,4 @@ El funcionamiento general del sistema es:
     datos de sensorización (*Sensor Data State*) de **todos**  los nodos provisionados. Así, si hay tres nodos provisionados,
     cada pulsación nos devolverá el valor de sensorización de uno de ellos, por orden de provisionamiento.
     Como funcionalidad adicional, sólo se provisionará automáticamente a aquellos nodos autorizados (los que pertenecen a tu sala, por ejemplo).
-    Por últiom, opcionalmente, se pide que el valor sensorizado varíe aleatoriamente de forma periódica en el servidor, con una cadencia predeterminada (la modificación remota de la cadencia queda como ejercicio avanzado).
+    Por último, opcionalmente, se pide que el valor sensorizado varíe aleatoriamente de forma periódica en el servidor, con una cadencia predeterminada (la modificación remota de la cadencia queda como ejercicio avanzado).
