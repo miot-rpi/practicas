@@ -156,12 +156,342 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-10-frameworks-iot-cloud">Práctica 10. Frameworks IoT. Cloud</a></li>
+        <li class="main active"><a href="#practica-10-frameworks-iot-y-cloud">Práctica 10. Frameworks IoT y Cloud</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#preparacion-del-firmware-en-el-esp32">Preparación del firmware en el ESP32</a></li>
+            <li><a href="#configuracion-de-microsoft-azure">Configuración de Microsoft Azure</a></li>
+            <li><a href="#despliegue-de-un-cliente-mqtt-en-el-esp32">Despliegue de un cliente MQTT en el ESP32</a></li>
+            <li><a href="#visualizacion-de-datos-en-microsoft-powerbi">Visualización de datos en Microsoft PowerBI</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="practica-10-frameworks-iot-cloud">Práctica 10. Frameworks IoT. Cloud</h1></div>
+<h1 id="practica-10-frameworks-iot-y-cloud">Práctica 10. Frameworks IoT y Cloud</h1>
+<h2 id="objetivos">Objetivos</h2>
+<p>La práctica presenta los pasos esenciales que permiten hacer interactuar un
+dispositivo (ESP32) con una infraestructura IoT en la nube. Aunque en este
+caso utilizaremos Microsoft Azure, los pasos tanto en configuración remota
+como a nivel de nodo son muy similares a los que deberías seguir para otras
+infraestructuras (Amazon AWS, Google IoT Core, Aliyun IoT, Tencent Iot o 
+cualquier otro). La documentación de IDF proporciona ejemplos detallados 
+para cada uno.</p>
+<p>El objetivo de la práctica es desplegar un sistema de monitorización remota
+en Microsoft Power BI, que permita visualizar datos de telemetría emitidos
+vía MQTT por el dispositivo a través de un <em>gateway</em> en la nube (llamado en
+el caso de Azure <em>IoT Hub</em>).</p>
+<h2 id="introduccion">Introducción</h2>
+<p>El SDK ESP Azure IoT es una infraestructura basada en 
+el SDK de Azure par IoT con soporte para C
+(<a href="https://github.com/Azure/azure-iot-sdk-c">azure-iot-sdk-c</a>) portado
+sobre ESP-IDF para dar soporte al ESP32. Además, proporciona un conjunto
+de ejemplos que permiten observar y simplificar el proceso de configuración
+y conexión al <em>framework</em> Azure IoT Hub.</p>
+<h2 id="preparacion-del-firmware-en-el-esp32">Preparación del <em>firmware</em> en el ESP32</h2>
+<p>En la presente práctica utilizarás una placa ESP32 que actuará como cliente
+ESP32, con un <em>firmware</em> personalizado que implementa la lógica de conexión
+e interacción con Azure. En primer lugar:</p>
+<ol>
+<li>
+<p>Configura una instalación de ESP IDF tal y como has hecho en prácticas 
+anteriores. Si ya la has configurado y es funcional, no es necesario ninguna
+reinstalación ni reconfiguración.</p>
+</li>
+<li>
+<p>En un directorio independiente, clona el repositorio de 
+<em>ESP Azure</em> (fíjate en la opción <code>--recursive</code>, que es imprescindible):</p>
+</li>
+</ol>
+<pre><code class="sh">git clone --recursive https://github.com/espressif/esp-azure.git
+</code></pre>
+
+<h2 id="configuracion-de-microsoft-azure">Configuración de Microsoft Azure</h2>
+<p>Los siguientes pasos requieren el uso de una cuenta creada con Microsoft
+Azure. Los estudiantes UCM pueden adherirse al programa académico, que 
+otorga suficiente crédito para realizar este tipo de prácticas. Asegúrate
+de acceder al <a href="https://portal.azure.com">portal de MS Azure</a> y utilizar tu
+usuario y credenciales UCM para ello. </p>
+<h3 id="creacion-de-un-centro-de-iot-iot-hub">Creación de un Centro de IoT (<em>IoT Hub</em>)</h3>
+<p>En la página principal de Azure, selecciona la opción "Crear un Recurso"
+(en el menú de la parte superior izquierda de la pantalla)
+y a continuaición selecciona <em>IoT Hub</em> en cuadro "Buscar en Marketplace".</p>
+<p>Selecciona <em>Iot Hub</em> en los resultados de la búsqueda, y a continuación
+"Crear".</p>
+<p>En la pestaña <em>Aspectos Básicos</em>, completa los campos de la siguiente forma:</p>
+<ul>
+<li><strong>Suscripción</strong>: selecciona la suscripción que desees usar (por defecto, debería
+aparecer <em>Azure para estudiantes</em>).</li>
+<li><strong>Grupo de recursos</strong>: crea un nuevo grupo de recursos seleccionando la opción 
+<em>Crear nuevo</em>, y otórgale el nombre que desees, por ejemplo <code>MIOTGROUP</code>.</li>
+<li><strong>Región</strong>: selecciona la región más cercana a ti (por ejemplo, <em>Oeste de Europa</em>).</li>
+<li><strong>Nombre</strong>: por último, da un nombre al <em>hub</em>, por ejemplo <code>MIOTHUB</code>.</li>
+</ul>
+<p>Deja los parámetros por defecto en la pestaña <em>Redes</em>, y elige como 
+<em>Nivel de precios</em> F1 en la pestaña <em>Administración</em>. Asigna las etiquetas que
+desees y finalmente confirma la creación del <em>Centro de IoT</em>. Si todo ha ido
+bien, verás un resumen del recurso creado y podrás acceder a él 
+pinchando en <em>"Ir al recurso"</em>. Verás una pantalla similar a la siguiente:</p>
+<p><img alt="" src="img/00_IoT_Hub_Created.png" /></p>
+<p>En la sección de <em>Configuración</em>, elige <em>Directivas de acceso compartido</em>
+y crea una nueva directiva llamada, por ejemplo <code>MIOTPOLICY</code>, con permisos 
+de lectura y escritura en Registro, y conexión de servicios y dispositivos.</p>
+<p><img alt="" src="img/01_policy.png" /></p>
+<p>Las políticas de <em>lectura y escritura en registro</em> otorgan derechos
+de acceso al registro de indentidades de Azure. Estos permisos serán
+utilizados por servicios de <em>back-end</em> para gestionar las identidades
+de dispositivos, por ejemplo.
+La política de <em>conexión de servicio</em> otorga permisos para acceder
+a <em>endpoints</em> de servicio. Los servicios de <em>back-end</em> podrán enviar
+y recibir mensajes de dispositivos.
+La política de <em>conexión de dispositivo</em> otorga permisos para enviar
+y recibir mensajes usando el <em>IoT Hub</em>. </p>
+<p>Una vez creada, selecciónala y copia la <em>Cadena de conexión principal (clave principal)</em>
+que aparece en pantalla. No es necesario que la muestres, puedes usar el
+botón de copia directamente. <strong>Apunta esta cadena en un fichero de texto.
+Esta es la clave de acceso para el Hub</strong>.</p>
+<h3 id="registro-de-un-nuevo-dispositivo">Registro de un nuevo dispositivo</h3>
+<p>A continuación, crearemos una nueva identidad de dispositivo  en el
+Registro de Identidades del <em>hub</em> IoT que acabas de crear. Para ello:</p>
+<ol>
+<li>
+<p>En el menú de navegación, abre la opción <em>"Dispositivos de IoT"</em>
+y selecciona <em>Nuevo</em> para crear un nuevo dispositivo.</p>
+</li>
+<li>
+<p>Dale el nombre que quieras (por ejemplo MIOTDEVICE), pero recuérdalo, 
+y selecciona <em>Guardar</em>.</p>
+</li>
+<li>
+<p>Una vez creado, selecciónalo y copia la <em>Cadena de conexión principal</em>
+que aparece en pantalla. No es necesario que la muestres, puedes usar el
+botón de copia directamente. <strong>Apunta esta cadena en un fichero de texto.
+Esta es la clave de acceso para el dispositivo</strong>.</p>
+</li>
+</ol>
+<h3 id="instalacion-de-el-cliente-azure">Instalación de el cliente Azure</h3>
+<p>Para instalar el cliente Azure en Linux, usa la orden:</p>
+<pre><code class="sh">curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+</code></pre>
+
+<p>Tienes más opciones de instalación en la <a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt">página</a>.</p>
+<p>Una vez instalado, desde tu terminal, ejecuta el comando
+<code>az</code> para comprobar que la instalación fue correcta. Deberías
+ver una salida similar a esta:</p>
+<pre><code class="sh">az
+
+Welcome to Azure CLI!
+---------------------
+Use `az -h` to see available commands or go to https://aka.ms/cli.
+...
+</code></pre>
+
+<p>Instala la extensión del cliente para Azure IoT:</p>
+<pre><code class="sh">az extension add --name azure-cli-iot-ext
+</code></pre>
+
+<p>Ingresa en el sistema ejecutando (se te pedirá autenticación en 
+navegador, introduce tus credenciales):</p>
+<pre><code class="sh">az login
+</code></pre>
+
+<p>Para usar el cliente como método de creación de un dispositivo, puedes
+utilizar la siguiente orden:</p>
+<pre><code class="sh">az iot hub device-identity create -n [IoTHub Name] -d [Device ID]
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Crea un nuevo dispositivo, distinto al que creaste anteriormente, en
+tu hub. Después, obtén su cadena de conexión usando la orden 
+<code>az iot hub device-identity show-connection-string -n [IoTHub Name] -d [Device ID]</code>. Comprueba que, efectivamente, la creación del dispositivo es</p>
+</div>
+<p>visible en la plataforma web.</p>
+<h3 id="monitorizacion-de-valores-de-telemetria-del-dispositivo-y-eventos">Monitorización de valores de telemetría del dispositivo y eventos</h3>
+<p>Para observar los datos intercambiados entre el dispositivo y el <em>hub</em>
+IoT desde línea de ocmandos, puedes usar la orden:</p>
+<pre><code class="sh">az iot hub monitor-events -n [IoTHub Name] --login 'cadena de conexion'
+</code></pre>
+
+<p>(Ten en cuenta que las comillas simples deben estar presentes).</p>
+<h2 id="despliegue-de-un-cliente-mqtt-en-el-esp32">Despliegue de un cliente MQTT en el ESP32</h2>
+<p>Dirígete al ejemplo situado en el directorio 
+<code>examples/iothub_client_sample_mqtt</code>. En él, vamos a trabajar con cualquiera
+de los dos dispositivos que has creado en tu <em>Hub</em>. En cualquier caso,
+muestra su <em>cadena de conexión principal</em>. Deberás ver un valor 
+de devolución de tipo:</p>
+<pre><code class="json">{
+  &quot;connectionString&quot;: &quot;HostName=&lt;azure-iot-hub-name&gt;.azure-devices.net;DeviceId=&lt;azure-iot-device-id&gt;;SharedAccessKey=&lt;base64-encoded-shared-access-key&gt;&quot;
+}
+</code></pre>
+
+<p>Deberás apuntar (copiar) únicamente la parte que comienza por 
+<em>HostName=...</em>, hasta el final de la cadena. No incluyas las comillas
+dobles.</p>
+<p>Ejecuta <code>make menuconfig</code>. En el menú <em>Example Configuration</em>, 
+configura las credenciales de acceso a tu red WiFi, así como la 
+cadena de conexión que copiaste en la opción
+<em>IOT Hub Device Connection String</em>.</p>
+<p>A continuación, ejecuta la orden de compilación, <em>flasheado</em> y
+monitorización:</p>
+<pre><code class="sh">make flash monitor
+</code></pre>
+
+<p>En una ventana separada, puedes monitorizar los eventos IoT
+en tu <em>hub</em> usando su cadena de conexión:</p>
+<pre><code class="sh">az iot hub monitor-events -n [IoTHub Name] --login 'Cadena de conexión primaria'
+</code></pre>
+
+<p>Una vez arrancado y conectado a Internet el dispositivo comenzará a
+publicar mensajes MQTT. El monitor que has lanzado los mostrará como:</p>
+<pre><code class="json">{
+    &quot;event&quot;: {
+        &quot;origin&quot;: &quot;&lt;azure-iot-device-id&gt;&quot;,
+        &quot;payload&quot;: &quot;{\&quot;deviceId\&quot;:\&quot;MIOTDEVICE\&quot;,\&quot;windSpeed\&quot;:13.00,\&quot;temperature\&quot;:22.00,\&quot;humidity\&quot;:67.00}&quot;
+    }
+}
+</code></pre>
+
+<p>Observa que incluye tres valores: velocidad del viento, temperatura y humedad.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Analiza el código y observa, en la tarea principal, el uso que hace
+de la API de Azure SDK C, así como el punto en el que genera el  <br />
+mensaje MQTT (y sus valores).</p>
+</div>
+<p>También es posible enviar mensajes al dispositivo directamente desde
+línea de comandos (observa que estos mensajes se envían vía red, no 
+vía puerto serie, a través del <em>Hub</em>). Por tanto, puedes hacerlo desde
+cualquier punto, no obligatoriamente desde tu PC:</p>
+<pre><code class="sh">az iot device c2d-message send -d [Device Id] -n [IoTHub Name] --data [Data_to_Send]
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Si todo ha ido bien, en este punto deberías estar observando cada uno de los mensajes enviados por tu ESP32 al <em>hub</em> desde el monitor.</p>
+</div>
+<h2 id="visualizacion-de-datos-en-microsoft-powerbi">Visualización de datos en Microsoft PowerBI</h2>
+<p>En esta parte, el objetivo es visualizar los datos enviados por tu sensor (temperatura, humedad y 
+velocidad del viento, en la herramienta de visualización PowerBI de Microsoft. Aunque PowerBI suele
+utilizarse en entornos de inteligencia de negocio, resulta también útil para reportar datos de cualquier
+elemento de Azure, incluido el <em>IoT Hub</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Necesitarás una cuenta de acceso gratuita a PowerBI, que puedes crear con tus credenciales de usuario UCM
+directamente en la <a href="https://powerbi.microsoft.com">página del producto</a>.</p>
+</div>
+<h3 id="adicion-de-un-grupo-de-consumidores">Adición de un grupo de consumidores</h3>
+<p>Los grupos de consumidores proporcionan vistas independientes en la secuencia de eventos que permiten a las aplicaciones y a los servicios de Azure consumir datos de forma independiente desde el mismo punto de conexión del centro de eventos. 
+Vamos a agregar un grupo de consumidores al punto de conexión integrado de tu instancia de <em>IoT Hub</em> que se usará posteriormente para extraer datos del punto de conexión.</p>
+<p>Para agregar un grupo de consumidores a su centro de IoT, sigue estos pasos:</p>
+<ol>
+<li>
+<p>En el portal de Azure, abre tu <em>IoT Hub</em>.</p>
+</li>
+<li>
+<p>En el panel izquierdo, selecciona <em>Puntos de Conexión Integrados</em>, luego
+<em>Eventos</em> en el panel superior derecho, y escribe un nombre en <em>Grupos de consumidores</em> (por ejemplo,
+<code>MIOTGROUP</code>). A continuación, selecciona <em>Guardar</em>.</p>
+</li>
+</ol>
+<h3 id="creacion-configuracion-y-ejecucion-de-un-trabajo-de-stream-analytics">Creación, configuración y ejecución de un trabajo de <em>Stream Analytics</em></h3>
+<p>Comencemos creando un trabajo de <em>Stream Analytics</em>. Después de crear el trabajo, 
+definiremos las entradas, las salidas y la consulta que se usará para recuperar los datos.</p>
+<h4 id="creacion-de-un-trabajo-de-stream-analytics">Creación de un trabajo de Stream Analytics</h4>
+<ol>
+<li>
+<p>En el portal de Azure, selecciona <em>Crear un recurso -&gt; Internet de las Cosas -&gt; Stream Analytics Job</em>.</p>
+</li>
+<li>
+<p>Escribe la siguiente información para el trabajo:</p>
+<ul>
+<li><strong>Nombre del trabajo</strong>: Nombre que se asigna al trabajo; debe ser único (por ejemplo, <code>MIOTJOB</code>).</li>
+<li><strong>Grupo de recursos</strong>: Usa el mismo grupo de recursos que definiste para el centro de IoT (por ejemplo, <code>MIOTGROUP</code>).</li>
+<li><strong>Ubicación</strong>: Usa la misma que para el grupo de recursos.</li>
+</ul>
+</li>
+<li>
+<p>Selecciona <em>Crear</em>.</p>
+</li>
+</ol>
+<h4 id="adicion-de-una-entrada-al-trabajo-de-stream-analytics">Adición de una entrada al trabajo de Stream Analytics</h4>
+<ol>
+<li>Abre el trabajo de <em>Stream Analytics</em>.</li>
+<li>En <em>Topología de trabajo</em>, selecciona <em>Entradas</em>.</li>
+<li>
+<p>En el panel <em>Entradas</em>, selecciona <em>Agregar entrada de flujo</em>, y a continuación, selecciona
+<em>IoT Hub</em> en la lista desplegable. En el panel de la nueva entrada, escribe la siguiente información:</p>
+<ul>
+<li><strong>Alias de entrada</strong>: Un alias único para la entrada (por ejemplo, <code>MIOTINPUT</code>).</li>
+<li><strong>Seleccionar centro de IoT de entre las suscripciones</strong>: Selecciona esta opción.</li>
+<li><strong>Suscripción</strong>: Usa la suscripción que has utilizado en el resto de la práctica.</li>
+<li><strong>IoT Hub</strong>: Selecciona la instancia de tu <em>Hub IoT</em> tal y como has hecho en el resto de la práctica.</li>
+<li><strong>Punto de Conexión</strong>: Selecciona <em>Mensajería</em>.</li>
+<li><strong>Nombre de la directiva de acceso compartido</strong>: Selecciona  el nombre de la directiva de acceso compartido que quieras que utilice el trabajo de Stream Analytics para tu centro de IoT. Para esta práctica, puedes seleccionar <em>service</em>. La directiva <em>service</em> se crea de forma predeterminada en los centros de IoT nuevos y concede permiso de envío y recepción para los puntos de conexión de la nube que expone el centro de IoT. </li>
+<li><strong>Clave de directiva de acceso compartido</strong>: Se rellena automáticamente en función del nombre de directiva de acceso compartido.</li>
+<li><strong>Grupo de consumidores</strong>: Selecciona el gruop de consumidores que se creó anteriormente.</li>
+</ul>
+</li>
+</ol>
+<p>El resto de campos pueden dejarse en sus valores predeterminados. Finalmente, selecciona <em>Guardar</em>.</p>
+<h4 id="adicion-de-una-salida-al-trabajo-de-stream-analytics">Adición de una salida al trabajo de Stream Analytics</h4>
+<ol>
+<li>
+<p>En Topología de trabajo, selecciona <em>Salidas</em>.</p>
+</li>
+<li>
+<p>En el panel <em>Salidas</em>, selecciona <em>Agregar</em> y <em>Power BI</em>.</p>
+</li>
+<li>
+<p>En el panel <em>Power BI: Nueva salida panel</em>, selecciona <em>Autorizar</em> y sigue las indicaciones para iniciar sesión en tu cuenta de Power BI.</p>
+</li>
+<li>
+<p>Una vez que hayas iniciado sesión en Power BI, escribe la siguiente información:</p>
+<ul>
+<li><strong>Alias de salida</strong>: alias único para la salida, por ejemplo <code>MIOTOUTPUT</code>.</li>
+<li><strong>Área de trabajo de grupo</strong>: selecciona el área de trabajo de grupo de destino.</li>
+<li><strong>Nombre del conjunto de datos</strong>: escribe un nombre para el conjunto de datos, por ejemplo <code>MIOTDATASET</code>.</li>
+<li><strong>Nombre de la tabla</strong>: Escribe un nombre de tabla, por ejemplo <code>MIOTTABLE</code>.</li>
+<li><strong>Modo de autenticación</strong>: Deja la opción predeterminada.</li>
+</ul>
+</li>
+</ol>
+<h4 id="configuracion-de-la-consulta-del-trabajo-de-stream-analytics">Configuración de la consulta del trabajo de Stream Analytics</h4>
+<ol>
+<li>En <em>Topología de trabajo</em>, selecciona <em>Consulta</em>.</li>
+<li>Reemplaza <em>[YourInputAlias]</em> por el alias de entrada del trabajo.</li>
+<li>Reemplaza <em>[YourOutputAlias]</em> por el alias de salida del trabajo.</li>
+<li>Selecciona <em>Guardar consulta</em>.</li>
+</ol>
+<h4 id="ejecucion-del-trabajo-de-stream-analytics">Ejecución del trabajo de Stream Analytics</h4>
+<p>En el trabajo de <em>Stream Analytics</em>, selecciona 
+<em>Información general</em> y, a continuación, elige <em>Iniciar-&gt;Ahora-&gt;Iniciar</em>. Una vez que el trabajo se inicia
+correctamente, su estado cambia de <em>Detenido</em> a <em>En ejecución</em>.</p>
+<h3 id="creacion-y-publicacion-de-un-informe-de-power-bi-para-visualizar-los-datos">Creación y publicación de un informe de Power BI para visualizar los datos</h3>
+<p>En los pasos siguientes se muestra cómo crear y publicar un informe mediante el servicio Power BI: </p>
+<ol>
+<li>Asegúrate de que la aplicación (tu ESP32) está ejecutándose.</li>
+<li>Inicia sesión en Power BI.</li>
+<li>Selecciona tu área de trabajo (<em>workspace</em>).</li>
+<li>Selecciona <em>Conjunto de datos</em> usando el conjunto de datos que creaste en pasos anteriores (corresponde al que creaste en el momento de crear la salida para el trabajo de <em>Stream Analytics</em>.</li>
+<li>Para dicho conjunto de datos, selecciona <em>Agregar Informe</em> (el primer icono a la derecha del nombre del conjunto de datos. </li>
+<li>Crea un gráfico de líneas para mostrar la temperatura en tiempo real en un período determinado. Para ello:<ul>
+<li>En el panel <em>Visualizaciones</em> de la página de creación de informes, selecciona el icono de gráfico de líneas para agregar un gráfico de líneas.</li>
+<li>En el panel <em>Campos</em>, expande la tabla que especificó en el momento de crear la salida para el trabajo de <em>Stream Analytics</em>.</li>
+<li>Arrastra <em>EventEnqueuedUtcTime</em> (Hora UTC de evento en cola) al Eje en el panel Visualizaciones.</li>
+<li>Arrastra <em>temperature</em> (temperatura) a <em>Valores</em>.</li>
+</ul>
+</li>
+</ol>
+<p>Se ha creado un gráfico de líneas. El eje X muestra la fecha y hora en la zona horaria UTC. El eje Y muestra la temperatura del sensor:</p>
+<p><img alt="" src="img/powerbi_finish.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Añade ahora información sobre humedad y velocidad del viento y refresca (actualiza) la visualización.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>En esta práctica, simplemente se pide que entregues alguna evidencia (por ejemplo, una captura de pantalla con tu ESP32 femitiendo eventos y una captura simultánea de PowerBI mostrándolos) del correcto funcionamiento de los pasos listados. Opcionalmente, se puede añadir, como información emitida desde el ESP32, valores reales de temperatura obtenidos desde un sensor en el ESP32.</p>
+</div></div>
         </div>
 
         <footer class="col-md-12">
