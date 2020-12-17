@@ -183,8 +183,9 @@ Linux, y requieren la instalación de los paquetes de desarrollo WolfSSL. </p>
 <p>Para realizar la instalación, ejecuta en tu máquina virtual (esta línea
 podría cambiar si usas otra distribución de Linux, en cuyo caso deberás
 buscar los paquetes equivalentes):</p>
-<pre><code class="language-sh">sudo apt-get install libwolfssl-dev libwolfssl24
+<pre><code class="sh">sudo apt-get install libwolfssl-dev libwolfssl24
 </code></pre>
+
 <p>Una vez hecho esto, prueba a realizar la compilación tanto del ejemplo
 TLS como DTLS utilizando la orden <code>make</code> en el directorio correspondiente. Si
 todo ha ido bien, puedes continuar con el análisis de los códigos en la 
@@ -195,31 +196,35 @@ siguiente sección.</p>
 observa el contenido del fchero <code>tls/server-tls.c</code>.</p>
 <h3 id="cabeceras-y-constantes">Cabeceras y constantes</h3>
 <p>El uso de WolfSSL requiere la inclusión de dos cabeceras básicas:</p>
-<pre><code class="language-c">#include &lt;wolfssl/options.h&gt;
+<pre><code class="c">#include &lt;wolfssl/options.h&gt;
 #include &lt;wolfssl/ssl.h&gt;
 </code></pre>
+
 <p>Además, ya que serán necesarios en el desarrollo, definiremos las rutas al
 certificado (clave pública) del servidor y su clave privada:</p>
-<pre><code class="language-c">#define CERT_FILE &quot;../certs/server-cert.pem&quot;
+<pre><code class="c">#define CERT_FILE &quot;../certs/server-cert.pem&quot;
 #define KEY_FILE  &quot;../certs/server-key.pem&quot;
 </code></pre>
+
 <p>Observa además que el puerto de escucha del servidor será el <code>11111</code>.</p>
 <h3 id="objetos-basicos-wolfssl-contexto-y-objeto-ssl">Objetos básicos WolfSSL. Contexto y objeto SSL</h3>
 <p>Definiremos dos objetos básicos que se utilizarán de forma recurrente
 en el código:</p>
-<pre><code class="language-c">WOLFSSL_CTX* ctx;
+<pre><code class="c">WOLFSSL_CTX* ctx;
 WOLFSSL*     ssl;
 </code></pre>
+
 <p>El contexto (<code>ctx</code>) incluye valores globales para cada conexión SSL, incluyendo
 información sobre certificados. Es posible utilizar un mismo contexto para 
 múltiples conexiones, siempre que compartan características. Para crear un 
 nuevo contexto, utilizaremos la función <code>wolfSSL_CTX_new</code> como sigue:</p>
-<pre><code class="language-c">/* Create and initialize WOLFSSL_CTX */
+<pre><code class="c">/* Create and initialize WOLFSSL_CTX */
 if ((ctx = wolfSSL_CTX_new(wolfTLSv1_2_server_method())) == NULL) {
   fprintf(stderr, &quot;ERROR: failed to create WOLFSSL_CTX\n&quot;);
   return -1;
 }
 </code></pre>
+
 <p>El argumento proporcionado incluye información sobre la versión de protocolo
 a utilizar. Actualmente, WolfSSL soporta SSL 3.0,
 TLS 1.1, TLS 1.2,  DTLS 1.0 y DTLS 1.2. En este caso, para la parte cliente,
@@ -236,7 +241,7 @@ las funciones a utilizar como argumento serían:</p>
 en el contexto, para que cualquier cliente pueda verificar, en el momento de
 su conexión, la identidad del sevidor. Para ello, usamos la función
 <code>wolfSSL_CTX_use_certificate_file</code> de la siguiente manera:</p>
-<pre><code class="language-c">/* Load server certificates into WOLFSSL_CTX */
+<pre><code class="c">/* Load server certificates into WOLFSSL_CTX */
 if (wolfSSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM)
         != SSL_SUCCESS) {
   fprintf(stderr, &quot;ERROR: failed to load %s, please check the file.\n&quot;,
@@ -244,8 +249,9 @@ if (wolfSSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM)
   return -1;
 }
 </code></pre>
+
 <p>Del mismo modo, el servidor deberá incluir su clave privada en formato PEM:</p>
-<pre><code class="language-c">/* Load server key into WOLFSSL_CTX */
+<pre><code class="c">/* Load server key into WOLFSSL_CTX */
 if (wolfSSL_CTX_use_PrivateKey_file(ctx, KEY_FILE, SSL_FILETYPE_PEM)
         != SSL_SUCCESS) {
   fprintf(stderr, &quot;ERROR: failed to load %s, please check the file.\n&quot;,
@@ -253,13 +259,14 @@ if (wolfSSL_CTX_use_PrivateKey_file(ctx, KEY_FILE, SSL_FILETYPE_PEM)
   return -1;
 }
 </code></pre>
+
 <p>A continuación, observa como el código de escucha y aceptación de conexiones
 entrantes no difier de cualquier código que hayas desarrollado previamente
 para aceptar conexiones entrantes TCP (<code>bind</code>, + <code>listen</code> + <code>accept</code>).</p>
 <p>Justo tras la conexión (<code>accept</code>), resulta necesario crear un nuevo objeto
 SSL, así como asociar el descriptor de socket con la nueva sesión (conexión)
 TLS:</p>
-<pre><code class="language-c">/* Create a WOLFSSL object */
+<pre><code class="c">/* Create a WOLFSSL object */
 if ((ssl = wolfSSL_new(ctx)) == NULL) {
   fprintf(stderr, &quot;ERROR: failed to create WOLFSSL object\n&quot;);
   return -1;
@@ -276,21 +283,24 @@ if (ret != SSL_SUCCESS) {
   return -1;
 }
 </code></pre>
+
 <p>A partir de este punto, podemos enviar y recibir datos a través del socket
 (y por tanto de la conexión TLS) de forma muy similar a como lo hacemos 
 con el enfoque clásico. Así, para recibir datos:</p>
-<pre><code class="language-c">if (wolfSSL_read(ssl, buff, sizeof(buff)-1) == -1) {
+<pre><code class="c">if (wolfSSL_read(ssl, buff, sizeof(buff)-1) == -1) {
   fprintf(stderr, &quot;ERROR: failed to read\n&quot;);
   return -1;
 }
 </code></pre>
+
 <p>Y para enviar datos de vuelta:</p>
-<pre><code class="language-c">/* Reply back to the client */
+<pre><code class="c">/* Reply back to the client */
 if (wolfSSL_write(ssl, buff, len) != len) {
   fprintf(stderr, &quot;ERROR: failed to write\n&quot;);
   return -1;
 }
 </code></pre>
+
 <p>Por último, finalizaremos la conexión con la invocación de la función
 <code>wolfSSL_free(ssl)</code>.</p>
 <div class="admonition note tarea">
@@ -346,8 +356,9 @@ comunes en entornos IoT. </p>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
+<pre><code class="c">esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
@@ -368,8 +379,9 @@ comunes en entornos IoT. </p>
 </li>
 </ul>
 <h3 id="destruccion-de-conexion-tls-esp_tls_conn_delete">Destrucción de conexión TLS (<code>esp_tls_conn_delete()</code>)</h3>
-<pre><code class="language-c">void esp_tls_conn_delete(esp_tls_t *tls)
+<pre><code class="c">void esp_tls_conn_delete(esp_tls_t *tls)
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Cierra la conexión TLS/SSL. </p>
@@ -382,8 +394,9 @@ comunes en entornos IoT. </p>
 </li>
 </ul>
 <h3 id="escritura-de-datos-esp_tls_conn_read">Escritura de datos (<code>esp_tls_conn_read()</code>)</h3>
-<pre><code class="language-c">static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
+<pre><code class="c">static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
@@ -407,8 +420,9 @@ comunes en entornos IoT. </p>
 </li>
 </ul>
 <h3 id="lectura-de-datos-esp_tls_conn_read">Lectura de datos (<code>esp_tls_conn_read()</code>)</h3>
-<pre><code class="language-c">static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
+<pre><code class="c">static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer <code>data</code>.</p>
@@ -437,7 +451,7 @@ requiere ciertas modificaciones con respecto a la versión sin TLS.
 De hecho, el uso de ESP-IDF simplifica el código del cliente (puedes 
 compararlo con tus clientes TCP desarrollados en sesiones anteriores). La
 estructura básica resultaría:</p>
-<pre><code class="language-c">/// Includes anteriores.
+<pre><code class="c">/// Includes anteriores.
 #include &quot;esp_tls.h&quot;
 
 // Puede tomarse desde menuconfig.
@@ -484,6 +498,7 @@ void app_main( void )
   // ...
 }
 </code></pre>
+
 <p>Observa como, efectivamente, el código del cliente se simplifica en gran 
 medida con respecto a tu cliente TCP original. </p>
 <p>Toma el código del proyecto que

@@ -229,7 +229,7 @@ y del modelo o modelos implementados.</li>
 de la incialización de las pilas BLE y BLE Mesh:</p>
 </li>
 </ul>
-<pre><code class="language-c">void app_main(void)
+<pre><code class="c">void app_main(void)
 {
     int err;
 
@@ -251,10 +251,11 @@ de la incialización de las pilas BLE y BLE Mesh:</p>
     }
 }
 </code></pre>
+
 <p>En particular, el código incluye invocaciones a <code>bluetooth_init()</code> y
 <code>ble_mesh_init()</code>, que se encargan de ambas inicializaciones.</p>
 <p>La inicialización de la pila BLE Mesh requiere alguna explicación adicional:</p>
-<pre><code class="language-c">static esp_err_t ble_mesh_init(void)
+<pre><code class="c">static esp_err_t ble_mesh_init(void)
 {
     int err = 0;
 
@@ -279,6 +280,7 @@ de la incialización de las pilas BLE y BLE Mesh:</p>
     return err;
 }
 </code></pre>
+
 <p>Observa que el código incluye la siguiente funcionalidad:</p>
 <ul>
 <li>
@@ -338,7 +340,7 @@ y transmisión de datos.</p>
 </ul>
 <p>En primer lugar, para declarar y definir un elemento y un modelo asociado, utilizaremos
 las siguientes estructuras:</p>
-<pre><code class="language-c">/*!&lt; Abstraction that describes a BLE Mesh Element.
+<pre><code class="c">/*!&lt; Abstraction that describes a BLE Mesh Element.
     This structure is associated with bt_mesh_elem in mesh_access.h */
 typedef struct {
     /* Element Address, it is assigned during provisioning. */
@@ -356,14 +358,16 @@ typedef struct {
     esp_ble_mesh_model_t *vnd_models;
 } esp_ble_mesh_elem_t;
 </code></pre>
+
 <p>Así, podemos mantener información sobre los elementos disponibles en el vector
 <code>elements</code>:</p>
-<pre><code class="language-c">static esp_ble_mesh_elem_t elements[] = {
+<pre><code class="c">static esp_ble_mesh_elem_t elements[] = {
     ESP_BLE_MESH_ELEMENT(0, root_models, ESP_BLE_MESH_MODEL_NONE),
 };
 </code></pre>
+
 <p>La implementación y definición de un modelo se realiza de forma similar:</p>
-<pre><code class="language-c">static esp_err_t ble_mesh_init(void)
+<pre><code class="c">static esp_err_t ble_mesh_init(void)
 {
     int err = 0;
 
@@ -388,14 +392,16 @@ typedef struct {
     return err;
 }
 </code></pre>
+
 <p>Del mismo modo, podemos usar el array <code>root_models</code> para almacenar los modelos
 creados:</p>
-<pre><code class="language-c">static esp_ble_mesh_model_t root_models[] = {
+<pre><code class="c">static esp_ble_mesh_model_t root_models[] = {
     ESP_BLE_MESH_MODEL_CFG_SRV(&amp;config_server),
     ESP_BLE_MESH_SIG_MODEL(ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, onoff_op,
     &amp;onoff_pub, &amp;led_state[0]),
 };
 </code></pre>
+
 <p>Distintos modelos requieren diferentes macros (en este caso, ya que vamos 
 a implementar un modelo <em>Generic OnOff Server</em>, hemos utilizado 
 <code>ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV</code>). </p>
@@ -417,7 +423,7 @@ el estado del servidor. Por ejemplo, un cambio entre un On y Off en un interrupt
 </ul>
 <p>El siguiente código muestra la declaración de la estructura operación asociada
 al Modelo del servidor:</p>
-<pre><code class="language-c">/*!&lt; Model operation context.
+<pre><code class="c">/*!&lt; Model operation context.
     This structure is associated with bt_mesh_model_op in mesh_access.h */
 typedef struct {
     const uint32_t    opcode;   /* Opcode encoded with the ESP_BLE_MESH_MODEL_OP_* macro */
@@ -425,6 +431,7 @@ typedef struct {
     esp_ble_mesh_cb_t param_cb; /* The callback is only used for the BLE Mesh stack, not for the app layer. */
 } esp_ble_mesh_model_op_t;
 </code></pre>
+
 <p>Existe tres variables en la declaración:</p>
 <ul>
 <li><code>opcode</code>: código de operación asociado al estado. </li>
@@ -435,7 +442,7 @@ el caso de <em>OnOff Set State</em>, el tamaño es 2 (incluye el valor a escribi
 inicializado a 0.</li>
 </ul>
 <p>Así, la definición en el servidor quedaría:</p>
-<pre><code class="language-c">static esp_ble_mesh_model_op_t onoff_op[] = {
+<pre><code class="c">static esp_ble_mesh_model_op_t onoff_op[] = {
     { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET, 0, 0},
     { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET, 2, 0},
     { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK, 2, 0},
@@ -444,6 +451,7 @@ inicializado a 0.</li>
     ESP_BLE_MESH_MODEL_OP_END,
 };
 </code></pre>
+
 <h3 id="el-cliente-on-off">El cliente ON-OFF</h3>
 <p>El cliente resulta mucho más sencillo en su funcionamiento. De forma genérica,
 simplemente define un modelo <em>Client ON/OFF</em> y espera a ser provisionado. Una
@@ -452,7 +460,7 @@ los botones en la placa (RESET) para el envío a todos los nodos en la misma red
 una solicitud de modificación en el estado de activación de las luces.</p>
 <p>Concretamente, nos interesan las siguientes definiciones. En el fichero
 <code>board.c</code>, observa la respusta a la pulsación del botón:</p>
-<pre><code class="language-c">
+<pre><code class="c">
 static void button_tap_cb(void* arg)
 {
     ESP_LOGI(TAG, &quot;tap cb (%s)&quot;, (char *)arg);
@@ -474,9 +482,10 @@ void board_init(void)
     board_button_init();
 }
 </code></pre>
+
 <p>La función invocada, <code>example_ble_mesh_send_gen_onoff_set</code>, realiza el envío
 de una operación de tipo <code>SET</code> a <em>todos los miembros de la red</em>:</p>
-<pre><code class="language-c">void example_ble_mesh_send_gen_onoff_set(void)
+<pre><code class="c">void example_ble_mesh_send_gen_onoff_set(void)
 {
     esp_ble_mesh_generic_client_set_state_t set = {0};
     esp_ble_mesh_client_common_param_t common = {0};
@@ -506,6 +515,7 @@ de una operación de tipo <code>SET</code> a <em>todos los miembros de la red</e
     mesh_example_info_store(); /* Store proper mesh example info */
 }
 </code></pre>
+
 <p>Observa cómo el mensaje se enviará a <em>todos los nodos de la red</em> (<code>common.ctx.addr = 0xFFFF;</code>).</p>
 <h3 id="provisionamiento-y-control-desde-una-aplicacion-movil">Provisionamiento y control desde una aplicación móvil</h3>
 <p>En primer lugar, nos dividiremos en grupos de 3-4 personas. Uno de vosotros, 

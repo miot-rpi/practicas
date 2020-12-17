@@ -188,11 +188,12 @@ interactuar con una segunda red externa real utilizando la herramienta
 el directorio <code>/home/ubuntu/contiki</code> de tu máquina virtual.</p>
 <p>Antes de comenzar, necesitarás instalar una serie de software de soporte para
 el correcto desarrollo de la práctica:</p>
-<pre><code class="language-sh">sudo apt install -y openjdk-8-jdk openjdk-8-jre
+<pre><code class="sh">sudo apt install -y openjdk-8-jdk openjdk-8-jre
 </code></pre>
+
 <p>A continuación, asegúrate de seleccionar la versión 8 de Java para un 
 correcto funcionamiento del proceso de compilación de Cooja:</p>
-<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools/cooja$ sudo update-alternatives --config java
+<pre><code class="sh">ubuntu@ubuntu2004:~/contiki/tools/cooja$ sudo update-alternatives --config java
 Existen 3 opciones para la alternativa java (que provee /usr/bin/java).
 
   Selección   Ruta                                            Prioridad  Estado
@@ -204,10 +205,12 @@ Existen 3 opciones para la alternativa java (que provee /usr/bin/java).
 
 Pulse &lt;Intro&gt; para mantener el valor por omisión [*] o pulse un número de selección: 3
 </code></pre>
+
 <p>Por último, necesitarás instalar el compilador que nos permitirá generar las 
 imágenes para los nodos en la simulación:</p>
-<pre><code class="language-sh">sudo apt-get install gcc-msp430 gdb-msp430
+<pre><code class="sh">sudo apt-get install gcc-msp430 gdb-msp430
 </code></pre>
+
 <h2 id="codigo-contiki">Código Contiki</h2>
 <p>En el desarrollo de la práctica, utilizaremos los siguientes ficheros, 
 todos situados en el directorio <code>examples/ipv6/rpl-border-router</code> de la 
@@ -234,7 +237,7 @@ de código en el router de borde establecen los puntos en los que espera a la
 configuración del prefijo de red. Una vez recibido, el router de
 borde se configura como la raíz del DAG y envía el prefijo al resto de nodos
 de la red:</p>
-<pre><code class="language-c">/* Request prefix until it has been received */ 
+<pre><code class="c">/* Request prefix until it has been received */ 
  while(!prefix_set) { 
    etimer_set(&amp;et, CLOCK_SECOND); 
    request_prefix(); 
@@ -248,13 +251,14 @@ de la red:</p>
    PRINTF(&quot;created a new RPL dag\n&quot;); 
  }
 </code></pre>
+
 <p>Por defecto, el router de borde aloja una página web sencilla que nos
 servirá para consultar el estado de sus tablas de enrutamiento. Esta
 página se mostrará cuando introduzcamos la dirección IPv6 del router
 de borde en cualquier navegador. El uso de esta página puede desactivarse
 a través del valor de la macro <code>WEBSERVER</code>, y su activación en Contiki en
 base a su valor es sencilla (fichero <code>http-simple.c</code>):</p>
-<pre><code class="language-c">PROCESS(border_router_process, &quot;Border router process&quot;);
+<pre><code class="c">PROCESS(border_router_process, &quot;Border router process&quot;);
 #if WEBSERVER==0
 /* No webserver */
 AUTOSTART_PROCESSES(&amp;border_router_process);
@@ -263,13 +267,15 @@ AUTOSTART_PROCESSES(&amp;border_router_process);
 #include &quot;webserver-nogui.h&quot;
 AUTOSTART_PROCESSES(&amp;border_router_process,&amp;webserver_nogui_process); 
 </code></pre>
+
 <h2 id="compilacion-del-codigo">Compilación del código</h2>
 <p>El código para router de borde puede encontrarse en la ruta 
 <code>examples/ipv6/rpl-border-router</code>. Utiliza la siguiente orden para realizar
 la compilación:</p>
-<pre><code class="language-sh">cd examples/ipv6/rpl-border-router
+<pre><code class="sh">cd examples/ipv6/rpl-border-router
 make TARGET=z1
 </code></pre>
+
 <p>Una vez ejecutado, se creará un fichero llamado <code>border-router.z1</code>, que 
 se utilizará para programar las motas (dispositivos simulados) router de 
 borde en el simulador Cooja.</p>
@@ -277,18 +283,20 @@ borde en el simulador Cooja.</p>
 con el router de borde como raíz. Para ello, utilizaremos nodos cliente
 UDP, implementados en el fichero <code>udp-client.c</code>. Para ello, prepara imágenes
 para las motas de la siguiente manera:</p>
-<pre><code class="language-sh">cd examples/ipv6/rpl-udp
+<pre><code class="sh">cd examples/ipv6/rpl-udp
 make TARGET=z1
 </code></pre>
+
 <p>Del mismo modo que anteriormente, dispondrás de un fihcero <code>udp-client.z1</code>, 
 que conformarán un DAG con el router de borde como raíz y que utilizaremos en
 el resto de motas de la simulación. </p>
 <h2 id="simulacion-en-cooja">Simulación en Cooja</h2>
 <p>Tras la compilación de las imágenes, llega el momento de crear la simulación
 completa en Cooja. Arranca el simulador usando la siguiente orden:</p>
-<pre><code class="language-sh">cd tools/cooja
+<pre><code class="sh">cd tools/cooja
 ant run
 </code></pre>
+
 <p>Tras la ejecución, sigue los siguientes pasos para crear una nueva simulación:</p>
 <ol>
 <li>Selecciona la opción <code>File-&gt;New Simulation</code>. Selecciona <code>UDGM</code> e introduce
@@ -326,15 +334,17 @@ red RPL se conecte a una red externa. Para ello, utilizaremos la utilidad
 un puente entre la red RPL y la máquina local. </p>
 <p>El código <code>tunslip6.c</code> se encuentra en el directorio <code>tools</code> de la instalación, 
 y se puede compilar con la orden:</p>
-<pre><code class="language-sh">make tunslip6
+<pre><code class="sh">make tunslip6
 </code></pre>
+
 <p>A continuación, podemos establecer una conexión entre la red RPL y la máquina
 local:</p>
-<pre><code class="language-sh">sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
+<pre><code class="sh">sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
 </code></pre>
+
 <p>Si la ejecución ha sido correcta, veremos una salida similar a la siguiente
 en la terminal:</p>
-<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools$ sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
+<pre><code class="sh">ubuntu@ubuntu2004:~/contiki/tools$ sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
 slip connected to ``127.0.0.1:60001''
 opened tun device ``/dev/tun0''
 ifconfig tun0 inet `hostname` mtu 1500 up
@@ -360,6 +370,7 @@ Server IPv6 addresses:
  aaaa::c30c:0:0:1
  fe80::c30c:0:0:1
 </code></pre>
+
 <p>El programa ha creado una interfaz puente <code>tun0</code> con IPv4 127.0.1.1, y ha 
 enviado, vía serie, un mensaje de configuración al router de borde indicando
 el prefijo deseado para los nodos de la red RPL (<code>aaaa</code>). La salida de las últimas
@@ -370,7 +381,7 @@ se observa la cadena <em>Client connected: /127.0.0.1</em>.</p>
 <h2 id="verificacion-de-resultados">Verificación de resultados</h2>
 <p>Es posible verificar la dirección del router de borde a través de una orden
 ping desde tu máquina virtual:</p>
-<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:1
+<pre><code class="sh">ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:1
 PING aaaa::c30c:0:0:1(aaaa::c30c:0:0:1) 56 data bytes
 64 bytes from aaaa::c30c:0:0:1: icmp_seq=1 ttl=64 time=21.5 ms
 64 bytes from aaaa::c30c:0:0:1: icmp_seq=2 ttl=64 time=7.44 ms
@@ -381,8 +392,9 @@ PING aaaa::c30c:0:0:1(aaaa::c30c:0:0:1) 56 data bytes
 5 packets transmitted, 5 received, 0% packet loss, time 4015ms
 rtt min/avg/max/mdev = 7.442/23.066/62.661/20.427 ms
 </code></pre>
+
 <p>Así como la de cualquier nodo de la red, por ejemplo el nodo 4:</p>
-<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:4
+<pre><code class="sh">ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:4
 PING aaaa::c30c:0:0:4(aaaa::c30c:0:0:4) 56 data bytes
 64 bytes from aaaa::c30c:0:0:4: icmp_seq=1 ttl=62 time=116 ms
 64 bytes from aaaa::c30c:0:0:4: icmp_seq=2 ttl=62 time=106 ms
@@ -394,6 +406,7 @@ PING aaaa::c30c:0:0:4(aaaa::c30c:0:0:4) 56 data bytes
 5 packets transmitted, 5 received, 0% packet loss, time 4016ms
 rtt min/avg/max/mdev = 79.002/104.028/115.794/12.937 ms
 </code></pre>
+
 <p>La dirección de cada nodo puede obtenerse filtrando el la pantalla de log
 en función del ID del nodo (mota) destino.</p>
 <p>Desde cualquier navegador (en la red de la máquina virtual), puedes navegar

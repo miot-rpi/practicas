@@ -210,7 +210,7 @@ que enviemos un dato binario por la red, deberá ser transformado utilizando
 <p>Antes de estudiar la API de <em>sockets</em> básica, es necesario mostrar el cometido
 de un conjunto de estructuras de datos utilizadas comunmente en todas ellas. La
 más importante es <code>sockaddr_in</code>, que se define como sigue:</p>
-<pre><code class="language-c">struct sockaddr_in
+<pre><code class="c">struct sockaddr_in
 {
     short          sin_family;
     u_short        sin_port;
@@ -218,12 +218,14 @@ más importante es <code>sockaddr_in</code>, que se define como sigue:</p>
     char           sin_zero[8];
 };
 </code></pre>
+
 <p>La estructura <code>in_addr</code> utilizada en <code>sockaddr_in</code> se define como:</p>
-<pre><code class="language-c">struct in_addr
+<pre><code class="c">struct in_addr
 {
     u_long s_addr;
 };
 </code></pre>
+
 <p>Ésta consiste en un campo de tipo <code>unsigned long int</code> que contiene la 
 dirección IP que se asociará con el socket. </p>
 <p>La estructura <code>sockaddr_in</code> contiene dos campos importantes: </p>
@@ -237,8 +239,9 @@ dirección IP que se asociará con el socket. </p>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">int socket(int family, int type, int protocol);
+<pre><code class="c">int socket(int family, int type, int protocol);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Crea un <em>endpoint</em> de comunicación y devuelve un descriptor 
@@ -264,8 +267,9 @@ dirección IP que se asociará con el socket. </p>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+<pre><code class="c">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Asocia un <em>socket</em> a una dirección especificada por <code>addr</code>.
@@ -292,8 +296,9 @@ dirección IP que se asociará con el socket. </p>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">int listen(int sockfd, int backlog);
+<pre><code class="c">int listen(int sockfd, int backlog);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Marca el <em>socket</em> proporcionado como <em>pasivo</em>, esto es, 
@@ -321,8 +326,9 @@ intento de conexión.</li>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+<pre><code class="c">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: En <em>sockets</em> orientados a conexión, extrae la primera solicitud
@@ -350,8 +356,9 @@ intento de conexión.</li>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+<pre><code class="c">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Conecta el <em>socket</em> proporcionada a la dirección específicada por
@@ -381,8 +388,9 @@ intento de conexión.</li>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+<pre><code class="c">ssize_t send(int sockfd, const void *buf, size_t len, int flags);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: En un <em>socket</em> en estado <em>conectado</em> (con receptor conocido)
@@ -408,12 +416,13 @@ intento de conexión.</li>
 <ul>
 <li>Prototipos:</li>
 </ul>
-<pre><code class="language-c">ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+<pre><code class="c">ssize_t recv(int sockfd, void *buf, size_t len, int flags);
 
 ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
                  struct sockaddr *src_addr, socklen_t *addrlen);
 
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Reciben mensajes desde un  <em>socket</em>, tanto en sockets orientados
@@ -444,8 +453,9 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">int close(int fd);
+<pre><code class="c">int close(int fd);
 </code></pre>
+
 <ul>
 <li>
 <p>Descripción: Cierra un socket.</p>
@@ -474,7 +484,7 @@ de cada rutina y como efectivamente siguen las directivas marcadas
 anteriormente.</p>
 </div>
 <h3 id="ejemplo-un-cliente-tcp">Ejemplo: un cliente TCP</h3>
-<pre><code class="language-c">#include &lt;arpa/inet.h&gt;
+<pre><code class="c">#include &lt;arpa/inet.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
 #include &lt;sys/socket.h&gt;
@@ -525,8 +535,9 @@ int main() {
         return 0;
 }
 </code></pre>
+
 <h3 id="ejemplo-un-servidor-tcp">Ejemplo: un servidor TCP</h3>
-<pre><code class="language-c">#include &lt;arpa/inet.h&gt;
+<pre><code class="c">#include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
 #include &lt;stdbool.h&gt;
 #include &lt;stdio.h&gt;
@@ -600,6 +611,7 @@ int main(int argc, char *argv[]) {
         return 0;
 }
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Reproduce el funcionamiento del anterior sistema cliente/servidor <em>echo</em>
@@ -608,16 +620,18 @@ utilizando UDP.</p>
 <h3 id="construccion-de-mensajes">Construcción de mensajes</h3>
 <p>Para enviar mensajes que encapsulen distintos tipos de datos en una sola
 invocación, puedes definir un mensaje como el siguiente:</p>
-<pre><code class="language-c">typedef struct {
+<pre><code class="c">typedef struct {
   int x;
   int y;
 } mensaje;
 </code></pre>
+
 <p>Dando valor a cada campo y a continuación enviándolo proporcionando la dirección
 de inicio de la estructura, del siguiente modo:</p>
-<pre><code class="language-c">mensaje.x = x; mensaje.y = y;
+<pre><code class="c">mensaje.x = x; mensaje.y = y;
 send( socketfd, &amp;mensaje, sizeof( mensaje ), 0 );
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Modifica el cliente UDP para que encapsule y envíe una estructura con 
@@ -655,7 +669,7 @@ sistema <em>echo</em> programado en C. </p>
 <p>Acerca de la tarea principal (funcion <code>app_main</code>) observa que realiza 
 una serie de llamadas a APIs de configuración de algunos subsistemas de
 FreeRTOS, principalmente:</p>
-<pre><code class="language-c">// Inicializa la partición NVS (Non-volatile storage) por defecto. 
+<pre><code class="c">// Inicializa la partición NVS (Non-volatile storage) por defecto. 
 ESP_ERROR_CHECK(nvs_flash_init());
 // Inicializa la infraestructura ESP-NETIF.
 ESP_ERROR_CHECK(esp_netif_init());
@@ -668,6 +682,7 @@ ESP_ERROR_CHECK(example_connect());
 
 xTaskCreate(udp_server_task, &quot;udp_server&quot;, 4096, NULL, 5, NULL);
 </code></pre>
+
 <ul>
 <li>
 <p><code>example_connect()</code>, función que no forma parte de ESP-IDF, establece una 
@@ -734,13 +749,15 @@ directamente por tu punto de acceso.</p>
 <li>Para recibir un paquete UDP a través de un puerto (es decir, emular un
   servidor UDP):</li>
 </ul>
-<pre><code class="language-sh">nc -ul -p 3333
+<pre><code class="sh">nc -ul -p 3333
 </code></pre>
+
 <ul>
 <li>Para enviar un paquete UDP a una IP/puerto remotos (es decir, emular un cliente):</li>
 </ul>
-<pre><code class="language-sh">nc -u IP_REMOTA 3333
+<pre><code class="sh">nc -u IP_REMOTA 3333
 </code></pre>
+
 <p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
 servidores UDP Python que puedes también utilizar.</p>
 <h2 id="clienteservidor-tcp-en-el-esp32">Cliente/servidor TCP en el ESP32</h2>
@@ -749,13 +766,15 @@ servidores UDP Python que puedes también utilizar.</p>
 <li>Para recibir un paquete TCP a través de un puerto (es decir, emular un
   servidor TCP):</li>
 </ul>
-<pre><code class="language-sh">nc -l IP -p 3333
+<pre><code class="sh">nc -l IP -p 3333
 </code></pre>
+
 <ul>
 <li>Para enviar un paquete TCP a una IP/puerto remotos (es decir, emular un cliente):</li>
 </ul>
-<pre><code class="language-sh">nc IP 3333
+<pre><code class="sh">nc IP 3333
 </code></pre>
+
 <p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
 servidores TCP Python que puedes también utilizar.</p>
 <div class="admonition note">

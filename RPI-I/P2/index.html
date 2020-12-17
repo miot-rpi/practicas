@@ -410,7 +410,7 @@ realizarla en este punto, porque algunos de los parámetros que pueden variar
 forzarán una reconexión WiFi, aspecto que es mejor evitar.</p>
 <p>La rutina <code>esp_wifi_set_config()</code> permite configurar los aspectos básicos
 de la conexión WiFi. Por ejemplo, el código:</p>
-<pre><code class="language-c">    wifi_config_t wifi_config = {
+<pre><code class="c">    wifi_config_t wifi_config = {
         .sta = {
             .ssid = EXAMPLE_ESP_WIFI_SSID,
             .password = EXAMPLE_ESP_WIFI_PASS,
@@ -425,6 +425,7 @@ de la conexión WiFi. Por ejemplo, el código:</p>
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &amp;wifi_config) );
 </code></pre>
+
 <p>Realiza una configuración básica WiFi proporcionando SSID, contraseña y 
 modo de autenticación antes de configurar la conexión.</p>
 <p><strong>Fase 3: inicio WiFi</strong></p>
@@ -503,7 +504,7 @@ principales que pueden darse en modo <em>AP (access point)</em>:</p>
 <p>El flujo de trabajo es muy similar al del modo <em>station</em>, con la diferencia
 básica del tipo de configuración WiFi a realizar (<code>WIFI_MODE_AP</code>) y obviamente
 los parámetros de configuración. Observa el siguiente ejemplo de configuración:</p>
-<pre><code class="language-c">    wifi_config_t wifi_config = {
+<pre><code class="c">    wifi_config_t wifi_config = {
         .ap = {
             .ssid = EXAMPLE_ESP_WIFI_SSID,
             .ssid_len = strlen(EXAMPLE_ESP_WIFI_SSID),
@@ -520,6 +521,7 @@ los parámetros de configuración. Observa el siguiente ejemplo de configuració
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &amp;wifi_config));
 </code></pre>
+
 <p>Para más información sobre los parámetros de configuración de un punto 
 de acceso, consulta este 
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html#ap-basic-configuration">enlace</a>.</p>
@@ -682,10 +684,11 @@ Para ello, en un directorio independiente del que has utilizado hasta ahora
 instala la última versión de ESP-IDF siguiendo las mismas instrucciones
 que en la instalación incial, pero clonando la rama <em>master</em> del repositorio,
 es decir, ejecutando la siguiente instrucción exclusivamente:</p>
-<pre><code class="language-sh">git clone --recursive https://github.com/espressif/esp-idf.git
+<pre><code class="sh">git clone --recursive https://github.com/espressif/esp-idf.git
 </code></pre>
+
 <p>En lugar de las cadena de ordenes que usaste en la primera práctica:</p>
-<pre><code class="language-sh">## NO EJECUTAR ESTAS ORDENES EN LA NUEVA INSTALACIÓN
+<pre><code class="sh">## NO EJECUTAR ESTAS ORDENES EN LA NUEVA INSTALACIÓN
 git clone --recursive https://github.com/espressif/esp-idf.git
 cd esp-idf
 git fetch
@@ -693,11 +696,13 @@ git checkout release/v4.1
 git pull
 git submodule update --init --recursive
 </code></pre>
+
 <p>En cualquier caso, tras la ejecución anterior, deberás instalar las dependencias
 de nuevo y a continuación exportar las variables de entorno correctas:</p>
-<pre><code class="language-sh">sh install.sh
+<pre><code class="sh">sh install.sh
 . export.sh
 </code></pre>
+
 <h3 id="conexion-a-eduroam-wifiwpa2_enterprise">Conexión a <em>eduroam</em> (<code>wifi/wpa2_enterprise</code>)</h3>
 <p>Para conectar a <em>eduroam</em> nuestro ESP32, necesitaremos seguir los siguientes
 pasos:</p>

@@ -260,16 +260,18 @@ del punto de acceso WiFi al que conectará, siguiendo la metodología habitual.<
 desplegar el cliente web. Para ello, navega al subdirectorio <code>front/web-demo</code>,
 donde reside el código fuente del cliente. Ejecuta los siguientes comandos
 para instalar las dependencias necesarias:</p>
-<pre><code class="language-sh">sudo apt-get install npm node-vue*
+<pre><code class="sh">sudo apt-get install npm node-vue*
 npm install
 npm run build 
 </code></pre>
+
 <p>En este punto, ya podrás ejecutar, desde el directorio base del ejemplo, la
 orden de compilación y flasheado:</p>
-<pre><code class="language-sh">idf.py build
+<pre><code class="sh">idf.py build
 idf.py flash
 idf.py monitor
 </code></pre>
+
 <h3 id="interaccion-con-el-dispositivo-via-interfaz-web">Interacción con el dispositivo vía interfaz web</h3>
 <p>Si todo ha ido bien, podrás observar en la salida de monitorización la
 IP proporcionada al ESP32. Abre un navegador en la máquina virtual o 
@@ -303,20 +305,23 @@ protocolo HTTP, justo las necesarias para realizar peticiones de lectura y
 escritura sobre nuestro servidor HTTP REST. </p>
 <p>Concretamente, para realizar una petición HTTP <code>GET</code> sobre nuestro servidor, 
 podemos ejecutar:</p>
-<pre><code class="language-sh">curl http://IP/URI
+<pre><code class="sh">curl http://IP/URI
 </code></pre>
+
 <p>Por ejemplo, la petición:</p>
-<pre><code class="language-sh">curl http://192.168.1.26/api/v1/temp/raw
+<pre><code class="sh">curl http://192.168.1.26/api/v1/temp/raw
 </code></pre>
+
 <p>(siendo <code>192.168.1.26</code> la IP del ESP32)
 nos responderá con el valor de temperatura instantánea.</p>
 <p>Del mismo modo, para escribir (método <code>POST</code>) sobre el servidor, utilizaremos
 el parámetro <code>-d</code>, seguido del recurso que queramos enviar. Ten en cuenta
 que es responsabilidad del cliente enviar un recurso bien formado e interpretable
 por el dispositivo:</p>
-<pre><code class="language-sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
+<pre><code class="sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
 -X POST http://192.168.1.26/api/v1/light/brightness
 </code></pre>
+
 <p>Observa que hemos incluido el tipo de recurso enviado (<code>JSON</code>) y la operacion
 solicitada (<code>POST</code>). Volveremos a esto en breve.</p>
 <div class="admonition note">
@@ -358,7 +363,7 @@ el método coincide con el indicado.</p>
 para la creación de la API anteriormente descrita. Así, para crear el 
 <em>endpoint</em> <code>/api/v1/system/info</code>, procederemos, en primer lugar, registrándolo
 en el servidor, preparando previamente la estructura de tipo <code>httpd_uri_t</code>:</p>
-<pre><code class="language-c">httpd_uri_t system_info_get_uri = {
+<pre><code class="c">httpd_uri_t system_info_get_uri = {
         .uri = &quot;/api/v1/system/info&quot;,
         .method = HTTP_GET,
         .handler = system_info_get_handler,
@@ -366,6 +371,7 @@ en el servidor, preparando previamente la estructura de tipo <code>httpd_uri_t</
     };
     httpd_register_uri_handler(server, &amp;system_info_get_uri);
 </code></pre>
+
 <p>En este caso, la operación asociada a la invocación del handler será, exclusivamente
 <code>GET</code>; de hecho, si invocamos a un método <code>POST</code> sobre este <em>endpoint</em>, el 
 servidor nos responderá automáticamente con un aviso que indicará que dicho método
@@ -373,7 +379,7 @@ no está soportado.</p>
 <p>El procesamiento de la petición <code>GET</code> se realiza en la función 
 <code>system_info_get_handler</code>, y el esquema que se sigue es, en cualquier caso,
 sencillo:</p>
-<pre><code class="language-c">static esp_err_t system_info_get_handler(httpd_req_t *req)
+<pre><code class="c">static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Preparación del tipo de respuesta.
     httpd_resp_set_type(req, &quot;application/json&quot;);
@@ -386,13 +392,14 @@ sencillo:</p>
 
     return ESP_OK;
 </code></pre>
+
 <p>Alternativamente, si la respuesta es binaria, podríamos utilizar la función
 <code>https_resp_send( req, buffer, buffer_len  )</code> para procesarla y enviarla 
 (lo necesitarás para enviar un buffer binario CBOR).</p>
 <p>La creación de un <em>endpoint</em> con soporte para método <code>POST</code>
 resulta algo más larga, aunque el registro del mismo no difiere del ejemplo
 anterior:</p>
-<pre><code class="language-c">    /* URI handler for light brightness control */
+<pre><code class="c">    /* URI handler for light brightness control */
     httpd_uri_t light_brightness_post_uri = {
         .uri = &quot;/api/v1/light/brightness&quot;,
         .method = HTTP_POST,
@@ -401,10 +408,11 @@ anterior:</p>
     };
     httpd_register_uri_handler(server, &amp;light_brightness_post_uri);
 </code></pre>
+
 <p>Observa el cuerpo de la función <code>light_brightness_post_handler</code>. La recepción
 del objeto enviado por parte del cliente se realiza en base a múltiples
 invocaciones a la rutina <code>httpd_req_recv</code>:</p>
-<pre><code class="language-c">/* Simple handler for light brightness control */
+<pre><code class="c">/* Simple handler for light brightness control */
 static esp_err_t light_brightness_post_handler(httpd_req_t *req)
 {
     int total_len = req-&gt;content_len;
@@ -430,6 +438,7 @@ static esp_err_t light_brightness_post_handler(httpd_req_t *req)
     /// A partir de este punto, disponemos en buf del objeto recibido vía HTTP.
     /// ... 
 </code></pre>
+
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Observa y estudia los códigos de los manejadores implementados en el ejemplo. 
@@ -471,7 +480,7 @@ por comas y encerrados entre llaves.</p>
 para parsear y construir objetos de tipo JSON de forma sencilla y consistente.
 La biblioteca cJSON representa datos JSON utilizando una estructura sencilla, 
 véase:</p>
-<pre><code class="language-c">/* The cJSON structure: */
+<pre><code class="c">/* The cJSON structure: */
 typedef struct cJSON
 {
     struct cJSON *next;
@@ -485,6 +494,7 @@ typedef struct cJSON
     char *string;
 } cJSON;
 </code></pre>
+
 <p>El campo <code>type</code> informa sobre el tipo de dato contenido en el objeto, véase:</p>
 <ul>
 <li><code>cJSON_False</code> (<code>cJSON_IsFalse()</code>): representa un valor booleano falso.</li>
@@ -510,18 +520,20 @@ Todas estas funciones alojan memoria suficiente como para albergar
 el dato creado. </p>
 <p>Dado un objeto JSON en forma de cadena, es posible analizarlo (parsearlo)
 utilizando la función <code>cJSON_Parse</code>:</p>
-<pre><code class="language-c">cJSON * json = cJSON_Parse( string );
+<pre><code class="c">cJSON * json = cJSON_Parse( string );
 </code></pre>
+
 <p>Para imprimir el contenido de una estructura JSON en modo texto, podemos
 hacer uso de la función <code>cJSON_Print(json)</code>:</p>
-<pre><code class="language-c">char * string = cJSON_Print( json );
+<pre><code class="c">char * string = cJSON_Print( json );
 </code></pre>
+
 <h3 id="ejemplos">Ejemplos</h3>
 <p>Observa de nuevo el contenido de las funciones manejadoras en nuestro servidor
 REST. Concretamente, céntrate en la función <code>system_info_get_handler</code>, que
 construye un objeto JSON con dos campos, de tipo cadena ("version")
 y numérico ("cores"):</p>
-<pre><code class="language-c">/* Simple handler for getting system handler */
+<pre><code class="c">/* Simple handler for getting system handler */
 static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Preparación del tipo de datos de la respuesta.
@@ -555,9 +567,10 @@ static esp_err_t system_info_get_handler(httpd_req_t *req)
     return ESP_OK;
 }
 </code></pre>
+
 <p>La función <code>light_brightness_post_handler</code> realiza un parseado del objeto
 JSON recibido. Observa su cuerpo:</p>
-<pre><code class="language-c">    // buf contiene la cadena recibida a través de HTTP (método POST).
+<pre><code class="c">    // buf contiene la cadena recibida a través de HTTP (método POST).
     // ...
     // Parseamos el objeto JSON.
     cJSON *root = cJSON_Parse(buf);
@@ -578,6 +591,7 @@ JSON recibido. Observa su cuerpo:</p>
 
     return ESP_OK;
 </code></pre>
+
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Extiende la tarea anterior para añadir el dato en formato punto flotante
@@ -628,7 +642,7 @@ para convertir dicho objeto a representación JSON, así como para parsearlo
 manualmente.</p>
 <p>En primer lugar, compila, flashea y ejecuta el ejemplo. 
 Verás que la salida debería ser similar a la siguiente:</p>
-<pre><code class="language-sh">I (320) example: encoded buffer size 67
+<pre><code class="sh">I (320) example: encoded buffer size 67
 I (320) example: convert CBOR to JSON
 [{&quot;chip&quot;:&quot;esp32&quot;,&quot;unicore&quot;:false,&quot;ip&quot;:[192,168,1,100]},3.1400001049041748,&quot;simple(99)&quot;,&quot;2019-07-10 09:00:00+0000&quot;,&quot;undefined&quot;]
 I (340) example: decode CBOR manually
@@ -652,6 +666,7 @@ Array[
   undefined
 ]
 </code></pre>
+
 <p>Observa que la estructura del objeto CBOR será medianamente compleja: constará
 de un array formado por cinco elementos:</p>
 <ol>
@@ -666,12 +681,13 @@ booleanos y un segundo array para especificar una dirección IP.</li>
 <h3 id="etapa-1-creacion-codificacion-del-objeto-cbor">Etapa 1: creación (codificación) del objeto CBOR</h3>
 <p>Observa el cuerpo de la tarea principal (<code>app_main</code>). El codificador 
 CBOR se basa en dos variables:</p>
-<pre><code class="language-c">CborEncoder Root_encoder; // Codificador CBOR.
+<pre><code class="c">CborEncoder Root_encoder; // Codificador CBOR.
 uint8_t buf[100];         // Buffer para alojar el objeto CBOR (array de bytes). 
 </code></pre>
+
 <p>En segundo lugar, y ya que utilizaremos un array y un mapa, necesitaremos
 constructores especiales para dichos objetos:</p>
-<pre><code class="language-c">// Creación de Array.
+<pre><code class="c">// Creación de Array.
 CborEncoder array_encoder;
 CborEncoder map_encoder;
 
@@ -679,9 +695,10 @@ cbor_encoder_create_array(&amp;root_encoder, &amp;array_encoder, 5); // [
   // 1. Creación del Mapa.
   cbor_encoder_create_map(&amp;array_encoder, &amp;map_encoder, 3); // {
 </code></pre>
+
 <p>A partir de este punto, podemos proceder con la construcción de los objetos
 siguiendo el esquema deseado:</p>
-<pre><code class="language-c">  // chip: esp32 (cadena:cadena)
+<pre><code class="c">  // chip: esp32 (cadena:cadena)
   cbor_encode_text_stringz(&amp;map_encoder, &quot;chip&quot;);
   cbor_encode_text_stringz(&amp;map_encoder, &quot;esp32&quot;);
 
@@ -722,16 +739,18 @@ cbor_encoder_close_container(&amp;root_encoder, &amp;array_encoder); // ]
 // Mostramos el tamaño del buffer creado.
 ESP_LOGI(TAG, &quot;encoded buffer size %d&quot;, cbor_encoder_get_buffer_size(&amp;root_encoder, buf));
 </code></pre>
+
 <h3 id="etapa-2-conversion-a-json">Etapa 2: conversión a JSON</h3>
 <p>La conversión a JSON (típicamente por motivos de visualización o depuración), 
 puede realizarse del siguiente modo:</p>
-<pre><code class="language-c">    // Initialize the cbor parser and the value iterator
+<pre><code class="c">    // Initialize the cbor parser and the value iterator
     cbor_parser_init(buf, sizeof(buf), 0, &amp;root_parser, &amp;it);
 
     ESP_LOGI(TAG, &quot;convert CBOR to JSON&quot;);
     // Dump the values in JSON format
     cbor_value_to_json(stdout, &amp;it, 0);
 </code></pre>
+
 <h3 id="etapa-3-parseado-manual-de-un-objeto-cbor">Etapa 3: parseado manual de un objeto CBOR</h3>
 <p>Por último, el parseado manual del objeto CBOR se deja como ejercicio de estudio
 para el alumno, y está implementado en la función <code>example_dump_cbor_buffer</code>
@@ -757,7 +776,7 @@ por el servidor HTTP.</p>
 <p>Las modificaciones a realizar en la función manejadora del <em>endpoint</em> para 
 responder con un objeto CBOR son mínimas. De hecho, se centran simplemente en 
 el tipo de respuesta y el mecanismo a usar para enviarla, véase:</p>
-<pre><code class="language-c">static esp_err_t system_info_get_handler(httpd_req_t *req)
+<pre><code class="c">static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Tipo de respuesta.
     httpd_resp_set_type(req, &quot;application/cbor&quot;);
@@ -776,11 +795,13 @@ el tipo de respuesta y el mecanismo a usar para enviarla, véase:</p>
 
     return ESP_OK;
 </code></pre>
+
 <p>Para consultar desde línea de comandos sobre este <em>endpoint</em>, podemos utilizar
 directamente <code>curl</code>, volcando la salida recibida a un fichero (por
 ejemplo, <code>output.cbor</code>):</p>
-<pre><code class="language-sh">curl http://192.168.1.26/api/v1/system/info &gt; output.cbor
+<pre><code class="sh">curl http://192.168.1.26/api/v1/system/info &gt; output.cbor
 </code></pre>
+
 <p>Si visualizas el contenido del fichero, verás que contiene datos binarios
 difícilmente interpretables. A continuación veremos distintos mecanismos
 de visualización.</p>
@@ -788,14 +809,16 @@ de visualización.</p>
 <p>Una opción de visualización consiste en utilizar la web <a href="http://cbor.me/">cbor.me</a>.
 En el panel derecho, podrás pegar el contenido binario leído. Si necesitas
 realizar la conversión antes de pegarlo en la web, puedes hacerlo con la orden:</p>
-<pre><code class="language-sh">xxd -ps output.cbor
+<pre><code class="sh">xxd -ps output.cbor
 </code></pre>
+
 <p>Un ejemplo de salida (a pegar en el panel derecho de la web), podría ser:</p>
-<pre><code class="language-sh">$ xxd -ps output.cbor 
+<pre><code class="sh">$ xxd -ps output.cbor 
 85a3646368697065657370333267756e69636f7265f46269708418c018a8
 011864fa4048f5c3f8637818323031392d30372d31302030393a30303a30
 302b30303030f7
 </code></pre>
+
 <p>Deberías observar una salida similar a la siguiente (ten en cuenta que 
 la herramiente automáticamente indenta el contenido del panel derecho; 
 recuerda que simplemente debes pegar la salida generada por <code>xxd</code>):</p>
@@ -804,18 +827,20 @@ recuerda que simplemente debes pegar la salida generada por <code>xxd</code>):</
 en tu servidor TCP/UDP, por ejemplo), que haga uso del módulo <code>cbor2</code>
  (<a href="https://pypi.org/project/cbor2/">documentación</a>). Para
 comprobar su funcionamiento, primero instálalo:</p>
-<pre><code class="language-sh">pip install cbor2
+<pre><code class="sh">pip install cbor2
 </code></pre>
+
 <p>Y comprueba si efectivamente funciona utilizando el siguiente programa Python:</p>
-<pre><code class="language-python">from cbor2 import dumps, loads, dump, load
+<pre><code class="python">from cbor2 import dumps, loads, dump, load
 
 with open('output.cbor', 'rb') as fp:
     obj = load(fp)
 
 print(obj)
 </code></pre>
+
 <p>Al ejecutarlo, observarás el contenido del objeto:</p>
-<pre><code class="language-sh">python cbor.py
+<pre><code class="sh">python cbor.py
 [{'chip': 'esp32', 'unicore': False, 'ip': [192, 168, 1, 100]}, 3.140000104904175, CBORSimpleValue(value=99), '2019-07-10 09:00:00+0000', undefined]
 </code></pre></div>
         </div>

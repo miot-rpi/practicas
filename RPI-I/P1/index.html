@@ -226,22 +226,24 @@ incluye instrucciones para otras distribuciones y sistemas operativos,
 incluyendo Windows y MacOS.</p>
 <p>En tu máquina virtual, instala los paquetes necesarios utilizando (como
 superusuario):</p>
-<pre><code class="language-sh">sudo apt-get install git wget flex bison gperf python python3-pip python-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util
+<pre><code class="sh">sudo apt-get install git wget flex bison gperf python python3-pip python-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util
 </code></pre>
+
 <p>Además, es necesario, en todo caso, que el usuario que estés utilizando pertenezca
 al grupo <code>dialout</code> (puedes editar el fichero <code>/etc/group</code> añadiendo a tu 
 usuario a la línea que indica el grupo correspondiente, e iniciando de nuevo
 tu sesión).</p>
 <p>Instala y configura Python 3 para su uso por defecto en tu 
 distribución:</p>
-<pre><code class="language-sh">sudo apt-get install python3 python3-pip python3-setuptools
+<pre><code class="sh">sudo apt-get install python3 python3-pip python3-setuptools
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 </code></pre>
+
 <h3 id="obtencion-de-esp-idf">Obtención de ESP-IDF</h3>
 <p>Utilizaremos las versiones de ESP-IDF a obtener directamente desde el 
 repositorio Github oficial (concretamente, en su versión 4.1). Para ello,
 ejecuta desde tu directorio de inicio:</p>
-<pre><code class="language-sh">mkdir -p ~/esp
+<pre><code class="sh">mkdir -p ~/esp
 cd ~/esp
 git clone --recursive https://github.com/espressif/esp-idf.git
 cd esp-idf
@@ -250,26 +252,30 @@ git checkout release/v4.1
 git pull
 git submodule update --init --recursive
 </code></pre>
+
 <h3 id="instalacion-de-herramientas-adicionales">Instalación de herramientas adicionales</h3>
 <p>Desde el directorio <code>esp-idf</code>, ejecuta el script <code>install.sh</code> para instalar
 las herramientas (<em>toolchain</em>) específicas para tu versión:</p>
-<pre><code class="language-sh">sh install.sh
+<pre><code class="sh">sh install.sh
 </code></pre>
+
 <h3 id="preparacion-del-entorno">Preparación del entorno</h3>
 <p>Tras el inicio de cada sesión, deberás establecer valores correctos para ciertas
 variables de entorno. Afortunadamente, se proporciona un script (<code>export.sh</code>)
 que te permitirá establecerlas de forma automática:</p>
-<pre><code class="language-sh">. export.sh
+<pre><code class="sh">. export.sh
 </code></pre>
+
 <p>Puedes añadir esta línea en cualquier fichero de inicio de sesión para no tener
 que ejecutar el comando cada vez.</p>
 <p>En cualquier caso, en este punto deberías tener acceso a un programa llamado
 <code>idf.py</code>, a través del cual gestionaremos el flujo de trabajo. Compruébalo y 
 observa si la version de IDF con la que estás trabajando es efectivamente la
 4.1 (el número de subversión podría variar en tu salida):</p>
-<pre><code class="language-sh">$ idf.py --version
+<pre><code class="sh">$ idf.py --version
 ESP-IDF v4.1-332-g7b7c64107
 </code></pre>
+
 <h3 id="preparacion-del-proyecto">Preparación del proyecto</h3>
 <p>En esta primera parte, nos basaremos en un ejemplo sencillo de código desarrollado
 en base a ESP-IDF. No es el objetivo de esta práctica analizar en detalle los
@@ -284,19 +290,22 @@ partir de ahora para referirnos a él.</p>
 </div>
 <p>Para empezar, toma el ejemplo <code>hello_world</code> proporcionado como parte de la instalación
 básica de IDF, y cópialo en cualquier directorio del sistema de ficheros:</p>
-<pre><code class="language-sh">cp -R $IDF_PATH/examples/get-started/hello_world $HOME/
+<pre><code class="sh">cp -R $IDF_PATH/examples/get-started/hello_world $HOME/
 cd $HOME/hello_world
 </code></pre>
+
 <h3 id="compilacion">Compilación</h3>
 <p>El proceso de compilación básico utiliza el script <code>idf.py</code>:</p>
-<pre><code class="language-sh">idf.py build
+<pre><code class="sh">idf.py build
 </code></pre>
+
 <p>Si todo ha ido bien, en el directorio <code>build</code> se habrán generado los objetos
 y binarios listos para ser <em>flasheados</em> en el ESP32.</p>
 <h3 id="flasheado"><em>Flasheado</em></h3>
 <p>El proceso de <em>flasheado</em> básico utiliza el script <code>idf.py</code>:</p>
-<pre><code class="language-sh">idf.py -p PUERTO flash
+<pre><code class="sh">idf.py -p PUERTO flash
 </code></pre>
+
 <p>En este punto, el ESP32 debe estar conectado utilizando el cable microUSB, y
 si estás trabajando en una máquina virtual, debe haberse hecho visible a la 
 misma (por ejemplo, en VirtualBox, a través del menú <em>Dispositivos-&gt;USB-&gt;Silicon Labs USB to UART Bridge Controller</em>).</p>
@@ -307,8 +316,9 @@ de <em>flasheado</em> y montorización posterior.</p>
 <p>Si todo ha ido bien, el proceso de monitorización nos permitirá observar la
 salida del programa que tenemos ejecutando en la placa. Para ello, de nuevo,
 usamos el <em>script</em> <code>idf.py</code>:</p>
-<pre><code class="language-sh">idf.py -p PUERTO monitor
+<pre><code class="sh">idf.py -p PUERTO monitor
 </code></pre>
+
 <div class="admonition danger">
 <p class="admonition-title">Nota</p>
 <p>Comprueba que, efectivamente, puedes realizar el proceso de compilación,
@@ -336,7 +346,7 @@ como <em>framework</em> de desarrollo para el proyecto:</p>
 <p>Crea un nuevo fichero <code>main.c</code> (si no existe) en el directorio <code>src</code> de tu 
 proyecto, o modifica el que ya existe utilizando, por ejemplo, el siguiente
 código:</p>
-<pre><code class="language-c">#include &lt;string.h&gt;
+<pre><code class="c">#include &lt;string.h&gt;
 #include &quot;freertos/FreeRTOS.h&quot;
 #include &quot;freertos/task.h&quot;
 #include &quot;esp_system.h&quot;
@@ -413,6 +423,7 @@ void app_main()
     wifi_init_softap();
 }
 </code></pre>
+
 <p>De momento no analizaremos el funcionamiento del código (lo haremos más adelante)
 pero básicamente establece un Punto de Acceso inalámbrico abierto a conexiones
 autenticadas vía WPA2.</p>
@@ -445,7 +456,7 @@ se sugiere el uso de línea de comandos.</p>
 <p>Observa la estructura general del directorio <code>hello_world</code> que compilaste
 anteriormente. Específicamente, nos interesará inspeccionar la estructura
 básica de un programa principal para ESP-IDF, en este caso <code>hello_world_main.c</code>.</p>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
+<pre><code class="c">#include &lt;stdio.h&gt;
 #include &quot;sdkconfig.h&quot;
 #include &quot;freertos/FreeRTOS.h&quot;
 #include &quot;freertos/task.h&quot;
@@ -481,6 +492,7 @@ void app_main(void)
     esp_restart();
 }
 </code></pre>
+
 <p>A alto nivel, la función <code>app_main</code> es el punto de entrada a todo programa
 desarrollado usando ESP-IDF. De modo más específico, tras la 
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/general-notes.html">carga del sistema</a>, la llamada <em>tarea principal</em> (<em>main task</em>) ejecuta el
@@ -493,7 +505,7 @@ cualquier modo (como es el caso), se puede implementar cualquier funcionalidad
 dentro de la función <code>app_main</code>.</p>
 <p>En este ejemplo, se muestra en primer lugar información genérica sobre el 
 SoC que está ejecutando el <em>firmware</em>:</p>
-<pre><code class="language-c">/* Print chip information */
+<pre><code class="c">/* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&amp;chip_info);
     printf(&quot;This is %s chip with %d CPU cores, WiFi%s%s, &quot;,
@@ -509,6 +521,7 @@ SoC que está ejecutando el <em>firmware</em>:</p>
 
     printf(&quot;Minimum free heap size: %d bytes\n&quot;, esp_get_minimum_free_heap_size());
 </code></pre>
+
 <p>A continuación, dentro de un bucle sencillo, el sistema muestra un mensaje 
 y difiere la ejecución de la tarea durante un período determinado de tiempo
 utilizando la función <a href="https://www.freertos.org/a00127.html">vTaskDelay</a> de
@@ -516,17 +529,19 @@ FreeRTOS. Esta función recibe el número de <em>ticks</em> de reloj que se dese
 por lo que el tiempo real que la tarea diferirá su ejecución depende de la 
 duración de dicho <em>tick</em>. Por ello,  la constante <code>portTIC_PERIOD_MS</code> puede
 utilizarse para calcular dicho tiempo:</p>
-<pre><code class="language-c">    for (int i = 10; i &gt;= 0; i--) {
+<pre><code class="c">    for (int i = 10; i &gt;= 0; i--) {
         printf(&quot;Restarting in %d seconds...\n&quot;, i);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 </code></pre>
+
 <p>Finalmente, la tarea reinicia el sistema tras la finalización de la tarea
 principal:</p>
-<pre><code class="language-c">    printf(&quot;Restarting now.\n&quot;);
+<pre><code class="c">    printf(&quot;Restarting now.\n&quot;);
     fflush(stdout);
     esp_restart();
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Modifica el período de suspensión de la tarea para que sea mayor o menor,
@@ -543,7 +558,7 @@ Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que
 no veremos aquí más detalles de los estrictamente necesarios. </p>
 <p>La función <code>xTaskCreate</code> (incluida en <code>task.h</code>) permite la creación de nuevas
 tareas:</p>
-<pre><code class="language-c"> BaseType_t xTaskCreate( TaskFunction_t pvTaskCode,
+<pre><code class="c"> BaseType_t xTaskCreate( TaskFunction_t pvTaskCode,
                          const char * const pcName,
                          configSTACK_DEPTH_TYPE usStackDepth,
                          void *pvParameters,
@@ -551,6 +566,7 @@ tareas:</p>
                          TaskHandle_t *pxCreatedTask
                         );
 </code></pre>
+
 <p>Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
 ejecución, recibiendo como parámetros:</p>
 <ul>
@@ -562,7 +578,7 @@ ejecución, recibiendo como parámetros:</p>
     como se muestra en el siguiente ejemplo extraído directamente desde la
     documentación de FreeRTOS:</li>
 </ul>
-<pre><code class="language-c"> void vATaskFunction( void *pvParameters )
+<pre><code class="c"> void vATaskFunction( void *pvParameters )
     {
         for( ;; )
         {
@@ -578,6 +594,7 @@ ejecución, recibiendo como parámetros:</p>
         vTaskDelete( NULL );
     }
 </code></pre>
+
 <ul>
 <li>
 <p><code>pcName</code>: Nombre (en forma de cadena) descriptivo de la tarea a ejecutar, 
@@ -600,7 +617,7 @@ ejecución, recibiendo como parámetros:</p>
 </ul>
 <p>Así, la funcionalidad del programa <code>Hola, mundo</code> que hemos analizado 
 anteriormente, podría reestrcturarse en base a una única tarea:</p>
-<pre><code class="language-c">void hello_task(void *pvParameter)
+<pre><code class="c">void hello_task(void *pvParameter)
 {
     printf(&quot;Hello world!\n&quot;);
     for (int i = 10; i &gt;= 0; i--) {
@@ -612,13 +629,15 @@ anteriormente, podría reestrcturarse en base a una única tarea:</p>
     esp_restart();
 }
 </code></pre>
+
 <p>Que podría ser creada desde la tarea principal:</p>
-<pre><code class="language-c">void app_main()
+<pre><code class="c">void app_main()
 {
     nvs_flash_init();
     xTaskCreate( &amp;hello_task, &quot;hello_task&quot;, 2048, NULL, 5, NULL );
 }
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Implementa una modificación del programa <code>hello_world</code> que implemente
@@ -634,8 +653,9 @@ ilustrar su funcionamiento, utilizaremos el ejemplo <code>blink</code> que puede
 en la distribución de ESP-IDF que has clonado anteriormente (copia el ejemplo
 en cualquier punto de tu jerarquía de directorios antes de comenzar). </p>
 <p>Para configurar un proyecto ESP-IDF, simplemente utiliza la siguiente orden:</p>
-<pre><code class="language-sh">idf.py menuconfig
+<pre><code class="sh">idf.py menuconfig
 </code></pre>
+
 <p>La ejecución de la orden anterior te permitirá navegar por un conjunto de 
 opciones de carácter general, que te permitirán configurar las características
 específicas del proyecto a compilar (por ejemplo, seleccionando los componentes

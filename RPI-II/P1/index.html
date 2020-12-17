@@ -281,7 +281,7 @@ se cierra) a través de una invocación a <code>close()</code> en cada extremo.<
 el servidor simplemente responderá con la misma cadena que reciba desde el
 cliente.</p>
 <h3 id="servidor-echo">Servidor <em>echo</em></h3>
-<pre><code class="language-python">#!/usr/bin/env python3
+<pre><code class="python">#!/usr/bin/env python3
 
 #### servidor_echo.py
 
@@ -302,6 +302,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 break
             conn.sendall(data)
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>De momento, no importa si no entiendes todas las líneas en el anterior 
@@ -315,9 +316,10 @@ podeamos probarlo.</p>
 de una construcción <code>with</code>, no es necesario invocar explícitamente a 
 <code>s.close()</code>, aunque debes tener en cuenta que el objeto es destruido al 
 finalizar la construcción:</p>
-<pre><code class="language-python">with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+<pre><code class="python">with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     pass  # Es posible usar el socket win invocar a s.close().
 </code></pre>
+
 <p>Los argumentos que se proporcionan a <code>socket()</code> especifican la familia de
 direcciones (<code>AF_INET</code>) y tipo de <em>socket</em> (<code>SOCK_STREAM</code>). 
 <code>AF_INET</code> es la familia de direcciones de Internet para IPv4. 
@@ -325,13 +327,14 @@ direcciones (<code>AF_INET</code>) y tipo de <em>socket</em> (<code>SOCK_STREAM<
 TCP.</p>
 <p><code>bind()</code> se utiliza para asociar el socket a una interfaz de red y número de
 puerto específicos:</p>
-<pre><code class="language-python">HOST = '127.0.0.1'  # Interfaz estándar de loopback (localhost)
+<pre><code class="python">HOST = '127.0.0.1'  # Interfaz estándar de loopback (localhost)
 PORT = 65432        # Puerto de escucha (los puertos mayores a 1023 son no privilegiados)
 
 # ...
 
 s.bind((HOST, PORT))
 </code></pre>
+
 <p>Los valores proporcionados a <code>bind()</code> dependen de la familia de direcciones 
 seleccionada para el <em>socket</em>. En este ejemplo, al utilizar <code>AF_INET</code>, 
 espera una tupla con únicamente dos valores <em>(host, puerto)</em>.</p>
@@ -351,9 +354,10 @@ con valor inferior a 1024.</p>
 <p>Continuando con el ejemplo, <code>listen()</code> posibilita que un servidor pueda, en el
 futuro, aceptar (<code>accept()</code>) conexiones entrantes. En otras palabras, pone a
 la escucha al <em>socket</em>:</p>
-<pre><code class="language-python">s.listen()
+<pre><code class="python">s.listen()
 conn, addr = s.accept()
 </code></pre>
+
 <p>La invocación a <code>accept()</code> <strong>bloquea</strong> el proceso y espera a una conexión
 entrante. Cuando un cliente conecta, devuelve un objeto <code>socket</code> que representa
 la conexión, así como una tupla (<code>addr</code>) que contiene la dirección del cliente.
@@ -361,7 +365,7 @@ Concretamente, esta tupla contiene los valores <code>(host, port)</code> que alm
 la dirección IPv4 y puerto del cliente que solicita la conexión.</p>
 <p>Observa que, en el ejemplo, <code>conn</code> es el objeto <em>socket</em> que usaremos para 
 comunicar con el cliente:</p>
-<pre><code class="language-python">conn, addr = s.accept()
+<pre><code class="python">conn, addr = s.accept()
 with conn:
     print('Conectado ', addr)
     while True:
@@ -370,6 +374,7 @@ with conn:
             break
         conn.sendall(data)
 </code></pre>
+
 <p>Tras obtener el objeto devuelto por <code>accept()</code>, diseñamos el servidor como un
 bucle infinito que invoca repetidamente a llamadas <strong>bloqueantes</strong> a 
 <code>conn.recv()</code>. Así, leemos los datos enviados por el cliente y los reenviamos
@@ -380,7 +385,7 @@ el <em>socket</em> al salir de la sentencia <code>with</code>.</p>
 <h3 id="cliente-echo">Cliente <em>echo</em></h3>
 <p>Veamos a continuación la estructura general del cliente (puedes usar, por 
 ejemplo, <code>cliente_echo.py</code> como nombre para el fichero):</p>
-<pre><code class="language-python">#!/usr/bin/env python3
+<pre><code class="python">#!/usr/bin/env python3
 
 ### cliente_echo.py
 
@@ -396,6 +401,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
 print('Recibido ', repr(data))
 </code></pre>
+
 <p>En comparación con el servidor, la estructura del cliente es más simple;
 simplemente crea un nuevo objeto <em>socket</em>, conecta con el servidor e invoca
 a <code>s.sendall()</code> para enviar el mensaje. Finalmente, espera la recepción de 
@@ -404,21 +410,25 @@ la respuesta utilizando <code>s.recv()</code> y la imprime por pantalla.</p>
 <p>A continuación, ejecutaremos cliente y servidor para observar el estado de 
 las conexiones durante su ciclo de vida. </p>
 <p>Ejecuta en una terminal el servidor:</p>
-<pre><code class="language-bash">$ python3 ./servidor-echo.py
+<pre><code class="bash">$ python3 ./servidor-echo.py
 </code></pre>
+
 <p>Como ves, la terminal se bloquea (de hecho, el servidor permanece en 
 estado bloqueado) en la invocación:</p>
-<pre><code class="language-python">conn, addr = s.accept()
+<pre><code class="python">conn, addr = s.accept()
 </code></pre>
+
 <p>Realmente, el servidor está esperando a que haya conexiones entrantes por parte
 de un cliente. Abre otra terminal y ejecuta el cliente:</p>
-<pre><code class="language-bash">$ python3 cliente-echo.py
+<pre><code class="bash">$ python3 cliente-echo.py
 Recibido 'Hola, mundo'
 </code></pre>
+
 <p>En la ventana del servidor, deberías ver algo similar a:</p>
-<pre><code class="language-bash">$ python3 ./servidor-echo.py
+<pre><code class="bash">$ python3 ./servidor-echo.py
 Conectado ('127.0.0.1, 61234')
 </code></pre>
+
 <p>En esta salida, el servidor ha mostrado por pantalla la tupla devuelta por
 <code>s.accept()</code>, que incluye la dirección IP y el número de puerto TCP. Dicho
 número de puerto (en el ejemplo anterior, 61234) es seleccionado aleatoriamente
@@ -427,11 +437,12 @@ por el sistema operativo y puede variar en tu ejecución.</p>
 <p>Podemos utilizar la herramienta <em>netstat</em> para observar el estado actual de 
 los sockets en cualquier sistema operativo (macOS, Linux e incluso Windows). Por
 ejemplo, esta sería la salida de <code>netstat</code> en Linux tras ejecutar el servidor:</p>
-<pre><code class="language-bash">netstat -an | grep 65432
+<pre><code class="bash">netstat -an | grep 65432
 Conexiones activas de Internet (servidores y establecidos)
 Proto  Recib Enviad Dirección local         Dirección remota       Estado
 tcp        0      0 127.0.0.1:65432         0.0.0.0:*               ESCUCHAR
 </code></pre>
+
 <p>Observa que hemos filtrado la salida de la orden <code>netcat</code> según el número de 
 puerto utilizado. Observa el valor de las columnas <em>Proto, Dirección local</em> y 
 <em>Estado</em>.</p>
@@ -449,8 +460,9 @@ tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtro
 específicos.</p>
 <p>Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
 instalación básica Linux), teclea en tu terminal:</p>
-<pre><code class="language-bash">$ sudo wireshark
+<pre><code class="bash">$ sudo wireshark
 </code></pre>
+
 <p>Tras el arranque, podemos comenzar una nueva captura de tráfico a través
 del menú <code>Capture</code>, opción <code>Start</code>. La pantalla de selección de interfaz 
 nos permitirá definir en qué interfaz de red se realizará la captura. En 
@@ -468,7 +480,7 @@ mensaje y, en general, en cualquier otro aspecto que consideres de interés.</p>
 <p>La creación y gestión de <em>sockets</em> UDP en Python resulta todavía más sencilla.
 Observa el siguiente código, que crea un servidor UDP utilizando la API
 de <em>sockets</em> Python:</p>
-<pre><code class="language-python">import socket
+<pre><code class="python">import socket
 
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 udp_socket.bind((&quot;localhost&quot;, 5005))
@@ -476,6 +488,7 @@ udp_socket.bind((&quot;localhost&quot;, 5005))
 data = udp_socket.recv(512)
 print(data)
 </code></pre>
+
 <p>Primero, importamos la biblioteca <code>socket</code> de recepción, igual
 que en el caso de TCP. Obviamente, en este caso el tipo de <em>socket</em> pasa a ser
 <code>socket.DOCK_DGRAM</code>, para indicar que deseamos utilizar UDP en la comunicación.</p>
@@ -484,7 +497,7 @@ que en el caso de TCP. Obviamente, en este caso el tipo de <em>socket</em> pasa 
 recibir. Cuando un paquete llega al socket, el metodo <code>recv</code> devolverá un 
 <em>array</em> de bytes, que será almacenado en la variable que deseemos.</p>
 <p>El envío de datos a través de un <em>socket</em> UDP es también sencillo:</p>
-<pre><code class="language-python">import socket
+<pre><code class="python">import socket
 
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 udp_socket.bind((&quot;localhost&quot;, 0))
@@ -492,6 +505,7 @@ udp_socket.bind((&quot;localhost&quot;, 0))
 data = b&quot;Hola, mundo!&quot;
 udp_socket.sendto(data,(&quot;localhost&quot;, 5005))
 </code></pre>
+
 <p>Observa que, en este caso, asociamos (<em>bind</em>) el socket a un puerto especificado
 como 0. Este valor especial indica al sistema operativo que elija para la 
 transimisión un puerto <em>origen</em> aleatorio de entre los disponibles en el sistema.</p>
@@ -548,8 +562,9 @@ decodificación en el otro extremo de la comunicación.</p>
 </div>
 <p>El módulo <code>struct</code> proporciona dos métodos de interés: <code>pack</code> y <code>unpack</code>.</p>
 <p>La siguiente sentencia:</p>
-<pre><code class="language-python">struct.pack(&quot;&gt;iii&quot;, 1, 2, 3)
+<pre><code class="python">struct.pack(&quot;&gt;iii&quot;, 1, 2, 3)
 </code></pre>
+
 <p>utiliza el método <code>pack</code> para realizar un empaquetado de datos. Concretamente, 
 observa como el método recibe dos parámetros:</p>
 <ul>
@@ -567,12 +582,13 @@ observa como el método recibe dos parámetros:</p>
 empaquetar (en este caso, tres valores detipo entero). Para otros tipos
 de datos, consulta la documentación del módulo.</p>
 <p>Desempaquetar los datos enviados en el extremo opuesto es intuitivo:</p>
-<pre><code class="language-python">a, b, c = struct.unpack( &quot;&gt;iii&quot; )
+<pre><code class="python">a, b, c = struct.unpack( &quot;&gt;iii&quot; )
 </code></pre>
+
 <p>A continuación, mostramos un ejemplo de sistema cliente/servidor TCP que hace
 uso del módulo <code>struct</code> para realizar el envío de dos datos enteros y uno
 flotante entre un cliente y un servidor.</p>
-<pre><code class="language-python">
+<pre><code class="python">
 # Cliente
 
 import binascii                                                                             
@@ -596,7 +612,8 @@ finally:
     print('Cerrando socket')                                                                
     sock.close()                                                                            
 </code></pre>
-<pre><code class="language-python">
+
+<pre><code class="python">
 # Servidor
 
 import binascii                                                                             
@@ -623,6 +640,7 @@ while True:
     finally:                                                                                
         connection.close()
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Ejecuta el anterior sistema cliente servidor y analiza el tráfico generado,
@@ -652,7 +670,7 @@ de una característica esencial: el servidor deja de atender peticiones entrante
 mientras trata cada nuevo envío por parte del cliente. Los siguientes ejemplos
 muestran implementaciones sencillas con soporte multi-hilo para un sistema
 cliente/servidor escrito en Python. </p>
-<pre><code class="language-python"># Servidor TCP concurrente
+<pre><code class="python"># Servidor TCP concurrente
 
 import socket, threading
 
@@ -694,7 +712,8 @@ while True:
     newthread = ClientThread(clientAddress, clientsock)
     newthread.start()
 </code></pre>
-<pre><code class="language-python"># Cliente TCP. El envío de la cadena bye indica petición de desconexión.
+
+<pre><code class="python"># Cliente TCP. El envío de la cadena bye indica petición de desconexión.
 
 import socket
 
@@ -717,6 +736,7 @@ while True:
 
 client.close()
 </code></pre>
+
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Estudia el código del servidor concurrente y observa cómo gestiona la 

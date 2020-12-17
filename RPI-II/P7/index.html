@@ -203,17 +203,19 @@ implementar un servidor CoAP en el ESP32.</p>
 <p>En primer lugar, instalemos los prerequisitos necesarios para hacer funcionar
 {\tt libcoap}. Para ello, en la máquina virtual, ejecutaremos las siguientes
 órdenes:</p>
-<pre><code class="language-sh">sudo apt-get update
+<pre><code class="sh">sudo apt-get update
 sudo apt-get install libtool
 </code></pre>
+
 <p>Procedemos ahora con la instalación de {\tt libcoap}. Para ello, descarga la última
 versión de la biblioteca desde la página web del proyecto, descomprímelo y pasa a la
 fase de compilación e instalación:</p>
-<pre><code class="language-sh">sh autogen.sh
+<pre><code class="sh">sh autogen.sh
 ./configure --enable-examples --enable-dtls --with-openssl --disable-documentation
 make
 make install
 </code></pre>
+
 <p>Si no hay ningún error, <em>libcoap</em> se habrá instalado con éxito. Será de especial
 interés para nosotros la instalación de programas servidor (<em>coap-server</em>)
 y cliente (<em>coap-client</em>) de ejemplo en el directorio <strong>examples</strong>.</p>
