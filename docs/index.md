@@ -14,7 +14,7 @@
 | 5        |30/11|[BLE Mesh](RPI-I/P5/index.md)                             |
 |          |07/12|**FESTIVO**                                               |
 | 6        |14/11|[6LowPAN (Simulación)](RPI-I/P6/index.md)                 |
-| 7        |21/12|6LowPAN (SensorTag)                                       |
+| 7        |28/12|[6LowPAN (SensorTag)](RPI-I/P7/index.md)                    |
 | 8        |21/12|LoRA                                                      |
 
 # Calendario RPI-II
