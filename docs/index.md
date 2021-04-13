@@ -2,7 +2,7 @@
 
 # Calendario LSI
 
-| Laboratorio | Día | Título                                                |
+| Lab.     | Día | Título                                                |
 |-------------|-----|-------------------------------------------------------|
 | 0        |13/04|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
 | 1        |13/04|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
