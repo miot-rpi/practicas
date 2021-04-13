@@ -7,6 +7,8 @@
 * Acelerar el proceso de inferencia utilizando el acelerador Google Coral.
 * Diseñar e implementar una aplicación básica para detección de objetos.
 
+Puedes obtener los ficheros necesarios para el desarrollo de la práctica [aquí](https://drive.google.com/file/d/14Ld3kCbXjCxA_Lax97t9Y5BKvOutR8X-/view?usp=sharing).
+
 ## Interacción con la cámara vía OpenCV
 
 Existen múltiples APIs para acceder a la cámara proporcionada junto a la Raspberry Pi en el entorno experimental. 
