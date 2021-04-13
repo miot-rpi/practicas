@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 7 - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 7 - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -203,19 +240,17 @@ implementar un servidor CoAP en el ESP32.</p>
 <p>En primer lugar, instalemos los prerequisitos necesarios para hacer funcionar
 {\tt libcoap}. Para ello, en la máquina virtual, ejecutaremos las siguientes
 órdenes:</p>
-<pre><code class="sh">sudo apt-get update
+<pre><code class="language-sh">sudo apt-get update
 sudo apt-get install libtool
 </code></pre>
-
 <p>Procedemos ahora con la instalación de {\tt libcoap}. Para ello, descarga la última
 versión de la biblioteca desde la página web del proyecto, descomprímelo y pasa a la
 fase de compilación e instalación:</p>
-<pre><code class="sh">sh autogen.sh
+<pre><code class="language-sh">sh autogen.sh
 ./configure --enable-examples --enable-dtls --with-openssl --disable-documentation
 make
 make install
 </code></pre>
-
 <p>Si no hay ningún error, <em>libcoap</em> se habrá instalado con éxito. Será de especial
 interés para nosotros la instalación de programas servidor (<em>coap-server</em>)
 y cliente (<em>coap-client</em>) de ejemplo en el directorio <strong>examples</strong>.</p>

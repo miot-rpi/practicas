@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 10 - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 10 - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -202,9 +239,8 @@ reinstalación ni reconfiguración.</p>
 <em>ESP Azure</em> (fíjate en la opción <code>--recursive</code>, que es imprescindible):</p>
 </li>
 </ol>
-<pre><code class="sh">git clone --recursive https://github.com/espressif/esp-azure.git
+<pre><code class="language-sh">git clone --recursive https://github.com/espressif/esp-azure.git
 </code></pre>
-
 <h2 id="configuracion-de-microsoft-azure">Configuración de Microsoft Azure</h2>
 <p>Los siguientes pasos requieren el uso de una cuenta creada con Microsoft
 Azure. Los estudiantes UCM pueden adherirse al programa académico, que 
@@ -270,35 +306,30 @@ Esta es la clave de acceso para el dispositivo</strong>.</p>
 </ol>
 <h3 id="instalacion-de-el-cliente-azure">Instalación de el cliente Azure</h3>
 <p>Para instalar el cliente Azure en Linux, usa la orden:</p>
-<pre><code class="sh">curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+<pre><code class="language-sh">curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 </code></pre>
-
 <p>Tienes más opciones de instalación en la <a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt">página</a>.</p>
 <p>Una vez instalado, desde tu terminal, ejecuta el comando
 <code>az</code> para comprobar que la instalación fue correcta. Deberías
 ver una salida similar a esta:</p>
-<pre><code class="sh">az
+<pre><code class="language-sh">az
 
 Welcome to Azure CLI!
 ---------------------
 Use `az -h` to see available commands or go to https://aka.ms/cli.
 ...
 </code></pre>
-
 <p>Instala la extensión del cliente para Azure IoT:</p>
-<pre><code class="sh">az extension add --name azure-cli-iot-ext
+<pre><code class="language-sh">az extension add --name azure-cli-iot-ext
 </code></pre>
-
 <p>Ingresa en el sistema ejecutando (se te pedirá autenticación en 
 navegador, introduce tus credenciales):</p>
-<pre><code class="sh">az login
+<pre><code class="language-sh">az login
 </code></pre>
-
 <p>Para usar el cliente como método de creación de un dispositivo, puedes
 utilizar la siguiente orden:</p>
-<pre><code class="sh">az iot hub device-identity create -n [IoTHub Name] -d [Device ID]
+<pre><code class="language-sh">az iot hub device-identity create -n [IoTHub Name] -d [Device ID]
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Crea un nuevo dispositivo, distinto al que creaste anteriormente, en
@@ -309,9 +340,8 @@ tu hub. Después, obtén su cadena de conexión usando la orden
 <h3 id="monitorizacion-de-valores-de-telemetria-del-dispositivo-y-eventos">Monitorización de valores de telemetría del dispositivo y eventos</h3>
 <p>Para observar los datos intercambiados entre el dispositivo y el <em>hub</em>
 IoT desde línea de ocmandos, puedes usar la orden:</p>
-<pre><code class="sh">az iot hub monitor-events -n [IoTHub Name] --login 'cadena de conexion'
+<pre><code class="language-sh">az iot hub monitor-events -n [IoTHub Name] --login 'cadena de conexion'
 </code></pre>
-
 <p>(Ten en cuenta que las comillas simples deben estar presentes).</p>
 <h2 id="despliegue-de-un-cliente-mqtt-en-el-esp32">Despliegue de un cliente MQTT en el ESP32</h2>
 <p>Dirígete al ejemplo situado en el directorio 
@@ -319,11 +349,10 @@ IoT desde línea de ocmandos, puedes usar la orden:</p>
 de los dos dispositivos que has creado en tu <em>Hub</em>. En cualquier caso,
 muestra su <em>cadena de conexión principal</em>. Deberás ver un valor 
 de devolución de tipo:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;connectionString&quot;: &quot;HostName=&lt;azure-iot-hub-name&gt;.azure-devices.net;DeviceId=&lt;azure-iot-device-id&gt;;SharedAccessKey=&lt;base64-encoded-shared-access-key&gt;&quot;
 }
 </code></pre>
-
 <p>Deberás apuntar (copiar) únicamente la parte que comienza por 
 <em>HostName=...</em>, hasta el final de la cadena. No incluyas las comillas
 dobles.</p>
@@ -333,24 +362,21 @@ cadena de conexión que copiaste en la opción
 <em>IOT Hub Device Connection String</em>.</p>
 <p>A continuación, ejecuta la orden de compilación, <em>flasheado</em> y
 monitorización:</p>
-<pre><code class="sh">make flash monitor
+<pre><code class="language-sh">make flash monitor
 </code></pre>
-
 <p>En una ventana separada, puedes monitorizar los eventos IoT
 en tu <em>hub</em> usando su cadena de conexión:</p>
-<pre><code class="sh">az iot hub monitor-events -n [IoTHub Name] --login 'Cadena de conexión primaria'
+<pre><code class="language-sh">az iot hub monitor-events -n [IoTHub Name] --login 'Cadena de conexión primaria'
 </code></pre>
-
 <p>Una vez arrancado y conectado a Internet el dispositivo comenzará a
 publicar mensajes MQTT. El monitor que has lanzado los mostrará como:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
     &quot;event&quot;: {
         &quot;origin&quot;: &quot;&lt;azure-iot-device-id&gt;&quot;,
         &quot;payload&quot;: &quot;{\&quot;deviceId\&quot;:\&quot;MIOTDEVICE\&quot;,\&quot;windSpeed\&quot;:13.00,\&quot;temperature\&quot;:22.00,\&quot;humidity\&quot;:67.00}&quot;
     }
 }
 </code></pre>
-
 <p>Observa que incluye tres valores: velocidad del viento, temperatura y humedad.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
@@ -362,9 +388,8 @@ mensaje MQTT (y sus valores).</p>
 línea de comandos (observa que estos mensajes se envían vía red, no 
 vía puerto serie, a través del <em>Hub</em>). Por tanto, puedes hacerlo desde
 cualquier punto, no obligatoriamente desde tu PC:</p>
-<pre><code class="sh">az iot device c2d-message send -d [Device Id] -n [IoTHub Name] --data [Data_to_Send]
+<pre><code class="language-sh">az iot device c2d-message send -d [Device Id] -n [IoTHub Name] --data [Data_to_Send]
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Si todo ha ido bien, en este punto deberías estar observando cada uno de los mensajes enviados por tu ESP32 al <em>hub</em> desde el monitor.</p>

@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 3 - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 3 - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -302,7 +339,7 @@ nodo raíz (ya que su selección es automática), todos los nodos deberán
 inicializar la pila IP.</p>
 <p>Por tanto, todos los nodos incializan la pila IP vía <code>tcpip_adapter_init()</code>. Además, todos los nodos deberán detener el servidor DHCP en la interfaz
 <code>softAP</code>, y el cliente DHCP en la interfaz <code>station</code>:</p>
-<pre><code class="c">/*  tcpip initialization */
+<pre><code class="language-c">/*  tcpip initialization */
 tcpip_adapter_init();
 /*
  * for mesh
@@ -312,7 +349,6 @@ tcpip_adapter_init();
 ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
 ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
 </code></pre>
-
 <p>Sin embargo, en el caso de un nodo que se convierte en raíz, es 
 imprescindible arrancar el cliente DHCP como respuesta al evento
 corresondiente para así obtener dirección IP desde el router que
@@ -321,7 +357,7 @@ da salida hacia la red externa.</p>
 <p>El siguiente código muestra la estructura básica de inicialización
 de pilas IP y WiFi necesarias para comenzar con la configuración de la 
 red MESH:</p>
-<pre><code class="c">tcpip_adapter_init();
+<pre><code class="language-c">tcpip_adapter_init();
 /*
  * for mesh
  * stop DHCP server on softAP interface by default
@@ -341,7 +377,6 @@ ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &amp;i
 ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 </code></pre>
-
 <p>Tras esta inicialización, comienza la fase de configuración e inicialización
 de la malla, que procederá en tres pasos principales:</p>
 <ol>
@@ -351,12 +386,11 @@ de la malla, que procederá en tres pasos principales:</p>
 </ol>
 <h3 id="paso-1-inicializacion-de-la-malla">Paso 1. Inicialización de la malla</h3>
 <p>La inicialización de la malla y registro de eventos propios es sencilla:</p>
-<pre><code class="c">/*  mesh initialization */
+<pre><code class="language-c">/*  mesh initialization */
 ESP_ERROR_CHECK(esp_mesh_init());
 /*  register mesh events handler */
 ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &amp;mesh_event_handler, NULL));
 </code></pre>
-
 <h3 id="paso-2-configuracion-de-la-red-esp-mesh">Paso 2. Configuración de la red ESP-MESH</h3>
 <p>La configuración de ESP-MESH se realiza a través de la
 función <code>esp_mesh_set_config()</code>, que recibe una estructura de tipo
@@ -388,7 +422,7 @@ función <code>esp_mesh_set_config()</code>, que recibe una estructura de tipo
 </tbody>
 </table>
 <p>Un ejemplo de configuración podría ser:</p>
-<pre><code class="c">/* Mesh ID */
+<pre><code class="language-c">/* Mesh ID */
 static const uint8_t MESH_ID = { 0x77, 0x77, 0x77, 0x77, 0x77, 0x77 };
 /* Enable the Mesh IE encryption by default */
 mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
@@ -407,13 +441,11 @@ memcpy((uint8_t *) &amp;cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD,
        strlen(CONFIG_MESH_AP_PASSWD));
 ESP_ERROR_CHECK(esp_mesh_set_config(&amp;cfg));
 </code></pre>
-
 <h3 id="paso-3-arranque-de-la-red">Paso 3. Arranque de la red</h3>
 <p>El arranque de la red MESH es sencillo:</p>
-<pre><code class="c">/* mesh start */
+<pre><code class="language-c">/* mesh start */
 ESP_ERROR_CHECK(esp_mesh_start());
 </code></pre>
-
 <p>Tras el arranque, la aplicación debería comprobar los eventos para determinar
 si la conexión a la red ha sido exitosa. En dicho caso, tras la conexión,
 la aplicación puede comenzar a transmitir paquetes a través de la red MESH
@@ -517,14 +549,13 @@ que éstos deben inicializarse antes del propio componente. Para finalizar
 el componente de provisionamiento, es suficiente con invocar a la rutina
 <code>wifi_prov_mgr_deinit()</code>.</p>
 <p>Un ejemplo de inicialización resultaría en:</p>
-<pre><code class="c">wifi_prov_mgr_config_t config = {
+<pre><code class="language-c">wifi_prov_mgr_config_t config = {
   .scheme = wifi_prov_scheme_ble,
   .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM
 };
 
 ESP_ERR_CHECK( wifi_prov_mgr_init(config) );
 </code></pre>
-
 <p>La estructura de configuración de tipo <code>wifi_prov_mgr_config_t</code> dispone de
 campos que permiten especificar el comportamiento del componente;
 específicamente, el campo <code>scheme</code> especifica el esquema (o tipo) de 
@@ -545,9 +576,8 @@ credenciales de conexión WiFi están almacenadas en la memoria no volátil (NVS
 <p>Aunque existen distintos métodos para eliminar la información de provisionamento
 almacenada en la NVS, utilizaremos el mecanismo proporcionado por <code>idf.py</code> para
 eliminar su contenido. Para ello, ejecutaremos:</p>
-<pre><code class="sh">idf.py erase_flash
+<pre><code class="language-sh">idf.py erase_flash
 </code></pre>
-
 <h3 id="parametros-de-inicializacion-del-servicio-de-provisionamiento-wifi">Parámetros de inicialización del servicio de provisionamiento WiFi</h3>
 <p>Al inicializar el componente de provisionamiento, es necesario especificar
 un nombre de servicio y una clave. Esto se traduce en:</p>
@@ -578,7 +608,7 @@ de credenciales de provisionamiento:</p>
 </ul>
 <p>Así, un ejemplo de inicialización del servicio de provisionamiento podría
 resultar en el siguiente código:</p>
-<pre><code class="c">const char *service_name = &quot;my_device&quot;;
+<pre><code class="language-c">const char *service_name = &quot;my_device&quot;;
 const char *service_key  = &quot;password&quot;;
 
 wifi_prov_security_t security = WIFI_PROV_SECURITY_1;
@@ -586,7 +616,6 @@ const char *pop = &quot;abcd1234&quot;;
 
 ESP_ERR_CHECK( wifi_prov_mgr_start_provisioning(security, pop, service_name, service_key) );
 </code></pre>
-
 <p>El servicio de provisionamiento finalizará automáticamente al conectar a un 
 AP con éxito (es decir, al obtener IP desde el mismo). En cualquier caso, 
 puede también detenerse de forma manual en cualquier momento a través
@@ -601,7 +630,7 @@ de provisionamiento, y comenzarán con su lógica habitual.</p>
 <li>En primer lugar, la solución más simple consiste en utilizar una 
   invocación <strong>bloqueante</strong> a la rutina <code>wifi_prov_mgr_wait()</code>:</li>
 </ul>
-<pre><code class="c">// Inicialización del servicio de provisionamiento
+<pre><code class="language-c">// Inicialización del servicio de provisionamiento
 ESP_ERR_CHECK( wifi_prov_mgr_start_provisioning(security, pop, service_name, service_key) );
 
 // Espera a la compleción del provisionamiento
@@ -613,14 +642,13 @@ wifi_prov_mgr_deinit();
 // A partir de aquí, comenzaría la lógica habitual de la aplicación
 // ...
 </code></pre>
-
 <ul>
 <li>El segundo mecanismo estaría basado en eventos (es decir, sería <em>no bloqueante</em>),
   interceptando y trabajando sobre eventos de tipo <code>WIFI_PROV_EVENT</code> e 
   invocando a <code>wifi_prov_mgr_deinit()</code> cuando el identificador de evento
   sea <code>WIFI_PROV_END</code>:</li>
 </ul>
-<pre><code class="c">static void event_handler(void* arg, esp_event_base_t event_base,
+<pre><code class="language-c">static void event_handler(void* arg, esp_event_base_t event_base,
                           int event_id, void* event_data)
 {
     if (event_base == WIFI_PROV_EVENT &amp;&amp; event_id == WIFI_PROV_END) {
@@ -629,7 +657,6 @@ wifi_prov_mgr_deinit();
     }
 }
 </code></pre>
-
 <h3 id="herramientas-de-provisionamiento-para-dispositivos-moviles">Herramientas de provisionamiento para dispositivos móviles</h3>
 <p>Existen aplicaciones preparadas por Espressif para llevar a cabo el proceso
 de provisionamiento sobre ESP32. Estas aplicaciones están disponibles tanto
@@ -726,9 +753,8 @@ Básicamente, una sesión de provisionamiento utilizando <code>softAP</code>
 sobre un dispositivo a la espera con IP <code>192.168.4.1</code>, sin capa de 
 seguridad (cifrado) y proporcionando la SSID y clave SSID_EJEMPLO/CLAVE_EJEMPLO
 resultaría:</p>
-<pre><code class="sh">python esp_prov.py --transport softap --service_name &quot;192.168.4.1:80&quot; --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
+<pre><code class="language-sh">python esp_prov.py --transport softap --service_name &quot;192.168.4.1:80&quot; --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
 </code></pre>
-
 <p>Ten en cuenta que, para emitir el anterior comando, debes pertenecer a la 
 misma red que el dispositivo a provisionar, es decir, haber conectado al SSID
 de provisionamiento que se proporciona.</p>

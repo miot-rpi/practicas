@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 6 (I) - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 6 (I) - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -204,9 +241,8 @@ Aunque <em>mosquitto</em> es principalmente una implementación de <em>broker</e
 la utilizaremos en este paso a modo de cliente, lo que nos permitirá suscribirnos
 o publicar sobre cualquier <em>topic</em> MQTT.</p>
 <p>En primer lugar, instala <em>mosquitto</em>:</p>
-<pre><code class="sh">sudo apt-get install mosquitto mosquitto-clients mosquitto-dev libmosquitto*
+<pre><code class="language-sh">sudo apt-get install mosquitto mosquitto-clients mosquitto-dev libmosquitto*
 </code></pre>
-
 <p>Si todo ha ido bien, deberías disponer de dos binarios listos para ejecución:</p>
 <ul>
 <li><code>mosquitto_sub</code>: permite suscribirse a un determinado <em>topic</em> utilizando un 
@@ -221,9 +257,8 @@ los parámetros que te permitirán especificar el <em>broker</em> destino, el <e
 a utilizar y, en el caso de la publicación, el <em>mensaje</em> a enviar. </p>
 </div>
 <p>Suscribámonos al <em>topic</em> <code>#</code> en el <em>broker</em>, utilizando para ello la orden:</p>
-<pre><code class="sh">mosquitto_sub -h test.mosquitto.org  -t &quot;#&quot;
+<pre><code class="language-sh">mosquitto_sub -h test.mosquitto.org  -t &quot;#&quot;
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Pausa la salida en cuanto puedas. ¿A qué corresponden los mensajes que estás</p>
@@ -232,9 +267,8 @@ a utilizar y, en el caso de la publicación, el <em>mensaje</em> a enviar. </p>
 <p>A continuación, vamos a realizar un proceso de publicación/suscripcion con un 
 <em>topic</em> conocido (por ejemplo, <code>/MIOT/tunombre/</code>). Para publicar un mensaje
 bajo dicho <em>topic</em>:</p>
-<pre><code class="sh">mosquitto_pub -h test.mosquitto.org -t &quot;/MIOT/tunombre&quot; -m &quot;Hola, soy tunombre&quot;
+<pre><code class="language-sh">mosquitto_pub -h test.mosquitto.org -t &quot;/MIOT/tunombre&quot; -m &quot;Hola, soy tunombre&quot;
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Suscríbete al topic <code>/MIOT/tunombre</code> y observa si recibes los resultados 
@@ -257,15 +291,13 @@ cantidad de inconvenientes (seguridad, imposibilidad de configuración avanzada,
 infraestructura MQTT local o remota bajo nuestro control.</p>
 <p>El arranque de un <em>broker</em> (servidor) <em>mosquitto</em> se realiza mediante el propio
 comando <code>mosquitto</code>:</p>
-<pre><code class="sh">mosquitto [-c config file] [ -d | --daemon ] [-p port number] [-v]
+<pre><code class="language-sh">mosquitto [-c config file] [ -d | --daemon ] [-p port number] [-v]
 </code></pre>
-
 <p>Sin embargo, en la mayoría de distribuciones Linux, el <em>broker</em> arranca por
 defecto y se ejecuta constantemente en segundo plano. Para comprobar el estado
 de funcionamiento del <em>broker</em>, basta con ejecutar:</p>
-<pre><code class="sh">sudo service mosquitto status
+<pre><code class="language-sh">sudo service mosquitto status
 </code></pre>
-
 <p>Observarás un mensaje que indica que el servicio está activo. Las opciones
 <code>restart</code>, <code>start</code> o <code>stop</code> te permitirán controlar el estado del <em>broker</em> en
 todo momento.</p>
@@ -295,14 +327,13 @@ de protocolos de mensajería M2M e IoT, aunque, en este momento, su uso principa
 se centra exclusivamente en MQTT.</p>
 <p>En nuestro caso, utilizaremos la versión Python de la biblioteca, instalable
 vía:</p>
-<pre><code class="sh">pip install paho-mqtt
+<pre><code class="language-sh">pip install paho-mqtt
 </code></pre>
-
 <p>Dispones de la documentación del módulo a través de <a href="https://pypi.org/project/paho-mqtt/#usage-and-api">este enlace</a>.</p>
 <p>El despliegue de un ejemplo sencillo para un cliente que se conecta a un <em>broker</em>
 y se suscribe al tópico <code>$SYS</code>, imprimiendo los mensajes recibidos, resultaría,
 utilizando Paho, en el siguiente código Python:</p>
-<pre><code class="python">import paho.mqtt.client as mqtt
+<pre><code class="language-python">import paho.mqtt.client as mqtt
 
 # Funcion callback invocada cuandl el cliente recibe un CONNACK desde el broker.
 def on_connect(client, userdata, flags, rc):
@@ -327,7 +358,6 @@ client.connect(&quot;mqtt.eclipse.org&quot;, 1883, 60)
 # y maneja la reconexión al broker. 
 client.loop_forever()
 </code></pre>
-
 <p>La clase cliente puede utilizarse para:</p>
 <ul>
 <li>Crear una instancia de cliente MQTT.</li>
@@ -343,45 +373,40 @@ de eventos. De entre los más utilizados, destacan:</p>
 <li><code>ON_CONNECT</code>: invocado cuando el <em>broker</em> responde a nuestra petición de conexión.
 Ejemplo:</li>
 </ul>
-<pre><code class="python">def on_connect(client, userdata, flags, rc):
+<pre><code class="language-python">def on_connect(client, userdata, flags, rc):
     print(&quot;Connection returned result: &quot;+connack_string(rc))
 </code></pre>
-
 <ul>
 <li><code>ON_DISCONNECT</code>: invocado cuando el cliente se desconecta del <em>broker</em>.
 Ejemplo:</li>
 </ul>
-<pre><code class="python">def on_disconnect(client, userdata, rc):
+<pre><code class="language-python">def on_disconnect(client, userdata, rc):
     if rc != 0:
         print(&quot;Unexpected disconnection.&quot;)
 </code></pre>
-
 <ul>
 <li><code>ON_MESSAGE</code>: invocado cuando se recibe un mensaje en un <em>topic</em> al que </li>
 <li>el cliente está suscrito. 
 Ejemplo:</li>
 </ul>
-<pre><code class="python">def on_message(client, userdata, message):
+<pre><code class="language-python">def on_message(client, userdata, message):
     print(&quot;Received message '&quot; + str(message.payload) + &quot;' on topic '&quot;
         + message.topic + &quot;' with QoS &quot; + str(message.qos))
 </code></pre>
-
 <p>Para publicar de forma puntual sobre un <em>broker</em> (sin mantener
 una conexión establecida), es posible utilizar la siguiente secuencia de
 ordenes:</p>
-<pre><code class="python">import paho.mqtt.publish as publish
+<pre><code class="language-python">import paho.mqtt.publish as publish
 
 publish.single(&quot;paho/test/single&quot;, &quot;payload&quot;, hostname=&quot;mqtt.eclipse.org&quot;)
 </code></pre>
-
 <p>Del mismo modo, podemos suscribirnos de forma puntual mediante una llamada
 bloqueante a:</p>
-<pre><code class="python">import paho.mqtt.subscribe as subscribe
+<pre><code class="language-python">import paho.mqtt.subscribe as subscribe
 
 msg = subscribe.simple(&quot;paho/test/simple&quot;, hostname=&quot;mqtt.eclipse.org&quot;)
 print(&quot;%s %s&quot; % (msg.topic, msg.payload))
 </code></pre>
-
 <p>Toda la información y documentación asociada al módulo puede consultarse
 <a href="https://pypi.org/project/paho-mqtt/">aquí</a>.</p>
 <h3 id="wildcards">Wildcards</h3>
