@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 4 - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 4 - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -207,15 +244,14 @@ módulo <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a>)
 de Python. </p>
 <p>Para utilizar el módulo <code>websockets</code> de Python, primero lo instalaremos vía
 <code>pip</code>:</p>
-<pre><code class="sh">pip install websockets
+<pre><code class="language-sh">pip install websockets
 </code></pre>
-
 <p>Un ejemplo básico se puede basar en un cliente que envía una cadena a un 
 servidor, y queda a la espera de recibir un mensaje de respuesta por parte
 de éste, tal y como hemos visto en otras prácticas. </p>
 <p>Desarrollar la parte servidora para dicha aplicación resulta sencillo. Observa
 el siguiente código:</p>
-<pre><code class="python">#!/usr/bin/env python
+<pre><code class="language-python">#!/usr/bin/env python
 
 import asyncio
 import websockets
@@ -234,7 +270,6 @@ start_server = websockets.serve(hello, &quot;localhost&quot;, 8765)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
 </code></pre>
-
 <p>El paradigma de programación utilizado en este ejemplo (basado en el 
 módulo <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a>) queda fuera
 del propósito de la práctica (aunque se invita al alumno a estudiarlo, ya
@@ -243,9 +278,8 @@ aplicaciones de red). En cualquier caso, el anterior servidor ejecuta
 una (co)rutina manejadora <code>hello</code> para cada conexión <em>websocket</em> establecida; 
 además, se cierra dicha conexión cuando dicha (co)rutina finaliza.</p>
 <p>Concretamente, las funciones de interés en este caso son:</p>
-<pre><code class="python">await websockets.server.serve(ws_handler, host=None, port=None, # ...
+<pre><code class="language-python">await websockets.server.serve(ws_handler, host=None, port=None, # ...
 </code></pre>
-
 <p>Crea, incializa y devuelve un objeto <em>servidor Websocket</em> asociado al 
 host y puerto seleccionados. En un contexto de programación asíncrona (como
 el del ejemplo, el servidor finaliza automáticamente al salir de dicho contexto).</p>
@@ -253,20 +287,18 @@ el del ejemplo, el servidor finaliza automáticamente al salir de dicho contexto
 que es tratada por la (co)rutina <code>ws_handler</code> (en el ejemplo, <code>hello</code>). Antes
 de delegar la conexión a la (co)rutina, se lleva a cabo el <em>handshake</em> de 
 apertura <em>websocket</em>.</p>
-<pre><code class="python">await recv()
+<pre><code class="language-python">await recv()
 </code></pre>
-
 <p>Recibe el siguiente mensaje, devolviendo una cadena si el <em>frame</em> recibido
 es de texto, o un <em>array</em> de bytes si es binario.</p>
-<pre><code class="python">await send(message)
+<pre><code class="language-python">await send(message)
 </code></pre>
-
 <p>Envía un mensaje. <code>message</code> puede er una cadena, o un array de bytes. En 
 el primer caso, se envía un <em>frame</em> de texto; en el segundo caso, 
 un <em>frame</em> binario.</p>
 <p>A continuación se muestra un ejemplo de cliente <em>websocket</em> para interactuar
 con el anterior servidor:</p>
-<pre><code class="python">#!/usr/bin/env python
+<pre><code class="language-python">#!/usr/bin/env python
 
 import asyncio
 import websockets
@@ -284,13 +316,11 @@ async def hello():
 
 asyncio.get_event_loop().run_until_complete(hello())
 </code></pre>
-
 <p>El código en este caso es sencillo, ya que únicamente se basa en la planificación
 (ejecución) de una (co)rutina llamada <code>hello</code>, que establece una conexión con
 un servidor <em>websocket</em> vía <code>connect</code>, enviando y recibiendo un par de mensajes.</p>
-<pre><code class="python">await websockets.client.connect(uri, # ...
+<pre><code class="language-python">await websockets.client.connect(uri, # ...
 </code></pre>
-
 <p>Conecta con un servidor <em>websocket</em> en la URI determinada. La conexión se cierra
 al abandonar el contexto asíncrono (es decir, la (co)rutina <code>hello</code>).</p>
 <div class="admonition danger">
@@ -318,7 +348,7 @@ modernos soportan <em>websockets</em> a través de <em>scripts Javascript</em>).
 <p>En este caso, simplemente observa la interacción de un servidor <em>websocket</em> 
 que envía mensajes que incluyen la hora actual separados un número aleatorio
 de tiempo entre ellos:</p>
-<pre><code class="python">#!/usr/bin/env python
+<pre><code class="language-python">#!/usr/bin/env python
 
 # WS server that sends messages at random intervals
 
@@ -338,11 +368,10 @@ start_server = websockets.serve(time, &quot;127.0.0.1&quot;, 5678)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
 </code></pre>
-
 <p>Con un cliente (una página HTML) que establece la conexión vía <em>websockets</em>,
 y muestra en la misma un elemento de texto con la marca de tiempo recibida 
 tras la recepción de cada mensaje:</p>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
         &lt;title&gt;WebSocket demo&lt;/title&gt;
@@ -363,7 +392,6 @@ tras la recepción de cada mensaje:</p>
     &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Ejecuta el servidor en tu máquina virtual y, tras guardar el código fuente
@@ -384,7 +412,7 @@ de información de estado siempre actualizada: el valor de un contador
 ser modificado por los clientes conectados sumando o restando uno a su valor
 a través de mensajes enviados por el <em>socket</em>; y el número de clientes 
 conectados (<code>USERS</code>).</p>
-<pre><code class="python">#!/usr/bin/env python
+<pre><code class="language-python">#!/usr/bin/env python
 
 import asyncio
 import json
@@ -452,39 +480,34 @@ start_server = websockets.serve(counter, &quot;localhost&quot;, 6789)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
 </code></pre>
-
 <p>Observa el código del servidor. </p>
 <p>El manejador <code>counter</code> procesa cada conexión
 entrante, registrando a su entrada a un nuevo cliente en el sistema (<code>register</code>)
 y desregistrándolo antes de finalizar (<code>unregister</code>). Ante cada registro
 o desregistro, se notifica a los usuarios este hecho, enviando a cada
 cliente un pequeño texto en formato JSON cuyo contenido es:</p>
-<pre><code class="json">{&quot;type&quot;: &quot;users&quot;, &quot;count&quot;: usuarios}
+<pre><code class="language-json">{&quot;type&quot;: &quot;users&quot;, &quot;count&quot;: usuarios}
 </code></pre>
-
 <p>Es decir, un mensaje con dos campos (veremos JSON en la próxima práctica):
 campo <code>type</code>, con valor fijo <code>users</code>, y campo <code>count</code>, con un valor entero 
 que indica el número de clientes conectados.</p>
 <p>A continuación, para cada mensaje recibido a través del socket, éste se procesa,
 esperando también un fichero JSON con la acción que el cliente solicita (sumar
 o restar 1 al contador), por ejemplo:</p>
-<pre><code class="json"> {&quot;action&quot;: &quot;minus&quot;}
+<pre><code class="language-json"> {&quot;action&quot;: &quot;minus&quot;}
 </code></pre>
-
 <p>o</p>
-<pre><code class="json"> {&quot;action&quot;: &quot;plus&quot;}
+<pre><code class="language-json"> {&quot;action&quot;: &quot;plus&quot;}
 </code></pre>
-
 <p>En función de la acción solicitada, el servidor actualiza el valor de <code>STATE</code>,
 y envía (rutina <code>notify_state</code>) dicho valor actualizado a TODOS los clientes
 conectados mediante un pequeño mensaje de texto en formato JSON:</p>
-<pre><code class="json">{&quot;type&quot;: &quot;state&quot;, &quot;value&quot;: VALOR}
+<pre><code class="language-json">{&quot;type&quot;: &quot;state&quot;, &quot;value&quot;: VALOR}
 </code></pre>
-
 <p>La parte cliente sigue la misma filosofía, utilizando de nuevo el navegador
 como plataforma para visualizar la interacción con el cliente. El código HTML
 que puedes abrir en tu navegador es el siguiente:</p>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
         &lt;title&gt;WebSocket demo&lt;/title&gt;
@@ -565,7 +588,6 @@ que puedes abrir en tu navegador es el siguiente:</p>
     &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-
 <p>Observa cómo el <em>script</em> envía mensajes de suma o resta en formato JSON acorde
 al esperado por el servidor, y procesa los mensajes de entrada actualizando
 la información mostrada en pantalla recibida acerca del valor del contador
@@ -609,7 +631,7 @@ control como de datos). Algunos campos de interés dentro de la estructura son:<
 de menor interés para nosotros.</p>
 <p>Observemos el código de una posible función manejadora de eventos del componente
 <em>websocket</em>:</p>
-<pre><code class="c">static void websocket_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+<pre><code class="language-c">static void websocket_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
     esp_websocket_event_data_t *data = (esp_websocket_event_data_t *)event_data;
     switch (event_id) {
@@ -637,7 +659,6 @@ de menor interés para nosotros.</p>
     }
 }
 </code></pre>
-
 <p>Observa el código. En función del parámetro <code>event_id</code>, el manejador toma
 un camino de ejecución u otro. Centrémonos en la recepción de un evento de
 tipo <code>ẀEBSOCKET_EVENT_DATA</code>; a través de los distintos campos de la estructura
@@ -660,30 +681,26 @@ de información recibida (<code>event_data</code>), es posible:</p>
 <ul>
 <li><strong>Configuración de URI (host + puerto)</strong></li>
 </ul>
-<pre><code class="c">esp_websocket_client_config_t websocket_cfg = {};
+<pre><code class="language-c">esp_websocket_client_config_t websocket_cfg = {};
 websocket_cfg.uri = &quot;ws://localhost:123&quot;;
 esp_websocket_client_handle_t client = esp_websocket_client_init(&amp;websocket_cfg);
 </code></pre>
-
 <ul>
-<li><strong>Asociación de manejador a eventos *Websocket</strong>*</li>
+<li><strong>Asociación de manejador a eventos <em>Websocket</em></strong></li>
 </ul>
-<pre><code class="c">esp_websocket_register_events(client, WEBSOCKET_EVENT_ANY, websocket_event_handler, (void *)client);
+<pre><code class="language-c">esp_websocket_register_events(client, WEBSOCKET_EVENT_ANY, websocket_event_handler, (void *)client);
 </code></pre>
-
 <ul>
 <li><strong>Inicialización del cliente</strong></li>
 </ul>
-<pre><code class="c">esp_websocket_client_start(client);
+<pre><code class="language-c">esp_websocket_client_start(client);
 </code></pre>
-
 <p>A partir de este punto, la interacción con el servidor se puede realizar en 
 base a funciones de envío de texto o binario:</p>
-<pre><code class="c">int esp_websocket_client_send(esp_websocket_client_handle_tclient, const char *data, int len, TickType_t timeout)
+<pre><code class="language-c">int esp_websocket_client_send(esp_websocket_client_handle_tclient, const char *data, int len, TickType_t timeout)
 
 esp_websocket_client_send_bin(esp_websocket_client_handle_tclient, const char *data, int len, TickType_t timeout)
 </code></pre>
-
 <p>No existen funciones de recepción, ya que ésta es implícita y se notifica vía
 eventos.</p>
 <h3 id="ejemplo-basico-cliente-echo">Ejemplo básico: cliente <em>echo</em></h3>
@@ -718,21 +735,19 @@ mensajes esperado por parte del servidor. Recuerda que se pueden recibir dos
 tipos de mensajes de texto:</li>
 <li>Mensajes de estado:</li>
 </ul>
-<pre><code class="json">{&quot;type&quot;: &quot;users&quot;, &quot;count&quot;: usuarios}
+<pre><code class="language-json">{&quot;type&quot;: &quot;users&quot;, &quot;count&quot;: usuarios}
 </code></pre>
-
 <ul>
 <li>Mensajes de usuarios:</li>
 </ul>
-<pre><code class="json">{&quot;type&quot;: &quot;state&quot;, &quot;value&quot;: VALOR}
+<pre><code class="language-json">{&quot;type&quot;: &quot;state&quot;, &quot;value&quot;: VALOR}
 </code></pre>
-
 <p>Observa que ambos mensajes, pese a ser recibidos como texto, corresponden con
 una representación JSON de la información. Para tratarla desde ESP-IDF, 
 puedes hacer uso del componente cJSON del <em>framework</em>. Por ejemplo, para 
 tratar un mensaje de entrada de tipo "state", podríamos añadir la siguiente
 secuencia de código en nuestro manejador:</p>
-<pre><code class="c">#include &quot;cJSON.h&quot;
+<pre><code class="language-c">#include &quot;cJSON.h&quot;
 
 // ...
 
@@ -749,7 +764,6 @@ if( data-&gt;op_code == 1 ) { // Text frame only.
   }
 }
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Modifica el <em>firmware</em> de ejemplo <em>websockets</em> para que pueda comunicarse

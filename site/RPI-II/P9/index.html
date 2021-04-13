@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 9 - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 9 - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -193,20 +230,18 @@ instalación y uso básico de la herramienta Node-RED. </p>
 <h2 id="instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</h2>
 <p>Para instalar Node-RED en la máquina virtual del curso, es suficiente con 
 utilizar el gestor <code>npm</code>:</p>
-<pre><code class="sh">sudo npm install -g --unsafe-perm node-red
+<pre><code class="language-sh">sudo npm install -g --unsafe-perm node-red
 </code></pre>
-
 <p>Al finalzar, si todo ha ido bien, deberías observar una salida similar a la
 siguiente:</p>
-<pre><code class="sh">+ node-red@1.1.0
+<pre><code class="language-sh">+ node-red@1.1.0
 added 332 packages from 341 contributors in 18.494s
 found 0 vulnerabilities
 </code></pre>
-
 <p>Para ejecutar Node-RED, una vez instalado, es posible utilizar la orden
 <code>node-red</code> desde cualquier terminal. Para detener el proceso, es suficiente
 con utilizar <code>Ctrl-C</code>:</p>
-<pre><code class="sh">$ node-red
+<pre><code class="language-sh">$ node-red
 
 Welcome to Node-RED
 ===================
@@ -226,7 +261,6 @@ Welcome to Node-RED
 30 Jun 23:43:44 - [info] Started flows
 30 Jun 23:43:44 - [info] Server now running at http://127.0.0.1:1880/red/
 </code></pre>
-
 <p>Con el <em>software</em> arrancado, es posible acceder al editor Node-RED a través
 de la dirección <code>http://localhost:1880</code> en cualquier navegador.</p>
 <p>Tras arrancarlo, observarás cuatro áreas en el editor:</p>
@@ -287,14 +321,13 @@ función JavaScript. Borra el <em>Wire</em> existente y añade un nodo <em>Funct
 entre los nodos <em>Inject</em> y <em>Debug</em>.</p>
 <p>Haz doble clic en el nuevo nodo para abrir el diálogo de edición. Copia el
 siguiente código en el campo <em>Function</em>:</p>
-<pre><code class="javascript">// Create a Date object from the payload
+<pre><code class="language-javascript">// Create a Date object from the payload
 var date = new Date(msg.payload);
 // Change the payload to be a formatted Date string
 msg.payload = date.toString();
 // Return the message so it can be sent on
 return msg;
 </code></pre>
-
 <p>Clica en <em>Done</em> y despliega el flujo. Observa que, ahora, los mensajes
 de depuración muestran marcas de tiempo en formato visible. Ten en cuenta
 que un nodo siempre recibe un mensaje (<em>msg</em>) de entrada y devuelve un 
@@ -343,18 +376,16 @@ establecer el valor de <code>msg.payload</code> a <code>ALARMA</code>.</p>
 <p>Añade un nodo <em>Debug</em> y despliega el flujo.</p>
 <p>En el panel de <em>Debug</em>, deberás obsevar, para cada activación del nodo 
 <em>Inject</em>, una salida similar a esta:</p>
-<pre><code class="sh">msg.payload : Object
+<pre><code class="language-sh">msg.payload : Object
 {&quot;time&quot;:&quot;2017-11-19T15:09:03.120Z&quot;,&quot;latitude&quot;:-21.5167,&quot;longitude&quot;:168.5426,&quot;depth&quot;:14.19,&quot;mag&quot;:6.6,&quot;magType&quot;:&quot;mww&quot;,&quot;gap&quot;:21,&quot;dmin&quot;:0.478,&quot;rms&quot;:0.86,&quot;net&quot;:&quot;us&quot;,&quot;id&quot;:&quot;us2000brgk&quot;,&quot;updated&quot;:&quot;2017-11-19T17:10:58.449Z&quot;,&quot;place&quot;:&quot;68km E of Tadine, New Caledonia&quot;,&quot;type&quot;:&quot;earthquake&quot;,&quot;horizontalError&quot;:6.2,&quot;depthError&quot;:2.8,&quot;magError&quot;:0.037,&quot;magNst&quot;:72,&quot;status&quot;:&quot;reviewed&quot;,&quot;locationSource&quot;:&quot;us&quot;,&quot;magSource&quot;:&quot;us&quot;}
 </code></pre>
-
 <p>Puedes clicar en la pequeña flecha a la izquierda de cada propiedad para 
 expandirla y examinar sus contenidos. </p>
 <p>Si existe cualquier terremoto de magnitud mayor a <code>6.2</code>, observarás una
 salida adicional:</p>
-<pre><code class="sh">msg.payload : string(6)
+<pre><code class="language-sh">msg.payload : string(6)
 &quot;ALARMA&quot;
 </code></pre>
-
 <p>Para más información sobre los nodos básicos en Node-RED, puedes consultar:</p>
 <ul>
 <li><strong>The Core Nodes</strong>: <a href="https://nodered.org/docs/user-guide/nodes">enlace a documentación</a>.</li>

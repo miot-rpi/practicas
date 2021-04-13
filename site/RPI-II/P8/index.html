@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 8 - Redes, Protocolos e Interfaces</title>
+        <title>Práctica 8 - RPI-I / RPI-II / LSI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">Redes, Protocolos e Interfaces</a>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -43,6 +43,43 @@
                         <ul class="nav navbar-nav">
                             <li >
                                 <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab1/index.md">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab2/index.md">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab3/index.md">Laboratorio 3</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab4/index.md">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../../LSI/Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
@@ -236,11 +273,10 @@ servidor de <em>bootstrap</em>) y desde el ESP32 (modo cliente).</p>
 Linux como en el ESP32. Para ello, clonamos en primer lugar la versión 
 correspondiente del proyecto (es importante que utilices este
 <em>commit</em> específico):</p>
-<pre><code class="sh">git clone https://github.com/eclipse/wakaama.git
+<pre><code class="language-sh">git clone https://github.com/eclipse/wakaama.git
 cd wakaama
 git reset --hard 31d64c0c41fae9653c1fa53ef58d1a44e49017fa
 </code></pre>
-
 <p>El proyecto Wakaama proporciona cuatro componentes que utilizaremos durante
 la práctica, todos dentro del directorio <code>examples</code>:</p>
 <ul>
@@ -285,28 +321,23 @@ utilización de CoAP como protocolo subyacente.</p>
 <h4 id="instalacion_1">Instalación</h4>
 <p>Instala en primer lugar los prerequisitos necesarios para la correcta instalación
 de Leshan (pueden variar en función de tu distribución Linux):</p>
-<pre><code class="sh">sudo apt-get update
+<pre><code class="language-sh">sudo apt-get update
 sudo apt-get install openjdk-14-jdk maven git-core
 </code></pre>
-
 <p>Clona el repositorio oficial de Leshan desde la siguiente dirección:</p>
-<pre><code class="sh">git clone https://github.com/eclipse/leshan.git
+<pre><code class="language-sh">git clone https://github.com/eclipse/leshan.git
 </code></pre>
-
 <p>Por último, compila el proyecto:</p>
-<pre><code class="sh">cd leshan
+<pre><code class="language-sh">cd leshan
 mvn clean install
 </code></pre>
-
 <p>Tras la fase de instalación, podrás lanzar tanto el servidor LWM2M:</p>
-<pre><code class="sh">java -jar leshan-server-demo/target/leshan-server-demo-*-SNAPSHOT-jar-with-dependencies.jar 
+<pre><code class="language-sh">java -jar leshan-server-demo/target/leshan-server-demo-*-SNAPSHOT-jar-with-dependencies.jar 
 </code></pre>
-
 <p>La opción <code>-h</code> te permitirá observar la ayuda del servidor.</p>
 <p>Como el servidor de <em>bootstrapping</em>:</p>
-<pre><code class="sh">java -jar leshan-bsserver-demo/target/leshan-bsserver-demo-*-SNAPSHOT-jar-with-dependencies.jar
+<pre><code class="language-sh">java -jar leshan-bsserver-demo/target/leshan-bsserver-demo-*-SNAPSHOT-jar-with-dependencies.jar
 </code></pre>
-
 <p>La opción <code>-h</code> te permitirá observar la ayuda del servidor.</p>
 <p>En ambos casos, la salida asociada a la ejecución de los servidores nos 
 indicarán la URL que podremos consultar desde cualquier navegador para 
@@ -325,7 +356,7 @@ completo LWM2M basado en un cliente y dos servidores (uno LWM2M, otro de
 <p>Para ello, en primer lugar, arrancaremos el servidor Wakaama en una de las
 terminales. Observa que el servidor, tras arrancar, expone una sencilla
 línea de comandos que podemos aprovechar para interactuar con él:</p>
-<pre><code class="sh">./lwm2mserver 
+<pre><code class="language-sh">./lwm2mserver 
 
 &gt; help
 help    Type 'help [COMMAND]' for more details on a command.
@@ -344,28 +375,25 @@ cancel  Cancel an observe.
 q   Quit the server.
 
 </code></pre>
-
 <p>La orden <code>help</code> muestra la ayuda global, pudiéndose especializar para cada
 comando concreto:</p>
-<pre><code class="sh">&gt; help read
+<pre><code class="language-sh">&gt; help read
  read CLIENT# URI
    CLIENT#: client number as returned by command 'list'
    URI: uri to read such as /3, /3/0/2, /1024/11, /1024/0/1
 Result will be displayed asynchronously.
 </code></pre>
-
 <p>Si en este instante listamos un los clientes registrados, veremos que no
 hay ninguno:</p>
-<pre><code class="sh">&gt; list
+<pre><code class="language-sh">&gt; list
 No client.
 </code></pre>
-
 <p>En segundo lugar, vamos a arrancar el cliente Wakaama. Por defecto, este cliente
 intentará conectar con un servidor LWM2M existente en <code>localhost</code>, puerto 
 5683. En cualquier caso, estos valores pueden modificarse en la propia 
 invocación (consulta la opción <code>-h</code> para más información sobre parámetros
 disponibles):</p>
-<pre><code class="sh">./lwm2mclient
+<pre><code class="language-sh">./lwm2mclient
 Trying to bind LWM2M Client to port 56830
 LWM2M Client &quot;testlwm2mclient&quot; started on port 56830
 &gt; Opening connection to server at ::1:5683
@@ -393,7 +421,6 @@ quit    Quit the client gracefully.
 
 &gt;  -&gt; State: STATE_READY
 </code></pre>
-
 <p>Al igual que el servidor, el cliente soporta la introducción de comandos
 por parte del usuario.  Observa que hemos ejecutado el comando <code>help</code>
 para mostrar los comandos disponibles. </p>
@@ -403,7 +430,7 @@ servidor con el nombre <code>testlwm2mclient</code>.</p>
 <p>Observa ahora la salida del servidor, y verás que éste ha realizado un 
 proceso de descubrimiento de recursos en el cliente conectado. Concretamente,
 el servidor reporta la información relativa al nuevo cliente conectado:</p>
-<pre><code class="sh">New client #0 registered.
+<pre><code class="language-sh">New client #0 registered.
 Client #0:
     name: &quot;testlwm2mclient&quot;
     version: &quot;1.1&quot;
@@ -411,7 +438,6 @@ Client #0:
     lifetime: 300 sec
     objects: /1/0, /2/0, /3/0, /4/0, /5/0, /6/0, /7/0, /31024/10, /31024/11, /31024/12, 
 </code></pre>
-
 <p>Concretamente, el número asociado al cliente es el <code>0</code>. Podemos recuperar
 esta información en todo momento con el comando <code>list</code> en el servidor.</p>
 <p>En el cliente, puedes seleccionar el nombre que se utilizará en el proceso
@@ -512,9 +538,8 @@ mensajes intercambiados entre ambos extremos.</p>
 </div>
 <p>Para escribir en un determinado recurso desde el servidor, podemos hacer
 uso del comando <code>write</code> de la siguiente forma:</p>
-<pre><code class="sh">write 0 /31024/10/1 91
+<pre><code class="language-sh">write 0 /31024/10/1 91
 </code></pre>
-
 <p>Así, estaríamos escribiendo en el recurso <code>1</code> de la instancia <code>10</code> del objeto
 <code>31024</code> el valor entero 91.</p>
 <div class="admonition danger">
@@ -553,7 +578,7 @@ a este módulo es precisamente <code>get_test_object()</code>. Observa que, en e
 se define el identificador del objeto, así como cada uno de los recursos que
 expone (en este caso, tres), sus valores iniciales, 
 y las funciones que se utilizarán como <em>callbacks</em> asociados a cada posible operación:</p>
-<pre><code class="c">  lwm2m_object_t * testObj;
+<pre><code class="language-c">  lwm2m_object_t * testObj;
 
     testObj = (lwm2m_object_t *)lwm2m_malloc(sizeof(lwm2m_object_t));
 
@@ -592,11 +617,10 @@ y las funciones que se utilizarán como <em>callbacks</em> asociados a cada posi
 
     return testObj;
 </code></pre>
-
 <p>Estas funciones de <em>callback</em> están definidas en el propio fichero, y su 
 contenido es personalizable en función del diseño del objeto. Observemos, 
 por ejemplo, el contenido de la función asociada a la lectura, <code>prv_read</code>:</p>
-<pre><code class="c">static uint8_t prv_read(uint16_t instanceId,
+<pre><code class="language-c">static uint8_t prv_read(uint16_t instanceId,
                         int * numDataP,
                         lwm2m_data_t ** dataArrayP,
                         lwm2m_object_t * objectP)
@@ -636,7 +660,6 @@ por ejemplo, el contenido de la función asociada a la lectura, <code>prv_read</
     return COAP_205_CONTENT;
 }
 </code></pre>
-
 <p>Observa que en primer lugar se busca la instancia del objeto solicitada, 
 devolviéndose el error correspondiente en caso de no existir (puedes 
 comprobar esta funcionalidad solicitando desde el servidor la lectura de 
@@ -723,9 +746,8 @@ para dicho cliente.</p>
 </div>
 <p>Para arrancar el servidor <em>bootstrap</em>, basta con ejecutar (puedes utilizar
 otro fichero de configuración):</p>
-<pre><code class="sh">./build/bootstrap_server -f bootstrap_server.ini
+<pre><code class="language-sh">./build/bootstrap_server -f bootstrap_server.ini
 </code></pre>
-
 <p>El servidor quedará a la espera de peticiones por parte del cualquier cliente
 en el puerto 5685, tal y como indica su salida. Se puede forzar un proceso
 de <em>bootstrapping</em> con el comando <code>boot</code>, pero en este punto no es necesario.</p>
@@ -738,7 +760,7 @@ dispositivo que te permita diferenciarlo de cualquier otro</em>:</p>
 <code>lwm2mclient.c</code>, reemplazando la línea que contiene <code>data.addressFamily = AF_INET6;</code>
 por <code>data.addressFamily = AF_INET;</code>.</p>
 </div>
-<pre><code class="sh">./lwm2mclient -h localhost -p 5685 -b -c -n midispositivo
+<pre><code class="language-sh">./lwm2mclient -h localhost -p 5685 -b -c -n midispositivo
 Trying to bind LWM2M Client to port 56830
 LWM2M Client &quot;testlwm2mclient&quot; started on port 56830
 &gt; New Battery Level: 38
@@ -749,7 +771,6 @@ Opening connection to server at localhost:5685
  -&gt; State: STATE_BOOTSTRAPPING
 
 </code></pre>
-
 <p>Observa que las opciones de invocación han cambiado, y hemos usado <code>-b</code> para indicar
 que deseamos un proceso de <em>bootstrapping</em> contra el servidor proporcionado. Como
 nota adicional, la opción <code>-c</code> simplemente actualiza de forma periódica la lectura
@@ -779,9 +800,8 @@ observa que, efectivamente, el tráfico generado corresponde al esperado.</p>
 <p>Para replicar dicha instalación en tu máquina local, rescata la instalación
 de Leshan que realizaste en la primera parte de la práctica, y arranca el 
 servidor LWM2M usando la siguiente orden:</p>
-<pre><code class="sh">java -jar leshan-server-demo/target/leshan-server-demo-*-SNAPSHOT-jar-with-dependencies.jar
+<pre><code class="language-sh">java -jar leshan-server-demo/target/leshan-server-demo-*-SNAPSHOT-jar-with-dependencies.jar
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea entregable</p>
 <p>Arranca el servidor Leshan para que escuche en un puerto diferente al que 

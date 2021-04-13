@@ -1,8 +1,17 @@
-site_name: Redes, Protocolos e Interfaces
+site_name: RPI-I / RPI-II / LSI
 markdown_extensions:
     - admonition
 nav:
     - Calendario: index.md
+    - LSI: 
+      - Laboratorio 0: LSI/Lab0/index.md
+      - Laboratorio 1: LSI/Lab1/index.md
+      - Laboratorio 2: LSI/Lab2/index.md
+      - Laboratorio 3: LSI/Lab3/index.md
+      - Laboratorio 4: LSI/Lab4/index.md
+      - Laboratorio 5: LSI/Lab5/index.md
+      - Laboratorio 6: LSI/Lab6/index.md
+      - Laboratorio 7: LSI/Lab7/index.md
     - RPI-I: 
       - Práctica 1: RPI-I/P1/index.md
       - Práctica 2: RPI-I/P2/index.md

@@ -1,4 +1,17 @@
-# Redes, Protocolos e Interfaces
+# Redes, Protocolos e Interfaces. Laboratorio de Sistemas Inteligentes
+
+# Calendario LSI
+
+| Laboratorio | Día | Título                                                |
+|-------------|-----|-------------------------------------------------------|
+| 0        |13/04|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
+| 1        |13/04|Introducción a TFLite en la Raspberry Pi                  |
+| 2        |20/04|Clasificación de imágenes                                 |
+| 3        |27/04|Detección de objetos                                      |
+| 4        |04/05|Segmentacion de objetos                                   |
+| 5        |11/05|Segmentación de objetos]                                  |
+| 6        |18/05|Reconocimiento de voz]                                    |
+| 7        |25/05|Reconocimiento de voz                                     |
 
 # Calendario RPI-I
 
