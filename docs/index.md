@@ -5,7 +5,7 @@
 | Laboratorio | Día | Título                                                |
 |-------------|-----|-------------------------------------------------------|
 | 0        |13/04|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
-| 1        |13/04|Introducción a TFLite en la Raspberry Pi                  |
+| 1        |13/04|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
 | 2        |20/04|Clasificación de imágenes                                 |
 | 3        |27/04|Detección de objetos                                      |
 | 4        |04/05|Segmentacion de objetos                                   |
