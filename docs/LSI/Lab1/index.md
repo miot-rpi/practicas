@@ -1,4 +1,4 @@
-# Laboratorio 1. Introducción a TFLite sobre la Raspbery Pi
+# Laboratorio 1. Introducción a TFLite sobre la Raspberry Pi
 
 ## Objetivos
 
