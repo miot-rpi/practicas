@@ -53,7 +53,7 @@
 </li>
                                     
 <li >
-    <a href="../Lab1/index.md">Laboratorio 1</a>
+    <a href="../Lab1/">Laboratorio 1</a>
 </li>
                                     
 <li >
@@ -181,7 +181,7 @@
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../../RPI-I/P1/">
+                                <a rel="prev" href="../Lab1/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -241,107 +241,59 @@
 <p>Para simplificar el proceso de instalación se proporciona una imagen comprimida del sistema operativo con el software necesario pre-instalado. No obstante, si alguien desea realizar el proceso de instalación completo por su cuenta, puede seguir las instrucciones de la web de <a href="https://qengineering.eu">Q-engineering</a>, que suelen ser bastante completas y actualizadas.</p>
 <p>A continuación se detallan los pasos a seguir para grabar la imagen de la tarjeta SD que hemos preparado..</p>
 <ol>
-<li>
-<p>Descargar e instalar un programa para <em>flashear</em> tarjetas SD:</p>
-</li>
-<li>
-<p><a href="https://www.raspberrypi.org/software/">Raspberry Pi Imager</a> (recomendado)</p>
-</li>
-<li>
-<p><a href="https://www.balena.io/etcher/">BalenaEtcher</a></p>
-</li>
-<li>
-<p>Descargar la imagen comprimida del siguiente enlace</p>
-</li>
-<li>
-<p><a href="https://drive.google.com/file/d/1Vw_eOVQ2Qp27sQwxeMgkWiMxlPyKcEN1/view?usp=sharing">lsi-rpi4-img.gz</a></p>
-</li>
-<li>
-<p>Nota: Alternativamente cabría la posibilidad de usar la imagen que ofrece Q-engineering en su repositorio de GitHub:</p>
-<ul>
+<li>Descargar e instalar un programa para <em>flashear</em> tarjetas SD:</li>
+<li><a href="https://www.raspberrypi.org/software/">Raspberry Pi Imager</a> (recomendado)</li>
+<li><a href="https://www.balena.io/etcher/">BalenaEtcher</a></li>
+<li>Descargar la imagen comprimida del siguiente enlace</li>
+<li><a href="https://drive.google.com/file/d/1Vw_eOVQ2Qp27sQwxeMgkWiMxlPyKcEN1/view?usp=sharing">lsi-rpi4-img.gz</a></li>
+<li>Nota: Alternativamente cabría la posibilidad de usar la imagen que ofrece Q-engineering en su repositorio de GitHub:<ul>
 <li><a href="https://github.com/Qengineering/RPi-image">A Raspberry Pi 4 64-bit OS image of several frameworks and deep-learning examples</a></li>
 </ul>
 </li>
-<li>
-<p>Empleado un lector/escritor de tarjetas SD escribir la imagen a disco:</p>
-</li>
+<li>Empleado un lector/escritor de tarjetas SD escribir la imagen a disco:
+   <img src="image-20210412232727709.png" alt="image-20210412232727709" style="zoom:15%;" /></li>
+<li>Seleccionar la tarjeta SD sobre la que se desea escribir (64GB)</li>
+<li>Seleccionar sistema operativo: <em>"Use custom"</em> y localizar el fichero de la imagen comprimida previamente descargada (no es necesario descomprimirla previamente)
+     <img src="image-20210412233000832.png" alt="image-20210412233000832" style="zoom:15%;" /></li>
+<li>Realizar la escritura (puede tardar bastantes minutos)
+     <img src="image-20210412233636340.png" alt="image-20210412233636340" style="zoom:15%;" /></li>
 </ol>
-<p><img src="image-20210412232727709.png" alt="image-20210412232727709" style="zoom:15%;" /></p>
-<ul>
-<li>
-<p>Seleccionar la tarjeta SD sobre la que se desea escribir (64GB)</p>
-</li>
-<li>
-<p>Seleccionar sistema operativo: <em>"Use custom"</em> y localizar el fichero de la imagen comprimida previamente descargada (no es necesario descomprimirla previamente)</p>
-<p><img src="image-20210412233000832.png" alt="image-20210412233000832" style="zoom:15%;" /></p>
-</li>
-<li>
-<p>Realizar la escritura (puede tardar bastantes minutos)</p>
-<p><img src="image-20210412233636340.png" alt="image-20210412233636340" style="zoom:15%;" /></p>
-</li>
-</ul>
 <h2 id="conexion-arranque-y-configuracion">Conexión, arranque y configuración</h2>
 <ol>
-<li>
-<p>Realizar la conexión de los dispositivos</p>
-</li>
-<li>
-<p>Conectar el teclado y el ratón a los puertos USB 2.0, dejando al menos uno de los puertos USB 3.0 libre para el acelerador Google Coral (tienen un remate azul)</p>
-</li>
-<li>
-<p>Conectar el monitor mediante el cable micro-HDMI a HDMI</p>
-<p><img src="https://img.pccomponentes.com/articles/22/221646/k1481-1.jpg" alt="img" style="zoom:25%;" /></p>
-</li>
-<li>
-<p>Insertar la tarjeta SD grabada previamente</p>
-</li>
-<li>
-<p>Conectar la cámara <em>"Raspberry Pi Camera Module v2"</em> (sensor Sony IMX219, interfaz CSI-2, resolución 3280 x 2464 píxeles, 30fps)</p>
-<p><img src="https://www.raspberrypi.org/homepage-9df4b/static/1253242e1a7766dbc0af51edcf1a43a1/ae23f/ccfc5f9d175e980d1ec193d73797ef95a926ff7b_pi-camera-attached-1-1390x1080.jpg" alt="img" style="zoom:80%;" /></p>
-<ul>
+<li>Realizar la conexión de los dispositivos</li>
+<li>Conectar el teclado y el ratón a los puertos USB 2.0, dejando al menos uno de los puertos USB 3.0 libre para el acelerador Google Coral (tienen un remate azul)</li>
+<li>Conectar el monitor mediante el cable micro-HDMI a HDMI
+     <img src="https://img.pccomponentes.com/articles/22/221646/k1481-1.jpg" alt="img" style="zoom:25%;" /></li>
+<li>Insertar la tarjeta SD grabada previamente</li>
+<li>Conectar la cámara <em>"Raspberry Pi Camera Module v2"</em> (sensor Sony IMX219, interfaz CSI-2, resolución 3280 x 2464 píxeles, 30fps)
+     <img src="https://www.raspberrypi.org/homepage-9df4b/static/1253242e1a7766dbc0af51edcf1a43a1/ae23f/ccfc5f9d175e980d1ec193d73797ef95a926ff7b_pi-camera-attached-1-1390x1080.jpg" alt="img" style="zoom:80%;" /><ul>
 <li>Para información más precisa de la conexión se puede consultar el siguiente <a href="https://youtu.be/tub4zexVkqE">video.</a></li>
 </ul>
 </li>
-<li>
-<p>Conectar alimentación (cable USB-C) y comprobar el correcto arranque del equipo</p>
-</li>
-<li>
-<p>Acceder a la Wifi con SSID=UCM y con las credenciales UCM propias</p>
-</li>
-<li>
-<p>El procedimiento es análogo a cualquier otro computador, se accede a la wifi y posteriormente se abre un navegador y  se introducen las credenciales (+ info en https://ssii.ucm.es/ucm)</p>
-<p><img src="https://ssii.ucm.es/data/cont/media/www/pag-6768/caratula%20UCM%20g.jpg" alt="img" style="zoom:60%;" /></p>
-</li>
-<li>
-<p>Configurar la raspi con la utilidad <code>raspi-config</code></p>
-</li>
+<li>Conectar alimentación (cable USB-C) y comprobar el correcto arranque del equipo</li>
+<li>Acceder a la Wifi con SSID=UCM y con las credenciales UCM propias</li>
+<li>El procedimiento es análogo a cualquier otro computador, se accede a la wifi y posteriormente se abre un navegador y  se introducen las credenciales (+ info en https://ssii.ucm.es/ucm)
+     <img src="https://ssii.ucm.es/data/cont/media/www/pag-6768/caratula%20UCM%20g.jpg" alt="img" style="zoom:60%;" /></li>
+<li>Configurar la raspi con la utilidad <code>raspi-config</code></li>
 </ol>
-<p><code>bash
-   sudo raspi-config</code></p>
+<pre><code>sudo raspi-config
+</code></pre>
 <ul>
-<li>
-<p>Opciones del sistema</p>
-<p><img src="image-20210413000234657.png" alt="image-20210413000234657" style="zoom:18%;" /></p>
-<ul>
-<li>S3- Clave usuario <code>pi</code></li>
-</ul>
-<p><img src="image-20210413000356479.png" alt="image-20210413000356479" style="zoom:20%;" /></p>
-<ul>
+<li>Opciones del sistema
+     <img src="image-20210413000234657.png" alt="image-20210413000234657" style="zoom:18%;" /><ul>
+<li>S3- Clave usuario <code>pi</code>
+   <img src="image-20210413000356479.png" alt="image-20210413000356479" style="zoom:20%;" /></li>
 <li>S4 - Nombre del equipo</li>
 </ul>
 </li>
-<li>
-<p>Opciones de interfaz</p>
-<p><img src="image-20210413001135185.png" alt="image-20210413001135185" style="zoom:20%;" /></p>
-<ul>
+<li>Opciones de interfaz
+     <img src="image-20210413001135185.png" alt="image-20210413001135185" style="zoom:20%;" /><ul>
 <li>P1 - Activar cámara</li>
 <li>P2 - Activar SSH para conexión remota</li>
 <li>P3 - Activar VNC (opcional)</li>
 </ul>
 </li>
-<li>
-<p>Finalizar y reiniciar el equipo</p>
-</li>
+<li>Finalizar y reiniciar el equipo</li>
 </ul>
 <h2 id="demos-basicas">Demos básicas</h2>
 <ol>
@@ -357,22 +309,16 @@ supported=1 detected=1
 temp=39.9'C
 </code></pre>
 <ol>
-<li>
-<p>Probar un ejemplo completo (cámara + OpenCV + TensorFlowLite)</p>
-</li>
-<li>
-<p>El siguiente ejemplo de <em>Qengineering</em> ilustra realizar una segmentación de imáganes empleado el modelo DeepLab v3 (fuente: <a href="https://github.com/Qengineering/TensorFlow_Lite_Segmentation_RPi_64-bit">github</a>)</p>
-<p><code>bash
- cd ~/Test/TensorFlow_Lite_Segmentation_RPi_64-bit
- bin/Release/TestUnet</code></p>
+<li>Probar un ejemplo completo (cámara + OpenCV + TensorFlowLite)</li>
+<li>El siguiente ejemplo de <em>Qengineering</em> ilustra realizar una segmentación de imáganes empleado el modelo DeepLab v3 (fuente: <a href="https://github.com/Qengineering/TensorFlow_Lite_Segmentation_RPi_64-bit">github</a>)</li>
+</ol>
+<pre><code class="language-bash">cd ~/Test/TensorFlow_Lite_Segmentation_RPi_64-bit
+bin/Release/TestUnet
+</code></pre>
 <p><a href="https://camo.githubusercontent.com/25f64d9aa42084c3b9d766e5d883452cc8b652286b5a0b50bd1437c6b68156b3/68747470733a2f2f71656e67696e656572696e672e65752f696d616765732f556e65745f36342e6a7067"><img alt="output image" src="https://camo.githubusercontent.com/25f64d9aa42084c3b9d766e5d883452cc8b652286b5a0b50bd1437c6b68156b3/68747470733a2f2f71656e67696e656572696e672e65752f696d616765732f556e65745f36342e6a7067" /></a></p>
-</li>
-<li>
-<p>Para finalizar la aplicación basta con pulsar ESC en la ventana activa.</p>
-</li>
-<li>
-<p>Otros ejemplos precompiladosde <em>Qengineering</em> </p>
-</li>
+<ul>
+<li>Para finalizar la aplicación basta con pulsar ESC en la ventana activa.</li>
+<li>Otros ejemplos precompiladosde <em>Qengineering</em> </li>
 <li><code>TensorFlow_Lite_Pose_RPi_64-bits</code>: detección de postura corporal</li>
 <li><code>TensorFlow_Lite_SSD_RPi_64-bits</code>: detección de objetos</li>
 <li>Nota:<ul>
@@ -381,65 +327,48 @@ temp=39.9'C
 <li>Para usar la cámara es preciso modificar la línea <code>VideoCapture(0);</code> y recompilar el proyecto.</li>
 </ul>
 </li>
-</ol>
+</ul>
 <h2 id="demo-google-coral">Demo Google Coral</h2>
-<ol>
-<li>
-<p>Configuración necesaria para usar el acelerador Google Coral</p>
-</li>
-<li>
-<p>Añadir usuario <code>pi</code> al grupo <code>plugdev</code> (para no tener que ejecutar los programas como <code>root</code>)</p>
-<p><code>bash
- sudo usermod -aG plugdev $USER</code></p>
+<h3 id="configuracion-necesaria-para-usar-el-acelerador-google-coral">Configuración necesaria para usar el acelerador Google Coral</h3>
+<ul>
+<li>Añadir usuario <code>pi</code> al grupo <code>plugdev</code> (para no tener que ejecutar los programas como <code>root</code>)</li>
+</ul>
+<pre><code class="language-bash">sudo usermod -aG plugdev $USER
+</code></pre>
 <ul>
 <li>Instalar las fuentes de paquetes.</li>
 </ul>
-<p><code>bash
-  echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
-  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-  sudo apt-get update</code></p>
+<pre><code class="language-bash">echo &quot;deb https://packages.cloud.google.com/apt coral-edgetpu-stable main&quot; | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-get update
+</code></pre>
 <ul>
 <li>Instalar la librería de soporte, para la que hay dos opciones incompatibles <code>libedgetpu1-std</code> y <code>libedgetpu1-max</code> (máxima frecuencia y temperatura):</li>
 </ul>
-<p><code>sudo apt-get install libedgetpu1-max</code></p>
-</li>
-<li>
-<p>En el directorio<code>~/Test/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi</code>) se proporciona un ejemplo de uso del acelerador Google Coral (fuente: <a href="https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi/blob/master/Raspberry_Pi_Guide.md">github</a>) a continuación se indican las instrucciones para probarlo:</p>
-</li>
-<li>
-<p>Sin EdgeTPU (i.e. Google Coral):</p>
-<p><code>bash
- cd ~/Tests/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi
- python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model</code></p>
-</li>
-<li>
-<p>Con EdgeTPU:</p>
+<pre><code class="language-bash">sudo apt-get install libedgetpu1-max
+</code></pre>
+<h3 id="demo">Demo</h3>
+<p>En el directorio <code>~/Test/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi</code> se proporciona un ejemplo de uso del acelerador Google Coral (fuente: <a href="https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi/blob/master/Raspberry_Pi_Guide.md">github</a>) a continuación se indican las instrucciones para probarlo:
+* Sín EdgeTPU (i.e. Google Coral):</p>
+<pre><code class="language-bash">cd ~/Tests/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi
+python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
+</code></pre>
 <ul>
-<li>Añadir usuario <code>pi</code> al grupo <code>plugdev</code> (para no tener que ejecutar el script como <code>root</code>):</li>
+<li>Con EdgeTPU:</li>
+<li>Añadir usuario <code>pi</code> al grupo <code>plugdev</code> (para no tener que ejecutar el script como <code>root</code>):
+   <code>bash
+   sudo usermod -aG plugdev $USER</code><ul>
+<li>Descarga modelo específico:
+   ```bash
+   wget    https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite         </li>
 </ul>
-<p><code>bash
-   sudo usermod -aG plugdev $USER</code></p>
-<ul>
-<li>
-<p>Descarga modelo específico:</p>
-<p>```bash
-       wget https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite</p>
 </li>
 </ul>
 <p>mv mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite Sample_TFLite_model/edgetpu.tflite
-   ```</p>
-<ul>
-<li>
-<p>Conectar EdgeTPU a un puerto USB 3.0.</p>
-</li>
-<li>
-<p>Ejecutar la versión EdgeTPU</p>
-</li>
-</ul>
-<p><code>bash
-   python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model --edgetpu</code></p>
-</li>
-</ol></div>
+   <code>* Conectar EdgeTPU a un puerto USB 3.0.
+   * Ejecutar la versión EdgeTPU</code>bash
+   python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model --   edgetpu
+   ```</p></div>
         </div>
 
         <footer class="col-md-12">
