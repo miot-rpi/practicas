@@ -315,7 +315,7 @@ muchas aplicaciones. En nuestro caso, la red `Mobilenet v1 1.0_224` es una red d
 de dimensión `224 x 224` y tres canales (RGB), entrenada para devolver la probabilidad de pertenencia a cada una de las 1001
 clases para la que ha sido preentrenada.
 
-Antes de comenzar, descarga el modelo, fichero de etiquetas y demás requisitios invocando al script `download.sh` proporcionado:
+Antes de comenzar, descarga el modelo, fichero de etiquetas y demás requisitos invocando al script `download.sh` proporcionado:
 
 ```sh
 bash download.sh Modelos
@@ -329,7 +329,7 @@ Esta ejecución, si todo ha ido bien, descargará en el directorio `Modelos` tre
 
 ### Desarrollo utilizando Python
 
-El código `classify_opencv.py` contiene el código necesario para realizar inferencia (clasificación) de imágenes partiendo de 
+El fichero `classify_opencv.py` contiene el código necesario para realizar inferencia (clasificación) de imágenes partiendo de 
 capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a paso a continuación:
 
 #### Invocación y argumentos
@@ -349,8 +349,8 @@ def main():
 
 El programa recibirá, de forma obligatoria, dos argumentos:
 
-    * El modelo a aplicar, en formato `tflite` (FlatBuffer), a través del parámetro `--model`.
-    * El fichero de etiquetas, en formato texto con una etiqueta por línea. Este fichero no es estrictamente obligatorio, pero nos permite mostrar no sólo el número de clase inferida, sino también su texto asociado.
+* El modelo a aplicar, en formato `tflite` (FlatBuffer), a través del parámetro `--model`.
+* El fichero de etiquetas, en formato texto con una etiqueta por línea. Este fichero no es estrictamente obligatorio, pero nos permite mostrar no sólo el número de clase inferida, sino también su texto asociado.
 
 Así, podremos ejecutar el programa directamente utilizando la orden (suponiendo que ambos ficheros residen en el directorio
 `../Modelos`):
@@ -359,8 +359,7 @@ Así, podremos ejecutar el programa directamente utilizando la orden (suponiendo
 python3 classify_opencv.py  --model ../Modelos/mobilenet_v1_1.0_224_quant_edgetpu.tflite   --labels ../Modelos/labels_mobilenet_quant_v1_224.txt
 ```
 
-!!! danger "Tarea"
-    Comprueba el correcto funcionamiento del código sobre tu Raspberry Pi. Si todo ha ido bien, deberías ver una ventana mostrando la salida de la cámara con cierta información sobreimpresionada, y para cada fotograma, el resultado de la inferencia a través de línea de comandos.
+De momento, no es necesario que ejecutes el código, ya que en primer lugar habrá que realizar algunos ajustes en el código.
 
 La función `load_labels` simplemente lee el fichero de etiqueta y las almacena en memoria para su posterior procesamiento tras la inferencia.
 
@@ -385,6 +384,9 @@ A continuación, obtenemos información sobre el tensor de entrada del modelo re
 trabajar con la API de Python a través de la [documentación oficial](https://www.tensorflow.org/lite/api_docs/python/tf/lite).
 
 Utilizaremos esta información para redimensionar la imagen capturada de la cámara como paso previo a la invocación del modelo.
+
+!!! danger "Tarea"
+    Asegúratge de que ambas líneas (creación del intérprete e importación de bibliotecas) son correctas. Comprueba el correcto funcionamiento del código utilizando el modelo `mobilenet_v1_1.0_224_quant.tflite` como entrada al programa `classify_opencv.py` sobre tu Raspberry Pi. Si todo ha ido bien, deberías ver una ventana mostrando la salida de la cámara con cierta información sobreimpresionada, y para cada fotograma, el resultado de la inferencia a través de línea de comandos.
 
 #### Inferencia
 
@@ -491,9 +493,11 @@ Así, podremos ejecutar sobre la Edge TPU usando:
 
 ```sh
 python3 classify_opencv.py \
-  --model /tmp/mobilenet_v1_1.0_224_quant_edgetpu.tflite \
-  --labels /tmp/labels_mobilenet_quant_v1_224.txt
+  --model ../Modelos/mobilenet_v1_1.0_224_quant_edgetpu.tflite \
+  --labels ../Modelos/labels_mobilenet_quant_v1_224.txt
 ```
+
+Obviamente, tu Google Coral deberá estar conectada a la Raspberry Pi para que el anterior comando tenga éxito.
 
 !!! danger "Tarea"
     Compara los tiempos de ejecución de la inferencia utilizando el procesdor de propósito general frente al rendimiento utilizando la Google Coral. ¿Qué ganancia de rendimiento observas?
@@ -682,5 +686,5 @@ El resto de funcionalidad del ejemplo es exactamente igual al descrito para la c
 !!! danger "Tarea"
     Transforma el código para utilizar el acelerador Google Coral y realiza una comparativa de tiempos de inferencia.
 
-!!! danger "Tarea"
+!!! danger "Tarea (opcional)"
     Obtén una implementación en C++ del código de detección de objetos. En principio, esta implementación no será necesaria hasta el laboratorio correspondiente a detección de objetos, pero resulta conveniente adelantar esta tarea a este laboratorio inicial.
