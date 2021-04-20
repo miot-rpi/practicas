@@ -15,6 +15,10 @@ para clasificación de imágenes separando sus capas en dos clases: extracción 
 
 * Desplegar un modelo preentrenado mediante *transfer learning* sobre la Raspberry Pi + Edge TPU para una aplicación concreta.
 
+Gran parte del trabajo de este laboratorio se centra en el uso de Google Colab. Deberás
+crear una copia y trabajar en el siguiente 
+[cuaderno](https://colab.research.google.com/drive/1_4-NucdRp2KuPX9P_1fVzASjK6AZYUXg?usp=sharing).
+
 ## Modelos TensorFlow sobre Edge TPU (Google Coral)
 
 El dispositivo Google Coral (que equipa un acelerador Edge TPU) es un 
@@ -125,7 +129,7 @@ donde en última instancia, la capa de salida es un tensor unidimensional de 10 
 están conectadas cada una de las neuronas de la capa anterior (lo mismo ocurre con la penúltima
 capa).
 
-## TensorFlow Lite
+## Flujo de trabajo típoco para el desarrollo de un modelo TensorFlow Lite para Edge TPU
 
 Como se vio en el anterior laboratorio, TensorFlow Lite es una versión 
 reducida del *framework* Tensorflow diseñada específicamente para
@@ -240,21 +244,31 @@ de rendimiento que ello conlleva:
 
 ![](img/compile-tflite-to-edgetpu.png)
 
+# Tareas a desarrollar
+
 !!! danger "Tarea"
     El siguiente [cuaderno](https://colab.research.google.com/drive/1_4-NucdRp2KuPX9P_1fVzASjK6AZYUXg?usp=sharing) 
     permite la creación de un modelo TFlite a partir
     de un modelo preexistente, usando la técnica de cuantización post-entrenamiento.
     Complétalo y obtén un modelo TFLite listo para ejecutar en 
-    la Edge TPU. A continuación, utilízalo en los códigos que desarrollaste (para clasificación) en el anterior laboratorio.
+    la Edge TPU. 
+
+    A continuación, utilízalo en los códigos que desarrollaste (para clasificación) en el anterior laboratorio y 
+    comprueba su correcto funcionamiento tanto desde el punto de vista del rendimiento comparado con la CPU, como
+    de la precisión observada.
 
 !!! danger "Tarea"
     Utilizando la misma filosofía que la seguida en el anterior cuaderno, se pide desarrollar
-    una aplicación que realice la clasificación de imágenes de entrada tomadas desde la cámara
+    una aplicación que realice la clasificación de imágenes de entrada en tiempo real, tomadas desde la cámara
     de la Raspberry Pi,
     utilizando un modelo preentrenado con conjuntos de datos de imágenes etiquetadas que representen
-    **caras portando o no mascarilla**. Para resolver el laboratorio, se pide diseñar y seguir el flujo
+    **caras portando o no mascarilla**. 
+
+    Para resolver el laboratorio, se pide diseñar y seguir el flujo
     completo de trabajo propuesto, basándose en el mismo modelo base (*Mobilenetv2*), pero reentrenándolo
     con conjuntos de datos apropiados (puedes buscarlos por internet) y usando la Edge TPU como plataforma
     aceleradora.
+
+    Se entregará una memoria del trabajo desarrollado, junto con los códigos y modelos obtenidos, así como una breve demostración de funcionamiento de la solución.
 
 
