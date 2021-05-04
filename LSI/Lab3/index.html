@@ -244,13 +244,23 @@ crearemos un delegado asociado al dispositivo Google Coral:</p>
 </code></pre>
 <p>A nivel de código, estas son todas las modificaciones necesarias. </p>
 <h3 id="compilacion-y-enlazado">Compilación y enlazado</h3>
-<p>A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes:</p>
+<p>A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes. Básicamente, trataremos de añadir
+el directorio que contenga el fichero <code>edgetpu_c.h</code>, por ejemplo:</p>
 <pre><code class="language-sh">g++ -I/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/  ...
 </code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Nota</p>
+<p>Si no encuentras en tu sistema de ficheros el fichero de cabecera <code>edgetpu_c.h</code>, puedes obtener una copia siguiendo las siguientes instrucciones:</p>
+<p><code>mkdir coral &amp;&amp; cd coral
+git clone https://github.com/google-coral/pycoral.git
+cd pycoral</code></p>
+<p>En el directorio <code>libedgetpu_bin</code> encontrarás el fichero de cabecera correspondiente. Utiliza la ruta al fichero como argumento de la opción <code>-I</code> de la línea de compilación.</p>
+</div>
 <p>Por otro lado, será necesario enlazar con la biblioteca <em>libedgetpu.so.1</em> correspondiente a nuestra arquitectura,
 en el caso de la Raspberry Pi alojada en:</p>
-<pre><code class="language-sh">/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/direct/aarch64/libedgetpu.so.1
+<pre><code class="language-sh">/usr/lib/aarch64-linux-gnu/
 </code></pre>
+<p>Por tanto, añadiremos la cadena <code>/usr/lib/aarch64-linux-gnu/libedgetpu.so.1</code> a la línea de compilación y debería estar todo listo para compilar y enlazar.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Modifica y compara el rendimiento de los programas de clasificación y detección de objetos (este último, sólo si lo desarrollaste) utilizando C++ con respecto a sus correspondientes versiones en Python.</p>
