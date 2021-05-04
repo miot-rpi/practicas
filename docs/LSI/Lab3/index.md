@@ -16,7 +16,7 @@ El código necesario para el desarrollo de la práctica puede obtenerse clonando
 Para ilustrar el funcionamiento del proceso de inferencia utilizando el dispositivo Google Coral
 desde un programa C++, las modificaciones a realizar son mínimas:
 
-* Inclusión de ficheros de cabecera
+### Inclusión de ficheros de cabecera
 
 Es necesario incluir los ficheros de cabecera correspondientes para la creación de las estructuras
 de datos necesarias (básicamente, un componente *delegado* que ejecute el modelo en la TPU):
@@ -24,6 +24,8 @@ de datos necesarias (básicamente, un componente *delegado* que ejecute el model
 ```cpp
 #include "edgetpu_c.h"
 ```
+
+### Detección del dispositivo
 
 El proceso de descarga del modelo a dispositivo comienza con la detección del mismo. Este paso debe realizarse
 antes de la generación del intérprete (es decir, en primer lugar):
@@ -41,6 +43,8 @@ antes de la generación del intérprete (es decir, en primer lugar):
   const auto& device = devices.get()[0];
 ```
 
+### Construcción del delegado
+
 A continuación, antes de alojar memoria para los tensores, pero tras la creación del intérprete, 
 crearemos un delegado asociado al dispositivo Google Coral:
 
@@ -50,6 +54,8 @@ crearemos un delegado asociado al dispositivo Google Coral:
 ```
 
 A nivel de código, estas son todas las modificaciones necesarias. 
+
+### Compilación y enlazado
 
 A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes:
 
