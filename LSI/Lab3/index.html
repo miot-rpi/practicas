@@ -217,13 +217,12 @@
 <h2 id="ejecucion-de-modelos-en-edge-tpu-desde-c">Ejecución de modelos en Edge TPU desde C++</h2>
 <p>Para ilustrar el funcionamiento del proceso de inferencia utilizando el dispositivo Google Coral
 desde un programa C++, las modificaciones a realizar son mínimas:</p>
-<ul>
-<li>Inclusión de ficheros de cabecera</li>
-</ul>
+<h3 id="inclusion-de-ficheros-de-cabecera">Inclusión de ficheros de cabecera</h3>
 <p>Es necesario incluir los ficheros de cabecera correspondientes para la creación de las estructuras
 de datos necesarias (básicamente, un componente <em>delegado</em> que ejecute el modelo en la TPU):</p>
 <pre><code class="language-cpp">#include &quot;edgetpu_c.h&quot;
 </code></pre>
+<h3 id="deteccion-del-dispositivo">Detección del dispositivo</h3>
 <p>El proceso de descarga del modelo a dispositivo comienza con la detección del mismo. Este paso debe realizarse
 antes de la generación del intérprete (es decir, en primer lugar):</p>
 <pre><code class="language-cpp">  // Paso 0: buscamos dispositivos compatibles.
@@ -237,12 +236,14 @@ antes de la generación del intérprete (es decir, en primer lugar):</p>
   }
   const auto&amp; device = devices.get()[0];
 </code></pre>
+<h3 id="construccion-del-delegado">Construcción del delegado</h3>
 <p>A continuación, antes de alojar memoria para los tensores, pero tras la creación del intérprete, 
 crearemos un delegado asociado al dispositivo Google Coral:</p>
 <pre><code class="language-cpp"> auto* delegate = edgetpu_create_delegate(device.type, device.path, nullptr, 0);
  interpreter-&gt;ModifyGraphWithDelegate(delegate);
 </code></pre>
 <p>A nivel de código, estas son todas las modificaciones necesarias. </p>
+<h3 id="compilacion-y-enlazado">Compilación y enlazado</h3>
 <p>A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes:</p>
 <pre><code class="language-sh">g++ -I/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/  ...
 </code></pre>
