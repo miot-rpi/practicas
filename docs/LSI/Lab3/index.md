@@ -57,18 +57,32 @@ A nivel de código, estas son todas las modificaciones necesarias.
 
 ### Compilación y enlazado
 
-A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes:
+A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes. Básicamente, trataremos de añadir
+el directorio que contenga el fichero `edgetpu_c.h`, por ejemplo:
 
 ```sh
 g++ -I/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/  ...
 ```
 
+!!! danger "Nota"
+    Si no encuentras en tu sistema de ficheros el fichero de cabecera `edgetpu_c.h`, puedes obtener una copia siguiendo las siguientes instrucciones:
+
+    ```
+    mkdir coral && cd coral
+    git clone https://github.com/google-coral/pycoral.git
+    cd pycoral
+    ```
+
+    En el directorio `libedgetpu_bin` encontrarás el fichero de cabecera correspondiente. Utiliza la ruta al fichero como argumento de la opción `-I` de la línea de compilación.
+
 Por otro lado, será necesario enlazar con la biblioteca *libedgetpu.so.1* correspondiente a nuestra arquitectura,
 en el caso de la Raspberry Pi alojada en:
 
 ```sh
-/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/direct/aarch64/libedgetpu.so.1
+/usr/lib/aarch64-linux-gnu/
 ```
+
+Por tanto, añadiremos la cadena `/usr/lib/aarch64-linux-gnu/libedgetpu.so.1` a la línea de compilación y debería estar todo listo para compilar y enlazar.
 
 !!! danger "Tarea"
     Modifica y compara el rendimiento de los programas de clasificación y detección de objetos (este último, sólo si lo desarrollaste) utilizando C++ con respecto a sus correspondientes versiones en Python.
