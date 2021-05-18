@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Laboratorio 4 - RPI-I / RPI-II / LSI</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="../..">Calendario</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../Lab0/">Laboratorio 0</a>
+</li>
+                                    
+<li >
+    <a href="../Lab1/">Laboratorio 1</a>
+</li>
+                                    
+<li >
+    <a href="../Lab2/">Laboratorio 2</a>
+</li>
+                                    
+<li >
+    <a href="../Lab3/">Laboratorio 3</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">Laboratorio 4</a>
+</li>
+                                    
+<li >
+    <a href="../Lab5/index.md">Laboratorio 5</a>
+</li>
+                                    
+<li >
+    <a href="../Lab6/index.md">Laboratorio 6</a>
+</li>
+                                    
+<li >
+    <a href="../Lab7/index.md">Laboratorio 7</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../RPI-I/P1/">Práctica 1</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P2/">Práctica 2</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P3/">Práctica 3</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P4/">Práctica 4</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P5/">Práctica 5</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P6/">Práctica 6</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P7/">Práctica 7</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-I/P8/">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../RPI-II/P1/">Práctica 1</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P2/">Práctica 2</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P3/">Práctica 3</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P4/">Práctica 4</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P5/">Práctica 5</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P6/">Práctica 6 (I)</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P6-II/">Práctica 6 (II)</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P7/">Práctica 7</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P8/">Práctica 8</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P9/">Práctica 9</a>
+</li>
+                                    
+<li >
+    <a href="../../RPI-II/P10/">Práctica 10</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../Lab3/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../../RPI-I/P1/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#laboratorio-4-segmentacion-de-imagenes">Laboratorio 4. Segmentación de imágenes</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#bodypix-estructura-y-funcionamiento">Bodypix. Estructura y funcionamiento</a></li>
+            <li><a href="#segmentacion-de-personas">Segmentación de personas</a></li>
+            <li><a href="#segmentacion-de-partes-corporales">Segmentación de partes corporales</a></li>
+            <li><a href="#analisis-del-codigo">Análisis del código</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="laboratorio-4-segmentacion-de-imagenes">Laboratorio 4. Segmentación de imágenes</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Conocer una herramienta de segmentación de personas y partes corporales, así como su fucnionamiento básico.</li>
+<li>Evaluar el rendimiento de la herramienta utilizando modelos acelerados, y observar tanto su rendimiento como precisión obtenida.</li>
+<li>Modificar la solución propuesta para integrarla en un entorno IoT para la gestión de un esceneario real (calidad postural en conducción).</li>
+</ul>
+<h2 id="bodypix-estructura-y-funcionamiento">Bodypix. Estructura y funcionamiento</h2>
+<p><a href="https://github.com/tensorflow/tfjs-models/tree/master/body-pix">Bodypix</a> es una infraestructura de código abierto (realmente, un conjunto de modelos) basada en redes neuronales de convolución y enfocada en dos tareas básicas: <strong>segmentación de personas y partes corporales</strong>, y <strong>extracción de posicionamiento de partes corporales</strong>. Bodypix está específicamente diseñado para obtener buenos rendimientos en plataformas de bajo rendimiento, y ser altamente parametrizable para adaptarse tanto a otro tipo de plataformas como a distintos niveles de precisión y rendimiento.</p>
+<p>En este laboratorio utilizaremos los modelos desarrollados en el marco del proyecto Bodypix, pero utilizando una infraestructura aligerada, así como variantes cuantizadas de los modelos originales, que nos permitirán ejecutar la infraestructura en nuestra Raspberry Pi acelerada mediante el uso de Edge TPU.</p>
+<p>En primer lugar, clona en tu Raspberry Pi el proyecto Bodypix proporcionado como parte de la infraestructura Google Coral:</p>
+<pre><code class="language-sh">git clone https://github.com/google-coral/project-bodypix
+</code></pre>
+<p>En el directorio que se creará dispones de un fichero denominado <code>install_requirements.sh</code>, que deberás ejecutar para instalar los requisitos necesarios para el correcto funcionamiento del proyecto. Una vez instalados, realiza una primera prueba de funcionamiento preliminar para comprobar que todo ha funcionado como se espera (asegúrate de que tanto tu cámara como la Google Coral están conectados a la Raspberry Pi antes de ejecutar el ejemplo):</p>
+<pre><code class="language-sh">python3 bodypix.py
+</code></pre>
+<p>En pantalla deberías observar una captura en tiempo real de cámara, aplicando un proceso de segmentación de zonas de la imagen que corresponden a distintas partes de cada persona detectada. Además, la infraestructura integra por defecto una sobreimpresión de los principales puntos de interés corporales, siguiendo las ideas del proyecto <a href="https://github.com/google-coral/project-posenet">Posenet</a>.</p>
+<p>El proyecto sobre el que trabajaremos dispone de múltiples modificadores u opciones que simplemente trabajan o modifican la parte gráfica de la respuesta (es decir, no realizan cómputos adicionales o restringidos). Algunos de los más interesantes son:</p>
+<ul>
+<li>Selección de partes corporales</li>
+</ul>
+<p>Las opciones <code>--bodyparts</code> y <code>--nobodyparts</code> diferenciarán o no las distintas partes corporales detectadas en el proceso de segmentación. Si esta opción está desactivada, simplemente se realiza la segmentación de personas, no de partes corporales para cada individuo. Observa que las partes corporales no se colorean de distinta forma totalmente, sino que se agrupan en función del tipo de parte corporal detectada. Esta característica se considera meramente de representación, ya que los modelos que se utilizan sí soportan (y de hecho, ejecutan constantenente) un proceso de segmentación completo.</p>
+<ul>
+<li>Anonimización de imágenes</li>
+</ul>
+<p>Las opciones <code>--anonymize</code> y <code>--noanoymize</code> permiten mostrar u ocultar la persona detectada. En este último caso, se realiza un proceso de generación de fondo artificial, y no se muestra a la persona o personas que se están detectando.</p>
+<ul>
+<li>Selección del tamaño de imagen de entrada</li>
+</ul>
+<p>Aunque cada modelo específico está diseñado para tomar un determinado tamaño de imagen de entrada, es posible preseleccionar dicho tamaño (que por defecto se escala en el código) externamente. Para ello, basta con utilizar las opciones <code>--height</code> y <code>--width</code>, que realizan dicho proceso de escalado. En general, se recomienda que la resolución sea la misma, o exceda lo menor posible, la resolución de entrada de la red a utilizar.</p>
+<ul>
+<li>Modo espejo</li>
+</ul>
+<p>En la fase de pruebas, si tanto la cámara como el monitor utilizado están enfocados hacia la persona, se recomienda utilizar el modo espejo (<code>-mirror</code>) para un mejor entendimiento de la escena.</p>
+<ul>
+<li>Selección de la red neuronal</li>
+</ul>
+<p>El proyecto proporciona un conjunto de modelos preentrenados que permiten un equilibrio entre rendimiento y precisión, además de soportar distintas resoluciones de imágenes de entrada. Estos modelos están basados en dos infraestructuras distintas para la extracción de características: Mobilenet, más ligera y menos precisa; y ResNet, menos liviana, pero que ofrece una mayor precisión en el proceso de inferencia. La selección del modelo concreto puede realizarse a través del argumento que acompaña a la opción <code>--model</code>, y puede seleccionarse de entre los siguientes (todos residentes en el directorio <code>models</code>):</p>
+<pre><code class="language-sh">models/bodypix_mobilenet_v1_075_1024_768_16_quant_edgetpu_decoder.tflite
+models/bodypix_mobilenet_v1_075_1280_720_16_quant_edgetpu_decoder.tflite
+models/bodypix_mobilenet_v1_075_480_352_16_quant_edgetpu_decoder.tflite
+models/bodypix_mobilenet_v1_075_640_480_16_quant_edgetpu_decoder.tflite
+models/bodypix_mobilenet_v1_075_768_576_16_quant_edgetpu_decoder.tflite
+models/bodypix_resnet_50_416_288_16_quant_edgetpu_decoder.tflite
+models/bodypix_resnet_50_640_480_16_quant_edgetpu_decoder.tflite
+models/bodypix_resnet_50_768_496_32_quant_edgetpu_decoder.tflite
+models/bodypix_resnet_50_864_624_32_quant_edgetpu_decoder.tflite
+models/bodypix_resnet_50_928_672_16_quant_edgetpu_decoder.tflite
+models/bodypix_resnet_50_960_736_32_quant_edgetpu_decoder.tflite
+</code></pre>
+<div class="admonition danger tarea">
+<p class="admonition-title">Danger</p>
+<p>Experimenta con las diferentes opciones descritas anteriormente. Realiza una evaluación del rendimiento de cada uno de los modelos proporcionados en base a los FPS obtenidos, y describe si efectivamente observas alguna diferencia en términos de calidad percibida en el proceso de segmentación.</p>
+</div>
+<h2 id="segmentacion-de-personas">Segmentación de personas</h2>
+<p>A un nivel básico, la segmentación de personas consiste en realizar una segmentación de una o más imágenes de entrada en píxeles que son parte de una persona, y píxeles que no lo son. En Bodypix, tras proporcionar una imagen al modelo para inferencia, ésta se devuelve comen forma de matriz bidimensional con valores flotantes entre 0 y 1 para cada posición (pixel), indicando la probabilidad de que una persona ocupe dicho píxel. Un valor típicamente denominado <em>umbral de segmentación</em> decidirá en último término el valor mínimo de probabilidad para que dicho píxel se considere como parte de una persona. Este valor puede utilizarse, por ejemplo, para eliminar el fondo de una imagen (o sustituirlo por otro):</p>
+<p><img alt="" src="img/2a_example.png" /></p>
+<p>El proceso de segmentación de personas procede mediante una decisión <em>binaria</em> para cada pixel de la imagen de entrada, estimando, para dicho píxel, si éste pertenece o no a una persona:</p>
+<p><img alt="" src="img/2b_example.png" /></p>
+<p>En cualquier caso, se proporciona una imagen de dimensiones determinadas a la red neuronal extractora de características (MobileNet o ResNet), y se utiliza una función de activación <em>sigmoide</em> para transformar su salida en un valor entre 0 y 1, que puede ser interpretado como la probabilidad de pertenenecia a una persona o no para cada uno de los píxeles de la imagen. Normalmente, se utiliza un valor umbral (por ejemplo, 0.5) para convertir dicha segmentación en una decisión binaria. Normalmente, se utiliza un valor umbral (por ejemplo, 0.5) para convertir dicha segmentación en una decisión binaria, como se ha dicho anteriormente. </p>
+<p><img alt="" src="img/2c_example.jpeg" /></p>
+<h2 id="segmentacion-de-partes-corporales">Segmentación de partes corporales</h2>
+<p>Para estimar una correcta segmentación de partes individuales del cuerpo, se utiliza la misma red extractora de características, pero en este caso se repite el proceso de inferencia anterior prediciendo adicionalemnte 24 canales extra a través de un tensor de salida adicional (siendo 24 el número de partes del cuerpo distintas que se desean predecir, valor por defecto en el código proporcionado). Cada uno de estos canales codifica la probabilidad de pertenencia de un pixel a una parte concreta del cuerpo. Por ejemplo, la siguiente imagen mostraría el contenido de dos canales: uno para la detección de la parte derecha de la cara, y otro para la detección de la parte izquierda:</p>
+<p><img alt="" src="img/2d_example.png" /></p>
+<p>La siguiente imagen muestra el proceso esquemático de procesamiento de una imagen de entrada en una salida multi-dimensional para la detección de partes corporales usando el extractor MobileNet:</p>
+<p><img alt="" src="img/2e_mobilenet.png" /></p>
+<p>Como para cada posición de la imagen disponemos de 24 canales en el tensor de salida <code>P</code>, es necesario encontrar la parte del cuerpo <em>óptima</em> de entre dichos 24 canales. Tras la inferencia, se realiza un proceso de postprocesado para realizar dicha detección, siguiendo la expresión:</p>
+<p><img alt="" src="img/expresion.png" /></p>
+<p>Esto redunda en una única imagen bidimensional (del mismo tamaño que la imagen original), en la que cada pixel contiene un entero indicando a qué parte del cuerpo pertenece (asignando un valor especial, por ejemplo <code>-1</code> si el pixel correspondiente no corresponde a ninguna parte corporal, es decir, no se ha detectado persona en él:</p>
+<p><img alt="" src="img/2f_final.jpeg" /></p>
+<p>Una posible combinación y representación final de la imagen con información detallada de segmentación podría ser:</p>
+<p><img alt="" src="img/2g_final.png" /></p>
+<h2 id="analisis-del-codigo">Análisis del código</h2>
+<p>En el código proporcionado (fichero <code>pose_engine.py</code>), el desarrollo orbita alrededor de la clase <code>PoseEngine</code>, 
+encargada de realizar el proceso de inferencia sobre el modelo proporcionado a partir de una imagen de entrada. 
+Concretamente, su método <code>DetectPosesInImage</code>, al que se proporciona precisamente una sola imagen de entrada, 
+será el encargado de realizar el proceso de segmentación. El retorno de dicha función, de hecho, incluirá 
+información tanto a nivel de detección de personas (en la estructura <code>heatmap</code>) como de partes corporales
+(en la estructura <code>bodyparts</code>).</p>
+<div class="admonition danger tarea">
+<p class="admonition-title">Danger</p>
+<p>Determina tanto las dimensiones como el contenido tentativo de las estructuras <code>heatmap</code> y <code>bodyparts</code>. Para ello, observa en detalle método <code>__parse_heatmaps</code> de la clase <code>PoseEngine</code>, que realiza la gestión de entradas, salidas e inferencia para el modelo a utilizar. ¿Qué tensores de salida se procesan en esta función tras la inferencia? ¿Están cuantizadas dichas salidas? ¿Cuáles son las dimensiones de los mapas de calor obtenidos? ¿Por qué? ¿A qué tipo de información corresponde cada canal de los tensores de salida (identifícalos en la parte inicial del mismo fichero)</p>
+</div>
+<p>Adicionalmente, la función <code>__parse_poses</code> realiza un proceso de inferencia sobre el mismo modelo, pero recogiendo en este caso información sobre puntos clave (<em>keypoints</em>) que describen la posición del sujeto.</p>
+<div class="admonition danger tarea">
+<p class="admonition-title">Danger</p>
+<p>Responde a las mismas preguntas que anteriormente se te han planteado, pero en este caso basándote en la función <code>__parse_poses</code> y su implementación.</p>
+</div>
+<p>En cualquier caso, la información de las tres estructuras devueltas por la funión <code>DetectPosesInImage</code> te permitirá desarrollar el ejercicio propuesto, calculando, por ejemplo, el número de píxeles o su porcentaje con respecto al total de la imagen para cada parte del cuerpo, su posición relativa o absoluta en la imagen, o su detección o ausencia. <strong>Es importante, pues, que estudies y determines correctamente el significado y contenido de cada una de estas estrcucturas</strong>.</p>
+<p>El proceso de representación gráfica de la imagen resultante se realiza en la fucnión <code>Callback</code> del flujo de datos de <em>gstreamer</em>. Aunque la representación gráfica no es en nuestro caso clave, en este caso observa que las distintas partes del cuerpo se agrupan en tres grandes grupos (líneas 32, 33 y 34 del fichero <code>bodypix.py</code>), que son coloreadas de igual forma en función del resultado de la inferencia.</p>
+<div class="admonition danger tarea">
+<p class="admonition-title">Danger</p>
+<p>Modifica el código proporcionado para que sólo una determinada parte del cuerpo, seleccionada por ti, se coloree en la fase de detección de partes corporales. </p>
+</div>
+<div class="admonition danger tarea entregable">
+<p class="admonition-title">Danger</p>
+<p>Se pide que, basándote en el proyecto proporcionado, desarrolles una aplicación que, utilizando la Raspberry Pi y mediante el uso del acelerador Google Coral, implemente un sistema que evalúe la <strong>calidad postural</strong> de un conductor. Para ello, supondremos que el conductor de un vehículo dispone de una cámara frontal en la que visualiza la parte superior de su cuerpo (incluido el torso) mientras conduce. Así, el sistema desarrollado deberá, en tiempo real, enviar vía MQTT (o cualquier otro protocolo) los siguientes parámetros a un panel de control:</p>
+<ul>
+<li>Porcentaje de píxeles detectados para la parte izquierda y derecha de la cara en la imagen. Este parámetro indicará que el conductor está mirando al frente, y debería desvirtuarse si éste gira su cabeza a izquierda o derecha.</li>
+<li>Porcentaje de píxeles detectados como cara no superior ni inferior a un umbral, lo que indicará que la cabeza se encuentra a una profundidad adecuada.</li>
+<li>Porcentaje de píxeles detectados como manos aproximadamente similar y no superior ni inferior a un umbral, lo que indicará que ambas manos están a la misma profundidad.</li>
+<li>Posición de las manos a la misma altura, y siempre por debajo de la cabeza. Este valor indicará que las manos están situadas en posición correcta en el volante.</li>
+<li>Posición de los ojos aproximadamente a la misma altura, lo que indicará una posición correcta de la cabeza. </li>
+<li>Hombros a la misma altura.</li>
+</ul>
+<p>El panel de control combinará (en el porcentaje que desees) dichas métricas, para obtener un valor de calidad unificado. Si se supera por debajo el valor de calidad considerado umbral, se emitirá una alarma utilizando el mecanismo de aviso que consideres adecuado. (<strong>Nota: puedes proponer escenarios distintos al propuesto si son de tu interés, siempre que la dificultad sea similar a la propuesta, y que se utilice el mismo tipo de información</strong>).</p>
+</div></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
