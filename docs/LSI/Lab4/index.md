@@ -62,7 +62,7 @@ models/bodypix_resnet_50_928_672_16_quant_edgetpu_decoder.tflite
 models/bodypix_resnet_50_960_736_32_quant_edgetpu_decoder.tflite
 ```
 
-!!! danger Tarea
+!!! danger "Tarea"
     Experimenta con las diferentes opciones descritas anteriormente. Realiza una evaluación del rendimiento de cada uno de los modelos proporcionados en base a los FPS obtenidos, y describe si efectivamente observas alguna diferencia en términos de calidad percibida en el proceso de segmentación.
 
 ## Segmentación de personas
@@ -111,22 +111,22 @@ será el encargado de realizar el proceso de segmentación. El retorno de dicha 
 información tanto a nivel de detección de personas (en la estructura `heatmap`) como de partes corporales
 (en la estructura `bodyparts`).
 
-!!! danger Tarea
+!!! danger "Tarea"
     Determina tanto las dimensiones como el contenido tentativo de las estructuras `heatmap` y `bodyparts`. Para ello, observa en detalle método `__parse_heatmaps` de la clase `PoseEngine`, que realiza la gestión de entradas, salidas e inferencia para el modelo a utilizar. ¿Qué tensores de salida se procesan en esta función tras la inferencia? ¿Están cuantizadas dichas salidas? ¿Cuáles son las dimensiones de los mapas de calor obtenidos? ¿Por qué? ¿A qué tipo de información corresponde cada canal de los tensores de salida (identifícalos en la parte inicial del mismo fichero)
 
 Adicionalmente, la función `__parse_poses` realiza un proceso de inferencia sobre el mismo modelo, pero recogiendo en este caso información sobre puntos clave (*keypoints*) que describen la posición del sujeto.
 
-!!! danger Tarea
+!!! danger "Tarea"
     Responde a las mismas preguntas que anteriormente se te han planteado, pero en este caso basándote en la función `__parse_poses` y su implementación.
 
 En cualquier caso, la información de las tres estructuras devueltas por la funión `DetectPosesInImage` te permitirá desarrollar el ejercicio propuesto, calculando, por ejemplo, el número de píxeles o su porcentaje con respecto al total de la imagen para cada parte del cuerpo, su posición relativa o absoluta en la imagen, o su detección o ausencia. **Es importante, pues, que estudies y determines correctamente el significado y contenido de cada una de estas estrcucturas**.
 
 El proceso de representación gráfica de la imagen resultante se realiza en la fucnión `Callback` del flujo de datos de *gstreamer*. Aunque la representación gráfica no es en nuestro caso clave, en este caso observa que las distintas partes del cuerpo se agrupan en tres grandes grupos (líneas 32, 33 y 34 del fichero `bodypix.py`), que son coloreadas de igual forma en función del resultado de la inferencia.
 
-!!! danger Tarea
+!!! danger "Tarea"
     Modifica el código proporcionado para que sólo una determinada parte del cuerpo, seleccionada por ti, se coloree en la fase de detección de partes corporales. 
 
-!!! danger Tarea entregable
+!!! danger "Tarea entregable"
     Se pide que, basándote en el proyecto proporcionado, desarrolles una aplicación que, utilizando la Raspberry Pi y mediante el uso del acelerador Google Coral, implemente un sistema que evalúe la **calidad postural** de un conductor. Para ello, supondremos que el conductor de un vehículo dispone de una cámara frontal en la que visualiza la parte superior de su cuerpo (incluido el torso) mientras conduce. Así, el sistema desarrollado deberá, en tiempo real, enviar vía MQTT (o cualquier otro protocolo) los siguientes parámetros a un panel de control:
 
     * Porcentaje de píxeles detectados para la parte izquierda y derecha de la cara en la imagen. Este parámetro indicará que el conductor está mirando al frente, y debería desvirtuarse si éste gira su cabeza a izquierda o derecha.
