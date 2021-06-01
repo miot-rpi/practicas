@@ -9,7 +9,7 @@
 | 2        |27/04|[Clasificación de imágenes](LSI/Lab2/index.md)            |
 | 3        |04/04|[Detección de objetos](LSI/Lab3/index.md)                 |
 | 4        |18/05|[Segmentacion de objetos](LSI/Lab4/index.md)              |
-| 7        |25/05|Reconocimiento de voz                                     |
+| 7        |25/05|[Reconocimiento de voz](LSI/Lab5/index.md)                |
 
 # Calendario RPI-I
 
