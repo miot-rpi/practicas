@@ -1,6 +1,6 @@
-# Redes, Protocolos e Interfaces.
+# Calendario Redes, Protocolos e Interfaces.
 
-# Calendario RPI-I
+# RPI-I
 
 | Práctica | Día | Título                                                   |
 |----------|-----|----------------------------------------------------------|
@@ -17,7 +17,7 @@
 | 7        |28/12|[6LowPAN (SensorTag)](RPI-I/P7/index.md)                    |
 | 8        |21/12|LoRA                                                      |
 
-# Calendario RPI-II
+# RPI-II
 
 | Práctica | Día | Título                                       |
 |----------|-----|----------------------------------------------|
