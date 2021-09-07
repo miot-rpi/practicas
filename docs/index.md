@@ -1,4 +1,4 @@
-# Redes, Protocolos e Interfaces. Laboratorio de Sistemas Inteligentes
+# Redes, Protocolos e Interfaces.
 
 # Calendario RPI-I
 
