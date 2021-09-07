@@ -1,4 +1,4 @@
-site_name: Master IoT UCM - Repositorio RPI
+site_name: Master IoT UCM -Prácticas RPI
 markdown_extensions:
     - admonition
 nav:
