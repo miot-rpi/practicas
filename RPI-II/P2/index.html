@@ -8,172 +8,135 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 2 - RPI-I / RPI-II / LSI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <title>Práctica 2 - Master IoT UCM - Repositorio RPI</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Repositorio RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
-</li>
-                                    
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
-</li>
-                                    
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
-</li>
-                                    
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
-</li>
-                                    
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
-</li>
-                                    
-<li >
-    <a href="../../RPI-I/P8/">Práctica 8</a>
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 2</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6 (I)</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6 (I)</a>
 </li>
                                     
-<li >
-    <a href="../P6-II/">Práctica 6 (II)</a>
+<li>
+    <a href="../P6-II/" class="dropdown-item">Práctica 6 (II)</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../P8/">Práctica 8</a>
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                     
-<li >
-    <a href="../P9/">Práctica 9</a>
+<li>
+    <a href="../P9/" class="dropdown-item">Práctica 9</a>
 </li>
                                     
-<li >
-    <a href="../P10/">Práctica 10</a>
+<li>
+    <a href="../P10/" class="dropdown-item">Práctica 10</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P1/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P1/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P3/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P3/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -183,19 +146,54 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-2-sockets-tcp-y-udp-en-esp-idf">Práctica 2. Sockets TCP y UDP en ESP-IDF</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#la-api-de-sockets-en-c">La API de sockets en C</a></li>
-            <li><a href="#ejemplos">Ejemplos</a></li>
-            <li><a href="#sistemas-clienteservidor-en-el-esp32">Sistemas cliente/servidor en el ESP32</a></li>
-            <li><a href="#clienteservidor-udp-en-el-esp32">Cliente/servidor UDP en el ESP32</a></li>
-            <li><a href="#clienteservidor-tcp-en-el-esp32">Cliente/servidor TCP en el ESP32</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-2-sockets-tcp-y-udp-en-esp-idf" class="nav-link">Práctica 2. Sockets TCP y UDP en ESP-IDF</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#la-api-de-sockets-en-c" class="nav-link">La API de sockets en C</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejemplos" class="nav-link">Ejemplos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#sistemas-clienteservidor-en-el-esp32" class="nav-link">Sistemas cliente/servidor en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-udp-en-el-esp32" class="nav-link">Cliente/servidor UDP en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-tcp-en-el-esp32" class="nav-link">Cliente/servidor TCP en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-2-sockets-tcp-y-udp-en-esp-idf">Práctica 2. Sockets TCP y UDP en ESP-IDF</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -822,6 +820,7 @@ tu implementación Python, o bien utilizando una nueva implementación en
 C) o en el ESP32. Se entregarán los códigos y una breve memoria con capturas
 de tráfico que demuestren el correcto funcionamiento del sistema.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -835,21 +834,21 @@ de tráfico que demuestren el correcto funcionamiento del sistema.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
                 <p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form role="form">
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
                 <div id="mkdocs-search-results"></div>
@@ -858,12 +857,12 @@ de tráfico que demuestren el correcto funcionamiento del sistema.</p>
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

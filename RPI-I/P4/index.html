@@ -8,172 +8,135 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 4 - RPI-I / RPI-II / LSI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <title>Práctica 4 - Master IoT UCM - Repositorio RPI</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">RPI-I / RPI-II / LSI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Repositorio RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
-</li>
-                                    
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
-</li>
-                                    
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
-</li>
-                                    
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
-</li>
-                                    
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
-</li>
-                                    
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
-</li>
-                                </ul>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 4</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../P8/">Práctica 8</a>
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-II/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 6 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 6 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 6 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 6 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P9/">Práctica 9</a>
+<li>
+    <a href="../../RPI-II/P9/" class="dropdown-item">Práctica 9</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 10</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 10</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P3/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P3/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P5/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P5/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -183,27 +146,89 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-4-bluetooth-low-energy-ble">Práctica 4. Bluetooth Low Energy (BLE)</a></li>
-        <li class="main "><a href="#objetivos">Objetivos</a></li>
-        <li class="main "><a href="#implementacion-de-un-servidor-gatt-basado-en-tablas">Implementación de un servidor GATT basado en tablas</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#inclusion-de-encabezados">Inclusión de encabezados</a></li>
-            <li><a href="#la-tabla-de-servicios">La tabla de servicios</a></li>
-            <li><a href="#punto-de-entrada">Punto de entrada</a></li>
-            <li><a href="#inicializacion-del-controlador-y-de-la-pila-bluetooth">Inicialización del controlador y de la pila Bluetooth</a></li>
-            <li><a href="#perfiles-de-aplicacion-application-profiles">Perfiles de aplicación (Application profiles)</a></li>
-            <li><a href="#parametros-gap">Parámetros GAP</a></li>
-            <li><a href="#el-manejador-de-eventos-gap">El manejador de eventos GAP</a></li>
-            <li><a href="#manejadores-de-eventos-gatt">Manejadores de eventos GATT</a></li>
-            <li><a href="#creacion-de-servicios-y-caracteristicas-con-una-tabla-de-atributos">Creación de Servicios y Características con una Tabla de Atributos</a></li>
-            <li><a href="#inicializacion-del-servicio">Inicialización del servicio</a></li>
-        <li class="main "><a href="#interaccion-a-traves-de-un-cliente-gatt">Interacción a través de un cliente GATT</a></li>
-            <li><a href="#uso-de-hcitool-y-gatttool-en-modo-cliente">Uso de hcitool y gatttool en modo cliente</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-4-bluetooth-low-energy-ble" class="nav-link">Práctica 4. Bluetooth Low Energy (BLE)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#implementacion-de-un-servidor-gatt-basado-en-tablas" class="nav-link">Implementación de un servidor GATT basado en tablas</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#inclusion-de-encabezados" class="nav-link">Inclusión de encabezados</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#la-tabla-de-servicios" class="nav-link">La tabla de servicios</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#punto-de-entrada" class="nav-link">Punto de entrada</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#inicializacion-del-controlador-y-de-la-pila-bluetooth" class="nav-link">Inicialización del controlador y de la pila Bluetooth</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#perfiles-de-aplicacion-application-profiles" class="nav-link">Perfiles de aplicación (Application profiles)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#parametros-gap" class="nav-link">Parámetros GAP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#el-manejador-de-eventos-gap" class="nav-link">El manejador de eventos GAP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#manejadores-de-eventos-gatt" class="nav-link">Manejadores de eventos GATT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#creacion-de-servicios-y-caracteristicas-con-una-tabla-de-atributos" class="nav-link">Creación de Servicios y Características con una Tabla de Atributos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#inicializacion-del-servicio" class="nav-link">Inicialización del servicio</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#interaccion-a-traves-de-un-cliente-gatt" class="nav-link">Interacción a través de un cliente GATT</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#uso-de-hcitool-y-gatttool-en-modo-cliente" class="nav-link">Uso de hcitool y gatttool en modo cliente</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-4-bluetooth-low-energy-ble">Práctica 4. Bluetooth Low Energy (BLE)</h1>
 <h1 id="objetivos">Objetivos</h1>
@@ -977,6 +1002,7 @@ por ejemplo, Android. Para ello, utiliza las siguientes UUIDs:</p>
 que demuestren que un cliente <code>gatttool</code> suscrito a notificaciones recibe, 
 cada segundo, la actualización de ritmo cardíaco por parte del sensor.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -990,21 +1016,21 @@ cada segundo, la actualización de ritmo cardíaco por parte del sensor.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
                 <p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form role="form">
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
                 <div id="mkdocs-search-results"></div>
@@ -1013,12 +1039,12 @@ cada segundo, la actualización de ritmo cardíaco por parte del sensor.</p>
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
