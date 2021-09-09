@@ -4,18 +4,18 @@
 
 | Práctica | Día | Título                                                   |
 |----------|-----|----------------------------------------------------------|
-| 1        |05/10|[Introducción al entorno de desarrollo](RPI-I/P1/index.md)|
+| 1        |28/09|[Introducción al entorno de desarrollo](RPI-I/P1/index.md)|
+| 2        |04/10|[WiFi. Conceptos básicos](RPI-I/P2/index.md)              |
 |          |12/10|**FESTIVO**                                               |
-| 2        |19/10|[WiFi. Conceptos básicos](RPI-I/P2/index.md)              |
-| 3        |26/10|[WiFi. Conceptos avanzados (WiFi Mesh, provisionamiento y ahorro de energía)](RPI-I/P3/index.md) |
-|          |02/11|**FESTIVO**                                               |
-|          |09/11|**FESTIVO**                                               |
-| 4        |16/11|[Bluetooth Low Energy](RPI-I/P4/index.md)                 |
-| 5        |30/11|[BLE Mesh](RPI-I/P5/index.md)                             |
-|          |07/12|**FESTIVO**                                               |
-| 6        |14/11|[6LowPAN (Simulación)](RPI-I/P6/index.md)                 |
-| 7        |28/12|[6LowPAN (SensorTag)](RPI-I/P7/index.md)                    |
-| 8        |21/12|LoRA                                                      |
+| 3        |19/10|[WiFi. Conceptos avanzados (WiFi Mesh, provisionamiento y ahorro de energía)](RPI-I/P3/index.md) |
+|          |26/10|                                                          |
+| 4        |02/11|[Bluetooth Low Energy](RPI-I/P4/index.md)                 |
+|          |09/11| **FESTIVO**                                              |
+| 5        |16/11|[BLE Mesh](RPI-I/P5/index.md)                             |
+| 6        |22/11|[6LowPAN](RPI-I/P6/index.md)                              |
+| 7        |29/11|[6LowPAN](RPI-I/P7/index.md)                              |
+|          |06/12| **FESTIVO**                                              |
+| 8        |13/12|LoRA                                                      |
 
 # RPI-II
 
