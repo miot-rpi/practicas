@@ -283,7 +283,7 @@ convergencia de la red.
 
 Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
 que tengas asignado. Observa los colores asignados a cada grupo de puestos
-en la siguiente [hoja](https://docs.google.com/spreadsheets/d/1w6FULacAM76yQZLzPQrUOyjbSryeYI9GUK2P8WBDsZc/edit?usp=sharing).
+en la siguiente [hoja](https://docs.google.com/spreadsheets/d/1z4hBzc16Ec6K0XN78LjyxQ1lknZw7ifKXwPL_jzC9Fg/edit?usp=sharing).
 
 ## Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh de menores dimensiones
 
