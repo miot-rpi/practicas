@@ -320,11 +320,7 @@ Energy (modo *BLE*) o a través de un mecanismo de punto de acceso WiFi temporal
 provisionamiento.
 
 Para completar esta parte de la práctica deberás trabajar
-con los ejemplos
-`examples/provisioning/softap_prov`(para la versión de provisionamiento
-vía WiFi) y 
-`examples/provisioning/ble_prov`(para la versión de provisionamiento
-via Bluetooth Low Energy).
+con el ejemplo `examples/provisioning/wifi-prov-mgr`.
 
 
 ### Inicialización del servicio de provisionamiento
