@@ -356,7 +356,7 @@ recibir los comandos e información de provisionamiento.
 - `wifi_prov_scheme_ble`: transporta la información de provisionamiento 
 vía Bluetooth Low Energy (BLE) y un servidor GATT para recibir los comandos
 e información de provisionamiento.
-- `wifi_prov_scheme_console`: transporta la información vía puerto serie y 
+- `wifi_prov_scheme_console`: transporta la información vía puerto serie 
 
 ### Comprobación del estado de provisionamiento
 
