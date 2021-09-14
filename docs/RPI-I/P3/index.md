@@ -281,11 +281,11 @@ convergencia de la red.
     llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
     la topología de la misma.
 
+## Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh de menores dimensiones
+
 Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
 que tengas asignado. Observa los colores asignados a cada grupo de puestos
 en la siguiente [hoja](https://docs.google.com/spreadsheets/d/1z4hBzc16Ec6K0XN78LjyxQ1lknZw7ifKXwPL_jzC9Fg/edit?usp=sharing).
-
-## Ejercicio en clase. Despliegue conjunto de una red WiFi Mesh de menores dimensiones
 
 Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
