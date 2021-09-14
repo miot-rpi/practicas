@@ -8,14 +8,15 @@
 | 2        |04/10|[WiFi. Conceptos básicos](RPI-I/P2/index.md)              |
 |          |12/10|**FESTIVO**                                               |
 | 3        |19/10|[WiFi. Conceptos avanzados (WiFi Mesh, provisionamiento y ahorro de energía)](RPI-I/P3/index.md) |
-|          |26/10|Recuperación prácticas wifi                                                          |
+|          |26/10|Recuperación prácticas wifi                               |
 | 4        |02/11|[Bluetooth Low Energy](RPI-I/P4/index.md)                 |
 |          |09/11| **FESTIVO**                                              |
 | 5        |16/11|[BLE Mesh](RPI-I/P5/index.md)                             |
 | 6        |22/11|[6LowPAN](RPI-I/P6/index.md)                              |
-| 7        |29/11|[6LowPAN](RPI-I/P7/index.md)                              |
+| 7        |29/11|[6LowPAN-RPL](RPI-I/P7/index.md)                          |
 |          |06/12| **FESTIVO**                                              |
 | 8        |13/12|LoRA                                                      |
+|          |20/12|Recuperación de prácicas BLE-6LowPAN-LoRA                 |
 
 # RPI-II
 

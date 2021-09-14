@@ -248,7 +248,7 @@ como contraseña `password`.
 De momento, no realizaremos ningún cambio en el código del ejemplo.
 
 Compila y ejecuta tu código. En la dirección
-del [enlace](https://docs.google.com/spreadsheets/d/1dbes8Z8myNAahG1cWl0rKxZCKgXcEM2h1SpcKP6Ns78/edit?usp=sharing)
+del [enlace](https://docs.google.com/spreadsheets/d/1kcjrlYTCDG7gX70-G85aKz3MKbfMcNTc9yDWwQTVFwE/edit?usp=sharing)
 dispones de una primera pestaña en la que deberás completar cierta información
 que observarás en la salida de monitorización una vez arranques el ESP32, 
 en la celda correspondiente a tu puesto.
