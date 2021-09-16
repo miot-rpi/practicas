@@ -289,7 +289,7 @@ para la implementación del <em>firmware</em>:</p>
 <li><code>bt.h</code>: implementa el controlador Bluetooth.</li>
 <li><code>esp_bt_main.h</code>: implementa las rutinas de inicialización y activación de la pila Bluedroid.</li>
 <li><code>esp_gap_ble_api.h</code>: implementa la configuración GAP (parámetros de anuncios y conexión).</li>
-<li><code>esp_gatts_api.h</code>: immplementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).</li>
+<li><code>esp_gatts_api.h</code>: implementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).</li>
 </ul>
 <h2 id="la-tabla-de-servicios">La tabla de servicios</h2>
 <p>El fichero de encabezado <a href="../main/gatts_table_creat_demo.h">gatts_table_creat_demo.h</a> 
@@ -507,7 +507,7 @@ Es posible que algunos parámetros los superen, pero en dicho caso el stack
 BLE cortará el mensaje y eliminará aquellos que superen el tamaño máximo.
 Por último, para establecer el nombre del dispositivo se puede utilizar la 
 función <code>esp_ble_gap_set_device_name()</code>. </p>
-<p>Para regitrar el manejador de eventos, procedemos de la siguiente forma:</p>
+<p>Para registrar el manejador de eventos, procedemos de la siguiente forma:</p>
 <pre><code class="language-c">static void gatts_profile_event_handler(esp_gatts_cb_event_t event, 
 esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
@@ -775,7 +775,7 @@ utilizando la función <code>esp_ble_gatts_start_service()</code>:</p>
 pueden usarse para determinar qué característica está siendo leída o escrita,
 y por tanto pueden ser proporcionados a otros puntos de la aplicación para manejar
 distintas acciones.</p>
-<p>Finalmente, la tabla <code>heart_rate_handle_table</code> contiene el Perfil de Aplicación
+<p>Finalmente, la tabla <code>heart_rate_profile_table</code> contiene el Perfil de Aplicación
 en forma de estructura con información sobre los parámetros de los atributos y 
 la interfaz GATT, ID de conexión, permisos e ID de aplicación. La estructura
 presenta los siguientes campos (no todos se usan en el ejemplo):</p>
