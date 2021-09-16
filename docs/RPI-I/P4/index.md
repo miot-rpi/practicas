@@ -851,7 +851,7 @@ mayores para ritmo cardiaco, aunque la configuración de esta funcionalidad
 está fuera del alcance de la práctica).
 
 3. La comprobación de la activación o no de la notificación se realiza consultando
-los dos bytes de la variable `heart_meaurement_ccc`. Si dichos valores
+los dos bytes de la variable `heart_measurement_ccc`. Si dichos valores
 son `0x01` y `0x00` (posiciones 0 y 1, respectivamente), las notificaciones 
 están activas, y por tanto, se realizará el envío de notificación.
 
