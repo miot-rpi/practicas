@@ -68,7 +68,7 @@ para la implementación del *firmware*:
 * ``bt.h``: implementa el controlador Bluetooth.
 * ``esp_bt_main.h``: implementa las rutinas de inicialización y activación de la pila Bluedroid.
 * ``esp_gap_ble_api.h``: implementa la configuración GAP (parámetros de anuncios y conexión).
-* ``esp_gatts_api.h``: immplementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).
+* ``esp_gatts_api.h``: implementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).
 
 ## La tabla de servicios
 
@@ -333,7 +333,7 @@ BLE cortará el mensaje y eliminará aquellos que superen el tamaño máximo.
 Por último, para establecer el nombre del dispositivo se puede utilizar la 
 función ``esp_ble_gap_set_device_name()``. 
 
-Para regitrar el manejador de eventos, procedemos de la siguiente forma:
+Para registrar el manejador de eventos, procedemos de la siguiente forma:
 
 ```c
 static void gatts_profile_event_handler(esp_gatts_cb_event_t event, 
@@ -642,7 +642,7 @@ pueden usarse para determinar qué característica está siendo leída o escrita
 y por tanto pueden ser proporcionados a otros puntos de la aplicación para manejar
 distintas acciones.
 
-Finalmente, la tabla `heart_rate_handle_table` contiene el Perfil de Aplicación
+Finalmente, la tabla `heart_rate_profile_table` contiene el Perfil de Aplicación
 en forma de estructura con información sobre los parámetros de los atributos y 
 la interfaz GATT, ID de conexión, permisos e ID de aplicación. La estructura
 presenta los siguientes campos (no todos se usan en el ejemplo):
