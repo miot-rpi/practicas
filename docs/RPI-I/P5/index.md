@@ -129,7 +129,7 @@ durante el proceso de configuración, y permite a la pila BLE Mesh generar
 eventos y notificar a la aplicación sobre hitos importantes en el proceso
 de configuración. Los eventos principales que pueden emitirse son:
 
-    - `ESP_BLE_MESH_PROVISION_REG_EVT`: generado cuando se completa el proceso de incialización de BLE Mesh.
+    - `ESP_BLE_MESH_PROVISION_REGISTER_COMP_EVT`: generado cuando se completa el proceso de incialización de BLE Mesh.
     - `ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT`: generado cuando un provisionador y un dispositivo no provisionado establecen un enlace.
     - `ESP_BLE_MESH_NODE_PROV_LINK_CLOSE_EVT`: generado para notificar a la aplicación que se ha roto un enlace con un
 dispositivo asociado.
