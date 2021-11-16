@@ -12,11 +12,11 @@
 | 4        |02/11|[Bluetooth Low Energy](RPI-I/P4/index.md)                 |
 |          |09/11| **FESTIVO**                                              |
 | 5        |16/11|[BLE Mesh](RPI-I/P5/index.md)                             |
-| 6        |22/11|[6LowPAN](RPI-I/P6/index.md)                              |
-| 7        |29/11|[6LowPAN-RPL](RPI-I/P7/index.md)                          |
+| 6        |22/11|Recuperación prácticas ble                                |
+| 7        |29/11|[6LowPAN](RPI-I/P6/index.md)                              |
 |          |06/12| **FESTIVO**                                              |
 | 8        |13/12|LoRA                                                      |
-|          |20/12|Recuperación de prácicas BLE-6LowPAN-LoRA                 |
+|          |20/12|Recuperación de prácicas LPWAN                            |
 
 # RPI-II
 
