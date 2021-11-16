@@ -67,10 +67,6 @@
 <li>
     <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
-                                    
-<li>
-    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -131,7 +127,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../RPI-I/P8/" class="nav-link">
+                                <a rel="prev" href="../../RPI-I/P7/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -155,7 +151,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-1-programacion-con-sockets-en-python" class="nav-link">Práctica 1. Programación con sockets en Python</a>
@@ -452,7 +448,7 @@ la respuesta utilizando <code>s.recv()</code> y la imprime por pantalla.</p>
 <p>A continuación, ejecutaremos cliente y servidor para observar el estado de 
 las conexiones durante su ciclo de vida. </p>
 <p>Ejecuta en una terminal el servidor:</p>
-<pre><code class="language-bash">$ python3 ./servidor_echo.py
+<pre><code class="language-bash">$ python3 ./servidor-echo.py
 </code></pre>
 <p>Como ves, la terminal se bloquea (de hecho, el servidor permanece en 
 estado bloqueado) en la invocación:</p>
@@ -460,11 +456,11 @@ estado bloqueado) en la invocación:</p>
 </code></pre>
 <p>Realmente, el servidor está esperando a que haya conexiones entrantes por parte
 de un cliente. Abre otra terminal y ejecuta el cliente:</p>
-<pre><code class="language-bash">$ python3 cliente_echo.py
+<pre><code class="language-bash">$ python3 cliente-echo.py
 Recibido 'Hola, mundo'
 </code></pre>
 <p>En la ventana del servidor, deberías ver algo similar a:</p>
-<pre><code class="language-bash">$ python3 ./servidor_echo.py
+<pre><code class="language-bash">$ python3 ./servidor-echo.py
 Conectado ('127.0.0.1, 61234')
 </code></pre>
 <p>En esta salida, el servidor ha mostrado por pantalla la tupla devuelta por

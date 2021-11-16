@@ -67,10 +67,6 @@
 <li>
     <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
-                                    
-<li>
-    <a href="../P8/" class="dropdown-item">Práctica 8</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -155,7 +151,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-5-bluetooth-mesh-ble-mesh" class="nav-link">Práctica 5. Bluetooth Mesh (BLE MESH)</a>
@@ -306,7 +302,7 @@ durante el proceso de configuración, y permite a la pila BLE Mesh generar
 eventos y notificar a la aplicación sobre hitos importantes en el proceso
 de configuración. Los eventos principales que pueden emitirse son:</p>
 <ul>
-<li><code>ESP_BLE_MESH_PROVISION_REG_EVT</code>: generado cuando se completa el proceso de incialización de BLE Mesh.</li>
+<li><code>ESP_BLE_MESH_PROVISION_REGISTER_COMP_EVT</code>: generado cuando se completa el proceso de incialización de BLE Mesh.</li>
 <li><code>ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT</code>: generado cuando un provisionador y un dispositivo no provisionado establecen un enlace.</li>
 <li><code>ESP_BLE_MESH_NODE_PROV_LINK_CLOSE_EVT</code>: generado para notificar a la aplicación que se ha roto un enlace con un
 dispositivo asociado.</li>
