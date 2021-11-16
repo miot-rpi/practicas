@@ -1,1 +1,1 @@
-# Práctica 8. LoRA
+# Práctica 7. LoRA
