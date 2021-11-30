@@ -15,7 +15,7 @@
 | 6        |22/11|Recuperación prácticas ble                                |
 | 7        |29/11|[6LowPAN](RPI-I/P6/index.md)                              |
 |          |06/12| **FESTIVO**                                              |
-| 8        |13/12|LoRA                                                      |
+| 8        |13/12|[LoRA](RPI-I/P7/index.md)                                                      |
 |          |20/12|Recuperación de prácicas LPWAN                            |
 
 # RPI-II
