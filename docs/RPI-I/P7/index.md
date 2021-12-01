@@ -26,7 +26,7 @@ especificaciones, puede soportar rangos de transmisión de hasta 40 kilómetros
 (para comunicación nodo a nodo) o 22 kilómetros (funcionando en modo *gateway*),
 en este caso con soporte de hasta 100 nodos conectados.
 
-!! note "Tarea"
+!!! note "Tarea"
 	Como parte de la práctica, se te proporciona un entorno *hardware* compuesto
 	por una placa LoPy4 con antena sub-GHz LoRa y una placa de expansión
 	(*Expansion Board 3.0*) con conexión microUSB, que permitirá la programación
