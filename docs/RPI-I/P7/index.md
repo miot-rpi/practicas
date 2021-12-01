@@ -58,7 +58,7 @@ suele contener la lógica principal del programa.
 ### Entorno de desarrollo
 
 !!! note "Tarea"
-	Instala, en tu sistema operativo, el editor Atom y el plugin Pymakr tal y
+	Instala, en tu sistema operativo el plugin Pymakr para VS Code tal y
 	como se muestra en la página del fabricante
 	[pymark](https://docs.pycom.io/gettingstarted/installation/pymakr).
 
