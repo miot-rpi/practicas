@@ -60,7 +60,8 @@ suele contener la lógica principal del programa.
 !!! note "Tarea"
 	Instala, en tu sistema operativo el plugin Pymakr para VS Code tal y
 	como se muestra en la página del fabricante
-	[pymark](https://docs.pycom.io/gettingstarted/installation/pymakr).
+	[pymark](https://docs.pycom.io/gettingstarted/installation/pymakr). Deberás
+	instalar también el paquete nodejs (sudo apt install nodejs).
 
 
 #### Creación de un proyecto en Pymark
@@ -68,7 +69,7 @@ suele contener la lógica principal del programa.
 * En primer lugar, crea un directorio nuevo y vacío en tu sistema. Por ejemplo,
   podemos crear un directorio llamado *MiProyecto*.
 
-* Ejecuta el editor *Atom* y abre el directorio (*Open Folder*).
+* Abre el directorio en VS Code (*Open Folder*).
 
 * Necesitaremos crear una jerarquía para nuestro proyecto. Típicamente, 
 la jerarquía de un proyecto sigue el siguiente esquema:
@@ -83,11 +84,10 @@ MiProyecto
 
 En este primer ejemplo, simplemente utilizaremos un fichero *main.py*.
 Adicionalmente, crearemos un fichero de configuración para nuestro proyecto a
-través del botón *Settings->Project Settings* del panel de Pymakr. Nos
-aseguraremos de la existencia de un fichero llamado *pymakr.conf*.  Para más
+pulsando el botón *Allcommands* de la barra inferior y seleccionando *Pymakr >
+Project Settings*, que añadirá un fichero *pymakr.conf* al proyecto.  Para más
 información sobre el contenido de este fichero, consulta
-[pymakr/settings](https://docs.pycom.io/pymakr/settings) en la raíz de nuestro
-proyecto.
+[pymakr/settings](https://docs.pycom.io/pymakr/settings).
 
 #### Controlando el LED de nuestra placa
 
@@ -116,7 +116,8 @@ ayudará a fijar temporizadores.
 !!! note "Tarea"
 	Una vez comprobada la funcionalidad del botón *Run*, modifica el código
 	para que el LED cambie de color (R-G-B) cada segundo. Encontrarás la
-	documentación necesaria en la página de documentación de Pycom.
+	documentación necesaria en la [página de documentación de
+	Pycom](https://docs.pycom.io/gettingstarted/).
 
 El uso del botón *Run* es intuitivo y muy útil en el desarrollo, pero no es
 adecuado en despliegues, ya que, como puedes observar, el código desarrollado no
@@ -138,7 +139,7 @@ interactuar con la placa. Entre ellos:
 * **Ctrl-A** Entra en modo *raw*: permite pegar y copiar código, sin
   realizar un *echo* de cada línea introducida.
 
-* **Ctrl-B** Pasa RAPL a modo normal.
+* **Ctrl-B** Pasa REPL a modo normal.
 
 * **Ctrl-C** Cancela cualquier entrada o interrumpe el código que se está
   ejecutando.
@@ -159,8 +160,9 @@ conexión a este tipo de red. En primer lugar, inicializamos el módulo WLAN y
 construimos un objeto para interactuar con este tipo de conexión:
 
 ```python
+import machine
 from network import WLAN
-wlan = WLAN() 
+wlan = WLAN()
 wlan.mode() # Chequeamos el modo - Por defecto WLAN.AP (punto de acceso).
 ```
 
@@ -168,6 +170,7 @@ Para conectar a un punto de acceso, en primer lugar deberemos configurar nuestra
 placa como *station* en lugar de *access point* (modo por defecto):
 
 ```python
+import machine
 from network import WLAN
 wlan = WLAN(mode=WLAN.STA) # Modo station.
 ```
@@ -205,14 +208,17 @@ if not wlan.isconnected():
 ```
 
 !!! note "Tarea"
-	Conecta tu placa a un punto de acceso creado en tu Ci40 con y sin seguridad
-	WiFi. Experimenta asignando una IP estática a la placa.
+	Conecta tu placa a un punto de acceso wifi (por ejemplo el router de clase o
+	tu teléfono móvil).  Experimenta asignando una IP estática a la placa.
 
 !!! note "Tarea"
 	Investiga cómo conseguir que tu placa sea capaz de almacenar una lista de
 	redes inalámbricas a las que potencialmente conectar, y realice un proceso
 	de intento de conexión a cada una de ellas en el momento del arranque, hasta
 	llegar a conectar con una de ellas.
+
+Podéis consultar la documentación del API en
+[https://docs.pycom.io/firmwareapi/](https://docs.pycom.io/firmwareapi/).
 
 ### LoRaMAC
 
