@@ -43,7 +43,7 @@ del lenguaje de programación Python, reducida y adaptada específicamente para 
 correcta ejecución en microcontroladores con recursos limitados. A cambio de una
 huella en memoria mayor, permite un desarrollo y prototipado mucho más rápido
 que lenguajes de menor nivel (por ejemplo, C).  Como dato, a día de hoy, sus
-requisitos básicos incluyen 256Kb de memoria ROM y 16Kb de RAM. 
+requisitos básicos incluyen 256kB de memoria ROM y 16kB de RAM. 
 
 MicroPython implementa un sistema de ficheros mínimo directamente en la memoria
 *flash* de la placa en la que se ejecuta, siempre que ésta disponga de más de
