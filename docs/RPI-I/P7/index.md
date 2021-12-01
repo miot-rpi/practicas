@@ -34,7 +34,7 @@ en este caso con soporte de hasta 100 nodos conectados.
 	ambos elementos y comprueba que las conexiones de antena son correctas.
 	Sigue las instrucciones del fabricante para actualizar el *firmware* de la
 	placa, en función del sistema operativo con el que vayas a trabajar
-	([firmwaretool](https://docs.pycom.io/gettingstarted/installation/firmwaretool)).
+	([https://docs.pycom.io/updatefirmware/device/](https://docs.pycom.io/updatefirmware/device/)).
 
 ### Micropython
 
