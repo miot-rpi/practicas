@@ -233,7 +233,8 @@ suele contener la lógica principal del programa.</p>
 <p class="admonition-title">Tarea</p>
 <p>Instala, en tu sistema operativo el plugin Pymakr para VS Code tal y
 como se muestra en la página del fabricante
-<a href="https://docs.pycom.io/gettingstarted/installation/pymakr">pymark</a>.</p>
+<a href="https://docs.pycom.io/gettingstarted/installation/pymakr">pymark</a>. Deberás
+instalar también el paquete nodejs (sudo apt install nodejs).</p>
 </div>
 <h4 id="creacion-de-un-proyecto-en-pymark">Creación de un proyecto en Pymark</h4>
 <ul>
@@ -242,7 +243,7 @@ como se muestra en la página del fabricante
   podemos crear un directorio llamado <em>MiProyecto</em>.</p>
 </li>
 <li>
-<p>Ejecuta el editor <em>Atom</em> y abre el directorio (<em>Open Folder</em>).</p>
+<p>Abre el directorio en VS Code (<em>Open Folder</em>).</p>
 </li>
 <li>
 <p>Necesitaremos crear una jerarquía para nuestro proyecto. Típicamente, 
@@ -257,11 +258,10 @@ la jerarquía de un proyecto sigue el siguiente esquema:</p>
 </code></pre>
 <p>En este primer ejemplo, simplemente utilizaremos un fichero <em>main.py</em>.
 Adicionalmente, crearemos un fichero de configuración para nuestro proyecto a
-través del botón <em>Settings-&gt;Project Settings</em> del panel de Pymakr. Nos
-aseguraremos de la existencia de un fichero llamado <em>pymakr.conf</em>.  Para más
+pulsando el botón <em>Allcommands</em> de la barra inferior y seleccionando <em>Pymakr &gt;
+Project Settings</em>, que añadirá un fichero <em>pymakr.conf</em> al proyecto.  Para más
 información sobre el contenido de este fichero, consulta
-<a href="https://docs.pycom.io/pymakr/settings">pymakr/settings</a> en la raíz de nuestro
-proyecto.</p>
+<a href="https://docs.pycom.io/pymakr/settings">pymakr/settings</a>.</p>
 <h4 id="controlando-el-led-de-nuestra-placa">Controlando el LED de nuestra placa</h4>
 <p>Añadiremos a nuestro fichero principal (<em>main.py</em>) la lógica para controlar
 un LED de nuestra placa. Para ello, añadiremos, en primer lugar, las bibliotecas
@@ -284,7 +284,8 @@ tu placa puede ejecutar tus códigos.</p>
 <p class="admonition-title">Tarea</p>
 <p>Una vez comprobada la funcionalidad del botón <em>Run</em>, modifica el código
 para que el LED cambie de color (R-G-B) cada segundo. Encontrarás la
-documentación necesaria en la página de documentación de Pycom.</p>
+documentación necesaria en la <a href="https://docs.pycom.io/gettingstarted/">página de documentación de
+Pycom</a>.</p>
 </div>
 <p>El uso del botón <em>Run</em> es intuitivo y muy útil en el desarrollo, pero no es
 adecuado en despliegues, ya que, como puedes observar, el código desarrollado no
@@ -305,7 +306,7 @@ interactuar con la placa. Entre ellos:</p>
   realizar un <em>echo</em> de cada línea introducida.</p>
 </li>
 <li>
-<p><strong>Ctrl-B</strong> Pasa RAPL a modo normal.</p>
+<p><strong>Ctrl-B</strong> Pasa REPL a modo normal.</p>
 </li>
 <li>
 <p><strong>Ctrl-C</strong> Cancela cualquier entrada o interrumpe el código que se está
@@ -328,13 +329,15 @@ interactuar con la placa. Entre ellos:</p>
 <p>Todas las placas Pycom soportan WiFi, por lo que es trivial realizar una
 conexión a este tipo de red. En primer lugar, inicializamos el módulo WLAN y
 construimos un objeto para interactuar con este tipo de conexión:</p>
-<pre><code class="language-python">from network import WLAN
-wlan = WLAN() 
+<pre><code class="language-python">import machine
+from network import WLAN
+wlan = WLAN()
 wlan.mode() # Chequeamos el modo - Por defecto WLAN.AP (punto de acceso).
 </code></pre>
 <p>Para conectar a un punto de acceso, en primer lugar deberemos configurar nuestra
 placa como <em>station</em> en lugar de <em>access point</em> (modo por defecto):</p>
-<pre><code class="language-python">from network import WLAN
+<pre><code class="language-python">import machine
+from network import WLAN
 wlan = WLAN(mode=WLAN.STA) # Modo station.
 </code></pre>
 <p>Y a continuación podemos, sin más, conectar a un SSID existente:</p>
@@ -366,8 +369,8 @@ if not wlan.isconnected():
 </code></pre>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
-<p>Conecta tu placa a un punto de acceso creado en tu Ci40 con y sin seguridad
-WiFi. Experimenta asignando una IP estática a la placa.</p>
+<p>Conecta tu placa a un punto de acceso wifi (por ejemplo el router de clase o
+tu teléfono móvil).  Experimenta asignando una IP estática a la placa.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
@@ -376,6 +379,8 @@ redes inalámbricas a las que potencialmente conectar, y realice un proceso
 de intento de conexión a cada una de ellas en el momento del arranque, hasta
 llegar a conectar con una de ellas.</p>
 </div>
+<p>Podéis consultar la documentación del API en
+<a href="https://docs.pycom.io/firmwareapi/">https://docs.pycom.io/firmwareapi/</a>.</p>
 <h3 id="loramac">LoRaMAC</h3>
 <h4 id="comunicacion-punto-a-punto">Comunicación punto-a-punto</h4>
 <p>En esta primera parte de la práctica, utilizaremos la interfaz LoRa directamente
