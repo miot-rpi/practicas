@@ -567,8 +567,8 @@ de paquetes recibidos desde nodos hacia un servidor remoto. </p>
 <em>gateway</em> para realizar una conexión a una red preferida (WLAN) y para actuar
 como <em>packet forwarder</em> hacia un servidor.</p>
 <h4 id="obtencion-del-gateway-id">Obtención del <em>Gateway ID</em></h4>
-<p>La mayoría de servidores LoRaWAN esperan un identificador de <em>gateway</em> (<em>
-ateway ID</em>) en forma de número hexadecimal de 64 bits, típicamente nombrado
+<p>La mayoría de servidores LoRaWAN esperan un identificador de <em>gateway</em> (<em>gateway
+ID</em>) en forma de número hexadecimal de 64 bits, típicamente nombrado
 como <em>EUI-64</em>). La práctica recomendada consiste, durante el desarrollo del
 <em>gateway</em>, en obtener este ID a partir de una expansión de la MAC WiFi de la
 placa (que es un valor de 48 bits). Podemos obtener este identificador usando el
@@ -1322,140 +1322,6 @@ pronto como nuestros nodos LoPy comiencen a enviar datos.</p>
 <p>Sigue los pasos anteriormente descritos para configurar un <em>gateway</em>
 LoRaWAN, registrándolo en TTN, y para la configuración de al menos uno nodo
 LoRa que, a través del <em>gateway</em> configurado, envíe datos a TTN.</p>
-</div>
-<h3 id="loramesh-topologia-en-malla">LoRaMESH. Topología en malla</h3>
-<p>La implementación de topologías en malla proporcionada por Pycom se basa en la
-especificación <a href="https://openthread.io/guides/thread-primer">OpenThread</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Tarea</p>
-<p>Infórmate sobre OpenThread, especialmente sobre los términos que maneja y
-funcionalidad general. Los siguientes enlaces son especialmente
-interesantes:</p>
-<ul>
-<li>
-<p><a href="https://openthread.io/guides/thread-primer">Thread</a>.</p>
-</li>
-<li>
-<p><a href="https://openthread.io/guides/thread-primer/node-roles-and-types">Nodos: tipos y roles</a>.</p>
-</li>
-<li>
-<p><a href="https://openthread.io/guides/thread-primer/ipv6-addressing">Direccionamiento IPv6</a>,
-  especialmente direccionamiento unicast RLOC.</p>
-</li>
-</ul>
-</div>
-<p>El siguiente ejemplo ilustra alguna de las funcionalidades básicas de LoRaMESH,
-incluyendo:</p>
-<ul>
-<li>Configuración de una red LoRaMESH.</li>
-<li>Descubrimiento de vecinos.</li>
-<li>Envío de PINGs a nodos vecinos.</li>
-<li>Apertura de un socket UDP para:<ul>
-<li>Escuchar paquetes UDP entrantes, con envío de ACK de vuelta.</li>
-<li>Envío de paquetes a todos los vecinos.</li>
-</ul>
-</li>
-<li>Activación del LED de la placa al ercibir paquetes o pings.</li>
-</ul>
-<p>Nótese que, a día de hoy, LoRaMESH soporta únicamente las operaciones <em>close</em>,
-<em>bind</em>, <em>sendto</em> y <em>recvfrom</em>.</p>
-<pre><code class="language-python">from network import LoRa
-import socket
-import time
-import utime
-import ubinascii
-import pycom
-import machine
-
-from loramesh import Loramesh
-
-lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868, bandwidth=LoRa.BW_125KHZ, sf=7)
-MAC = str(ubinascii.hexlify(lora.mac()))[2:-1]
-print(&quot;LoRa MAC: %s&quot;%MAC)
-
-mesh = Loramesh(lora)
-
-# waiting until it connected to Mesh network and
-# it has some valid neighbors
-while True:
-    mesh.led_state()
-    print(&quot;%d: State %s, single %s&quot;%(time.time(), mesh.cli('state'), mesh.cli('singleton')))
-    time.sleep(2)
-    if not mesh.is_connected():
-        continue
-
-    neigbors = mesh.neighbors_ip()
-    if len(neigbors) == 0:
-        print('No neighbor')
-        continue
-
-    print('Neighbors found: %s'%neigbors)
-    break
-
-# create UDP socket
-s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
-myport = 1234
-s.bind(myport)
-pack_num = 1
-msg = &quot;Hello World! MAC: &quot; + MAC + &quot;, pack: &quot;
-ip = mesh.ip()
-
-while True:
-    mesh.led_state()
-    print(&quot;%d: State %s, single %s, IP %s&quot;%(time.time(), mesh.cli('state'), mesh.cli('singleton'), mesh.ip()))
-
-    # check if topology changes, maybe RLOC IPv6 changed
-    new_ip = mesh.ip()
-    if ip != new_ip:
-        print(&quot;IP changed from: %s to %s&quot;%(ip, new_ip))
-        ip = new_ip
-
-    # listen for incomming packets
-    rcv_data, rcv_addr = s.recvfrom(128)
-    if len(rcv_data)&gt;0:
-        rcv_ip = rcv_addr[0]
-        rcv_port = rcv_addr[1]
-        print('Incomming %d bytes from %s (port %d)'%(len(rcv_data), rcv_ip, rcv_port))
-        print(rcv_data)
-        # could send some ACK pack:
-        if rcv_data.startswith(&quot;Hello&quot;):
-            try:
-                s.sendto('ACK ' + MAC + ' ' + str(rcv_data)[2:-1], (rcv_ip, rcv_port))
-            except Exception:
-                pass
-        mesh.blink(7, .3)
-        continue
-
-    # update neighbors list
-    neigbors = mesh.neighbors_ip()
-    print(&quot;%d Neighbors %s&quot;%(len(neigbors), neigbors))
-
-    # send PING and UDP packets to all neighbors
-    for neighbor in neigbors:
-        if mesh.ping(neighbor) &gt; 0:
-            print('Ping OK from neighbor %s'%neighbor)
-            mesh.blink(10, .1)
-        else:
-            print('Ping not received from neighbor %s'%neighbor)
-
-        time.sleep(10)
-
-        pack_num = pack_num + 1
-        try:
-            s.sendto(msg + str(pack_num), (neighbor, myport))
-            print('Sent message to %s'%(neighbor))
-        except Exception:
-            pass
-        time.sleep(20 + machine.rng()%20)
-
-    # random sleep time
-    time.sleep(30 + machine.rng()%30)
-</code></pre>
-<div class="admonition note">
-<p class="admonition-title">Tarea</p>
-<p>Configura tu LoPy con el código anterior, y observa la comunicación
-bidireccional con todos los nodos que forman parte de la malla (en este
-caso, los nodos de tus compañeros).</p>
 </div></div>
             </div>
         </div>
