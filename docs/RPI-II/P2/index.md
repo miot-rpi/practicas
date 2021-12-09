@@ -45,7 +45,7 @@ que enviemos un dato binario por la red, deberá ser transformado utilizando
 ### Estructuras de datos
 
 Antes de estudiar la API de *sockets* básica, es necesario mostrar el cometido
-de un conjunto de estructuras de datos utilizadas comunmente en todas ellas. La
+de un conjunto de estructuras de datos utilizadas comúnmente en todas ellas. La
 más importante es `sockaddr_in`, que se define como sigue:
 
 ```c
@@ -72,7 +72,7 @@ dirección IP que se asociará con el socket.
 
 La estructura `sockaddr_in` contiene dos campos importantes: 
 
-* `sin_family`: que indica al socket qué familia de protocolos se utiliarán 
+* `sin_family`: que indica al socket qué familia de protocolos se utilizarán 
   (usaremos la constante `AF_INET` para IPv4).
 * `sin_port`: que indica el puerto asociado al socket.
 
@@ -177,7 +177,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 ```
 
-* Descripción: Conecta el *socket* proporcionada a la dirección específicada por
+* Descripción: Conecta el *socket* proporcionada a la dirección especificada por
   `addr`. Si el *socket* es UDP, `addr` será la dirección a la que se enviarán
   los datagramas por defecto, y la única desde la que se recibirán datagramas.
   En caso de TCP, esta llamada inicia el proceso de conexión a la dirección
@@ -231,7 +231,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
 
 * Descripción: Reciben mensajes desde un  *socket*, tanto en sockets orientados
   como no orientados a conexión. `recvfrom`, a diferencia de `recv`, recibe
-  parámetrosd de salida adicionales que almacenan información sobre la dirección
+  parámetros de salida adicionales que almacenan información sobre la dirección
   origen del mensaje.
 
 * Parámetros: 
@@ -320,7 +320,7 @@ int main() {
         char buffer[maxlen];
         char* pbuffer = buffer;
 
-        while ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
+        if ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
                 pbuffer += n;
                 maxlen -= n;
                 len += n;
@@ -475,7 +475,7 @@ cliente). Comprueba que, tanto la estructura básica de ambos componentes como
 las invocaciones a la API de sockets concuerdan con las que vimos para el 
 sistema *echo* programado en C. 
 
-Acerca de la tarea principal (funcion `app_main`) observa que realiza 
+Acerca de la tarea principal (función `app_main`) observa que realiza 
 una serie de llamadas a APIs de configuración de algunos subsistemas de
 FreeRTOS, principalmente:
 
@@ -506,7 +506,7 @@ a través de `menuconfig`.
   usuario cambien. Puedes consultar su documentación en la 
   [página oficial](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_netif.html).
 
-* Por último, se cerea una tarea que ejecutará la lógica del servidor (lo mismo
+* Por último, se crea una tarea que ejecutará la lógica del servidor (lo mismo
   ocurre en el cliente).
 
 * Observa que, en todo el código, los mensajes de error se anotan utilizando
@@ -544,7 +544,7 @@ de las herramientas del sistema:
 
 !!! danger "Nota"
     Ten en cuenta que portátil (es decir, máquina virtual) y ESP32 deben
-    pertenecera la misma red. Para conseguirlo, para tu máquina virtual y añade
+    pertenecerá la misma red. Para conseguirlo, para tu máquina virtual y añade
     una nueva interfaz de red de tipo *bridge* conectada a la interfaz Wifi
     física de tu PC. Así, tendrás una interfaz con IP en la misma red, otorgada
     directamente por tu punto de acceso.

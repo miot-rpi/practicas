@@ -42,6 +42,15 @@ added 332 packages from 341 contributors in 18.494s
 found 0 vulnerabilities
 ```
 
+En caso de que se muestre un mensaje indicando que la versión de Node.js no es compatible 
+y que se requiera al menos una versión 14, es preciso actualizarlo mediante los siguientes
+comandos:
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
 Para ejecutar Node-RED, una vez instalado, es posible utilizar la orden
 `node-red` desde cualquier terminal. Para detener el proceso, es suficiente
 con utilizar `Ctrl-C`:

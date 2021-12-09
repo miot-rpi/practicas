@@ -273,7 +273,7 @@ las conexiones durante su ciclo de vida.
 Ejecuta en una terminal el servidor:
 
 ```bash
-$ python3 ./servidor-echo.py
+$ python3 ./servidor_echo.py
 ```
 
 Como ves, la terminal se bloquea (de hecho, el servidor permanece en 
@@ -287,14 +287,14 @@ Realmente, el servidor está esperando a que haya conexiones entrantes por parte
 de un cliente. Abre otra terminal y ejecuta el cliente:
 
 ```bash
-$ python3 cliente-echo.py
+$ python3 cliente_echo.py
 Recibido 'Hola, mundo'
 ```
 
 En la ventana del servidor, deberías ver algo similar a:
 
 ```bash
-$ python3 ./servidor-echo.py
+$ python3 ./servidor_echo.py
 Conectado ('127.0.0.1, 61234')
 ```
 
