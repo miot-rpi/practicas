@@ -151,7 +151,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-9-node-red" class="nav-link">Práctica 9. Node-RED</a>
@@ -223,6 +223,12 @@ siguiente:</p>
 <pre><code class="language-sh">+ node-red@1.1.0
 added 332 packages from 341 contributors in 18.494s
 found 0 vulnerabilities
+</code></pre>
+<p>En caso de que se muestre un mensaje indicando que la versión de Node.js no es compatible 
+y que se requiera al menos una versión 14, es preciso actualizarlo mediante los siguientes
+comandos:</p>
+<pre><code class="language-sh">curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
 </code></pre>
 <p>Para ejecutar Node-RED, una vez instalado, es posible utilizar la orden
 <code>node-red</code> desde cualquier terminal. Para detener el proceso, es suficiente

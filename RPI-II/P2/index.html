@@ -151,7 +151,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-2-sockets-tcp-y-udp-en-esp-idf" class="nav-link">Práctica 2. Sockets TCP y UDP en ESP-IDF</a>
@@ -231,7 +231,7 @@ que enviemos un dato binario por la red, deberá ser transformado utilizando
 <code>hton*</code> y cuando lo recibamos y debamos procesarlo, utilizando <code>ntoh*</code>.</p>
 <h3 id="estructuras-de-datos">Estructuras de datos</h3>
 <p>Antes de estudiar la API de <em>sockets</em> básica, es necesario mostrar el cometido
-de un conjunto de estructuras de datos utilizadas comunmente en todas ellas. La
+de un conjunto de estructuras de datos utilizadas comúnmente en todas ellas. La
 más importante es <code>sockaddr_in</code>, que se define como sigue:</p>
 <pre><code class="language-c">struct sockaddr_in
 {
@@ -251,7 +251,7 @@ más importante es <code>sockaddr_in</code>, que se define como sigue:</p>
 dirección IP que se asociará con el socket. </p>
 <p>La estructura <code>sockaddr_in</code> contiene dos campos importantes: </p>
 <ul>
-<li><code>sin_family</code>: que indica al socket qué familia de protocolos se utiliarán 
+<li><code>sin_family</code>: que indica al socket qué familia de protocolos se utilizarán 
   (usaremos la constante <code>AF_INET</code> para IPv4).</li>
 <li><code>sin_port</code>: que indica el puerto asociado al socket.</li>
 </ul>
@@ -377,7 +377,7 @@ intento de conexión.</li>
 </code></pre>
 <ul>
 <li>
-<p>Descripción: Conecta el <em>socket</em> proporcionada a la dirección específicada por
+<p>Descripción: Conecta el <em>socket</em> proporcionada a la dirección especificada por
   <code>addr</code>. Si el <em>socket</em> es UDP, <code>addr</code> será la dirección a la que se enviarán
   los datagramas por defecto, y la única desde la que se recibirán datagramas.
   En caso de TCP, esta llamada inicia el proceso de conexión a la dirección
@@ -441,7 +441,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
 <li>
 <p>Descripción: Reciben mensajes desde un  <em>socket</em>, tanto en sockets orientados
   como no orientados a conexión. <code>recvfrom</code>, a diferencia de <code>recv</code>, recibe
-  parámetrosd de salida adicionales que almacenan información sobre la dirección
+  parámetros de salida adicionales que almacenan información sobre la dirección
   origen del mensaje.</p>
 </li>
 <li>
@@ -535,7 +535,7 @@ int main() {
         char buffer[maxlen];
         char* pbuffer = buffer;
 
-        while ((n = recv(sock, pbuffer, maxlen, 0)) &gt; 0) {
+        if ((n = recv(sock, pbuffer, maxlen, 0)) &gt; 0) {
                 pbuffer += n;
                 maxlen -= n;
                 len += n;
@@ -675,7 +675,7 @@ de ejemplos de ESP-IDF. Por tanto, copia en tu espacio de trabajo (fuera del
 cliente). Comprueba que, tanto la estructura básica de ambos componentes como
 las invocaciones a la API de sockets concuerdan con las que vimos para el 
 sistema <em>echo</em> programado en C. </p>
-<p>Acerca de la tarea principal (funcion <code>app_main</code>) observa que realiza 
+<p>Acerca de la tarea principal (función <code>app_main</code>) observa que realiza 
 una serie de llamadas a APIs de configuración de algunos subsistemas de
 FreeRTOS, principalmente:</p>
 <pre><code class="language-c">// Inicializa la partición NVS (Non-volatile storage) por defecto. 
@@ -708,7 +708,7 @@ a través de <code>menuconfig</code>.</p>
   <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_netif.html">página oficial</a>.</p>
 </li>
 <li>
-<p>Por último, se cerea una tarea que ejecutará la lógica del servidor (lo mismo
+<p>Por último, se crea una tarea que ejecutará la lógica del servidor (lo mismo
   ocurre en el cliente).</p>
 </li>
 <li>
@@ -748,7 +748,7 @@ de las herramientas del sistema:</p>
 <div class="admonition danger">
 <p class="admonition-title">Nota</p>
 <p>Ten en cuenta que portátil (es decir, máquina virtual) y ESP32 deben
-pertenecera la misma red. Para conseguirlo, para tu máquina virtual y añade
+pertenecerá la misma red. Para conseguirlo, para tu máquina virtual y añade
 una nueva interfaz de red de tipo <em>bridge</em> conectada a la interfaz Wifi
 física de tu PC. Así, tendrás una interfaz con IP en la misma red, otorgada
 directamente por tu punto de acceso.</p>
