@@ -35,6 +35,7 @@ en este caso con soporte de hasta 100 nodos conectados.
 	Sigue las instrucciones del fabricante para actualizar el *firmware* de la
 	placa, en función del sistema operativo con el que vayas a trabajar
 	([https://docs.pycom.io/updatefirmware/device/](https://docs.pycom.io/updatefirmware/device/)).
+	Instala el firmware de tipo **legacy**, versión **1.29.0.b4**.
 
 ### Micropython
 
