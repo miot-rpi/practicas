@@ -139,7 +139,7 @@ Use `az -h` to see available commands or go to https://aka.ms/cli.
 Instala la extensión del cliente para Azure IoT:
 
 ```sh
-az extension add --name azure-cli-iot-ext
+az extension add --name azure-iot
 ```
 
 Ingresa en el sistema ejecutando (se te pedirá autenticación en 
@@ -159,7 +159,7 @@ az iot hub device-identity create -n [IoTHub Name] -d [Device ID]
 !!! note "Tarea"
     Crea un nuevo dispositivo, distinto al que creaste anteriormente, en
     tu hub. Después, obtén su cadena de conexión usando la orden 
-    `az iot hub device-identity show-connection-string -n [IoTHub Name] -d [Device ID]`. Comprueba que, efectivamente, la creación del dispositivo es
+    `az iot hub device-identity connection-string show -n [IoTHub Name] -d [Device ID]`. Comprueba que, efectivamente, la creación del dispositivo es
 visible en la plataforma web.
 
 ### Monitorización de valores de telemetría del dispositivo y eventos
@@ -176,7 +176,7 @@ az iot hub monitor-events -n [IoTHub Name] --login 'cadena de conexion'
 ## Despliegue de un cliente MQTT en el ESP32
 
 Dirígete al ejemplo situado en el directorio 
-`examples/iothub_client_sample_mqtt`. En él, vamos a trabajar con cualquiera
+`esp-azure/examples/iothub_client_sample_mqtt`. En él, vamos a trabajar con cualquiera
 de los dos dispositivos que has creado en tu *Hub*. En cualquier caso,
 muestra su *cadena de conexión principal*. Deberás ver un valor 
 de devolución de tipo:
@@ -226,8 +226,7 @@ Observa que incluye tres valores: velocidad del viento, temperatura y humedad.
 
 !!! note "Tarea"
     Analiza el código y observa, en la tarea principal, el uso que hace
-    de la API de Azure SDK C, así como el punto en el que genera el    
-    mensaje MQTT (y sus valores).
+    de la API de Azure SDK C, así como el punto en el que genera el mensaje MQTT (y sus valores).
 
 También es posible enviar mensajes al dispositivo directamente desde
 línea de comandos (observa que estos mensajes se envían vía red, no 
