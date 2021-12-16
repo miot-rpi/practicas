@@ -151,7 +151,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-10-frameworks-iot-y-cloud" class="nav-link">Práctica 10. Frameworks IoT y Cloud</a>
@@ -303,7 +303,7 @@ Use `az -h` to see available commands or go to https://aka.ms/cli.
 ...
 </code></pre>
 <p>Instala la extensión del cliente para Azure IoT:</p>
-<pre><code class="language-sh">az extension add --name azure-cli-iot-ext
+<pre><code class="language-sh">az extension add --name azure-iot
 </code></pre>
 <p>Ingresa en el sistema ejecutando (se te pedirá autenticación en 
 navegador, introduce tus credenciales):</p>
@@ -317,7 +317,7 @@ utilizar la siguiente orden:</p>
 <p class="admonition-title">Tarea</p>
 <p>Crea un nuevo dispositivo, distinto al que creaste anteriormente, en
 tu hub. Después, obtén su cadena de conexión usando la orden 
-<code>az iot hub device-identity show-connection-string -n [IoTHub Name] -d [Device ID]</code>. Comprueba que, efectivamente, la creación del dispositivo es</p>
+<code>az iot hub device-identity connection-string show -n [IoTHub Name] -d [Device ID]</code>. Comprueba que, efectivamente, la creación del dispositivo es</p>
 </div>
 <p>visible en la plataforma web.</p>
 <h3 id="monitorizacion-de-valores-de-telemetria-del-dispositivo-y-eventos">Monitorización de valores de telemetría del dispositivo y eventos</h3>
@@ -328,7 +328,7 @@ IoT desde línea de ocmandos, puedes usar la orden:</p>
 <p>(Ten en cuenta que las comillas simples deben estar presentes).</p>
 <h2 id="despliegue-de-un-cliente-mqtt-en-el-esp32">Despliegue de un cliente MQTT en el ESP32</h2>
 <p>Dirígete al ejemplo situado en el directorio 
-<code>examples/iothub_client_sample_mqtt</code>. En él, vamos a trabajar con cualquiera
+<code>esp-azure/examples/iothub_client_sample_mqtt</code>. En él, vamos a trabajar con cualquiera
 de los dos dispositivos que has creado en tu <em>Hub</em>. En cualquier caso,
 muestra su <em>cadena de conexión principal</em>. Deberás ver un valor 
 de devolución de tipo:</p>
@@ -364,8 +364,7 @@ publicar mensajes MQTT. El monitor que has lanzado los mostrará como:</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Analiza el código y observa, en la tarea principal, el uso que hace
-de la API de Azure SDK C, así como el punto en el que genera el  <br />
-mensaje MQTT (y sus valores).</p>
+de la API de Azure SDK C, así como el punto en el que genera el mensaje MQTT (y sus valores).</p>
 </div>
 <p>También es posible enviar mensajes al dispositivo directamente desde
 línea de comandos (observa que estos mensajes se envían vía red, no 
