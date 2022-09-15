@@ -37,7 +37,7 @@ para VSCode (PlatformIO). Además, veremos de forma superficial la estructura
 básica de un programa sencillo desarrollado usando ESP-IDF, así como ejemplos
 básicos para la puesta en marcha de la interfaz WiFi sobre una placa ESP32.
 
-!!! danger "Recuerda"
+!!! "Recuerda"
     La presente práctica no tiene tarea entregable asociada más allá de una 
     memoria justificativa del trabajo realizado. Por tanto, recuerda apuntar
     y reportar los pasos y tareas realizadas durante su desarrollo para plasmarlas
@@ -130,7 +130,7 @@ en base a ESP-IDF. No es el objetivo de esta práctica analizar en detalle los
 la estructura de dicho código (al menos de momento), sino utilizarlo para ilustrar
 el flujo de trabajo típico en un proyecto ESP-IDF.
 
-!!! danger "Recuerda"
+!!! "Recuerda"
     Tras la ejecución del script `export.sh`, tendrás definida una variable
     de entorno llamada `IDF_PATH`. Consulta su valor y comprueba que apunta,
     efectivamente, al directorio de instalación de IDF. La utilizaremos a 
@@ -181,7 +181,7 @@ usamos el *script* `idf.py`:
 idf.py -p PUERTO monitor
 ```
 
-!!! danger "Nota"
+!!! "Nota"
     Comprueba que, efectivamente, puedes realizar el proceso de compilación,
     *flasheado* y monitorización del programa sobre la placa ESP32. Recuerda
     que el botón `EN`, justo al lado del conector microUSB, forzará un 
@@ -332,7 +332,7 @@ un enchufe como símbolo:
 
 ## Análisis de un proyecto sencillo (*Hola, mundo*) en ESP-IDF
 
-!!! note "Nota"
+!!! "Nota"
     Las siguientes tareas pueden realizarse desde línea de comandos o utilizando
     PlatformIO. Para familiarizarse con en entorno de bajo nivel, sin embargo,
     se sugiere el uso de línea de comandos.
@@ -435,7 +435,7 @@ principal:
     esp_restart();
 ```
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Modifica el período de suspensión de la tarea para que sea mayor o menor,
     y comprueba que efectivamente esto modifica el comportamiento del 
     *firmware* cargado. Modifica el programa para que se muestre también por
@@ -532,7 +532,7 @@ void app_main()
 }
 ```
 
-!!! note "Tarea"
+!!! danger "Tarea Adicional"
     Implementa una modificación del programa `hello_world` que implemente
     y planifique dos tareas independientes con distinta funcionalidad (en este
     caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
@@ -558,7 +558,7 @@ opciones de carácter general, que te permitirán configurar las característica
 específicas del proyecto a compilar (por ejemplo, seleccionando los componentes
 que deseas habilitar en la construcción del mismo).
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Navega por las opciones que aparecen en los menús de configuración para
     familiarizarte con ellos. Los utilizarás en futuras prácticas.
 
@@ -581,7 +581,7 @@ que se proporciona como parte del fichero. En él, se definen las característic
 (nombre, rango, valor por defecto y descripcion) de la opción de configuración
 a definir.
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Modifica el proyecto `hello_world` para que defina dos opciones de configuración
     que permitirán definir el tiempo de espera de cada una de las dos tareas que
     hayas definido en tu anterior solución. Haz uso de ellas en tu código y 
@@ -596,7 +596,7 @@ en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 y su reporte a través del puerto serie del mismo. Para cada red escaneada, se
 reportarán sus características principales.
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
     `examples/wifi/scan`. Recuerda copiarlo antes a cualquier otro directorio
     de tu *home*. Antes de compilarlo, modifica el número máximo de redes a 
@@ -608,7 +608,7 @@ Observa su funcionamiento. Realmente, el *firmware* simplemente escanea un
 subconjunto de las redes disponibles, reportando algunas de sus características
 (por ejemplo, SSID, modo de autenticación o canal primario). 
 
-!!! note "Tarea"
+!!! danger "Tarea Adicional"
     Analiza el código de la función `wifi_scan` (tarea principal). Específicamente,
     céntrate en las líneas que permiten activar y configurar el escaneado de 
     redes. Intenta entender el funcionamiento general del programa, consultando
@@ -625,7 +625,7 @@ estudiarás en más detalle en ANIOT y que permite gestionar, entre otros, las
 respuestas a eventos de red, como por ejemplo la obtención de dirección IP
 o la conexión exitosa a un punto de acceso.
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Compila, flashea y monitoriza el ejemplo `station` situado en el directorio
     `examples/wifi/getting_started`. Recuerda copiarlo antes a cualquier otro directorio
     de tu *home*. Antes de compilarlo, modifica el SSID de la red al que conectará,
@@ -645,7 +645,8 @@ la tarea principal, se divide básicamente en dos partes:
 y se asocia la recepción de un evento a la ejecución de un manejador o función
 determinada.
 
-!!! note "Pregunta"
+!!! danger "Tarea Adicional"
+	Responde a la siguiente pregunta de forma razonada:
     ¿Qué eventos se asocian a la ejecución de qué función en el *firmware* que
     estás estudiando?
 
@@ -659,7 +660,7 @@ a través de `esp_wifi_start()`. Consulta la documentación relativa a dichas
 funciones y anota en tu memoria entregable aquellos aspectos que consideres 
 más relevantes.
 
-!!! note "Tarea"
+!!! danger "Tarea Adicional"
     Modifica el *firmware* para que el *handler* de tratamiento de la obtención
     de una dirección IP sea independiente del tratamiento del resto de eventos
     del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
