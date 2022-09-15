@@ -1,500 +1,896 @@
-# Práctica 5. Bluetooth Mesh (BLE MESH)
+# Práctica 4. Bluetooth Low Energy (BLE)
 
-## Objetivos
+# Objetivos
 
-* Poner en práctica los conceptos estudiados en teoría en relación a BLE MESH,
-específicamente provisionamiento y modelos cliente/servidor.
+* Diseccionar en detalle un *firmware* de construcción de tabla GATT (servidor
+GATT) utilizando la API de ESP-IDF.
+* Aprender a utilizar la herramienta `gatttool` para interactuar con el servidor GATT.
+* Modificar el servidor GATT para que acepte peticiones de notificación por parte del cliente,
+y para que publique bajo demanda valores actualizados para una determinada característica.
 
-* Desplegar una infraestructura de provisionamiento de un modelo ONOFF GENERIC
-SERVER con provisionamiento desde aplicación móvil para el control remoto de 
-encendido/apagado LED.
+# Implementación de un servidor GATT basado en tablas
 
-* Desplegar una infraestructura de provisionamiento de un modelo GENERIC SENSOR 
-con provisionamiento desde ESP32.
+## Introducción
 
-## Requisitos previos
+En esta práctica, desplegaremos un servidor GATT utilizando la API de ESP-IDF
+para tal fin. Dicha API expone las funcionalidades de Bluedroid, la pila
+Bluetooth (incluyendo BLE) que proporciona ESP-IDF para el desarrollo de 
+aplicaciones Bluetooth. 
 
-En primer lugar, instala la última versión de ESP-IDF para el desarrollo de
-esta práctica. Asegúrate de que, tras el clonado del repostitorio, realizas
-la instalación de requisitos correspondiente, y de que exportas las
-variables de entorno (vía `export.sh`) correctas. Es importante que te 
-asegures de la correcta configuración del entorno.
+El ejemplo con el que trabajaremos reside en el directorio 
+`examples/bluetooth/bluedroid/ble/gatt_server_service_table`. Debido a la 
+complejidad del ejemplo (al menos en su parte inicial), la presente práctica
+procede, en primer lugar, con un recorrido por la preparación y construcción
+del servidor siguiendo una estructura de tabla que define los servicios y
+características que se implementarán en el mismo. 
 
-En segundo lugar, deberás rellenar la hoja Excel correspondiente a tu puesto
-con la dirección MAC Bluetooth de tu dispositivo, que podrás obtener con 
-cualquier mecanismo que hayas utilizado en prácticas anteriores.
+El ejemplo implementa el perfile *Heart Rate Profile* definido en la
+[especificación Bluetooth](https://www.bluetooth.com/specifications/profiles-overview),
+y sigue la siguiente estructura:
 
-Los códigos que estudiaremos en la práctica se encuentran en el directorio
-`examples/bluetooth/esp_ble_mesh/ble_mesh_node` en el caso del sistema
-*OnOff* (primera parte de la práctica) y 
-`ble_mesh_sensor_model` en el caso del modelo sensor (segunda parte de
-la práctica).
+<div align="center"><img src="img/Heart_Rate_Service.png" width = "450" alt="Table-like data structure representing the Heart Rate Service" align=center /> </div>
 
-Por último, descarga e instala la aplicación (disponible para Android e IOS)
-`nRF Mesh`.
+Desplegaremos, por tanto, tres características. De ellas, la más importante
+para nosotros será el valor de medición de ritmo cardiaco, con su valor
+(*Heart Rate Measurement Value*) y su configuración de notificaciones
+(*Heart Rate Measurement Notification Configuration*).
 
-## Ejemplo para el modelo ON-OFF MODEL
+## Inclusión de encabezados
 
-### El servidor ON-OFF
-
-El servidor implementa un único elemento, en el cual se integran dos modelos
-distintos:
-
-1. *Modelo Configuration Server*, que implementa la configuración de 
-claves de aplicación (*AppKey*), así como configuraciones genéricas del servidor
-como suscripciones, tamaño de TTL o funcionalidad de *relay* de mensajes.
-2. *Modelo Generic OnOff Server*, que implementa la funcionalidad básica de
-encendido/apagado de una luz.
-
-El código en el fichero `ble_mesh_demo_main.c` contiene la funcionalidad
-básica del servidor, que podemos resumir en:
-
-* Inicialización de la pila BLE (*bluedroid*).
-* Inicialización de la pila BLE Mesh.
-* Registro de las funciones de *callback* para el proceso de provisionamiento
-y del modelo o modelos implementados.
-* Implementación e inicialización del elemento BLE Mesh.
-* Implementación e inicialización del modelo *Configuration Server* y 
-*Generic OnOff Server*.
-* Soporte para operaciones *Get Opcode* y *Set Opcode* en el modelo de configuración.
-
-#### Análisis básico de código
-
-* **Inicialización y activación de la pila BLE Mesh**
-
-    Tras la inicialización del sistema, la tarea principal (*app_main*) se encarga
-    de la incialización de las pilas BLE y BLE Mesh:
+Los siguientes ficheros de cabecera son necesarios para dotar de funcionalidad
+BLE a nuestro *firmware*:
 
 ```c
-void app_main(void)
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
+#include "esp_log.h"
+#include "nvs_flash.h"
+#include "bt.h"
+#include "bta_api.h"
+
+#include "esp_gap_ble_api.h"
+#include "esp_gatts_api.h"
+#include "esp_bt_defs.h"
+#include "esp_bt_main.h"
+#include "esp_bt_main.h"
+#include “gatts_table_creat_demo.h"
+```
+
+Estos encabezados son necesarios para un correcto funcionamiento de *FreeRTOS*
+y de sus componentes, incluyendo funcionalidad relativa a *logging* y 
+almacenamiento no volátil. 
+Son especialmente interesantes los ficheros ``bt.h``, ``esp_bt_main.h``, 
+``esp_gap_ble_api.h`` y ``esp_gatts_api.h``, ya que exponen la API BLE necesaria
+para la implementación del *firmware*:
+
+* ``bt.h``: implementa el controlador Bluetooth.
+* ``esp_bt_main.h``: implementa las rutinas de inicialización y activación de la pila Bluedroid.
+* ``esp_gap_ble_api.h``: implementa la configuración GAP (parámetros de anuncios y conexión).
+* ``esp_gatts_api.h``: implementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).
+
+## La tabla de servicios
+
+El fichero de encabezado [gatts_table_creat_demo.h](../main/gatts_table_creat_demo.h) 
+contiene una enumeración de los servicios y características deseadas:
+
+```c
+enum
 {
-    int err;
+    HRS_IDX_SVC,
 
-    ESP_LOGI(TAG, "Initializing...");
+    HRS_IDX_HR_MEAS_CHAR,
+    HRS_IDX_HR_MEAS_VAL,
+    HRS_IDX_HR_MEAS_NTF_CFG,
 
-    board_init();
+    HRS_IDX_BOBY_SENSOR_LOC_CHAR,
+    HRS_IDX_BOBY_SENSOR_LOC_VAL,
 
-    err = bluetooth_init();
+    HRS_IDX_HR_CTNL_PT_CHAR,
+    HRS_IDX_HR_CTNL_PT_VAL,
+
+    HRS_IDX_NB,
+};
+```
+
+Los elementos de la anterior estructura se han incluido en el mismo orden
+que los atributos del *Heart Rate Profile*, comenzando con el servicio, seguido
+por las características del mismo. Además, la característica *Heart Rate Measurement*
+dispone de configuración propia (*Client Characteristic Configuration*,
+o CCC), un descriptor que **describe si la característica tiene las notificaciones
+activas**. Todos estos índices pueden utilizarse para identificar a cada elemento 
+a la hora de crear la tabla de atributos:
+
+* ``HRS_IDX_SVC``: índice del servicio Heart Rate.
+* ``HRS_IDX_HR_MEAS_CHAR``: índice de la característica Heart Rate Measurement.
+* ``HRS_IDX_HR_MEAS_VAL``: índice del valor Heart Rate Measurement. 
+* ``HRS_IDX_HR_MEAS_NTF_CFG``: índice de la configuración de notificaciones (CCC) Heart Rate Measurement.
+* ``HRS_IDX_BOBY_SENSOR_LOC_CHAR``: índice de la característica Heart Rate Body Sensor Location.
+* ``HRS_IDX_BOBY_SENSOR_LOC_VAL``: índice del valor Heart Rate Body Sensor Location.
+* ``HRS_IDX_HR_CTNL_PT_CHAR``: índice de la característica Heart Rate Control Point.
+* ``HRS_IDX_HR_CTNL_PT_VAL``: índice del valor Heart Rate Control Point.
+* ``HRS_IDX_NB``: número de elementos d ela tabla.
+
+## Punto de entrada
+
+El punto de entrada de la aplicación (``app_main()``) se implementa como 
+sigue:
+
+```c
+void app_main()
+{
+    esp_err_t ret;
+
+    // Initialize NVS.
+    ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK( ret );
+
+    esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+    ret = esp_bt_controller_init(&bt_cfg);
+    if (ret) {
+        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed\n", __func__);
+        return;
+    }
+
+    ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
+    if (ret) {
+        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed\n", __func__);
+        return;
+    }
+
+    ESP_LOGI(GATTS_TABLE_TAG, "%s init bluetooth\n", __func__);
+    ret = esp_bluedroid_init();
+    if (ret) {
+        ESP_LOGE(GATTS_TABLE_TAG, "%s init bluetooth failed\n", __func__);
+        return;
+    }
+    ret = esp_bluedroid_enable();
+    if (ret) {
+        ESP_LOGE(GATTS_TABLE_TAG, "%s enable bluetooth failed\n", __func__);
+        return;
+    }
+
+    esp_ble_gatts_register_callback(gatts_event_handler);
+    esp_ble_gap_register_callback(gap_event_handler);
+    esp_ble_gatts_app_register(ESP_HEART_RATE_APP_ID);
+    return;
+}
+```
+
+La función principal procede incializando el almacenamiento no volátil, para 
+almacenar los parámetros necesarios en memoria *flash*:
+
+```c
+ret = nvs_flash_init();
+```
+
+## Inicialización del controlador y de la pila Bluetooth
+
+La función principal inicializa también el controlador Bluetooth, creando
+en primer lugar una estructura de configuración para tal fin de tipo 
+`esp_bt_controller_config_t` con valores por defecto dictados por la macro               `BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. 
+
+El controlador Bluetooth implementa el *Host Controller Interface* (HCI), la
+capa de enlace y la capa física BLE; es, por tanto, transparente para el programador. 
+La configuración incluye el tamaño de pila reservado al controlador, prioridad 
+y baudios para la transmisión. Con estas configuraciones, el controlador
+puede ser inicializado y activado con la función `esp_bt_controller_init()`:
+
+```c
+esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+ret = esp_bt_controller_init(&bt_cfg);
+```
+
+A continuación, el controlador activa el modo BLE:
+
+```c
+ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
+```
+
+Existen cuatro modos de funcioinamiento Bluetooth:
+
+1. `ESP_BT_MODE_IDLE`: Bluetooth no funcional
+2. `ESP_BT_MODE_BLE`: Modo BLE
+3. `ESP_BT_MODE_CLASSIC_BT`: Modo BT Clásico
+4. `ESP_BT_MODE_BTDM`: Modo Dual (BLE + BT Clásico)
+
+Tras la incialización del controlador Bluetooth, la pila Bluedroid (que 
+incluye APIs tanto para BLE como para Bluetooth Clásico) debe ser inicializada
+y activada:
+
+```c
+ret = esp_bluedroid_init();
+ret = esp_bluedroid_enable();
+```
+
+La pila Bluetooth está, a partir de este punto, lista para funcionar, pero todavía
+no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
+se define con el clásico mecanismo basado en eventos, que pueden ser emitidos,
+por ejemplo, cuando otro dispositivo intenta leer o escribir parámetros, o
+establecer una conexión. 
+
+Existen dos gestores de eventos relacionados con BLE: los manejadores 
+(*handlers*) GAP y GATT. La aplicación necesita registrar una función de 
+*callback* para cada manejador, para permitir a la aplicación conocer qué 
+funciones se invocarán eventos de tipo GAP y GATT:
+
+```c
+esp_ble_gatts_register_callback(gatts_event_handler);
+esp_ble_gap_register_callback(gap_event_handler);
+```
+
+Las funciones `gatts_event_handler()` y `gap_event_handler()` 
+manejan todos los eventos emitidos por la pila BLE hacia la plicación.
+
+## Perfiles de aplicación (*Application profiles*)
+
+Como se ha dicho, el objetivo es implementar un Perfil de Aplicación 
+para el servicio *Heart Rate*. Un Perfil de Aplicación es un mecanismo que
+permite agrupar funcionalidad diseñada para ser utilizada por un cliente
+de la aplicación, por ejemplo, una aplicación móvil. En este sentido, 
+diferentes tipos de perfiles pueden acomodarse en un mismo servidor.
+
+El Identifificador de Perfil de Aplicación (*Application Profile ID*) es un valor
+seleccionable por el usuario para identificar cada perfil; su uso se recude al
+registro del perfil en la pila Bluetooth. En el ejemplo, el ID es `0x55`.
+
+```c
+#define HEART_PROFILE_NUM                       1
+#define HEART_PROFILE_APP_IDX                   0
+#define ESP_HEART_RATE_APP_ID                   0x55
+```
+
+Los perfiles se almacenan en el array ``heart_rate_profile_tab``. 
+Al haber un único perfil en el ejemplo, sólo se almacena un elemento en el 
+array, con índice 0 (tal y como se define en ``HEART_PROFILE_APP_IDX``). 
+Además, es necesario inicializar la función de *callback* manejadora de los
+eventos del perfil. Cada aplicación en el servidor GATT utiliza una interfaz
+diferenciada, representada por el parámetro `gats_if`. Para la incialización,
+este parámetro se iguala a ``ESP_GATT_IF_NONE``; 
+cuando la aplicación se registre, más adelante, el parámetro `gatts_if` se 
+actualizará con la interfaz generada automáticamente por la pila Bluetooth.
+
+```c
+/* One gatt-based profile one app_id and one gatts_if, this array will store the gatts_if returned by ESP_GATTS_REG_EVT */
+static struct gatts_profile_inst heart_rate_profile_tab[HEART_PROFILE_NUM] = {
+    [HEART_PROFILE_APP_IDX] = {
+        .gatts_cb = gatts_profile_event_handler,
+        .gatts_if = ESP_GATT_IF_NONE,       /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
+    },
+
+};
+```
+
+
+El registro de la aplicación tiene lugar en la función ``app_main()``,
+utilizando la función ``esp_ble_gatts_app_register()``:
+
+```c
+esp_ble_gatts_app_register(ESP_HEART_RATE_APP_ID);
+```
+
+## Parámetros GAP
+
+El evento de registro de aplicación es el primero que se invoca durante
+la vida de un programa. Este ejemplo utiliza este evento para configurar 
+parámetros GAP (de anuncio). Las funciones asociadas son:
+
+* ``esp_ble_gap_set_device_name()``: utilizada para establecer el nombre del dispositivo anunciado.
+* ``esp_ble_gap_config_adv_data()``: usada para configurar datos estándar de anuncio.
+
+La función utilizada para configurar los parámetros estándar 
+(``esp_ble_gap_config_adv_data()``) toma un puntero a una estructura de tipo ``esp_ble_adv_data_t``. La estructura ``esp_ble_adv_data_t`` dispone de los siguientes campos:
+
+```c
+typedef struct {
+    bool set_scan_rsp;    /*!< Set this advertising data as scan response or not*/
+    bool include_name;    /*!< Advertising data include device name or not */
+    bool include_txpower; /*!< Advertising data include TX power */
+    int min_interval;     /*!< Advertising data show slave preferred connection min interval */
+    int max_interval;     /*!< Advertising data show slave preferred connection max interval */
+    int appearance;       /*!< External appearance of device */
+    uint16_t manufacturer_len; /*!< Manufacturer data length */
+    uint8_t *p_manufacturer_data; /*!< Manufacturer data point */
+    uint16_t service_data_len;    /*!< Service data length */
+    uint8_t *p_service_data;      /*!< Service data point */
+    uint16_t service_uuid_len;    /*!< Service uuid length */
+    uint8_t *p_service_uuid;      /*!< Service uuid array point */
+    uint8_t flag;         /*!< Advertising flag of discovery mode, see BLE_ADV_DATA_FLAG detail */
+} esp_ble_adv_data_t;
+```
+
+En el ejemplo, la estructura se incializará como sigue:
+
+```c
+static esp_ble_adv_data_t heart_rate_adv_config = {
+    .set_scan_rsp = false,
+    .include_name = true,
+    .include_txpower = true,
+    .min_interval = 0x0006,
+    .max_interval = 0x0010,
+    .appearance = 0x00,
+    .manufacturer_len = 0, //TEST_MANUFACTURER_DATA_LEN,
+    .p_manufacturer_data =  NULL, //&test_manufacturer[0],
+    .service_data_len = 0,
+    .p_service_data = NULL,
+    .service_uuid_len = sizeof(heart_rate_service_uuid),
+    .p_service_uuid = heart_rate_service_uuid,
+    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
+};
+```
+Los intervalos mínimos y máximos de conexión se establecen en unidades de
+1.25 ms. En el ejemplo, el intervalo de conexión mínimo preferido se establece, 
+por tanto, en 7.5 ms y el máximo en 20 ms.
+
+El *payload* del anuncio puede almacenar hasta 31 bytes de datos. 
+Es posible que algunos parámetros los superen, pero en dicho caso el stack
+BLE cortará el mensaje y eliminará aquellos que superen el tamaño máximo.
+Por último, para establecer el nombre del dispositivo se puede utilizar la 
+función ``esp_ble_gap_set_device_name()``. 
+
+Para registrar el manejador de eventos, procedemos de la siguiente forma:
+
+```c
+static void gatts_profile_event_handler(esp_gatts_cb_event_t event, 
+esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
+{
+    ESP_LOGE(GATTS_TABLE_TAG, "event = %x\n",event);
+    switch (event) {
+        case ESP_GATTS_REG_EVT:
+            ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
+            esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
+            ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
+            esp_ble_gap_config_adv_data(&heart_rate_adv_config);
+            ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
+…
+```
+
+## El manejador de eventos GAP
+
+Una vez establecidos los datos de anuncio, se emite un evento de tipo 
+``ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT``, que será manejado por el manejador
+ GAP configurado. Además, se emite también un evento de tipo
+ ``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT`` si se ha configurado una respuesta
+ al escaneado.
+Así, el manejador puede utilizar cualquiera de estos dos eventos para comenzar
+con el proceso de anuncio, utilizando la función
+``esp_ble_gap_start_advertising()``:
+
+```c
+static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
+{   
+    ESP_LOGE(GATTS_TABLE_TAG, "GAP_EVT, event %d\n", event);
     
-    if (err) {
-        ESP_LOGE(TAG, "esp32_bluetooth_init failed (err %d)", err);
-        return;
-    }
-
-    /* Initializes the Bluetooth Mesh Subsystem */
-    err = ble_mesh_init();
-    if (err) {
-        ESP_LOGE(TAG, "Bluetooth mesh init failed (err %d)", err);
+    switch (event) {
+    case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
+        esp_ble_gap_start_advertising(&heart_rate_adv_params);
+        break;
+    case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
+        //advertising start complete event to indicate advertising start successfully or failed
+        if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
+            ESP_LOGE(GATTS_TABLE_TAG, "Advertising start failed\n");
+        }
+        break;
+    default:
+        break;
     }
 }
 ```
 
-En particular, el código incluye invocaciones a `bluetooth_init()` y
-`ble_mesh_init()`, que se encargan de ambas inicializaciones.
-
-La inicialización de la pila BLE Mesh requiere alguna explicación adicional:
+La función de inicio de anuncios toma una estructura de tipo 
+``esp_ble_adv_params_t`` con los parámetros de anuncio requeridos:
 
 ```c
-static esp_err_t ble_mesh_init(void)
-{
-    int err = 0;
-
-    memcpy(dev_uuid + 2, esp_bt_dev_get_address(), BLE_MESH_ADDR_LEN);
-
-    // See comment 1
-     esp_ble_mesh_register_prov_callback(esp_ble_mesh_prov_cb);
-    esp_ble_mesh_register_custom_model_callback(esp_ble_mesh_model_cb);
-
-    err = esp_ble_mesh_init(&provision, &composition);
-    if (err) {
-        ESP_LOGE(TAG, "Initializing mesh failed (err %d)", err);
-        return err;
-    }
-
-    esp_ble_mesh_node_prov_enable(ESP_BLE_MESH_PROV_ADV | ESP_BLE_MESH_PROV_GATT);
-
-    ESP_LOGI(TAG, "BLE Mesh Node initialized");
-
-    board_led_operation(LED_G, LED_ON);
-
-    return err;
-}
-```
-
-Observa que el código incluye la siguiente funcionalidad:
-
-* `esp_ble_mesh_register_prov_callback(esp_ble_mesh_prov_cb)`: registra
-la función de *callback* para la pila BLE Mesh. Esta función se ejecuta
-durante el proceso de configuración, y permite a la pila BLE Mesh generar
-eventos y notificar a la aplicación sobre hitos importantes en el proceso
-de configuración. Los eventos principales que pueden emitirse son:
-
-    - `ESP_BLE_MESH_PROVISION_REGISTER_COMP_EVT`: generado cuando se completa el proceso de incialización de BLE Mesh.
-    - `ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT`: generado cuando un provisionador y un dispositivo no provisionado establecen un enlace.
-    - `ESP_BLE_MESH_NODE_PROV_LINK_CLOSE_EVT`: generado para notificar a la aplicación que se ha roto un enlace con un
-dispositivo asociado.
-    - `ESP_BLE_MESH_NODE_PROV_COMPLETE_EVT`: recibido por la aplicación cuando el proceso de provisionamiento se completa.
-
-* `esp_ble_mesh_register_custom_model_callback(esp_ble_mesh_model_cb)`: registra
-la función de *callback* asociada al modelo. Esta función se utiliza cuando el
-otro extremo de la comunicación solicita operaciones sobre el modelo, y es
-capaz de emitir los siguientes eventos principales:
-    - `ESP_BLE_MESH_MODEL_OPERATION_EVT`: se puede generar en dos situaciones:
-        - El modelo servidor recibe un *Get Status* o *Set Status* desde un modelo cliente.
-        - El modelo cliente recibe un *Status State* desde un modelo servidor.
-    - `ESP_BLE_MESH_MODEL_SEND_COMP_EVT`: generado después de que el modelo servidor
-      envíe un *Status State* a través de la función `esp_ble_mesh_server_model_send_msg`.
-    - `ESP_BLE_MESH_MODEL_PUBLISH_COMP_EVT`: generado después de que la aplicación 
-    complete la invocación a `esp_ble_mesh_model_publish_msg` para publicar mensajes.
-    - `ESP_BLE_MESH_CLIENT_MODEL_SEND_TIMEOUT_EVT`: generado cuando el modelo cliente
-    invoca a la función `esp_ble_mesh_client_model_send_msg`, pero no recibe 
-    mensaje de `ACK` de vuelta.
-    - `ESP_BLE_MESH_MODEL_PUBLISH_UPDATE_EVT`: generado después de que la aplicación
-    configure la función de publicación para enviar de forma periódica mensajes al
-    otro extremo.
-
-* `esp_ble_mesh_node_prov_enable(ESP_BLE_MESH_PROV_ADV | ESP_BLE_MESH_PROV_GATT)`: activa el proceso de Anuncio y Escaneo, haciendo visible al dispositivo para potenciales provisionadores que estén a la escucha.
-
-* `board_led_operation(LED_G, LED_ON)`: inicializa un hipotético LED RGB, que se controlará remotamente.
-
-En este punto, la inicialización de la pila BLE Mesh debería estar completa, por lo que
-un provisionador podría identificar dispositivos para privisonamiento de parámetros de red 
-y transmisión de datos.
-
-#### Implementación de la estructura BLE Mesh Element
-
-A continuación, se detallan los pasos necesarios para, en el servidor:
-
-* Completar la inicialización del sistema.
-* Añadir un elemento y un modelo al servidor.
-* Elegir distintas implementaciones de encriptación.
-* Declarar las características de *Proxy*, *Relay*, *Low Power* y *Friend* del nodo.
-
-En primer lugar, para declarar y definir un elemento y un modelo asociado, utilizaremos
-las siguientes estructuras:
-
-```c
-/*!< Abstraction that describes a BLE Mesh Element.
-    This structure is associated with bt_mesh_elem in mesh_access.h */
+/// Advertising parameters
 typedef struct {
-    /* Element Address, it is assigned during provisioning. */
-    uint16_t element_addr;
-
-    /* Location Descriptor (GATT Bluetooth Namespace Descriptors) */
-    const uint16_t location;
-
-    /* Model count */
-    const uint8_t sig_model_count;
-    const uint8_t vnd_model_count;
-
-    /* Models */
-    esp_ble_mesh_model_t *sig_models;
-    esp_ble_mesh_model_t *vnd_models;
-} esp_ble_mesh_elem_t;
+    uint16_t adv_int_min; /*!< Minimum advertising interval for undirected and low duty cycle directed advertising.
+    Range: 0x0020 to 0x4000
+    Default: N = 0x0800 (1.28 second)
+    Time = N * 0.625 msec
+    Time Range: 20 ms to 10.24 sec */
+    uint16_t adv_int_max; /*!< Maximum advertising interval for undirected and low duty cycle directed advertising.
+    Range: 0x0020 to 0x4000
+    Default: N = 0x0800 (1.28 second)
+    Time = N * 0.625 msec
+    Time Range: 20 ms to 10.24 sec */
+    esp_ble_adv_type_t adv_type;            /*!< Advertising type */
+    esp_ble_addr_type_t own_addr_type;      /*!< Owner bluetooth device address type */
+    esp_bd_addr_t peer_addr;                /*!< Peer device bluetooth device address */
+    esp_ble_addr_type_t peer_addr_type;     /*!< Peer device bluetooth device address type */
+    esp_ble_adv_channel_t channel_map;      /*!< Advertising channel map */
+    esp_ble_adv_filter_t adv_filter_policy; /*!< Advertising filter policy */
+} esp_ble_adv_params_t;
 ```
 
-Así, podemos mantener información sobre los elementos disponibles en el vector
-`elements`:
+Nótese como ``esp_ble_gap_config_adv_data()`` configura los datos que son
+aunciados al cliente y toma una estructura de tipo ``esp_ble_adv_data_t structure``, 
+mientras que ``esp_ble_gap_start_advertising()`` hace que el servidor realmente
+comience a anunciar, tomando una estructura de tipo ``esp_ble_adv_params_t``. 
+Los datos de anuncio son aquellos que realmente se envían al cliente, mientras
+que los parámetros de anuncio son la configuración requerida por la pila BLE
+para actuar correctamente.
+
+Para este ejemplo, los parámetros de anuncio se inicializarán como sigue:
 
 ```c
-static esp_ble_mesh_elem_t elements[] = {
-    ESP_BLE_MESH_ELEMENT(0, root_models, ESP_BLE_MESH_MODEL_NONE),
+static esp_ble_adv_params_t heart_rate_adv_params = {
+    .adv_int_min        = 0x20,
+    .adv_int_max        = 0x40,
+    .adv_type           = ADV_TYPE_IND,
+    .own_addr_type      = BLE_ADDR_TYPE_PUBLIC,
+    //.peer_addr            =
+    //.peer_addr_type       =
+    .channel_map        = ADV_CHNL_ALL,
+    .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
 };
 ```
 
-La implementación y definición de un modelo se realiza de forma similar:
+Estos parámetros configuran el intervalo de anuncio entre 20 ms y 40 ms. 
+El anuncio es de tipo `ADV_TYPE_IND` (tipo genérico), destinados a ningún dispositivo
+central en particular, y anuncia que el servidor GATT es conectable. El tipo 
+de dirección es público, utiliza todos los canales y permite peticiones de 
+escaneo y conexión por parte de cualquier dispositivo central.
+
+Si el proceso de anuncio se inició correctamente, se emitirá un evento de tipo
+``ESP_GAP_BLE_ADV_START_COMPLETE_EVT``, que en este ejemplo se utiliza para comprobar
+si el estado de anuncio es realmente *anunciando* u otro, en cuyo caso se 
+emitirá un mensaje de error:
 
 ```c
-static esp_err_t ble_mesh_init(void)
+...
+    case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
+        //advertising start complete event to indicate advertising start successfully or failed
+        if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
+            ESP_LOGE(GATTS_TABLE_TAG, "Advertising start failed\n");
+        }
+        break;
+...
+```
+
+## Manejadores de eventos GATT
+
+Al registrar un Pefil de Aplicación, se emite un evento de tipo
+``ESP_GATTS_REG_EVT``. 
+Los parámetros asociados al evento son:
+
+```c
+esp_gatt_status_t status;    /*!< Operation status */
+uint16_t app_id;             /*!< Application id which input in register API */
+```
+
+Además de los anteriores parámetros, el evento también contiene la interfaz
+GATT asignada por la pila BLE, a utilizar a partir de ahora. El evento es capturado
+por el manejador ``gatts_event_handler()``, que almacena la interfaz generada
+en la tabla de perfiles, y la reenvía al manejador de eventos correspondiente 
+al perfil:
+
+```c
+static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
-    int err = 0;
+    ESP_LOGI(GATTS_TABLE_TAG, "EVT %d, gatts if %d\n", event, gatts_if);
 
-    memcpy(dev_uuid + 2, esp_bt_dev_get_address(), BLE_MESH_ADDR_LEN);
-
-    // See comment 1
-     esp_ble_mesh_register_prov_callback(esp_ble_mesh_prov_cb);
-    esp_ble_mesh_register_custom_model_callback(esp_ble_mesh_model_cb);
-
-    err = esp_ble_mesh_init(&provision, &composition);
-    if (err) {
-        ESP_LOGE(TAG, "Initializing mesh failed (err %d)", err);
-        return err;
+    /* If event is register event, store the gatts_if for each profile */
+    if (event == ESP_GATTS_REG_EVT) {
+        if (param->reg.status == ESP_GATT_OK) {
+            heart_rate_profile_tab[HEART_PROFILE_APP_IDX].gatts_if = gatts_if;
+        } else {
+            ESP_LOGI(GATTS_TABLE_TAG, "Reg app failed, app_id %04x, status %d\n",
+                    param->reg.app_id,
+                    param->reg.status);
+            return;
+        }
     }
 
-    esp_ble_mesh_node_prov_enable(ESP_BLE_MESH_PROV_ADV | ESP_BLE_MESH_PROV_GATT);
-
-    ESP_LOGI(TAG, "BLE Mesh Node initialized");
-
-    board_led_operation(LED_G, LED_ON);
-
-    return err;
+    do {
+        int idx;
+        for (idx = 0; idx < HEART_PROFILE_NUM; idx++) {
+            if (gatts_if == ESP_GATT_IF_NONE || /* ESP_GATT_IF_NONE, not specify a certain gatt_if, need to call every profile cb function */
+            gatts_if == heart_rate_profile_tab[idx].gatts_if) {
+                if (heart_rate_profile_tab[idx].gatts_cb) {
+                    heart_rate_profile_tab[idx].gatts_cb(event, gatts_if, param);
+                }
+            }
+        }
+    } while (0);
 }
 ```
 
-Del mismo modo, podemos usar el array `root_models` para almacenar los modelos
-creados:
+## Creación de Servicios y Características con una Tabla de Atributos
+
+Aprovecharemos el evento de tipo Registro para crear una tabla de atributos
+de perfil utilizando la función ``esp_ble_gatts_create_attr_tab()``.
+Esta función toma como argumento una estructura de tipo ``esp_gatts_attr_db_t``,
+que corresponde a una tabla de *lookup* 
+indexada por los valores de la enumeración definidos en el fichero de cabecera.
+La estructura ``esp_gatts_attr_db_t`` tiene dos miembros:
 
 ```c
-static esp_ble_mesh_model_t root_models[] = {
-    ESP_BLE_MESH_MODEL_CFG_SRV(&config_server),
-    ESP_BLE_MESH_SIG_MODEL(ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, onoff_op,
-    &onoff_pub, &led_state[0]),
+esp_attr_control_t    attr_control;       /*!< The attribute control type*/
+esp_attr_desc_t       att_desc;           /*!< The attribute type*/
+```
+
+* `attr_control` es el parámetro de autorespuesta, típicamente fijado a 
+``ESP_GATT_AUTO_RSP`` para permitir que la pila BLE reponda automáticamente a los
+mensajes de lectura o escritura cuando dichos eventos son recibidos. 
+Una opción alternativa es ``ESP_GATT_RSP_BY_APP`` que permite respuestas 
+manuales utilizando la función ``esp_ble_gatts_send_response()``.
+
+* `att_desc` es la descripción del atributo, formada por:
+
+```c
+uint16_t uuid_length;      /*!< UUID length */  
+uint8_t  *uuid_p;          /*!< UUID value */  
+uint16_t perm;             /*!< Attribute permission */        
+uint16_t max_length;       /*!< Maximum length of the element*/    
+uint16_t length;           /*!< Current length of the element*/    
+uint8_t  *value;           /*!< Element value array*/ 
+```
+
+Por ejemplo, el primer elemento de la tabla en el ejemplo es el atributo de servicio:
+
+```c
+[HRS_IDX_SVC]                       =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&primary_service_uuid, ESP_GATT_PERM_READ,
+      sizeof(uint16_t), sizeof(heart_rate_svc), (uint8_t *)&heart_rate_svc}},
+```
+
+Los valores de inicialización son:
+
+* ``[HRS_IDX_SVC]``: Inicializador en la tabla.
+* ``ESP_GATT_AUTO_RSP``: configuración de respuesta automática, fijada en este
+    caso a respuesta automática por parte de la pila BLE.
+* ``ESP_UUID_LEN_16``: longitudo del UUID fijada a 16 bits.
+* ``(uint8_t *)&primary_service_uuid``: UUID para identificar al servicio como primario (0x2800).
+* ``ESP_GATT_PERM_READ``: Permisos de lectura para el servicio.
+* ``sizeof(uint16_t)``: Longitud máxima del UUID del servicio (16 bits).
+* ``sizeof(heart_rate_svc)``: Longitud del servicio, en este caso 16 bits (fijada por el tamaño de la variable *heart_rate_svc*).
+* ``(uint8_t *)&heart_rate_svc``: Valor del atributo servicio fijada a la 
+ variable the variable *heart_rate_svc*, que contiene el UUID del *Heart Rate Service* (0x180D).
+
+El resto de atributos se inicializan de forma similar. Algunos atributos también
+tienen activa la propiedad *NOTIFY*, que se establece vía 
+``&char_prop_notify``. La tabla completa se inicializa como sigue:
+
+```c
+/// Full HRS Database Description - Used to add attributes into the database
+static const esp_gatts_attr_db_t heart_rate_gatt_db[HRS_IDX_NB] =
+{
+    // Heart Rate Service Declaration
+    [HRS_IDX_SVC]                       =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&primary_service_uuid, ESP_GATT_PERM_READ,
+      sizeof(uint16_t), sizeof(heart_rate_svc), (uint8_t *)&heart_rate_svc}},
+
+    // Heart Rate Measurement Characteristic Declaration
+    [HRS_IDX_HR_MEAS_CHAR]            =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_declaration_uuid, ESP_GATT_PERM_READ,
+      CHAR_DECLARATION_SIZE,CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_notify}},
+
+    // Heart Rate Measurement Characteristic Value
+    [HRS_IDX_HR_MEAS_VAL]               =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&heart_rate_meas_uuid, ESP_GATT_PERM_READ,
+      HRPS_HT_MEAS_MAX_LEN,0, NULL}},
+
+    // Heart Rate Measurement Characteristic - Client Characteristic Configuration Descriptor
+    [HRS_IDX_HR_MEAS_NTF_CFG]           =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_client_config_uuid, ESP_GATT_PERM_READ|ESP_GATT_PERM_WRITE,
+      sizeof(uint16_t),sizeof(heart_measurement_ccc), (uint8_t *)heart_measurement_ccc}},
+
+    // Body Sensor Location Characteristic Declaration
+    [HRS_IDX_BOBY_SENSOR_LOC_CHAR]  =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_declaration_uuid, ESP_GATT_PERM_READ,
+      CHAR_DECLARATION_SIZE,CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_read}},
+
+    // Body Sensor Location Characteristic Value
+    [HRS_IDX_BOBY_SENSOR_LOC_VAL]   =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&body_sensor_location_uuid, ESP_GATT_PERM_READ,
+      sizeof(uint8_t), sizeof(body_sensor_loc_val), (uint8_t *)body_sensor_loc_val}},
+
+    // Heart Rate Control Point Characteristic Declaration
+    [HRS_IDX_HR_CTNL_PT_CHAR]          =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_declaration_uuid, ESP_GATT_PERM_READ,
+      CHAR_DECLARATION_SIZE,CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_read_write}},
+
+    // Heart Rate Control Point Characteristic Value
+    [HRS_IDX_HR_CTNL_PT_VAL]             =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&heart_rate_ctrl_point, ESP_GATT_PERM_WRITE|ESP_GATT_PERM_READ,
+      sizeof(uint8_t), sizeof(heart_ctrl_point), (uint8_t *)heart_ctrl_point}},
 };
 ```
 
-Distintos modelos requieren diferentes macros (en este caso, ya que vamos 
-a implementar un modelo *Generic OnOff Server*, hemos utilizado 
-`ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV`). 
+## Inicialización del servicio
 
-Otra estructura importante en un modelo son los punteros 
-`esp_ble_mesh_model_op_t *op`. Estas estructuras apuntan a la estrcutura de 
-operación que define el **estado** del modelo. Generalmente, hay dos tipos
-de modelos en BLE Mesh:
-
-* **Modelo servidor**:
-    - Consiste en uno o varios estados que pueden existir y abarcar varios elementos.
-    - Define los mensajes enviados/recibidos por el modelo, junto con el comportamiento del elemento. Por ejemplo, un cambio entre On y Off en un interruptor indica el estado de On/Off en el modelo.
-* **Modelo cliente**:
-    - Define los mensajes usados por el cliente para solicitar, modificar o usar
-    el estado del servidor. Por ejemplo, un cambio entre un On y Off en un interruptor (cliente) indica el mensaje de On/Off enviado por el cliente.
-
-El siguiente código muestra la declaración de la estructura operación asociada
-al Modelo del servidor:
+Cuando la tabla se crea, se emite un evento de tipo ``ESP_GATTS_CREAT_ATTR_TAB_EVT``. 
+Este evento tiene los siguientes parámetros asociados:
 
 ```c
-/*!< Model operation context.
-    This structure is associated with bt_mesh_model_op in mesh_access.h */
-typedef struct {
-    const uint32_t    opcode;   /* Opcode encoded with the ESP_BLE_MESH_MODEL_OP_* macro */
-    const size_t      min_len;  /* Minimum required message length */
-    esp_ble_mesh_cb_t param_cb; /* The callback is only used for the BLE Mesh stack, not for the app layer. */
-} esp_ble_mesh_model_op_t;
+esp_gatt_status_t status;    /*!< Operation status */
+esp_bt_uuid_t svc_uuid;      /*!< Service uuid type */
+uint16_t num_handle;         /*!< The number of the attribute handle to be added to the gatts database */
+uint16_t *handles;           /*!< The number to the handles */
 ```
 
-Existe tres variables en la declaración:
-
-* `opcode`: código de operación asociado al estado. 
-* `min_len`: tamaño mínimo de los mensajes recibidos por el estado. Por ejemplo,
-para *OnOff Get State*, el tamaño es 0 (estamos leyendo), mientras que en
-el caso de *OnOff Set State*, el tamaño es 2 (incluye el valor a escribir).
-* `param_cb`: parámetro interno utilizado por la pila BLE Mesh, típicamente
-inicializado a 0.
-
-Así, la definición en el servidor quedaría:
+Este ejemplo utiliza este evento para mostrar información y comprobar que el 
+tamaño de la tabla creada es igual al número de elementos en la enumeración
+`HRS_IDX_NB`. Si la tabla se creó correctamente, los manejadores de atributos se copian
+en la tabla de manejadores `heart_rate_handle_table` y el servicio se inicicaliza
+utilizando la función ``esp_ble_gatts_start_service()``:
 
 ```c
-static esp_ble_mesh_model_op_t onoff_op[] = {
-    { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET, 0, 0},
-    { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET, 2, 0},
-    { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK, 2, 0},
-    /* Each model operation struct array must use this terminator
-     * as the end tag of the operation uint. */
-    ESP_BLE_MESH_MODEL_OP_END,
+case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
+        ESP_LOGI(GATTS_TABLE_TAG, "The number handle =%x\n",param->add_attr_tab.num_handle);
+        if (param->add_attr_tab.status != ESP_GATT_OK){
+            ESP_LOGE(GATTS_TABLE_TAG, "Create attribute table failed, error code=0x%x", param->add_attr_tab.status);
+        }
+        else if (param->add_attr_tab.num_handle != HRS_IDX_NB){
+            ESP_LOGE(GATTS_TABLE_TAG, "Create attribute table abnormally, num_handle (%d) \
+                    doesn't equal to HRS_IDX_NB(%d)", param->add_attr_tab.num_handle, HRS_IDX_NB);
+        }
+        else {
+            memcpy(heart_rate_handle_table, param->add_attr_tab.handles, sizeof(heart_rate_handle_table));
+            esp_ble_gatts_start_service(heart_rate_handle_table[HRS_IDX_SVC]);
+        }
+        break;
+```
+
+Los manejadores almacenados son números que identifican cada atributo. Estos manejadores
+pueden usarse para determinar qué característica está siendo leída o escrita,
+y por tanto pueden ser proporcionados a otros puntos de la aplicación para manejar
+distintas acciones.
+
+Finalmente, la tabla `heart_rate_profile_table` contiene el Perfil de Aplicación
+en forma de estructura con información sobre los parámetros de los atributos y 
+la interfaz GATT, ID de conexión, permisos e ID de aplicación. La estructura
+presenta los siguientes campos (no todos se usan en el ejemplo):
+
+```c
+struct gatts_profile_inst {
+    esp_gatts_cb_t gatts_cb;
+    uint16_t gatts_if;
+    uint16_t app_id;
+    uint16_t conn_id;
+    uint16_t service_handle;
+    esp_gatt_srvc_id_t service_id;
+    uint16_t char_handle;
+    esp_bt_uuid_t char_uuid;
+    esp_gatt_perm_t perm;
+    esp_gatt_char_prop_t property;
+    uint16_t descr_handle;
+    esp_bt_uuid_t descr_uuid;
 };
 ```
+# Interacción a través de un cliente GATT
 
-### El cliente ON-OFF
+!!! note "Nota"
+    Para desarrollar esta parte de la práctica, deberás importar la máquina 
+    virtual del curso en el PC del laboratorio, y hacer visible a ella el
+    dispositivo Bluetooth del equipo de laboratorio.
 
-El cliente resulta mucho más sencillo en su funcionamiento. De forma genérica,
-simplemente define un modelo *Client ON/OFF* y espera a ser provisionado. Una
-vez completado el proceso de provisionamento, espera a la pulsación de uno de 
-los botones en la placa (RESET) para el envío a todos los nodos en la misma red de
-una solicitud de modificación en el estado de activación de las luces.
+!!! note "Nota"
+    Existen multitud de herramientas que permiten gestionar la conexión
+    al servidor GATT. En Linux, utilizaremos `hcitool` y `gatttool`; en 
+    Windows, puedes utilizar una herramienta llamada `Bluetooth LE Explorer`,
+    que implementa, aunque de forma gráfica, la misma funcionalidad.
 
-Concretamente, nos interesan las siguientes definiciones. En el fichero
-`board.c`, observa la respusta a la pulsación del botón:
+## Uso de `hcitool` y `gatttool` en modo cliente
 
-```c
+### Escaneando dispositivos disponibles: `hcitool`
 
-static void button_tap_cb(void* arg)
-{
-    ESP_LOGI(TAG, "tap cb (%s)", (char *)arg);
+`hcitool` es una herramienta de línea de comandos que permite gestionar
+la interfaz Bluetooth del equipo en el que se ejecuta. En nuestro caso, 
+necesitaremos determinar la dirección MAC Bluetooth de nuestro servidor.
+Para ello, en primer lugar, realizaremos un escaneado de los dispsitivos
+BLE disponibles en el entorno utilizando la orden:
 
-    example_ble_mesh_send_gen_onoff_set();
-}
-
-static void board_button_init(void)
-{
-    button_handle_t btn_handle = iot_button_create(BUTTON_IO_NUM, BUTTON_ACTIVE_LEVEL);
-    if (btn_handle) {
-        iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, "RELEASE");
-    }
-}
-
-void board_init(void)
-{
-    board_led_init();
-    board_button_init();
-}
+```sh
+sudo hcitool lescan
 ```
 
-La función invocada, `example_ble_mesh_send_gen_onoff_set`, realiza el envío
-de una operación de tipo `SET` a *todos los miembros de la red*:
-
-```c
-void example_ble_mesh_send_gen_onoff_set(void)
-{
-    esp_ble_mesh_generic_client_set_state_t set = {0};
-    esp_ble_mesh_client_common_param_t common = {0};
-    esp_err_t err = ESP_OK;
-
-    common.opcode = ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK;
-    common.model = onoff_client.model;
-    common.ctx.net_idx = store.net_idx;
-    common.ctx.app_idx = store.app_idx;
-    common.ctx.addr = 0xFFFF;   /* to all nodes */
-    common.ctx.send_ttl = 3;
-    common.ctx.send_rel = false;
-    common.msg_timeout = 0;     /* 0 indicates that timeout value from menuconfig will be used */
-    common.msg_role = ROLE_NODE;
-
-    set.onoff_set.op_en = false;
-    set.onoff_set.onoff = store.onoff;
-    set.onoff_set.tid = store.tid++;
-
-    err = esp_ble_mesh_generic_client_set_state(&common, &set);
-    if (err) {
-        ESP_LOGE(TAG, "Send Generic OnOff Set Unack failed");
-        return;
-    }
-
-    store.onoff = !store.onoff;
-    mesh_example_info_store(); /* Store proper mesh example info */
-}
-```
-
-Observa cómo el mensaje se enviará a *todos los nodos de la red* (`common.ctx.addr = 0xFFFF;`).
-
-### Provisionamiento y control desde una aplicación móvil
-
-En primer lugar, nos dividiremos en grupos de 3-4 personas. Uno de vosotros, 
-utilizando la aplicación móvil *nRF Mesh*, actuará como provisionador de la
-red, proporcionando claves de red y aplicación, así como información básica
-de red (por ejemplo, direcciones unicast). Además, podrá crear grupos y 
-suscribir/desuscribir modelos a dichos grupos.
-
-Además, se requiere que uno de vuestros ESP32 actúe como cliente, y el resto
-como servidores. Así, emularemos una sala con múltiples luces, y un sólo 
-interruptor que controlará su estado de encendido/apagado.
-
-* *PASO 1*: en la pantalla inicial se nos mostrarán los nodos ya provisionados. En nuestro caso, inicialmente ninguno.
-
-![](img/APP/00_pantalla_inicial.png)
-
-* *PASO 2*: pincharemos sobre *ADD NODE*, y provisionaremos, uno a uno, todos los nodos que deseemos que formen parte de nuestra red (sólo aquellos que forman parte de tu grupo de compañeros):
-
-![](img/APP/01_provisionamiento_inicial.png)
-
-* *PASO 3*: antes de provisionar, generamos información de red para el nuevo nodo (lo *identificamos*), presionando en *IDENTIFY*:
-
-![](img/APP/02_provisionando_nodo.png)
-
-* *PASO 4*: una vez generada la información de red, provisionamos el nodo (*PROVISION*):
-
-![](img/APP/03_provisionando_nodo2.png)
-
-* *PASO 5*: si todo ha ido bien, se nos mostrará un mensaje de éxito como el siguiente:
-
-![](img/APP/04_nodo_provisionado.png)
-
-* *PASO 6*: tras repetir este paso con todos los nodos de nuestro grupo, veremos una pantalla
-como la siguiente. Observa y anota las direcciones unicast de cada nodo. Los nodos
-con un elemento son el cliente OnOff; los nodos con tres elementos (sólo usaremos el primero) son 
-los servidores OnOff:
-
-![](img/APP/05_nodos_provisionados.png)
-
-A continuación, generarás un grupo de nodos. Esto nos permitirá suscribir a modelos al mismo, y publicar
-mensajes que se transmitirán a todos los modelos del grupo.
-
-* *PASO 7*: crea un nuevo grupo pulsando el botón `+`. Dale el nombre y la dirección que desees, por ejemplo,
-*Sala de Estar*, `0xC000`. Si todo ha ido bien, se especificará que en el único grupo disponible no hay ningún
-dispositivo suscrito/asociado.
-
-![](img/APP/06_grupos.png)
-
-A continuación, suscribiremos a cada modelo de los servidores y clientes (de tipo *Generic On Off Server* y 
-*Generic On Off Client*) al grupo creado. Esto lo harás nodo a nodo, en primer lugar pincando en 
-el modelo concreto:
-
-![](img/APP/07_anadiendo_grupo.png)
-
-Y a continuación asociando una clave de aplicación (*BIND KEY*) y suscribiendo (*SUBSCRIBE*)
-al grupo deseado:
-
-![](img/APP/08_generic_onoff_client.png)
-![](img/APP/09_generic_onoff_client_bindkey.png)
-![](img/APP/10_suscrito_sala_estar.png)
-
-Ahora, si vuelves a la descripción del grupo, verás que, tras pinchar, observas dos luces (o una por servidor)
-y un interruptor (correspondiente al cliente):
-
-![](img/APP/11_estado_sala_estar.png)
-
-En este punto, si estás monitorizando la salida de todos los ESP32, verás que el estado del LED cambia
-a petición de la aplicación. Además, verás que también cambia si presionas el botón correspondiente del 
-interruptor (*RESET*) en la placa.
-
-!!! danger "Tarea entregable"
-    El cliente envía, tras presionar un botón, el mensaje de tipo `SET` a todos los nodos de la red. Modifícalo
-    para que únicamente se envíe a los pertenecientes a tu grupo. Prueba a suscribir/desuscribir un modelo del
-    grupo, y verás como ya no recibe los mensajes de solicitud de modificación de estado.
-
-## Ejemplo para el modelo SENSOR MODEL
-
-En este ejemplo, se implementa la creación de un cliente de modelo sensor que, además, es provisionador, y
-un servidor de modelo sensor configurable. 
-
-El modelo *Sensor Server* es un modelo que permite exponer series de datos de sensorización. 
-El modelo *Sensor Client* se usa para consumir valores de sensorización (*Sensor states*) 
-expuestos por el servidor.
-
-Estos estados se componen de las siguientes partes:
-
-* Estado *Sensor Descriptor*. Describe los datos del sensor, y es inmutable durante su vida.
-* Estado *Sensor Setting*. Controla los parámetros del sensor. Por ejemplo, podría indicar su sensibilidad, y
-podría ser ajustado remotamente para prevenir que un sensor de movimiento se disparase ante pequeños movimientos.
-* Estado *Sensor Cadence*. Controla la cadencia de sensorización.
-* Estado *Sensor Data*. Contiene los valores de sensorización. Realmente, representa uno o más pares *Property ID*-*Valor*.
-* Estado *Sensor Series Column*. Sólo utilizado si se considera cada uno de los valores como perteneciente a una serie de datos.
-
-En el ejemplo *client*, el dispositivo es a la vez un provisionador y un cliente. Una vez 
-el dispositivo servidor es provisionado y configurado, los usuarios pueden presionar el botón de
-la placa para enviar al servidor peticiones que, sucesivamente, devolverán el siguiente estado del
-sensor en orden (*Descriptor*, *Setting*, *Cadence*, ...).
-
-En el ejemplo *server*, el dispositivo no provisonado implementa un modelo *Sensor Server*. El 
-servidor soporta dos instancias de estados: la pimrea (*Property ID 0x0056*) representaría
-la temperatura *Indoor*; la segunda (*Property ID 0x005B ) representaría la temperatura
-*Outdoor*. Todos los datos, en estos ejemplos, están preinicializados. 
-
-### Puesta en marcha
-
-En primer lugar, arranca en tu grupo un nodo cliente/provisionador, y monitoriza su salida. Cuando un 
-compañero/a arranque un nodo servidor, verás que es provisionado por tu cliente, otorgándole una
-dirección unicast. Anótala.
-
-El funcionamiento general del sistema es:
-
-1. El dispositivo A ejecuta el ejemplo *client*, y el dispositivo B ejecuta el ejemplo *server*.
-2. A actúa como provisionador. Tras recibir una petición por parte de B, lo provisiona y almacena su dirección. Observarás la MAC BLE (UUID) de B en el proceso de provisionamiento desde A.
-3. En A, cada pulsación del botón supondrá una petición al nodo B.
-4. Sucesivamente, estas peticiones serán, en orden y por cada pulsación:
-    - *Sensor Descriptor*.
-    - *Sensor Cadence*.
-    - *Sensor Settings*.
-    - *Sensor Data*.
-    - *Sensor Series*.
+Si todo ha ido bien, se mostrará una línea por dispositivo BLE disponible
+y en fase de anuncio. Entre ellos, deberemos encontrar nuestro dispositivo,
+para recordar su dirección MAC.
 
 !!! note "Tarea"
-    Estudia el código del cliente y del servidor, y observa a qué nodo se envían las peticiones
-    desde el cliente, qué operaciones se solicitan en cada pulsación de botón, y qué datos devuelve
-    el servidor en cada caso.
+    Edita el fichero `main/gatts_table_creat_demo.c` y modifica el nombre
+    de tu dispositivo, que se anunciará en cada anuncio emitido en la fase
+    de `advertising`. Para ello, debes modificar el campo correspondiente de la 
+    estructura `raw_adv_data`.
+    A continuación, compila y flashea el ejemplo, y comienza una sesión de
+    escaneado de dispositivos BLE mediante la orden:
+    ```
+    sudo hcitool lescan
+    ```.
+    Deberás observar tu dispositivo en una de las líneas. Anota o recuerda
+    su dirección MAC.
+
+### Interactuando con el servidor GATT: `gatttool`
+
+Una vez obtenida la dirección MAC Bluetooth del dispositivo, deberemos proceder
+en dos fases. La primera de ellas es el emparejado al dispostivo desde tu
+consola. La segunda, la interacción con la tabla GATT. En ambos casos, se
+utilizará la herramienta `gatttool` desde línea de comandos.
+
+Para comenzar una sesión `gatttool`, invocaremos a la herramienta en modo
+interactivo, utilizando la orden:
+
+```sh
+gatttool -b MAC -I
+```
+
+Esto abrirá una consola interactiva, a la espera de las ordenes correspondientes.
+
+Para realizar el emparejamiento, y considerando que la MAC Bluetooth es 
+ya conocida, utilizaremos la orden `connect`. Si todo ha ido bien, deberemos observar
+un cambio en el color del prompt, y un mensaje *Connection successful*. En este punto,
+observa como en la salida de depuración del ESP32 se muestran los mensajes
+correspondientes al proceso de emparejamiento.
+
+Desde la terminal de `gatttool`, puedes ejecutar en cualquier momento la 
+orden `help` para obtener ayuda (en forma de lista de comandos disponibles):
+
+```sh
+gatttool -b 24:6F:28:36:60:B2 -I
+[24:6F:28:36:60:B2][LE]> connect
+Attempting to connect to 24:6F:28:36:60:B2
+Connection successful
+[24:6F:28:36:60:B2][LE]> help
+help                                           Show this help
+exit                                           Exit interactive mode
+quit                                           Exit interactive mode
+connect         [address [address type]]       Connect to a remote device
+disconnect                                     Disconnect from a remote device
+primary         [UUID]                         Primary Service Discovery
+included        [start hnd [end hnd]]          Find Included Services
+characteristics [start hnd [end hnd [UUID]]]   Characteristics Discovery
+char-desc       [start hnd] [end hnd]          Characteristics Descriptor Discovery
+char-read-hnd   <handle>                       Characteristics Value/Descriptor Read by handle
+char-read-uuid  <UUID> [start hnd] [end hnd]   Characteristics Value/Descriptor Read by UUID
+char-write-req  <handle> <new value>           Characteristic Value Write (Write Request)
+char-write-cmd  <handle> <new value>           Characteristic Value Write (No response)
+sec-level       [low | medium | high]          Set security level. Default: low
+mtu             <value>                        Exchange MTU for GATT/ATT
+```
+
+Comenzaremos consultando la lista de características del servidor GATT.
+
+!!! note "Tarea"
+    Mediante el comando correspondiente (`characteristics`), 
+    consulta y anota las características disponibles en tu servidor GATT.
+
+Una de estas características será de crucial interés, ya que nos permitirá
+acceder, a través de su UUID, a la medición instantánea de ritmo cardíaco, así
+como a la configuración de notificaciones sobre dicho valor. Para determinar 
+cuál de las líneas es la que nos interesa, observa el valor de UUID devuelta
+para cada una de ellas, y determina, en función de la macro `GATTS_CHAR_UUID_TEST_A`
+de cuál se trata.
+
+Para interactuar con dicha característica, necesitaremos un manejador 
+(*handler*) que permita un uso más sencillo de la misma desde la herramienta
+`gatttool`. Dicho manejador se muestra, para cada línea, tras la cadena
+*char value handle*. 
+
+!!! note "Tarea"
+    El manejador que permite leer desde la característica *Heart Rate Value"
+    tiene un manejador de tipo carácter asociado. Anota su valor.
+
+Para leer el valor de la característica, podemos utilizar su manejador asociado.
+Así, podemos obtener dicho valor con un comando de lectura, en este caso
+`char-read-hnd manejador`.
+
+!!! note "Tarea"
+    Obtén los datos de lectura de la característica de medición del valor
+    de monitorización de ritmo cardíaco. ¿Cuáles son? Deberías observar un 
+    valor de retorno de cuatro bytes con valor 0x00. Estos valores corresponden
+    a los de la variable `char_value` de tu código. Modifícalos, recompila y 
+    vuelve a *flashear* el código. ¿Han variado?
+
+!!! note "Tarea"
+    Intenta ahora escribir en la anterior característica. Para ello, utiliza
+    el comando `char-write-cmd handler valor`, siendo valor, por ejemplo, 
+    `11223344`. ¿Es posible? ¿Por qué?
+
+Escribiremos a continuación en la característica de configuración del servicio
+de montorización. Para ello, utilizaremos el manejador siguiente al utilizado
+anteriormente. Esto es, si se nos devolvió, por ejemplo, un manejador
+`0x0001` para el valor de monitorización, el valor de configuración será 
+`0x0002`.
+
+!!! note "Tarea"
+    Intenta ahora escribir en la característica de configuración. Para ello, utiliza
+    el comando `char-write-cmd handler valor`, siendo valor, por ejemplo, 
+    `0100`. ¿Es posible? ¿Por qué?
+
+Como habrás observado, es posible leer desde el valor de monitorización, y 
+escribir en el valor de configuración. Utilizaremos esta última característica
+para configurar las notificaciones sobre el valor de monitorización. De este
+modo, cada vez que se desee enviar dicho valor a los clientes que tengan 
+activada la notificación, éstos la recibirán sin necesidad de cambio alguno.
+
+Para ello, necesitamos modificar algunas partes de nuestro código. Específicamente, 
+necesitaremos:
+
+1. Crear una nueva tarea que, periódicamente, modifique el valor de monitorización
+de ritmo cardíaco (leyéndolo desde un sensor, si está disponible, o, en nuestro caso
+generando un valor aleatorio). Dicha tarea consistirá en un bucle infinito que, 
+en cualquier caso, sólo enviará datos al cliente si la notificación está activa,
+con un intervalo de envío de un segundo:
+
+```c
+static void publish_data_task(void *pvParameters)
+{
+    while (1) {
+        ESP_LOGI("APP", "Sending data..."); 
+
+        // Paso 1: Actualizo valor...
+    
+        // Paso 2: Si notificación activa...
+
+        // Paso 3: Envío datos...
+
+        // Paso 4: Duermo un segundo...
+        vTaskDelay( 1000. / portTICK_PERIOD_MS);
+    }
+}
+```
+
+Esta rutina deberá crearse en respuesta al evento de conexión por parte de un
+cliente, utilizando, por ejemplo, la invocación a:
+
+```c
+xTaskCreate(&publish_data_task, "publish_data_task", 4096, NULL, 5, NULL);
+```
+
+2. La actualización del valor, realizada periódicamente y de forma aleatoria,
+modificará el byte 1 de la variable `char_value`, tomando un valor aleatorio
+entre 0 y 255 (como nota adicional, los pulsómetros actuales soportan valores
+mayores para ritmo cardiaco, aunque la configuración de esta funcionalidad
+está fuera del alcance de la práctica).
+
+3. La comprobación de la activación o no de la notificación se realiza consultando
+los dos bytes de la variable `heart_measurement_ccc`. Si dichos valores
+son `0x01` y `0x00` (posiciones 0 y 1, respectivamente), las notificaciones 
+están activas, y por tanto, se realizará el envío de notificación.
+
+4. Para enviar la notificación, utilizaremos la siguiente función:
+
+```c
+esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if, 
+                                      heart_rate_profile_tab[0].conn_id,
+                                      heart_rate_handle_table[IDX_CHAR_VAL_A],
+                                      sizeof(char_value), char_value, false);
+```
+
+La activación de notificaciones desde `gatttool` se realizará mediante 
+la escritura del valor `0x0100` en la característica de configuración, esto es:
+
+```sh
+char-write-cmd HANDLER 0100
+```
+
+Nuestro *firmware* deberá modificarse para que, al recibir dicho valor en 
+la característica, se sobreescriba el contenido de la variable
+`heart_measurement_ccc`. Esta escritura debe realizarse en respuesta al
+evento `ESP_GATTS_WRITE_EVT`.
 
 !!! danger "Tarea entregable"
-    Modifica el código de cliente y/o servidor para que los valores de sensorización que se consulten en cada pulsación
-    del botón no sean **todos** los del modelo del **último** nodo provisonado, como ahora se hace, sino únicamente los
-    datos de sensorización (*Sensor Data State*) de **todos**  los nodos provisionados. Así, si hay tres nodos provisionados,
-    cada pulsación nos devolverá el valor de sensorización de uno de ellos, por orden de provisionamiento.
-    Como funcionalidad adicional, sólo se provisionará automáticamente a aquellos nodos autorizados (los que pertenecen a tu sala, por ejemplo).
-    Por último, opcionalmente, se pide que el valor sensorizado varíe aleatoriamente de forma periódica en el servidor, con una cadencia predeterminada (la modificación remota de la cadencia queda como ejercicio avanzado).
+    Modifica el firmware original para que, periódicamente (cada segundo) notifique
+    el valor de ritmo cardíaco a los clientes conectados.
+
+    Si además modificas las UUID por las proporcionadas en la especificación 
+    Bluetooth para el Servicio *Heart Rate* y todo ha sido configurado correctamente,
+    tu ESP32 debería poder interactuar con cualquier monitor de ritmo cardiaco para, 
+    por ejemplo, Android. Para ello, utiliza las siguientes UUIDs:
+
+    * static const uint16_t GATTS_SERVICE_UUID_TEST      = 0x180D; //0x00FF;
+    * static const uint16_t GATTS_CHAR_UUID_TEST_A       = 0x2A37; //0xFF01;
+    * static const uint16_t GATTS_CHAR_UUID_TEST_B       = 0x2A38; //0xFF02;
+    * static const uint16_t GATTS_CHAR_UUID_TEST_C       = 0x2A39; //0xFF03;
+
+    Entrega el código modificado, así como evidencias (capturas de pantalla)
+    que demuestren que un cliente `gatttool` suscrito a notificaciones recibe, 
+    cada segundo, la actualización de ritmo cardíaco por parte del sensor.
+
