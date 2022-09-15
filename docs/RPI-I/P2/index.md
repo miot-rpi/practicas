@@ -68,7 +68,7 @@ una dirección IP sin intervención del código de usuario (aunque este
 comportamiento por defecto puede ser personalizado para, por ejemplo, asignar
 una dirección IP estáticamente).
 
-!!! danger "Nota"
+!!! note "Nota"
     Toda la API mencionada a continuación se encuentra descrita en profundidad en
     este [enlace](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html). Se aconseja disponer de esta información durante el proceso
     de desarrollo y también en el propio desarrollo de la práctica.
@@ -335,7 +335,7 @@ de sockets) para mantenerse en un estado consistente.
 
 ### Análisis de un ejemplo (`wifi/getting_started/station`)
 
-!!! danger "Tarea"
+!!! danger "Tarea Básica"
     Analiza el ejemplo `station`, compílalo y flashealo. Estudia el tratamiento
     de eventos que realiza, y cómo estos son emitidos para casos reales. Para
     ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
@@ -380,14 +380,14 @@ de acceso, consulta este
 
 ### Análisis de un ejemplo (`wifi/getting_started/softAP`)
 
-!!! danger "Tarea"
-    Analiza el ejemplo `softAP`, compílalo y flashealo. Estudia el tratamiento
-    de eventos que realiza, y cómo estos son emitidos para casos reales. Para
-    ello, conecta distintos clientes (*stations*), bien sean ESP32 o cualquier
-    otro dispositivo, y analiza los
-    eventos generados y su respuesta. Si no existe respuesta a alguno de ellos,
-    añádela. Documenta las observaciones que consideres de interés y las 
-    posibles modificaciones realizadas en tu memoria.
+!!! danger "Tarea Básica"
+	Analiza el ejemplo `softAP`, compílalo y flashealo. Estudia el tratamiento
+	de eventos que realiza, y cómo estos son emitidos para casos reales. Para
+	ello, conecta distintos clientes (*stations*), bien sean ESP32 o cualquier
+	otro dispositivo, y analiza los eventos generados y su respuesta. Si no
+	existe respuesta a alguno de ellos, añádela. Documenta las observaciones que
+	consideres de interés y las posibles modificaciones realizadas en tu
+	memoria.
 
 ## Modo combinado Station/Punto de Acceso
 
@@ -407,7 +407,7 @@ como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
 
 ### Ejercicio: desarrollo de un nodo mixto *station/AP*
 
-!!! danger "Tarea"
+!!! danger "Tarea Adicional"
     Modifica el ejemplo `station` para que el ESP32 se comporte a la vez 
     como estación y como punto de acceso. Añade las opciones de configuración
     necesarias para que todos los parámetros se puedan modificar vía 
@@ -516,7 +516,7 @@ cada AP.
 Analiza el ejemplo de escaneado, e intenta observar el flujo de trabajo 
 detallado anteriormente.
 
-!!! danger "Tarea"
+!!! danger "Tarea Adicional"
     Compila, flashea y ejecuta el ejemplo de escaneado. Observa si los resultados
     son los esperados en el laboratorio o en un entorno doméstico. Modifica el 
     código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
@@ -582,7 +582,7 @@ parámetros:
     * EAP USERNAME: tuusuario@ucm.es
     * EAP PASSWORD: (tu contraseña UCM)
 
-!!! danger "Tarea"
+!!! danger "Tarea Adicional"
     Configura, compila y ejecuta el ejemplo de autenticación y adjunta una
     captura de pantalla que demuestre la correcta conexión a *eduroam*.
 
