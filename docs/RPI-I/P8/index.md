@@ -1,7 +1,12 @@
-# Práctica 7. LoRA
+# Práctica 8. Redes LoRaWAN
+
+!!! note "Nota"
+	Esta práctica es opcional para aquellos que opten a evaluación por proyecto
+	y obligatoria para los que se evaluen por prácticas. Las tareas aquí
+	descritas son por tanto obligatorias para los que se presentan por
+	prácticas, los que vayan por proyecto no tienen qué hacerlas.
 
 ## Objetivos
-
 
 Los objetivos didácticos de esta práctica son:
 
@@ -26,7 +31,7 @@ especificaciones, puede soportar rangos de transmisión de hasta 40 kilómetros
 (para comunicación nodo a nodo) o 22 kilómetros (funcionando en modo *gateway*),
 en este caso con soporte de hasta 100 nodos conectados.
 
-!!! note "Tarea"
+!!! danger "Tarea"
 	Como parte de la práctica, se te proporciona un entorno *hardware* compuesto
 	por una placa LoPy4 con antena sub-GHz LoRa y una placa de expansión
 	(*Expansion Board 3.0*) con conexión microUSB, que permitirá la programación
@@ -56,14 +61,12 @@ principales de los programas que deseemos ejecutar tras el inicio de la placa.
 ejemplo, redes WiFi a las que conectar en el arranque), mientras que main.py
 suele contener la lógica principal del programa.
 
-### Entorno de desarrollo
 
-!!! note "Tarea"
-	Instala, en tu sistema operativo el plugin Pymakr para VS Code tal y
-	como se muestra en la página del fabricante
+!!! danger "Tarea"
+	Instala, en tu sistema operativo el plugin Pymakr para VS Code tal y como se
+	muestra en la página del fabricante
 	[pymark](https://docs.pycom.io/gettingstarted/installation/pymakr). Deberás
-	instalar también el paquete nodejs (sudo apt install nodejs).
-
+	instalar también el paquete nodejs (sudo apt install nodejs).  
 
 #### Creación de un proyecto en Pymark
 
@@ -72,8 +75,8 @@ suele contener la lógica principal del programa.
 
 * Abre el directorio en VS Code (*Open Folder*).
 
-* Necesitaremos crear una jerarquía para nuestro proyecto. Típicamente, 
-la jerarquía de un proyecto sigue el siguiente esquema:
+* Necesitaremos crear una jerarquía para nuestro proyecto. Típicamente, la
+  jerarquía de un proyecto sigue el siguiente esquema:
 
 ```text
 MiProyecto
@@ -88,7 +91,7 @@ Adicionalmente, crearemos un fichero de configuración para nuestro proyecto a
 pulsando el botón *Allcommands* de la barra inferior y seleccionando *Pymakr >
 Project Settings*, que añadirá un fichero *pymakr.conf* al proyecto.  Para más
 información sobre el contenido de este fichero, consulta
-[pymakr/settings](https://docs.pycom.io/pymakr/settings).
+[pymakr/settings](https://docs.pycom.io/pymakr/settings).  
 
 #### Controlando el LED de nuestra placa
 
@@ -105,7 +108,7 @@ La primera de las bibliotecas añade la funcionalidad necesaria para controlar
 específicamente ciertas funcionalidades de las placas Pycom. La segunda nos
 ayudará a fijar temporizadores.
 
-!!! note "Tarea"
+!!! danger "Tarea"
 	Habrás observado que, al arrancar la placa Pycom, el LED de la placa
 	parpadea de forma regular. Para desactivar este parpadeo, puedes utilizar la
 	sentencia *pycom.heartbeat(False)*.
@@ -114,7 +117,7 @@ ayudará a fijar temporizadores.
 	tu placa puede ejecutar tus códigos.
 
 
-!!! note "Tarea"
+!!! danger "Tarea"
 	Una vez comprobada la funcionalidad del botón *Run*, modifica el código
 	para que el LED cambie de color (R-G-B) cada segundo. Encontrarás la
 	documentación necesaria en la [página de documentación de
@@ -392,16 +395,17 @@ while(True):
     time.sleep(5)
 ```
 
-!!! note "Tarea"
+!!! danger "Tarea"
 	Adapta el código anterior a algún escenario real, por ejemplo:
 
-	* Fija un tiempo máximo de espera para la recepción de acuse de recibo y el reenvío del paquete (o para descartarlo).
+	* Fija un tiempo máximo de espera para la recepción de acuse de recibo y el
+	  reenvío del paquete (o para descartarlo).
 
 	* Incrementa el tamaño de paquete modificando *\_LORA\_PKG\_FORMAT* a
 	  *BH\%ds*; el carácter *H* permite usar
 	  2 bytes para el tamaño (véase
-	  [https://docs.python.org/2/library/struct.html\#format-characters](https://docs.python.org/2/library/struct.html\#format-characters) para
-	  más información).
+	  [https://docs.python.org/2/library/struct.html\#format-characters](https://docs.python.org/2/library/struct.html\#format-characters)
+	  para más información).
 
 	* Reduce el tamaño de mensaje y adáptalo a un escenario real de tu elección.
 
@@ -1194,7 +1198,7 @@ método de envío (por ejemplo, POST) y en caso de ser necesaria, información
 sobre autenticación. TTN reenviará los datos recibidos al servidor indicado tan
 pronto como nuestros nodos LoPy comiencen a enviar datos.
 
-!!! note "Tarea"
+!!! danger "Tarea"
 	Sigue los pasos anteriormente descritos para configurar un *gateway*
 	LoRaWAN, registrándolo en TTN, y para la configuración de al menos uno nodo
 	LoRa que, a través del *gateway* configurado, envíe datos a TTN.

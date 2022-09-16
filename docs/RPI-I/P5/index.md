@@ -1,4 +1,4 @@
-# Práctica 4. Bluetooth Low Energy (BLE)
+# Práctica 5. Bluetooth Low Energy (BLE)
 
 # Objetivos
 
@@ -47,15 +47,12 @@ BLE a nuestro *firmware*:
 #include "esp_system.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
-#include "bt.h"
-#include "bta_api.h"
-
+#include "esp_bt.h"
 #include "esp_gap_ble_api.h"
 #include "esp_gatts_api.h"
-#include "esp_bt_defs.h"
 #include "esp_bt_main.h"
-#include "esp_bt_main.h"
-#include “gatts_table_creat_demo.h"
+#include "gatts_table_creat_demo.h"
+#include "esp_gatt_common_api.h"
 ```
 
 Estos encabezados son necesarios para un correcto funcionamiento de *FreeRTOS*
@@ -65,7 +62,7 @@ Son especialmente interesantes los ficheros ``bt.h``, ``esp_bt_main.h``,
 ``esp_gap_ble_api.h`` y ``esp_gatts_api.h``, ya que exponen la API BLE necesaria
 para la implementación del *firmware*:
 
-* ``bt.h``: implementa el controlador Bluetooth.
+* `esp_bt.h`: implementa el controlador BT y los procedimientos VHCI del lado del host.
 * ``esp_bt_main.h``: implementa las rutinas de inicialización y activación de la pila Bluedroid.
 * ``esp_gap_ble_api.h``: implementa la configuración GAP (parámetros de anuncios y conexión).
 * ``esp_gatts_api.h``: implementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).
@@ -78,39 +75,40 @@ contiene una enumeración de los servicios y características deseadas:
 ```c
 enum
 {
-    HRS_IDX_SVC,
+    IDX_SVC,
+    IDX_CHAR_A,
+    IDX_CHAR_VAL_A,
+    IDX_CHAR_CFG_A,
 
-    HRS_IDX_HR_MEAS_CHAR,
-    HRS_IDX_HR_MEAS_VAL,
-    HRS_IDX_HR_MEAS_NTF_CFG,
+    IDX_CHAR_B,
+    IDX_CHAR_VAL_B,
 
-    HRS_IDX_BOBY_SENSOR_LOC_CHAR,
-    HRS_IDX_BOBY_SENSOR_LOC_VAL,
-
-    HRS_IDX_HR_CTNL_PT_CHAR,
-    HRS_IDX_HR_CTNL_PT_VAL,
+    IDX_CHAR_C,
+    IDX_CHAR_VAL_C,
 
     HRS_IDX_NB,
 };
 ```
 
-Los elementos de la anterior estructura se han incluido en el mismo orden
-que los atributos del *Heart Rate Profile*, comenzando con el servicio, seguido
-por las características del mismo. Además, la característica *Heart Rate Measurement*
-dispone de configuración propia (*Client Characteristic Configuration*,
-o CCC), un descriptor que **describe si la característica tiene las notificaciones
-activas**. Todos estos índices pueden utilizarse para identificar a cada elemento 
-a la hora de crear la tabla de atributos:
+Los elementos de la anterior estructura se han incluido en el mismo orden que
+los atributos del *Heart Rate Profile*, comenzando con el servicio, seguido por
+las características del mismo. Además, la característica *Heart Rate
+Measurement* dispone de configuración propia (*Client Characteristic
+Configuration*, o CCC), un descriptor que **describe si la característica tiene
+las notificaciones activas**. Todos estos índices pueden utilizarse para
+identificar a cada elemento a la hora de crear la tabla de atributos:
 
-* ``HRS_IDX_SVC``: índice del servicio Heart Rate.
-* ``HRS_IDX_HR_MEAS_CHAR``: índice de la característica Heart Rate Measurement.
-* ``HRS_IDX_HR_MEAS_VAL``: índice del valor Heart Rate Measurement. 
-* ``HRS_IDX_HR_MEAS_NTF_CFG``: índice de la configuración de notificaciones (CCC) Heart Rate Measurement.
-* ``HRS_IDX_BOBY_SENSOR_LOC_CHAR``: índice de la característica Heart Rate Body Sensor Location.
-* ``HRS_IDX_BOBY_SENSOR_LOC_VAL``: índice del valor Heart Rate Body Sensor Location.
-* ``HRS_IDX_HR_CTNL_PT_CHAR``: índice de la característica Heart Rate Control Point.
-* ``HRS_IDX_HR_CTNL_PT_VAL``: índice del valor Heart Rate Control Point.
-* ``HRS_IDX_NB``: número de elementos d ela tabla.
+* ``IDX_SVC``: índice del servicio Heart Rate
+* ``IDX_CHAR_A``: índice de la definición de la característica Heart Rate Measurement
+* ``IDX_CHAR_VAL_A``: índice del valor de la característica Heart Rate Measurement
+* ``IDX_CHAR_CFG_A``: índice del descriptor de característica Client
+  Configuration Characteristic (CCC) de la característica Heart Rate Measurement
+  (permite configurar notificaciones por cambio en el valor de la característica)
+* ``IDX_CHAR_B``: ínidce de la declaración de característica Heart Rate Body Sensor Location
+* ``IDX_CHAR_VAL_B``: índice del valor de la característica Heart Rate Body Sensor Location
+* ``IDX_CHAR_C``: índice de la declaración de característica Heart Rate Control Point
+* ``IDX_CHAR_VAL_C``: índice del valor de la característica Heart Rate Control Point
+* ``IDX_NB``: Número de elementos en la tabla
 
 ## Punto de entrada
 
@@ -118,11 +116,11 @@ El punto de entrada de la aplicación (``app_main()``) se implementa como
 sigue:
 
 ```c
-void app_main()
+void app_main(void)
 {
     esp_err_t ret;
 
-    // Initialize NVS.
+    /* Initialize NVS. */
     ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -130,35 +128,55 @@ void app_main()
     }
     ESP_ERROR_CHECK( ret );
 
+    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
+
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
     ret = esp_bt_controller_init(&bt_cfg);
     if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed\n", __func__);
+        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
 
     ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
     if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed\n", __func__);
+        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
 
-    ESP_LOGI(GATTS_TABLE_TAG, "%s init bluetooth\n", __func__);
     ret = esp_bluedroid_init();
     if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s init bluetooth failed\n", __func__);
-        return;
-    }
-    ret = esp_bluedroid_enable();
-    if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s enable bluetooth failed\n", __func__);
+        ESP_LOGE(GATTS_TABLE_TAG, "%s init bluetooth failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
 
-    esp_ble_gatts_register_callback(gatts_event_handler);
-    esp_ble_gap_register_callback(gap_event_handler);
-    esp_ble_gatts_app_register(ESP_HEART_RATE_APP_ID);
-    return;
+    ret = esp_bluedroid_enable();
+    if (ret) {
+        ESP_LOGE(GATTS_TABLE_TAG, "%s enable bluetooth failed: %s", __func__, esp_err_to_name(ret));
+        return;
+    }
+
+    ret = esp_ble_gatts_register_callback(gatts_event_handler);
+    if (ret){
+        ESP_LOGE(GATTS_TABLE_TAG, "gatts register error, error code = %x", ret);
+        return;
+    }
+
+    ret = esp_ble_gap_register_callback(gap_event_handler);
+    if (ret){
+        ESP_LOGE(GATTS_TABLE_TAG, "gap register error, error code = %x", ret);
+        return;
+    }
+
+    ret = esp_ble_gatts_app_register(ESP_APP_ID);
+    if (ret){
+        ESP_LOGE(GATTS_TABLE_TAG, "gatts app register error, error code = %x", ret);
+        return;
+    }
+
+    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
+    if (local_mtu_ret){
+        ESP_LOGE(GATTS_TABLE_TAG, "set local  MTU failed, error code = %x", local_mtu_ret);
+    }
 }
 ```
 
@@ -240,14 +258,14 @@ seleccionable por el usuario para identificar cada perfil; su uso se recude al
 registro del perfil en la pila Bluetooth. En el ejemplo, el ID es `0x55`.
 
 ```c
-#define HEART_PROFILE_NUM                       1
-#define HEART_PROFILE_APP_IDX                   0
-#define ESP_HEART_RATE_APP_ID                   0x55
+#define PROFILE_NUM                  1
+#define PROFILE_APP_IDX              0
+#define ESP_APP_ID                   0x55
 ```
 
 Los perfiles se almacenan en el array ``heart_rate_profile_tab``. 
 Al haber un único perfil en el ejemplo, sólo se almacena un elemento en el 
-array, con índice 0 (tal y como se define en ``HEART_PROFILE_APP_IDX``). 
+array, con índice 0 (tal y como se define en ``PROFILE_APP_IDX``). 
 Además, es necesario inicializar la función de *callback* manejadora de los
 eventos del perfil. Cada aplicación en el servidor GATT utiliza una interfaz
 diferenciada, representada por el parámetro `gats_if`. Para la incialización,
@@ -257,21 +275,19 @@ actualizará con la interfaz generada automáticamente por la pila Bluetooth.
 
 ```c
 /* One gatt-based profile one app_id and one gatts_if, this array will store the gatts_if returned by ESP_GATTS_REG_EVT */
-static struct gatts_profile_inst heart_rate_profile_tab[HEART_PROFILE_NUM] = {
-    [HEART_PROFILE_APP_IDX] = {
+static struct gatts_profile_inst heart_rate_profile_tab[PROFILE_NUM] = {
+    [PROFILE_APP_IDX] = {
         .gatts_cb = gatts_profile_event_handler,
         .gatts_if = ESP_GATT_IF_NONE,       /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
     },
-
 };
 ```
-
 
 El registro de la aplicación tiene lugar en la función ``app_main()``,
 utilizando la función ``esp_ble_gatts_app_register()``:
 
 ```c
-esp_ble_gatts_app_register(ESP_HEART_RATE_APP_ID);
+esp_ble_gatts_app_register(ESP_APP_ID);
 ```
 
 ## Parámetros GAP
@@ -327,11 +343,14 @@ Los intervalos mínimos y máximos de conexión se establecen en unidades de
 1.25 ms. En el ejemplo, el intervalo de conexión mínimo preferido se establece, 
 por tanto, en 7.5 ms y el máximo en 20 ms.
 
-El *payload* del anuncio puede almacenar hasta 31 bytes de datos. 
-Es posible que algunos parámetros los superen, pero en dicho caso el stack
-BLE cortará el mensaje y eliminará aquellos que superen el tamaño máximo.
-Por último, para establecer el nombre del dispositivo se puede utilizar la 
-función ``esp_ble_gap_set_device_name()``. 
+El *payload* del anuncio puede almacenar hasta 31 bytes de datos.  Es posible
+que algunos parámetros los superen, pero en dicho caso el stack BLE cortará el
+mensaje y eliminará aquellos que superen el tamaño máximo. Para solicionar esto,
+los parámetros más largos se suelen se almacenan para enviar con el *scan
+response*, configurado con ``esp_ble_gap_config_adv_data()`` poniendo el campo
+.set_scan_rsp a true en la estructura tipo esp_ble_adv_data_t. Por último, para
+establecer el nombre del dispositivo se puede utilizar la función
+``esp_ble_gap_set_device_name()``. 
 
 Para registrar el manejador de eventos, procedemos de la siguiente forma:
 
@@ -347,25 +366,24 @@ esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
             ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
             esp_ble_gap_config_adv_data(&heart_rate_adv_config);
             ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
-…
+...
 ```
 
 ## El manejador de eventos GAP
 
-Una vez establecidos los datos de anuncio, se emite un evento de tipo 
+Una vez establecidos los datos de anuncio, se emite un evento de tipo
 ``ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT``, que será manejado por el manejador
- GAP configurado. Además, se emite también un evento de tipo
- ``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT`` si se ha configurado una respuesta
- al escaneado.
-Así, el manejador puede utilizar cualquiera de estos dos eventos para comenzar
-con el proceso de anuncio, utilizando la función
+GAP configurado. Además, se emite también un evento de tipo
+``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT`` si se ha configurado una
+respuesta al escaneado.  Así, el manejador puede utilizar cualquiera de estos
+dos eventos para comenzar con el proceso de anuncio, utilizando la función
 ``esp_ble_gap_start_advertising()``:
 
 ```c
 static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
-{   
+{
     ESP_LOGE(GATTS_TABLE_TAG, "GAP_EVT, event %d\n", event);
-    
+
     switch (event) {
     case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
         esp_ble_gap_start_advertising(&heart_rate_adv_params);
@@ -455,19 +473,18 @@ emitirá un mensaje de error:
 ## Manejadores de eventos GATT
 
 Al registrar un Pefil de Aplicación, se emite un evento de tipo
-``ESP_GATTS_REG_EVT``. 
-Los parámetros asociados al evento son:
+``ESP_GATTS_REG_EVT``. Los parámetros asociados al evento son:
 
 ```c
 esp_gatt_status_t status;    /*!< Operation status */
 uint16_t app_id;             /*!< Application id which input in register API */
 ```
 
-Además de los anteriores parámetros, el evento también contiene la interfaz
-GATT asignada por la pila BLE, a utilizar a partir de ahora. El evento es capturado
-por el manejador ``gatts_event_handler()``, que almacena la interfaz generada
-en la tabla de perfiles, y la reenvía al manejador de eventos correspondiente 
-al perfil:
+Además de los anteriores parámetros, el evento también contiene la interfaz GATT
+asignada por la pila BLE, a utilizar a partir de ahora. El evento es capturado
+por el manejador ``gatts_event_handler()``, que almacena la interfaz generada en
+la tabla de perfiles, y la reenvía al manejador de eventos correspondiente al
+perfil:
 
 ```c
 static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
@@ -502,11 +519,12 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
 
 ## Creación de Servicios y Características con una Tabla de Atributos
 
-Aprovecharemos el evento de tipo Registro para crear una tabla de atributos
-de perfil utilizando la función ``esp_ble_gatts_create_attr_tab()``.
-Esta función toma como argumento una estructura de tipo ``esp_gatts_attr_db_t``,
-que corresponde a una tabla de *lookup* 
-indexada por los valores de la enumeración definidos en el fichero de cabecera.
+Aprovecharemos el evento de tipo Registro para crear una tabla de atributos de
+perfil utilizando la función ``esp_ble_gatts_create_attr_tab()``.  Esta función
+toma como argumento una estructura de tipo ``esp_gatts_attr_db_t``, que
+corresponde a una tabla de *lookup* indexada por los valores de la enumeración
+definidos en el fichero de cabecera.
+
 La estructura ``esp_gatts_attr_db_t`` tiene dos miembros:
 
 ```c
@@ -523,25 +541,27 @@ manuales utilizando la función ``esp_ble_gatts_send_response()``.
 * `att_desc` es la descripción del atributo, formada por:
 
 ```c
-uint16_t uuid_length;      /*!< UUID length */  
-uint8_t  *uuid_p;          /*!< UUID value */  
-uint16_t perm;             /*!< Attribute permission */        
-uint16_t max_length;       /*!< Maximum length of the element*/    
-uint16_t length;           /*!< Current length of the element*/    
-uint8_t  *value;           /*!< Element value array*/ 
+uint16_t uuid_length;      /*!< UUID length */
+uint8_t  *uuid_p;          /*!< UUID value */
+uint16_t perm;             /*!< Attribute permission */
+uint16_t max_length;       /*!< Maximum length of the element*/
+uint16_t length;           /*!< Current length of the element*/
+uint8_t  *value;           /*!< Element value array*/
 ```
 
-Por ejemplo, el primer elemento de la tabla en el ejemplo es el atributo de servicio:
+Por ejemplo, el primer elemento de la tabla en el ejemplo es el atributo de
+servicio:
 
 ```c
-[HRS_IDX_SVC]                       =
+    // Service Declaration
+    [IDX_SVC]        =
     {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&primary_service_uuid, ESP_GATT_PERM_READ,
-      sizeof(uint16_t), sizeof(heart_rate_svc), (uint8_t *)&heart_rate_svc}},
+      sizeof(uint16_t), sizeof(GATTS_SERVICE_UUID_TEST), (uint8_t *)&GATTS_SERVICE_UUID_TEST}},
 ```
 
 Los valores de inicialización son:
 
-* ``[HRS_IDX_SVC]``: Inicializador en la tabla.
+* ``[IDX_SVC]``: Inicializador en la tabla.
 * ``ESP_GATT_AUTO_RSP``: configuración de respuesta automática, fijada en este
     caso a respuesta automática por parte de la pila BLE.
 * ``ESP_UUID_LEN_16``: longitudo del UUID fijada a 16 bits.
@@ -557,55 +577,57 @@ tienen activa la propiedad *NOTIFY*, que se establece vía
 ``&char_prop_notify``. La tabla completa se inicializa como sigue:
 
 ```c
-/// Full HRS Database Description - Used to add attributes into the database
-static const esp_gatts_attr_db_t heart_rate_gatt_db[HRS_IDX_NB] =
+/* Full Database Description - Used to add attributes into the database */
+static const esp_gatts_attr_db_t gatt_db[HRS_IDX_NB] =
 {
-    // Heart Rate Service Declaration
-    [HRS_IDX_SVC]                       =
+    // Service Declaration
+    [IDX_SVC]        =
     {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&primary_service_uuid, ESP_GATT_PERM_READ,
-      sizeof(uint16_t), sizeof(heart_rate_svc), (uint8_t *)&heart_rate_svc}},
+      sizeof(uint16_t), sizeof(GATTS_SERVICE_UUID_TEST), (uint8_t *)&GATTS_SERVICE_UUID_TEST}},
 
-    // Heart Rate Measurement Characteristic Declaration
-    [HRS_IDX_HR_MEAS_CHAR]            =
+    /* Characteristic Declaration */
+    [IDX_CHAR_A]     =
     {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_declaration_uuid, ESP_GATT_PERM_READ,
-      CHAR_DECLARATION_SIZE,CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_notify}},
+      CHAR_DECLARATION_SIZE, CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_read_write_notify}},
 
-    // Heart Rate Measurement Characteristic Value
-    [HRS_IDX_HR_MEAS_VAL]               =
-    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&heart_rate_meas_uuid, ESP_GATT_PERM_READ,
-      HRPS_HT_MEAS_MAX_LEN,0, NULL}},
+    /* Characteristic Value */
+    [IDX_CHAR_VAL_A] =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&GATTS_CHAR_UUID_TEST_A, ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+      GATTS_DEMO_CHAR_VAL_LEN_MAX, sizeof(char_value), (uint8_t *)char_value}},
 
-    // Heart Rate Measurement Characteristic - Client Characteristic Configuration Descriptor
-    [HRS_IDX_HR_MEAS_NTF_CFG]           =
-    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_client_config_uuid, ESP_GATT_PERM_READ|ESP_GATT_PERM_WRITE,
-      sizeof(uint16_t),sizeof(heart_measurement_ccc), (uint8_t *)heart_measurement_ccc}},
+    /* Client Characteristic Configuration Descriptor */
+    [IDX_CHAR_CFG_A]  =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_client_config_uuid, ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+      sizeof(uint16_t), sizeof(heart_measurement_ccc), (uint8_t *)heart_measurement_ccc}},
 
-    // Body Sensor Location Characteristic Declaration
-    [HRS_IDX_BOBY_SENSOR_LOC_CHAR]  =
+    /* Characteristic Declaration */
+    [IDX_CHAR_B]      =
     {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_declaration_uuid, ESP_GATT_PERM_READ,
-      CHAR_DECLARATION_SIZE,CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_read}},
+      CHAR_DECLARATION_SIZE, CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_read}},
 
-    // Body Sensor Location Characteristic Value
-    [HRS_IDX_BOBY_SENSOR_LOC_VAL]   =
-    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&body_sensor_location_uuid, ESP_GATT_PERM_READ,
-      sizeof(uint8_t), sizeof(body_sensor_loc_val), (uint8_t *)body_sensor_loc_val}},
+    /* Characteristic Value */
+    [IDX_CHAR_VAL_B]  =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&GATTS_CHAR_UUID_TEST_B, ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+      GATTS_DEMO_CHAR_VAL_LEN_MAX, sizeof(char_value), (uint8_t *)char_value}},
 
-    // Heart Rate Control Point Characteristic Declaration
-    [HRS_IDX_HR_CTNL_PT_CHAR]          =
+    /* Characteristic Declaration */
+    [IDX_CHAR_C]      =
     {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&character_declaration_uuid, ESP_GATT_PERM_READ,
-      CHAR_DECLARATION_SIZE,CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_read_write}},
+      CHAR_DECLARATION_SIZE, CHAR_DECLARATION_SIZE, (uint8_t *)&char_prop_write}},
 
-    // Heart Rate Control Point Characteristic Value
-    [HRS_IDX_HR_CTNL_PT_VAL]             =
-    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&heart_rate_ctrl_point, ESP_GATT_PERM_WRITE|ESP_GATT_PERM_READ,
-      sizeof(uint8_t), sizeof(heart_ctrl_point), (uint8_t *)heart_ctrl_point}},
+    /* Characteristic Value */
+    [IDX_CHAR_VAL_C]  =
+    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&GATTS_CHAR_UUID_TEST_C, ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+      GATTS_DEMO_CHAR_VAL_LEN_MAX, sizeof(char_value), (uint8_t *)char_value}},
+
 };
 ```
 
 ## Inicialización del servicio
 
-Cuando la tabla se crea, se emite un evento de tipo ``ESP_GATTS_CREAT_ATTR_TAB_EVT``. 
-Este evento tiene los siguientes parámetros asociados:
+Cuando la tabla se crea, se emite un evento de tipo
+``ESP_GATTS_CREAT_ATTR_TAB_EVT``.  Este evento tiene los siguientes parámetros
+asociados:
 
 ```c
 esp_gatt_status_t status;    /*!< Operation status */
@@ -614,27 +636,27 @@ uint16_t num_handle;         /*!< The number of the attribute handle to be added
 uint16_t *handles;           /*!< The number to the handles */
 ```
 
-Este ejemplo utiliza este evento para mostrar información y comprobar que el 
+Este ejemplo utiliza este evento para mostrar información y comprobar que el
 tamaño de la tabla creada es igual al número de elementos en la enumeración
-`HRS_IDX_NB`. Si la tabla se creó correctamente, los manejadores de atributos se copian
-en la tabla de manejadores `heart_rate_handle_table` y el servicio se inicicaliza
-utilizando la función ``esp_ble_gatts_start_service()``:
+`HRS_IDX_NB`. Si la tabla se creó correctamente, los manejadores de atributos se
+copian en la tabla de manejadores `heart_rate_handle_table` y el servicio se
+inicicaliza utilizando la función ``esp_ble_gatts_start_service()``:
 
 ```c
 case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
-        ESP_LOGI(GATTS_TABLE_TAG, "The number handle =%x\n",param->add_attr_tab.num_handle);
-        if (param->add_attr_tab.status != ESP_GATT_OK){
-            ESP_LOGE(GATTS_TABLE_TAG, "Create attribute table failed, error code=0x%x", param->add_attr_tab.status);
-        }
-        else if (param->add_attr_tab.num_handle != HRS_IDX_NB){
-            ESP_LOGE(GATTS_TABLE_TAG, "Create attribute table abnormally, num_handle (%d) \
-                    doesn't equal to HRS_IDX_NB(%d)", param->add_attr_tab.num_handle, HRS_IDX_NB);
-        }
-        else {
-            memcpy(heart_rate_handle_table, param->add_attr_tab.handles, sizeof(heart_rate_handle_table));
-            esp_ble_gatts_start_service(heart_rate_handle_table[HRS_IDX_SVC]);
-        }
-        break;
+	if (param->add_attr_tab.status != ESP_GATT_OK){
+		ESP_LOGE(GATTS_TABLE_TAG, "create attribute table failed, error code=0x%x", param->add_attr_tab.status);
+	}
+	else if (param->add_attr_tab.num_handle != HRS_IDX_NB){
+		ESP_LOGE(GATTS_TABLE_TAG, "create attribute table abnormally, num_handle (%d) \
+				doesn't equal to HRS_IDX_NB(%d)", param->add_attr_tab.num_handle, HRS_IDX_NB);
+	}
+	else {
+		ESP_LOGI(GATTS_TABLE_TAG, "create attribute table successfully, the number handle = %d\n",param->add_attr_tab.num_handle);
+		memcpy(heart_rate_handle_table, param->add_attr_tab.handles, sizeof(heart_rate_handle_table));
+		esp_ble_gatts_start_service(heart_rate_handle_table[IDX_SVC]);
+	}
+	break;
 ```
 
 Los manejadores almacenados son números que identifican cada atributo. Estos manejadores
@@ -665,16 +687,16 @@ struct gatts_profile_inst {
 ```
 # Interacción a través de un cliente GATT
 
+Existen multitud de herramientas que permiten gestionar la conexión al servidor
+GATT. En Linux, utilizaremos `hcitool` y `gatttool`; en Windows, puedes utilizar
+una herramienta llamada `Bluetooth LE Explorer`, que implementa, aunque de forma
+gráfica, la misma funcionalidad.
+
 !!! note "Nota"
     Para desarrollar esta parte de la práctica, deberás importar la máquina 
     virtual del curso en el PC del laboratorio, y hacer visible a ella el
     dispositivo Bluetooth del equipo de laboratorio.
 
-!!! note "Nota"
-    Existen multitud de herramientas que permiten gestionar la conexión
-    al servidor GATT. En Linux, utilizaremos `hcitool` y `gatttool`; en 
-    Windows, puedes utilizar una herramienta llamada `Bluetooth LE Explorer`,
-    que implementa, aunque de forma gráfica, la misma funcionalidad.
 
 ## Uso de `hcitool` y `gatttool` en modo cliente
 
@@ -690,11 +712,15 @@ BLE disponibles en el entorno utilizando la orden:
 sudo hcitool lescan
 ```
 
+!!! note "Nota"
+	Este comando no funcionará si no has pasado el control del dispositivo
+	bluetooth a la máquina virtual.
+
 Si todo ha ido bien, se mostrará una línea por dispositivo BLE disponible
 y en fase de anuncio. Entre ellos, deberemos encontrar nuestro dispositivo,
 para recordar su dirección MAC.
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Edita el fichero `main/gatts_table_creat_demo.c` y modifica el nombre
     de tu dispositivo, que se anunciará en cada anuncio emitido en la fase
     de `advertising`. Para ello, debes modificar el campo correspondiente de la 
@@ -703,9 +729,12 @@ para recordar su dirección MAC.
     escaneado de dispositivos BLE mediante la orden:
     ```
     sudo hcitool lescan
-    ```.
+    ```
     Deberás observar tu dispositivo en una de las líneas. Anota o recuerda
     su dirección MAC.
+
+!!! danger "Tarea Adicional"
+	Documenta y explica el ejercicio en tu informe de la práctica.
 
 ### Interactuando con el servidor GATT: `gatttool`
 
@@ -713,6 +742,10 @@ Una vez obtenida la dirección MAC Bluetooth del dispositivo, deberemos proceder
 en dos fases. La primera de ellas es el emparejado al dispostivo desde tu
 consola. La segunda, la interacción con la tabla GATT. En ambos casos, se
 utilizará la herramienta `gatttool` desde línea de comandos.
+
+!!! danger "Tarea Adicional"
+	Prepara un informe donde documentes y comentes cada uno de los pasos y
+	tareas que realices en esta práctica.
 
 Para comenzar una sesión `gatttool`, invocaremos a la herramienta en modo
 interactivo, utilizando la orden:
@@ -757,9 +790,12 @@ mtu             <value>                        Exchange MTU for GATT/ATT
 
 Comenzaremos consultando la lista de características del servidor GATT.
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Mediante el comando correspondiente (`characteristics`), 
     consulta y anota las características disponibles en tu servidor GATT.
+
+!!! danger "Tarea Adicional"
+	Documenta y explica el ejercicio en tu informe de la práctica.
 
 Una de estas características será de crucial interés, ya que nos permitirá
 acceder, a través de su UUID, a la medición instantánea de ritmo cardíaco, así
@@ -773,7 +809,7 @@ Para interactuar con dicha característica, necesitaremos un manejador
 `gatttool`. Dicho manejador se muestra, para cada línea, tras la cadena
 *char value handle*. 
 
-!!! note "Tarea"
+!!! danger "Tarea Adicional"
     El manejador que permite leer desde la característica *Heart Rate Value"
     tiene un manejador de tipo carácter asociado. Anota su valor.
 
@@ -781,17 +817,22 @@ Para leer el valor de la característica, podemos utilizar su manejador asociado
 Así, podemos obtener dicho valor con un comando de lectura, en este caso
 `char-read-hnd manejador`.
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Obtén los datos de lectura de la característica de medición del valor
     de monitorización de ritmo cardíaco. ¿Cuáles son? Deberías observar un 
     valor de retorno de cuatro bytes con valor 0x00. Estos valores corresponden
     a los de la variable `char_value` de tu código. Modifícalos, recompila y 
     vuelve a *flashear* el código. ¿Han variado?
 
-!!! note "Tarea"
+!!! danger "Tarea Básica"
     Intenta ahora escribir en la anterior característica. Para ello, utiliza
-    el comando `char-write-cmd handler valor`, siendo valor, por ejemplo, 
-    `11223344`. ¿Es posible? ¿Por qué?
+	el comando `char-write-cmd handler valor`, siendo valor, por ejemplo,
+	`11223344`.
+
+!!! danger "Tarea Adicional"
+	Documenta el proceso en tu informe de la práctica explicando
+	cómo saber el handle que se debe usar para poder modificar la
+	característica.
 
 Escribiremos a continuación en la característica de configuración del servicio
 de montorización. Para ello, utilizaremos el manejador siguiente al utilizado
@@ -799,10 +840,15 @@ anteriormente. Esto es, si se nos devolvió, por ejemplo, un manejador
 `0x0001` para el valor de monitorización, el valor de configuración será 
 `0x0002`.
 
-!!! note "Tarea"
-    Intenta ahora escribir en la característica de configuración. Para ello, utiliza
-    el comando `char-write-cmd handler valor`, siendo valor, por ejemplo, 
-    `0100`. ¿Es posible? ¿Por qué?
+!!! danger "Tarea Básica"
+	Intenta ahora escribir en la característica de configuración. Para ello,
+	utiliza el comando `char-write-cmd handler valor`, siendo valor, por
+	ejemplo, `0100`.
+
+!!! danger "Tarea Adicional"
+	Documenta el proceso en tu informe de la práctica
+	explicando cómo saber el handle que se debe usar para poder modificar la
+	característica.
 
 Como habrás observado, es posible leer desde el valor de monitorización, y 
 escribir en el valor de configuración. Utilizaremos esta última característica
@@ -810,14 +856,15 @@ para configurar las notificaciones sobre el valor de monitorización. De este
 modo, cada vez que se desee enviar dicho valor a los clientes que tengan 
 activada la notificación, éstos la recibirán sin necesidad de cambio alguno.
 
-Para ello, necesitamos modificar algunas partes de nuestro código. Específicamente, 
-necesitaremos:
+Para ello, necesitamos modificar algunas partes de nuestro código.
+Específicamente, necesitaremos:
 
-1. Crear una nueva tarea que, periódicamente, modifique el valor de monitorización
-de ritmo cardíaco (leyéndolo desde un sensor, si está disponible, o, en nuestro caso
-generando un valor aleatorio). Dicha tarea consistirá en un bucle infinito que, 
-en cualquier caso, sólo enviará datos al cliente si la notificación está activa,
-con un intervalo de envío de un segundo:
+1. Crear una nueva tarea que, periódicamente, modifique el valor de
+   monitorización de ritmo cardíaco (leyéndolo desde un sensor, si está
+   disponible, o, en nuestro caso generando un valor aleatorio). Dicha tarea
+   consistirá en un bucle infinito que, en cualquier caso, sólo enviará datos al
+   cliente si la notificación está activa, con un intervalo de envío de un
+   segundo:
 
 ```c
 static void publish_data_task(void *pvParameters)
@@ -826,12 +873,10 @@ static void publish_data_task(void *pvParameters)
         ESP_LOGI("APP", "Sending data..."); 
 
         // Paso 1: Actualizo valor...
-    
-        // Paso 2: Si notificación activa...
 
-        // Paso 3: Envío datos...
+        // Paso 2: Si las notificaciones están activas envío datos...
 
-        // Paso 4: Duermo un segundo...
+        // Paso 3: Duermo un segundo...
         vTaskDelay( 1000. / portTICK_PERIOD_MS);
     }
 }
@@ -845,15 +890,16 @@ xTaskCreate(&publish_data_task, "publish_data_task", 4096, NULL, 5, NULL);
 ```
 
 2. La actualización del valor, realizada periódicamente y de forma aleatoria,
-modificará el byte 1 de la variable `char_value`, tomando un valor aleatorio
-entre 0 y 255 (como nota adicional, los pulsómetros actuales soportan valores
-mayores para ritmo cardiaco, aunque la configuración de esta funcionalidad
-está fuera del alcance de la práctica).
+   modificará el byte 1 de la variable `char_value`, tomando un valor aleatorio
+   entre 0 y 255 (como nota adicional, los pulsómetros actuales soportan valores
+   mayores para ritmo cardiaco, aunque la configuración de esta funcionalidad
+   está fuera del alcance de la práctica).
 
-3. La comprobación de la activación o no de la notificación se realiza consultando
-los dos bytes de la variable `heart_measurement_ccc`. Si dichos valores
-son `0x01` y `0x00` (posiciones 0 y 1, respectivamente), las notificaciones 
-están activas, y por tanto, se realizará el envío de notificación.
+3. La comprobación de la activación o no de la notificación se realiza
+   consultando los dos bytes de la variable `heart_measurement_ccc`. Si dichos
+   valores son `0x01` y `0x00` (posiciones 0 y 1, respectivamente), las
+   notificaciones están activas, y por tanto, se realizará el envío de
+   notificación.
 
 4. Para enviar la notificación, utilizaremos la siguiente función:
 
@@ -876,21 +922,23 @@ la característica, se sobreescriba el contenido de la variable
 `heart_measurement_ccc`. Esta escritura debe realizarse en respuesta al
 evento `ESP_GATTS_WRITE_EVT`.
 
-!!! danger "Tarea entregable"
-    Modifica el firmware original para que, periódicamente (cada segundo) notifique
-    el valor de ritmo cardíaco a los clientes conectados.
+!!! danger "Tarea Adicional"
+	Modifica el firmware original para que, periódicamente (cada segundo)
+	notifique el valor de ritmo cardíaco a los clientes conectados.
 
-    Si además modificas las UUID por las proporcionadas en la especificación 
-    Bluetooth para el Servicio *Heart Rate* y todo ha sido configurado correctamente,
-    tu ESP32 debería poder interactuar con cualquier monitor de ritmo cardiaco para, 
-    por ejemplo, Android. Para ello, utiliza las siguientes UUIDs:
+	Si además modificas las UUID por las proporcionadas en la especificación
+	Bluetooth para el Servicio *Heart Rate* y todo ha sido configurado
+	correctamente, tu ESP32 debería poder interactuar con cualquier monitor de
+	ritmo cardiaco para, por ejemplo, Android. Para ello, utiliza las siguientes
+	UUIDs:
 
     * static const uint16_t GATTS_SERVICE_UUID_TEST      = 0x180D; //0x00FF;
     * static const uint16_t GATTS_CHAR_UUID_TEST_A       = 0x2A37; //0xFF01;
     * static const uint16_t GATTS_CHAR_UUID_TEST_B       = 0x2A38; //0xFF02;
     * static const uint16_t GATTS_CHAR_UUID_TEST_C       = 0x2A39; //0xFF03;
 
-    Entrega el código modificado, así como evidencias (capturas de pantalla)
-    que demuestren que un cliente `gatttool` suscrito a notificaciones recibe, 
-    cada segundo, la actualización de ritmo cardíaco por parte del sensor.
+	Entrega el código modificado e incluye en tu informe evidencias (capturas de
+	pantalla) que demuestren que un cliente `gatttool` suscrito a notificaciones
+	recibe, cada segundo, la actualización de ritmo cardíaco por parte del
+	sensor.
 
