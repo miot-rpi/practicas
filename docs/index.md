@@ -2,21 +2,23 @@
 
 # RPI-I
 
-| Práctica | Día | Título                                                   |
-|----------|-----|----------------------------------------------------------|
-| 1        |28/09|[Introducción al entorno de desarrollo](RPI-I/P1/index.md)|
-| 2        |04/10|[WiFi. Conceptos básicos](RPI-I/P2/index.md)              |
-|          |12/10|**FESTIVO**                                               |
-| 3        |19/10|[WiFi. Conceptos avanzados (WiFi Mesh, provisionamiento y ahorro de energía)](RPI-I/P3/index.md) |
-|          |26/10|Recuperación prácticas wifi                               |
-| 4        |02/11|[Bluetooth Low Energy](RPI-I/P4/index.md)                 |
-|          |09/11| **FESTIVO**                                              |
-| 5        |16/11|[BLE Mesh](RPI-I/P5/index.md)                             |
-| 6        |22/11|Recuperación prácticas ble                                |
-| 7        |29/11|[6LowPAN](RPI-I/P6/index.md)                              |
-|          |06/12| **FESTIVO**                                              |
-| 8        |13/12|[LoRA](RPI-I/P7/index.md)                                                      |
-|          |20/12|Recuperación de prácicas LPWAN                            |
+| Práctica | Día   | Título                                                          |
+|----------|-------|-----------------------------------------------------------------|
+|          | 19/09 | Clase de Teoría                                                 |
+|          | 26/09 | Clase de Teoría                                                 |
+| 1        | 03/10 | [Introducción al entorno de desarrollo](RPI-I/P1/index.md)      |
+| 2        | 10/10 | [WiFi en el ESP32](RPI-I/P2/index.md)                           |
+| 3        | 17/10 | [WiFi. Provisionamiento y ahorro de energía](RPI-I/P3/index.md) |
+| 4        | 24/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                              |
+|          | 31/10 | **FESTIVO**                                                     |
+| 5        | 07/11 | [Bluetooth Low Energy (BLE)](RPI-I/P5/index.md)                 |
+|          | 14/11 | **FESTIVO**                                                     |
+| 6        | 21/11 | [BLE Mesh](RPI-I/P6/index.md)                                   |
+| 7        | 28/11 | [6LowPAN](RPI-I/P7/index.md)                                    |
+| -        | 05/12 | Recuperación de prácticas                                       |
+| 8        | 12/12 | [LoRA](RPI-I/P8/index.md)                                       |
+|          | 09/01 | Presentaciones orales                                           |
+|          | 16/01 | Presentaciones orales                                           |
 
 # RPI-II
 

@@ -1,4 +1,4 @@
-# Práctica 4. WiFi Mesh
+# Práctica 4. ESP WiFi Mesh
 
 ## Objetivos
 

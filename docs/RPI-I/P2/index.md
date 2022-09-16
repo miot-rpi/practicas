@@ -1,4 +1,4 @@
-# Práctica 2. Soporte WiFi en el ESP32
+# Práctica 2. WiFi en el ESP32
 
 ## Objetivos
 

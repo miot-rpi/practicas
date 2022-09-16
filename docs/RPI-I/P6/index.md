@@ -1,4 +1,4 @@
-# Práctica 6. Bluetooth Mesh (BLE MESH)
+# Práctica 6. BLE Mesh
 
 !!! note "Nota"
 	Esta práctica es opcional para aquellos que opten a evaluación por proyecto
