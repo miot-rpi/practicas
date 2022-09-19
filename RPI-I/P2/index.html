@@ -151,10 +151,10 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#practica-2-soporte-wifi-en-el-esp32" class="nav-link">Práctica 2. Soporte WiFi en el ESP32</a>
+            <li class="nav-item" data-level="1"><a href="#practica-2-wifi-en-el-esp32" class="nav-link">Práctica 2. WiFi en el ESP32</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -191,7 +191,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-2-soporte-wifi-en-el-esp32">Práctica 2. Soporte WiFi en el ESP32</h1>
+<h1 id="practica-2-wifi-en-el-esp32">Práctica 2. WiFi en el ESP32</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Conocer el flujo de trabajo del driver WiFi en ESP-IDF.</li>
@@ -260,7 +260,7 @@ a un AP, momento en el cual <code>esp_netif</code> arranca un cliente DHCP para 
 una dirección IP sin intervención del código de usuario (aunque este
 comportamiento por defecto puede ser personalizado para, por ejemplo, asignar
 una dirección IP estáticamente).</p>
-<div class="admonition danger">
+<div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Toda la API mencionada a continuación se encuentra descrita en profundidad en
 este <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html">enlace</a>. Se aconseja disponer de esta información durante el proceso
@@ -510,7 +510,7 @@ de sockets) para mantenerse en un estado consistente.</li>
 </ol>
 <h3 id="analisis-de-un-ejemplo-wifigetting_startedstation">Análisis de un ejemplo (<code>wifi/getting_started/station</code>)</h3>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea Básica</p>
 <p>Analiza el ejemplo <code>station</code>, compílalo y flashealo. Estudia el tratamiento
 de eventos que realiza, y cómo estos son emitidos para casos reales. Para
 ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
@@ -548,14 +548,14 @@ de acceso, consulta este
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html#ap-basic-configuration">enlace</a>.</p>
 <h3 id="analisis-de-un-ejemplo-wifigetting_startedsoftap">Análisis de un ejemplo (<code>wifi/getting_started/softAP</code>)</h3>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea Básica</p>
 <p>Analiza el ejemplo <code>softAP</code>, compílalo y flashealo. Estudia el tratamiento
 de eventos que realiza, y cómo estos son emitidos para casos reales. Para
 ello, conecta distintos clientes (<em>stations</em>), bien sean ESP32 o cualquier
-otro dispositivo, y analiza los
-eventos generados y su respuesta. Si no existe respuesta a alguno de ellos,
-añádela. Documenta las observaciones que consideres de interés y las 
-posibles modificaciones realizadas en tu memoria.</p>
+otro dispositivo, y analiza los eventos generados y su respuesta. Si no
+existe respuesta a alguno de ellos, añádela. Documenta las observaciones que
+consideres de interés y las posibles modificaciones realizadas en tu
+memoria.</p>
 </div>
 <h2 id="modo-combinado-stationpunto-de-acceso">Modo combinado Station/Punto de Acceso</h2>
 <p>ESP-IDF soporta un modo mixto de conexión, en el que el ESP32 es a la vez
@@ -572,7 +572,7 @@ de configuración (<code>esp_wifi_set_config</code>) con cada una de dichas estr
 como en modo <em>AP</em> --<code>esp_netif_create_default_wifi_ap()</code>).</p>
 <h3 id="ejercicio-desarrollo-de-un-nodo-mixto-stationap">Ejercicio: desarrollo de un nodo mixto <em>station/AP</em></h3>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea Adicional</p>
 <p>Modifica el ejemplo <code>station</code> para que el ESP32 se comporte a la vez 
 como estación y como punto de acceso. Añade las opciones de configuración
 necesarias para que todos los parámetros se puedan modificar vía 
@@ -684,7 +684,7 @@ cada AP. </p>
 <p>Analiza el ejemplo de escaneado, e intenta observar el flujo de trabajo 
 detallado anteriormente.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea Adicional</p>
 <p>Compila, flashea y ejecuta el ejemplo de escaneado. Observa si los resultados
 son los esperados en el laboratorio o en un entorno doméstico. Modifica el 
 código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
@@ -741,7 +741,7 @@ parámetros:<ul>
 </li>
 </ol>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea Adicional</p>
 <p>Configura, compila y ejecuta el ejemplo de autenticación y adjunta una
 captura de pantalla que demuestre la correcta conexión a <em>eduroam</em>.</p>
 </div></div>

@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 8. Redes LoRaWAN - Master IoT UCM - Prácticas RPI</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-II/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 6 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 6 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P9/" class="dropdown-item">Práctica 9</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 10</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-8-redes-lorawan" class="nav-link">Práctica 8. Redes LoRaWAN</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion-al-entorno-de-desarrollo-lora" class="nav-link">Introducción al entorno de desarrollo LoRa</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#infraestructura-lora-a-desarrollar" class="nav-link">Infraestructura LoRa a desarrollar</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-8-redes-lorawan">Práctica 8. Redes LoRaWAN</h1>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Esta práctica es opcional para aquellos que opten a evaluación por proyecto
+y obligatoria para los que se evaluen por prácticas. Las tareas aquí
+descritas son por tanto obligatorias para los que se presentan por
+prácticas, los que vayan por proyecto no tienen qué hacerlas.</p>
+</div>
+<h2 id="objetivos">Objetivos</h2>
+<p>Los objetivos didácticos de esta práctica son:</p>
+<ul>
+<li>
+<p>Introducir conceptos básicos de programación usando el entorno MicroPython</p>
+</li>
+<li>
+<p>Experimentar con el protocolo LoRa sobre placas reales (Pycom LoPy4).</p>
+</li>
+<li>
+<p>Desarrollar ejemplos reales de topologías punto-a-punto, en estrella y en
+  malla usando tecnología LoRa.</p>
+</li>
+</ul>
+<h2 id="introduccion-al-entorno-de-desarrollo-lora">Introducción al entorno de desarrollo LoRa</h2>
+<h3 id="pycom-lopy4">Pycom LoPy4</h3>
+<p>La placa Pycom LoPy4 es una placa de desarrollo con soporte para múltiples
+tecnologías de red (WiFi, BLE, LoRa y Sigfox), que equipa un SoC Espressif
+ESP32, 4 MBytes de memoria RAM, 8 MBytes de memoria flash externa, aceleración
+hardware para cómputo en punto flotante y soporte para desarrollo usando el
+<em>framework</em> MicroPython. Además, integra interfaces UART (2), SPI, I2C (2), I2S
+y soporte para tarjetas microSD, junto con 24 pines GPIO. Según sus
+especificaciones, puede soportar rangos de transmisión de hasta 40 kilómetros
+(para comunicación nodo a nodo) o 22 kilómetros (funcionando en modo <em>gateway</em>),
+en este caso con soporte de hasta 100 nodos conectados.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Como parte de la práctica, se te proporciona un entorno <em>hardware</em> compuesto
+por una placa LoPy4 con antena sub-GHz LoRa y una placa de expansión
+(<em>Expansion Board 3.0</em>) con conexión microUSB, que permitirá la programación
+de la primera. Investiga en la página del fabricante las características de
+ambos elementos y comprueba que las conexiones de antena son correctas.
+Sigue las instrucciones del fabricante para actualizar el <em>firmware</em> de la
+placa, en función del sistema operativo con el que vayas a trabajar
+(<a href="https://docs.pycom.io/updatefirmware/device/">https://docs.pycom.io/updatefirmware/device/</a>).
+Instala el firmware de tipo <strong>legacy</strong>, versión <strong>1.29.0.b4</strong>.</p>
+</div>
+<h3 id="micropython">Micropython</h3>
+<p><a href="https://micropython.org">Micropython</a> es una implementación de la versión 3.5
+del lenguaje de programación Python, reducida y adaptada específicamente para su
+correcta ejecución en microcontroladores con recursos limitados. A cambio de una
+huella en memoria mayor, permite un desarrollo y prototipado mucho más rápido
+que lenguajes de menor nivel (por ejemplo, C).  Como dato, a día de hoy, sus
+requisitos básicos incluyen 256kB de memoria ROM y 16kB de RAM. </p>
+<p>MicroPython implementa un sistema de ficheros mínimo directamente en la memoria
+<em>flash</em> de la placa en la que se ejecuta, siempre que ésta disponga de más de
+1Mb de almacenamiento. En este sistema de ficheros, existen dos archivos con un
+papel especial: <em>boot.py</em> y <em>main.py</em>. Estos dos ficheros se ejecutan, en este
+orden, en el arranque del sistema, por lo que deberán contener las partes
+principales de los programas que deseemos ejecutar tras el inicio de la placa.
+<em>boot.py</em> contiene típicamente parámetros generales de configuración (por
+ejemplo, redes WiFi a las que conectar en el arranque), mientras que main.py
+suele contener la lógica principal del programa.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Instala, en tu sistema operativo el plugin Pymakr para VS Code tal y como se
+muestra en la página del fabricante
+<a href="https://docs.pycom.io/gettingstarted/installation/pymakr">pymark</a>. Deberás
+instalar también el paquete nodejs (sudo apt install nodejs).  </p>
+</div>
+<h4 id="creacion-de-un-proyecto-en-pymark">Creación de un proyecto en Pymark</h4>
+<ul>
+<li>
+<p>En primer lugar, crea un directorio nuevo y vacío en tu sistema. Por ejemplo,
+  podemos crear un directorio llamado <em>MiProyecto</em>.</p>
+</li>
+<li>
+<p>Abre el directorio en VS Code (<em>Open Folder</em>).</p>
+</li>
+<li>
+<p>Necesitaremos crear una jerarquía para nuestro proyecto. Típicamente, la
+  jerarquía de un proyecto sigue el siguiente esquema:</p>
+</li>
+</ul>
+<pre><code class="language-text">MiProyecto
+|-lib
+  |-biblioteca.py
+|boot.py
+|main.py
+</code></pre>
+<p>En este primer ejemplo, simplemente utilizaremos un fichero <em>main.py</em>.
+Adicionalmente, crearemos un fichero de configuración para nuestro proyecto a
+pulsando el botón <em>Allcommands</em> de la barra inferior y seleccionando <em>Pymakr &gt;
+Project Settings</em>, que añadirá un fichero <em>pymakr.conf</em> al proyecto.  Para más
+información sobre el contenido de este fichero, consulta
+<a href="https://docs.pycom.io/pymakr/settings">pymakr/settings</a>.  </p>
+<h4 id="controlando-el-led-de-nuestra-placa">Controlando el LED de nuestra placa</h4>
+<p>Añadiremos a nuestro fichero principal (<em>main.py</em>) la lógica para controlar
+un LED de nuestra placa. Para ello, añadiremos, en primer lugar, las bibliotecas
+a importar:</p>
+<pre><code class="language-python">import pycom
+import time
+</code></pre>
+<p>La primera de las bibliotecas añade la funcionalidad necesaria para controlar
+específicamente ciertas funcionalidades de las placas Pycom. La segunda nos
+ayudará a fijar temporizadores.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Habrás observado que, al arrancar la placa Pycom, el LED de la placa
+parpadea de forma regular. Para desactivar este parpadeo, puedes utilizar la
+sentencia <em>pycom.heartbeat(False)</em>.</p>
+<p>Añade esta sentencia a tu código y ejecútalo (<em>Run</em>) para coprobar que
+tu placa puede ejecutar tus códigos.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Una vez comprobada la funcionalidad del botón <em>Run</em>, modifica el código
+para que el LED cambie de color (R-G-B) cada segundo. Encontrarás la
+documentación necesaria en la <a href="https://docs.pycom.io/gettingstarted/">página de documentación de
+Pycom</a>.</p>
+</div>
+<p>El uso del botón <em>Run</em> es intuitivo y muy útil en el desarrollo, pero no es
+adecuado en despliegues, ya que, como puedes observar, el código desarrollado no
+se almacena en la placa, y por tanto se pierde en el reinicio.  Para salvar esta
+limitación, experimenta con el botón <em>Upload</em> y observa cómo tu código sigue
+ejecutándose tras un reinicio.</p>
+<h4 id="repl">REPL</h4>
+<p>REPL (<em>Read Evaluate Print Loop</em>) es el nombre que recibe la línea de órdenes
+interactivas ofrecida por las placas Pycom (y otras muchas compatibles con
+MicroPython). REPL proporciona historial de comandos, completado de comandos
+(usando la tecla <em>Tab</em>), ejecución y parada de código (usando <em>Ctrl-C</em>)
+y otras funcionalidades que facilitan el desarrollo sobremanera.</p>
+<p>Existe un conjunto de atajos que pueden resultar de interés a la hora de 
+interactuar con la placa. Entre ellos:</p>
+<ul>
+<li>
+<p><strong>Ctrl-A</strong> Entra en modo <em>raw</em>: permite pegar y copiar código, sin
+  realizar un <em>echo</em> de cada línea introducida.</p>
+</li>
+<li>
+<p><strong>Ctrl-B</strong> Pasa REPL a modo normal.</p>
+</li>
+<li>
+<p><strong>Ctrl-C</strong> Cancela cualquier entrada o interrumpe el código que se está
+  ejecutando.</p>
+</li>
+<li>
+<p><strong>Ctrl-D</strong> Realiza un <em>soft-reset</em> de la placa.</p>
+</li>
+<li>
+<p><strong>Ctrl-E</strong> Entra en modo <em>paste</em>, lo que permite copiar y pegar fragmentos
+  de texto. Para salir de este modo es necesario utilizar el atajo <em>Ctrl-D</em>.</p>
+</li>
+<li>
+<p><strong>Ctrl-F</strong> Realiza un arranque seguro del dispositivo; en otras palabras, no
+  ejecuta los scripts <em>boot.py</em> ni <em>main.py</em> en el momento del arranque.</p>
+</li>
+</ul>
+<h2 id="infraestructura-lora-a-desarrollar">Infraestructura LoRa a desarrollar</h2>
+<h3 id="conexion-a-red-wifi">Conexión a red WiFi</h3>
+<p>Todas las placas Pycom soportan WiFi, por lo que es trivial realizar una
+conexión a este tipo de red. En primer lugar, inicializamos el módulo WLAN y
+construimos un objeto para interactuar con este tipo de conexión:</p>
+<pre><code class="language-python">import machine
+from network import WLAN
+wlan = WLAN()
+wlan.mode() # Chequeamos el modo - Por defecto WLAN.AP (punto de acceso).
+</code></pre>
+<p>Para conectar a un punto de acceso, en primer lugar deberemos configurar nuestra
+placa como <em>station</em> en lugar de <em>access point</em> (modo por defecto):</p>
+<pre><code class="language-python">import machine
+from network import WLAN
+wlan = WLAN(mode=WLAN.STA) # Modo station.
+</code></pre>
+<p>Y a continuación podemos, sin más, conectar a un SSID existente:</p>
+<pre><code class="language-python">nets = wlan.scan()
+for net in nets:
+    if net.ssid == 'SSID':
+        print('Red encontrada!')
+        wlan.connect(net.ssid, auth=(net.sec, 'clave'), timeout=5000)
+        while not wlan.isconnected():
+            machine.idle() # Ahorro de energia mientras esperamos.
+        print('WLAN: conexion establecida!')
+        break
+</code></pre>
+<p>Si necesitamos asignar una IP estática a nuestra placa en el proceso de
+arranque, podemos hacerlo en el fichero <em>boot.py</em>:</p>
+<pre><code class="language-python">import machine
+from network import WLAN
+wlan = WLAN() # get current object, without changing the mode
+
+if machine.reset_cause() != machine.SOFT_RESET:
+    wlan.init(mode=WLAN.STA)
+    # Esta configuracion debe coincidir con la del router.
+    wlan.ifconfig(config=('192.168.178.107', '255.255.255.0', '192.168.178.1', '8.8.8.8'))
+
+
+if not wlan.isconnected():
+    wlan.connect('SSID', auth=(WLAN.WPA2, 'clave'), timeout=5000)
+    while not wlan.isconnected():
+        machine.idle() 
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Conecta tu placa a un punto de acceso wifi (por ejemplo el router de clase o
+tu teléfono móvil).  Experimenta asignando una IP estática a la placa.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Investiga cómo conseguir que tu placa sea capaz de almacenar una lista de
+redes inalámbricas a las que potencialmente conectar, y realice un proceso
+de intento de conexión a cada una de ellas en el momento del arranque, hasta
+llegar a conectar con una de ellas.</p>
+</div>
+<p>Podéis consultar la documentación del API en
+<a href="https://docs.pycom.io/firmwareapi/">https://docs.pycom.io/firmwareapi/</a>.</p>
+<h3 id="loramac">LoRaMAC</h3>
+<h4 id="comunicacion-punto-a-punto">Comunicación punto-a-punto</h4>
+<p>En esta primera parte de la práctica, utilizaremos la interfaz LoRa directamente
+(<em>raw mode</em>), por lo que se ignora la capa LoRaWAN para enviar y recibir
+datos. De este modo, los datos son enviados en crudo, sin formato ni
+encriptación posible, y no se añade ningún tipo de direccionamiento a nivel de
+enlace en los <em>frames</em> enviados.</p>
+<p>En este ejemplo, utilizaremos dos placas LoPy. El script a desarrollar se basa
+en un bucle infinito (<em>while</em>) con un tiempo de espera variable (y
+aleatorio) entre envíos para minimizar las posibilidades de transmisión
+simultánea entre dos o más dispositivos. El siguiente código realiza envíos y
+recepciones del modo descrito:</p>
+<pre><code class="language-python">from network import LoRa
+import socket
+import machine
+import time
+
+# initialise LoRa in LORA mode
+# Please pick the region that matches where you are using the device:
+# Asia = LoRa.AS923
+# Australia = LoRa.AU915
+# Europe = LoRa.EU868
+# United States = LoRa.US915
+# more params can also be given, like frequency, tx power and spreading factor
+lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
+
+# create a raw LoRa socket
+s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+
+while True:
+    # send some data
+    s.setblocking(True)
+    s.send('Hello')
+
+    # get any data received...
+    s.setblocking(False)
+    data = s.recv(64)
+    print(data)
+
+    # wait a random amount of time
+    time.sleep(machine.rng() &amp; 0x0F)
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Modifica el programa anterior para que cada LoPy cambie el estado de
+iluminación de su LED en el momento en el que reciba cada <em>frame</em>.  El
+resultado debería iluminar/apagar alternativamente dicho LED con la
+recepción de cada dato. </p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Estudia la documentación del módulo LoRa en
+<a href="https://docs.pycom.io/firmwareapi/pycom/network/lora">https://docs.pycom.io/firmwareapi/pycom/network/lora</a>,
+especialmente los parámetros de inicialización/construcción del módulo.
+Experimenta, en tu placa, variando cada uno de los valores configurables
+(por ejemplo, <em>frequency</em>, <em>tx_power</em>, <em>bandwidth</em>, <em>spreading factor</em>,
+<em>preamble</em> y <em>coding rate</em>. Describe (y entrega) una descripción sobre su
+impacto en la transmisión, así como (si te es posible) su impacto en la
+velocidad de transmisión o distancia máxima de transferencia.</p>
+</div>
+<h4 id="comunicacion-gateway-nodo">Comunicación <em>gateway</em> - nodo</h4>
+<p>El ejemplo que se muestra a continuación propone una topología en la que un
+<em>gateway</em> o elemento central recibe datos crudos LoRa desde uno o más nodos
+LoRa. El código, en este caso, es distinto en función del elemento de la
+topología que estemos tratando. </p>
+<p>El <em>gateway</em>, en nuestro caso, realizará una escucha pasiva a la espera de la
+recepción de un paquete por parte de los nodos. Observa que el formato del
+paquete recibido (y acuse de recibo --ACK-- enviado en respuesta) está definido
+al inicio del propio script, y debe coincidir con el formato esperado en los
+nodos:</p>
+<pre><code class="language-python">import socket
+import struct
+from network import LoRa
+
+# A basic package header, B: 1 byte for the deviceId, B: 1 byte for the pkg size, %ds: Formatted string for string
+_LORA_PKG_FORMAT = &quot;!BB%ds&quot;
+# A basic ack package, B: 1 byte for the deviceId, B: 1 byte for the pkg size, B: 1 byte for the Ok (200) or error messages
+_LORA_PKG_ACK_FORMAT = &quot;BBB&quot;
+
+# Open a LoRa Socket, use rx_iq to avoid listening to our own messages
+# Please pick the region that matches where you are using the device:
+# Asia = LoRa.AS923
+# Australia = LoRa.AU915
+# Europe = LoRa.EU868
+# United States = LoRa.US915
+lora = LoRa(mode=LoRa.LORA, rx_iq=True, region=LoRa.EU868)
+lora_sock = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+lora_sock.setblocking(False)
+
+while (True):
+    recv_pkg = lora_sock.recv(512)
+    if (len(recv_pkg) &gt; 2):
+        recv_pkg_len = recv_pkg[1]
+
+        device_id, pkg_len, msg = struct.unpack(_LORA_PKG_FORMAT % recv_pkg_len, recv_pkg)
+
+# If the uart = machine.UART(0, 115200) and os.dupterm(uart) are set in the boot.py this print should appear in the serial port
+        print('Device: %d - Pkg:  %s' % (device_id, msg))
+
+        ack_pkg = struct.pack(_LORA_PKG_ACK_FORMAT, device_id, 1, 200)
+        lora_sock.send(ack_pkg)
+</code></pre>
+<p>Observa como <em>_LORA_PKG_FORMAT</em> se utiliza como un mecanismo para identificar
+los distintos dispositivos existentes en la red. Por su parte,
+<em>_LORA_PKG_ACK_FORMAT</em> es un mecanismo de acuse de recibo sencillo para
+responder al nodo que envió el paquete.</p>
+<p>Por otra parte, el código del nodo se reduce al envío de paquetes y a la espera
+activa a sus respectivos acuses de recibo:</p>
+<pre><code class="language-python">import os
+import socket
+import time
+import struct
+from network import LoRa
+
+# A basic package header, B: 1 byte for the deviceId, B: 1 byte for the pkg size
+_LORA_PKG_FORMAT = &quot;BB%ds&quot;
+_LORA_PKG_ACK_FORMAT = &quot;BBB&quot;
+DEVICE_ID = 0x01
+
+
+# Open a Lora Socket, use tx_iq to avoid listening to our own messages
+# Please pick the region that matches where you are using the device:
+# Asia = LoRa.AS923
+# Australia = LoRa.AU915
+# Europe = LoRa.EU868
+# United States = LoRa.US915
+lora = LoRa(mode=LoRa.LORA, tx_iq=True, region=LoRa.EU868)
+lora_sock = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+lora_sock.setblocking(False)
+
+while(True):
+    # Package send containing a simple string
+    msg = &quot;Device 1 Here&quot;
+    pkg = struct.pack(_LORA_PKG_FORMAT % len(msg), DEVICE_ID, len(msg), msg)
+    lora_sock.send(pkg)
+
+    # Wait for the response from the gateway. NOTE: For this demo the device does an infinite loop for while waiting the response. Introduce a max_time_waiting for you application
+    waiting_ack = True
+    while(waiting_ack):
+        recv_ack = lora_sock.recv(256)
+
+        if (len(recv_ack) &gt; 0):
+            device_id, pkg_len, ack = struct.unpack(_LORA_PKG_ACK_FORMAT, recv_ack)
+            if (device_id == DEVICE_ID):
+                if (ack == 200):
+                    waiting_ack = False
+                    # If the uart = machine.UART(0, 115200) and os.dupterm(uart) are set in the boot.py this print should appear in the serial port
+                    print(&quot;ACK&quot;)
+                else:
+                    waiting_ack = False
+                    # If the uart = machine.UART(0, 115200) and os.dupterm(uart) are set in the boot.py this print should appear in the serial port
+                    print(&quot;Message Failed&quot;)
+
+    time.sleep(5)
+</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Adapta el código anterior a algún escenario real, por ejemplo:</p>
+<ul>
+<li>
+<p>Fija un tiempo máximo de espera para la recepción de acuse de recibo y el
+  reenvío del paquete (o para descartarlo).</p>
+</li>
+<li>
+<p>Incrementa el tamaño de paquete modificando <em>_LORA_PKG_FORMAT</em> a
+  <em>BH\%ds</em>; el carácter <em>H</em> permite usar
+  2 bytes para el tamaño (véase
+  <a href="https://docs.python.org/2/library/struct.html#format-characters">https://docs.python.org/2/library/struct.html#format-characters</a>
+  para más información).</p>
+</li>
+<li>
+<p>Reduce el tamaño de mensaje y adáptalo a un escenario real de tu elección.</p>
+</li>
+</ul>
+</div>
+<h3 id="lorawan-topologia-en-estrella-implementacion-de-un-gateway-lorawan">LoRaWAN. Topología en estrella. Implementación de un Gateway LoRaWAN</h3>
+<p>En esta sección trabajaremos en el desarrollo de un <em>gateway</em> implementado en
+una LoPy utilizando MicroPython. Este tipo de ejemplo permite conectar a una red
+LoRaWAN existente (por ejemplo, <em>The Things Network</em> --elegida en nuestro caso--
+o <em>Loriot</em>), haciendo que nuestro <em>gateway</em> simplemente actúe como <em>forwarder</em>
+de paquetes recibidos desde nodos hacia un servidor remoto. </p>
+<p>El código del <em>gateway</em> está dividido en tres scripts diferenciados: <em>main.py</em>,
+<em>config.py</em> y <em>nanogateway.py</em>. Conjuntamente, su funcionalidad es configurar el
+<em>gateway</em> para realizar una conexión a una red preferida (WLAN) y para actuar
+como <em>packet forwarder</em> hacia un servidor.</p>
+<h4 id="obtencion-del-gateway-id">Obtención del <em>Gateway ID</em></h4>
+<p>La mayoría de servidores LoRaWAN esperan un identificador de <em>gateway</em> (<em>gateway
+ID</em>) en forma de número hexadecimal de 64 bits, típicamente nombrado
+como <em>EUI-64</em>). La práctica recomendada consiste, durante el desarrollo del
+<em>gateway</em>, en obtener este ID a partir de una expansión de la MAC WiFi de la
+placa (que es un valor de 48 bits). Podemos obtener este identificador usando el
+siguiente código: </p>
+<pre><code class="language-python">from network import WLAN
+import ubinascii
+wl = WLAN()
+ubinascii.hexlify(wl.mac())[:6] + 'FFFE' + ubinascii.hexlify(wl.mac())[6:]
+</code></pre>
+<p>El resultado será algo similar a <em>b'240ac4FFFE008d88'</em>, donde <em>40ac4FFFE008d88</em>
+sería nuestro identificador de <em>gateway</em>, que usaremos en la configuración del
+servidor LoRa para identificar de forma unívoca a nuestro dispositivo.</p>
+<h4 id="el-fichero-mainpy">El fichero <em>main.py</em></h4>
+<p>Este fichero, como se ha dicho anteriormente, se ejecuta al inicio e importa, en
+primer lugar, el script de configuración <em>config.py</em> para inicializar el
+<em>gateway</em>. Una vez configurado, se arranca la lógica del <em>gateway</em>. </p>
+<pre><code class="language-python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway example usage &quot;&quot;&quot;
+
+import config
+from nanogateway import NanoGateway
+
+if __name__ == '__main__':
+    nanogw = NanoGateway(
+        id=config.GATEWAY_ID,
+        frequency=config.LORA_FREQUENCY,
+        datarate=config.LORA_GW_DR,
+        ssid=config.WIFI_SSID,
+        password=config.WIFI_PASS,
+        server=config.SERVER,
+        port=config.PORT,
+        ntp_server=config.NTP,
+        ntp_period=config.NTP_PERIOD_S
+        )
+
+    nanogw.start()
+    nanogw._log('You may now press ENTER to enter the REPL')
+    input()
+</code></pre>
+<h4 id="el-fichero-configpy">El fichero <em>config.py</em></h4>
+<p>El fichero de configuración <em>config.py</em> contiene parámetros generales de
+configuración para el servidor y la red LoRa a la que deseamos conectar nuestro
+dispositivo. En función de la región y el proveedor (<em>TTN, Loriot, etc.</em>), estos
+parámetros variarán, por lo que será necesario adaptar estos valores en función
+de nuestra configuración. El siguiente ejemplo muestra la configuración
+necesaria para la conexión a <em>The Things Network (TTN)</em> en región europea (868
+Mhz). Obsérvese cómo se obtiene un <em>Gateway ID</em> como se ha indicado
+anteriormente, y cómo es necesario adaptar tanto el SSID como la contraseña para
+autenticación en nuestra red WiFi de forma acorde:</p>
+<pre><code class="language-python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway configuration options &quot;&quot;&quot;
+
+import machine
+import ubinascii
+
+WIFI_MAC = ubinascii.hexlify(machine.unique_id()).upper()
+# Set  the Gateway ID to be the first 3 bytes of MAC address + 'FFFE' + last 3 bytes of MAC address
+GATEWAY_ID = WIFI_MAC[:6] + &quot;FFFE&quot; + WIFI_MAC[6:12]
+
+SERVER = 'router.eu.thethings.network'
+PORT = 1700
+
+NTP = &quot;pool.ntp.org&quot;
+NTP_PERIOD_S = 3600
+
+WIFI_SSID = 'my-wifi'
+WIFI_PASS = 'my-wifi-password'
+
+# for EU868
+LORA_FREQUENCY = 868100000
+LORA_GW_DR = &quot;SF7BW125&quot; # DR_5
+LORA_NODE_DR = 5
+
+# for US915
+# LORA_FREQUENCY = 903900000
+# LORA_GW_DR = &quot;SF7BW125&quot; # DR_3
+# LORA_NODE_DR = 3
+</code></pre>
+<h4 id="el-ficherobilioteca-nanogatewaypy">El fichero/bilioteca <em>nanogateway.py</em></h4>
+<p>La biblioteca <em>nanogateway.py</em> implementa la lógica de recepción, generación y
+reenvío de paquetes de datos LoRa. No requiere ninguna configuración, se sugiere
+que el estudiante observe e intente enteder su fucionamiento y funcionalidad
+ofrecida.</p>
+<pre><code class="language-python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway. Can be used for both EU868 and US915. &quot;&quot;&quot;
+
+import errno
+import machine
+import ubinascii
+import ujson
+import uos
+import usocket
+import utime
+import _thread
+from micropython import const
+from network import LoRa
+from network import WLAN
+from machine import Timer
+
+
+PROTOCOL_VERSION = const(2)
+
+PUSH_DATA = const(0)
+PUSH_ACK = const(1)
+PULL_DATA = const(2)
+PULL_ACK = const(4)
+PULL_RESP = const(3)
+
+TX_ERR_NONE = 'NONE'
+TX_ERR_TOO_LATE = 'TOO_LATE'
+TX_ERR_TOO_EARLY = 'TOO_EARLY'
+TX_ERR_COLLISION_PACKET = 'COLLISION_PACKET'
+TX_ERR_COLLISION_BEACON = 'COLLISION_BEACON'
+TX_ERR_TX_FREQ = 'TX_FREQ'
+TX_ERR_TX_POWER = 'TX_POWER'
+TX_ERR_GPS_UNLOCKED = 'GPS_UNLOCKED'
+
+UDP_THREAD_CYCLE_MS = const(20)
+
+STAT_PK = {
+    'stat': {
+        'time': '',
+        'lati': 0,
+        'long': 0,
+        'alti': 0,
+        'rxnb': 0,
+        'rxok': 0,
+        'rxfw': 0,
+        'ackr': 100.0,
+        'dwnb': 0,
+        'txnb': 0
+    }
+}
+
+RX_PK = {
+    'rxpk': [{
+        'time': '',
+        'tmst': 0,
+        'chan': 0,
+        'rfch': 0,
+        'freq': 0,
+        'stat': 1,
+        'modu': 'LORA',
+        'datr': '',
+        'codr': '4/5',
+        'rssi': 0,
+        'lsnr': 0,
+        'size': 0,
+        'data': ''
+    }]
+}
+
+TX_ACK_PK = {
+    'txpk_ack': {
+        'error': ''
+    }
+}
+
+
+class NanoGateway:
+    &quot;&quot;&quot;
+    Nano gateway class, set up by default for use with TTN, but can be configured
+    for any other network supporting the Semtech Packet Forwarder.
+    Only required configuration is wifi_ssid and wifi_password which are used for
+    connecting to the Internet.
+    &quot;&quot;&quot;
+
+    def __init__(self, id, frequency, datarate, ssid, password, server, port, ntp_server='pool.ntp.org', ntp_period=3600):
+        self.id = id
+        self.server = server
+        self.port = port
+
+        self.frequency = frequency
+        self.datarate = datarate
+
+        self.ssid = ssid
+        self.password = password
+
+        self.ntp_server = ntp_server
+        self.ntp_period = ntp_period
+
+        self.server_ip = None
+
+        self.rxnb = 0
+        self.rxok = 0
+        self.rxfw = 0
+        self.dwnb = 0
+        self.txnb = 0
+
+        self.sf = self._dr_to_sf(self.datarate)
+        self.bw = self._dr_to_bw(self.datarate)
+
+        self.stat_alarm = None
+        self.pull_alarm = None
+        self.uplink_alarm = None
+
+        self.wlan = None
+        self.sock = None
+        self.udp_stop = False
+        self.udp_lock = _thread.allocate_lock()
+
+        self.lora = None
+        self.lora_sock = None
+
+        self.rtc = machine.RTC()
+
+    def start(self):
+        &quot;&quot;&quot;
+        Starts the LoRaWAN nano gateway.
+        &quot;&quot;&quot;
+
+        self._log('Starting LoRaWAN nano gateway with id: {}', self.id)
+
+        # setup WiFi as a station and connect
+        self.wlan = WLAN(mode=WLAN.STA)
+        self._connect_to_wifi()
+
+        # get a time sync
+        self._log('Syncing time with {} ...', self.ntp_server)
+        self.rtc.ntp_sync(self.ntp_server, update_period=self.ntp_period)
+        while not self.rtc.synced():
+            utime.sleep_ms(50)
+        self._log(&quot;RTC NTP sync complete&quot;)
+
+        # get the server IP and create an UDP socket
+        self.server_ip = usocket.getaddrinfo(self.server, self.port)[0][-1]
+        self._log('Opening UDP socket to {} ({}) port {}...', self.server, self.server_ip[0], self.server_ip[1])
+        self.sock = usocket.socket(usocket.AF_INET, usocket.SOCK_DGRAM, usocket.IPPROTO_UDP)
+        self.sock.setsockopt(usocket.SOL_SOCKET, usocket.SO_REUSEADDR, 1)
+        self.sock.setblocking(False)
+
+        # push the first time immediatelly
+        self._push_data(self._make_stat_packet())
+
+        # create the alarms
+        self.stat_alarm = Timer.Alarm(handler=lambda t: self._push_data(self._make_stat_packet()), s=60, periodic=True)
+        self.pull_alarm = Timer.Alarm(handler=lambda u: self._pull_data(), s=25, periodic=True)
+
+        # start the UDP receive thread
+        self.udp_stop = False
+        _thread.start_new_thread(self._udp_thread, ())
+
+        # initialize the LoRa radio in LORA mode
+        self._log('Setting up the LoRa radio at {} Mhz using {}', self._freq_to_float(self.frequency), self.datarate)
+        self.lora = LoRa(
+            mode=LoRa.LORA,
+            frequency=self.frequency,
+            bandwidth=self.bw,
+            sf=self.sf,
+            preamble=8,
+            coding_rate=LoRa.CODING_4_5,
+            tx_iq=True
+        )
+
+        # create a raw LoRa socket
+        self.lora_sock = usocket.socket(usocket.AF_LORA, usocket.SOCK_RAW)
+        self.lora_sock.setblocking(False)
+        self.lora_tx_done = False
+
+        self.lora.callback(trigger=(LoRa.RX_PACKET_EVENT | LoRa.TX_PACKET_EVENT), handler=self._lora_cb)
+        self._log('LoRaWAN nano gateway online')
+
+    def stop(self):
+        &quot;&quot;&quot;
+        Stops the LoRaWAN nano gateway.
+        &quot;&quot;&quot;
+
+        self._log('Stopping...')
+
+        # send the LoRa radio to sleep
+        self.lora.callback(trigger=None, handler=None)
+        self.lora.power_mode(LoRa.SLEEP)
+
+        # stop the NTP sync
+        self.rtc.ntp_sync(None)
+
+        # cancel all the alarms
+        self.stat_alarm.cancel()
+        self.pull_alarm.cancel()
+
+        # signal the UDP thread to stop
+        self.udp_stop = True
+        while self.udp_stop:
+            utime.sleep_ms(50)
+
+        # disable WLAN
+        self.wlan.disconnect()
+        self.wlan.deinit()
+
+    def _connect_to_wifi(self):
+        self.wlan.connect(self.ssid, auth=(None, self.password))
+        while not self.wlan.isconnected():
+            utime.sleep_ms(50)
+        self._log('WiFi connected to: {}', self.ssid)
+
+    def _dr_to_sf(self, dr):
+        sf = dr[2:4]
+        if sf[1] not in '0123456789':
+            sf = sf[:1]
+        return int(sf)
+
+    def _dr_to_bw(self, dr):
+        bw = dr[-5:]
+        if bw == 'BW125':
+            return LoRa.BW_125KHZ
+        elif bw == 'BW250':
+            return LoRa.BW_250KHZ
+        else:
+            return LoRa.BW_500KHZ
+
+    def _sf_bw_to_dr(self, sf, bw):
+        dr = 'SF' + str(sf)
+        if bw == LoRa.BW_125KHZ:
+            return dr + 'BW125'
+        elif bw == LoRa.BW_250KHZ:
+            return dr + 'BW250'
+        else:
+            return dr + 'BW500'
+
+    def _lora_cb(self, lora):
+        &quot;&quot;&quot;
+        LoRa radio events callback handler.
+        &quot;&quot;&quot;
+
+        events = lora.events()
+        if events &amp; LoRa.RX_PACKET_EVENT:
+            self.rxnb += 1
+            self.rxok += 1
+            rx_data = self.lora_sock.recv(256)
+            stats = lora.stats()
+            packet = self._make_node_packet(rx_data, self.rtc.now(), stats.rx_timestamp, stats.sfrx, self.bw, stats.rssi, stats.snr)
+            packet = self.frequency_rounding_fix(packet, self.frequency)
+            self._push_data(packet)
+            self._log('Received packet: {}', packet)
+            self.rxfw += 1
+        if events &amp; LoRa.TX_PACKET_EVENT:
+            self.txnb += 1
+            lora.init(
+                mode=LoRa.LORA,
+                frequency=self.frequency,
+                bandwidth=self.bw,
+                sf=self.sf,
+                preamble=8,
+                coding_rate=LoRa.CODING_4_5,
+                tx_iq=True
+                )
+
+    def _freq_to_float(self, frequency):
+        &quot;&quot;&quot;
+        MicroPython has some inprecision when doing large float division.
+        To counter this, this method first does integer division until we
+        reach the decimal breaking point. This doesn't completely elimate
+        the issue in all cases, but it does help for a number of commonly
+        used frequencies.
+        &quot;&quot;&quot;
+
+        divider = 6
+        while divider &gt; 0 and frequency % 10 == 0:
+            frequency = frequency // 10
+            divider -= 1
+        if divider &gt; 0:
+            frequency = frequency / (10 ** divider)
+        return frequency
+
+    def frequency_rounding_fix(self, packet, frequency):
+        freq = str(frequency)[0:3] + '.' + str(frequency)[3]
+
+        start = packet.find(&quot;freq\&quot;:&quot;)
+        end = packet.find(&quot;,&quot;, start)
+
+        packet = packet[:start + 7] + freq + packet[end:]
+
+        return packet
+
+    def _make_stat_packet(self):
+        now = self.rtc.now()
+        STAT_PK[&quot;stat&quot;][&quot;time&quot;] = &quot;%d-%02d-%02d %02d:%02d:%02d GMT&quot; % (now[0], now[1], now[2], now[3], now[4], now[5])
+        STAT_PK[&quot;stat&quot;][&quot;rxnb&quot;] = self.rxnb
+        STAT_PK[&quot;stat&quot;][&quot;rxok&quot;] = self.rxok
+        STAT_PK[&quot;stat&quot;][&quot;rxfw&quot;] = self.rxfw
+        STAT_PK[&quot;stat&quot;][&quot;dwnb&quot;] = self.dwnb
+        STAT_PK[&quot;stat&quot;][&quot;txnb&quot;] = self.txnb
+        return ujson.dumps(STAT_PK)
+
+    def _make_node_packet(self, rx_data, rx_time, tmst, sf, bw, rssi, snr):
+        RX_PK[&quot;rxpk&quot;][0][&quot;time&quot;] = &quot;%d-%02d-%02dT%02d:%02d:%02d.%dZ&quot; % (rx_time[0], rx_time[1], rx_time[2], rx_time[3], rx_time[4], rx_time[5], rx_time[6])
+        RX_PK[&quot;rxpk&quot;][0][&quot;tmst&quot;] = tmst
+        RX_PK[&quot;rxpk&quot;][0][&quot;freq&quot;] = self._freq_to_float(self.frequency)
+        RX_PK[&quot;rxpk&quot;][0][&quot;datr&quot;] = self._sf_bw_to_dr(sf, bw)
+        RX_PK[&quot;rxpk&quot;][0][&quot;rssi&quot;] = rssi
+        RX_PK[&quot;rxpk&quot;][0][&quot;lsnr&quot;] = snr
+        RX_PK[&quot;rxpk&quot;][0][&quot;data&quot;] = ubinascii.b2a_base64(rx_data)[:-1]
+        RX_PK[&quot;rxpk&quot;][0][&quot;size&quot;] = len(rx_data)
+        return ujson.dumps(RX_PK)
+
+    def _push_data(self, data):
+        token = uos.urandom(2)
+        packet = bytes([PROTOCOL_VERSION]) + token + bytes([PUSH_DATA]) + ubinascii.unhexlify(self.id) + data
+        with self.udp_lock:
+            try:
+                self.sock.sendto(packet, self.server_ip)
+            except Exception as ex:
+                self._log('Failed to push uplink packet to server: {}', ex)
+
+    def _pull_data(self):
+        token = uos.urandom(2)
+        packet = bytes([PROTOCOL_VERSION]) + token + bytes([PULL_DATA]) + ubinascii.unhexlify(self.id)
+        with self.udp_lock:
+            try:
+                self.sock.sendto(packet, self.server_ip)
+            except Exception as ex:
+                self._log('Failed to pull downlink packets from server: {}', ex)
+
+    def _ack_pull_rsp(self, token, error):
+        TX_ACK_PK[&quot;txpk_ack&quot;][&quot;error&quot;] = error
+        resp = ujson.dumps(TX_ACK_PK)
+        packet = bytes([PROTOCOL_VERSION]) + token + bytes([PULL_ACK]) + ubinascii.unhexlify(self.id) + resp
+        with self.udp_lock:
+            try:
+                self.sock.sendto(packet, self.server_ip)
+            except Exception as ex:
+                self._log('PULL RSP ACK exception: {}', ex)
+
+    def _send_down_link(self, data, tmst, datarate, frequency):
+        &quot;&quot;&quot;
+        Transmits a downlink message over LoRa.
+        &quot;&quot;&quot;
+
+        self.lora.init(
+            mode=LoRa.LORA,
+            frequency=frequency,
+            bandwidth=self._dr_to_bw(datarate),
+            sf=self._dr_to_sf(datarate),
+            preamble=8,
+            coding_rate=LoRa.CODING_4_5,
+            tx_iq=True
+            )
+        #while utime.ticks_cpu() &lt; tmst:
+        #    pass
+        self.lora_sock.send(data)
+        self._log(
+            'Sent downlink packet scheduled on {:.3f}, at {:.3f} Mhz using {}: {}',
+            tmst / 1000000,
+            self._freq_to_float(frequency),
+            datarate,
+            data
+        )
+
+    def _send_down_link_class_c(self, data, datarate, frequency):
+        self.lora.init(
+            mode=LoRa.LORA,
+            frequency=frequency,
+            bandwidth=self._dr_to_bw(datarate),
+            sf=self._dr_to_sf(datarate),
+            preamble=8,
+            coding_rate=LoRa.CODING_4_5,
+            tx_iq=True,
+            device_class=LoRa.CLASS_C
+            )
+
+        self.lora_sock.send(data)
+        self._log(
+            'Sent downlink packet scheduled on {:.3f}, at {:.3f} Mhz using {}: {}',
+            utime.time(),
+            self._freq_to_float(frequency),
+            datarate,
+            data
+        )
+
+    def _udp_thread(self):
+        &quot;&quot;&quot;
+        UDP thread, reads data from the server and handles it.
+        &quot;&quot;&quot;
+
+        while not self.udp_stop:
+            try:
+                data, src = self.sock.recvfrom(1024)
+                _token = data[1:3]
+                _type = data[3]
+                if _type == PUSH_ACK:
+                    self._log(&quot;Push ack&quot;)
+                elif _type == PULL_ACK:
+                    self._log(&quot;Pull ack&quot;)
+                elif _type == PULL_RESP:
+                    self.dwnb += 1
+                    ack_error = TX_ERR_NONE
+                    tx_pk = ujson.loads(data[4:])
+                    if &quot;tmst&quot; in data:
+                        tmst = tx_pk[&quot;txpk&quot;][&quot;tmst&quot;]
+                        t_us = tmst - utime.ticks_cpu() - 15000
+                        if t_us &lt; 0:
+                            t_us += 0xFFFFFFFF
+                        if t_us &lt; 20000000:
+                            self.uplink_alarm = Timer.Alarm(
+                                handler=lambda x: self._send_down_link(
+                                    ubinascii.a2b_base64(tx_pk[&quot;txpk&quot;][&quot;data&quot;]),
+                                    tx_pk[&quot;txpk&quot;][&quot;tmst&quot;] - 50, tx_pk[&quot;txpk&quot;][&quot;datr&quot;],
+                                    int(tx_pk[&quot;txpk&quot;][&quot;freq&quot;] * 1000) * 1000
+                                ),
+                                us=t_us
+                            )
+                        else:
+                            ack_error = TX_ERR_TOO_LATE
+                            self._log('Downlink timestamp error!, t_us: {}', t_us)
+                    else:
+                        self.uplink_alarm = Timer.Alarm(
+                            handler=lambda x: self._send_down_link_class_c(
+                                ubinascii.a2b_base64(tx_pk[&quot;txpk&quot;][&quot;data&quot;]),
+                                tx_pk[&quot;txpk&quot;][&quot;datr&quot;],
+                                int(tx_pk[&quot;txpk&quot;][&quot;freq&quot;] * 1000) * 1000
+                            ),
+                            us=50
+                        )
+                    self._ack_pull_rsp(_token, ack_error)
+                    self._log(&quot;Pull rsp&quot;)
+            except usocket.timeout:
+                pass
+            except OSError as ex:
+                if ex.errno != errno.EAGAIN:
+                    self._log('UDP recv OSError Exception: {}', ex)
+            except Exception as ex:
+                self._log('UDP recv Exception: {}', ex)
+
+            # wait before trying to receive again
+            utime.sleep_ms(UDP_THREAD_CYCLE_MS)
+
+        # we are to close the socket
+        self.sock.close()
+        self.udp_stop = False
+        self._log('UDP thread stopped')
+
+    def _log(self, message, *args):
+        &quot;&quot;&quot;
+        Outputs a log message to stdout.
+        &quot;&quot;&quot;
+
+        print('[{:&gt;10.3f}] {}'.format(
+            utime.ticks_ms() / 1000,
+            str(message).format(*args)
+            ))
+</code></pre>
+<h4 id="registro-en-el-servidor-lorawan-the-things-network-ttn">Registro en el servidor LoRaWAN (<em>The Things Network -- TTN</em>)</h4>
+<p>Para configurar nuestro <em>gateway</em> en TTN, navegaremos a su página web y
+crearemos una nueva cuenta, introduciendo un nombre de usuario, contraseña y
+dirección de correo que nos permitirá validar dicha información, como se muestra
+en la Figura: </p>
+<p><img alt="ttn1" src="img/ttn1.png" /></p>
+<p>Con la cuenta ya creada, podemos proceder con el
+registro del <em>gateway</em> desde la consola TTN.</p>
+<h4 id="registro-del-gateway-en-the-things-network-ttn">Registro del <em>gateway</em> en (<em>The Things Network -- TTN</em>)</h4>
+<p>En la consola TTN existen dos opciones: <em>applications</em> y <em>gateways</em>,
+como muestra la Figura:</p>
+<p><img alt="ttn2" src="img/ttn2.png" /></p>
+<p>Selecciona la opción <em>gateways</em> y, dentro de ella, <em>Register Gateway</em>.
+Esto permitirá registrar un nuevo <em>gateway</em>.</p>
+<p>En esta opción, configuraremos los parámetros que se muestran en la
+siguiente tabla:</p>
+<table>
+<thead>
+<tr>
+<th><em>Opción</em></th>
+<th><em>Valor</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protocolo</td>
+<td>Packet Forwarder</td>
+</tr>
+<tr>
+<td>Gateway EUI</td>
+<td>Definido por el usuario (debe coincidir con el obtenido en <em>config.py</em>)</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Definido por el usuario</td>
+</tr>
+<tr>
+<td>Frequency Plan</td>
+<td>Spain/EU 868 Mhz</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>Definido por el usuario</td>
+</tr>
+<tr>
+<td>Antena</td>
+<td>Indoor o outdoor</td>
+</tr>
+</tbody>
+</table>
+<p>Una vez configurado, registramos el <em>gateway</em> con el botón <em>Register Gateway</em>;
+una vez registrado, navega a la opción <em>Gateway Settiings</em> y selecciona una
+dirección de router que coincida con la usada en la configuración del mismo (en
+este caso, <em>router.eu.thethings.network</em>, véase la siguiente Figura).</p>
+<p><img alt="ttn4" src="img/ttn4.png" /></p>
+<p>En este punto, si todo ha ido bien, el <em>gateway</em> debería estar configurado y
+registrado en TTN. Pasamos a continuación a la <em>configuración de los nodos
+LoRa</em>.</p>
+<h4 id="configuracion-del-nodo-lorawan">Configuración del nodo LoRaWAN</h4>
+<p>Existen dos métodos para conectar dispositivos LoPy a nuestro <em>gateway</em>: OTAA
+(<em>Over The Air Activation</em>) y ABP (<em>Activation By Personalization</em>), cuyas
+instrucciones de confguración se muestran en las siguientes secciones.</p>
+<h4 id="configuracion-del-nodo-via-otaa-over-the-air-activation">Configuración del nodo vía OTAA (<em>Over The Air Activation</em>)</h4>
+<p>Si nuestro nodo LoPy conecta una aplicación (a través de TTN) usando OTAA, la
+configuración de red se extrae usando un protocolo de <em>handshake</em> entre la
+LoPy y el servidor de red. Obsérvese como las claves de red derivadas usando
+OTAA son específicas para el dispositivo y se utilizan para encriptar y
+verificar las transmisiones a nivel de red:</p>
+<pre><code class="language-python">&quot;&quot;&quot; OTAA Node example compatible with the LoPy Nano Gateway &quot;&quot;&quot;
+
+from network import LoRa
+import socket
+import ubinascii
+import struct
+import time
+
+# Initialize LoRa in LORAWAN mode.
+lora = LoRa(mode=LoRa.LORAWAN)
+
+# create an OTA authentication params
+dev_eui = ubinascii.unhexlify('AABBCCDDEEFF7778') # these settings can be found from TTN
+app_eui = ubinascii.unhexlify('70B3D57EF0003BFD') # these settings can be found from TTN
+app_key = ubinascii.unhexlify('36AB7625FE77776881683B495300FFD6') # these settings can be found from TTN
+
+# set the 3 default channels to the same frequency (must be before sending the OTAA join request)
+lora.add_channel(0, frequency=868100000, dr_min=0, dr_max=5)
+lora.add_channel(1, frequency=868100000, dr_min=0, dr_max=5)
+lora.add_channel(2, frequency=868100000, dr_min=0, dr_max=5)
+
+# join a network using OTAA
+lora.join(activation=LoRa.OTAA, auth=(dev_eui, app_eui, app_key), timeout=0)
+
+# wait until the module has joined the network
+while not lora.has_joined():
+    time.sleep(2.5)
+    print('Not joined yet...')
+
+# remove all the non-default channels
+for i in range(3, 16):
+    lora.remove_channel(i)
+
+# create a LoRa socket
+s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+
+# set the LoRaWAN data rate
+s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
+
+# make the socket non-blocking
+s.setblocking(False)
+
+time.sleep(5.0)
+
+&quot;&quot;&quot; Your own code can be written below! &quot;&quot;&quot;
+
+for i in range (200):
+    s.send(b'PKT #' + bytes([i]))
+    time.sleep(4)
+    rx = s.recv(256)
+    if rx:
+        print(rx)
+    time.sleep(6)
+</code></pre>
+<h4 id="configuracion-del-nodo-via-abp-activation-by-personalization">Configuración del nodo vía ABP (<em>Activation By Personalization</em>)</h4>
+<p>Si se escoge el modo de unión a la red ABP, se requiere que el usuario defina
+los siguietnes valores, que deben definirse en el <em>firmware</em> y especificarse en
+TTN:</p>
+<ul>
+<li>Dirección del dispositivo.</li>
+<li>Clave de sesión de aplicación (<em>Application Session Key</em>).</li>
+<li>Clave de sesión de red (<em>Network Session Key</em>).</li>
+</ul>
+<p>El siguiente código muestra un ejemplo de configuración de nodo usando ABP:</p>
+<pre><code class="language-python">&quot;&quot;&quot; ABP Node example compatible with the LoPy Nano Gateway &quot;&quot;&quot;
+
+from network import LoRa
+import socket
+import ubinascii
+import struct
+import time
+
+# Initialise LoRa in LORAWAN mode.
+lora = LoRa(mode=LoRa.LORAWAN)
+
+# create an ABP authentication params
+dev_addr = struct.unpack(&quot;&gt;l&quot;, ubinascii.unhexlify('2601147D'))[0] # these settings can be found from TTN
+nwk_swkey = ubinascii.unhexlify('3C74F4F40CAE2221303BC24284FCF3AF') # these settings can be found from TTN
+app_swkey = ubinascii.unhexlify('0FFA7072CC6FF69A102A0F39BEB0880F') # these settings can be found from TTN
+
+# join a network using ABP (Activation By Personalisation)
+lora.join(activation=LoRa.ABP, auth=(dev_addr, nwk_swkey, app_swkey))
+
+# remove all the non-default channels
+for i in range(3, 16):
+    lora.remove_channel(i)
+
+# set the 3 default channels to the same frequency
+lora.add_channel(0, frequency=868100000, dr_min=0, dr_max=5)
+lora.add_channel(1, frequency=868100000, dr_min=0, dr_max=5)
+lora.add_channel(2, frequency=868100000, dr_min=0, dr_max=5)
+
+# create a LoRa socket
+s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+
+# set the LoRaWAN data rate
+s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
+
+# make the socket non-blocking
+s.setblocking(False)
+
+&quot;&quot;&quot; Your own code can be written below! &quot;&quot;&quot;
+
+for i in range (200):
+    s.send(b'PKT #' + bytes([i]))
+    time.sleep(4)
+    rx = s.recv(256)
+    if rx:
+        print(rx)
+    time.sleep(6)
+</code></pre>
+<h4 id="aplicaciones-ttn">Aplicaciones TTN</h4>
+<p>Cno los nodos y <em>gateways</em> ya configurados, podemos proceder al desarrollo de
+una <em>aplicación</em> en TTN (esto es, el procesamiento que sufren los datos LoRa
+una vez recibidos por parte de TTN). Aunque existen multitud de configuraciones
+disponibles, nosotros trabajaremos con una integración de nuestra aplicación con
+peticiones HTTP de salida.</p>
+<h4 id="registro-de-una-nueva-aplicacion">Registro de una nueva aplicación</h4>
+<p>Seleccionando la pestaña <em>Applications</em> en la consola TTN, aparecerá una
+pantalla para el registro de aplicaciones. Al clicar en <em>Register</em> aparecerá
+una nueva ventana como la mostrada en la siguiente Figura.</p>
+<p><img alt="ttn5" src="img/ttn5.png" /></p>
+<p>Introduce en el formulario un ID de aplicación único y un descriptor y manejador.</p>
+<h4 id="registro-de-dispositivos">Registro de dispositivos</h4>
+<p>Para conectar nodos al <em>gateway</em>, los dispositivos deben añadirse a la propia
+aplicación. Para ello, navega a la pestaña <em>Devices</em> en la página <em>Application</em>
+y pulsa el botón <em>Register Device</em>. En el panel que aparecerá, completa los
+campos <em>Device ID</em> y <em>Device EUI</em>; el primero es seleccionado por el usuario y
+es única para cada dispositivo en esta aplicación; el segundo también es
+seleccionable por el usuario y debe consistir en un valor de 8 bytes, dados en
+hexadecimal.  Una vez añadido, modifica el método de activación (<em>Activation
+Method</em>) y selecciona <em>OTAA</em> o <em>ABP</em>, en función de tu código del nodo (pestaña
+<em>Settings</em>). </p>
+<h4 id="integracion-con-aplicacionesservicios-externos">Integración con aplicaciones/servicios externos</h4>
+<p>En este punto, los datos deberían estar siendo recibidos por el <em>backend</em> TTN.
+Podemos indicar a TTN cómo reenviar estos datos a un servicio externo. Para
+ello, utilizaremos la pestaña <em>Integrations</em> dentro de las preferencias de la
+nueva aplicación. Añadiremos una nueva integración de tipo HTTP, en la que,
+entre otros valores, deberemos indicar la URL destino de nuestros envíos, el
+método de envío (por ejemplo, POST) y en caso de ser necesaria, información
+sobre autenticación. TTN reenviará los datos recibidos al servidor indicado tan
+pronto como nuestros nodos LoPy comiencen a enviar datos.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Sigue los pasos anteriormente descritos para configurar un <em>gateway</em>
+LoRaWAN, registrándolo en TTN, y para la configuración de al menos uno nodo
+LoRa que, a través del <em>gateway</em> configurado, envíe datos a TTN.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
