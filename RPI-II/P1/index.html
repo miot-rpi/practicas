@@ -156,9 +156,8 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-1-programacion-con-sockets-en-python">Práctica 1. Programación con sockets en Python</a></li>
+        <li class="main active"><a href="#apendice-a-la-practica-1-programacion-con-sockets-en-python">Apéndice a la Práctica 1. Programación con sockets en Python</a></li>
             <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
             <li><a href="#la-api-de-sockets-en-python">La API de sockets en Python</a></li>
             <li><a href="#sockets-tcp">Sockets TCP</a></li>
             <li><a href="#clienteservidor-echo-tcp">Cliente/servidor echo TCP</a></li>
@@ -167,15 +166,15 @@
             <li><a href="#capturas-de-trafico-via-wireshark">Capturas de tráfico vía Wireshark</a></li>
             <li><a href="#sockets-udp">Sockets UDP</a></li>
             <li><a href="#envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</a></li>
-            <li><a href="#tarea-entregable">Tarea entregable</a></li>
+            <li><a href="#tarea">Tarea</a></li>
             <li><a href="#ejemplo-de-sistema-clienteservidor-multi-hilo">Ejemplo de sistema cliente/servidor multi-hilo</a></li>
-            <li><a href="#tarea-entregable-opcional">Tarea entregable opcional</a></li>
-            <li><a href="#tarea-entregable-opcional_1">Tarea entregable opcional</a></li>
+            <li><a href="#tarea-opcional">Tarea opcional</a></li>
+            <li><a href="#tarea-opcional_1">Tarea opcional</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="practica-1-programacion-con-sockets-en-python">Práctica 1. Programación con sockets en Python</h1>
+<h1 id="apendice-a-la-practica-1-programacion-con-sockets-en-python">Apéndice a la Práctica 1. Programación con sockets en Python</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Familiarizarse con la API de <em>sockets</em> en Python.</li>
@@ -189,27 +188,13 @@
   utilizando TCP y UDP.</li>
 <li>Implementar servidores multi-hilo en Python.</li>
 </ul>
-<h2 id="introduccion">Introducción</h2>
-<p>La historia de los <em>sockets</em> se remonta al origen de ARPANET, en 1971, y su
-posterior estandarización en forma de API dentro del sistema operativo
-<em>Berkeley Software Distribution (BSD)</em>, liberado en 1983, bajo el nombre
-de <em>sockets de Berkeley</em>.</p>
-<p>Con la popularización de Internet en los años 90, y de la mano de la
-<em>World Wide Web</em>, la programación de red sufrió también una notable evolución.
-Los servidores web y los navegadores no fueron (ni son) las únicas aplicaciones
-basadas en <em>sockets</em>. De hecho, los sistemas cliente/servidor son a día de hoy
-ubicuos e incluyen, por supuesto, a todos los protocolos de alto nivel que
-dan soporte a Internet de las Cosas. De hecho, a día de hoy, aunque los 
-potocolos de alto nivel (capa de aplicación) han evolucionado hasta niveles
-de sofisticación no considerados en sus inicios, la API de bajo nivel sobre
-la que se basan se mantiene inalterada.</p>
-<p>El tipo más común de aplicaciones basadas en <em>sockets</em> se basa en el paradigma
-cliente/servidor, donde una de las partes actúa como <strong>servidor</strong>, esperando
-pasivamente conexiones desde un conjunto de uno o más <strong>clientes</strong>. A 
-continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
-utilizando <em>sockets Berkeley</em>. Existen también los llamados <em>Unix domain
-sockets</em>, que permiten la comunicación directa entre procesos en el mismo
-<em>host</em>, aunque quedan fuera de nuestro interés en el ámbito de IoT.</p>
+<div class="admonition danger">
+<p class="admonition-title">Nota</p>
+<p>Ofrecemos esta práctica como anexo y referencia para complementar los contenidos
+ofrecidos en la Práctica 1. Su comprensión y desarrollo es opcional, aunque puede
+ser de utilidad para alumnos con poca experiencia en el lenguaje C o en programación
+con sockets.</p>
+</div>
 <h2 id="la-api-de-sockets-en-python">La API de sockets en Python</h2>
 <p>El <a href="https://docs.python.org/3/library/socket.html">módulo socket</a> de Python 
 proporciona una interfaz completa para trabajar con la <a href="https://en.wikipedia.org/wiki/Berkeley_sockets">API de sockets
@@ -647,9 +632,9 @@ while True:
 en busca de los datos binarios empaquetados. Experimenta con otros tipos
 de datos y <em>endianess</em> y observa las diferencias.</p>
 </div>
-<h2 id="tarea-entregable">Tarea entregable</h2>
+<h2 id="tarea">Tarea</h2>
 <div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
+<p class="admonition-title">Tarea</p>
 <p>Se pide diseñar un sistema cliente/servidor programado en Python, que 
 simule el envío de un conjunto de datos sensorizados desde un cliente
 hacia un servidor. El protocolo a utilizar (formato de datos enviado
@@ -744,16 +729,16 @@ creación de hilos para atender cada petición entrante. Conecta simultáneament
 múltiples clientes y observa el estado de los sockets mediante las herramientas
 correspondientes.</p>
 </div>
-<h2 id="tarea-entregable-opcional">Tarea entregable opcional</h2>
+<h2 id="tarea-opcional">Tarea opcional</h2>
 <div class="admonition danger">
-<p class="admonition-title">Tarea entregable opcional</p>
+<p class="admonition-title">Tarea opcional</p>
 <p>Modifica tu primer entregable para considerar una implementación multihilo
 del servidor TCP, siguiendo las directrices de los códigos de ejemplo 
 anteriormente proporcionados.</p>
 </div>
-<h2 id="tarea-entregable-opcional_1">Tarea entregable opcional</h2>
+<h2 id="tarea-opcional_1">Tarea opcional</h2>
 <div class="admonition danger">
-<p class="admonition-title">Tarea entregable opcional</p>
+<p class="admonition-title">Tarea opcional</p>
 <p>Modifica el protocolo de envío para que tu aplicación cliente/servidor 
 UDP garantice en la medida de lo posible la recepción de los paquetes
 enviados desde el cliente, así como su recepción en orden. Vuelve a analizar
