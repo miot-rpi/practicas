@@ -22,17 +22,20 @@
 
 # RPI-II
 
-| Práctica | Día | Título                                       |
-|----------|-----|----------------------------------------------|
-| 1        |30/09|[Sockets TCP/UDP (Linux)](RPI-II/P1/index.md) |
-| 2        |07/10|[Sockets TCP/UDP (ESP32)](RPI-II/P2/index.md) |
-| 3        |14/10|[TLS y DTLS](RPI-II/P3/index.md)              |
-| 4        |21/10|[Websockets](RPI-II/P4/index.md)              |
-| 5        |28/11|[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
-| 6        |04/11|[MQTT (I)](RPI-II/P6/index.md)                |
-| 6        |11/11|[MQTT (II)](RPI-II/P6-II/index.md)            |
-| 7        |18/11|[CoAP](RPI-II/P7/index.md)                    |
-| 8        |25/11|[LWM2M (I)](RPI-II/P8/index.md)               |
-| 8        |02/12|LWM2M (II)                                    |
-| 9        |09/12|[Node-RED](RPI-II/P9/index.md)                |
-| 10       |16/12|[Entornos Cloud / Frameworks IoT](RPI-II/P10/index.md) |
+| Práctica | Día   | Título                                       |
+|----------|-------|----------------------------------------------|
+| -        | 19/09 |Clase de teoría                               |
+| 1        | 26/09 |[Sockets TCP/UDP (Linux). Node-RED](RPI-II/P1/index.md) |
+| 1        | 03/10 |[Sockets TCP/UDP (ESP32). Node-RED](RPI-II/P1/index.md) |
+| 2        | 10/10 |[MQTT (I)](RPI-II/P6/index.md)                |
+| 2        | 17/10 |[MQTT (II)](RPI-II/P6-II/index.md)            |
+| 3        | 24/10 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
+| -        | 31/10 |**FESTIVO**                                   |
+| 3        | 07/11 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
+| -        | 14/11 |**FESTIVO**                                   |
+| 4        | 21/11 |[CoAP](RPI-II/P7/index.md)                    |
+| 4        | 28/11 |[LWM2M (I)](RPI-II/P8/index.md)               |
+| 5        | 05/12 |Gestión de despliegues                        |
+| 6        | 12/12 |[Dasboards](RPI-II/P9/index.md)               |
+|          | 09/01 | Presentaciones orales                        |
+|          | 16/01 | Presentaciones orales                        |
