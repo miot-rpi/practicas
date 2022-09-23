@@ -1,4 +1,4 @@
-# Práctica 1. Programación con sockets en Python
+# Apéndice a la Práctica 1. Programación con sockets en Python
 
 ## Objetivos
 
@@ -13,30 +13,11 @@
   utilizando TCP y UDP.
 * Implementar servidores multi-hilo en Python.
 
-## Introducción
-
-La historia de los *sockets* se remonta al origen de ARPANET, en 1971, y su
-posterior estandarización en forma de API dentro del sistema operativo
-*Berkeley Software Distribution (BSD)*, liberado en 1983, bajo el nombre
-de *sockets de Berkeley*.
-
-Con la popularización de Internet en los años 90, y de la mano de la
-*World Wide Web*, la programación de red sufrió también una notable evolución.
-Los servidores web y los navegadores no fueron (ni son) las únicas aplicaciones
-basadas en *sockets*. De hecho, los sistemas cliente/servidor son a día de hoy
-ubicuos e incluyen, por supuesto, a todos los protocolos de alto nivel que
-dan soporte a Internet de las Cosas. De hecho, a día de hoy, aunque los 
-potocolos de alto nivel (capa de aplicación) han evolucionado hasta niveles
-de sofisticación no considerados en sus inicios, la API de bajo nivel sobre
-la que se basan se mantiene inalterada.
-
-El tipo más común de aplicaciones basadas en *sockets* se basa en el paradigma
-cliente/servidor, donde una de las partes actúa como **servidor**, esperando
-pasivamente conexiones desde un conjunto de uno o más **clientes**. A 
-continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
-utilizando *sockets Berkeley*. Existen también los llamados *Unix domain
-sockets*, que permiten la comunicación directa entre procesos en el mismo
-*host*, aunque quedan fuera de nuestro interés en el ámbito de IoT.
+!!! danger "Nota"
+    Ofrecemos esta práctica como anexo y referencia para complementar los contenidos
+    ofrecidos en la Práctica 1. Su comprensión y desarrollo es opcional, aunque puede
+    ser de utilidad para alumnos con poca experiencia en el lenguaje C o en programación
+    con sockets.
 
 ## La API de sockets en Python
 
@@ -545,9 +526,9 @@ while True:
     en busca de los datos binarios empaquetados. Experimenta con otros tipos
     de datos y *endianess* y observa las diferencias.
 
-## Tarea entregable
+## Tarea 
 
-!!! danger "Tarea entregable"
+!!! danger "Tarea"
     Se pide diseñar un sistema cliente/servidor programado en Python, que 
     simule el envío de un conjunto de datos sensorizados desde un cliente
     hacia un servidor. El protocolo a utilizar (formato de datos enviado
@@ -646,16 +627,16 @@ client.close()
     múltiples clientes y observa el estado de los sockets mediante las herramientas
     correspondientes.
 
-## Tarea entregable opcional
+## Tarea opcional
 
-!!! danger "Tarea entregable opcional"
+!!! danger "Tarea opcional"
     Modifica tu primer entregable para considerar una implementación multihilo
     del servidor TCP, siguiendo las directrices de los códigos de ejemplo 
     anteriormente proporcionados.
 
-## Tarea entregable opcional
+## Tarea opcional
 
-!!! danger "Tarea entregable opcional"
+!!! danger "Tarea opcional"
     Modifica el protocolo de envío para que tu aplicación cliente/servidor 
     UDP garantice en la medida de lo posible la recepción de los paquetes
     enviados desde el cliente, así como su recepción en orden. Vuelve a analizar

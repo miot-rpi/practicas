@@ -1,4 +1,4 @@
-# Práctica 2. Sockets TCP y UDP en ESP-IDF
+# Práctica 1. Programación con sockets en C
 
 ## Objetivos
 
@@ -12,6 +12,30 @@
   la placa ESP32
 
 ## Introducción
+
+La historia de los *sockets* se remonta al origen de ARPANET, en 1971, y su
+posterior estandarización en forma de API dentro del sistema operativo
+*Berkeley Software Distribution (BSD)*, liberado en 1983, bajo el nombre
+de *sockets de Berkeley*.
+
+Con la popularización de Internet en los años 90, y de la mano de la
+*World Wide Web*, la programación de red sufrió también una notable evolución.
+Los servidores web y los navegadores no fueron (ni son) las únicas aplicaciones
+basadas en *sockets*. De hecho, los sistemas cliente/servidor son a día de hoy
+ubicuos e incluyen, por supuesto, a todos los protocolos de alto nivel que
+dan soporte a Internet de las Cosas. De hecho, a día de hoy, aunque los 
+potocolos de alto nivel (capa de aplicación) han evolucionado hasta niveles
+de sofisticación no considerados en sus inicios, la API de bajo nivel sobre
+la que se basan se mantiene inalterada.
+
+El tipo más común de aplicaciones basadas en *sockets* se basa en el paradigma
+cliente/servidor, donde una de las partes actúa como **servidor**, esperando
+pasivamente conexiones desde un conjunto de uno o más **clientes**. A 
+continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
+utilizando *sockets Berkeley*. Existen también los llamados *Unix domain
+sockets*, que permiten la comunicación directa entre procesos en el mismo
+*host*, aunque quedan fuera de nuestro interés en el ámbito de IoT.
+
 
 En la práctica anterior, vimos cómo desarrollar sistemas cliente/servidor
 sencillos utilizando Python, tanto en sus variantes TCP como UDP.
@@ -274,10 +298,14 @@ de cada llamada sigue las directivas de la figura:
 ![flow](img/flow.png)
 
 !!! note "Tarea"
-    Compila (`gcc ejemplo.c -o ejemplo.x`) y ejecuta (`./ejemplo.x`) cada par
+    Compila (utilizando la oren `gcc ejemplo.c -o ejemplo.x` desde
+    una terminal) y a continuación ejecuta (`./ejemplo.x`) cada par
     de códigos y comprueba su funcionamiento. Estudia con detenimiento el uso
     de cada rutina y como efectivamente siguen las directivas marcadas 
-    anteriormente.
+    anteriormente. Si no tienes experiencia en desarrollo en C, consulta las 
+    páginas de manual correspondientes, o con tu profesor, para resolver todas
+    tus dudas. Asegúrate de entender el proceso de compilación, enlazado y 
+    ejecución de un binario.
 
 ### Ejemplo: un cliente TCP
 
@@ -416,6 +444,35 @@ int main(int argc, char *argv[]) {
     Reproduce el funcionamiento del anterior sistema cliente/servidor *echo*
     utilizando UDP.
 
+## Capturas de tráfico vía Wireshark
+
+Wireshark es una herramienta de código abierto ampliamente utilizada para 
+analizar protocolos de comunicación de red en cualquiera de las capas de la pila 
+TCP/IP (como también en otros protocolos). Wireshark implementa un amplio 
+abanico de filtros para definir criterios de búsqueda en las capturas de
+tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtros
+específicos.
+
+Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
+instalación básica Linux), teclea en tu terminal:
+
+```bash
+$ sudo wireshark
+```
+
+Tras el arranque, podemos comenzar una nueva captura de tráfico a través
+del menú `Capture`, opción `Start`. La pantalla de selección de interfaz 
+nos permitirá definir en qué interfaz de red se realizará la captura. En 
+nuestro caso, ya que vamos a comunicar dos procesos en la misma máquina, 
+elegiremos la interfaz de *Loopback* (lo) y comenzaremos la captura.
+
+!!! note "Tarea"
+    Arranca Wireshark y prepara una captura sobre la interfaz de *loopback* de tu máquina.
+    Ejecuta el servidor *echo* TCP y el cliente correspondiente, y analiza
+    el tráfico generado. Especialmente, fíjate en el proceso de establecimiento
+    de conexión en tres vías, paquetes de *Acknowledge* tras el envío de cada
+    mensaje y, en general, en cualquier otro aspecto que consideres de interés.
+
 ### Construcción de mensajes
 
 Para enviar mensajes que encapsulen distintos tipos de datos en una sola
@@ -436,15 +493,22 @@ mensaje.x = x; mensaje.y = y;
 send( socketfd, &mensaje, sizeof( mensaje ), 0 );
 ```
 
-!!! note "Tarea"
-    Modifica el cliente UDP para que encapsule y envíe una estructura con 
-    distintos campos (por ejemplo, dos enteros),
-    que sea recibida por un servidor Python siguiendo las
-    directivas de la anterior práctica. En este caso, no utilices campos
-    de tipo flotante (veremos cómo hacerlo más adelante). El objetivo del
-    ejercicio es simplemente comprobar que la comunicación entre un cliente
-    programado en C y un servidor programado en Python es posible. No se 
-    pretende que desarrolles un sistema complejo.
+!!! danger "Tarea entregable"
+    Se pide diseñar un sistema cliente/servidor programado en C, que 
+    simule el envío de un conjunto de datos sensorizados desde un cliente
+    hacia un servidor. El protocolo a utilizar (formato de datos enviado
+    por la red a nivel de aplicación) 
+    debe ser propuesto por el propio alumno y descrito previamente
+    al desarrollo. Se valorará el uso de múltiples tipos de datos tanto en
+    el envío de datos sensorizados como de posibles respuestas por parte
+    del servidor. Se desarrollará una versión utilizando TCP y otra
+    equivalente usando UDP. El cliente enviará los datos de forma periódica y se
+    éstos generarán de modo aleatorio.
+
+    A modo de entrega, se solicitan los códigos desarrollados, así como un 
+    análisis del tráfico generado, considerando la sobrecarga (en bytes 
+    reales enviados) introducida por cada protocolo de capa de transporte.
+
 
 ## Sistemas cliente/servidor en el ESP32
 
