@@ -148,23 +148,20 @@ nc IP 3333
 En el directorio `scripts` dispones también de pequeños ejemplos de clientes y
 servidores TCP Python que puedes también utilizar.
 
-!!! note "Tarea"
+!!! note "Tarea 1.6"
     Experimenta con los ejemplos proporcionados en ESP-IDF (cliente/servidor
     TCP y UDP) y consigue ejecutar todos los elementos en la placa. Si sólo
     dispones de una placa, utiliza la máquina virtual como cliente/servidor
     para comprobar el correcto funcionamiento de cada código.
 
-!!! danger "Tarea entregable"
+!!! note "Tarea 1.7"
     En este punto, deberías disponer de un conjunto de códigos que implementan
-    sistemas cliente/servidor tanto en un host (utilizando Python y/o C) como en
+    sistemas cliente/servidor tanto en un host (utilizando C, y en Node-RED, así como
+    en Python si has seguido el anexo opcional a la práctica) como en
     la placa ESP32 (utilizando C y ESP-IDF), y deberías haber comprobado su
     correcto funcionamiento.
 
     Específicamente, dispondrás de:
-
-    * Sistema cliente/servidor desarrollado en la Práctica 1, escrito en Python
-    e implementando un protocolo básico de aplicacion (tipo de mensaje) propuesto
-    por ti.
 
     * Código básico en C para implementación de un servidor/cliente *echo* 
     programado en C, cuyos códigos se proporcionan en este boletín.
@@ -172,8 +169,8 @@ servidores TCP Python que puedes también utilizar.
     * Códigos básicos en C/ESP-IDF para implementar servidores/clientes
     *echo* sobre el ESP32.
 
-    Como tarea entregable, se pide que adaptes tu entrega de la Práctica 1 para
+    Como tarea, se pide que adaptes tu entrega de la tarea 1.4 para
     que tanto cliente como servidor puedan funcionar en el host (bien usando
-    tu implementación Python, o bien utilizando una nueva implementación en 
+    tu implementación Node-RED (o Python), o bien utilizando una implementación en 
     C) o en el ESP32. Se entregarán los códigos y una breve memoria con capturas
     de tráfico que demuestren el correcto funcionamiento del sistema.

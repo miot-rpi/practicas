@@ -263,9 +263,10 @@ o usando servicios remotos (por ejemplo, *Freeboard*):
 !!! note "Tarea 1.5"
     Se pide estudiar la documentación asociada a Node-RED, tanto en su web
     oficial como en la guía de programación *Node-RED Guide* (específicamente sus 
-    cuatro primeras partes. 
+    cuatro primeras partes). 
     Junto con la explicación proporcionada por el profesor y los anteriores 
-    ejemplos, este estudio permitirá el desarrollo de la tarea.
+    ejemplos, este estudio permitirá el desarrollo de la tarea. Se sugiere experimentar con los
+    nodos TCP (in/out/request) y sus correspondientes versiones UDP.
 
     La tarea consiste en el diseño y desarrollo de un sistema cliente/servidor similar al 
     desarrollado en la tarea 1.4, pero que, en esta ocasión, despliegue sus componentes 
