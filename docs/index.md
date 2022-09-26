@@ -25,8 +25,8 @@
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
 | -        | 19/09 |Clase de teoría                               |
-| 1        | 26/09 |[Sockets TCP/UDP (Linux). Node-RED](RPI-II/P1/index.md) |
-| 1        | 03/10 |[Sockets TCP/UDP (ESP32). Node-RED](RPI-II/P1/index.md) |
+| 1        | 26/09 |[Programación de sockets en C](RPI-II/P1_I/index.md). [Introducción a Node-RED](RPI-II/P1_II/index.md) |
+| 1        | 03/10 |[Sockets TCP/UDP (ESP32). Node-RED](RPI-II/P1_III/index.md). [Programación de sockets en Python](RPI-II/P1_IV/index.md) |
 | 2        | 10/10 |[MQTT (I)](RPI-II/P6/index.md)                |
 | 2        | 17/10 |[MQTT (II)](RPI-II/P6-II/index.md)            |
 | 3        | 24/10 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |

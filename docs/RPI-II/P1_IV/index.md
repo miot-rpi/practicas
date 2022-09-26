@@ -1,4 +1,4 @@
-# Apéndice a la Práctica 1. Programación con sockets en Python
+# Práctica 1 (Apéndice). Programación con sockets en Python
 
 ## Objetivos
 
@@ -17,7 +17,7 @@
     Ofrecemos esta práctica como anexo y referencia para complementar los contenidos
     ofrecidos en la Práctica 1. Su comprensión y desarrollo es opcional, aunque puede
     ser de utilidad para alumnos con poca experiencia en el lenguaje C o en programación
-    con sockets.
+    con sockets, o para prototipar rápidamente sistemas cliente/servidor utilizando Python.
 
 ## La API de sockets en Python
 
