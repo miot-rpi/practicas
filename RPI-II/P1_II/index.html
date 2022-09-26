@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+        <meta name="description" content="None">
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 9 - Master IoT UCM - Prácticas RPI</title>
+        <title>Master IoT UCM - Prácticas RPI</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -20,7 +20,7 @@
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
-    <body>
+    <body class="homepage">
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
@@ -81,7 +81,7 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -121,8 +121,8 @@
     <a href="../P8/">Práctica 8</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 9</a>
+<li >
+    <a href="../P9/">Práctica 9</a>
 </li>
                                     
 <li >
@@ -138,16 +138,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P8/">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li >
-                                <a rel="prev" href="../P10/">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -156,20 +146,26 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-9-node-red">Práctica 9. Node-RED</a></li>
-            <li><a href="#introduccion-y-objetivos">Introducción y objetivos</a></li>
+        <li class="main active"><a href="#practica-1-parte-2-introduccion-a-node-red">Práctica 1 (Parte 2). Introducción a Node-RED</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#introduccion">Introducción</a></li>
             <li><a href="#instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</a></li>
             <li><a href="#ejemplo-1">Ejemplo 1</a></li>
             <li><a href="#ejemplo-2">Ejemplo 2</a></li>
-            <li><a href="#cliente-mqtt-y-despliegue-de-un-panel-de-control">Cliente MQTT y despliegue de un panel de control</a></li>
             <li><a href="#documentacion-adicional">Documentación adicional</a></li>
-            <li><a href="#ejercicio-entregable">Ejercicio entregable</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="practica-9-node-red">Práctica 9. Node-RED</h1>
-<h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
+<h1 id="practica-1-parte-2-introduccion-a-node-red">Práctica 1 (Parte 2). Introducción a Node-RED</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Familiarizarse con la herramienta Node-RED para gestión de flujos, que será utilizada
+  durante el resto de prácticas como herramienta rápida de despliegue de aplicaciones IoT.</li>
+<li>Desarrollar esquemas básicos de sistemas cliente/servidor TCP y UDP
+  utilizando Node-RED.</li>
+</ul>
+<h2 id="introduccion">Introducción</h2>
 <p>Node-RED es una herramienta de código abierto desarrollada inicialmente por IBM 
 y que, estando orientada a flujos de datos, proporciona mecanismos para asociar
 dispositivos hardware, APIs y servicios online dentro de un ecosistema IoT. 
@@ -182,8 +178,7 @@ pueden almacenarse en formato JSON para ser importados a continuación en otras
 instalaciones. Node-RED permite la interconexión de elementos software y 
 hardware mediante virtualmente cualquier protocolo conocido, facilitando el 
 despliegue de infraestructuras IoT.</p>
-<p>El desarrollo de la práctica difiere sobre el utilizado en prácticas anteriores. 
-En este caso, el presente boletín únicamente incluye información e instrucciones
+<p>El presente boletín únicamente incluye información e instrucciones
 para la instalación de la herramienta Node-RED en la máquina virtual del curso
 (alternativamente, es posible instalar Node-RED en cualquier máquina física), 
 así como la propuesta de ejercicio entregable a diseñar e implementar. 
@@ -191,27 +186,21 @@ Se proporcionarán las explicaciones y demostraciones necesarias durante la
 sesión de laboratorio para entender los conceptos básicos relativos a la 
 instalación y uso básico de la herramienta Node-RED. </p>
 <h2 id="instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</h2>
+<p>Las presentes instrucciones son válidas para cualquier distribución basada en
+Debian (incluida Ubuntu). Para otras distribuciones o sistemas operativos, consultad
+la documentación oficial de Node-RED.</p>
 <p>Para instalar Node-RED en la máquina virtual del curso, es suficiente con 
-utilizar el gestor <code>npm</code>:</p>
-<pre><code class="sh">sudo npm install -g --unsafe-perm node-red
+seguir los siguientes pasos.</p>
+<p>En primer lugar, si no lo están ya, instala los requisitos básicos del paquete:</p>
+<pre><code class="sh">sudo apt install build-essential git curl
 </code></pre>
 
-<p>Al finalzar, si todo ha ido bien, deberías observar una salida similar a la
-siguiente:</p>
-<pre><code class="sh">+ node-red@1.1.0
-added 332 packages from 341 contributors in 18.494s
-found 0 vulnerabilities
-</code></pre>
-
-<p>En caso de que se muestre un mensaje indicando que la versión de Node.js no es compatible 
-y que se requiera al menos una versión 14, es preciso actualizarlo mediante los siguientes
-comandos:</p>
-<pre><code class="sh">curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs
+<p>La siguiente línea descarga y ejecuta un script que realizará toda la instalación de dependencias (desinstalando versiones antiguas si es necesario) por ti:</p>
+<pre><code class="sh">bash &lt;(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
 </code></pre>
 
 <p>Para ejecutar Node-RED, una vez instalado, es posible utilizar la orden
-<code>node-red</code> desde cualquier terminal. Para detener el proceso, es suficiente
+<code>node-red-start</code> desde cualquier terminal. Para detener el proceso, es suficiente
 con utilizar <code>Ctrl-C</code>:</p>
 <pre><code class="sh">$ node-red
 
@@ -366,31 +355,6 @@ salida adicional:</p>
 <ul>
 <li><strong>The Core Nodes</strong>: <a href="https://nodered.org/docs/user-guide/nodes">enlace a documentación</a>.</li>
 </ul>
-<h2 id="cliente-mqtt-y-despliegue-de-un-panel-de-control">Cliente MQTT y despliegue de un panel de control</h2>
-<p>El nodo <em>MQTT in</em> permite realizar suscripciones a <em>topics</em> determinados en
-<em>brokers</em> MQTT. </p>
-<p>Arrastra un nuevo nodo <em>MQTT in</em> en tu espacio de trabajo y configura el 
-<em>broker</em> asociado a <em>localhost</em>, puerto por defecto. Establece un <em>topic</em>
-de interés. Conecta un nodo <em>Debug</em> y despliega el flujo.</p>
-<p>Desde tu consola, publica mensajes vía <em>mosquitto_pub</em> y comprueba que, efectivamente,
-son visibles en Node-RED.</p>
-<p>A continuación, crearemos un pequeño panel de control para la representación
-gráfica del valor publicado. En primer lugar, deberás instalar el 
-nodo <code>node-red-dashboard</code> desde el menú principal, opción 
-<em>Manage palette</em>. Tras su instalación, verás que aparecen nuevos nodos
-en el panel de nodos; éstos nos permitirán diseñar e implementar un panel
-de control básico basado en <em>Widgets</em>.</p>
-<p>Arrastra un nodo de tipo <em>Gauge</em> al espacio de trabajo, y configura sus valores
-por defecto. Conecta la salida de tu nodo <em>MQTT in</em> a la entrada del nuevo
-nodo <em>Gauge</em>.</p>
-<p>Despliega el flujo, y navega hasta <code>http://localhost:1880/ui</code>, donde deberás
-observar el panel de control con el <em>widget</em> que has creado. Interactúa con
-él publicando mensajes vía MQTT.</p>
-<p>Para más información sobre el despliegue de paneles de control, puedes
-consultar:</p>
-<ul>
-<li><strong>Node-Red-Dashboard</strong>: <a href="https://flows.nodered.org/node/node-red-dashboard">enlace a documentación</a>.</li>
-</ul>
 <h2 id="documentacion-adicional">Documentación adicional</h2>
 <p>Las guías de usuario oficiales de Node-RED son un buen punto de partida para 
 profundizar en el uso de la infraestructura. De entre ellas, la parte más 
@@ -407,46 +371,19 @@ o usando servicios remotos (por ejemplo, <em>Freeboard</em>):</p>
 <ul>
 <li><strong>Node-RED Guide</strong>: <a href="http://noderedguide.com">enlace a documentación</a>.</li>
 </ul>
-<h2 id="ejercicio-entregable">Ejercicio entregable</h2>
+<div class="admonition note">
+<p class="admonition-title">Tarea 1.5</p>
 <p>Se pide estudiar la documentación asociada a Node-RED, tanto en su web
 oficial como en la guía de programación <em>Node-RED Guide</em> (específicamente sus 
 cuatro primeras partes. 
 Junto con la explicación proporcionada por el profesor y los anteriores 
-ejemplos, este estudio permitirá el desarrollo de la práctica.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
-<p>La práctica consiste en el diseño y desarrollo de un sistema basado en 
-flujos de datos construido sobre Node-RED, que implemente un mecanismo de 
-monitorización de parámetros ambientales (por ejemplo, temperatura) y 
-notificación (alarmas) ante ciertas circunstancias (por ejemplo, superar una 
-determinada temperatura fijada como umbral).  </p>
-<p>Los alumnos diseñarán el sistema y lo implementarán, cumpliendo las siguientes premisas:</p>
-<ul>
-<li>
-<p><strong>(2 puntos)</strong>. El sistema utilizará, <strong>al menos</strong>, un dispositivo externo 
-(ESP32, SensorTag, Teléfono Móvil, ...) para la recolección de datos. 
-Se valorará el uso de más de un dispositivo.</p>
-</li>
-<li>
-<p><strong>(2 puntos)</strong>. El sistema depositará o interactuará con, <strong>al menos</strong>, 
-un sistema externo (servidor de correo, Twitter, Telegram, IBM Bluemix, ...). </p>
-</li>
-<li>
-<p><strong>(2 puntos)</strong>. El sistema depositará los datos observados en algún medio 
-persistente (Base de Datos no relacional, ficheros, ...) para permitir 
-su posterior análisis y en un panel de control.</p>
-</li>
-<li>
-<p><strong> (2 puntos)</strong>. El sistema actuará como un sistema de alarma únicamente 
-ante ciertas condiciones de entrada (por ejemplo, al recibir un valor desde 
-un sensor superior a un umbral establecido; dicho valor podría, por ejemplo,
-configurarse vía MQTT o a través de un panel de control).</p>
-</li>
-<li>
-<p><strong>(2 puntos)</strong>. El sistema utilizará, al menos, un tipo de nodo no 
-instalado por defecto en la instalación básica de Node-RED.</p>
-</li>
-</ul>
+ejemplos, este estudio permitirá el desarrollo de la tarea.</p>
+<p>La tarea consiste en el diseño y desarrollo de un sistema cliente/servidor similar al 
+desarrollado en la tarea 1.4, pero que, en esta ocasión, despliegue sus componentes 
+utilizando exclusivamente Node-RED. El objetivo final de la tarea es que sea posible
+interactuar entre un cliente/servidor desarrollado en C y un servidor/cliente desarrollado
+en Node-RED. Se aceptará simplificar el protocolo de aplicación desarrollado en la tarea 1.4
+si ello facilita el dearrollo de la tarea. </p>
 <p>Se entregará el fichero o ficheros JSON que describen los nodos, así como 
 una breve memoria que describa el sistema diseñado y el trabajo realizado, 
 haciendo hincapié en las dificultades encontradas y aquellos aspectos que se 
@@ -531,3 +468,8 @@ consideren de interés por parte del alumno/a. </p>
 
     </body>
 </html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2022-09-26 10:59:50
+-->
