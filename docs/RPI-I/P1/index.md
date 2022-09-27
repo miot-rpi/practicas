@@ -88,7 +88,7 @@ distribución:
 
 ```sh
 sudo apt install python3 python3-pip python3-setuptools
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+sudo apt install python-is-python3
 ```
 
 ### Obtención de ESP-IDF
