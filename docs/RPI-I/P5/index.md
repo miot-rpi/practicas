@@ -69,7 +69,7 @@ para la implementación del *firmware*:
 
 ## La tabla de servicios
 
-El fichero de encabezado [gatts_table_creat_demo.h](../main/gatts_table_creat_demo.h) 
+El fichero de cabecera [gatts_table_creat_demo.h](main/gatts_table_creat_demo.h) 
 contiene una enumeración de los servicios y características deseadas:
 
 ```c
