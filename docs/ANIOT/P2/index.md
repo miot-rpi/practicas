@@ -52,7 +52,7 @@ En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucl
 	Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.
 
 !!! note "Cuestión"
-    ¿Qué proridad tiene la tarea inicial que ejecuta la función `app_main()`? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?
+    ¿Qué prioridad tiene la tarea inicial que ejecuta la función `app_main()`? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?
 
 
 ### Creación de una tarea para realizar el muestreo
@@ -81,13 +81,13 @@ Modifica el código anterior para que las dos tareas (inicial y muestreadora) se
 
 Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice [eventos](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html) para notificar que hay una nueva lectura que mostrar por el puerto serie.
 
-Para ello se declara un nuevo *event base* llamado *EVENT_HALL* y al menos un `event ID` que se denominará `EVENT_HALL_NEWSAMPLE`.
+Para ello se declara un nuevo *event base* llamado *HALL_EVENT* y al menos un `event ID` que se denominará `HALL_EVENT_NEWSAMPLE`.
 
 !!! danger "Tarea" 
-    La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de `esp_event_post_to()`. La tarea inicial registrará un `hanlder` que se encargará de escribir en el puerto serie.
+    La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de `esp_event_post_to()`. La tarea inicial registrará un `handler` que se encargará de escribir en el puerto serie.
 
 !!! note "Cuestión"
-    ¿Qué debe hacer la tarea inicial tras registrar el *hanlde*? ¿Puede finalizar?   
+    ¿Qué debe hacer la tarea inicial tras registrar el *handle*? ¿Puede finalizar?   
  
 ## Ejercicio adicional
 Los ejercicios anteriores son de entrega obligatoria para obtener un 5 en la calificación de la práctica. La realización del siguiente ejercicio permite mejorar la calificación.
@@ -95,17 +95,17 @@ Los ejercicios anteriores son de entrega obligatoria para obtener un 5 en la cal
 ### Gestión de múltiples tareas
 Se creará un sistema con múltiples tareas que se comunicarán entre sí por eventos:
 
-* Tarea *Sampler* (muestreadora), similar a la del apartado anterior. Comunicará sus muestras mediante eventos (`EVENT_HALL_NEWSAMPLE`).
-* Tarea *Filter* que irá acumulando muestras de la tarea *Sampler* y realizará la media  de las últimas 5 muestras recibidas. Enviará dicha media mediante un evento `EVENT_HALL_FILTERSAMPLE`.
+* Tarea *Sampler* (muestreadora), similar a la del apartado anterior. Comunicará sus muestras mediante eventos (`HALL_EVENT_NEWSAMPLE`).
+* Tarea *Filter* que irá acumulando muestras de la tarea *Sampler* y realizará la media  de las últimas 5 muestras recibidas. Enviará dicha media mediante un evento `HALL_EVENT_FILTERSAMPLE`.
 * Tarea *Logger* que escribe por puerto serie lo que le comunican otras tareas. Debe ser una tarea diferente a la inicial. Recibirá información a través de los eventos correspondientes (a los que deberá suscribirse).
-* Tarea *Monitor* que monitoriza el estado de las otras tareas creadas. Usará el API de Tareas para consultar el espacio de pila restante de cada tarea. Comunicará los datos a la tarea *Logger*, incluyendo nombre de la tarea, prioridad y cantidad de pila restante. Puede usar la llamada [vTaskGetInfo()](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#task-api) que devuelve un tipo [TaskStatus_t](https://www.freertos.org/vTaskGetInfo.html#TaskStatus_t). Enviará la información periódicamente (cada minuto) a través del evento `EVENT_TASK_MONITOR`.
+* Tarea *Monitor* que monitoriza el estado de las otras tareas creadas. Usará el API de Tareas para consultar el espacio de pila restante de cada tarea. Comunicará los datos a la tarea *Logger*, incluyendo nombre de la tarea, prioridad y cantidad de pila restante. Puede usar la llamada [vTaskGetInfo()](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#task-api) que devuelve un tipo [TaskStatus_t](https://www.freertos.org/vTaskGetInfo.html#TaskStatus_t). Enviará la información periódicamente (cada minuto) a través del evento `TASK_EVENT_MONITOR`.
 
 La tarea inicial creará las tareas *Sampler*, *Filter* y *Logger* y, por último, la tarea *Monitor* que recibirá los *handlers* de las tareas anteriores. 
 
 !!! danger "Tarea" 
     Escribe una aplicación que realice la funcionalidad anterior. El código debe organizarse en varios ficheros fuente (.c): uno para la funcionalidad relativa al muestreo del sensor y su filtrado, otro para el *logging* y otro para la monitorización de tareas (además del fichero `main.c`). Si se usa algún tipo de datos propio (una cola circular puede ser perfecta para el filtrado), se incluirá en otro fichero fuente diferente, con su fichero de cabecera (.h) correspondiente
 
-!!! note "Cuestion"
+!!! note "Cuestión"
     ¿Qué opinas de esta estructura de código? ¿Es razonable el número de tareas empleado? ¿Qué cambiarías en el diseño? 
 
 
