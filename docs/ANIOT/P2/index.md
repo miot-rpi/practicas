@@ -48,10 +48,10 @@ Un sensor de efecto Hall permite la medición de campos magnéticos o corrientes
 ```
 En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucle infinito en la función `app_main()` para leer de forma periódica el sensor. Asimismo, usaremos la llamada `void vTaskDelay(const TickType_t xTicksToDelay)` para realizar las esperas entre lecturas.
 
-!!! note "Tarea"
-   Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.
+!!! danger "Tarea"
+	Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.
 
-!!! note "Cuestion"
+!!! note "Cuestión"
     ¿Qué proridad tiene la tarea inicial que ejecuta la función `app_main()`? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?
 
 
@@ -59,36 +59,34 @@ En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucl
 
 Modifica el código anterior para crear una nueva tarea que sea la encargada de realizar el muestreo (denominaremos *muestreadora* a dicha tarea). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global.
 
-!!! note "Tarea"
-   La tarea creada leerá el valor del sensor de efecto Hall con un período que se pasará como argumento a la tarea. La tarea inicial recogerá ese valor y lo mostrará por puerto serie.
+!!! danger "Tarea"
+	La tarea creada leerá el valor del sensor de efecto Hall con un período que se pasará como argumento a la tarea. La tarea inicial recogerá ese valor y lo mostrará por puerto serie.
 
-!!! note "Cuestion"
-    ¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?
-
-!!! note "Cuestion"
-    Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?
+!!! note "Cuestión"
+	* ¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?
+	* Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?
 
 
 ### Comunicación mediante colas
 
 Modifica el código anterior para que las dos tareas (inicial y muestreadora) se comuniquen mediante una [cola de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#queue-api).
 
-!!! note "Tarea" 
+!!! danger "Tarea" 
     La tarea creada (muestreadora) recibirá como argumento el período de muestreo y la cola en la que deberá escribir los datos leídos.
   
-!!! note "Cuestion"
+!!! note "Cuestión"
     Al enviar un dato por una cola, ¿el dato se pasa por copia o por referencia?. Consulta la documentación para responder.
 
 ### Uso de eventos
 
 Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice [eventos](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html) para notificar que hay una nueva lectura que mostrar por el puerto serie.
 
-Para ello se declará un nuevo *event base* llamado *EVENT_HALL* y al menos un `event ID` que se denominará `EVENT_HALL_NEWSAMPLE`.
+Para ello se declara un nuevo *event base* llamado *EVENT_HALL* y al menos un `event ID` que se denominará `EVENT_HALL_NEWSAMPLE`.
 
-!!! note "Tarea" 
+!!! danger "Tarea" 
     La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de `esp_event_post_to()`. La tarea inicial registrará un `hanlder` que se encargará de escribir en el puerto serie.
 
- !!! note "Cuestion"
+!!! note "Cuestión"
     ¿Qué debe hacer la tarea inicial tras registrar el *hanlde*? ¿Puede finalizar?   
  
 ## Ejercicio adicional
@@ -104,10 +102,10 @@ Se creará un sistema con múltiples tareas que se comunicarán entre sí por ev
 
 La tarea inicial creará las tareas *Sampler*, *Filter* y *Logger* y, por último, la tarea *Monitor* que recibirá los *handlers* de las tareas anteriores. 
 
-!!! note "Tarea" 
+!!! danger "Tarea" 
     Escribe una aplicación que realice la funcionalidad anterior. El código debe organizarse en varios ficheros fuente (.c): uno para la funcionalidad relativa al muestreo del sensor y su filtrado, otro para el *logging* y otro para la monitorización de tareas (además del fichero `main.c`). Si se usa algún tipo de datos propio (una cola circular puede ser perfecta para el filtrado), se incluirá en otro fichero fuente diferente, con su fichero de cabecera (.h) correspondiente
 
- !!! note "Cuestion"
+!!! note "Cuestion"
     ¿Qué opinas de esta estructura de código? ¿Es razonable el número de tareas empleado? ¿Qué cambiarías en el diseño? 
 
 
