@@ -264,7 +264,7 @@ particularidad por el hecho de estar adaptado a tener 2 cores).</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
-<p>¿Qué proridad tiene la tarea inicial que ejecuta la función <code>app_main()</code>? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?</p>
+<p>¿Qué prioridad tiene la tarea inicial que ejecuta la función <code>app_main()</code>? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?</p>
 </div>
 <h3 id="creacion-de-una-tarea-para-realizar-el-muestreo">Creación de una tarea para realizar el muestreo</h3>
 <p>Modifica el código anterior para crear una nueva tarea que sea la encargada de realizar el muestreo (denominaremos <em>muestreadora</em> a dicha tarea). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta <code>app_main()</code>) a través de una variable global.</p>
@@ -291,24 +291,24 @@ particularidad por el hecho de estar adaptado a tener 2 cores).</p>
 </div>
 <h3 id="uso-de-eventos">Uso de eventos</h3>
 <p>Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">eventos</a> para notificar que hay una nueva lectura que mostrar por el puerto serie.</p>
-<p>Para ello se declara un nuevo <em>event base</em> llamado <em>EVENT_HALL</em> y al menos un <code>event ID</code> que se denominará <code>EVENT_HALL_NEWSAMPLE</code>.</p>
+<p>Para ello se declara un nuevo <em>event base</em> llamado <em>HALL_EVENT</em> y al menos un <code>event ID</code> que se denominará <code>HALL_EVENT_NEWSAMPLE</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de <code>esp_event_post_to()</code>. La tarea inicial registrará un <code>hanlder</code> que se encargará de escribir en el puerto serie.</p>
+<p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de <code>esp_event_post_to()</code>. La tarea inicial registrará un <code>handler</code> que se encargará de escribir en el puerto serie.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
-<p>¿Qué debe hacer la tarea inicial tras registrar el <em>hanlde</em>? ¿Puede finalizar?   </p>
+<p>¿Qué debe hacer la tarea inicial tras registrar el <em>handle</em>? ¿Puede finalizar?   </p>
 </div>
 <h2 id="ejercicio-adicional">Ejercicio adicional</h2>
 <p>Los ejercicios anteriores son de entrega obligatoria para obtener un 5 en la calificación de la práctica. La realización del siguiente ejercicio permite mejorar la calificación.</p>
 <h3 id="gestion-de-multiples-tareas">Gestión de múltiples tareas</h3>
 <p>Se creará un sistema con múltiples tareas que se comunicarán entre sí por eventos:</p>
 <ul>
-<li>Tarea <em>Sampler</em> (muestreadora), similar a la del apartado anterior. Comunicará sus muestras mediante eventos (<code>EVENT_HALL_NEWSAMPLE</code>).</li>
-<li>Tarea <em>Filter</em> que irá acumulando muestras de la tarea <em>Sampler</em> y realizará la media  de las últimas 5 muestras recibidas. Enviará dicha media mediante un evento <code>EVENT_HALL_FILTERSAMPLE</code>.</li>
+<li>Tarea <em>Sampler</em> (muestreadora), similar a la del apartado anterior. Comunicará sus muestras mediante eventos (<code>HALL_EVENT_NEWSAMPLE</code>).</li>
+<li>Tarea <em>Filter</em> que irá acumulando muestras de la tarea <em>Sampler</em> y realizará la media  de las últimas 5 muestras recibidas. Enviará dicha media mediante un evento <code>HALL_EVENT_FILTERSAMPLE</code>.</li>
 <li>Tarea <em>Logger</em> que escribe por puerto serie lo que le comunican otras tareas. Debe ser una tarea diferente a la inicial. Recibirá información a través de los eventos correspondientes (a los que deberá suscribirse).</li>
-<li>Tarea <em>Monitor</em> que monitoriza el estado de las otras tareas creadas. Usará el API de Tareas para consultar el espacio de pila restante de cada tarea. Comunicará los datos a la tarea <em>Logger</em>, incluyendo nombre de la tarea, prioridad y cantidad de pila restante. Puede usar la llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#task-api">vTaskGetInfo()</a> que devuelve un tipo <a href="https://www.freertos.org/vTaskGetInfo.html#TaskStatus_t">TaskStatus_t</a>. Enviará la información periódicamente (cada minuto) a través del evento <code>EVENT_TASK_MONITOR</code>.</li>
+<li>Tarea <em>Monitor</em> que monitoriza el estado de las otras tareas creadas. Usará el API de Tareas para consultar el espacio de pila restante de cada tarea. Comunicará los datos a la tarea <em>Logger</em>, incluyendo nombre de la tarea, prioridad y cantidad de pila restante. Puede usar la llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#task-api">vTaskGetInfo()</a> que devuelve un tipo <a href="https://www.freertos.org/vTaskGetInfo.html#TaskStatus_t">TaskStatus_t</a>. Enviará la información periódicamente (cada minuto) a través del evento <code>TASK_EVENT_MONITOR</code>.</li>
 </ul>
 <p>La tarea inicial creará las tareas <em>Sampler</em>, <em>Filter</em> y <em>Logger</em> y, por último, la tarea <em>Monitor</em> que recibirá los <em>handlers</em> de las tareas anteriores. </p>
 <div class="admonition danger">
@@ -316,7 +316,7 @@ particularidad por el hecho de estar adaptado a tener 2 cores).</p>
 <p>Escribe una aplicación que realice la funcionalidad anterior. El código debe organizarse en varios ficheros fuente (.c): uno para la funcionalidad relativa al muestreo del sensor y su filtrado, otro para el <em>logging</em> y otro para la monitorización de tareas (además del fichero <code>main.c</code>). Si se usa algún tipo de datos propio (una cola circular puede ser perfecta para el filtrado), se incluirá en otro fichero fuente diferente, con su fichero de cabecera (.h) correspondiente</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">Cuestion</p>
+<p class="admonition-title">Cuestión</p>
 <p>¿Qué opinas de esta estructura de código? ¿Es razonable el número de tareas empleado? ¿Qué cambiarías en el diseño? </p>
 </div></div>
             </div>
