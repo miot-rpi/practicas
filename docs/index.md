@@ -39,3 +39,24 @@
 | 6        | 12/12 |[Dasboards](RPI-II/P9/index.md)               |
 |          | 09/01 | Presentaciones orales                        |
 |          | 16/01 | Presentaciones orales                        |
+
+
+# ANIOT
+
+| Práctica | Día   | Título                                       |
+|----------|-------|----------------------------------------------|
+| -        | 19/09 |Clase de teoría                               |
+| 1        | 26/09 |[Introducción al entorno](ANIOT/P1/index.md) |
+| 2        | 03/10 |[ Tareas y Eventos](ANIOT/P2/index.md) |
+| 3        | 10/10 |[Sensores I2C ](ANIOT/P3/index.md)       |
+| 3        | 17/10 |[Sensores I2C](ANIOT/P3/index.md)         |
+| 4        | 24/10 |[Uso ADC ](ANIOT/P4/index.md)    |
+| -        | 31/10 |**FESTIVO**                                   |
+| 5        | 07/11 |[Depuración  ](ANIOT/P5/index.md)     |
+| -        | 14/11 |[OTA](ANIOT/P6/index.md)              |
+| 6        | 21/11 |[Logging  ](ANIOT/P6/index.md)               |
+| 7        | 28/11 |[Modos de consumo ](ANIOT/P7/index.md)          |
+| -        | 05/12 | **FESTIVO**                 |
+| -        | 12/12 | **REPESCA**           |
+|          | 09/01 | Presentaciones orales                        |
+|          | 16/01 | Presentaciones orales                        |
