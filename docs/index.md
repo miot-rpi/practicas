@@ -48,11 +48,11 @@
 | -        | 19/09 |Clase de teoría                               |
 | 1        | 26/09 |[Introducción al entorno](ANIOT/P1/index.md) |
 | 2        | 03/10 |[ Tareas y Eventos](ANIOT/P2/index.md) |
-| 3        | 10/10 |[Sensores I2C ](ANIOT/P3/index.md)       |
-| 3        | 17/10 |[Sensores I2C](ANIOT/P3/index.md)         |
-| 4        | 24/10 |[Uso ADC ](ANIOT/P4/index.md)    |
+| 3        | 10/10 |[Timers y GPIO ](ANIOT/P3/index.md)       |
+| 4        | 17/10 |[E/S - ADC ](ANIOT/P4/index.md)         |
+| 5        | 24/10 |[I2C ](ANIOT/P5/index.md)    |
 | -        | 31/10 |**FESTIVO**                                   |
-| 5        | 07/11 |[Depuración  ](ANIOT/P5/index.md)     |
+| 5        | 07/11 |[I2C  ](ANIOT/P5/index.md)     |
 | -        | 14/11 |[OTA](ANIOT/P6/index.md)              |
 | 6        | 21/11 |[Logging  ](ANIOT/P6/index.md)               |
 | 7        | 28/11 |[Modos de consumo ](ANIOT/P7/index.md)          |
