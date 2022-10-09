@@ -1,6 +1,6 @@
-# Práctica 3. Uso de timers.
+# Práctica 3. Uso de timers y GPIO.
 
-# Objetivos
+## Objetivos
 
 El objetivo  de esta práctica es conocer los mecanismos para la gestión de tareas
 que ofrece FreeRTOS, concretamente en su porting  ESP-IDF (con alguna
@@ -99,7 +99,7 @@ De forma similar el siguiente código configura los pines 4 y 5 como entrada:
     #define GPIO_INPUT_IO_0 4
     #define GPIO_INPUT_IO_1 5
     #define GPIO_INPUT_PIN_SEL ((1ULL<<GPIO_INPUT_IO_0) | (1ULL<<GPIO_INPUT_IO_1))
-    gpio_config_t io_conf;
+    gpio_config_t io_conf;  
     io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;
     io_conf.mode = GPIO_MODE_INPUT;
     gpio_config(&io_conf);
