@@ -161,7 +161,9 @@
             <li><a href="#objetivos">Objetivos</a></li>
             <li><a href="#publicacionsuscripcion-contra-un-broker-en-la-nube">Publicación/suscripción contra un broker en la nube</a></li>
             <li><a href="#despliegue-de-un-broker-local-usando-eclipse-mosquitto">Despliegue de un broker local usando Eclipse Mosquitto</a></li>
-            <li><a href="#desarrollo-de-un-cliente-local-usando-eclipse-paho">Desarrollo de un cliente local usando Eclipse Paho</a></li>
+            <li><a href="#wildcards">Wildcards</a></li>
+            <li><a href="#desarrollo-de-un-clientes-locales-opcion-1-node-red">Desarrollo de un clientes locales. Opción 1: Node-RED</a></li>
+            <li><a href="#desarrollo-de-un-clientes-locales-opcion-2-eclipse-paho">Desarrollo de un clientes locales. Opción 2: Eclipse Paho</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -283,12 +285,62 @@ periódicamente o bien cuando sucede un evento de interés, la información
 de estado del <em>broker</em>. Puedes consultar más detalles en la página de manual
 de <em>mosquitto</em> (comando <code>man mosquitto</code>), en el epígrafe <em>BROKER STATUS</em>.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.7</p>
+<p class="admonition-title">Tarea 2.5</p>
 <p>Comprueba el estado del <em>broker</em> mientras realizas procesos de suscripción/publicación
 reportando bytes recibidos/enviados, número de conexiones activas e inactivas, 
 y número de mensajes enviados/recibidos por el <em>broker</em>.</p>
 </div>
-<h2 id="desarrollo-de-un-cliente-local-usando-eclipse-paho">Desarrollo de un cliente local usando Eclipse Paho</h2>
+<h2 id="wildcards">Wildcards</h2>
+<p>Además de permitir el uso de <em>topics</em> completos para el proceso de suscripción,
+los topics pueden incluir <em>wildcards</em> o comodines en su estructura. <code>+</code> es la
+<em>wildcard</em> utilizada para obtener correspondencias con un único nivel de la 
+jerarquía. Así, para un <em>topic</em> <code>a/b/c/d</code>, las siguientes suscripciones 
+corresponderán con éxito:</p>
+<ul>
+<li><code>a/b/c/d</code></li>
+<li><code>+/b/c/d</code></li>
+<li><code>a/+/c/d</code></li>
+<li><code>a/+/+/d</code></li>
+<li><code>+/+/+/+</code></li>
+</ul>
+<p>Pero no las siguientes:</p>
+<ul>
+<li><code>a/b/c</code></li>
+<li><code>b/+/c/d</code></li>
+<li><code>+/+/+</code></li>
+</ul>
+<p>La segunda <em>wildcard</em> soportada es <code>#</code>, y permite corresponencias con cualquier
+nivel sucesivo de la jerarquía.  Así, para un <em>topic</em> <code>a/b/c/d</code>, las siguientes suscripciones 
+corresponderán con éxito:</p>
+<ul>
+<li><code>a/b/c/d</code></li>
+<li><code>#</code></li>
+<li><code>a/#</code></li>
+<li><code>a/b/#</code></li>
+<li><code>a/b/c/#</code></li>
+<li><code>+/b/c/#</code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea 2.6</p>
+<p>Experimenta con el uso de <em>wildcards</em> desde múltiples clientes suscriptores. Resultará de especial
+interés observar (por ejemplo, con capturas de tráfico) el ahorro de mensajes asociado al uso de
+<em>wildcards</em> que restrinjan qué mensajes son recibidos y por qué clientes.</p>
+</div>
+<h2 id="desarrollo-de-un-clientes-locales-opcion-1-node-red">Desarrollo de un clientes locales. Opción 1: Node-RED</h2>
+<p>El despliegue de un cliente MQTT (ya sea suscriptor o publicador) utilizando Node-RED
+resulta muy sencillo. Por defecto, Node-RED incorpora dos tipos de nodos que nos serán de
+utilidad para nuestros despliegues:</p>
+<ul>
+<li>Nodo <em>MQTT-in</em>. Recibe datos desde un <em>broker</em> MQTT, y es por tanto el mecanismo recomendado para suscribirse a un determinado <em>topic</em>. El <em>topic</em> al que se suscribe uno de estos nodos es por defecto fijo, aunque puede ser configurado, en versiones modernas del nodo, como dinámico (campo <em>Action -&gt; Dynamic subscription</em>) del menú de configuración. </li>
+<li>Nodo <em>MQTT-out</em>. Envía datos hacia un <em>broker</em> MQTT, y es por tanto el mecanismo recomendado para publicar un mensaje sobre un determinado <em>topic</em>. El topic bajo el que se publica un determinado dato puede ser fijo (configurado vía cuadro de diálogo de configuración) o variable (configurado como el contenido del campo <code>msg.topic</code> del mensaje recibido por el nodo <em>MQTT-out</em>).</li>
+</ul>
+<p>Ambos requerirán, desde su menú de configuración (accesible vía doble click en el nodo), de la configuración previa de un <em>broker</em> MQTT (llamado <em>server</em> en el cuadro de diálogo de configuración del nodo). En el caso de una instalación local, bastará con indicar <code>localhost</code> como localización de dicho servidor.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 2.7</p>
+<p>Experimenta con el uso de los nodos <em>MQTT-in</em> y <em>MQTT-out</em> enviando y recibiendo mensajes desde un broker local o remoto. Específicamente, asegúrate de saber cómo personalizar tanto el topic como el mensaje a publicar en un nodo de publicación, o el topic al que se 
+suscribirá un nodo de suscripción.</p>
+</div>
+<h2 id="desarrollo-de-un-clientes-locales-opcion-2-eclipse-paho">Desarrollo de un clientes locales. Opción 2: Eclipse Paho</h2>
 <p>Los clientes <code>mosquitto_pub</code> y <code>mosquitto_sub</code> son básicamente herramientas de
 desarrollo y pruebas, pero resulta interesante conocer bibliotecas que permitan
 la integración de MQTT en programas existentes. Una de ellas es 
@@ -387,36 +439,6 @@ print(&quot;%s %s&quot; % (msg.topic, msg.payload))
 
 <p>Toda la información y documentación asociada al módulo puede consultarse
 <a href="https://pypi.org/project/paho-mqtt/">aquí</a>.</p>
-<h3 id="wildcards">Wildcards</h3>
-<p>Además de permitir el uso de <em>topics</em> completos para el proceso de suscripción,
-los topics pueden incluir <em>wildcards</em> o comodines en su estructura. <code>+</code> es la
-<em>wildcard</em> utilizada para obtener correspondencias con un único nivel de la 
-jerarquía. Así, para un <em>topic</em> <code>a/b/c/d</code>, las siguientes suscripciones 
-corresponderán con éxito:</p>
-<ul>
-<li><code>a/b/c/d</code></li>
-<li><code>+/b/c/d</code></li>
-<li><code>a/+/c/d</code></li>
-<li><code>a/+/+/d</code></li>
-<li><code>+/+/+/+</code></li>
-</ul>
-<p>Pero no las siguientes:</p>
-<ul>
-<li><code>a/b/c</code></li>
-<li><code>b/+/c/d</code></li>
-<li><code>+/+/+</code></li>
-</ul>
-<p>La segunda <em>wildcard</em> soportada es <code>#</code>, y permite corresponencias con cualquier
-nivel sucesivo de la jerarquía.  Así, para un <em>topic</em> <code>a/b/c/d</code>, las siguientes suscripciones 
-corresponderán con éxito:</p>
-<ul>
-<li><code>a/b/c/d</code></li>
-<li><code>#</code></li>
-<li><code>a/#</code></li>
-<li><code>a/b/#</code></li>
-<li><code>a/b/c/#</code></li>
-<li><code>+/b/c/#</code></li>
-</ul>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Cada alumno propondrá una solución para monitorizar un edificio inteligente a
@@ -431,12 +453,13 @@ edificio constará de:</p>
 </ul>
 <p>Se pide, en primer lugar, diseñar la jerarquía de <em>topics</em> que permita una correcta 
 monitorización de los edificios.</p>
-<p>En segundo lugar, se desarrollará un programa Python cliente que publique, periódicamente
+<p>En segundo lugar, se desarrollará un programa Python cliente o un flujo Node-RED que publique, periódicamente
 y de forma aleatoria, objetos JSON 
 (opcionalmente puedes utilizar CBOR) que incluyan el valor de temperatura, humedad, luminosidad o
 vibración para una determinada sala del edificio, elegida también aleatoriamente, a través
 del <em>topic</em> correspondiente. Estos mensajes 
-estarán espaciados en el tiempo un número aleatorio de segundos.</p>
+estarán espaciados en el tiempo un número aleatorio de segundos (en el caso de Node-RED, se sugiere buscar nodos
+que permitan generar números aleatorios para dar soporte a la tarea).</p>
 <p>En tercer lugar, se piden las <em>wildcards</em> que permitan consultar distintos tipos de información
 jerárquica. Por ejemplo:</p>
 <ul>
@@ -445,13 +468,13 @@ jerárquica. Por ejemplo:</p>
 <li>Todos los mensajes de sensorización de la sala 4 del ala Sur de la planta 7 del edificio.</li>
 <li>...</li>
 </ul>
-<p>En último lugar, se pide desarrollar un programa Python que actúe a modo de
+<p>En último lugar, se pide desarrollar un programa Python o un flujo Node-RED que actúe a modo de
 alarma, y que muestre mensajes sólo si algún valor recibido para los 
 datos sensorizados supera un umbral preestablecido. En dicho caso, el programa
 mostrará el edificio, planta, ala, sala y sensor que ha producido la alarma, 
 junto con su valor numérico.</p>
 <p>Puedes utilizar el <a href="https://docs.python.org/3/library/json.html">módulo JSON</a>
-para parsear los objetos recibidos.</p>
+para parsear los objetos recibidos en Python, o los nodos correspondientes en Node-RED.</p>
 </div></div>
         </div>
 
