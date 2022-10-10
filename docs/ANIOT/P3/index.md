@@ -119,21 +119,41 @@ Posteriormente, podremos leer el valor lógico de esos pines con una llamada a `
 	¿Qué hará la tarea inicial (la que invoca a `app_main()`) tras configurar el *timer* y el *evento*?
 
 ### Encendido de LEDs con GPIO
+El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conectar a nuestro ESP32. Para ello, basta con conectar el pin de GPIO escogido (que configuraremos como entrada) al conector de un LED. También debemos asegurarnos **de que las tierras son comunes**. Para ello, conectaremos el pin de tierra del ESP32 al conector *GND* del entrenador.
+
 !!! danger "Tarea"
-	Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un *timer* para cambiar el estado del LED cada segundo.
+	Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un *timer* para cambiar el estado del LED cada segundo. Recuerda usar una tierra común.
 
 !!! note "Cuestión"
 	¿Qué diferencia hay entre habilitar el *pull-up* o el *pull-down* del GPIO elegido?
 
 ### Lectura  con GPIO
-!!! danger "Tarea"
-	Configura un GPIO como entrada y conéctalo a una fuente de voltaje del entrenador, asegurándote de que nunca supera 3.3V. Nuevamente, usa un *timer* para muestrear la entrada cada 10ms. Cuando se produzca un cambio de más de 1V respecto a la lectura anterior, genera un evento que, a su vez, desencadene una escritura en el puerto serie informando de la última lectura.
+Al configurar un pin de GPIO como entrada, podemos comprobar, por ejemplo. si un botón está pulsado 
 
 !!! note "Cuestión"
-	¿Qué voltaje se observa en los botones y swithches del entrenador? ¿Podemos conectarlos a los pines del ESP32? 
+	* ¿Qué voltaje se observa en los botones y swithches del entrenador? ¿Podemos conectarlos a los pines del ESP32?.
+    * Trata de conseguir una tensión de 3.3V usando el potenciómetro del entrenador. Puedes medir con el voltímetro para asegurarte de conseguir esa tensión.
 
+!!! danger "Tarea"
+    Configura un pin GPIO como entrada y moniroiza su valor mediante un *timer*. Escribe por el puerto srie cada vez que se produzca un cambio en el nivel observado. Si usas el potenciómetro, **ten mucho cuidado para no sobrepasar los 3.3V**.
+
+    
 
 ## Ejercicios avanzados
+
+### Contador binario
+ Crea un módulo (fichero C independiente) que gestione cuatro pines GPIO como salida y permita implementar un contador binario (de 0 a 15) al conectarlos a los LEDs del entrenador. El módulo tendrá un API que permitira:
+
+ * Resetear la cuenta. El contador volverá a 0.
+ * Incrementar la cuenta. Se incrementará en uno, módulo 16.
+ * Decrementar la cuenta. Se decrementará en uno, módulo 16.
+ 
+ La aplicación principal reseteará el contador y arrancará un *timer* con un período inicial de  1 segundo. A cada segundo, se incrementará la cuenta.
+
+ Asimismo, se programará un pin GPIO como entrada. Se muestreará dicho pin con una período de 500ms. Cuando se perciba un cambio de nivel lógico, se modificará el sentido de la cuenta (ascendente - descendente).
+ 
+!!! danger "Tarea" 
+    Escribe una aplicación que implemente el comportamiento anterior.
 
 ### Interrupciones
 
