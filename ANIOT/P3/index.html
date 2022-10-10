@@ -9,143 +9,135 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 3 - Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P8/">Práctica 8</a>
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1/index.md">Práctica 1</a>
+<li>
+    <a href="../../RPI-II/P1/index.md" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 3</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P2/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P2/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P4/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P4/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -155,19 +147,54 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-3-uso-de-timers-y-gpio">Práctica 3. Uso de timers y GPIO.</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#material-de-consulta">Material de consulta</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#esp-idf-high-resolution-timer">ESP-IDF: High Resolution Timer</a></li>
-            <li><a href="#esp-idf-gpio">ESP - IDF: GPIO</a></li>
-            <li><a href="#ejercicios-basicos">Ejercicios básicos</a></li>
-            <li><a href="#ejercicios-avanzados">Ejercicios avanzados</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-3-uso-de-timers-y-gpio" class="nav-link">Práctica 3. Uso de timers y GPIO.</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#material-de-consulta" class="nav-link">Material de consulta</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#esp-idf-high-resolution-timer" class="nav-link">ESP-IDF: High Resolution Timer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#esp-idf-gpio" class="nav-link">ESP - IDF: GPIO</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicios-basicos" class="nav-link">Ejercicios básicos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicios-avanzados" class="nav-link">Ejercicios avanzados</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-3-uso-de-timers-y-gpio">Práctica 3. Uso de timers y GPIO.</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -200,7 +227,7 @@ particularidad por el hecho de estar adaptado a tener 2 cores).</p>
 <p>Cuando el <em>timer</em> genere la alarma, se ejecutará un <em>callback</em>, una función que habremos definido previamente (y asociado a ese <em>timer</em>). Dicha función se ejecutará en el contexto de una tarea específica (<code>ESP_TIMER_TASK</code>) o en el de una rutina de tratamiento de interrupción (<code>ESP_TIMER_ISR</code>). En nuestro caso, es aconsejable usar el primer mecanismo (tarea específica).</p>
 <p>En la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_timer.html">documentación de ESP-IDF</a> podéis encontrar el resto de llamadas relevantes para crear y configurar <em>timers</em>. Es muy recomendable, asimismo, estudiar los <a href="https://github.com/espressif/esp-idf/tree/master/examples/system/esp_timer">ejemplos disponibles en la distribución</a></p>
 <p>A continuación se incluye un ejemplo de uso, extraíado de la distribución de ESP-IDF:</p>
-<pre><code class="c">void app_main() { 
+<pre><code class="language-c">void app_main() { 
      ...
     const esp_timer_create_args_t periodic_timer_args = {
          .callback = &amp;periodic_timer_callback,
@@ -217,7 +244,6 @@ static void periodic_timer_callback(void* arg) {
     printf(&quot;Periodic timer called, time since boot: %lld us&quot;,time_since_boot);
 }
 </code></pre>
-
 <h2 id="esp-idf-gpio">ESP - IDF: GPIO</h2>
 <p>Los controladores de GPIO (<em>General Purpose Input-Ouput</em>) permiten controlar ciertos pines de nuestro dispositivo para usarlos como entrada (por ejemplo, para conectar un botón) o salida (por ejemplo para conectar un LED) o con funciones <em>especiales</em> (que forme parte de un bus serie, por ejemplo). </p>
 <p>El SoC ESP32 que usamos proporciona 40 GPIO <em>pads</em> (el SoC no tiene pines propiamente dichos, sino conectores, normalmente de superfície, que se deminan <em>pad</em>). El módulo WROOM-32 que usamos expone 38 de ellos, que son accesibles a traves de los pines (los conectores físicos a ambos lados de la placa) que incorpora nuestra placa DevKitC.</p>
@@ -227,7 +253,7 @@ static void periodic_timer_callback(void* arg) {
 <p><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/gpio.html">Como se indica en la documentación de  ESP-IDF</a>, algunos de esos pines tiene un propósito específico. Por ejemplo, GPIO6-11 y 16-17 no deben usarse porque están internamente conectados a la memoria SPI flash. También nos indica que los pines del canal 2 del ADC (ADC2) NO deben usarse mientras se utiliza Wi-Fi.  Es muy conveniente leer todas las restricciones para evitar problemas en nuestros desarrollos.</p>
 <p>La documentación muestra también la API que ofrece ESP-IDF para configurar los pines (entrada o salida, uso de pull-up/pull-down) establecer un valor lógico (0 ó 1)en un pin (previamente configurado como salida) o leer el valor lógico de un pin (configurado como entrada).</p>
 <p>El siguiente código, <a href="https://github.com/espressif/esp-idf/tree/master/examples/peripherals/gpio/generic_gpio">extraído del ejemplo de GPIO proporcionado en la distribución ESP-IDF</a>, muestra cómo configurar los pines GPIO18 y GPIO19 como salida. Observa cómo se construye la máscara de bits <code>GPIO_OUTPUT_PIN_SEL</code> para indicar a <code>gpio_config()</code> qué pines se configuran.</p>
-<pre><code class="c">#define GPIO_OUTPUT_IO_0 18
+<pre><code class="language-c">#define GPIO_OUTPUT_IO_0 18
 #define GPIO_OUTPUT_IO_1 19
 #define GPIO_OUTPUT_PIN_SEL ((1ULL&lt;&lt;GPIO_OUTPUT_IO_0) | (1ULL&lt;&lt;GPIO_OUTPUT_IO_1))
 gpio_config_t io_conf;
@@ -238,10 +264,9 @@ io_conf.pull_down_en = 0;
 io_conf.pull_up_en = 0; 
 gpio_config(&amp;io_conf);
 </code></pre>
-
 <p>Posteriormente, podemos establecer el valor lógico de la salida con una llamada similar a <code>gpio_set_level(GPIO_OUTPUT_IO_1, valor);</code>, siendo <code>valor</code> igual a 0 ó 1.</p>
 <p>De forma similar el siguiente código configura los pines 4 y 5 como entrada:</p>
-<pre><code class="c">
+<pre><code class="language-c">
     #define GPIO_INPUT_IO_0 4
     #define GPIO_INPUT_IO_1 5
     #define GPIO_INPUT_PIN_SEL ((1ULL&lt;&lt;GPIO_INPUT_IO_0) | (1ULL&lt;&lt;GPIO_INPUT_IO_1))
@@ -250,7 +275,6 @@ gpio_config(&amp;io_conf);
     io_conf.mode = GPIO_MODE_INPUT;
     gpio_config(&amp;io_conf);
 </code></pre>
-
 <p>Posteriormente, podremos leer el valor lógico de esos pines con una llamada a <code>gpio_get_level()</code>.</p>
 <h2 id="ejercicios-basicos">Ejercicios básicos</h2>
 <h3 id="uso-de-timers">Uso de timers</h3>
@@ -262,29 +286,50 @@ gpio_config(&amp;io_conf);
 <p class="admonition-title">Cuestión</p>
 <p>¿Qué hará la tarea inicial (la que invoca a <code>app_main()</code>) tras configurar el <em>timer</em> y el <em>evento</em>?</p>
 </div>
+<h3 id="encendido-de-leds-con-gpio">Encendido de LEDs con GPIO</h3>
+<p>El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conectar a nuestro ESP32. Para ello, basta con conectar el pin de GPIO escogido (que configuraremos como entrada) al conector de un LED. También debemos asegurarnos <strong>de que las tierras son comunes</strong>. Para ello, conectaremos el pin de tierra del ESP32 al conector <em>GND</em> del entrenador.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un <em>timer</em> para cambiar el estado del LED cada segundo.</p>
+<p>Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un <em>timer</em> para cambiar el estado del LED cada segundo. Recuerda usar una tierra común.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
 <p>¿Qué diferencia hay entre habilitar el <em>pull-up</em> o el <em>pull-down</em> del GPIO elegido?</p>
 </div>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Configura un GPIO como entrada y conéctalo a una fuente de voltaje del entrenador, asegurándote de que nunca supera 3.3V. Nuevamente, usa un <em>timer</em> para muestrear la entrada cada 10ms. Cuando se produzca un cambio de más de 1V respecto a la lectura anterior, genera un evento que, a su vez, desencadene una escritura en el puerto serie informando de la última lectura.</p>
-</div>
+<h3 id="lectura-con-gpio">Lectura  con GPIO</h3>
+<p>Al configurar un pin de GPIO como entrada, podemos comprobar, por ejemplo. si un botón está pulsado </p>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
-<p>¿Qué voltaje se observa en los botones y swithches del entrenador? ¿Podemos conectarlos a los pines del ESP32? </p>
+<ul>
+<li>¿Qué voltaje se observa en los botones y swithches del entrenador? ¿Podemos conectarlos a los pines del ESP32?.</li>
+<li>Trata de conseguir una tensión de 3.3V usando el potenciómetro del entrenador. Puedes medir con el voltímetro para asegurarte de conseguir esa tensión.</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Configura un pin GPIO como entrada y moniroiza su valor mediante un <em>timer</em>. Escribe por el puerto srie cada vez que se produzca un cambio en el nivel observado. Si usas el potenciómetro, <strong>ten mucho cuidado para no sobrepasar los 3.3V</strong>.</p>
 </div>
 <h2 id="ejercicios-avanzados">Ejercicios avanzados</h2>
+<h3 id="contador-binario">Contador binario</h3>
+<p>Crea un módulo (fichero C independiente) que gestione cuatro pines GPIO como salida y permita implementar un contador binario (de 0 a 15) al conectarlos a los LEDs del entrenador. El módulo tendrá un API que permitira:</p>
+<ul>
+<li>Resetear la cuenta. El contador volverá a 0.</li>
+<li>Incrementar la cuenta. Se incrementará en uno, módulo 16.</li>
+<li>Decrementar la cuenta. Se decrementará en uno, módulo 16.</li>
+</ul>
+<p>La aplicación principal reseteará el contador y arrancará un <em>timer</em> con un período inicial de  1 segundo. A cada segundo, se incrementará la cuenta.</p>
+<p>Asimismo, se programará un pin GPIO como entrada. Se muestreará dicho pin con una período de 500ms. Cuando se perciba un cambio de nivel lógico, se modificará el sentido de la cuenta (ascendente - descendente).</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Escribe una aplicación que implemente el comportamiento anterior.</p>
+</div>
 <h3 id="interrupciones">Interrupciones</h3>
 <p>Las interrupciones son un mecanismo más eficiente que el muestreo para atender eventos externos. ESP-IDF ofrece la posibilidad de configurar los GPIO como entrada y fuente de interrupciones (no son la única fuente de interrupciones).</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Modifica el ejercicio de lectura del GPIO para que funcione por interrupciones. </p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -298,35 +343,32 @@ gpio_config(&amp;io_conf);
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

@@ -9,143 +9,135 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 4 - Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 4</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../P8/">Práctica 8</a>
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1/index.md">Práctica 1</a>
+<li>
+    <a href="../../RPI-II/P1/index.md" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P3/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P3/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P5/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P5/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -155,16 +147,42 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-4-esp-wifi-mesh">Práctica 4. ESP WiFi Mesh</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#esp-wifi-mesh">ESP WiFi Mesh</a></li>
-            <li><a href="#ejercicio-basico-en-clase-despliegue-conjunto-de-una-red-wifi-mesh">Ejercicio Basico (en clase). Despliegue conjunto de una red WiFi Mesh</a></li>
-            <li><a href="#ejercicio-adicional-en-clase-despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones">Ejercicio Adicional (en clase). Despliegue conjunto de una red WiFi Mesh de menores dimensiones</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-4-esp-wifi-mesh" class="nav-link">Práctica 4. ESP WiFi Mesh</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#esp-wifi-mesh" class="nav-link">ESP WiFi Mesh</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-basico-en-clase-despliegue-conjunto-de-una-red-wifi-mesh" class="nav-link">Ejercicio Basico (en clase). Despliegue conjunto de una red WiFi Mesh</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-adicional-en-clase-despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones" class="nav-link">Ejercicio Adicional (en clase). Despliegue conjunto de una red WiFi Mesh de menores dimensiones</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-4-esp-wifi-mesh">Práctica 4. ESP WiFi Mesh</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -274,7 +292,7 @@ nodo raíz (ya que su selección es automática), todos los nodos deberán
 inicializar la pila IP.</p>
 <p>Por tanto, todos los nodos incializan la pila IP vía <code>tcpip_adapter_init()</code>. Además, todos los nodos deberán detener el servidor DHCP en la interfaz
 <code>softAP</code>, y el cliente DHCP en la interfaz <code>station</code>:</p>
-<pre><code class="c">/*  tcpip initialization */
+<pre><code class="language-c">/*  tcpip initialization */
 tcpip_adapter_init();
 /*
  * for mesh
@@ -284,7 +302,6 @@ tcpip_adapter_init();
 ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
 ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
 </code></pre>
-
 <p>Sin embargo, en el caso de un nodo que se convierte en raíz, es 
 imprescindible arrancar el cliente DHCP como respuesta al evento
 corresondiente para así obtener dirección IP desde el router que
@@ -293,7 +310,7 @@ da salida hacia la red externa.</p>
 <p>El siguiente código muestra la estructura básica de inicialización
 de pilas IP y WiFi necesarias para comenzar con la configuración de la 
 red MESH:</p>
-<pre><code class="c">tcpip_adapter_init();
+<pre><code class="language-c">tcpip_adapter_init();
 /*
  * for mesh
  * stop DHCP server on softAP interface by default
@@ -313,7 +330,6 @@ ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &amp;i
 ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 </code></pre>
-
 <p>Tras esta inicialización, comienza la fase de configuración e inicialización
 de la malla, que procederá en tres pasos principales:</p>
 <ol>
@@ -323,12 +339,11 @@ de la malla, que procederá en tres pasos principales:</p>
 </ol>
 <h3 id="paso-1-inicializacion-de-la-malla">Paso 1. Inicialización de la malla</h3>
 <p>La inicialización de la malla y registro de eventos propios es sencilla:</p>
-<pre><code class="c">/*  mesh initialization */
+<pre><code class="language-c">/*  mesh initialization */
 ESP_ERROR_CHECK(esp_mesh_init());
 /*  register mesh events handler */
 ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &amp;mesh_event_handler, NULL));
 </code></pre>
-
 <h3 id="paso-2-configuracion-de-la-red-esp-mesh">Paso 2. Configuración de la red ESP-MESH</h3>
 <p>La configuración de ESP-MESH se realiza a través de la
 función <code>esp_mesh_set_config()</code>, que recibe una estructura de tipo
@@ -360,7 +375,7 @@ función <code>esp_mesh_set_config()</code>, que recibe una estructura de tipo
 </tbody>
 </table>
 <p>Un ejemplo de configuración podría ser:</p>
-<pre><code class="c">/* Mesh ID */
+<pre><code class="language-c">/* Mesh ID */
 static const uint8_t MESH_ID = { 0x77, 0x77, 0x77, 0x77, 0x77, 0x77 };
 /* Enable the Mesh IE encryption by default */
 mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
@@ -379,13 +394,11 @@ memcpy((uint8_t *) &amp;cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD,
        strlen(CONFIG_MESH_AP_PASSWD));
 ESP_ERROR_CHECK(esp_mesh_set_config(&amp;cfg));
 </code></pre>
-
 <h3 id="paso-3-arranque-de-la-red">Paso 3. Arranque de la red</h3>
 <p>El arranque de la red MESH es sencillo:</p>
-<pre><code class="c">/* mesh start */
+<pre><code class="language-c">/* mesh start */
 ESP_ERROR_CHECK(esp_mesh_start());
 </code></pre>
-
 <p>Tras el arranque, la aplicación debería comprobar los eventos para determinar
 si la conexión a la red ha sido exitosa. En dicho caso, tras la conexión,
 la aplicación puede comenzar a transmitir paquetes a través de la red MESH
@@ -462,6 +475,7 @@ la topología de la misma.</p>
 ejercicio para el alumno. Observa el tratamiento de eventos y la fase
 de configuración de la red. Intenta entender el funcionamiento del código
 (envíos y recepciones, destinatarios de los mismos, etc.).</p></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -475,35 +489,32 @@ de configuración de la red. Intenta entender el funcionamiento del código
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
