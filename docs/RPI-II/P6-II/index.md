@@ -1,4 +1,4 @@
-# Práctica 6. El protocolo MQTT (II). Despliegue de clientes en el ESP32
+# Práctica 2. El protocolo MQTT (II). Despliegue de clientes en el ESP32
 
 ## Objetivos
 
@@ -101,7 +101,7 @@ Parámetros de interés:
   - `qos`: nivel de QoS deseado.
   - `retain`: flag *Retain*.
 
-!!! note "Tarea"
+!!! note "Tarea 2.8"
     Analiza el ejemplo `examples/protocols/mqtt/tcp`, y configuralo para que 
     utilice como *broker* el que desplegaste en la máquina virtual (asegúrate
     de que tanto máquina virtual como ESP32 pertenecen a la misma red).
@@ -123,7 +123,7 @@ Parámetros de interés:
     dicho *topic* transcurrido dicho tiempo desde una desconexión forzada del
     ESP32 si estás suscrito al mismo desde tu terminal Linux.
 
-!!! danger "Tarea"
+!!! danger "Tarea 2.9"
     Modifica el ejemplo proporcionado para que se integre en tu entorno de 
     monitorización de un edificio. Así, el *firmware* procederá creando una
     tarea que, periódicamente (cada *interval* segundos), publique un valor

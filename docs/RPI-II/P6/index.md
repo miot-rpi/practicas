@@ -1,4 +1,4 @@
-# Práctica 6. El protocolo MQTT (I). Despliegue de clientes y servidores/*brokers*. Análisis de tráfico
+# Práctica 2. El protocolo MQTT (I). Despliegue de clientes y servidores/*brokers*. Análisis de tráfico
 
 ## Objetivos
 
@@ -39,6 +39,7 @@ o publicar sobre cualquier *topic* MQTT.
 En primer lugar, instala *mosquitto*:
 
 ```sh
+sudo apt-get update
 sudo apt-get install mosquitto mosquitto-clients mosquitto-dev libmosquitto*
 ```
 
@@ -49,7 +50,7 @@ Si todo ha ido bien, deberías disponer de dos binarios listos para ejecución:
 * `mosquitto_pub`: permite publicar un mensaje asociado a un determinado *topic*
 utilizando un *broker*.
 
-!!! note "Tarea"
+!!! note "Tarea 2.1"
     Observa la ayuda de ambas ordenes, utilizando el argumento `--help`. Identifica
     los parámetros que te permitirán especificar el *broker* destino, el *topic*
     a utilizar y, en el caso de la publicación, el *mensaje* a enviar. 
@@ -60,7 +61,7 @@ Suscribámonos al *topic* `#` en el *broker*, utilizando para ello la orden:
 mosquitto_sub -h test.mosquitto.org  -t "#"
 ```
 
-!!! note "Tarea"
+!!! note "Tarea 2.2"
     Pausa la salida en cuanto puedas. ¿A qué corresponden los mensajes que estás
 obteniendo?
 
@@ -72,7 +73,7 @@ bajo dicho *topic*:
 mosquitto_pub -h test.mosquitto.org -t "/MIOT/tunombre" -m "Hola, soy tunombre"
 ```
 
-!!! note "Tarea"
+!!! note "Tarea 2.3"
     Suscríbete al topic `/MIOT/tunombre` y observa si recibes los resultados 
     tras la publicación correspondiente. ¿Cómo podrías suscribirte a todos
     los mensajes publicados por compañeros?
@@ -82,7 +83,8 @@ mosquitto_pub -h test.mosquitto.org -t "/MIOT/tunombre" -m "Hola, soy tunombre"
     de publicación/suscripción contra el *broker* de test. Incide en el tipo 
     de protocolo de capa de transporte que utiliza MQTT, mensajes de datos
     y control, sobrecarga del protocolo de capa de aplicación, y en general, 
-    cualquier aspecto que consideres de interés.
+    cualquier aspecto que consideres de interés, incluyendo el uso de opciones
+    relativas a QoS.
 
 ## Despliegue de un broker local usando Eclipse Mosquitto
 
@@ -112,7 +114,7 @@ Observarás un mensaje que indica que el servicio está activo. Las opciones
 `restart`, `start` o `stop` te permitirán controlar el estado del *broker* en
 todo momento.
 
-!!! note "Tarea"
+!!! note "Tarea 2.4"
     Comprueba que, con el *broker* arrancado, puedes realizar un proceso de
     suscripción/publicación contra el mismo.
 
@@ -122,7 +124,7 @@ periódicamente o bien cuando sucede un evento de interés, la información
 de estado del *broker*. Puedes consultar más detalles en la página de manual
 de *mosquitto* (comando `man mosquitto`), en el epígrafe *BROKER STATUS*.
 
-!!! note Tarea
+!!! note "Tarea 2.7"
     Comprueba el estado del *broker* mientras realizas procesos de suscripción/publicación
     reportando bytes recibidos/enviados, número de conexiones activas e inactivas, 
     y número de mensajes enviados/recibidos por el *broker*.
