@@ -124,12 +124,64 @@ periódicamente o bien cuando sucede un evento de interés, la información
 de estado del *broker*. Puedes consultar más detalles en la página de manual
 de *mosquitto* (comando `man mosquitto`), en el epígrafe *BROKER STATUS*.
 
-!!! note "Tarea 2.7"
+!!! note "Tarea 2.5"
     Comprueba el estado del *broker* mientras realizas procesos de suscripción/publicación
     reportando bytes recibidos/enviados, número de conexiones activas e inactivas, 
     y número de mensajes enviados/recibidos por el *broker*.
 
-## Desarrollo de un cliente local usando Eclipse Paho
+## Wildcards
+
+Además de permitir el uso de *topics* completos para el proceso de suscripción,
+los topics pueden incluir *wildcards* o comodines en su estructura. `+` es la
+*wildcard* utilizada para obtener correspondencias con un único nivel de la 
+jerarquía. Así, para un *topic* `a/b/c/d`, las siguientes suscripciones 
+corresponderán con éxito:
+
+* `a/b/c/d`
+* `+/b/c/d`
+* `a/+/c/d`
+* `a/+/+/d`
+* `+/+/+/+`
+
+Pero no las siguientes:
+
+* `a/b/c`
+* `b/+/c/d`
+* `+/+/+`
+
+La segunda *wildcard* soportada es `#`, y permite corresponencias con cualquier
+nivel sucesivo de la jerarquía.  Así, para un *topic* `a/b/c/d`, las siguientes suscripciones 
+corresponderán con éxito:
+
+* `a/b/c/d`
+* `#`
+* `a/#`
+* `a/b/#`
+* `a/b/c/#`
+* `+/b/c/#`
+
+!!! note "Tarea 2.6"
+    Experimenta con el uso de *wildcards* desde múltiples clientes suscriptores. Resultará de especial
+    interés observar (por ejemplo, con capturas de tráfico) el ahorro de mensajes asociado al uso de
+    *wildcards* que restrinjan qué mensajes son recibidos y por qué clientes.
+
+
+## Desarrollo de un clientes locales. Opción 1: Node-RED
+
+El despliegue de un cliente MQTT (ya sea suscriptor o publicador) utilizando Node-RED
+resulta muy sencillo. Por defecto, Node-RED incorpora dos tipos de nodos que nos serán de
+utilidad para nuestros despliegues:
+
+- Nodo *MQTT-in*. Recibe datos desde un *broker* MQTT, y es por tanto el mecanismo recomendado para suscribirse a un determinado *topic*. El *topic* al que se suscribe uno de estos nodos es por defecto fijo, aunque puede ser configurado, en versiones modernas del nodo, como dinámico (campo *Action -> Dynamic subscription*) del menú de configuración. 
+- Nodo *MQTT-out*. Envía datos hacia un *broker* MQTT, y es por tanto el mecanismo recomendado para publicar un mensaje sobre un determinado *topic*. El topic bajo el que se publica un determinado dato puede ser fijo (configurado vía cuadro de diálogo de configuración) o variable (configurado como el contenido del campo `msg.topic` del mensaje recibido por el nodo *MQTT-out*).
+
+Ambos requerirán, desde su menú de configuración (accesible vía doble click en el nodo), de la configuración previa de un *broker* MQTT (llamado *server* en el cuadro de diálogo de configuración del nodo). En el caso de una instalación local, bastará con indicar `localhost` como localización de dicho servidor.
+
+!!! note "Tarea 2.7"
+    Experimenta con el uso de los nodos *MQTT-in* y *MQTT-out* enviando y recibiendo mensajes desde un broker local o remoto. Específicamente, asegúrate de saber cómo personalizar tanto el topic como el mensaje a publicar en un nodo de publicación, o el topic al que se 
+    suscribirá un nodo de suscripción.
+
+## Desarrollo de un clientes locales. Opción 2: Eclipse Paho
 
 Los clientes `mosquitto_pub` y `mosquitto_sub` son básicamente herramientas de
 desarrollo y pruebas, pero resulta interesante conocer bibliotecas que permitan
@@ -236,37 +288,6 @@ print("%s %s" % (msg.topic, msg.payload))
 Toda la información y documentación asociada al módulo puede consultarse
 [aquí](https://pypi.org/project/paho-mqtt/).
 
-### Wildcards
-
-Además de permitir el uso de *topics* completos para el proceso de suscripción,
-los topics pueden incluir *wildcards* o comodines en su estructura. `+` es la
-*wildcard* utilizada para obtener correspondencias con un único nivel de la 
-jerarquía. Así, para un *topic* `a/b/c/d`, las siguientes suscripciones 
-corresponderán con éxito:
-
-* `a/b/c/d`
-* `+/b/c/d`
-* `a/+/c/d`
-* `a/+/+/d`
-* `+/+/+/+`
-
-Pero no las siguientes:
-
-* `a/b/c`
-* `b/+/c/d`
-* `+/+/+`
-
-La segunda *wildcard* soportada es `#`, y permite corresponencias con cualquier
-nivel sucesivo de la jerarquía.  Así, para un *topic* `a/b/c/d`, las siguientes suscripciones 
-corresponderán con éxito:
-
-* `a/b/c/d`
-* `#`
-* `a/#`
-* `a/b/#`
-* `a/b/c/#`
-* `+/b/c/#`
-
 !!! danger "Tarea entregable"
     Cada alumno propondrá una solución para monitorizar un edificio inteligente a
     través de un sistema de mensajería MQTT. Para ello, cabe destacar que el
@@ -281,12 +302,13 @@ corresponderán con éxito:
     Se pide, en primer lugar, diseñar la jerarquía de *topics* que permita una correcta 
     monitorización de los edificios.
 
-    En segundo lugar, se desarrollará un programa Python cliente que publique, periódicamente
+    En segundo lugar, se desarrollará un programa Python cliente o un flujo Node-RED que publique, periódicamente
     y de forma aleatoria, objetos JSON 
     (opcionalmente puedes utilizar CBOR) que incluyan el valor de temperatura, humedad, luminosidad o
     vibración para una determinada sala del edificio, elegida también aleatoriamente, a través
     del *topic* correspondiente. Estos mensajes 
-    estarán espaciados en el tiempo un número aleatorio de segundos.
+    estarán espaciados en el tiempo un número aleatorio de segundos (en el caso de Node-RED, se sugiere buscar nodos
+    que permitan generar números aleatorios para dar soporte a la tarea).
 
     En tercer lugar, se piden las *wildcards* que permitan consultar distintos tipos de información
     jerárquica. Por ejemplo:
@@ -296,11 +318,11 @@ corresponderán con éxito:
     * Todos los mensajes de sensorización de la sala 4 del ala Sur de la planta 7 del edificio.
     * ...
 
-    En último lugar, se pide desarrollar un programa Python que actúe a modo de
+    En último lugar, se pide desarrollar un programa Python o un flujo Node-RED que actúe a modo de
     alarma, y que muestre mensajes sólo si algún valor recibido para los 
     datos sensorizados supera un umbral preestablecido. En dicho caso, el programa
     mostrará el edificio, planta, ala, sala y sensor que ha producido la alarma, 
     junto con su valor numérico.
 
     Puedes utilizar el [módulo JSON](https://docs.python.org/3/library/json.html)
-    para parsear los objetos recibidos.
+    para parsear los objetos recibidos en Python, o los nodos correspondientes en Node-RED.

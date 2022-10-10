@@ -101,7 +101,7 @@ Parámetros de interés:
   - `qos`: nivel de QoS deseado.
   - `retain`: flag *Retain*.
 
-!!! note "Tarea 2.8"
+!!! note "Tarea 2.8 (también para evaluación por proyecto)"
     Analiza el ejemplo `examples/protocols/mqtt/tcp`, y configuralo para que 
     utilice como *broker* el que desplegaste en la máquina virtual (asegúrate
     de que tanto máquina virtual como ESP32 pertenecen a la misma red).
