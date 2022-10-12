@@ -289,18 +289,47 @@ emitting diode</em>) de manera que puede emitir luz infrarroja y determinar cuá
 </div>
 <h2 id="ejercicios-obligatorios">Ejercicios obligatorios</h2>
 <h3 id="lectura-de-fuente-de-tension-variable">Lectura de fuente de tensión variable</h3>
-<h3 id="lectura-de-distancias">Lectura de distancias</h3>
-<h2 id="ejercicio-avanzado">Ejercicio avanzado</h2>
-<p>Aplicación que:</p>
+<p>Con un montaje similar al de la sesión pasada (fuente de tensión de 5V y potenciómetro), podemos suministrar voltajes entre 0V y 3.3V al ESP32. </p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
 <ul>
-<li>Muestree la distancia cada 2 segundos </li>
-<li>Muestree el sensor de efecto Hall cada segundo </li>
-<li>Enciende/apaga LED con una frecuencia variable (o mostrar en binario la distancia?5 bits)</li>
-<li>Compruebe si se pulsa un botón. Si es así, cambia la frecuencia de parpadeo del LED (2s, 1s, 0.5s)</li>
-<li>Se muestra por puerto serie las lecturas de distancia y Hall y los cambios en frecuencia de parpadeo</li>
-<li>Cada dispositivo, tendrá su propio fichero con un interfaz definido para su uso.</li>
+<li>Muestrear el ADC cada segundo. En cada muestreo, tomar <code>N</code> medidas y hacer la media (siendo <code>N</code> una constante que se puede modificar via <em>menuconfig</em>). Mostrar por pantalla (vía puerto serie) el valor leído, expresado en mV. <strong>ANTES de conectar el entrenador</strong> llama al profesor para supervisar el montaje y comprobar que el voltaje no supera 3.3V.</li>
+<li>Se deberá comprobar la salida de todas las funciones invocadas, e informar/abortar en caso de error. Utiliza las <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/error-handling.html">funciones proporcionadas por ESP-IDF documentadas en su web</a></li>
 </ul>
-<p>Sin llegar a implementarlas todas, proponed varias alternativas de diseño: usando un único <em>timer</em> para todos, usando un <em>timer</em> para cada muestreo/LED... </p></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Cuestión</p>
+<ul>
+<li>¿Qué factor de atenuación debes configurar para el ADC?</li>
+<li>Compara las lecturas del ADC con medidas hechas con el multímetro del laboratorio. </li>
+</ul>
+</div>
+<h3 id="lectura-de-distancias">Lectura de distancias</h3>
+<p>En esta ocasión, usaremos el sensor de distancia GP2Y0A41SK0F de Sharp conectado al ADC de  ESP32. Deberás conectar la alimentación del senor al pin de 5V del ESP32, las tierras en común y el cable de medida a un pin GPIO del ESP32 que configurarás para usar un canal de ADC.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<ul>
+<li>Muestrear el ADC correspondiente cada segundo, haciendo la media de  <code>N</code> lecturas en cada muestreo (siendo <code>N</code> una constante que se puede modificar via <em>menuconfig</em>). Usad un <em>timer</em> para el muestreo que notificará, por un evento, la disponibilidad del nuevo dato. El código relativo al acceso al sensor estará en un fichero <em>.c</em> separado (con su correspondiente fichero de cabecera <em>.h</em>), con  llamadas para la configuración, arranque/parada de las medidas, y obtener el último valor de distancia medido. El programa principal registará un <em>handle</em> del evento correspondiente. En dicho  <em>handle</em> se invocará a la función del módulo anterior para conseguir el valor de la última distancia medida, y se mostrará por pantalla.</li>
+<li>Se deberá comprobar la salida de las funciones invocadas, e informar en caso de error. Utiliza las <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/error-handling.html">funciones proporcionadas por ESP-IDF documentadas en su web</a></li>
+</ul>
+</div>
+<h2 id="ejercicio-avanzado">Ejercicio avanzado</h2>
+<p>El ejercicio consite en el desarrollo de una aplicación que:</p>
+<ul>
+<li>Muestree la distancia usando el sensor GP2Y0A41SK0F de Sharp cada 2 segundos </li>
+<li>Muestree el sensor de efecto Hall cada segundo </li>
+<li>Cree un contador binario de 3 bits en los LEDs, que cambiarán cada segundo</li>
+<li>Compruebe si se pulsa un botón. Si se pulsa, resetea la cuenta de los LEDs.</li>
+<li>Se muestra por puerto serie las lecturas de distancia (en cm.), la lectura del sensor de fecto  Hall y los valores del contador (expresados en base 10).</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Implementad la funcionalidad anterior procurando dotar de modularidad al código. Cada dispositivo, tendrá su propio fichero con un interfaz definido para su uso. El puerto serie (impresión por pantalla) también tendrá su propio módulo que, en su caso más simple se limitará a invocar a la función de imprimir (se recomienda usar las macros <code>ESP_LOG*</code> en lugar de <code>printf()</code>. Consultad la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html?highlight=esp_logi#c.ESP_LOGI">documentación de <em>Logging</em></a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Cuestión</p>
+<p>Propón varias alternativas de diseño: ¿Cuántas tareas? ¿Creando un único <em>timer</em> para todos o usando un <em>timer</em> para cada muestreo/LED?¿Usando eventos?¿Usando colas para el paso de mensajes entre tareas?</p>
+</div></div>
             </div>
         </div>
 
