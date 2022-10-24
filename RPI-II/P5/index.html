@@ -8,173 +8,169 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 5. Servidores REST y representación de la información. JSON y CBOR - Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <title>Práctica 3 - Master IoT UCM - Prácticas RPI</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
-                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                </div>
 
                 <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href="../.." class="nav-link">Calendario</a>
+                            <li >
+                                <a href="../..">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../RPI-I/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="../../RPI-I/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../../RPI-I/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="../../RPI-I/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="../../RPI-I/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="../../RPI-I/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../../RPI-I/P7/">Práctica 7</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+<li >
+    <a href="../../RPI-I/P8/">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../P1/index.md">Práctica 1</a>
+</li>
+                                    
+<li >
+    <a href="../P6/">Práctica 2 (I)</a>
+</li>
+                                    
+<li >
+    <a href="../P6-II/">Práctica 2 (II)</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">Práctica 3</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../P1/index.md" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../ANIOT/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../P6/" class="dropdown-item">Práctica 2 (I)</a>
+<li >
+    <a href="../../ANIOT/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="../P6-II/" class="dropdown-item">Práctica 2 (II)</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../ANIOT/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="../../ANIOT/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../../ANIOT/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="../../ANIOT/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
-</li>
-                                    
-<li>
-    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
-</li>
-                                    
-<li>
-    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../../ANIOT/P7/">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li >
+                                <a rel="next" href="../P6-II/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../../ANIOT/P1/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#practica-5-servidores-rest-y-representacion-de-la-informacion-json-y-cbor" class="nav-link">Práctica 5. Servidores REST y representación de la información. JSON y CBOR</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#desarrollo-de-un-servidor-rest-en-esp-idf" class="nav-link">Desarrollo de un servidor REST en ESP-IDF</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#representacion-de-la-informacion-json" class="nav-link">Representación de la información. JSON</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#representacion-de-la-informacion-cbor" class="nav-link">Representación de la información. CBOR</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#practica-3-servidores-rest-y-representacion-de-la-informacion-json-y-cbor">Práctica 3. Servidores REST y representación de la información. JSON y CBOR</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#desarrollo-de-un-servidor-rest-en-esp-idf">Desarrollo de un servidor REST en ESP-IDF</a></li>
+            <li><a href="#representacion-de-la-informacion-json">Representación de la información. JSON</a></li>
+            <li><a href="#representacion-de-la-informacion-cbor">Representación de la información. CBOR</a></li>
+    </ul>
 </div></div>
-                    <div class="col-md-9" role="main">
+                <div class="col-md-9" role="main">
 
-<h1 id="practica-5-servidores-rest-y-representacion-de-la-informacion-json-y-cbor">Práctica 5. Servidores REST y representación de la información. JSON y CBOR</h1>
+<h1 id="practica-3-servidores-rest-y-representacion-de-la-informacion-json-y-cbor">Práctica 3. Servidores REST y representación de la información. JSON y CBOR</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>
@@ -209,8 +205,7 @@ funcionalidades ofrecidas por ESP-IDF, un servidor HTTP que exponga una API
 REST mediante la cual será posible interactuar, en modos lectura y escritura,
 con un servidor (en nuestro caso, un dispositivo ESP32). 
 Concretamente, trabajaremos con el ejemplo 
-<code>example/protocols/http_server/rest_server</code> de la distribución de IDF 
-(versión 4.1).</p>
+<code>example/protocols/http_server/restful_server</code> de la distribución de IDF.</p>
 <h3 id="descripcion-de-la-api">Descripción de la API</h3>
 <p>El ejemplo que estudiaremos construye una sencilla interfaz (API) con
 tres <em>endpoints</em> que permiten interactuar con distintas funcionalidades
@@ -269,16 +264,18 @@ del punto de acceso WiFi al que conectará, siguiendo la metodología habitual.<
 desplegar el cliente web. Para ello, navega al subdirectorio <code>front/web-demo</code>,
 donde reside el código fuente del cliente. Ejecuta los siguientes comandos
 para instalar las dependencias necesarias:</p>
-<pre><code class="language-sh">sudo apt-get install npm node-vue*
+<pre><code class="sh">sudo apt-get install npm node-vue*
 npm install
 npm run build 
 </code></pre>
+
 <p>En este punto, ya podrás ejecutar, desde el directorio base del ejemplo, la
 orden de compilación y flasheado:</p>
-<pre><code class="language-sh">idf.py build
+<pre><code class="sh">idf.py build
 idf.py flash
 idf.py monitor
 </code></pre>
+
 <h3 id="interaccion-con-el-dispositivo-via-interfaz-web">Interacción con el dispositivo vía interfaz web</h3>
 <p>Si todo ha ido bien, podrás observar en la salida de monitorización la
 IP proporcionada al ESP32. Abre un navegador en la máquina virtual o 
@@ -298,7 +295,7 @@ de luminosidad que hipotéticamente podría equipar el ESP32.</p>
 </li>
 </ul>
 <div class="admonition note">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea 3.1</p>
 <p>Interactúa con el sensor de luminosidad del ESP32 enviando distintos
 valores. Observa cómo la salida de monitorización del ESP32 responde mostrando
 los valores recibidos. Analiza el tráfico generado para una de dichas peticiones
@@ -312,24 +309,27 @@ protocolo HTTP, justo las necesarias para realizar peticiones de lectura y
 escritura sobre nuestro servidor HTTP REST. </p>
 <p>Concretamente, para realizar una petición HTTP <code>GET</code> sobre nuestro servidor, 
 podemos ejecutar:</p>
-<pre><code class="language-sh">curl http://IP/URI
+<pre><code class="sh">curl http://IP/URI
 </code></pre>
+
 <p>Por ejemplo, la petición:</p>
-<pre><code class="language-sh">curl http://192.168.1.26/api/v1/temp/raw
+<pre><code class="sh">curl http://192.168.1.26/api/v1/temp/raw
 </code></pre>
+
 <p>(siendo <code>192.168.1.26</code> la IP del ESP32)
 nos responderá con el valor de temperatura instantánea.</p>
 <p>Del mismo modo, para escribir (método <code>POST</code>) sobre el servidor, utilizaremos
 el parámetro <code>-d</code>, seguido del recurso que queramos enviar. Ten en cuenta
 que es responsabilidad del cliente enviar un recurso bien formado e interpretable
 por el dispositivo:</p>
-<pre><code class="language-sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
+<pre><code class="sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
 -X POST http://192.168.1.26/api/v1/light/brightness
 </code></pre>
+
 <p>Observa que hemos incluido el tipo de recurso enviado (<code>JSON</code>) y la operacion
 solicitada (<code>POST</code>). Volveremos a esto en breve.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Tarea 3.2</p>
 <p>Comprueba que, efectivamente, el tráfico generado por las anteriores órdenes
 es el mismo que el que observaste en el caso del  cliente web. Observa qué 
 ocurre si consultas un <em>endpoint</em> inexistente, o si envías un JSON mal
@@ -367,7 +367,7 @@ el método coincide con el indicado.</p>
 para la creación de la API anteriormente descrita. Así, para crear el 
 <em>endpoint</em> <code>/api/v1/system/info</code>, procederemos, en primer lugar, registrándolo
 en el servidor, preparando previamente la estructura de tipo <code>httpd_uri_t</code>:</p>
-<pre><code class="language-c">httpd_uri_t system_info_get_uri = {
+<pre><code class="c">httpd_uri_t system_info_get_uri = {
         .uri = &quot;/api/v1/system/info&quot;,
         .method = HTTP_GET,
         .handler = system_info_get_handler,
@@ -375,6 +375,7 @@ en el servidor, preparando previamente la estructura de tipo <code>httpd_uri_t</
     };
     httpd_register_uri_handler(server, &amp;system_info_get_uri);
 </code></pre>
+
 <p>En este caso, la operación asociada a la invocación del handler será, exclusivamente
 <code>GET</code>; de hecho, si invocamos a un método <code>POST</code> sobre este <em>endpoint</em>, el 
 servidor nos responderá automáticamente con un aviso que indicará que dicho método
@@ -382,7 +383,7 @@ no está soportado.</p>
 <p>El procesamiento de la petición <code>GET</code> se realiza en la función 
 <code>system_info_get_handler</code>, y el esquema que se sigue es, en cualquier caso,
 sencillo:</p>
-<pre><code class="language-c">static esp_err_t system_info_get_handler(httpd_req_t *req)
+<pre><code class="c">static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Preparación del tipo de respuesta.
     httpd_resp_set_type(req, &quot;application/json&quot;);
@@ -395,13 +396,14 @@ sencillo:</p>
 
     return ESP_OK;
 </code></pre>
+
 <p>Alternativamente, si la respuesta es binaria, podríamos utilizar la función
 <code>https_resp_send( req, buffer, buffer_len  )</code> para procesarla y enviarla 
 (lo necesitarás para enviar un buffer binario CBOR).</p>
 <p>La creación de un <em>endpoint</em> con soporte para método <code>POST</code>
 resulta algo más larga, aunque el registro del mismo no difiere del ejemplo
 anterior:</p>
-<pre><code class="language-c">    /* URI handler for light brightness control */
+<pre><code class="c">    /* URI handler for light brightness control */
     httpd_uri_t light_brightness_post_uri = {
         .uri = &quot;/api/v1/light/brightness&quot;,
         .method = HTTP_POST,
@@ -410,10 +412,11 @@ anterior:</p>
     };
     httpd_register_uri_handler(server, &amp;light_brightness_post_uri);
 </code></pre>
+
 <p>Observa el cuerpo de la función <code>light_brightness_post_handler</code>. La recepción
 del objeto enviado por parte del cliente se realiza en base a múltiples
 invocaciones a la rutina <code>httpd_req_recv</code>:</p>
-<pre><code class="language-c">/* Simple handler for light brightness control */
+<pre><code class="c">/* Simple handler for light brightness control */
 static esp_err_t light_brightness_post_handler(httpd_req_t *req)
 {
     int total_len = req-&gt;content_len;
@@ -439,6 +442,7 @@ static esp_err_t light_brightness_post_handler(httpd_req_t *req)
     /// A partir de este punto, disponemos en buf del objeto recibido vía HTTP.
     /// ... 
 </code></pre>
+
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Observa y estudia los códigos de los manejadores implementados en el ejemplo. 
@@ -480,7 +484,7 @@ por comas y encerrados entre llaves.</p>
 para parsear y construir objetos de tipo JSON de forma sencilla y consistente.
 La biblioteca cJSON representa datos JSON utilizando una estructura sencilla, 
 véase:</p>
-<pre><code class="language-c">/* The cJSON structure: */
+<pre><code class="c">/* The cJSON structure: */
 typedef struct cJSON
 {
     struct cJSON *next;
@@ -494,6 +498,7 @@ typedef struct cJSON
     char *string;
 } cJSON;
 </code></pre>
+
 <p>El campo <code>type</code> informa sobre el tipo de dato contenido en el objeto, véase:</p>
 <ul>
 <li><code>cJSON_False</code> (<code>cJSON_IsFalse()</code>): representa un valor booleano falso.</li>
@@ -519,18 +524,20 @@ Todas estas funciones alojan memoria suficiente como para albergar
 el dato creado. </p>
 <p>Dado un objeto JSON en forma de cadena, es posible analizarlo (parsearlo)
 utilizando la función <code>cJSON_Parse</code>:</p>
-<pre><code class="language-c">cJSON * json = cJSON_Parse( string );
+<pre><code class="c">cJSON * json = cJSON_Parse( string );
 </code></pre>
+
 <p>Para imprimir el contenido de una estructura JSON en modo texto, podemos
 hacer uso de la función <code>cJSON_Print(json)</code>:</p>
-<pre><code class="language-c">char * string = cJSON_Print( json );
+<pre><code class="c">char * string = cJSON_Print( json );
 </code></pre>
+
 <h3 id="ejemplos">Ejemplos</h3>
 <p>Observa de nuevo el contenido de las funciones manejadoras en nuestro servidor
 REST. Concretamente, céntrate en la función <code>system_info_get_handler</code>, que
 construye un objeto JSON con dos campos, de tipo cadena ("version")
 y numérico ("cores"):</p>
-<pre><code class="language-c">/* Simple handler for getting system handler */
+<pre><code class="c">/* Simple handler for getting system handler */
 static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Preparación del tipo de datos de la respuesta.
@@ -564,9 +571,10 @@ static esp_err_t system_info_get_handler(httpd_req_t *req)
     return ESP_OK;
 }
 </code></pre>
+
 <p>La función <code>light_brightness_post_handler</code> realiza un parseado del objeto
 JSON recibido. Observa su cuerpo:</p>
-<pre><code class="language-c">    // buf contiene la cadena recibida a través de HTTP (método POST).
+<pre><code class="c">    // buf contiene la cadena recibida a través de HTTP (método POST).
     // ...
     // Parseamos el objeto JSON.
     cJSON *root = cJSON_Parse(buf);
@@ -587,6 +595,7 @@ JSON recibido. Observa su cuerpo:</p>
 
     return ESP_OK;
 </code></pre>
+
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Extiende la tarea anterior para añadir el dato en formato punto flotante
@@ -637,7 +646,7 @@ para convertir dicho objeto a representación JSON, así como para parsearlo
 manualmente.</p>
 <p>En primer lugar, compila, flashea y ejecuta el ejemplo. 
 Verás que la salida debería ser similar a la siguiente:</p>
-<pre><code class="language-sh">I (320) example: encoded buffer size 67
+<pre><code class="sh">I (320) example: encoded buffer size 67
 I (320) example: convert CBOR to JSON
 [{&quot;chip&quot;:&quot;esp32&quot;,&quot;unicore&quot;:false,&quot;ip&quot;:[192,168,1,100]},3.1400001049041748,&quot;simple(99)&quot;,&quot;2019-07-10 09:00:00+0000&quot;,&quot;undefined&quot;]
 I (340) example: decode CBOR manually
@@ -661,6 +670,7 @@ Array[
   undefined
 ]
 </code></pre>
+
 <p>Observa que la estructura del objeto CBOR será medianamente compleja: constará
 de un array formado por cinco elementos:</p>
 <ol>
@@ -675,12 +685,13 @@ booleanos y un segundo array para especificar una dirección IP.</li>
 <h3 id="etapa-1-creacion-codificacion-del-objeto-cbor">Etapa 1: creación (codificación) del objeto CBOR</h3>
 <p>Observa el cuerpo de la tarea principal (<code>app_main</code>). El codificador 
 CBOR se basa en dos variables:</p>
-<pre><code class="language-c">CborEncoder Root_encoder; // Codificador CBOR.
+<pre><code class="c">CborEncoder Root_encoder; // Codificador CBOR.
 uint8_t buf[100];         // Buffer para alojar el objeto CBOR (array de bytes). 
 </code></pre>
+
 <p>En segundo lugar, y ya que utilizaremos un array y un mapa, necesitaremos
 constructores especiales para dichos objetos:</p>
-<pre><code class="language-c">// Creación de Array.
+<pre><code class="c">// Creación de Array.
 CborEncoder array_encoder;
 CborEncoder map_encoder;
 
@@ -688,9 +699,10 @@ cbor_encoder_create_array(&amp;root_encoder, &amp;array_encoder, 5); // [
   // 1. Creación del Mapa.
   cbor_encoder_create_map(&amp;array_encoder, &amp;map_encoder, 3); // {
 </code></pre>
+
 <p>A partir de este punto, podemos proceder con la construcción de los objetos
 siguiendo el esquema deseado:</p>
-<pre><code class="language-c">  // chip: esp32 (cadena:cadena)
+<pre><code class="c">  // chip: esp32 (cadena:cadena)
   cbor_encode_text_stringz(&amp;map_encoder, &quot;chip&quot;);
   cbor_encode_text_stringz(&amp;map_encoder, &quot;esp32&quot;);
 
@@ -731,16 +743,18 @@ cbor_encoder_close_container(&amp;root_encoder, &amp;array_encoder); // ]
 // Mostramos el tamaño del buffer creado.
 ESP_LOGI(TAG, &quot;encoded buffer size %d&quot;, cbor_encoder_get_buffer_size(&amp;root_encoder, buf));
 </code></pre>
+
 <h3 id="etapa-2-conversion-a-json">Etapa 2: conversión a JSON</h3>
 <p>La conversión a JSON (típicamente por motivos de visualización o depuración), 
 puede realizarse del siguiente modo:</p>
-<pre><code class="language-c">    // Initialize the cbor parser and the value iterator
+<pre><code class="c">    // Initialize the cbor parser and the value iterator
     cbor_parser_init(buf, sizeof(buf), 0, &amp;root_parser, &amp;it);
 
     ESP_LOGI(TAG, &quot;convert CBOR to JSON&quot;);
     // Dump the values in JSON format
     cbor_value_to_json(stdout, &amp;it, 0);
 </code></pre>
+
 <h3 id="etapa-3-parseado-manual-de-un-objeto-cbor">Etapa 3: parseado manual de un objeto CBOR</h3>
 <p>Por último, el parseado manual del objeto CBOR se deja como ejercicio de estudio
 para el alumno, y está implementado en la función <code>example_dump_cbor_buffer</code>
@@ -766,7 +780,7 @@ por el servidor HTTP.</p>
 <p>Las modificaciones a realizar en la función manejadora del <em>endpoint</em> para 
 responder con un objeto CBOR son mínimas. De hecho, se centran simplemente en 
 el tipo de respuesta y el mecanismo a usar para enviarla, véase:</p>
-<pre><code class="language-c">static esp_err_t system_info_get_handler(httpd_req_t *req)
+<pre><code class="c">static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Tipo de respuesta.
     httpd_resp_set_type(req, &quot;application/cbor&quot;);
@@ -785,11 +799,13 @@ el tipo de respuesta y el mecanismo a usar para enviarla, véase:</p>
 
     return ESP_OK;
 </code></pre>
+
 <p>Para consultar desde línea de comandos sobre este <em>endpoint</em>, podemos utilizar
 directamente <code>curl</code>, volcando la salida recibida a un fichero (por
 ejemplo, <code>output.cbor</code>):</p>
-<pre><code class="language-sh">curl http://192.168.1.26/api/v1/system/info &gt; output.cbor
+<pre><code class="sh">curl http://192.168.1.26/api/v1/system/info &gt; output.cbor
 </code></pre>
+
 <p>Si visualizas el contenido del fichero, verás que contiene datos binarios
 difícilmente interpretables. A continuación veremos distintos mecanismos
 de visualización.</p>
@@ -797,14 +813,16 @@ de visualización.</p>
 <p>Una opción de visualización consiste en utilizar la web <a href="http://cbor.me/">cbor.me</a>.
 En el panel derecho, podrás pegar el contenido binario leído. Si necesitas
 realizar la conversión antes de pegarlo en la web, puedes hacerlo con la orden:</p>
-<pre><code class="language-sh">xxd -ps output.cbor
+<pre><code class="sh">xxd -ps output.cbor
 </code></pre>
+
 <p>Un ejemplo de salida (a pegar en el panel derecho de la web), podría ser:</p>
-<pre><code class="language-sh">$ xxd -ps output.cbor 
+<pre><code class="sh">$ xxd -ps output.cbor 
 85a3646368697065657370333267756e69636f7265f46269708418c018a8
 011864fa4048f5c3f8637818323031392d30372d31302030393a30303a30
 302b30303030f7
 </code></pre>
+
 <p>Deberías observar una salida similar a la siguiente (ten en cuenta que 
 la herramiente automáticamente indenta el contenido del panel derecho; 
 recuerda que simplemente debes pegar la salida generada por <code>xxd</code>):</p>
@@ -813,21 +831,22 @@ recuerda que simplemente debes pegar la salida generada por <code>xxd</code>):</
 en tu servidor TCP/UDP, por ejemplo), que haga uso del módulo <code>cbor2</code>
  (<a href="https://pypi.org/project/cbor2/">documentación</a>). Para
 comprobar su funcionamiento, primero instálalo:</p>
-<pre><code class="language-sh">pip install cbor2
+<pre><code class="sh">pip install cbor2
 </code></pre>
+
 <p>Y comprueba si efectivamente funciona utilizando el siguiente programa Python:</p>
-<pre><code class="language-python">from cbor2 import dumps, loads, dump, load
+<pre><code class="python">from cbor2 import dumps, loads, dump, load
 
 with open('output.cbor', 'rb') as fp:
     obj = load(fp)
 
 print(obj)
 </code></pre>
+
 <p>Al ejecutarlo, observarás el contenido del objeto:</p>
-<pre><code class="language-sh">python cbor.py
+<pre><code class="sh">python cbor.py
 [{'chip': 'esp32', 'unicore': False, 'ip': [192, 168, 1, 100]}, 3.140000104904175, CBORSimpleValue(value=99), '2019-07-10 09:00:00+0000', undefined]
 </code></pre></div>
-            </div>
         </div>
 
         <footer class="col-md-12">
@@ -841,32 +860,35 @@ print(obj)
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
                     <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
