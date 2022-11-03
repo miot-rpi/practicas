@@ -89,7 +89,7 @@ La sección 5.1.2 del documento explica cómo obtener una medida de temperatura 
 ## Ejercicios obligatorios
 
 ### Uso de i2ctools
-Compila y prueba el ejemplo *i2c_tools* de la carpeta de ejemplos (*examples/peripherals/i2c/i2c_tools*). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando `idcdetect`. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.
+Compila y prueba el ejemplo *i2c_tools* de la carpeta de ejemplos (*examples/peripherals/i2c/i2c_tools*). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando `i2cdetect`. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.
 
 ### Lectura de temperatura
 Crea una aplicación que monitorice la temperatura cada segundo usando un *timer*. Modulariza el código de modo que la funcionalidad relativa al sensor, quede en los ficheros `si7021.c` y `si7021.h`.
@@ -108,6 +108,7 @@ Escribe una aplicación que:
 * Muestre por puerto serie las lecturas temperatura y del sensor de efecto Hall cada 5 segundos (se mostrará una media de las medidas tomadas)
 * Por cada grado se incremente la tempertura  desde la medida inicial, se encenderá un nuevo LED. Incialmente habrá uno encendido. Cuando se decremente, bajaremos.
 * Se emitirán eventos para informar del incremento/decremento de un grado centígrado en la medida.
-* Si el sensor de efecto Hall varía su lectura en más de un 20% respecto a la anterior, emitirá un evento que hará que entremos en un modo en el que no se dejará de leer la temperatura hasta que el sensor de efecto Hall vuelva a sus valores *normales*
+* Si el sensor de efecto Hall varía su lectura en más de un 20% respecto a la anterior, emitirá un evento que hará que entremos en un modo en el que no se leerá la temperatura hasta que el sensor de efecto Hall vuelva a sus valores *normales*. Los LEDs parpadearán mientras permanezcamos en este modo.
 
-Cada dispositivo (efecto Hall, LEDs, sensor SI7021) estará en un módulo (ficheros .c/.h) diferentes (se valorará el uso de *componentes* deESP-IDF). El código se estructurará en torno a una máquina de estados (FSM) que recibirá como entradas la información temporal (por ejemplo, el paso de un segundo) así como los eventos de incremento/decremento de la temperatura y de variación del sensor efecto Hall.
+Cada dispositivo (efecto Hall, LEDs, sensor SI7021) estará en un módulo (ficheros .c/.h) diferente (se valorará el uso de *componentes* deESP-IDF). 
+El código se estructurará en torno a una máquina de estados (FSM), que puede ser extremademente sencilla. Puede recibir  como entrada  información temporal (por ejemplo, el paso de un segundo) así como los eventos de incremento/decremento de la temperatura y de variación del sensor efecto Hall (*pero NO es obligatorio seguir esa propuesta*). Se aconseja usar  [colas de FreeRTOS](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#queue-api) para proporcionar la entrada a la FSM (unas tareas  de  escribirán en la cola. La tarea del FSM leerá de la cola. Deberéis crear un tipo de datos para modelar lo que se introduce en la cola)
