@@ -180,12 +180,19 @@ void app_main(void)
 }
 ```
 
+Las acciones realizadas por esta función de entrada se describen en los
+siguientes apartados.
+
+### Inicialización de la flash para almacenamiento no volátil
+
 La función principal procede incializando el almacenamiento no volátil, para 
 almacenar los parámetros necesarios en memoria *flash*:
 
 ```c
 ret = nvs_flash_init();
 ```
+
+### Inicialización y configuración de BLE
 
 A continuación la función principal inicializa el controlador Bluetooth, creando
 en primer lugar una estructura de configuración para tal fin de tipo
@@ -245,17 +252,18 @@ En la aplicación de ejemplo estos *callbacks* son las funciones
 `gatts_event_handler()` y `gap_event_handler()`, que manejarán los eventos
 emitidos por la pila BLE hacia la plicación.
 
-## Perfiles de aplicación (*Application profiles*)
+### Perfiles de aplicación (*Application profiles*)
 
 Como se ha dicho, el objetivo es implementar un Perfil de Aplicación 
 para el servicio *Heart Rate*. Un Perfil de Aplicación es un mecanismo que
 permite agrupar funcionalidad diseñada para ser utilizada por un cliente
-de la aplicación, por ejemplo, una aplicación móvil. En este sentido, 
-diferentes tipos de perfiles pueden acomodarse en un mismo servidor.
+de la aplicación, por ejemplo, una aplicación móvil. Un mismo servidor puede
+implementar uno o más perfiles de aplicación (Aplicaciones en el mundo BLE).
 
-El Identifificador de Perfil de Aplicación (*Application Profile ID*) es un valor
-seleccionable por el usuario para identificar cada perfil; su uso se recude al
-registro del perfil en la pila Bluetooth. En el ejemplo, el ID es `0x55`.
+El Identifificador de Perfil de Aplicación (*Application Profile ID*) es un
+valor seleccionable por el usuario para identificar cada perfil; su uso se
+recude al registro del perfil en la pila Bluetooth. En el ejemplo, el ID es
+`0x55`.
 
 ```c
 #define PROFILE_NUM                  1
@@ -283,6 +291,26 @@ static struct gatts_profile_inst heart_rate_profile_tab[PROFILE_NUM] = {
 };
 ```
 
+La estructura ``gatts_profile_inst`` completa presenta los siguientes campos (no
+todos se usan en el ejemplo):
+
+```c
+struct gatts_profile_inst {
+    esp_gatts_cb_t gatts_cb;
+    uint16_t gatts_if;
+    uint16_t app_id;
+    uint16_t conn_id;
+    uint16_t service_handle;
+    esp_gatt_srvc_id_t service_id;
+    uint16_t char_handle;
+    esp_bt_uuid_t char_uuid;
+    esp_gatt_perm_t perm;
+    esp_gatt_char_prop_t property;
+    uint16_t descr_handle;
+    esp_bt_uuid_t descr_uuid;
+};
+```
+
 El registro de la aplicación tiene lugar en la función ``app_main()``,
 utilizando la función ``esp_ble_gatts_app_register()``:
 
@@ -290,201 +318,13 @@ utilizando la función ``esp_ble_gatts_app_register()``:
 esp_ble_gatts_app_register(ESP_APP_ID);
 ```
 
-## Parámetros GAP
+## Registro de aplicación
 
-El evento de registro de aplicación es el primero que se invoca durante
-la vida de un programa. Este ejemplo utiliza este evento para configurar 
-parámetros GAP (de anuncio). Las funciones asociadas son:
-
-* ``esp_ble_gap_set_device_name()``: utilizada para establecer el nombre del dispositivo anunciado.
-* ``esp_ble_gap_config_adv_data()``: usada para configurar datos estándar de anuncio.
-
-La función utilizada para configurar los parámetros estándar 
-(``esp_ble_gap_config_adv_data()``) toma un puntero a una estructura de tipo ``esp_ble_adv_data_t``. La estructura ``esp_ble_adv_data_t`` dispone de los siguientes campos:
-
-```c
-typedef struct {
-    bool set_scan_rsp;    /*!< Set this advertising data as scan response or not*/
-    bool include_name;    /*!< Advertising data include device name or not */
-    bool include_txpower; /*!< Advertising data include TX power */
-    int min_interval;     /*!< Advertising data show slave preferred connection min interval */
-    int max_interval;     /*!< Advertising data show slave preferred connection max interval */
-    int appearance;       /*!< External appearance of device */
-    uint16_t manufacturer_len; /*!< Manufacturer data length */
-    uint8_t *p_manufacturer_data; /*!< Manufacturer data point */
-    uint16_t service_data_len;    /*!< Service data length */
-    uint8_t *p_service_data;      /*!< Service data point */
-    uint16_t service_uuid_len;    /*!< Service uuid length */
-    uint8_t *p_service_uuid;      /*!< Service uuid array point */
-    uint8_t flag;         /*!< Advertising flag of discovery mode, see BLE_ADV_DATA_FLAG detail */
-} esp_ble_adv_data_t;
-```
-
-En el ejemplo, la estructura se incializará como sigue:
-
-```c
-static esp_ble_adv_data_t heart_rate_adv_config = {
-    .set_scan_rsp = false,
-    .include_name = true,
-    .include_txpower = true,
-    .min_interval = 0x0006,
-    .max_interval = 0x0010,
-    .appearance = 0x00,
-    .manufacturer_len = 0, //TEST_MANUFACTURER_DATA_LEN,
-    .p_manufacturer_data =  NULL, //&test_manufacturer[0],
-    .service_data_len = 0,
-    .p_service_data = NULL,
-    .service_uuid_len = sizeof(heart_rate_service_uuid),
-    .p_service_uuid = heart_rate_service_uuid,
-    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
-};
-```
-Los intervalos mínimos y máximos de conexión se establecen en unidades de
-1.25 ms. En el ejemplo, el intervalo de conexión mínimo preferido se establece, 
-por tanto, en 7.5 ms y el máximo en 20 ms.
-
-El *payload* del anuncio puede almacenar hasta 31 bytes de datos.  Es posible
-que algunos parámetros los superen, pero en dicho caso el stack BLE cortará el
-mensaje y eliminará aquellos que superen el tamaño máximo. Para solicionar esto,
-los parámetros más largos se suelen se almacenan para enviar con el *scan
-response*, configurado con ``esp_ble_gap_config_adv_data()`` poniendo el campo
-.set_scan_rsp a true en la estructura tipo esp_ble_adv_data_t. Por último, para
-establecer el nombre del dispositivo se puede utilizar la función
-``esp_ble_gap_set_device_name()``. 
-
-Para registrar el manejador de eventos, procedemos de la siguiente forma:
-
-```c
-static void gatts_profile_event_handler(esp_gatts_cb_event_t event, 
-esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
-{
-    ESP_LOGE(GATTS_TABLE_TAG, "event = %x\n",event);
-    switch (event) {
-        case ESP_GATTS_REG_EVT:
-            ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
-            esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
-            ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
-            esp_ble_gap_config_adv_data(&heart_rate_adv_config);
-            ESP_LOGI(GATTS_TABLE_TAG, "%s %d\n", __func__, __LINE__);
-...
-```
-
-## El manejador de eventos GAP
-
-Una vez establecidos los datos de anuncio, se emite un evento de tipo
-``ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT``, que será manejado por el manejador
-GAP configurado. Además, se emite también un evento de tipo
-``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT`` si se ha configurado una
-respuesta al escaneado.  Así, el manejador puede utilizar cualquiera de estos
-dos eventos para comenzar con el proceso de anuncio, utilizando la función
-``esp_ble_gap_start_advertising()``:
-
-```c
-static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
-{
-    ESP_LOGE(GATTS_TABLE_TAG, "GAP_EVT, event %d\n", event);
-
-    switch (event) {
-    case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
-        esp_ble_gap_start_advertising(&heart_rate_adv_params);
-        break;
-    case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
-        //advertising start complete event to indicate advertising start successfully or failed
-        if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
-            ESP_LOGE(GATTS_TABLE_TAG, "Advertising start failed\n");
-        }
-        break;
-    default:
-        break;
-    }
-}
-```
-
-La función de inicio de anuncios toma una estructura de tipo 
-``esp_ble_adv_params_t`` con los parámetros de anuncio requeridos:
-
-```c
-/// Advertising parameters
-typedef struct {
-    uint16_t adv_int_min; /*!< Minimum advertising interval for undirected and low duty cycle directed advertising.
-    Range: 0x0020 to 0x4000
-    Default: N = 0x0800 (1.28 second)
-    Time = N * 0.625 msec
-    Time Range: 20 ms to 10.24 sec */
-    uint16_t adv_int_max; /*!< Maximum advertising interval for undirected and low duty cycle directed advertising.
-    Range: 0x0020 to 0x4000
-    Default: N = 0x0800 (1.28 second)
-    Time = N * 0.625 msec
-    Time Range: 20 ms to 10.24 sec */
-    esp_ble_adv_type_t adv_type;            /*!< Advertising type */
-    esp_ble_addr_type_t own_addr_type;      /*!< Owner bluetooth device address type */
-    esp_bd_addr_t peer_addr;                /*!< Peer device bluetooth device address */
-    esp_ble_addr_type_t peer_addr_type;     /*!< Peer device bluetooth device address type */
-    esp_ble_adv_channel_t channel_map;      /*!< Advertising channel map */
-    esp_ble_adv_filter_t adv_filter_policy; /*!< Advertising filter policy */
-} esp_ble_adv_params_t;
-```
-
-Nótese como ``esp_ble_gap_config_adv_data()`` configura los datos que son
-aunciados al cliente y toma una estructura de tipo ``esp_ble_adv_data_t structure``, 
-mientras que ``esp_ble_gap_start_advertising()`` hace que el servidor realmente
-comience a anunciar, tomando una estructura de tipo ``esp_ble_adv_params_t``. 
-Los datos de anuncio son aquellos que realmente se envían al cliente, mientras
-que los parámetros de anuncio son la configuración requerida por la pila BLE
-para actuar correctamente.
-
-Para este ejemplo, los parámetros de anuncio se inicializarán como sigue:
-
-```c
-static esp_ble_adv_params_t heart_rate_adv_params = {
-    .adv_int_min        = 0x20,
-    .adv_int_max        = 0x40,
-    .adv_type           = ADV_TYPE_IND,
-    .own_addr_type      = BLE_ADDR_TYPE_PUBLIC,
-    //.peer_addr            =
-    //.peer_addr_type       =
-    .channel_map        = ADV_CHNL_ALL,
-    .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
-};
-```
-
-Estos parámetros configuran el intervalo de anuncio entre 20 ms y 40 ms. 
-El anuncio es de tipo `ADV_TYPE_IND` (tipo genérico), destinados a ningún dispositivo
-central en particular, y anuncia que el servidor GATT es conectable. El tipo 
-de dirección es público, utiliza todos los canales y permite peticiones de 
-escaneo y conexión por parte de cualquier dispositivo central.
-
-Si el proceso de anuncio se inició correctamente, se emitirá un evento de tipo
-``ESP_GAP_BLE_ADV_START_COMPLETE_EVT``, que en este ejemplo se utiliza para comprobar
-si el estado de anuncio es realmente *anunciando* u otro, en cuyo caso se 
-emitirá un mensaje de error:
-
-```c
-...
-    case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
-        //advertising start complete event to indicate advertising start successfully or failed
-        if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
-            ESP_LOGE(GATTS_TABLE_TAG, "Advertising start failed\n");
-        }
-        break;
-...
-```
-
-## Manejadores de eventos GATT
-
-Al registrar un Pefil de Aplicación, se emite un evento de tipo
-``ESP_GATTS_REG_EVT``. Los parámetros asociados al evento son:
-
-```c
-esp_gatt_status_t status;    /*!< Operation status */
-uint16_t app_id;             /*!< Application id which input in register API */
-```
-
-Además de los anteriores parámetros, el evento también contiene la interfaz GATT
-asignada por la pila BLE, a utilizar a partir de ahora. El evento es capturado
-por el manejador ``gatts_event_handler()``, que almacena la interfaz generada en
-la tabla de perfiles, y la reenvía al manejador de eventos correspondiente al
-perfil:
+El evento de registro de aplicación ``ESP_GATTS_REG_EVT`` es el primero que se
+generará en la vida del programa. Este evento es tratado por el callback
+registrado como manejador de eventos del servidor gatt, que en nuestro ejemplo
+lo termina delegando en el callback asociado al perfil de aplicación
+(``gatts_profile_event_handler`` en nuestro ejemplo):
 
 ```c
 static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
@@ -517,36 +357,188 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
 }
 ```
 
-## Creación de Servicios y Características con una Tabla de Atributos
-
-Aprovecharemos el evento de tipo Registro para crear una tabla de atributos de
-perfil utilizando la función ``esp_ble_gatts_create_attr_tab()``.  Esta función
-toma como argumento una estructura de tipo ``esp_gatts_attr_db_t``, que
-corresponde a una tabla de *lookup* indexada por los valores de la enumeración
-definidos en el fichero de cabecera.
-
-La estructura ``esp_gatts_attr_db_t`` tiene dos miembros:
+Los parámetros asociados al evento son:
 
 ```c
-esp_attr_control_t    attr_control;       /*!< The attribute control type*/
-esp_attr_desc_t       att_desc;           /*!< The attribute type*/
+esp_gatt_status_t status;    /* Operation status */
+uint16_t app_id;             /* Application id which input in register API */
+esp_gatt_if_t gatts_if;      /* Interfaz GATTS assignada por la pila BLE */
 ```
 
-* `attr_control` es el parámetro de autorespuesta, típicamente fijado a 
-``ESP_GATT_AUTO_RSP`` para permitir que la pila BLE reponda automáticamente a los
-mensajes de lectura o escritura cuando dichos eventos son recibidos. 
-Una opción alternativa es ``ESP_GATT_RSP_BY_APP`` que permite respuestas 
-manuales utilizando la función ``esp_ble_gatts_send_response()``.
+A partir de ese momento deberá usarse la interfaz ``gatts_if`` para operar, por
+lo que la función registra esta interfaz en la tabla de descripción del perfil
+de aplicación.
 
-* `att_desc` es la descripción del atributo, formada por:
+Finalmente, la función delega el evento en el callback registrado para tratar
+los eventos asociados al perfil (``gatts_profile_event_handler``).
+
+## Parámetros GAP
+
+Como hemos visto arriba, el evento ``ESP_GATTS_REG_EVT`` es delegado en la
+función ``gatss_profile_event_handler`` por el manejador de eventos del servidor
+gatt, para completar su procesamiento:
 
 ```c
-uint16_t uuid_length;      /*!< UUID length */
-uint8_t  *uuid_p;          /*!< UUID value */
-uint16_t perm;             /*!< Attribute permission */
-uint16_t max_length;       /*!< Maximum length of the element*/
-uint16_t length;           /*!< Current length of the element*/
-uint8_t  *value;           /*!< Element value array*/
+static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
+{
+    switch (event) {
+        case ESP_GATTS_REG_EVT:{
+            esp_err_t set_dev_name_ret = esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
+            if (set_dev_name_ret){
+                ESP_LOGE(GATTS_TABLE_TAG, "set device name failed, error code = %x", set_dev_name_ret);
+            }
+
+			...
+
+            //config adv data
+            esp_err_t ret = esp_ble_gap_config_adv_data(&adv_data);
+            if (ret){
+                ESP_LOGE(GATTS_TABLE_TAG, "config adv data failed, error code = %x", ret);
+            }
+            adv_config_done |= ADV_CONFIG_FLAG;
+            //config scan response data
+            ret = esp_ble_gap_config_adv_data(&scan_rsp_data);
+            if (ret){
+                ESP_LOGE(GATTS_TABLE_TAG, "config scan response data failed, error code = %x", ret);
+            }
+            adv_config_done |= SCAN_RSP_CONFIG_FLAG;
+    #endif
+            esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
+            if (create_attr_ret){
+                ESP_LOGE(GATTS_TABLE_TAG, "create attr table failed, error code = %x", create_attr_ret);
+            }
+        }
+       	    break;
+			...
+}
+```
+
+Esta función utiliza el evento para configurar parámetros GAP (de anuncio). Las
+funciones asociadas son:
+
+* ``esp_ble_gap_set_device_name()``: utilizada para establecer el nombre del dispositivo anunciado.
+* ``esp_ble_gap_config_adv_data()``: usada para configurar datos estándar de anuncio.
+
+Como podemos ver en el código de arriba, se comienza estableciendo el nombre del
+dispositivo:
+
+```c
+	case ESP_GATTS_REG_EVT:{
+		esp_err_t set_dev_name_ret = esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
+		if (set_dev_name_ret){
+			ESP_LOGE(GATTS_TABLE_TAG, "set device name failed, error code = %x", set_dev_name_ret);
+		}
+```
+
+A continuación se configuran los datos de anuncio. La función
+``esp_ble_gap_config_adv_data()`` toma un puntero a una estructura de tipo
+``esp_ble_adv_data_t``, que  dispone de los siguientes campos:
+
+```c
+typedef struct {
+    bool set_scan_rsp;    /* Set this advertising data as scan response or not*/
+    bool include_name;    /* Advertising data include device name or not */
+    bool include_txpower; /* Advertising data include TX power */
+    int min_interval;     /* Advertising data show slave preferred connection min interval */
+    int max_interval;     /* Advertising data show slave preferred connection max interval */
+    int appearance;       /* External appearance of device */
+    uint16_t manufacturer_len; /* Manufacturer data length */
+    uint8_t *p_manufacturer_data; /* Manufacturer data point */
+    uint16_t service_data_len;    /* Service data length */
+    uint8_t *p_service_data;      /* Service data point */
+    uint16_t service_uuid_len;    /* Service uuid length */
+    uint8_t *p_service_uuid;      /* Service uuid array point */
+    uint8_t flag;         /* Advertising flag of discovery mode, see BLE_ADV_DATA_FLAG detail */
+} esp_ble_adv_data_t;
+```
+
+En nuestro ejemplo, la inicialización de esta estructura es como sigue:
+
+```c
+static esp_ble_adv_data_t heart_rate_adv_config = {
+    .set_scan_rsp = false,
+    .include_name = true,
+    .include_txpower = true,
+    .min_interval = 0x0006,
+    .max_interval = 0x0010,
+    .appearance = 0x00,
+    .manufacturer_len = 0, //TEST_MANUFACTURER_DATA_LEN,
+    .p_manufacturer_data =  NULL, //&test_manufacturer[0],
+    .service_data_len = 0,
+    .p_service_data = NULL,
+    .service_uuid_len = sizeof(heart_rate_service_uuid),
+    .p_service_uuid = heart_rate_service_uuid,
+    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
+};
+```
+
+Los intervalos mínimos y máximos de conexión se establecen en unidades de
+1.25 ms. En el ejemplo, el intervalo de conexión mínimo preferido se establece, 
+por tanto, en 7.5 ms (6 x 1.25 ms) y el máximo en 20 ms (16 x 1.25 ms).
+
+La carga del paquete de anuncio (*payload*) puede ser como máximo de 31 bytes.
+Es posible que la suma de todos los parámetros del anunicio supere este máximo,
+en cuyo caso el stack BLE cortará el mensaje y eliminará aquellos campos que
+lleven a superar el máximo. Para solucionar esto, se suelen enviar anuncios de
+tipo scannable, reservando los parámetros más largos para su envio con el *scan
+response*, que se configura también con la función
+``esp_ble_gap_config_adv_data()`` pero poniendo a true el campo .set_scan_rsp en
+la estructura tipo esp_ble_adv_data_t. En nuestro ejemplo se utiliza el scan
+response para enviar enviar el nombre del dispositivo:
+
+```c
+	//config scan response data
+	ret = esp_ble_gap_config_adv_data(&scan_rsp_data);
+	if (ret){
+		ESP_LOGE(GATTS_TABLE_TAG, "config scan response data failed, error code = %x", ret);
+	}
+	adv_config_done |= SCAN_RSP_CONFIG_FLAG;
+```
+
+Al final del tratamiento del evento de registro se inicializa la tabla del
+servidor GATT. En nuestro ejemplo los atributos de la tabla se pasan a través
+del array ``gatt_db``, indicándose el número de entradas de este array
+(``HRS_IDX_NB``), el interfaz ble a utilizar (``gatts_if``) y la instancia de
+ese servicio (``SVC_INST_ID``).
+
+```c
+	esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
+	if (create_attr_ret){
+		ESP_LOGE(GATTS_TABLE_TAG, "create attr table failed, error code = %x", create_attr_ret);
+	}
+```
+
+## Estructura de la tabla GATT
+
+Como hemos visto arriba, la tabla GATT se inicializa en el evento de Registro de
+Aplicación, usando la función ``esp_ble_gatts_create_attr_tab()``. Esta función
+toma como argumento un array de estructuras de tipo ``esp_gatts_attr_db_t``,
+indexable con los valores del enumerado definido en el fichero
+``gatts_table_creat_demo.h``.
+
+Las estructuras ``esp_gatts_attr_db_t`` tienen dos miembros:
+
+```c
+esp_attr_control_t    attr_control;       /* The attribute control type*/
+esp_attr_desc_t       att_desc;           /* The attribute type*/
+```
+
+* `attr_control` es el parámetro de autorespuesta, típicamente fijado a
+  ``ESP_GATT_AUTO_RSP`` para permitir que la pila BLE reponda automáticamente a
+  los mensajes de lectura o escritura cuando dichos eventos son recibidos.  Una
+  opción alternativa es ``ESP_GATT_RSP_BY_APP`` que permite respuestas manuales
+  utilizando la función ``esp_ble_gatts_send_response()``.
+
+* `att_desc` es la descripción del atributo, una estructura con los siguientes
+  campos:
+
+```c
+uint16_t uuid_length;      /* UUID length */
+uint8_t  *uuid_p;          /* UUID value */
+uint16_t perm;             /* Attribute permission */
+uint16_t max_length;       /* Maximum length of the element */
+uint16_t length;           /* Current length of the element */
+uint8_t  *value;           /* Element value array */
 ```
 
 Por ejemplo, el primer elemento de la tabla en el ejemplo es el atributo de
@@ -565,12 +557,15 @@ Los valores de inicialización son:
 * ``ESP_GATT_AUTO_RSP``: configuración de respuesta automática, fijada en este
     caso a respuesta automática por parte de la pila BLE.
 * ``ESP_UUID_LEN_16``: longitudo del UUID fijada a 16 bits.
-* ``(uint8_t *)&primary_service_uuid``: UUID para identificar al servicio como primario (0x2800).
+* ``(uint8_t *)&primary_service_uuid``: UUID para identificar al servicio como
+  primario (0x2800).
 * ``ESP_GATT_PERM_READ``: Permisos de lectura para el servicio.
 * ``sizeof(uint16_t)``: Longitud máxima del UUID del servicio (16 bits).
-* ``sizeof(heart_rate_svc)``: Longitud del servicio, en este caso 16 bits (fijada por el tamaño de la variable *heart_rate_svc*).
+* ``sizeof(heart_rate_svc)``: Longitud del servicio, en este caso 16 bits
+  (fijada por el tamaño de la variable *heart_rate_svc*).
 * ``(uint8_t *)&heart_rate_svc``: Valor del atributo servicio fijada a la 
- variable the variable *heart_rate_svc*, que contiene el UUID del *Heart Rate Service* (0x180D).
+  variable the variable *heart_rate_svc*, que contiene el UUID del *Heart Rate
+  Service* (0x180D).
 
 El resto de atributos se inicializan de forma similar. Algunos atributos también
 tienen activa la propiedad *NOTIFY*, que se establece vía 
@@ -626,21 +621,22 @@ static const esp_gatts_attr_db_t gatt_db[HRS_IDX_NB] =
 ## Inicialización del servicio
 
 Cuando la tabla se crea, se emite un evento de tipo
-``ESP_GATTS_CREAT_ATTR_TAB_EVT``.  Este evento tiene los siguientes parámetros
-asociados:
+``ESP_GATTS_CREAT_ATTR_TAB_EVT``, tratado por el manejador de eventos del
+perfil.  Este evento tiene los siguientes parámetros asociados:
 
 ```c
-esp_gatt_status_t status;    /*!< Operation status */
-esp_bt_uuid_t svc_uuid;      /*!< Service uuid type */
-uint16_t num_handle;         /*!< The number of the attribute handle to be added to the gatts database */
-uint16_t *handles;           /*!< The number to the handles */
+esp_gatt_status_t status;    /* Operation status */
+esp_bt_uuid_t svc_uuid;      /* Service uuid type */
+uint16_t num_handle;         /* The number of the attribute handle to be added to the gatts database */
+uint16_t *handles;           /* The number to the handles */
 ```
 
-Este ejemplo utiliza este evento para mostrar información y comprobar que el
-tamaño de la tabla creada es igual al número de elementos en la enumeración
-`HRS_IDX_NB`. Si la tabla se creó correctamente, los manejadores de atributos se
-copian en la tabla de manejadores `heart_rate_handle_table` y el servicio se
-inicicaliza utilizando la función ``esp_ble_gatts_start_service()``:
+Nuestro código de ejemplo utiliza este evento para comprobar que el tamaño de la
+tabla creada es igual al número de elementos en la enumeración (``HRS_IDX_NB``).
+Si la tabla se creó correctamente, se copian en la tabla
+``heart_rate_handle_table`` los manejadores (handels) asignados por el servidor
+GATT a los atributos, y finalmente se inicializa el servicio utilizando la
+función ``esp_ble_gatts_start_service()``:
 
 ```c
 case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
@@ -659,32 +655,119 @@ case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
 	break;
 ```
 
-Los manejadores almacenados son números que identifican cada atributo. Estos manejadores
-pueden usarse para determinar qué característica está siendo leída o escrita,
-y por tanto pueden ser proporcionados a otros puntos de la aplicación para manejar
-distintas acciones.
+Los manejadores (handles) almacenados son números que identifican cada atributo.
+Estos manejadores pueden usarse en cualquier punto de la aplicación para operar
+sobre los atributos.
 
-Finalmente, la tabla `heart_rate_profile_table` contiene el Perfil de Aplicación
-en forma de estructura con información sobre los parámetros de los atributos y 
-la interfaz GATT, ID de conexión, permisos e ID de aplicación. La estructura
-presenta los siguientes campos (no todos se usan en el ejemplo):
+## El manejador de eventos GAP
+
+Como hemos visto arriba, en el procesamiento del evento de registro de
+aplicación se establecen los datos de anuncio. Cuando se complete esta
+inicialización, la pila BLE emitirá un evento de tipo
+``ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT``, que será manejado por el callback
+registrado como GAP handler. Si se ha configurado un anuncio scannable y una
+respuesta al escaneado (en nuestro ejemplo se ha configurado), la pila BLE
+emitirá también un evento de tipo
+``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT``.  El manejador del código de
+ejemplo espera a que se produzcan estos dos eventos para comenzar con el proceso
+de anuncio, utilizando la función ``esp_ble_gap_start_advertising()``:
 
 ```c
-struct gatts_profile_inst {
-    esp_gatts_cb_t gatts_cb;
-    uint16_t gatts_if;
-    uint16_t app_id;
-    uint16_t conn_id;
-    uint16_t service_handle;
-    esp_gatt_srvc_id_t service_id;
-    uint16_t char_handle;
-    esp_bt_uuid_t char_uuid;
-    esp_gatt_perm_t perm;
-    esp_gatt_char_prop_t property;
-    uint16_t descr_handle;
-    esp_bt_uuid_t descr_uuid;
+static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
+{
+    ESP_LOGE(GATTS_TABLE_TAG, "GAP_EVT, event %d\n", event);
+
+    switch (event) {
+		...
+        case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
+            adv_config_done &= (~ADV_CONFIG_FLAG);
+            if (adv_config_done == 0){
+                esp_ble_gap_start_advertising(&adv_params);
+            }
+            break;
+        case ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT:
+            adv_config_done &= (~SCAN_RSP_CONFIG_FLAG);
+            if (adv_config_done == 0){
+                esp_ble_gap_start_advertising(&adv_params);
+            }
+            break;
+		...
+    }
+}
+```
+
+La función de inicio de anuncios toma una estructura de tipo 
+``esp_ble_adv_params_t`` con los parámetros de anuncio requeridos:
+
+```c
+/// Advertising parameters
+typedef struct {
+	uint16_t adv_int_min; /* Minimum advertising interval for undirected and low
+						   * duty cycle directed advertising.
+						   * Range: 0x0020 to 0x4000
+						   * Default: N = 0x0800 (1.28 second)
+						   * Time = N * 0.625 msec
+						   * Time Range: 20 ms to 10.24 sec */
+	uint16_t adv_int_max; /* Maximum advertising interval for undirected and low
+						   * duty cycle directed advertising.
+                           * Range: 0x0020 to 0x4000
+                           * Default: N = 0x0800 (1.28 second)
+                           * Time = N * 0.625 msec
+                           * Time Range: 20 ms to 10.24 sec */
+    esp_ble_adv_type_t adv_type;            /* Advertising type */
+    esp_ble_addr_type_t own_addr_type;      /* Owner bluetooth device address type */
+    esp_bd_addr_t peer_addr;                /* Peer device bluetooth device address */
+    esp_ble_addr_type_t peer_addr_type;     /* Peer device bluetooth device address type */
+    esp_ble_adv_channel_t channel_map;      /* Advertising channel map */
+    esp_ble_adv_filter_t adv_filter_policy; /* Advertising filter policy */
+} esp_ble_adv_params_t;
+```
+
+Nótese como ``esp_ble_gap_config_adv_data()`` (en *gatts_profile_event_handler*)
+configura los datos que son aunciados al cliente y toma una estructura de tipo
+``esp_ble_adv_data_t structure``, mientras que
+``esp_ble_gap_start_advertising()`` hace que el servidor realmente comience a
+anunciar, tomando una estructura de tipo ``esp_ble_adv_params_t``.  Los datos de
+anuncio son los que se envían al cliente, mientras que los parámetros de anuncio
+configuran como y cuándo enviarlos.
+
+En nuestro ejemplo, los parámetros de anuncio se inicializan como sigue:
+
+```c
+static esp_ble_adv_params_t adv_params = {
+    .adv_int_min         = 0x20,
+    .adv_int_max         = 0x40,
+    .adv_type            = ADV_TYPE_IND,
+    .own_addr_type       = BLE_ADDR_TYPE_PUBLIC,
+    .channel_map         = ADV_CHNL_ALL,
+    .adv_filter_policy   = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
 };
 ```
+
+Estos parámetros configuran el intervalo de anuncio entre 20 ms y 40 ms.  El
+anuncio es de tipo `ADV_TYPE_IND` (tipo genérico), destinados a ningún
+dispositivo central en particular, y anuncia que el servidor GATT es conectable.
+El tipo de dirección es público, utiliza todos los canales y permite peticiones
+de escaneo y conexión por parte de cualquier dispositivo central.
+
+Si el proceso de anuncio se inició correctamente, se emitirá un evento de tipo
+``ESP_GAP_BLE_ADV_START_COMPLETE_EVT``, que en este ejemplo se utiliza para
+comprobar si el estado de anuncio es realmente *anunciando* u otro, en cuyo caso
+se emitirá un mensaje de error:
+
+```c
+...
+	case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
+		/* advertising start complete event to indicate advertising start successfully or failed */
+		if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
+			ESP_LOGE(GATTS_TABLE_TAG, "advertising start failed");
+		}else{
+			ESP_LOGI(GATTS_TABLE_TAG, "advertising start successfully");
+		}
+		break;
+...
+```
+
 # Interacción a través de un cliente GATT
 
 Existen multitud de herramientas que permiten gestionar la conexión al servidor
@@ -693,9 +776,9 @@ una herramienta llamada `Bluetooth LE Explorer`, que implementa, aunque de forma
 gráfica, la misma funcionalidad.
 
 !!! note "Nota"
-    Para desarrollar esta parte de la práctica, deberás importar la máquina 
-    virtual del curso en el PC del laboratorio, y hacer visible a ella el
-    dispositivo Bluetooth del equipo de laboratorio.
+    Para desarrollar esta parte de la práctica, deberás hacer visible en la
+	máquina virtual el controlador Bluetooth del equipo que la hospeda (tu
+	portátil o el equipo de laboratorio).
 
 
 ## Uso de `hcitool` y `gatttool` en modo cliente
