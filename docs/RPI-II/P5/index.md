@@ -1,4 +1,4 @@
-# Práctica 5. Servidores REST y representación de la información. JSON y CBOR
+# Práctica 3. Servidores REST y representación de la información. JSON y CBOR
 
 ## Objetivos
 
@@ -28,8 +28,7 @@ funcionalidades ofrecidas por ESP-IDF, un servidor HTTP que exponga una API
 REST mediante la cual será posible interactuar, en modos lectura y escritura,
 con un servidor (en nuestro caso, un dispositivo ESP32). 
 Concretamente, trabajaremos con el ejemplo 
-`example/protocols/http_server/rest_server` de la distribución de IDF 
-(versión 4.1).
+`example/protocols/http_server/restful_server` de la distribución de IDF.
 
 ### Descripción de la API
 
@@ -102,7 +101,7 @@ el ESP32 a través del *endpoint* `/api/v1/temp/raw`.
 * **Light**: permite enviar al ESP32 nuevos valores para las tres componentes
 de luminosidad que hipotéticamente podría equipar el ESP32.
 
-!!! note "Tarea"
+!!! note "Tarea 3.1"
     Interactúa con el sensor de luminosidad del ESP32 enviando distintos
     valores. Observa cómo la salida de monitorización del ESP32 responde mostrando
     los valores recibidos. Analiza el tráfico generado para una de dichas peticiones
@@ -144,11 +143,24 @@ curl -d '{"red":70,"green":80,"blue":99}' -H "Content-Type: application/json"
 Observa que hemos incluido el tipo de recurso enviado (`JSON`) y la operacion
 solicitada (`POST`). Volveremos a esto en breve.
 
-!!! note "Tarea"
+!!! note "Tarea 3.2"
     Comprueba que, efectivamente, el tráfico generado por las anteriores órdenes
     es el mismo que el que observaste en el caso del  cliente web. Observa qué 
     ocurre si consultas un *endpoint* inexistente, o si envías un JSON mal
     formado o con información incorrecta.
+
+### Interacción con el dispositivo vía Node-RED
+
+Para interactuar con el dispositivo vía Node-RED, simplemente despliega un flujo
+que contenga un nodo de tipo `HTTP Request`. En su cuadro de diálogo de configuración,
+podrás incliur tanto el método a utilizar (e.g. `GET` o `POST`) como el *endpoint* (URL)
+destino y, opcionalmente, los datos a enviar si esto es necesario.
+
+!!! note "Tarea 3.3"
+    Comprueba que, efectivamente, el tráfico generado por un flujo que utilice un nodo de 
+    interacción HTTP es el esperado, y el comportamiento del ESP32 también. En el caso de 
+    necesitar enviar un objeto JSON, puedes investigar cómo formarlo con los nodos correspondientes,
+    aunque esto lo veremos en las siguientes secciones.
 
 ### Implementación de un servidor HTTP con API REST
 
