@@ -58,7 +58,7 @@ BLE a nuestro *firmware*:
 Estos encabezados son necesarios para un correcto funcionamiento de *FreeRTOS*
 y de sus componentes, incluyendo funcionalidad relativa a *logging* y 
 almacenamiento no volátil. 
-Son especialmente interesantes los ficheros ``bt.h``, ``esp_bt_main.h``, 
+Son especialmente interesantes los ficheros ``esp_bt.h``, ``esp_bt_main.h``, 
 ``esp_gap_ble_api.h`` y ``esp_gatts_api.h``, ya que exponen la API BLE necesaria
 para la implementación del *firmware*:
 
