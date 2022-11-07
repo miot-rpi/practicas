@@ -430,13 +430,28 @@ dispositivo:
 
 A continuación se configuran los datos de anuncio. La función
 ``esp_ble_gap_config_adv_data_raw()`` toma un puntero a un array de bytes con
-los datos de anuncio, en este caso básicamente el nombre del dispositivo.
+los datos de anuncio. Cada dato anunciado se compone de:
 
-La carga del paquete de anuncio (*payload*) puede ser como máximo de 31 bytes.
-Los datos de anuncio que se envían ocupan 26 bytes. Para poder enviar más datos
-en el anuncio se configura un *scan response* y el anuncio que se envíe será de
-tipo scannable. Este se configura usando la función
-``esp_ble_gap_config_scan_rsp_data_raw()``.
+* Campo longitud: indica el número de bytes que ocupa el dato, sin contar el
+  campo longitud (es decir, cuantos bytes vienen después del campo longitud)
+* Campo tipo: indica el tipo de dato según el documento [Bluetooth Assigned Numbers
+  Document](https://www.bluetooth.com/wp-content/uploads/2022/11/assigned_numbers_release-1.pdf)
+* Campo datos: los bytes del dato anunciado
+
+Podemos ver que en nuestro ejemplo el anuncio envía:
+
+* Flags: LE General Discoverable Mode y BR/EDR not supported
+* Tx Power Level: 1 byte en complemento a 2, en dBm (-127 a 127 dBm). Se puede
+  usar para determinar la potencia perdida en la transmisión, calculando la
+  diferencia entre la potencia transmitida anunciada y el RSSI en la recepción.
+  En nuestro ejemplo -21 dBm.
+* Complete Local Name: el nombre local completo asignado al dispositivo.
+
+La carga total del paquete de anuncio (*payload*) puede ser como máximo de 31
+bytes (en nuestro ejemplo el anuncio ocupa 26 bytes). Para poder enviar
+más datos se puede configurar un *scan response*, lo que hará que los anuncios
+enviados sean de tipo scannable. El scan response se puede configurar usando la
+función ``esp_ble_gap_config_scan_rsp_data_raw()``.
 
 ```c
 	//config scan response data
