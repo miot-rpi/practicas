@@ -191,10 +191,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#inicializacion-del-controlador-y-de-la-pila-bluetooth" class="nav-link">Inicialización del controlador y de la pila Bluetooth</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-level="2"><a href="#perfiles-de-aplicacion-application-profiles" class="nav-link">Perfiles de aplicación (Application profiles)</a>
               <ul class="nav flex-column">
               </ul>
@@ -402,48 +398,49 @@ sigue:</p>
 almacenar los parámetros necesarios en memoria <em>flash</em>:</p>
 <pre><code class="language-c">ret = nvs_flash_init();
 </code></pre>
-<h2 id="inicializacion-del-controlador-y-de-la-pila-bluetooth">Inicialización del controlador y de la pila Bluetooth</h2>
-<p>La función principal inicializa también el controlador Bluetooth, creando
-en primer lugar una estructura de configuración para tal fin de tipo 
-<code>esp_bt_controller_config_t</code> con valores por defecto dictados por la macro               <code>BT_CONTROLLER_INIT_CONFIG_DEFAULT()</code>. </p>
+<p>A continuación la función principal inicializa el controlador Bluetooth, creando
+en primer lugar una estructura de configuración para tal fin de tipo
+<code>esp_bt_controller_config_t</code> con valores por defecto dictados por la macro
+<code>BT_CONTROLLER_INIT_CONFIG_DEFAULT()</code>. </p>
 <p>El controlador Bluetooth implementa el <em>Host Controller Interface</em> (HCI), la
-capa de enlace y la capa física BLE; es, por tanto, transparente para el programador. 
-La configuración incluye el tamaño de pila reservado al controlador, prioridad 
-y baudios para la transmisión. Con estas configuraciones, el controlador
-puede ser inicializado y activado con la función <code>esp_bt_controller_init()</code>:</p>
+capa de enlace y la capa física BLE; es, por tanto, transparente para el
+programador.  La configuración incluye el tamaño de pila reservado al
+controlador, prioridad y baudios para la transmisión. Con estas configuraciones,
+el controlador puede ser inicializado y activado con la función
+<code>esp_bt_controller_init()</code>:</p>
 <pre><code class="language-c">esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
 ret = esp_bt_controller_init(&amp;bt_cfg);
 </code></pre>
-<p>A continuación, el controlador activa el modo BLE:</p>
+<p>Una vez inicializado el controlador se activa el modo BLE:</p>
 <pre><code class="language-c">ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 </code></pre>
-<p>Existen cuatro modos de funcioinamiento Bluetooth:</p>
+<p>Existen cuatro modos de funcioinamiento del controlador Bluetooth:</p>
 <ol>
 <li><code>ESP_BT_MODE_IDLE</code>: Bluetooth no funcional</li>
 <li><code>ESP_BT_MODE_BLE</code>: Modo BLE</li>
 <li><code>ESP_BT_MODE_CLASSIC_BT</code>: Modo BT Clásico</li>
 <li><code>ESP_BT_MODE_BTDM</code>: Modo Dual (BLE + BT Clásico)</li>
 </ol>
-<p>Tras la incialización del controlador Bluetooth, la pila Bluedroid (que 
-incluye APIs tanto para BLE como para Bluetooth Clásico) debe ser inicializada
-y activada:</p>
+<p>Tras la incialización del controlador Bluetooth, se inicializa y activa la pila
+Bluedroid (que incluye APIs tanto para BLE como para Bluetooth Clásico):</p>
 <pre><code class="language-c">ret = esp_bluedroid_init();
 ret = esp_bluedroid_enable();
 </code></pre>
-<p>La pila Bluetooth está, a partir de este punto, lista para funcionar, pero todavía
-no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
+<p>La pila Bluetooth está, a partir de este punto, lista para funcionar, pero
+todavía no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
 se define con el clásico mecanismo basado en eventos, que pueden ser emitidos,
 por ejemplo, cuando otro dispositivo intenta leer o escribir parámetros, o
 establecer una conexión. </p>
-<p>Existen dos gestores de eventos relacionados con BLE: los manejadores 
-(<em>handlers</em>) GAP y GATT. La aplicación necesita registrar una función de 
-<em>callback</em> para cada manejador, para permitir a la aplicación conocer qué 
-funciones se invocarán eventos de tipo GAP y GATT:</p>
+<p>Existen dos gestores de eventos para BLE: los manejadores (<em>handlers</em>) GAP y
+GATT. La aplicación necesita registrar una función de <em>callback</em> para cada uno
+de ellos, que será la encargada de tratar los eventos correspondiente a estos
+servicios.</p>
 <pre><code class="language-c">esp_ble_gatts_register_callback(gatts_event_handler);
 esp_ble_gap_register_callback(gap_event_handler);
 </code></pre>
-<p>Las funciones <code>gatts_event_handler()</code> y <code>gap_event_handler()</code> 
-manejan todos los eventos emitidos por la pila BLE hacia la plicación.</p>
+<p>En la aplicación de ejemplo estos <em>callbacks</em> son las funciones
+<code>gatts_event_handler()</code> y <code>gap_event_handler()</code>, que manejarán los eventos
+emitidos por la pila BLE hacia la plicación.</p>
 <h2 id="perfiles-de-aplicacion-application-profiles">Perfiles de aplicación (<em>Application profiles</em>)</h2>
 <p>Como se ha dicho, el objetivo es implementar un Perfil de Aplicación 
 para el servicio <em>Heart Rate</em>. Un Perfil de Aplicación es un mecanismo que
