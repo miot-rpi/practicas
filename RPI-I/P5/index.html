@@ -550,21 +550,19 @@ gatt, para completar su procesamiento:</p>
             if (set_dev_name_ret){
                 ESP_LOGE(GATTS_TABLE_TAG, &quot;set device name failed, error code = %x&quot;, set_dev_name_ret);
             }
-
-            ...
-
-            //config adv data
-            esp_err_t ret = esp_ble_gap_config_adv_data(&amp;adv_data);
-            if (ret){
-                ESP_LOGE(GATTS_TABLE_TAG, &quot;config adv data failed, error code = %x&quot;, ret);
+    #ifdef CONFIG_SET_RAW_ADV_DATA
+            esp_err_t raw_adv_ret = esp_ble_gap_config_adv_data_raw(raw_adv_data, sizeof(raw_adv_data));
+            if (raw_adv_ret){
+                ESP_LOGE(GATTS_TABLE_TAG, &quot;config raw adv data failed, error code = %x &quot;, raw_adv_ret);
             }
             adv_config_done |= ADV_CONFIG_FLAG;
-            //config scan response data
-            ret = esp_ble_gap_config_adv_data(&amp;scan_rsp_data);
-            if (ret){
-                ESP_LOGE(GATTS_TABLE_TAG, &quot;config scan response data failed, error code = %x&quot;, ret);
+            esp_err_t raw_scan_ret = esp_ble_gap_config_scan_rsp_data_raw(raw_scan_rsp_data, sizeof(raw_scan_rsp_data));
+            if (raw_scan_ret){
+                ESP_LOGE(GATTS_TABLE_TAG, &quot;config raw scan rsp data failed, error code = %x&quot;, raw_scan_ret);
             }
             adv_config_done |= SCAN_RSP_CONFIG_FLAG;
+
+            ...
     #endif
             esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
             if (create_attr_ret){
@@ -579,7 +577,7 @@ gatt, para completar su procesamiento:</p>
 funciones asociadas son:</p>
 <ul>
 <li><code>esp_ble_gap_set_device_name()</code>: utilizada para establecer el nombre del dispositivo anunciado.</li>
-<li><code>esp_ble_gap_config_adv_data()</code>: usada para configurar datos estándar de anuncio.</li>
+<li><code>esp_ble_gap_config_adv_data_raw()</code>: usada para configurar datos estándar de anuncio.</li>
 </ul>
 <p>Como podemos ver en el código de arriba, se comienza estableciendo el nombre del
 dispositivo:</p>
@@ -590,53 +588,13 @@ dispositivo:</p>
         }
 </code></pre>
 <p>A continuación se configuran los datos de anuncio. La función
-<code>esp_ble_gap_config_adv_data()</code> toma un puntero a una estructura de tipo
-<code>esp_ble_adv_data_t</code>, que  dispone de los siguientes campos:</p>
-<pre><code class="language-c">typedef struct {
-    bool set_scan_rsp;    /* Set this advertising data as scan response or not*/
-    bool include_name;    /* Advertising data include device name or not */
-    bool include_txpower; /* Advertising data include TX power */
-    int min_interval;     /* Advertising data show slave preferred connection min interval */
-    int max_interval;     /* Advertising data show slave preferred connection max interval */
-    int appearance;       /* External appearance of device */
-    uint16_t manufacturer_len; /* Manufacturer data length */
-    uint8_t *p_manufacturer_data; /* Manufacturer data point */
-    uint16_t service_data_len;    /* Service data length */
-    uint8_t *p_service_data;      /* Service data point */
-    uint16_t service_uuid_len;    /* Service uuid length */
-    uint8_t *p_service_uuid;      /* Service uuid array point */
-    uint8_t flag;         /* Advertising flag of discovery mode, see BLE_ADV_DATA_FLAG detail */
-} esp_ble_adv_data_t;
-</code></pre>
-<p>En nuestro ejemplo, la inicialización de esta estructura es como sigue:</p>
-<pre><code class="language-c">static esp_ble_adv_data_t heart_rate_adv_config = {
-    .set_scan_rsp = false,
-    .include_name = true,
-    .include_txpower = true,
-    .min_interval = 0x0006,
-    .max_interval = 0x0010,
-    .appearance = 0x00,
-    .manufacturer_len = 0, //TEST_MANUFACTURER_DATA_LEN,
-    .p_manufacturer_data =  NULL, //&amp;test_manufacturer[0],
-    .service_data_len = 0,
-    .p_service_data = NULL,
-    .service_uuid_len = sizeof(heart_rate_service_uuid),
-    .p_service_uuid = heart_rate_service_uuid,
-    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
-};
-</code></pre>
-<p>Los intervalos mínimos y máximos de conexión se establecen en unidades de
-1.25 ms. En el ejemplo, el intervalo de conexión mínimo preferido se establece, 
-por tanto, en 7.5 ms (6 x 1.25 ms) y el máximo en 20 ms (16 x 1.25 ms).</p>
+<code>esp_ble_gap_config_adv_data_raw()</code> toma un puntero a un array de bytes con
+los datos de anuncio.</p>
 <p>La carga del paquete de anuncio (<em>payload</em>) puede ser como máximo de 31 bytes.
-Es posible que la suma de todos los parámetros del anunicio supere este máximo,
-en cuyo caso el stack BLE cortará el mensaje y eliminará aquellos campos que
-lleven a superar el máximo. Para solucionar esto, se suelen enviar anuncios de
-tipo scannable, reservando los parámetros más largos para su envio con el <em>scan
-response</em>, que se configura también con la función
-<code>esp_ble_gap_config_adv_data()</code> pero poniendo a true el campo .set_scan_rsp en
-la estructura tipo esp_ble_adv_data_t. En nuestro ejemplo se utiliza el scan
-response para enviar enviar el nombre del dispositivo:</p>
+Los datos de anuncio que se envían ocupan 26 bytes. Para poder enviar más datos
+en el anuncio se configura un <em>scan response</em> y el anuncio que se envíe será de
+tipo scannable. Este se configura usando la función
+<code>esp_ble_gap_config_scan_rsp_data_raw()</code>.</p>
 <pre><code class="language-c">    //config scan response data
     ret = esp_ble_gap_config_adv_data(&amp;scan_rsp_data);
     if (ret){
@@ -804,20 +762,22 @@ de anuncio, utilizando la función <code>esp_ble_gap_start_advertising()</code>:
     ESP_LOGE(GATTS_TABLE_TAG, &quot;GAP_EVT, event %d\n&quot;, event);
 
     switch (event) {
-        ...
-        case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
+    #ifdef CONFIG_SET_RAW_ADV_DATA
+        case ESP_GAP_BLE_ADV_DATA_RAW_SET_COMPLETE_EVT:
             adv_config_done &amp;= (~ADV_CONFIG_FLAG);
             if (adv_config_done == 0){
                 esp_ble_gap_start_advertising(&amp;adv_params);
             }
             break;
-        case ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT:
+        case ESP_GAP_BLE_SCAN_RSP_DATA_RAW_SET_COMPLETE_EVT:
             adv_config_done &amp;= (~SCAN_RSP_CONFIG_FLAG);
             if (adv_config_done == 0){
                 esp_ble_gap_start_advertising(&amp;adv_params);
             }
             break;
+    #else
         ...
+    #endif
     }
 }
 </code></pre>
@@ -845,14 +805,12 @@ typedef struct {
     esp_ble_adv_filter_t adv_filter_policy; /* Advertising filter policy */
 } esp_ble_adv_params_t;
 </code></pre>
-<p>Nótese como <code>esp_ble_gap_config_adv_data()</code> (en <em>gatts_profile_event_handler</em>)
-configura los datos que son aunciados al cliente y toma una estructura de tipo
-<code>esp_ble_adv_data_t structure</code>, mientras que
-<code>esp_ble_gap_start_advertising()</code> hace que el servidor realmente comience a
-anunciar, tomando una estructura de tipo <code>esp_ble_adv_params_t</code>.  Los datos de
-anuncio son los que se envían al cliente, mientras que los parámetros de anuncio
-configuran como y cuándo enviarlos.</p>
-<p>En nuestro ejemplo, los parámetros de anuncio se inicializan como sigue:</p>
+<p>Nótese como <code>esp_ble_gap_config_adv_data_raw()</code> (en
+<em>gatts_profile_event_handler</em>) configura los datos enviados en el anuncio,
+mientras que <code>esp_ble_gap_start_advertising()</code> pone al dispositivo en modo
+advertising, haciendo que el servidor comience a enviar los anuncios.  Los
+parámetros de anuncio configuran como y cuándo enviarlos. En nuestro ejemplo,
+los parámetros de anuncio se inicializan como sigue:</p>
 <pre><code class="language-c">static esp_ble_adv_params_t adv_params = {
     .adv_int_min         = 0x20,
     .adv_int_max         = 0x40,
@@ -869,8 +827,8 @@ El tipo de dirección es público, utiliza todos los canales y permite peticione
 de escaneo y conexión por parte de cualquier dispositivo central.</p>
 <p>Si el proceso de anuncio se inició correctamente, se emitirá un evento de tipo
 <code>ESP_GAP_BLE_ADV_START_COMPLETE_EVT</code>, que en este ejemplo se utiliza para
-comprobar si el estado de anuncio es realmente <em>anunciando</em> u otro, en cuyo caso
-se emitirá un mensaje de error:</p>
+comprobar si el estado es realmente <em>anunciando</em> u otro, en cuyo caso se emitirá
+un mensaje de error:</p>
 <pre><code class="language-c">...
     case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
         /* advertising start complete event to indicate advertising start successfully or failed */
@@ -908,12 +866,12 @@ BLE disponibles en el entorno utilizando la orden:</p>
 bluetooth a la máquina virtual.</p>
 </div>
 <p>Si todo ha ido bien, se mostrará una línea por dispositivo BLE disponible
-y en fase de anuncio. Entre ellos, deberemos encontrar nuestro dispositivo,
-para recordar su dirección MAC.</p>
+y en fase de anuncio. Entre ellos, deberemos encontrar nuestro dispositivo.
+Apuntaremos su dirección MAC, para poder usarla de aquí en adelante.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea Básica</p>
 <p>Edita el fichero <code>main/gatts_table_creat_demo.c</code> y modifica el nombre
-de tu dispositivo, que se anunciará en cada anuncio emitido en la fase
+de tu dispositivo, que se enviará en cada anuncio emitido en la fase
 de <code>advertising</code>. Para ello, debes modificar el campo correspondiente de la 
 estructura <code>raw_adv_data</code>.
 A continuación, compila y flashea el ejemplo, y comienza una sesión de
@@ -980,19 +938,18 @@ consulta y anota las características disponibles en tu servidor GATT.</p>
 <p>Documenta y explica el ejercicio en tu informe de la práctica.</p>
 </div>
 <p>Una de estas características será de crucial interés, ya que nos permitirá
-acceder, a través de su UUID, a la medición instantánea de ritmo cardíaco, así
-como a la configuración de notificaciones sobre dicho valor. Para determinar 
-cuál de las líneas es la que nos interesa, observa el valor de UUID devuelta
-para cada una de ellas, y determina, en función de la macro <code>GATTS_CHAR_UUID_TEST_A</code>
-de cuál se trata.</p>
-<p>Para interactuar con dicha característica, necesitaremos un manejador 
-(<em>handler</em>) que permita un uso más sencillo de la misma desde la herramienta
-<code>gatttool</code>. Dicho manejador se muestra, para cada línea, tras la cadena
+acceder, a través de su UUID, la medición instantánea de ritmo cardíaco, así
+como la configuración de notificaciones sobre dicho valor. Para determinar 
+cuál de las líneas es la que nos interesa, observa el valor de UUID devuelto
+para cada una de ellas, y determina, en función de la macro
+<code>GATTS_CHAR_UUID_TEST_A</code> de cuál se trata.</p>
+<p>Para interactuar con dicha característica, necesitaremos conocer su manejador 
+(<em>handler</em>). Dicho manejador se muestra, para cada línea, tras la cadena
 <em>char value handle</em>. </p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea Adicional</p>
 <p>El manejador que permite leer desde la característica *Heart Rate Value"
-tiene un manejador de tipo carácter asociado. Anota su valor.</p>
+tiene un manejador de tipo char asociado. Anota su valor.</p>
 </div>
 <p>Para leer el valor de la característica, podemos utilizar su manejador asociado.
 Así, podemos obtener dicho valor con un comando de lectura, en este caso
@@ -1017,10 +974,10 @@ el comando <code>char-write-cmd handler valor</code>, siendo valor, por ejemplo,
 cómo saber el handle que se debe usar para poder modificar la
 característica.</p>
 </div>
-<p>Escribiremos a continuación en la característica de configuración del servicio
-de montorización. Para ello, utilizaremos el manejador siguiente al utilizado
-anteriormente. Esto es, si se nos devolvió, por ejemplo, un manejador
-<code>0x0001</code> para el valor de monitorización, el valor de configuración será 
+<p>Escribiremos a continuación en la característica de configuración (CCC) del
+servicio de montorización. Para ello, utilizaremos el manejador siguiente al
+utilizado anteriormente. Esto es, si se nos devolvió, por ejemplo, un manejador
+<code>0x0001</code> para el valor de monitorización, el valor de configuración será
 <code>0x0002</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea Básica</p>
@@ -1106,7 +1063,7 @@ notifique el valor de ritmo cardíaco a los clientes conectados.</p>
 <p>Si además modificas las UUID por las proporcionadas en la especificación
 Bluetooth para el Servicio <em>Heart Rate</em> y todo ha sido configurado
 correctamente, tu ESP32 debería poder interactuar con cualquier monitor de
-ritmo cardiaco para, por ejemplo, Android. Para ello, utiliza las siguientes
+ritmo cardiaco, por ejemplo, Android. Para ello, utiliza las siguientes
 UUIDs:</p>
 <ul>
 <li>static const uint16_t GATTS_SERVICE_UUID_TEST      = 0x180D; //0x00FF;</li>
