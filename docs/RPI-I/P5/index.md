@@ -430,7 +430,7 @@ dispositivo:
 
 A continuación se configuran los datos de anuncio. La función
 ``esp_ble_gap_config_adv_data_raw()`` toma un puntero a un array de bytes con
-los datos de anuncio.
+los datos de anuncio, en este caso básicamente el nombre del dispositivo.
 
 La carga del paquete de anuncio (*payload*) puede ser como máximo de 31 bytes.
 Los datos de anuncio que se envían ocupan 26 bytes. Para poder enviar más datos
