@@ -187,63 +187,63 @@ almacenar los parámetros necesarios en memoria *flash*:
 ret = nvs_flash_init();
 ```
 
-## Inicialización del controlador y de la pila Bluetooth
-
-La función principal inicializa también el controlador Bluetooth, creando
-en primer lugar una estructura de configuración para tal fin de tipo 
-`esp_bt_controller_config_t` con valores por defecto dictados por la macro               `BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. 
+A continuación la función principal inicializa el controlador Bluetooth, creando
+en primer lugar una estructura de configuración para tal fin de tipo
+`esp_bt_controller_config_t` con valores por defecto dictados por la macro
+`BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. 
 
 El controlador Bluetooth implementa el *Host Controller Interface* (HCI), la
-capa de enlace y la capa física BLE; es, por tanto, transparente para el programador. 
-La configuración incluye el tamaño de pila reservado al controlador, prioridad 
-y baudios para la transmisión. Con estas configuraciones, el controlador
-puede ser inicializado y activado con la función `esp_bt_controller_init()`:
+capa de enlace y la capa física BLE; es, por tanto, transparente para el
+programador.  La configuración incluye el tamaño de pila reservado al
+controlador, prioridad y baudios para la transmisión. Con estas configuraciones,
+el controlador puede ser inicializado y activado con la función
+`esp_bt_controller_init()`:
 
 ```c
 esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
 ret = esp_bt_controller_init(&bt_cfg);
 ```
 
-A continuación, el controlador activa el modo BLE:
+Una vez inicializado el controlador se activa el modo BLE:
 
 ```c
 ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 ```
 
-Existen cuatro modos de funcioinamiento Bluetooth:
+Existen cuatro modos de funcioinamiento del controlador Bluetooth:
 
 1. `ESP_BT_MODE_IDLE`: Bluetooth no funcional
 2. `ESP_BT_MODE_BLE`: Modo BLE
 3. `ESP_BT_MODE_CLASSIC_BT`: Modo BT Clásico
 4. `ESP_BT_MODE_BTDM`: Modo Dual (BLE + BT Clásico)
 
-Tras la incialización del controlador Bluetooth, la pila Bluedroid (que 
-incluye APIs tanto para BLE como para Bluetooth Clásico) debe ser inicializada
-y activada:
+Tras la incialización del controlador Bluetooth, se inicializa y activa la pila
+Bluedroid (que incluye APIs tanto para BLE como para Bluetooth Clásico):
 
 ```c
 ret = esp_bluedroid_init();
 ret = esp_bluedroid_enable();
 ```
 
-La pila Bluetooth está, a partir de este punto, lista para funcionar, pero todavía
-no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
+La pila Bluetooth está, a partir de este punto, lista para funcionar, pero
+todavía no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
 se define con el clásico mecanismo basado en eventos, que pueden ser emitidos,
 por ejemplo, cuando otro dispositivo intenta leer o escribir parámetros, o
 establecer una conexión. 
 
-Existen dos gestores de eventos relacionados con BLE: los manejadores 
-(*handlers*) GAP y GATT. La aplicación necesita registrar una función de 
-*callback* para cada manejador, para permitir a la aplicación conocer qué 
-funciones se invocarán eventos de tipo GAP y GATT:
+Existen dos gestores de eventos para BLE: los manejadores (*handlers*) GAP y
+GATT. La aplicación necesita registrar una función de *callback* para cada uno
+de ellos, que será la encargada de tratar los eventos correspondiente a estos
+servicios.
 
 ```c
 esp_ble_gatts_register_callback(gatts_event_handler);
 esp_ble_gap_register_callback(gap_event_handler);
 ```
 
-Las funciones `gatts_event_handler()` y `gap_event_handler()` 
-manejan todos los eventos emitidos por la pila BLE hacia la plicación.
+En la aplicación de ejemplo estos *callbacks* son las funciones
+`gatts_event_handler()` y `gap_event_handler()`, que manejarán los eventos
+emitidos por la pila BLE hacia la plicación.
 
 ## Perfiles de aplicación (*Application profiles*)
 
