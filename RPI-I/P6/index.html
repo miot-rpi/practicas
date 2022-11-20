@@ -9,147 +9,139 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 6 - Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 6</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../P8/">Práctica 8</a>
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1/index.md">Práctica 1</a>
+<li>
+    <a href="../../RPI-II/P1/index.md" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P5/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P5/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P7/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P7/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -159,17 +151,46 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-6-ble-mesh">Práctica 6. BLE Mesh</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#estructura-de-la-practica">Estructura de la práctica</a></li>
-            <li><a href="#requisitos-previos">Requisitos previos</a></li>
-            <li><a href="#modelo-generico-on-off">Modelo genérico ON-OFF</a></li>
-            <li><a href="#modelo-sensor">Modelo sensor</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-6-ble-mesh" class="nav-link">Práctica 6. BLE Mesh</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#estructura-de-la-practica" class="nav-link">Estructura de la práctica</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#requisitos-previos" class="nav-link">Requisitos previos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#modelo-generico-on-off" class="nav-link">Modelo genérico ON-OFF</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#modelo-sensor" class="nav-link">Modelo sensor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-6-ble-mesh">Práctica 6. BLE Mesh</h1>
 <div class="admonition note">
@@ -253,7 +274,7 @@ básica del servidor, que podemos resumir en:</p>
 de la incialización de las pilas BLE y BLE Mesh:</p>
 </li>
 </ul>
-<pre><code class="c">void app_main(void)
+<pre><code class="language-c">void app_main(void)
 {
     int err;
 
@@ -275,11 +296,10 @@ de la incialización de las pilas BLE y BLE Mesh:</p>
     }
 }
 </code></pre>
-
 <p>En particular, el código incluye invocaciones a <code>bluetooth_init()</code> y
 <code>ble_mesh_init()</code>, que se encargan de ambas inicializaciones.</p>
 <p>La inicialización de la pila BLE Mesh requiere alguna explicación adicional:</p>
-<pre><code class="c">static esp_err_t ble_mesh_init(void)
+<pre><code class="language-c">static esp_err_t ble_mesh_init(void)
 {
     int err = 0;
 
@@ -304,7 +324,6 @@ de la incialización de las pilas BLE y BLE Mesh:</p>
     return err;
 }
 </code></pre>
-
 <p>Observa que el código incluye la siguiente funcionalidad:</p>
 <ul>
 <li>
@@ -375,7 +394,7 @@ parámetros de red y transmisión de datos.</p>
 </ul>
 <p>En primer lugar, para declarar y definir un elemento y un modelo asociado,
 utilizaremos las siguientes estructuras:</p>
-<pre><code class="c">/*!&lt; Abstraction that describes a BLE Mesh Element.
+<pre><code class="language-c">/*!&lt; Abstraction that describes a BLE Mesh Element.
     This structure is associated with bt_mesh_elem in mesh_access.h */
 typedef struct {
     /* Element Address, it is assigned during provisioning. */
@@ -393,16 +412,14 @@ typedef struct {
     esp_ble_mesh_model_t *vnd_models;
 } esp_ble_mesh_elem_t;
 </code></pre>
-
 <p>Así, podemos mantener información sobre los elementos disponibles en el vector
 <code>elements</code>:</p>
-<pre><code class="c">static esp_ble_mesh_elem_t elements[] = {
+<pre><code class="language-c">static esp_ble_mesh_elem_t elements[] = {
     ESP_BLE_MESH_ELEMENT(0, root_models, ESP_BLE_MESH_MODEL_NONE),
 };
 </code></pre>
-
 <p>La implementación y definición de un modelo se realiza de forma similar:</p>
-<pre><code class="c">static esp_err_t ble_mesh_init(void)
+<pre><code class="language-c">static esp_err_t ble_mesh_init(void)
 {
     int err = 0;
 
@@ -427,16 +444,14 @@ typedef struct {
     return err;
 }
 </code></pre>
-
 <p>Del mismo modo, podemos usar el array <code>root_models</code> para almacenar los modelos
 creados:</p>
-<pre><code class="c">static esp_ble_mesh_model_t root_models[] = {
+<pre><code class="language-c">static esp_ble_mesh_model_t root_models[] = {
     ESP_BLE_MESH_MODEL_CFG_SRV(&amp;config_server),
     ESP_BLE_MESH_SIG_MODEL(ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, onoff_op,
     &amp;onoff_pub, &amp;led_state[0]),
 };
 </code></pre>
-
 <p>Distintos modelos requieren diferentes macros (en este caso, ya que vamos a
 implementar un modelo <em>Generic OnOff Server</em>, hemos utilizado
 <code>ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV</code>). </p>
@@ -462,7 +477,7 @@ modelos en BLE Mesh:</p>
 </ul>
 <p>El siguiente código muestra la declaración de la estructura operación asociada
 al Modelo del servidor:</p>
-<pre><code class="c">/*!&lt; Model operation context.
+<pre><code class="language-c">/*!&lt; Model operation context.
     This structure is associated with bt_mesh_model_op in mesh_access.h */
 typedef struct {
     const uint32_t    opcode;   /* Opcode encoded with the ESP_BLE_MESH_MODEL_OP_* macro */
@@ -470,7 +485,6 @@ typedef struct {
     esp_ble_mesh_cb_t param_cb; /* The callback is only used for the BLE Mesh stack, not for the app layer. */
 } esp_ble_mesh_model_op_t;
 </code></pre>
-
 <p>Existe tres variables en la declaración:</p>
 <ul>
 <li><code>opcode</code>: código de operación asociado al estado. </li>
@@ -481,7 +495,7 @@ typedef struct {
   inicializado a 0.</li>
 </ul>
 <p>Así, la definición en el servidor quedaría:</p>
-<pre><code class="c">static esp_ble_mesh_model_op_t onoff_op[] = {
+<pre><code class="language-c">static esp_ble_mesh_model_op_t onoff_op[] = {
     { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET, 0, 0},
     { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET, 2, 0},
     { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK, 2, 0},
@@ -490,7 +504,6 @@ typedef struct {
     ESP_BLE_MESH_MODEL_OP_END,
 };
 </code></pre>
-
 <h3 id="el-cliente-on-off">El cliente ON-OFF</h3>
 <p>El cliente resulta mucho más sencillo en su funcionamiento. De forma genérica,
 simplemente define un modelo <em>Client ON/OFF</em> y espera a ser provisionado. Una
@@ -499,7 +512,7 @@ los botones en la placa (RESET) para el envío a todos los nodos en la misma red
 de una solicitud de modificación en el estado de activación de las luces.</p>
 <p>Concretamente, nos interesan las siguientes definiciones. En el fichero
 <code>board.c</code>, observa la respusta a la pulsación del botón:</p>
-<pre><code class="c">
+<pre><code class="language-c">
 static void button_tap_cb(void* arg)
 {
     ESP_LOGI(TAG, &quot;tap cb (%s)&quot;, (char *)arg);
@@ -521,10 +534,9 @@ void board_init(void)
     board_button_init();
 }
 </code></pre>
-
 <p>La función invocada, <code>example_ble_mesh_send_gen_onoff_set</code>, realiza el envío
 de una operación de tipo <code>SET</code> a <em>todos los miembros de la red</em>:</p>
-<pre><code class="c">void example_ble_mesh_send_gen_onoff_set(void)
+<pre><code class="language-c">void example_ble_mesh_send_gen_onoff_set(void)
 {
     esp_ble_mesh_generic_client_set_state_t set = {0};
     esp_ble_mesh_client_common_param_t common = {0};
@@ -554,7 +566,6 @@ de una operación de tipo <code>SET</code> a <em>todos los miembros de la red</e
     mesh_example_info_store(); /* Store proper mesh example info */
 }
 </code></pre>
-
 <p>Observa cómo el mensaje se enviará a <em>todos los nodos de la red</em>
 (<code>common.ctx.addr = 0xFFFF;</code>).</p>
 <h3 id="provisionamiento-y-control-desde-una-aplicacion-movil">Provisionamiento y control desde una aplicación móvil</h3>
@@ -714,6 +725,7 @@ periódica en el servidor, con una cadencia predeterminada.</p>
 <p>Modifica el código de cliente y/o servidor para que se pueda cambiar
 remotamente la cadencia de cambio del valor sensorizado.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -727,35 +739,32 @@ remotamente la cadencia de cambio del valor sensorizado.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

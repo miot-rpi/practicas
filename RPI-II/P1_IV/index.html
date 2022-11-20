@@ -4,142 +4,134 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
+        
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <title>Práctica 1 (Apéndice). Programación con sockets en Python - Master IoT UCM - Prácticas RPI</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
-    <body class="homepage">
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P8/">Práctica 8</a>
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/index.md">Práctica 1</a>
+<li>
+    <a href="../P1/index.md" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 3</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -149,25 +141,78 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-1-apendice-programacion-con-sockets-en-python">Práctica 1 (Apéndice). Programación con sockets en Python</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#la-api-de-sockets-en-python">La API de sockets en Python</a></li>
-            <li><a href="#sockets-tcp">Sockets TCP</a></li>
-            <li><a href="#clienteservidor-echo-tcp">Cliente/servidor echo TCP</a></li>
-            <li><a href="#ejecucion-del-cliente-y-servidor-echo">Ejecución del cliente y servidor echo</a></li>
-            <li><a href="#herramientas-para-observar-el-estado-del-socket">Herramientas para observar el estado del socket</a></li>
-            <li><a href="#capturas-de-trafico-via-wireshark">Capturas de tráfico vía Wireshark</a></li>
-            <li><a href="#sockets-udp">Sockets UDP</a></li>
-            <li><a href="#envio-de-datos-binarios-a-traves-de-sockets">Envío de datos binarios a través de sockets</a></li>
-            <li><a href="#tarea">Tarea</a></li>
-            <li><a href="#ejemplo-de-sistema-clienteservidor-multi-hilo">Ejemplo de sistema cliente/servidor multi-hilo</a></li>
-            <li><a href="#tarea-opcional">Tarea opcional</a></li>
-            <li><a href="#tarea-opcional_1">Tarea opcional</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-1-apendice-programacion-con-sockets-en-python" class="nav-link">Práctica 1 (Apéndice). Programación con sockets en Python</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#la-api-de-sockets-en-python" class="nav-link">La API de sockets en Python</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#sockets-tcp" class="nav-link">Sockets TCP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clienteservidor-echo-tcp" class="nav-link">Cliente/servidor echo TCP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejecucion-del-cliente-y-servidor-echo" class="nav-link">Ejecución del cliente y servidor echo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#herramientas-para-observar-el-estado-del-socket" class="nav-link">Herramientas para observar el estado del socket</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#capturas-de-trafico-via-wireshark" class="nav-link">Capturas de tráfico vía Wireshark</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#sockets-udp" class="nav-link">Sockets UDP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#envio-de-datos-binarios-a-traves-de-sockets" class="nav-link">Envío de datos binarios a través de sockets</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tarea" class="nav-link">Tarea</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejemplo-de-sistema-clienteservidor-multi-hilo" class="nav-link">Ejemplo de sistema cliente/servidor multi-hilo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tarea-opcional" class="nav-link">Tarea opcional</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tarea-opcional_1" class="nav-link">Tarea opcional</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-1-apendice-programacion-con-sockets-en-python">Práctica 1 (Apéndice). Programación con sockets en Python</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -261,7 +306,7 @@ se cierra) a través de una invocación a <code>close()</code> en cada extremo.<
 el servidor simplemente responderá con la misma cadena que reciba desde el
 cliente.</p>
 <h3 id="servidor-echo">Servidor <em>echo</em></h3>
-<pre><code class="python">#!/usr/bin/env python3
+<pre><code class="language-python">#!/usr/bin/env python3
 
 #### servidor_echo.py
 
@@ -282,7 +327,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 break
             conn.sendall(data)
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>De momento, no importa si no entiendes todas las líneas en el anterior 
@@ -296,10 +340,9 @@ podeamos probarlo.</p>
 de una construcción <code>with</code>, no es necesario invocar explícitamente a 
 <code>s.close()</code>, aunque debes tener en cuenta que el objeto es destruido al 
 finalizar la construcción:</p>
-<pre><code class="python">with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+<pre><code class="language-python">with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     pass  # Es posible usar el socket win invocar a s.close().
 </code></pre>
-
 <p>Los argumentos que se proporcionan a <code>socket()</code> especifican la familia de
 direcciones (<code>AF_INET</code>) y tipo de <em>socket</em> (<code>SOCK_STREAM</code>). 
 <code>AF_INET</code> es la familia de direcciones de Internet para IPv4. 
@@ -307,14 +350,13 @@ direcciones (<code>AF_INET</code>) y tipo de <em>socket</em> (<code>SOCK_STREAM<
 TCP.</p>
 <p><code>bind()</code> se utiliza para asociar el socket a una interfaz de red y número de
 puerto específicos:</p>
-<pre><code class="python">HOST = '127.0.0.1'  # Interfaz estándar de loopback (localhost)
+<pre><code class="language-python">HOST = '127.0.0.1'  # Interfaz estándar de loopback (localhost)
 PORT = 65432        # Puerto de escucha (los puertos mayores a 1023 son no privilegiados)
 
 # ...
 
 s.bind((HOST, PORT))
 </code></pre>
-
 <p>Los valores proporcionados a <code>bind()</code> dependen de la familia de direcciones 
 seleccionada para el <em>socket</em>. En este ejemplo, al utilizar <code>AF_INET</code>, 
 espera una tupla con únicamente dos valores <em>(host, puerto)</em>.</p>
@@ -334,10 +376,9 @@ con valor inferior a 1024.</p>
 <p>Continuando con el ejemplo, <code>listen()</code> posibilita que un servidor pueda, en el
 futuro, aceptar (<code>accept()</code>) conexiones entrantes. En otras palabras, pone a
 la escucha al <em>socket</em>:</p>
-<pre><code class="python">s.listen()
+<pre><code class="language-python">s.listen()
 conn, addr = s.accept()
 </code></pre>
-
 <p>La invocación a <code>accept()</code> <strong>bloquea</strong> el proceso y espera a una conexión
 entrante. Cuando un cliente conecta, devuelve un objeto <code>socket</code> que representa
 la conexión, así como una tupla (<code>addr</code>) que contiene la dirección del cliente.
@@ -345,7 +386,7 @@ Concretamente, esta tupla contiene los valores <code>(host, port)</code> que alm
 la dirección IPv4 y puerto del cliente que solicita la conexión.</p>
 <p>Observa que, en el ejemplo, <code>conn</code> es el objeto <em>socket</em> que usaremos para 
 comunicar con el cliente:</p>
-<pre><code class="python">conn, addr = s.accept()
+<pre><code class="language-python">conn, addr = s.accept()
 with conn:
     print('Conectado ', addr)
     while True:
@@ -354,7 +395,6 @@ with conn:
             break
         conn.sendall(data)
 </code></pre>
-
 <p>Tras obtener el objeto devuelto por <code>accept()</code>, diseñamos el servidor como un
 bucle infinito que invoca repetidamente a llamadas <strong>bloqueantes</strong> a 
 <code>conn.recv()</code>. Así, leemos los datos enviados por el cliente y los reenviamos
@@ -365,7 +405,7 @@ el <em>socket</em> al salir de la sentencia <code>with</code>.</p>
 <h3 id="cliente-echo">Cliente <em>echo</em></h3>
 <p>Veamos a continuación la estructura general del cliente (puedes usar, por 
 ejemplo, <code>cliente_echo.py</code> como nombre para el fichero):</p>
-<pre><code class="python">#!/usr/bin/env python3
+<pre><code class="language-python">#!/usr/bin/env python3
 
 ### cliente_echo.py
 
@@ -381,7 +421,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
 print('Recibido ', repr(data))
 </code></pre>
-
 <p>En comparación con el servidor, la estructura del cliente es más simple;
 simplemente crea un nuevo objeto <em>socket</em>, conecta con el servidor e invoca
 a <code>s.sendall()</code> para enviar el mensaje. Finalmente, espera la recepción de 
@@ -390,25 +429,21 @@ la respuesta utilizando <code>s.recv()</code> y la imprime por pantalla.</p>
 <p>A continuación, ejecutaremos cliente y servidor para observar el estado de 
 las conexiones durante su ciclo de vida. </p>
 <p>Ejecuta en una terminal el servidor:</p>
-<pre><code class="bash">$ python3 ./servidor_echo.py
+<pre><code class="language-bash">$ python3 ./servidor_echo.py
 </code></pre>
-
 <p>Como ves, la terminal se bloquea (de hecho, el servidor permanece en 
 estado bloqueado) en la invocación:</p>
-<pre><code class="python">conn, addr = s.accept()
+<pre><code class="language-python">conn, addr = s.accept()
 </code></pre>
-
 <p>Realmente, el servidor está esperando a que haya conexiones entrantes por parte
 de un cliente. Abre otra terminal y ejecuta el cliente:</p>
-<pre><code class="bash">$ python3 cliente_echo.py
+<pre><code class="language-bash">$ python3 cliente_echo.py
 Recibido 'Hola, mundo'
 </code></pre>
-
 <p>En la ventana del servidor, deberías ver algo similar a:</p>
-<pre><code class="bash">$ python3 ./servidor_echo.py
+<pre><code class="language-bash">$ python3 ./servidor_echo.py
 Conectado ('127.0.0.1, 61234')
 </code></pre>
-
 <p>En esta salida, el servidor ha mostrado por pantalla la tupla devuelta por
 <code>s.accept()</code>, que incluye la dirección IP y el número de puerto TCP. Dicho
 número de puerto (en el ejemplo anterior, 61234) es seleccionado aleatoriamente
@@ -417,12 +452,11 @@ por el sistema operativo y puede variar en tu ejecución.</p>
 <p>Podemos utilizar la herramienta <em>netstat</em> para observar el estado actual de 
 los sockets en cualquier sistema operativo (macOS, Linux e incluso Windows). Por
 ejemplo, esta sería la salida de <code>netstat</code> en Linux tras ejecutar el servidor:</p>
-<pre><code class="bash">netstat -an | grep 65432
+<pre><code class="language-bash">netstat -an | grep 65432
 Conexiones activas de Internet (servidores y establecidos)
 Proto  Recib Enviad Dirección local         Dirección remota       Estado
 tcp        0      0 127.0.0.1:65432         0.0.0.0:*               ESCUCHAR
 </code></pre>
-
 <p>Observa que hemos filtrado la salida de la orden <code>netcat</code> según el número de 
 puerto utilizado. Observa el valor de las columnas <em>Proto, Dirección local</em> y 
 <em>Estado</em>.</p>
@@ -440,9 +474,8 @@ tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtro
 específicos.</p>
 <p>Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
 instalación básica Linux), teclea en tu terminal:</p>
-<pre><code class="bash">$ sudo wireshark
+<pre><code class="language-bash">$ sudo wireshark
 </code></pre>
-
 <p>Tras el arranque, podemos comenzar una nueva captura de tráfico a través
 del menú <code>Capture</code>, opción <code>Start</code>. La pantalla de selección de interfaz 
 nos permitirá definir en qué interfaz de red se realizará la captura. En 
@@ -460,7 +493,7 @@ mensaje y, en general, en cualquier otro aspecto que consideres de interés.</p>
 <p>La creación y gestión de <em>sockets</em> UDP en Python resulta todavía más sencilla.
 Observa el siguiente código, que crea un servidor UDP utilizando la API
 de <em>sockets</em> Python:</p>
-<pre><code class="python">import socket
+<pre><code class="language-python">import socket
 
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 udp_socket.bind((&quot;localhost&quot;, 5005))
@@ -468,7 +501,6 @@ udp_socket.bind((&quot;localhost&quot;, 5005))
 data = udp_socket.recv(512)
 print(data)
 </code></pre>
-
 <p>Primero, importamos la biblioteca <code>socket</code> de recepción, igual
 que en el caso de TCP. Obviamente, en este caso el tipo de <em>socket</em> pasa a ser
 <code>socket.DOCK_DGRAM</code>, para indicar que deseamos utilizar UDP en la comunicación.</p>
@@ -477,7 +509,7 @@ que en el caso de TCP. Obviamente, en este caso el tipo de <em>socket</em> pasa 
 recibir. Cuando un paquete llega al socket, el metodo <code>recv</code> devolverá un 
 <em>array</em> de bytes, que será almacenado en la variable que deseemos.</p>
 <p>El envío de datos a través de un <em>socket</em> UDP es también sencillo:</p>
-<pre><code class="python">import socket
+<pre><code class="language-python">import socket
 
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 udp_socket.bind((&quot;localhost&quot;, 0))
@@ -485,7 +517,6 @@ udp_socket.bind((&quot;localhost&quot;, 0))
 data = b&quot;Hola, mundo!&quot;
 udp_socket.sendto(data,(&quot;localhost&quot;, 5005))
 </code></pre>
-
 <p>Observa que, en este caso, asociamos (<em>bind</em>) el socket a un puerto especificado
 como 0. Este valor especial indica al sistema operativo que elija para la 
 transimisión un puerto <em>origen</em> aleatorio de entre los disponibles en el sistema.</p>
@@ -542,9 +573,8 @@ decodificación en el otro extremo de la comunicación.</p>
 </div>
 <p>El módulo <code>struct</code> proporciona dos métodos de interés: <code>pack</code> y <code>unpack</code>.</p>
 <p>La siguiente sentencia:</p>
-<pre><code class="python">struct.pack(&quot;&gt;iii&quot;, 1, 2, 3)
+<pre><code class="language-python">struct.pack(&quot;&gt;iii&quot;, 1, 2, 3)
 </code></pre>
-
 <p>utiliza el método <code>pack</code> para realizar un empaquetado de datos. Concretamente, 
 observa como el método recibe dos parámetros:</p>
 <ul>
@@ -562,13 +592,12 @@ observa como el método recibe dos parámetros:</p>
 empaquetar (en este caso, tres valores detipo entero). Para otros tipos
 de datos, consulta la documentación del módulo.</p>
 <p>Desempaquetar los datos enviados en el extremo opuesto es intuitivo:</p>
-<pre><code class="python">a, b, c = struct.unpack( &quot;&gt;iii&quot; )
+<pre><code class="language-python">a, b, c = struct.unpack( &quot;&gt;iii&quot; )
 </code></pre>
-
 <p>A continuación, mostramos un ejemplo de sistema cliente/servidor TCP que hace
 uso del módulo <code>struct</code> para realizar el envío de dos datos enteros y uno
 flotante entre un cliente y un servidor.</p>
-<pre><code class="python">
+<pre><code class="language-python">
 # Cliente
 
 import binascii                                                                             
@@ -592,8 +621,7 @@ finally:
     print('Cerrando socket')                                                                
     sock.close()                                                                            
 </code></pre>
-
-<pre><code class="python">
+<pre><code class="language-python">
 # Servidor
 
 import binascii                                                                             
@@ -620,7 +648,6 @@ while True:
     finally:                                                                                
         connection.close()
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Ejecuta el anterior sistema cliente servidor y analiza el tráfico generado,
@@ -650,7 +677,7 @@ de una característica esencial: el servidor deja de atender peticiones entrante
 mientras trata cada nuevo envío por parte del cliente. Los siguientes ejemplos
 muestran implementaciones sencillas con soporte multi-hilo para un sistema
 cliente/servidor escrito en Python. </p>
-<pre><code class="python"># Servidor TCP concurrente
+<pre><code class="language-python"># Servidor TCP concurrente
 
 import socket, threading
 
@@ -692,8 +719,7 @@ while True:
     newthread = ClientThread(clientAddress, clientsock)
     newthread.start()
 </code></pre>
-
-<pre><code class="python"># Cliente TCP. El envío de la cadena bye indica petición de desconexión.
+<pre><code class="language-python"># Cliente TCP. El envío de la cadena bye indica petición de desconexión.
 
 import socket
 
@@ -716,7 +742,6 @@ while True:
 
 client.close()
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Estudia el código del servidor concurrente y observa cómo gestiona la 
@@ -741,6 +766,7 @@ el tráfico necesario en este caso comparado con una comunicación básica
 basada en TCP (donde sí se garantizan, a nivel de transporte, dichas
 características).</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -754,35 +780,32 @@ características).</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
@@ -820,8 +843,3 @@ características).</p>
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.0.4
-Build Date UTC : 2022-11-20 22:04:56
--->
