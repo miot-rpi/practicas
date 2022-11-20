@@ -9,139 +9,147 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 3 - Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
-                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                </div>
 
                 <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href="../.." class="nav-link">Calendario</a>
+                            <li >
+                                <a href="../..">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="../P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="./" class="dropdown-item active">Práctica 3</a>
+<li class="active">
+    <a href="./">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="../P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="../P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="../P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../P7/">Práctica 7</a>
 </li>
                                     
-<li>
-    <a href="../P8/" class="dropdown-item">Práctica 8</a>
+<li >
+    <a href="../P8/">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../../RPI-II/P1/index.md" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../RPI-II/P1/index.md">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
+<li >
+    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
+<li >
+    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../../RPI-II/P5/">Práctica 3</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../ANIOT/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="../../ANIOT/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../../ANIOT/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="../../ANIOT/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="../../ANIOT/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="../../ANIOT/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../../ANIOT/P7/">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../P2/" class="nav-link">
+                            <li >
+                                <a rel="next" href="../P2/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../P4/" class="nav-link">
+                            <li >
+                                <a rel="prev" href="../P4/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -151,38 +159,15 @@
         </div>
 
         <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#practica-3-wifi-provisionamiento-y-ahorro-de-energia" class="nav-link">Práctica 3. WiFi. Provisionamiento y ahorro de energía.</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#parte-1provisionamiento-de-credenciales-wifi" class="nav-link">Parte 1.Provisionamiento de credenciales WiFi</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#parte-2-modos-de-ahorro-de-consumo-wifi" class="nav-link">Parte 2. Modos de ahorro de consumo WiFi</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#practica-3-wifi-provisionamiento-y-ahorro-de-energia">Práctica 3. WiFi. Provisionamiento y ahorro de energía.</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#parte-1provisionamiento-de-credenciales-wifi">Parte 1.Provisionamiento de credenciales WiFi</a></li>
+            <li><a href="#parte-2-modos-de-ahorro-de-consumo-wifi">Parte 2. Modos de ahorro de consumo WiFi</a></li>
+    </ul>
 </div></div>
-                    <div class="col-md-9" role="main">
+                <div class="col-md-9" role="main">
 
 <h1 id="practica-3-wifi-provisionamiento-y-ahorro-de-energia">Práctica 3. WiFi. Provisionamiento y ahorro de energía.</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -232,13 +217,14 @@ que éstos deben inicializarse antes del propio componente. Para finalizar
 el componente de provisionamiento, es suficiente con invocar a la rutina
 <code>wifi_prov_mgr_deinit()</code>.</p>
 <p>Un ejemplo de inicialización resultaría en:</p>
-<pre><code class="language-c">wifi_prov_mgr_config_t config = {
+<pre><code class="c">wifi_prov_mgr_config_t config = {
   .scheme = wifi_prov_scheme_ble,
   .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM
 };
 
 ESP_ERR_CHECK( wifi_prov_mgr_init(config) );
 </code></pre>
+
 <p>La estructura de configuración de tipo <code>wifi_prov_mgr_config_t</code> dispone de
 campos que permiten especificar el comportamiento del componente;
 específicamente, el campo <code>scheme</code> especifica el esquema (o tipo) de 
@@ -259,8 +245,9 @@ credenciales de conexión WiFi están almacenadas en la memoria no volátil (NVS
 <p>Aunque existen distintos métodos para eliminar la información de provisionamento
 almacenada en la NVS, utilizaremos el mecanismo proporcionado por <code>idf.py</code> para
 eliminar su contenido. Para ello, ejecutaremos:</p>
-<pre><code class="language-sh">idf.py erase_flash
+<pre><code class="sh">idf.py erase_flash
 </code></pre>
+
 <h3 id="parametros-de-inicializacion-del-servicio-de-provisionamiento-wifi">Parámetros de inicialización del servicio de provisionamiento WiFi</h3>
 <p>Al inicializar el componente de provisionamiento, es necesario especificar
 un nombre de servicio y una clave. Esto se traduce en:</p>
@@ -291,7 +278,7 @@ de credenciales de provisionamiento:</p>
 </ul>
 <p>Así, un ejemplo de inicialización del servicio de provisionamiento podría
 resultar en el siguiente código:</p>
-<pre><code class="language-c">const char *service_name = &quot;my_device&quot;;
+<pre><code class="c">const char *service_name = &quot;my_device&quot;;
 const char *service_key  = &quot;password&quot;;
 
 wifi_prov_security_t security = WIFI_PROV_SECURITY_1;
@@ -299,6 +286,7 @@ const char *pop = &quot;abcd1234&quot;;
 
 ESP_ERR_CHECK( wifi_prov_mgr_start_provisioning(security, pop, service_name, service_key) );
 </code></pre>
+
 <p>El servicio de provisionamiento finalizará automáticamente al conectar a un 
 AP con éxito (es decir, al obtener IP desde el mismo). En cualquier caso, 
 puede también detenerse de forma manual en cualquier momento a través
@@ -313,7 +301,7 @@ de provisionamiento, y comenzarán con su lógica habitual.</p>
 <li>En primer lugar, la solución más simple consiste en utilizar una 
   invocación <strong>bloqueante</strong> a la rutina <code>wifi_prov_mgr_wait()</code>:</li>
 </ul>
-<pre><code class="language-c">// Inicialización del servicio de provisionamiento
+<pre><code class="c">// Inicialización del servicio de provisionamiento
 ESP_ERR_CHECK( wifi_prov_mgr_start_provisioning(security, pop, service_name, service_key) );
 
 // Espera a la compleción del provisionamiento
@@ -325,13 +313,14 @@ wifi_prov_mgr_deinit();
 // A partir de aquí, comenzaría la lógica habitual de la aplicación
 // ...
 </code></pre>
+
 <ul>
 <li>El segundo mecanismo estaría basado en eventos (es decir, sería <em>no bloqueante</em>),
   interceptando y trabajando sobre eventos de tipo <code>WIFI_PROV_EVENT</code> e 
   invocando a <code>wifi_prov_mgr_deinit()</code> cuando el identificador de evento
   sea <code>WIFI_PROV_END</code>:</li>
 </ul>
-<pre><code class="language-c">static void event_handler(void* arg, esp_event_base_t event_base,
+<pre><code class="c">static void event_handler(void* arg, esp_event_base_t event_base,
                           int event_id, void* event_data)
 {
     if (event_base == WIFI_PROV_EVENT &amp;&amp; event_id == WIFI_PROV_END) {
@@ -340,6 +329,7 @@ wifi_prov_mgr_deinit();
     }
 }
 </code></pre>
+
 <h3 id="herramientas-de-provisionamiento-para-dispositivos-moviles">Herramientas de provisionamiento para dispositivos móviles</h3>
 <p>Existen aplicaciones preparadas por Espressif para llevar a cabo el proceso
 de provisionamiento sobre ESP32. Estas aplicaciones están disponibles tanto
@@ -440,8 +430,9 @@ Básicamente, una sesión de provisionamiento utilizando <code>softAP</code>
 sobre un dispositivo a la espera con IP <code>192.168.4.1</code>, sin capa de 
 seguridad (cifrado) y proporcionando la SSID y clave SSID_EJEMPLO/CLAVE_EJEMPLO
 resultaría:</p>
-<pre><code class="language-sh">python esp_prov.py --transport softap --service_name &quot;192.168.4.1:80&quot; --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
+<pre><code class="sh">python esp_prov.py --transport softap --service_name &quot;192.168.4.1:80&quot; --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
 </code></pre>
+
 <p>Ten en cuenta que, para emitir el anterior comando, debes pertenecer a la 
 misma red que el dispositivo a provisionar, es decir, haber conectado al SSID
 de provisionamiento que se proporciona.</p>
@@ -529,7 +520,6 @@ comportamiento con los tiempos <em>DTIM</em> y de escucha. Añade a tu informe d
 práctica una descripción del ejercicio. Comenta y discute los resultados que
 observes.</p>
 </div></div>
-            </div>
         </div>
 
         <footer class="col-md-12">
@@ -543,32 +533,35 @@ observes.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
                     <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
