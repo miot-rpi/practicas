@@ -12,11 +12,11 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
         <script src="../../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
@@ -160,7 +160,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-6-ble-mesh" class="nav-link">Práctica 6. BLE Mesh</a>
@@ -196,9 +196,9 @@
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Esta práctica es opcional para aquellos que opten a evaluación por proyecto
-y obligatoria para los que se evaluen por prácticas. Las tareas aquí
-descritas son por tanto obligatorias para los que se presentan por
-prácticas, los que vayan por proyecto no tienen qué hacerlas.</p>
+y obligatoria para los que se evaluen por prácticas, es decir, las tareas
+aquí descritas son obligatorias sólo para los que se presentan por
+prácticas.</p>
 </div>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
@@ -218,13 +218,15 @@ con provisionamiento desde ESP32.</p>
 </ul>
 <h2 id="estructura-de-la-practica">Estructura de la práctica</h2>
 <p>Esta práctica está dividida en dos partes. En la primera parte trabajaremos un
-ejemplo de modelo genérico ON-OFF, en el que se simulará una red domótica con un
-interruptor y varias luces conectadas a una red BLE-Mesh. Se pueden conectar
-leds a los correspondientes pines GPIO que utilice el código para ver
-físicamente el efecto del encendido y apagado de las luces.</p>
-<p>En la segunda parte trabajaremos un ejemplo de modelo sensor, en el que un
-sensor enviará información de un sensor virtual (simulado con números
-aleatorios) que enviará a los clientes conectados en la red BLE-Mesh.</p>
+ejemplo de modelo genérico ON-OFF (ble_mesh_node/onoff_server), en el que se
+simulará una red domótica con un interruptor y varias luces conectadas a una red
+BLE-Mesh (o un sólo led rgb).  Si disponemos de ellos, podemos conectar leds a
+los pines GPIO indicados en el fichero board.h para ver físicamente el efecto
+del encendido y apagado de las luces.</p>
+<p>En la segunda parte trabajaremos un ejemplo de modelo sensor
+(ble_mesh_sensor_model), en el que un sensor enviará información de un sensor
+virtual (simulado con números aleatorios) que enviará a los clientes conectados
+en la red BLE-Mesh.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Escribe un informe en el que describas cada una de las tareas propuestas, su
@@ -416,100 +418,51 @@ typedef struct {
 <code>elements</code>:</p>
 <pre><code class="language-c">static esp_ble_mesh_elem_t elements[] = {
     ESP_BLE_MESH_ELEMENT(0, root_models, ESP_BLE_MESH_MODEL_NONE),
+    ESP_BLE_MESH_ELEMENT(0, extend_model_0, ESP_BLE_MESH_MODEL_NONE),
+    ESP_BLE_MESH_ELEMENT(0, extend_model_1, ESP_BLE_MESH_MODEL_NONE),
 };
 </code></pre>
-<p>La implementación y definición de un modelo se realiza de forma similar:</p>
-<pre><code class="language-c">static esp_err_t ble_mesh_init(void)
-{
-    int err = 0;
-
-    memcpy(dev_uuid + 2, esp_bt_dev_get_address(), BLE_MESH_ADDR_LEN);
-
-    // See comment 1
-     esp_ble_mesh_register_prov_callback(esp_ble_mesh_prov_cb);
-    esp_ble_mesh_register_custom_model_callback(esp_ble_mesh_model_cb);
-
-    err = esp_ble_mesh_init(&amp;provision, &amp;composition);
-    if (err) {
-        ESP_LOGE(TAG, &quot;Initializing mesh failed (err %d)&quot;, err);
-        return err;
-    }
-
-    esp_ble_mesh_node_prov_enable(ESP_BLE_MESH_PROV_ADV | ESP_BLE_MESH_PROV_GATT);
-
-    ESP_LOGI(TAG, &quot;BLE Mesh Node initialized&quot;);
-
-    board_led_operation(LED_G, LED_ON);
-
-    return err;
+<p>Dónde la macro <code>ESP_BLE_MESH_ELEMEN</code> se utiliza para inicializar los campos
+de la estructura <code>esp_ble_mesh_elem_t</code>:</p>
+<pre><code class="language-c">#define ESP_BLE_MESH_ELEMENT(_loc, _mods, _vnd_mods)    \
+{                                                       \
+    .location         = (_loc),                         \
+    .sig_model_count  = ARRAY_SIZE(_mods),              \
+    .sig_models       = (_mods),                        \
+    .vnd_model_count  = ARRAY_SIZE(_vnd_mods),          \
+    .vnd_models       = (_vnd_mods),                    \
 }
+
 </code></pre>
-<p>Del mismo modo, podemos usar el array <code>root_models</code> para almacenar los modelos
-creados:</p>
+<p>Las variables de la estructura son las siguientes:</p>
+<ul>
+<li><code>addr</code>: almacena la dirección del elemento primario, usado por la pila ble
+  mesh durante la inicialización. Puede ser ignorado por las aplicaciones.</li>
+<li><code>loc</code>: descriptor location definido por el SIG. En este ejemplo se pone a <code>0</code>.</li>
+<li><code>model_count</code>: número de modelos soportados por este elemento.</li>
+<li><code>vnd_model_count</code>: número de modelos de vendedor soportados por este elemento.</li>
+<li><code>models</code>: puntero al array de modelos ya definidos.</li>
+<li><code>vnd_models</code>: puntero al array de modelos de vendedor ya definidos (ninguno en
+  nuestro ejemplo).</li>
+</ul>
+<p>Como vemos, cada elemento usa un array del tipo <code>ble_mesh_model_t</code> para
+identificar los modelos implementados por el elemento, como es el array
+<code>root_models</code> en nuestro código de ejemplo.</p>
 <pre><code class="language-c">static esp_ble_mesh_model_t root_models[] = {
     ESP_BLE_MESH_MODEL_CFG_SRV(&amp;config_server),
-    ESP_BLE_MESH_SIG_MODEL(ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, onoff_op,
-    &amp;onoff_pub, &amp;led_state[0]),
+    ESP_BLE_MESH_MODEL_GEN_ONOFF_SRV(&amp;onoff_pub_0, &amp;onoff_server_0),
 };
 </code></pre>
 <p>Distintos modelos requieren diferentes macros (en este caso, ya que vamos a
 implementar un modelo <em>Generic OnOff Server</em>, hemos utilizado
-<code>ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV</code>). </p>
-<p>Otra estructura importante en un modelo son los punteros
-<code>esp_ble_mesh_model_op_t *op</code>. Estas estructuras apuntan a la estrcutura de
-operación que define el <strong>estado</strong> del modelo. Generalmente, hay dos tipos de
-modelos en BLE Mesh:</p>
-<ul>
-<li><strong>Modelo servidor</strong>:<ul>
-<li>Consiste en uno o varios estados que pueden existir y abarcar varios
-  elementos.</li>
-<li>Define los mensajes enviados/recibidos por el modelo, junto con el
-  comportamiento del elemento. Por ejemplo, un cambio entre On y Off en un
-  interruptor indica el estado de On/Off en el modelo.</li>
-</ul>
-</li>
-<li><strong>Modelo cliente</strong>:<ul>
-<li>Define los mensajes usados por el cliente para solicitar, modificar o usar
-  el estado del servidor. Por ejemplo, un cambio entre un On y Off en un
-  interruptor (cliente) indica el mensaje de On/Off enviado por el cliente.</li>
-</ul>
-</li>
-</ul>
-<p>El siguiente código muestra la declaración de la estructura operación asociada
-al Modelo del servidor:</p>
-<pre><code class="language-c">/*!&lt; Model operation context.
-    This structure is associated with bt_mesh_model_op in mesh_access.h */
-typedef struct {
-    const uint32_t    opcode;   /* Opcode encoded with the ESP_BLE_MESH_MODEL_OP_* macro */
-    const size_t      min_len;  /* Minimum required message length */
-    esp_ble_mesh_cb_t param_cb; /* The callback is only used for the BLE Mesh stack, not for the app layer. */
-} esp_ble_mesh_model_op_t;
-</code></pre>
-<p>Existe tres variables en la declaración:</p>
-<ul>
-<li><code>opcode</code>: código de operación asociado al estado. </li>
-<li><code>min_len</code>: tamaño mínimo de los mensajes recibidos por el estado. Por ejemplo,
-  para <em>OnOff Get State</em>, el tamaño es 0 (estamos leyendo), mientras que en el
-  caso de <em>OnOff Set State</em>, el tamaño es 2 (incluye el valor a escribir).</li>
-<li><code>param_cb</code>: parámetro interno utilizado por la pila BLE Mesh, típicamente
-  inicializado a 0.</li>
-</ul>
-<p>Así, la definición en el servidor quedaría:</p>
-<pre><code class="language-c">static esp_ble_mesh_model_op_t onoff_op[] = {
-    { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET, 0, 0},
-    { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET, 2, 0},
-    { ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK, 2, 0},
-    /* Each model operation struct array must use this terminator
-     * as the end tag of the operation uint. */
-    ESP_BLE_MESH_MODEL_OP_END,
-};
-</code></pre>
+<code>ESP_BLE_MESH_MODEL_GEN_ONOFF_SRV</code>). </p>
 <h3 id="el-cliente-on-off">El cliente ON-OFF</h3>
-<p>El cliente resulta mucho más sencillo en su funcionamiento. De forma genérica,
-simplemente define un modelo <em>Client ON/OFF</em> y espera a ser provisionado. Una
-vez completado el proceso de provisionamento, espera a la pulsación de uno de
-los botones en la placa (RESET) para el envío a todos los nodos en la misma red
-de una solicitud de modificación en el estado de activación de las luces.</p>
+<p>El cliente resulta mucho más sencillo en su funcionamiento. El código de ejemplo
+es (ble_mesh_node/onoff_client). De forma genérica, simplemente define un modelo
+<em>Client ON/OFF</em> y espera a ser provisionado. Una vez completado el proceso de
+provisionamento, espera a la pulsación de uno de los botones en la placa (RESET)
+para el envío a todos los nodos en la misma red de una solicitud de modificación
+en el estado de activación de las luces.</p>
 <p>Concretamente, nos interesan las siguientes definiciones. En el fichero
 <code>board.c</code>, observa la respusta a la pulsación del botón:</p>
 <pre><code class="language-c">
@@ -534,8 +487,9 @@ void board_init(void)
     board_button_init();
 }
 </code></pre>
-<p>La función invocada, <code>example_ble_mesh_send_gen_onoff_set</code>, realiza el envío
-de una operación de tipo <code>SET</code> a <em>todos los miembros de la red</em>:</p>
+<p>La función invocada, <code>example_ble_mesh_send_gen_onoff_set()</code> (definida en el
+fichero <code>main.c</code>), realiza el envío de una operación de tipo <code>SET</code> a <em>todos los
+miembros de la red</em>:</p>
 <pre><code class="language-c">void example_ble_mesh_send_gen_onoff_set(void)
 {
     esp_ble_mesh_generic_client_set_state_t set = {0};
@@ -607,7 +561,7 @@ interruptor que controlará su estado de encendido/apagado.</p>
 <li><em>PASO 6</em>: tras repetir este paso con todos los nodos de nuestro grupo, veremos
   una pantalla como la siguiente. Observa y anota las direcciones unicast de
   cada nodo. Los nodos con un elemento son el cliente OnOff; los nodos con tres
-  elementos (sólo usaremos el primero) son los servidores OnOff:</li>
+  elementos son los servidores OnOff:</li>
 </ul>
 <p><img alt="" src="img/APP/05_nodos_provisionados.png" /></p>
 <p>A continuación, generarás un grupo de nodos. Esto nos permitirá suscribir a
@@ -623,7 +577,7 @@ del grupo.</p>
 <p>A continuación, suscribiremos a cada modelo de los servidores y clientes (de
 tipo <em>Generic On Off Server</em> y <em>Generic On Off Client</em>) al grupo creado. Esto lo
 harás nodo a nodo, en primer lugar pincando en el modelo concreto:</p>
-<p><img alt="" src="img/APP/07_anadiendo_grupo.png" /></p>
+<p><img alt="" src="img/APP/07_anyadiendo_grupo.png" /></p>
 <p>Y a continuación asociando una clave de aplicación (<em>BIND KEY</em>) y suscribiendo
 (<em>SUBSCRIBE</em>) al grupo deseado:</p>
 <p><img alt="" src="img/APP/08_generic_onoff_client.png" />
@@ -645,8 +599,9 @@ grupo, y verás como ya no recibe los mensajes de solicitud de modificación
 de estado.</p>
 </div>
 <h2 id="modelo-sensor">Modelo sensor</h2>
-<p>En este ejemplo, se implementa la creación de un cliente de modelo sensor que,
-además, es provisionador, y un servidor de modelo sensor configurable. </p>
+<p>En este ejemplo (ble_mesh_sensor_model), se implementa la creación de un cliente
+de modelo sensor que, además, es provisionador, y un servidor de modelo sensor
+configurable. </p>
 <p>El modelo <em>Sensor Server</em> es un modelo que permite exponer series de datos de
 sensorización.  El modelo <em>Sensor Client</em> se usa para consumir valores de
 sensorización (<em>Sensor states</em>) expuestos por el servidor.</p>
@@ -747,13 +702,16 @@ remotamente la cadencia de cambio del valor sensorizado.</p>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
