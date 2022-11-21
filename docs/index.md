@@ -45,18 +45,18 @@
 
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
-| -        | 19/09 |Clase de teoría                               |
-| 1        | 26/09 |[Introducción al entorno](ANIOT/P1/index.md) |
-| 2        | 03/10 |[ Tareas y Eventos](ANIOT/P2/index.md) |
-| 3        | 10/10 |[Timers y GPIO ](ANIOT/P3/index.md)       |
-| 4        | 17/10 |[E/S - ADC ](ANIOT/P4/index.md)         |
-| 5        | 24/10 |[I2C ](ANIOT/P5/index.md)    |
-| -        | 31/10 |**FESTIVO**                                   |
-| 5        | 07/11 |[I2C  ](ANIOT/P5/index.md)     |
-| -        | 14/11 |[OTA](ANIOT/P6/index.md)              |
-| 6        | 21/11 |[Logging  ](ANIOT/P6/index.md)               |
-| 7        | 28/11 |[Modos de consumo ](ANIOT/P7/index.md)          |
-| -        | 05/12 | **FESTIVO**                 |
-| -        | 12/12 | **REPESCA**           |
-|          | 09/01 | Presentaciones orales                        |
-|          | 16/01 | Presentaciones orales                        |
+| -        | 20/09 |Clase de teoría                               |
+| 1        | 27/09 |[Introducción al entorno](ANIOT/P1/index.md) |
+| 2        | 04/10 |[ Tareas y Eventos](ANIOT/P2/index.md) |
+| 3        | 11/10 |[Timers y GPIO ](ANIOT/P3/index.md)       |
+| 4        | 18/10 |[E/S - ADC ](ANIOT/P4/index.md)         |
+| 5        | 25/10 |[I2C ](ANIOT/P5/index.md)    |
+| -        | 01/11 |**FESTIVO**                                   |
+| 5        | 08/11 |[I2C  ](ANIOT/P5/index.md)     |
+| 6        | 15/11 |[Componentes](ANIOT/P6/index.md)              |
+| 7        | 22/11 |[OTA  ](ANIOT/P7/index.md)               |
+| 8        | 29/11 |[Modos de consumo ](ANIOT/P8/index.md)          |
+| -        | 06/12 | **FESTIVO**                 |
+| -        | 13/12 | **REPESCA**           |
+|          | 10/01 | Presentaciones orales                        |
+|          | 17/01 | Presentaciones orales                        |
