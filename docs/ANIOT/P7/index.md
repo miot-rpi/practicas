@@ -111,7 +111,7 @@ Como se puede comprobar en la figura y en el código, en un arranque que se prod
 Vamos a partir  [del ejemplo de OTA básico](https://github.com/espressif/esp-idf/tree/master/examples/system/ota/simple_ota_example). Estudia el código, y responde a las siguientes preguntas:
 
 !!! note "Cuestión"
-    * ¿Qué entradas tiene la tabla de componentes usada?
+    * ¿Qué entradas tiene la tabla de particiones usada?
     * ¿Cómo se llama el fichero de certificado que se incluirá en el binario?
     * ¿Cómo y dónde se indica que se debe incluir el certificado?
     * ¿Qué es el símbolo *server_cert_pem_start*?
