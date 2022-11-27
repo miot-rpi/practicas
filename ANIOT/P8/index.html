@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 2 - Master IoT UCM - Prácticas RPI</title>
+        <title>Práctica 8 - Master IoT UCM - Prácticas RPI</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -103,7 +103,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Práctica 2</a>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
 <li>
@@ -127,7 +127,7 @@
 </li>
                                     
 <li>
-    <a href="../P8/" class="dropdown-item">Práctica 8</a>
+    <a href="./" class="dropdown-item active">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
@@ -140,12 +140,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../P1/" class="nav-link">
+                                <a rel="prev" href="../P7/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../P3/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -167,7 +167,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#practica-2-programacion-con-tareas-y-eventos-en-esp-idf" class="nav-link">Práctica 2. Programación con tareas y eventos en ESP-IDF</a>
+            <li class="nav-item" data-level="1"><a href="#practica-8-modos-de-bajo-consumo" class="nav-link">Práctica 8. Modos de bajo consumo</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -177,7 +177,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+            <li class="nav-item" data-level="2"><a href="#modos-de-bajos-consumo" class="nav-link">Modos de bajos consumo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#gestor-automatico-de-consunmo" class="nav-link">Gestor automático de consunmo</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -185,7 +189,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#ejercicio-adicional" class="nav-link">Ejercicio adicional</a>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-avanzado" class="nav-link">Ejercicio avanzado</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -196,104 +200,110 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-2-programacion-con-tareas-y-eventos-en-esp-idf">Práctica 2. Programación con tareas y eventos en ESP-IDF</h1>
+<h1 id="practica-8-modos-de-bajo-consumo">Práctica 8. Modos de bajo consumo</h1>
+<p>Esta práctica se desarrollará el 29 de noviembre.</p>
 <h2 id="objetivos">Objetivos</h2>
-<p>El objetivo  de esta práctica es conocer los mecanismos para la gestión de tareas
-que ofrece FreeRTOS, concretamente en su porting  ESP-IDF (con alguna
-particularidad por el hecho de estar adaptado a tener 2 cores).</p>
-<p>Trabajaremos los siguientes aspectos del API de ESP-IDF:</p>
-<ul>
-<li>Familiarizarse con la API de <em>tareas</em> y <em>eventos</em> en ESP/IDF.</li>
-<li>Uso de <em>delays</em> para tareas periódicas (veremos mejores opciones en el futuro)</li>
-<li>Comunicación y sincronización de tareas mediante colas</li>
-</ul>
+<p>El objetivo de esta práctica es  conocer los diferentes modos de bajo consumo que ofrece el ESP32 y la interfaz que expone ESP-IDF para usarlos.</p>
+<p>Trabajaremos los siguientes aspectos:
+* Paso explícito a <em>light-sleep</em> y a <em>deep-sleep</em>.
+* Probar diferentes mecanismos para volver de modos de bajo consumo.
+* Usar el gestor automático de ahorro energético.</p>
 <h2 id="material-de-consulta">Material de consulta</h2>
-<p>Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:</p>
 <ul>
-<li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/api-reference/system/freertos.html">API de ESP-IDF</a></li>
-<li><a href="https://www.freertos.org/features.html}. Documentación oficial de FreeRTOS">Documentación oficial de FreeRTOS</a></li>
-<li><a href="https://www.freertos.org/fr-content-src/uploads/2018/07/161204_Mastering_the_FreeRTOS_Real_Time_Kernel-A_Hands-On_Tutorial_Guide.pdf">Mastering de FreeRTOS Real Time Kernel</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/sleep_modes.html">Descripción de modos de bajo consumo</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/power_management.html">Gestión automática de consumo</a></li>
+<li><a href="https://github.com/espressif/esp-idf/tree/439a709c4298b0f613d09b47fc0b7b9728fc5733/examples/system/light_sleep">Ejemplo sobre light-sleep</a></li>
 </ul>
-<h2 id="introduccion">Introducción</h2>
-<p>Al desarrollar código para sistemas empotrados, como nuestro nodo basado en ESP32, es habitual organizar la aplicación en torno a diferentes tareas que se ejecutan de forma concurrente. Habrá tareas dedicadas al muestreo de sensores, tareas dedicadas a la conectividad, tareas de <em>logging</em>... </p>
-<p>Por tanto, al comenzar un desarrollo con un nuevo <em>RTOS</em> (Real-Time Operating System) es importante conocer qué servicios ofrece el sistema para la gestión de hilos/tareas. En ocasiones, puede no haber ningún soporte. En otras ocasiones, el API ofrecida será específica del sistema operativo utilizado (como es el caso con FreeRTOS y, por tanto, con la extensión que usaremos: ESP-IDF). Y, en ocasiones, el sistema ofrecerá algún API estándar, como el de <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/pthread.h.html">POSIX</a>.</p>
-<p>En los vídeos y transparencias de la asignatura disponibles en el Campus Virtual se hace una breve introducción de los mecanismos de:</p>
+<h2 id="modos-de-bajos-consumo">Modos de bajos consumo</h2>
+<p>ESP32 ofrece dos modos de ahorro de consumo energético: <em>Light-sleep</em> y <em>Deep-sleep</em>.</p>
+<p>En el modo <em>light-sleep</em> se corta la señal de reloj de los periféricos digitales, la mayor parte de la RAM y la CPU; además, se reduce la tensión de alimentación, pero se mantiene por encima de la necesaria para retener la información. Así, el sistema no puede ejecutar ninguna tarea, pero no perdemos la información almacenada en registros y memoria. Al salir de <em>light-sleep</em> los periféricos digitales, RAM y CPU continúan su operación como si nada hubiera pasado.</p>
+<p>En el modo <em>deep-sleep</em> la CPU, la mayor parte de la RAM y los periféricos cuyo señal de reloj viene de <em>APB_CLK</em> se apagan por completo. Las únicas partes del chip que mantienen alimentación son:</p>
 <ul>
-<li>Creación y destrucción de tareas en ESP-IDF.</li>
-<li>Comunicación y sincronización de tareas mediante colas </li>
-<li>Uso de <em>eventos</em> como sistema de comunicación asíncrona.</li>
+<li>Controlador RTC (Real Time Clock). Para mantener la hora del sistema</li>
+<li>Co-procesador ULP (<em>ultra-lowpower</em>).</li>
+<li>RTC fast memory</li>
+<li>RTC slow memory</li>
 </ul>
-<p>Los siguientes ejercicios se proponen como una práctica sencilla de esos mecanismos.</p>
+<p>Hay varias fuentes que permiten despertar al sistema cuando se encuentra en <em>deep-sleep</em> o en <em>ligth-sleep</em>. Podemos especificar varias fuentes de manera que el sistema despierte ante cualquier de ellas. Para configurarlas, ESP-IDF proporciona llamadas de la forma <code>esp_sleep_enable_X_wakeup()´; para deshabilitarlas, existe</code>esp_sleep_disable_wakeup_source()`.</p>
+<p>Tras configurar la(s) fuente(s) que nos permitirán salir del modo de bajo consumo, podemos entrar en uno de los dos llamando a <code>esp_light_sleep_start()</code> or <code>esp_deep_sleep_start()</code>. Tanto Wi-Fi como Bluetooth dejarán de funcionar y deberían apagarse antes de entrar en modos de bajo consumo. Si la conexión Wi-Fi debe mantenerse, será necesario utlizar el gestor automático de ahorro energético.</p>
+<h2 id="gestor-automatico-de-consunmo">Gestor automático de consunmo</h2>
+<p>El <em>Power Manager</em> proporcionado por ESP-IDF permite controlar la frecuencia las señales de reloj de la CPU y del bus APB, e incluso pasar a <em>ligth-sleep</em> en períodos de inactividad. Asimismo permite el uso y creación de <em>cerrojos</em> que, en determinadas fases de nuestra aplicación, limitan las acciones del gestor de consumo por determinadas necesidades (mantener una velocidad de APB, mantener interrupciones activas...).</p>
+<p>El gestor automático se puede habilitar en tiempo de compilación (a través de <em>menuconfig</em>) usando la opción <code>CONFIG_PM_ENABLE</code>. Habilitar esta opción aumenta la latencia del tratamiento de interrupciones y disminuye la precisión del reloj del sistema (utilizado para mantener la hora, <em>timers</em>...).</p>
+<p>Además de hablitar la opción en tiempo de compilación, es necesario configurar su uso en ejecución llamando a <code>esp_pm_configure()</code> que recibe un argumento de tipo <code>esp_pm_config_esp32_t</code> que tiene tres campos:</p>
+<ul>
+<li><code>max_freq_mhz</code>: frecuencia de CPU máxima en MHz. Es la frecuencia que se utilizará cuando el algún componente adquiera le cerrojo 'ESP_PM_CPU_FREQ_MAX'. Lo habitual es que se deje a la frecuencia por defecto (240MHZ).</li>
+<li><code>min_freq_mhz</code>: frecuencia mínima en MHz. Es la frecuencia que se usará si se adquiere el cerrojo  <code>ESP_PM_APB_FREQ_MAX</code>.</li>
+<li><code>light_sleep_enable</code>: indica si el sistema debería pasar automáticamente al modo <em>light-sleep</em> en períodos de inactividad (con ningún cerrojo adquirido por ningún componente). Es un valor <code>true</code> o <code>false</code>.</li>
+</ul>
+<p>Para poder habilitar la tercera opción (<code>light_sleep_enable</code>), debemos habilitar la funcionalidad <em>Tickless Idle</em> en <em>Menuconfig</em> con la opción <code>CONFIG_FREERTOS_USE_TICKLESS_IDLE</code>. En caso contrario, <code>esp_pm_configure()</code> devolverá el error <em>ESP_ERR_NOT_SUPPORTED</em> si tratamos de habiltar la opción <code>light_sleep_enable</code>.</p>
+<p>Si todo está configurado correctamente y no hay ningún cerrojo adquirido, el sistema podrá pasar al modo <em>light-sleep</em> tras un período de inactividad. El sistema permanecerá en dicho modo  en función de eventos como:</p>
+<ul>
+<li>Tareas de FreeRTOS bloqueadas por algún <em>timeout</em> finito (como <code>vTaskDelay()</code>).</li>
+<li><em>Timers</em> registrados con el API de <em>High resolution timer</em></li>
+</ul>
+<p>El sistema saldrá de <em>light-sleep</em> para tratar el evento más próximo. Si queremos que nuestros <em>timers</em> no nos saquen de <em>light-sleep</em> los podemos inicializar con la opción <code>skip_unhandled_events</code>.</p>
 <h2 id="ejercicios-basicos">Ejercicios básicos</h2>
-<h3 id="muestreo-periodico-del-sensor-de-efecto-hall">Muestreo periódico del sensor de efecto Hall</h3>
-<p>Un sensor de efecto Hall permite la medición de campos magnéticos o corrientes. En este ejercicio no entraremos a ver los detalles del sensor en sí y simplemente estamos interesados en su uso en el entorno ESP-IDF. El <a href="https://docs.espressif.com/projects/esp-idf/en/v4.0.3/api-reference/peripherals/adc.html#_CPPv416hall_sensor_readv">Hall sensor</a> está conectado a un canal del <em>ADC</em> (Conversor Analógico-Digital) que estudiaremos más adelante. Por ahora, nos basta con saber que para realizar una lectura del sensor basta con invocar a la función <code>hall_sensor_read()</code> y que, previamente, es necesario configurar el ADC mediante la llamada <code>adc1_config_width(ADC_WIDTH_12Bit)</code> (sólo es necesario invocar esta llamada una vez).</p>
-<pre><code class="language-c">#include &lt;driver/adc.h&gt;
-...
-
-    adc1_config_width(ADC_WIDTH_12Bit);
-    int val = hall_sensor_read();
-</code></pre>
-<p>En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucle infinito en la función <code>app_main()</code> para leer de forma periódica el sensor. Asimismo, usaremos la llamada <code>void vTaskDelay(const TickType_t xTicksToDelay)</code> para realizar las esperas entre lecturas.</p>
+<p>Vamos a partir  <a href="https://github.com/espressif/esp-idf/tree/439a709c4298b0f613d09b47fc0b7b9728fc5733/examples/system/light_sleep">del ejemplo que entra manualmente en <em>light-sleep</em></a>. </p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>¿Qué prioridad tiene la tarea inicial que ejecuta la función <code>app_main()</code>? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?</p>
-</div>
-<h3 id="creacion-de-una-tarea-para-realizar-el-muestreo">Creación de una tarea para realizar el muestreo</h3>
-<p>Modifica el código anterior para crear una nueva tarea que sea la encargada de realizar el muestreo (denominaremos <em>muestreadora</em> a dicha tarea). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta <code>app_main()</code>) a través de una variable global.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>La tarea creada leerá el valor del sensor de efecto Hall con un período que se pasará como argumento a la tarea. La tarea inicial recogerá ese valor y lo mostrará por puerto serie.</p>
+<p class="admonition-title">Tareas</p>
+<ul>
+<li>Hacer funcionar el ejemplo, permitiendo que volvamos de <em>light-sleep</em> tanto por un <em>timer</em> como por GPIO.</li>
+</ul>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
 <ul>
-<li>¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?</li>
-<li>Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?</li>
+<li>¿Qué número de GPIO está configurado por defecto para despertar al sistema? ¿Está conectado dicho GPIO a algún elemento de la placa <em>ESP Devkit-c</em> que estamos usando? <a href="https://dl.espressif.com/dl/schematics/esp32_devkitc_v4-sch.pdf">Puedes tratar de responder consultando el esquemático de la placa</a></li>
 </ul>
 </div>
-<h3 id="comunicacion-mediante-colas">Comunicación mediante colas</h3>
-<p>Modifica el código anterior para que las dos tareas (inicial y muestreadora) se comuniquen mediante una <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#queue-api">cola de ESP-IDF</a>.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo y la cola en la que deberá escribir los datos leídos.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>Al enviar un dato por una cola, ¿el dato se pasa por copia o por referencia?. Consulta la documentación para responder.</p>
-</div>
-<h3 id="uso-de-eventos">Uso de eventos</h3>
-<p>Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">eventos</a> para notificar que hay una nueva lectura que mostrar por el puerto serie.</p>
-<p>Para ello se declara un nuevo <em>event base</em> llamado <em>HALL_EVENT</em> y al menos un <code>event ID</code> que se denominará <code>HALL_EVENT_NEWSAMPLE</code>.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de <code>esp_event_post_to()</code>. La tarea inicial registrará un <code>handler</code> que se encargará de escribir en el puerto serie.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>¿Qué debe hacer la tarea inicial tras registrar el <em>handle</em>? ¿Puede finalizar?   </p>
-</div>
-<h2 id="ejercicio-adicional">Ejercicio adicional</h2>
-<p>Los ejercicios anteriores son de entrega obligatoria para obtener un 5 en la calificación de la práctica. La realización del siguiente ejercicio permite mejorar la calificación.</p>
-<h3 id="gestion-de-multiples-tareas">Gestión de múltiples tareas</h3>
-<p>Se creará un sistema con múltiples tareas que se comunicarán entre sí por eventos:</p>
+<p class="admonition-title">Tareas</p>
 <ul>
-<li>Tarea <em>Sampler</em> (muestreadora), similar a la del apartado anterior. Comunicará sus muestras mediante eventos (<code>HALL_EVENT_NEWSAMPLE</code>).</li>
-<li>Tarea <em>Filter</em> que irá acumulando muestras de la tarea <em>Sampler</em> y realizará la media  de las últimas 5 muestras recibidas. Enviará dicha media mediante un evento <code>HALL_EVENT_FILTERSAMPLE</code>.</li>
-<li>Tarea <em>Logger</em> que escribe por puerto serie lo que le comunican otras tareas. Debe ser una tarea diferente a la inicial. Recibirá información a través de los eventos correspondientes (a los que deberá suscribirse).</li>
-<li>Tarea <em>Monitor</em> que monitoriza el estado de las otras tareas creadas. Usará el API de Tareas para consultar el espacio de pila restante de cada tarea. Comunicará los datos a la tarea <em>Logger</em>, incluyendo nombre de la tarea, prioridad y cantidad de pila restante. Puede usar la llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#task-api">vTaskGetInfo()</a> que devuelve un tipo <a href="https://www.freertos.org/vTaskGetInfo.html#TaskStatus_t">TaskStatus_t</a>. Enviará la información periódicamente (cada minuto) a través del evento <code>TASK_EVENT_MONITOR</code>.</li>
+<li>Incluir un <em>timer</em> en el código. La aplicación arrancará, configurará un <em>timer</em> para que se ejecute su <em>callback</em> cada 0.5 segundos, y se dormirá durante 3 segundos (con <code>vTaskDelay()</code>). Tras despertar del <em>delay</em>, pasará a <em>light-sleep</em> (configuraremos el mecanismo de despertar para que lo haga en 5 segundos, si no usamos el GPIO correspondiente). El <em>callback</em> del timer imprimirá un mensaje que incluirá el valor devuelto por <code>esp_timer_get_time()</code>. </li>
 </ul>
-<p>La tarea inicial creará las tareas <em>Sampler</em>, <em>Filter</em> y <em>Logger</em> y, por último, la tarea <em>Monitor</em> que recibirá los <em>handlers</em> de las tareas anteriores. </p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Escribe una aplicación que realice la funcionalidad anterior. El código debe organizarse en varios ficheros fuente (.c): uno para la funcionalidad relativa al muestreo del sensor y su filtrado, otro para el <em>logging</em> y otro para la monitorización de tareas (además del fichero <code>main.c</code>). Si se usa algún tipo de datos propio (una cola circular puede ser perfecta para el filtrado), se incluirá en otro fichero fuente diferente, con su fichero de cabecera (.h) correspondiente</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
-<p>¿Qué opinas de esta estructura de código? ¿Es razonable el número de tareas empleado? ¿Qué cambiarías en el diseño? </p>
+<ul>
+<li>¿Qué observas en la ejecución de los <em>timer</em>?¿Se ejecutan en el instante adecuado?¿Se pierde alguno?</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tareas</p>
+<ul>
+<li>Modifica el código anterior para que, tras 5 pasos por <em>ligth-sleep</em>, pasemos a <em>deep-sleep</em>. Incluye código para determinar el motivo por el que hemos despertado de <em>deep-sleep</em> y muéstralo por pantalla.</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Cuestión</p>
+<ul>
+<li>¿Qué diferencia se observa al volver de <em>deep-sleep</em> respecto a volver de <em>light-sleep</em>?</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tareas</p>
+<ul>
+<li>Crea una nueva aplicación que haga uso del <em>Power manager</em>. La aplicación leerá el sensor <em>Hall</em> periódicamente usando un <em>High Precission Timer</em>. El sistema deberá pasar automáticamente a <em>light-sleep</em> tras un período de inactividad. Mide el consumo energético para comprobar el paso.</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Cuestión</p>
+<ul>
+<li>¿Qué ocurre si habilitamos <code>skip_unhandled_events</code> en el <em>timer</em>?</li>
+</ul>
+</div>
+<h2 id="ejercicio-avanzado">Ejercicio avanzado</h2>
+<p>Integraremos el control de energía en la aplicación que hemos ido desarrollando a lo largo de estas prácticas (lectura periódica del sensor de temperatura).</p>
+<div class="admonition danger">
+<p class="admonition-title">Tareas</p>
+<p>Completar la aplicación de modo que:</p>
+<ul>
+<li>Se realice una lectura periódica (cada 10 segundos) del sensor de temperatura. Este código estará en un componente.</li>
+<li>Se configure el gestor de energía para que entre automáticamente en <em>light-sleep</em> cuando sea posible.</li>
+<li>Tras 12 horas de funcionamiento, pasará al modo <em>deep-sleep</em> durante otras 12 horas (para pruebas, en lugar de 12 horas probadlo con 1 minuto).</li>
+<li>Compruebe el motivo por el que se produce cada reinincio y lo anote en NVS.</li>
+<li>Escriba en NVS la última medida del sensor tomada.</li>
+</ul>
 </div></div>
             </div>
         </div>
