@@ -33,9 +33,9 @@
 | -        | 31/10 |**FESTIVO**                                   |
 | 3        | 07/11 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
 | -        | 14/11 |**FESTIVO**                                   |
-| 4        | 21/11 |[CoAP](RPI-II/P7/index.md)                    |
-| 4        | 28/11 |[LWM2M (I)](RPI-II/P8/index.md)               |
-| 5        | 05/12 |Gestión de despliegues                        |
+| 4        | 21/11 |[CoAP (I)](RPI-II/P7/index.md)                    |
+| 4        | 28/11 |[CoAP (II)](RPI-II/P7/index.md)                    |
+| 5        | 05/12 |[OTA](RPI-II/P11/Index.md). [Seguridad](RPI-II/P3/Index.md)                        |
 | 6        | 12/12 |[Dasboards](RPI-II/P9/index.md)               |
 |          | 09/01 | Presentaciones orales                        |
 |          | 16/01 | Presentaciones orales                        |
