@@ -329,3 +329,8 @@ dirección IP del router de borde para observar su estado:
 	Realiza movimientos sobre los nodos, o crea nuevas motas en la simulación, y
 	estudia, a través de la interfaz web del router de borde, el tiempo de
 	establecimiento de nuevas rutas. Documenta el proceso y tus observaciones.
+
+!!! danger "Tarea"
+	Examina los paquetes enviados y obten de forma razonada la topología de red
+	que se está usando, identificando el padre preferente de cada nodo. Para
+	ello puedes averiguar a qué nodo envían el paquete DAO.
