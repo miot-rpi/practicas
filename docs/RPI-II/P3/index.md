@@ -361,7 +361,7 @@ la totalidad de su código para que se comporte como un simple cliente *echo*.
     paquetes es similar al que observaste entre cliente y servidor en el *host*.
 
 !!! danger "Tarea entregable"
-    Adapta tu sistema cliente/servidor TCP desarrollado en la anterior práctica
+    Adapta tu sistema cliente/servidor TCP desarrollado en la práctica 1
     para que se ejecute sobre el binomio *host*/ESP32 utlizando TLS. 
     Entrega el código generado junto con una captura de tráfico que demuestre su 
     correcto funcionamiento.
