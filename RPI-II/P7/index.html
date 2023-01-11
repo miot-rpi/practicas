@@ -9,163 +9,175 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 4 - Master IoT UCM - Prácticas RPI</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
-                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI</a>
+                </div>
 
                 <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href="../.." class="nav-link">Calendario</a>
+                            <li >
+                                <a href="../..">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../RPI-I/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="../../RPI-I/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../../RPI-I/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="../../RPI-I/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="../../RPI-I/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="../../RPI-I/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../../RPI-I/P7/">Práctica 7</a>
 </li>
                                     
-<li>
-    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+<li >
+    <a href="../../RPI-I/P8/">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+<li >
+    <a href="../P1_I/">Práctica 1 (I)</a>
 </li>
                                     
-<li>
-    <a href="../P1_II/" class="dropdown-item">Práctica 1 (II)</a>
+<li >
+    <a href="../P1_II/">Práctica 1 (II)</a>
 </li>
                                     
-<li>
-    <a href="../P6/" class="dropdown-item">Práctica 2 (I)</a>
+<li >
+    <a href="../P6/">Práctica 2 (I)</a>
 </li>
                                     
-<li>
-    <a href="../P6-II/" class="dropdown-item">Práctica 2 (II)</a>
+<li >
+    <a href="../P6-II/">Práctica 2 (II)</a>
 </li>
                                     
-<li>
-    <a href="../P5/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../P5/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="./" class="dropdown-item active">Práctica 4</a>
+<li class="active">
+    <a href="./">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../P3/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="../P3/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../P10/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="../P10/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../P8/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../P8/">Práctica 7</a>
+</li>
+                                    
+<li >
+    <a href="../P11/">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="../../ANIOT/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="../../ANIOT/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="../../ANIOT/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="../../ANIOT/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="../../ANIOT/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="../../ANIOT/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="../../ANIOT/P7/">Práctica 7</a>
 </li>
                                     
-<li>
-    <a href="../../ANIOT/P8/" class="dropdown-item">Práctica 8</a>
+<li >
+    <a href="../../ANIOT/P8/">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../P5/" class="nav-link">
+                            <li >
+                                <a rel="next" href="../P5/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../P3/" class="nav-link">
+                            <li >
+                                <a rel="prev" href="../P3/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -175,78 +187,24 @@
         </div>
 
         <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#practica-4-el-protocolo-coap" class="nav-link">Práctica 4. El protocolo CoAP</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-level="1"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-level="1"><a href="#instalacion-y-requisitos-previos" class="nav-link">Instalación y requisitos previos</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#instalacion-de-requisitos-adicionales-y-libcoap" class="nav-link">Instalación de requisitos adicionales y libcoap</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-level="1"><a href="#intercambio-de-mensajes-coap" class="nav-link">Intercambio de mensajes CoAP</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#arranque-del-servidor-coap" class="nav-link">Arranque del servidor CoAP</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#obtencion-de-informacion-del-servidor-resource-discovery" class="nav-link">Obtención de información del servidor (Resource Discovery)</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#obtencion-de-informacion-desde-recursos" class="nav-link">Obtención de información desde recursos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#modificacion-de-recursos" class="nav-link">Modificación de recursos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#eliminacion-y-creacion-de-recursos" class="nav-link">Eliminación y creación de recursos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#suscripcion-observacion-de-recursos" class="nav-link">Suscripción (observación) de recursos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#coap-sobre-tcp" class="nav-link">CoAP sobre TCP</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-level="1"><a href="#tareas-entregables" class="nav-link">Tareas entregables</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-        </ul>
-    </div>
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#practica-4-el-protocolo-coap">Práctica 4. El protocolo CoAP</a></li>
+        <li class="main "><a href="#objetivos">Objetivos</a></li>
+        <li class="main "><a href="#instalacion-y-requisitos-previos">Instalación y requisitos previos</a></li>
+            <li><a href="#instalacion-de-requisitos-adicionales-y-libcoap">Instalación de requisitos adicionales y libcoap</a></li>
+        <li class="main "><a href="#intercambio-de-mensajes-coap">Intercambio de mensajes CoAP</a></li>
+            <li><a href="#arranque-del-servidor-coap">Arranque del servidor CoAP</a></li>
+            <li><a href="#obtencion-de-informacion-del-servidor-resource-discovery">Obtención de información del servidor (Resource Discovery)</a></li>
+            <li><a href="#obtencion-de-informacion-desde-recursos">Obtención de información desde recursos</a></li>
+            <li><a href="#modificacion-de-recursos">Modificación de recursos</a></li>
+            <li><a href="#eliminacion-y-creacion-de-recursos">Eliminación y creación de recursos</a></li>
+            <li><a href="#suscripcion-observacion-de-recursos">Suscripción (observación) de recursos</a></li>
+            <li><a href="#coap-sobre-tcp">CoAP sobre TCP</a></li>
+        <li class="main "><a href="#tareas-entregables">Tareas entregables</a></li>
+    </ul>
 </div></div>
-                    <div class="col-md-9" role="main">
+                <div class="col-md-9" role="main">
 
 <h1 id="practica-4-el-protocolo-coap">Práctica 4. El protocolo CoAP</h1>
 <h1 id="objetivos">Objetivos</h1>
@@ -278,17 +236,19 @@ implementar un servidor CoAP en el ESP32.</p>
 <p>En primer lugar, instalemos los prerequisitos necesarios para hacer funcionar
 {\tt libcoap}. Para ello, en la máquina virtual, ejecutaremos las siguientes
 órdenes:</p>
-<pre><code class="language-sh">sudo apt-get update
+<pre><code class="sh">sudo apt-get update
 sudo apt-get install libtool
 </code></pre>
+
 <p>Procedemos ahora con la instalación de {\tt libcoap}. Para ello, descarga la última
 versión de la biblioteca desde la página web del proyecto, descomprímelo y pasa a la
 fase de compilación e instalación:</p>
-<pre><code class="language-sh">sh autogen.sh
+<pre><code class="sh">sh autogen.sh
 ./configure --enable-examples --enable-dtls --with-openssl --disable-documentation
 make
 make install
 </code></pre>
+
 <p>Si no hay ningún error, <em>libcoap</em> se habrá instalado con éxito. Será de especial
 interés para nosotros la instalación de programas servidor (<em>coap-server</em>)
 y cliente (<em>coap-client</em>) de ejemplo en el directorio <strong>examples</strong>.</p>
@@ -411,7 +371,6 @@ en el código del servidor de ejemplo. Se pide modificar el <em>firmware</em>
 para dar soporte al recurso <em>time</em> de forma idéntica (con la misma 
 semántica) que la utilizada en el <em>host</em>.</p>
 </div></div>
-            </div>
         </div>
 
         <footer class="col-md-12">
@@ -425,21 +384,21 @@ semántica) que la utilizada en el <em>host</em>.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
                 <p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form>
+                <form role="form">
                     <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
                 <div id="mkdocs-search-results"></div>
@@ -448,12 +407,12 @@ semántica) que la utilizada en el <em>host</em>.</p>
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
