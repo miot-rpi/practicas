@@ -38,6 +38,7 @@
 | 5        | 05/12 |[Seguridad](RPI-II/P3/index.md)                        |
 | 6        | 12/12 |[Dasboards](RPI-II/P10/index.md)               |
 | 7 (opc)  | 09/01 |[LWM2M](RPI-II/P8/index.md)                        |
+| 8 (opc)  | 11/01 |[Eclipse Ditto](RPI-II/P11/index.md)                        |
 |          | 16/01 | Presentaciones orales                        |
 
 
