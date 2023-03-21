@@ -130,7 +130,7 @@ A continuación se detallan los pasos a seguir para grabar la imagen de la tarje
 	sudo apt-get install libedgetpu1-max
 ```
 ### Demo
-En el directorio `~/Test/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi` se proporciona un ejemplo de uso del acelerador Google Coral (fuente: [github](https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi/blob/master/Raspberry_Pi_Guide.md)) a continuación se indican las instrucciones para probarlo:
+En el directorio `~/Test/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi` se proporciona un ejemplo de uso del acelerador Google Coral (fuente: [github](https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi/)) a continuación se indican las instrucciones para probarlo:
 
 #### Sín EdgeTPU (i.e. Google Coral):
 ```bash
