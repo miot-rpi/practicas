@@ -1,5 +1,16 @@
 # Calendario
 
+# LSI
+
+| Lab.     | Día | Título                                                   |
+|-------------|-----|-------------------------------------------------------|
+| 0        |21/03|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
+| 1        |28/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
+| 2        |11/04|[Clasificación de imágenes](LSI/Lab2/index.md)            |
+| 3        |18/04|[Detección de objetos](LSI/Lab3/index.md)                 |
+| 4        |25/04|[Segmentacion de objetos](LSI/Lab4/index.md)              |
+| 7        |09/05|[Reconocimiento de voz](LSI/Lab5/index.md)                |
+
 # RPI-I
 
 | Práctica | Día   | Título                                                          |
