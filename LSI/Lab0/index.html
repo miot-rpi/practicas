@@ -9,204 +9,196 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Laboratorio 0 - Master IoT UCM - Prácticas RPI/LSI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li class="active">
-    <a href="./">Laboratorio 0</a>
+<li>
+    <a href="./" class="dropdown-item active">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P8/">Práctica 8</a>
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P8/">Práctica 8</a>
+<li>
+    <a href="../../ANIOT/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../..">
+                            <li class="nav-item">
+                                <a rel="prev" href="../.." class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../Lab1/">
+                            <li class="nav-item">
+                                <a rel="next" href="../Lab1/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -216,18 +208,50 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#laboratorio-0-entorno-experimental">Laboratorio 0. Entorno experimental</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#preparacion-sd">Preparación SD</a></li>
-            <li><a href="#conexion-arranque-y-configuracion">Conexión, arranque y configuración</a></li>
-            <li><a href="#demos-basicas">Demos básicas</a></li>
-            <li><a href="#demo-google-coral">Demo Google Coral</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#laboratorio-0-entorno-experimental" class="nav-link">Laboratorio 0. Entorno experimental</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#preparacion-sd" class="nav-link">Preparación SD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#conexion-arranque-y-configuracion" class="nav-link">Conexión, arranque y configuración</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#demos-basicas" class="nav-link">Demos básicas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#demo-google-coral" class="nav-link">Demo Google Coral</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="laboratorio-0-entorno-experimental">Laboratorio 0. Entorno experimental</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -297,8 +321,8 @@
     <img alt="micro HDMI cable" src="https://img.pccomponentes.com/articles/22/221646/k1481-1.jpg" /></li>
 <li>Insertar la tarjeta SD grabada previamente</li>
 <li>Conectar la cámara <em>"Raspberry Pi Camera Module v2"</em> (sensor Sony IMX219, interfaz CSI-2, resolución 3280 x 2464 píxeles, 30fps)
-    <img alt="Pi Camera v2" src="https://www.raspberrypi.org/homepage-9df4b/static/1253242e1a7766dbc0af51edcf1a43a1/ae23f/ccfc5f9d175e980d1ec193d73797ef95a926ff7b_pi-camera-attached-1-1390x1080.jpg" /></li>
-<li>Para información más precisa de la conexión se puede consultar el siguiente <a href="https://youtu.be/tub4zexVkqE">video.</a></li>
+    <img alt="Pi Camera v2" src="pi-camera.jpg" /></li>
+<li>Para información más precisa de la conexión se puede consultar el siguiente <a href="https://youtu.be/lAbpDRy-gc0">video.</a></li>
 </ul>
 </li>
 <li>Conectar alimentación (cable USB-C) y comprobar el correcto arranque del equipo</li>
@@ -309,9 +333,8 @@
 </li>
 <li>Configurar la raspi con la utilidad <code>raspi-config</code></li>
 </ol>
-<pre><code class="bash">    sudo raspi-config
+<pre><code class="language-bash">    sudo raspi-config
 </code></pre>
-
 <ul>
 <li>Opciones del sistema
     <img alt="Opciones sistema" src="image-20210413000234657.png" /><ul>
@@ -333,27 +356,24 @@
 <ul>
 <li>Comprobar la correcta detección de la cámara</li>
 </ul>
-<pre><code class="bash">    $ vcgencmd get_camera
+<pre><code class="language-bash">    $ vcgencmd get_camera
     supported=1 detected=1
 </code></pre>
-
 <ul>
 <li>Comprobar temperatura (opcional)</li>
 </ul>
-<pre><code class="bash">    $ vcgencmd measure_temp
+<pre><code class="language-bash">    $ vcgencmd measure_temp
     temp=39.9'C
 </code></pre>
-
 <ul>
 <li>Probar un ejemplo completo (cámara + OpenCV + TensorFlowLite)<ul>
 <li>El siguiente ejemplo de <em>Qengineering</em> ilustra realizar una segmentación de imáganes empleado el modelo DeepLab v3 (fuente: <a href="https://github.com/Qengineering/TensorFlow_Lite_Segmentation_RPi_64-bit">github</a>)</li>
 </ul>
 </li>
 </ul>
-<pre><code class="bash">    cd ~/Test/TensorFlow_Lite_Segmentation_RPi_64-bit
+<pre><code class="language-bash">    cd ~/Test/TensorFlow_Lite_Segmentation_RPi_64-bit
     bin/Release/TestUnet
 </code></pre>
-
 <p><img alt="output image" src="https://camo.githubusercontent.com/25f64d9aa42084c3b9d766e5d883452cc8b652286b5a0b50bd1437c6b68156b3/68747470733a2f2f71656e67696e656572696e672e65752f696d616765732f556e65745f36342e6a7067" />]</p>
 <ul>
 <li>Otros ejemplos precompiladosde <em>Qengineering</em> <ul>
@@ -373,51 +393,41 @@
 <ul>
 <li>Añadir usuario <code>pi</code> al grupo <code>plugdev</code> (para no tener que ejecutar los programas como <code>root</code>)</li>
 </ul>
-<pre><code class="bash">    sudo usermod -aG plugdev $USER
+<pre><code class="language-bash">    sudo usermod -aG plugdev $USER
 </code></pre>
-
 <ul>
 <li>Instalar las fuentes de paquetes.</li>
 </ul>
-<pre><code class="bash">    echo &quot;deb https://packages.cloud.google.com/apt coral-edgetpu-stable main&quot; | sudo tee \
+<pre><code class="language-bash">    echo &quot;deb https://packages.cloud.google.com/apt coral-edgetpu-stable main&quot; | sudo tee \
         /etc/apt/sources.list.d/coral-edgetpu.list
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt-get update
 </code></pre>
-
 <ul>
 <li>Instalar la librería de soporte, para la que hay dos opciones incompatibles <code>libedgetpu1-std</code> y <code>libedgetpu1-max</code> (máxima frecuencia y temperatura):</li>
 </ul>
-<pre><code class="bash">    sudo apt-get install libedgetpu1-max
+<pre><code class="language-bash">    sudo apt-get install libedgetpu1-max
 </code></pre>
-
 <h3 id="demo">Demo</h3>
 <p>En el directorio <code>~/Test/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi</code> se proporciona un ejemplo de uso del acelerador Google Coral (fuente: <a href="https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi/blob/master/Raspberry_Pi_Guide.md">github</a>) a continuación se indican las instrucciones para probarlo:</p>
 <h4 id="sin-edgetpu-ie-google-coral">Sín EdgeTPU (i.e. Google Coral):</h4>
-<pre><code class="bash">    cd ~/Tests/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi
+<pre><code class="language-bash">    cd ~/Tests/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi
     python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
 </code></pre>
-
 <h4 id="con-edgetpu">Con EdgeTPU:</h4>
-<ul>
-<li>Añadir usuario <code>pi</code> al grupo <code>plugdev</code> (para no tener que ejecutar el script como <code>root</code>):</li>
-</ul>
-<pre><code class="bash">    sudo usermod -aG plugdev $USER
-</code></pre>
-
 <ul>
 <li>Descarga modelo específico:</li>
 </ul>
-<pre><code class="bash">    wget    https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite         
+<pre><code class="language-bash">    wget    https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite         
     mv mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite Sample_TFLite_model/edgetpu.tflite
 </code></pre>
-
 <ul>
 <li>Conectar EdgeTPU a un puerto USB 3.0.</li>
 <li>Ejecutar la versión EdgeTPU</li>
 </ul>
-<pre><code class="bash">    python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model --edgetpu
+<pre><code class="language-bash">    python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model --edgetpu
 </code></pre></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -431,35 +441,32 @@
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

@@ -9,204 +9,196 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 8 - Master IoT UCM - Prácticas RPI/LSI</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 8</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P8/">Práctica 8</a>
+<li>
+    <a href="../../ANIOT/P8/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P7/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P7/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../../RPI-II/P1_I/">
+                            <li class="nav-item">
+                                <a rel="next" href="../../RPI-II/P1_I/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -216,15 +208,38 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-8-redes-lorawan">Práctica 8. Redes LoRaWAN</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#introduccion-al-entorno-de-desarrollo-lora">Introducción al entorno de desarrollo LoRa</a></li>
-            <li><a href="#infraestructura-lora-a-desarrollar">Infraestructura LoRa a desarrollar</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-8-redes-lorawan" class="nav-link">Práctica 8. Redes LoRaWAN</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion-al-entorno-de-desarrollo-lora" class="nav-link">Introducción al entorno de desarrollo LoRa</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#infraestructura-lora-a-desarrollar" class="nav-link">Infraestructura LoRa a desarrollar</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-8-redes-lorawan">Práctica 8. Redes LoRaWAN</h1>
 <div class="admonition note">
@@ -308,13 +323,12 @@ instalar también el paquete nodejs (sudo apt install nodejs).  </p>
   jerarquía de un proyecto sigue el siguiente esquema:</p>
 </li>
 </ul>
-<pre><code class="text">MiProyecto
+<pre><code class="language-text">MiProyecto
 |-lib
   |-biblioteca.py
 |boot.py
 |main.py
 </code></pre>
-
 <p>En este primer ejemplo, simplemente utilizaremos un fichero <em>main.py</em>.
 Adicionalmente, crearemos un fichero de configuración para nuestro proyecto a
 pulsando el botón <em>Allcommands</em> de la barra inferior y seleccionando <em>Pymakr &gt;
@@ -325,10 +339,9 @@ información sobre el contenido de este fichero, consulta
 <p>Añadiremos a nuestro fichero principal (<em>main.py</em>) la lógica para controlar
 un LED de nuestra placa. Para ello, añadiremos, en primer lugar, las bibliotecas
 a importar:</p>
-<pre><code class="python">import pycom
+<pre><code class="language-python">import pycom
 import time
 </code></pre>
-
 <p>La primera de las bibliotecas añade la funcionalidad necesaria para controlar
 específicamente ciertas funcionalidades de las placas Pycom. La segunda nos
 ayudará a fijar temporizadores.</p>
@@ -389,21 +402,19 @@ interactuar con la placa. Entre ellos:</p>
 <p>Todas las placas Pycom soportan WiFi, por lo que es trivial realizar una
 conexión a este tipo de red. En primer lugar, inicializamos el módulo WLAN y
 construimos un objeto para interactuar con este tipo de conexión:</p>
-<pre><code class="python">import machine
+<pre><code class="language-python">import machine
 from network import WLAN
 wlan = WLAN()
 wlan.mode() # Chequeamos el modo - Por defecto WLAN.AP (punto de acceso).
 </code></pre>
-
 <p>Para conectar a un punto de acceso, en primer lugar deberemos configurar nuestra
 placa como <em>station</em> en lugar de <em>access point</em> (modo por defecto):</p>
-<pre><code class="python">import machine
+<pre><code class="language-python">import machine
 from network import WLAN
 wlan = WLAN(mode=WLAN.STA) # Modo station.
 </code></pre>
-
 <p>Y a continuación podemos, sin más, conectar a un SSID existente:</p>
-<pre><code class="python">nets = wlan.scan()
+<pre><code class="language-python">nets = wlan.scan()
 for net in nets:
     if net.ssid == 'SSID':
         print('Red encontrada!')
@@ -413,10 +424,9 @@ for net in nets:
         print('WLAN: conexion establecida!')
         break
 </code></pre>
-
 <p>Si necesitamos asignar una IP estática a nuestra placa en el proceso de
 arranque, podemos hacerlo en el fichero <em>boot.py</em>:</p>
-<pre><code class="python">import machine
+<pre><code class="language-python">import machine
 from network import WLAN
 wlan = WLAN() # get current object, without changing the mode
 
@@ -431,7 +441,6 @@ if not wlan.isconnected():
     while not wlan.isconnected():
         machine.idle() 
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Conecta tu placa a un punto de acceso wifi (por ejemplo el router de clase o
@@ -458,7 +467,7 @@ en un bucle infinito (<em>while</em>) con un tiempo de espera variable (y
 aleatorio) entre envíos para minimizar las posibilidades de transmisión
 simultánea entre dos o más dispositivos. El siguiente código realiza envíos y
 recepciones del modo descrito:</p>
-<pre><code class="python">from network import LoRa
+<pre><code class="language-python">from network import LoRa
 import socket
 import machine
 import time
@@ -488,7 +497,6 @@ while True:
     # wait a random amount of time
     time.sleep(machine.rng() &amp; 0x0F)
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
 <p>Modifica el programa anterior para que cada LoPy cambie el estado de
@@ -517,7 +525,7 @@ recepción de un paquete por parte de los nodos. Observa que el formato del
 paquete recibido (y acuse de recibo --ACK-- enviado en respuesta) está definido
 al inicio del propio script, y debe coincidir con el formato esperado en los
 nodos:</p>
-<pre><code class="python">import socket
+<pre><code class="language-python">import socket
 import struct
 from network import LoRa
 
@@ -549,14 +557,13 @@ while (True):
         ack_pkg = struct.pack(_LORA_PKG_ACK_FORMAT, device_id, 1, 200)
         lora_sock.send(ack_pkg)
 </code></pre>
-
 <p>Observa como <em>_LORA_PKG_FORMAT</em> se utiliza como un mecanismo para identificar
 los distintos dispositivos existentes en la red. Por su parte,
 <em>_LORA_PKG_ACK_FORMAT</em> es un mecanismo de acuse de recibo sencillo para
 responder al nodo que envió el paquete.</p>
 <p>Por otra parte, el código del nodo se reduce al envío de paquetes y a la espera
 activa a sus respectivos acuses de recibo:</p>
-<pre><code class="python">import os
+<pre><code class="language-python">import os
 import socket
 import time
 import struct
@@ -603,7 +610,6 @@ while(True):
 
     time.sleep(5)
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Adapta el código anterior a algún escenario real, por ejemplo:</p>
@@ -641,12 +647,11 @@ como <em>EUI-64</em>). La práctica recomendada consiste, durante el desarrollo 
 <em>gateway</em>, en obtener este ID a partir de una expansión de la MAC WiFi de la
 placa (que es un valor de 48 bits). Podemos obtener este identificador usando el
 siguiente código: </p>
-<pre><code class="python">from network import WLAN
+<pre><code class="language-python">from network import WLAN
 import ubinascii
 wl = WLAN()
 ubinascii.hexlify(wl.mac())[:6] + 'FFFE' + ubinascii.hexlify(wl.mac())[6:]
 </code></pre>
-
 <p>El resultado será algo similar a <em>b'240ac4FFFE008d88'</em>, donde <em>40ac4FFFE008d88</em>
 sería nuestro identificador de <em>gateway</em>, que usaremos en la configuración del
 servidor LoRa para identificar de forma unívoca a nuestro dispositivo.</p>
@@ -654,7 +659,7 @@ servidor LoRa para identificar de forma unívoca a nuestro dispositivo.</p>
 <p>Este fichero, como se ha dicho anteriormente, se ejecuta al inicio e importa, en
 primer lugar, el script de configuración <em>config.py</em> para inicializar el
 <em>gateway</em>. Una vez configurado, se arranca la lógica del <em>gateway</em>. </p>
-<pre><code class="python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway example usage &quot;&quot;&quot;
+<pre><code class="language-python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway example usage &quot;&quot;&quot;
 
 import config
 from nanogateway import NanoGateway
@@ -676,7 +681,6 @@ if __name__ == '__main__':
     nanogw._log('You may now press ENTER to enter the REPL')
     input()
 </code></pre>
-
 <h4 id="el-fichero-configpy">El fichero <em>config.py</em></h4>
 <p>El fichero de configuración <em>config.py</em> contiene parámetros generales de
 configuración para el servidor y la red LoRa a la que deseamos conectar nuestro
@@ -687,7 +691,7 @@ necesaria para la conexión a <em>The Things Network (TTN)</em> en región europ
 Mhz). Obsérvese cómo se obtiene un <em>Gateway ID</em> como se ha indicado
 anteriormente, y cómo es necesario adaptar tanto el SSID como la contraseña para
 autenticación en nuestra red WiFi de forma acorde:</p>
-<pre><code class="python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway configuration options &quot;&quot;&quot;
+<pre><code class="language-python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway configuration options &quot;&quot;&quot;
 
 import machine
 import ubinascii
@@ -715,13 +719,12 @@ LORA_NODE_DR = 5
 # LORA_GW_DR = &quot;SF7BW125&quot; # DR_3
 # LORA_NODE_DR = 3
 </code></pre>
-
 <h4 id="el-ficherobilioteca-nanogatewaypy">El fichero/bilioteca <em>nanogateway.py</em></h4>
 <p>La biblioteca <em>nanogateway.py</em> implementa la lógica de recepción, generación y
 reenvío de paquetes de datos LoRa. No requiere ninguna configuración, se sugiere
 que el estudiante observe e intente enteder su fucionamiento y funcionalidad
 ofrecida.</p>
-<pre><code class="python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway. Can be used for both EU868 and US915. &quot;&quot;&quot;
+<pre><code class="language-python">&quot;&quot;&quot; LoPy LoRaWAN Nano Gateway. Can be used for both EU868 and US915. &quot;&quot;&quot;
 
 import errno
 import machine
@@ -1178,7 +1181,6 @@ class NanoGateway:
             str(message).format(*args)
             ))
 </code></pre>
-
 <h4 id="registro-en-el-servidor-lorawan-the-things-network-ttn">Registro en el servidor LoRaWAN (<em>The Things Network -- TTN</em>)</h4>
 <p>Para configurar nuestro <em>gateway</em> en TTN, navegaremos a su página web y
 crearemos una nueva cuenta, introduciendo un nombre de usuario, contraseña y
@@ -1247,7 +1249,7 @@ configuración de red se extrae usando un protocolo de <em>handshake</em> entre 
 LoPy y el servidor de red. Obsérvese como las claves de red derivadas usando
 OTAA son específicas para el dispositivo y se utilizan para encriptar y
 verificar las transmisiones a nivel de red:</p>
-<pre><code class="python">&quot;&quot;&quot; OTAA Node example compatible with the LoPy Nano Gateway &quot;&quot;&quot;
+<pre><code class="language-python">&quot;&quot;&quot; OTAA Node example compatible with the LoPy Nano Gateway &quot;&quot;&quot;
 
 from network import LoRa
 import socket
@@ -1301,7 +1303,6 @@ for i in range (200):
         print(rx)
     time.sleep(6)
 </code></pre>
-
 <h4 id="configuracion-del-nodo-via-abp-activation-by-personalization">Configuración del nodo vía ABP (<em>Activation By Personalization</em>)</h4>
 <p>Si se escoge el modo de unión a la red ABP, se requiere que el usuario defina
 los siguietnes valores, que deben definirse en el <em>firmware</em> y especificarse en
@@ -1312,7 +1313,7 @@ TTN:</p>
 <li>Clave de sesión de red (<em>Network Session Key</em>).</li>
 </ul>
 <p>El siguiente código muestra un ejemplo de configuración de nodo usando ABP:</p>
-<pre><code class="python">&quot;&quot;&quot; ABP Node example compatible with the LoPy Nano Gateway &quot;&quot;&quot;
+<pre><code class="language-python">&quot;&quot;&quot; ABP Node example compatible with the LoPy Nano Gateway &quot;&quot;&quot;
 
 from network import LoRa
 import socket
@@ -1359,7 +1360,6 @@ for i in range (200):
         print(rx)
     time.sleep(6)
 </code></pre>
-
 <h4 id="aplicaciones-ttn">Aplicaciones TTN</h4>
 <p>Cno los nodos y <em>gateways</em> ya configurados, podemos proceder al desarrollo de
 una <em>aplicación</em> en TTN (esto es, el procesamiento que sufren los datos LoRa
@@ -1397,6 +1397,7 @@ pronto como nuestros nodos LoPy comiencen a enviar datos.</p>
 LoRaWAN, registrándolo en TTN, y para la configuración de al menos uno nodo
 LoRa que, a través del <em>gateway</em> configurado, envíe datos a TTN.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -1410,35 +1411,32 @@ LoRa que, a través del <em>gateway</em> configurado, envíe datos a TTN.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
