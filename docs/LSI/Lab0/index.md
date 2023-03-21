@@ -38,7 +38,7 @@ A continuación se detallan los pasos a seguir para grabar la imagen de la tarje
 	* [Raspberry Pi Imager](https://www.raspberrypi.org/software/) (recomendado)
 	* [BalenaEtcher](https://www.balena.io/etcher/)
 2. Descargar la imagen comprimida del siguiente enlace
-	* [lsi-rpi4-img.gz](https://drive.google.com/file/d/1Vw_eOVQ2Qp27sQwxeMgkWiMxlPyKcEN1/view?usp=sharing)
+	* [lsi-rpi4-img.gz](https://drive.google.com/file/d/18N4STU_utrJCgKZ_HA9Ot8QORdKj4oLR/view?usp=share_link)
 	* Nota: Alternativamente cabría la posibilidad de usar la imagen que ofrece Q-engineering en su repositorio de GitHub:
 		* [A Raspberry Pi 4 64-bit OS image of several frameworks and deep-learning examples](https://github.com/Qengineering/RPi-image)
 3. Empleado un lector/escritor de tarjetas SD escribir la imagen a disco:
