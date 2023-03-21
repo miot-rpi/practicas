@@ -57,8 +57,8 @@ A continuación se detallan los pasos a seguir para grabar la imagen de la tarje
 		![micro HDMI cable](https://img.pccomponentes.com/articles/22/221646/k1481-1.jpg)
 	* Insertar la tarjeta SD grabada previamente
 	* Conectar la cámara *"Raspberry Pi Camera Module v2"* (sensor Sony IMX219, interfaz CSI-2, resolución 3280 x 2464 píxeles, 30fps)
-		![Pi Camera v2](https://www.raspberrypi.org/homepage-9df4b/static/1253242e1a7766dbc0af51edcf1a43a1/ae23f/ccfc5f9d175e980d1ec193d73797ef95a926ff7b_pi-camera-attached-1-1390x1080.jpg)
-	* Para información más precisa de la conexión se puede consultar el siguiente [video.](https://youtu.be/tub4zexVkqE)
+		![Pi Camera v2](pi-camera.jpg)
+	* Para información más precisa de la conexión se puede consultar el siguiente [video.](https://youtu.be/lAbpDRy-gc0)
 2. Conectar alimentación (cable USB-C) y comprobar el correcto arranque del equipo
 3. Acceder a la Wifi con SSID=UCM y con las credenciales UCM propias
 	* El procedimiento es análogo a cualquier otro computador, se accede a la wifi y posteriormente se abre un navegador y  se introducen las credenciales (+ [info](https://ssii.ucm.es/ucm))
@@ -138,10 +138,7 @@ En el directorio `~/Test/TensorFlow-Lite-Object-Detection-on-Android-and-Raspber
 	python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
 ```
 #### Con EdgeTPU:
-* Añadir usuario `pi` al grupo `plugdev` (para no tener que ejecutar el script como `root`):
-```bash
-	sudo usermod -aG plugdev $USER
-```
+
 * Descarga modelo específico:
 ```bash
 	wget    https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite         
