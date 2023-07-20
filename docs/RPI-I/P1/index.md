@@ -2,76 +2,41 @@
 
 ## Objetivos
 
-* Conocer el entorno básico de desarrollo para el ESP32
-
+* Conocer el entorno de desarrollo para el ESP32
 * Ser capaz de compilar, *flashear* y monitorizar proyectos sencillos basados
   en ESP-IDF
-
 * Entender el funcionamiento básico de una aplicación ESP-IDF que haga uso de
   las capacidades WiFi del ESP32
-
 * Personalizar variables de configuración de proyectos ESP-IDF
-
 * Responder a eventos básicos de red en ESP-IDF
 
 ## Introducción
 
 ESP-IDF (*Espressif IoT Development Framework*) es el entorno de desarrollo
 oficial de Espressif para los SoCs ESP32 y ESP32-S. Este entorno de desarrollo
-y conjunto de herramientas permite desarrollar *firmwares* eficientes para 
+y conjunto de herramientas permite desarrollar *firmwares* eficientes para
 dichas placas utilizando las interfaces de comunicación WiFi y Bluetooth, así
-como gestionar múltiples características de los SoCs que iremos desgranando 
-en futuras prácticas. 
+como gestionar múltiples características de los SoCs que iremos desgranando
+en futuras prácticas.
 
-ESP-IDF utiliza como base [FreeRTOS](https://freertos.org) para la construcción
-del *firmware*, aunque añade multitud de componentes para ofrecer un soporte
-de mayor nivel para la interacción con protocolos de comunicación de bajo y 
-alto nivel, la mayoría de ellos enfocados al ámbito de comunicación en Internet
-de las Cosas.
+ESP-IDF utiliza como base [FreeRTOS](https://freertos.org) pero añade multitud de componentes que, por ejemplo, implementan los protocolos de comunicación de bajo y
+alto nivel, usados en los proyectos de Internet de las Cosas.
 
-La presente práctica pretende ser una introducción básica a la puesta en 
-marcha del entorno de desarrollo ESP-IDF sobre un sistema operativo Linux.
-Además, veremos de forma superficial la estructura básica de un programa
+Ésta práctica es una introducción básica a la puesta en marcha del entorno de desarrollo ESP-IDF. Además, veremos de forma superficial la estructura básica de un programa
 sencillo desarrollado usando ESP-IDF, así como ejemplos básicos para la puesta
 en marcha de la interfaz WiFi sobre una placa ESP32.
 
-!!! "Recuerda" La presente práctica no tiene tarea entregable asociada más allá
-	de un informe justificativo del trabajo realizado. Por tanto, recuerda
-	apuntar y reportar los pasos y tareas realizadas durante su desarrollo para
-	plasmarlas en tu informe.
+## VSCode y plugin de Espressif para ESP-IDF
 
-## Flujo de trabajo.
+Utilizaremos Visual Studio Code como entorno de desarrollo integrado. Este entorno tiene una organización sencilla, como un editor de textos simple, pero es ampliamente configurable con un sistema de plugins fáciles de instalar y configurar.
 
-### Actualización del sistema
+Lo primero que tendremos que hacer es instalar en nuestro equipo el [Visual Studio Code](https://code.visualstudio.com/) (en los puestos de laboratorio ya está instalado). Una vez instalado, pulsaremos el botón de extensiones en el panel izquierdo:
 
-Antes de instalar nuevo software es conveniente actualizar el sistema de la
-máquina virtual. Para ello abrimos un terminal virtual (ventana de comandos) y
-escribimos los siguientes comandos:
+![Extensiones](img/boton_extensiones.png)
 
-```sh
-sudo apt update
-sudo apt full-upgrade
-```
+o pulsaremos Ctrl+Shift+X. En el cuadro de texto que nos muestra escribiremos el nombre de la extensión que queremos instalar, en este caso Espressif ESP-IDF. Seleccionamos la extensión y la instalamos (en los puestos de laboratorio ya está instalado). Esto tardará un poco porque nos instalará también el toolchain de espressif. Asimismo, deberemos seguir las instrucciones para instalar las herramientas adicionales necesarias en nuestro equipo. Para ello, pulsando en la extensión que acabamos de instalar se abrirá otra pesataña, buscamos el apartado **How to use** y seguimos las instrucciones para la instalación de las herramientas necesarias en nuestro sistema operativo.
 
-Esperamos a que se actualice la máquina, puede tomar unos minutos.
-
-### Instalación de prerequisitos
-
-ESP-IDF requiere ciertos paquetes software instalados en el sistema para poder
-desarrollar los códigos y descargarlos sobre el ESP32. Se muestran a 
-continuación los requisitos y modo de instalación para máquinas Ubuntu/Debian
-(como la máquina virtual del curso), aunque la documentación de ESP-IDF
-incluye instrucciones para otras distribuciones y sistemas operativos, 
-incluyendo Windows y MacOS.
-
-En tu máquina virtual, instala como superusuario (root) los paquetes necesarios
-utilizando:
-
-```sh
-sudo apt install git wget flex bison gperf python python3-pip python-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util
-```
-
-Además, es necesario, en todo caso, que el usuario que estés utilizando
+En los sistemas Linux, es necesario, en todo caso, que el usuario que estés utilizando
 pertenezca al grupo `dialout`. Para ello puedes editar el fichero `/etc/group`
 añadiendo a tu usuario a la línea que indica el grupo correspondiente, e
 iniciando de nuevo tu sesión, o puedes utilizar el comando adduser:
@@ -83,45 +48,11 @@ sudo adduser ubuntu dialout
 Después tendrás que salir de la sesión y volver a entrar para que el nuevo grupo
 esté tenido en cuenta.
 
-Instala y configura Python 3 para su uso por defecto en tu 
-distribución:
+### Instalación manual de las herramientas de ESP-IDF y uso desde terminal
 
-```sh
-sudo apt install python3 python3-pip python3-setuptools
-sudo apt install python-is-python3
-```
+Otra opción es instalar manualmente las herramientas de Espressif siguiendo las instrucciones de su [Guía de inicio](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html).
 
-### Obtención de ESP-IDF
-
-Utilizaremos las versiones de ESP-IDF a obtener directamente desde el 
-repositorio Github oficial (concretamente, en su versión 4.1). Para ello,
-ejecuta desde tu directorio de inicio:
-
-```sh
-mkdir -p ~/esp
-cd ~/esp
-git clone --recursive https://github.com/espressif/esp-idf.git
-cd esp-idf
-git fetch
-git checkout release/v4.1
-git pull
-git submodule update --init --recursive
-```
-
-### Instalación de herramientas adicionales
-
-Desde el directorio `esp-idf`, ejecuta el script `install.sh` para instalar
-las herramientas (*toolchain*) específicas para tu versión:
-
-```sh
-sh install.sh
-```
-
-### Preparación del entorno
-
-Tras el inicio de cada sesión, deberás establecer valores correctos para ciertas
-variables de entorno. Afortunadamente, se proporciona un script (`export.sh`)
-que te permitirá establecerlas de forma automática:
+Si queremos usar las herramientas de espressif diréctamente desde el terminal de comandos debemos recordar que tenemos que importar las variables de entorno antes de usar las herramientas. Para ello se proporciona un script (`export.sh`) disponible en la ruta en la que hayas instalado las herramientas (~/esp/esp-idf por defecto). Entonces, desde dicho directorio ejecutamos:
 
 ```sh
 source export.sh
@@ -135,41 +66,28 @@ $HOME/.bashrc, y añadir al final de dicho fichero la línea:
 source $HOME/esp/esp-idf/export.sh
 ```
 
-En cualquier caso, en este punto deberías tener acceso a un programa llamado
-`idf.py`, a través del cual gestionaremos el flujo de trabajo. Compruébalo y 
-observa si la version de IDF con la que estás trabajando es efectivamente la
-4.1 (el número de subversión podría variar en tu salida):
+Si has seguido todos estos pasos correctamente deberías tener acceso a un programa llamado `idf.py`. Compruébalo por ejemplo pidiendo la versión del comando (el número de subversión podría variar en tu salida):
 
 ```sh
 $ idf.py --version
 ESP-IDF v4.1-332-g7b7c64107
 ```
 
-### Preparación del proyecto
+## Proyecto de ejemplo
 
 En esta primera parte, nos basaremos en un ejemplo sencillo de código
 desarrollado en base a ESP-IDF. No es el objetivo de esta práctica analizar en
-detalle los la estructura de dicho código (al menos de momento), sino utilizarlo
-para ilustrar el flujo de trabajo típico en un proyecto ESP-IDF.
+detalle los la estructura de dicho código, sino utilizarlo para ilustrar el flujo de trabajo típico en un proyecto ESP-IDF.
 
-!!! "Recuerda"
-    Tras la ejecución del script `export.sh`, tendrás definida una variable
-    de entorno llamada `IDF_PATH`. Consulta su valor y comprueba que apunta,
-    efectivamente, al directorio de instalación de IDF. La utilizaremos a 
-    partir de ahora para referirnos a él.
-
-Para empezar, toma el ejemplo `hello_world` proporcionado como parte de la
-instalación básica de IDF, y cópialo en cualquier directorio del sistema de
-ficheros:
-
-```sh
-cp -R $IDF_PATH/examples/get-started/hello_world $HOME/
-cd $HOME/hello_world
-```
+Para empezar crearemos en nuestro sistema una carpeta para almacenar nuestros proyectos y abriremos dicha carpeta con Visual Studio Code. Después crearemos en esta carpeta un proyecto a partir de uno de los ejemplos que vienen con el sdk de espressif, concretamente el ejemplo `hello_world`. Desde Visual Studio Code podemos pulsar la combinación de teclas Shift+Ctrl+P, lo que nos abre la paleta de comandos en la parte central superior de la ventana. En ella escribiremos ESP-IDF, para filtrar las opciones de ESP-IDF, y buscaremos la entrada *ESP-IDF: Show Examples Projects*. Al seleccionarla nos abrirá una pestaña con los ejemplos que vienen con el SDK. Seleccionamos el ejemplo *Hello World* y, cuando nos pregunte, la carpeta donde queremos guardar el proyecto. Esto copiará el ejemplo que viene con las herramientas (~/esp/esp-idf/examples por defecto) a nuestra carpeta de trabajo.
 
 ### Compilación
 
-El proceso de compilación básico utiliza el script `idf.py`:
+Para compilar el proyecto desde Visual Studio Code basta con pulsar el botón de compilación en la barra inferior de comandos:
+
+![barra comandos esp-idf](img/barra_comandos_esp_idf.png)
+
+Otras opciones son seleccionar la opción ESP-IDF: Build Project en la paleta de comandos o usar la combinación Ctrl+E seguido de B. Finalmente, otra opción es utilizar el comando`idf.py` desde cualquier terminal:
 
 ```sh
 idf.py build
@@ -180,7 +98,7 @@ y binarios listos para ser *flasheados* en el ESP32.
 
 ### Volcado a memoria flash (*Flasheado*)
 
-El proceso de *flasheado* básico utiliza el script `idf.py`:
+Para programar la placa del ESP32 podemos pulsar el botón de flash de la barra de comandos, seleccionar la opción ESP-IDF: Flash your project o pulsar Ctrl+E seguido de F. Asimismo, podemos usar la herramienta *idf.py* desde un terminal:
 
 ```sh
 idf.py -p PUERTO flash
@@ -191,25 +109,17 @@ estás trabajando en una máquina virtual, debe haberse hecho visible a la misma
 (por ejemplo, en VirtualBox, a través del menú *Dispositivos->USB->Silicon Labs
 USB to UART Bridge Controller*).
 
-En todo caso, la salida del comando `dmesg` tras la conexión del dispositivo 
+En un sistema Linux la salida del comando `dmesg` tras la conexión del dispositivo
 te proporcionará información sobre el PUERTO que debes utilizar en el proceso
 de *flasheado* y montorización posterior.
 
 ### Monitorización
 
-Si todo ha ido bien, el proceso de monitorización nos permitirá observar la
-salida del programa que tenemos ejecutando en la placa. Para ello, de nuevo,
-usamos el *script* `idf.py`:
+Podemos monitorizar la salida estándar del programa que se está ejecutando en el ESP32, utilizando el puerto serie virtual creado al conectar el dispositivo al equipo. Desde el Visual Studio Code podemos pulsar el botón de monitorización en la barra de comandos de IDF (el que parece una pantalla) para comenzar a ver la salida estándar en el terminal integrado. Alternativamente podemos ejecutar el comando *ESP-IDF: Monitor your device* en la paleta de comandos o ejecutar en el terminal el comando:
 
 ```sh
 idf.py -p PUERTO monitor
 ```
-
-!!! "Nota"
-    Comprueba que, efectivamente, puedes realizar el proceso de compilación,
-    *flasheado* y monitorización del programa sobre la placa ESP32. Recuerda
-    que el botón `EN`, justo al lado del conector microUSB, forzará un 
-    reseteo de la misma.
 
 ## Análisis de un proyecto sencillo (*Hola, mundo*) en ESP-IDF
 
@@ -263,9 +173,7 @@ el usuario e implementado en la función `app_main`. Tanto el tamaño de pila
 asignado como la prioridad de esta tarea puede ser configuradas por el
 desarrollador a través del sistema de configuración de ESP-IDF (lo veremos más
 adelante). Normalmente, esta función se utiliza para llevar a cabo tareas
-iniciales de configuración o para crear y lanzar a ejecución otras tareas. De
-cualquier modo (como es el caso), se puede implementar cualquier funcionalidad
-dentro de la función `app_main`.
+iniciales de configuración o para crear y lanzar a ejecución otras tareas. Se puede implementar cualquier funcionalidad dentro de la función `app_main` o invocar a otras funciones que la implementen.
 
 En este ejemplo, se muestra en primer lugar información genérica sobre el SoC
 que está ejecutando el *firmware*:
@@ -289,12 +197,9 @@ que está ejecutando el *firmware*:
 ```
 
 A continuación, dentro de un bucle sencillo, el sistema muestra un mensaje y
-difiere la ejecución de la tarea durante un período determinado de tiempo
-utilizando la función [vTaskDelay](https://www.freertos.org/a00127.html) de
-FreeRTOS. Esta función recibe el número de *ticks* de reloj que se desea
-utilizar, por lo que el tiempo real que la tarea diferirá su ejecución depende
-de la duración de dicho *tick*. Por ello,  la constante `portTIC_PERIOD_MS`
-puede utilizarse para calcular dicho tiempo:
+después suspende su ejecución por un determinado período de tiempo
+utilizando la función de FreeRTOS [vTaskDelay](https://www.freertos.org/a00127.html). Esta función recibe como parámetro el número de *ticks* de reloj que se desea
+suspender la ejecución de la tarea, que puede calcularse dividiendo el tiempo que deseamos suspender la tarea por lo que la duración de un *tick*. FreeRTOS proporciona la constante `portTIC_PERIOD_MS`, que nos da la duración en milisegundos de un *tick*:
 
 ```c
     for (int i = 10; i >= 0; i--) {
@@ -312,20 +217,20 @@ principal:
     esp_restart();
 ```
 
-!!! danger "Tarea Básica"
-	Modifica el período de suspensión de la tarea para que sea mayor o menor, y
-	comprueba que efectivamente esto modifica el comportamiento del *firmware*
-	cargado. Modifica el programa para que se compruebe debidamente si el SoC
-	tiene capacidades WiFi (para ello, puedes consultar [la siguiente
-	página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
+!!! danger "Tarea 1"
+Modifica el período de suspensión de la tarea para que sea mayor o menor, y
+comprueba que efectivamente esto modifica el comportamiento del *firmware*
+cargado.
+
+!!! danger "Tarea 2"
+Modifica el programa para que se compruebe debidamente si el SoC
+tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar [la siguiente página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
 
 ### Creación de tareas
 
 El anterior proyecto puede replantearse para que no sea la tarea principal la
 que ejecute la lógica del programa. Para ello, es necesario introducir
-brevemente la API básica para gestión (en nuestro caso, creación) de tareas.
-Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que no
-veremos aquí más detalles de los estrictamente necesarios. 
+brevemente la API básica para la gestión de tareas (en nuestro caso sólo necesitamos  crear una tarea). Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que no veremos aquí más detalles de los estrictamente necesarios.
 
 La función `xTaskCreate` (incluida en `task.h`) permite la creación de nuevas
 tareas:
@@ -343,13 +248,9 @@ tareas:
 Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
 ejecución, recibiendo como parámetros:
 
-* `pvTaskCode`: Puntero a la función de entrada para la tarea. Las tareas suelen
-    implementarse como un bucle infinito, y no debería, en su cuerpo, retornar
-    o simplemente finalizar abruptamente. En cambio, una tarea puede ser 
-    destruida externamente a través de su manejador (último parámetro en 
-    la creación), o internamente (desde el propio código de la tarea), tal y 
-    como se muestra en el siguiente ejemplo extraído directamente desde la
-    documentación de FreeRTOS:
+* `pvTaskCode`: La dirección de la función de entrada para la tarea. Las tareas suelen
+  implementarse como un bucle infinito. No deberen retornar de la función de entrada
+  ni finalizar abruptamente. Para finalizar correctamente una tarea ésta debe ejecutar la función *vTaskDelete* con el parámetro NULL. Alternativamente, puede usarse esta función para matar otra tarea, pasándo como argumento a *vTaskDelete* la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS.
 
 ```c
  void vATaskFunction( void *pvParameters )
@@ -371,19 +272,15 @@ ejecución, recibiendo como parámetros:
 
 * `pcName`: Nombre (en forma de cadena) descriptivo de la tarea a ejecutar,
   típicamente usado en tiempo de depuración.
-
 * `usStackDepth`: Número de palabras a alojar para utilizar como pila para la
-    tarea.
-
+  tarea.
 * `pvParameters`: Parámetros a proporcionar a la función de entrada para la
-    tarea.
-
+  tarea.
 * `uxPriority`: Prioridad asignada a la tarea.
-
 * `pxCreatedTask`: Manejador opcional para la tarea.
 
 Así, la funcionalidad del programa `Hola, mundo` que hemos analizado
-anteriormente, podría reestrcturarse en base a una única tarea:
+anteriormente, podría reestrcturarse en base a una única tarea, cuya función de entrada podría ser (al reiniciar el sistema no necesitamos terminar correctamente la tarea ejecutando *vTaskDelete*):
 
 ```c
 void hello_task(void *pvParameter)
@@ -399,7 +296,7 @@ void hello_task(void *pvParameter)
 }
 ```
 
-Que podría ser creada desde la tarea principal:
+La función *app_main* se limitaría entonces a crear la tarea:
 
 ```c
 void app_main()
@@ -409,111 +306,92 @@ void app_main()
 }
 ```
 
-!!! danger "Tarea Adicional"
-    Implementa una modificación del programa `hello_world` que implemente
-    y planifique dos tareas independientes con distinta funcionalidad (en este
-    caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
-    tiempos de suspensión. Comprueba que, efectivamente, ambas tareas se 
-    ejecutan concurrentemente.
+!!! danger "Tarea 3"
+Implementa una modificación del programa `hello_world` que implemente
+y planifique dos tareas independientes con distinta funcionalidad (en este
+caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
+tiempos de suspensión. Comprueba que, efectivamente, ambas tareas se
+ejecutan concurrentemente.
 
 ## Personalización del proyecto
 
-ESP-IDF utiliza la biblioteca `kconfiglib` para proporcionar un sistema de 
+ESP-IDF utiliza la biblioteca `kconfiglib` para proporcionar un sistema de
 configuracion de proyectos en tiempo de compilación sencillo y extensible. Para
 ilustrar su funcionamiento, utilizaremos el ejemplo `blink` que puedes encontrar
-en la distribución de ESP-IDF que has clonado anteriormente (copia el ejemplo
-en cualquier punto de tu jerarquía de directorios antes de comenzar). 
+en la distribución de ESP-IDF. Crea un nuevo proyecto a partir de dicho ejemplo.
 
-Para configurar un proyecto ESP-IDF, simplemente utiliza la siguiente orden:
+Para configurar un proyecto ESP-IDF se puede pulsar el botón ESP-IDF SDC Configuration Editor en la barra de comandos de IDF, o bien ejecutando dicho comando en la paleta de comandos de VSCode o ejecutando el comando menuconfig en el terminal:
 
 ```sh
 idf.py menuconfig
 ```
 
-La ejecución de la orden anterior te permitirá navegar por un conjunto de
-opciones de carácter general, que te permitirán configurar las características
+Al ejecutar el comando se nos mostrará un menún por el que podremos navegar usando las teclas del cursor (arriba, abajo, izquierda y derecha). El menú nos presenta unas
+opciones de carácter general, que permitirán configurar las características
 específicas del proyecto a compilar (por ejemplo, seleccionando los componentes
-que deseas habilitar en la construcción del mismo).
+que deseemos habilitar en la construcción del mismo).
 
-!!! danger "Tarea Básica"
-    Navega por las opciones que aparecen en los menús de configuración para
-    familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
-	uso en el informe de la práctica.
+!!! Note "Nota"
+Navega por las opciones que aparecen en los menús de configuración para
+familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
+uso en el informe de la práctica.
 
 En el proyecto `blink`, observa que una de las opciones del menú de navegación,
 llamada *Example configuration*, incluye una opción llamada *Blink GPIO number*.
-Más allá de su funcionalidad (define el número de pin GPIO a activar/desactivar
-para iluminar un LED), es de interés para nosotros el hecho de que esta opción
-de configuración definirá en tiempo de compilación el valor de una constante 
-(en este caso `CONFIG_BLINK_GPIO`) que podemos utilizar directamente en cualquier
-fichero de nuestro proyecto. 
+Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear. Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada `CONFIG_BLINK_GPIO`, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.
 
 !!! note "Nota"
-    Observa el uso que da el código del proyecto `blink` a la constante 
-    `CONFIG_BLINK_GPIO`.
+Observa el uso que da el código del proyecto `blink` a la constante
+`CONFIG_BLINK_GPIO`.
 
-Esta opción de configuración no forma parte de las opciones por defecto de 
+Esta opción de configuración no forma parte de las opciones por defecto de
 ESP-IDF, sino que ha sido añadida por los desarrolladores del proyecto `blink`.
 Observa y estudia el formato y contenido del fichero `main/Kconfig.projbuild`
 que se proporciona como parte del fichero. En él, se definen las características
 (nombre, rango, valor por defecto y descripcion) de la opción de configuración
 a definir.
 
-!!! danger "Tarea Básica"
-	Modifica el proyecto `hello_world` para que defina dos opciones de
-	configuración que permitirán definir el tiempo de espera de cada una de las
-	dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
-	tu código y comprueba que efectivamente su modificación a través del sistema
-	de menús permite una personalización del comportamiento de tus códigos.
+!!! danger "Tarea 4"
+Modifica el proyecto `hello_world` para que defina dos opciones de
+configuración que permitán definir el tiempo de espera de cada una de las
+dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
+tu código y comprueba que efectivamente su modificación a través del sistema
+de menús permite una personalización del comportamiento de tus códigos.
 
-## Gestión de redes WiFi. Ejemplo 1. Escaneado de redes WiFi
+## Escaneado de redes WiFi
 
 A modo de ejemplo, y en preparación para los códigos con los que trabajaremos
 en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 *firmware* cuya tarea es el escaneado de redes inalámbricas al alcance del ESP32,
-y su reporte a través del puerto serie del mismo. Para cada red escaneada, se
-reportarán sus características principales.
+y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.
 
-!!! danger "Tarea Básica"
-    Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
-    `examples/wifi/scan`. Recuerda copiarlo antes a cualquier otro directorio
-	de trabajo. Antes de compilarlo, modifica el número máximo de redes a
-	escanear a través del menú de configuración del ejemplo para ampliarlo a 20.
-	Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
-	efectivamente, es escaneado por el ejemplo.
+!!! danger "Tarea 5"
+Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
+`examples/wifi/scan`. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
+Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
+efectivamente, es escaneado por el ejemplo.
 
 Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
-SSID, modo de autenticación o canal primario). 
+SSID, modo de autenticación o canal primario).
 
-!!! danger "Tarea Adicional"
-	Analiza el código de la función `wifi_scan` (tarea principal).
-	Céntrate especialmente en las líneas que permiten activar y configurar el
-	escaneado de redes. Intenta entender el funcionamiento general del programa,
-	consultando y apuntando el cometido de cada línea, con especial interés a
-	aquellas funciones con prefijo `esp_wifi_*`. Anota en tu informe de la
-	práctica el cometido de cada una de ellas, consultando la [documentación
-	oficial](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html).
+!!! danger "Tarea 6"
+Analiza el código de la función `wifi_scan` (tarea principal).
+Céntrate especialmente en las líneas que permiten activar y configurar el
+escaneado de redes. Intenta entender el funcionamiento general del programa,
+consultando y apuntando el cometido de cada línea, con especial interés a
+aquellas funciones con prefijo `esp_wifi_*`. Si tienes dudas puede consultar la  [documentación oficial de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html).
 
-## Gestión de redes WiFi. Ejemplo 2. Gestión de eventos de red
+## Gestión de eventos de red
 
-El segundo ejemplo consiste en la creación de un *firmware* para conexión del 
-ESP32 a un punto de acceso existente. Este ejemplo nos permitirá observar, a 
-grandes rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que
-estudiarás en más detalle en ANIOT y que permite gestionar, entre otros, las
-respuestas a eventos de red, como por ejemplo la obtención de dirección IP
-o la conexión exitosa a un punto de acceso.
+El segundo ejemplo que estudiarems es un programa para la conexión del ESP32 a un punto de acceso existente. Este ejemplo nos permitirá observar, a grandes rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite gestionar la respuestas a eventos de red, como por ejemplo la obtención de dirección IP o la conexión exitosa a un punto de acceso.
 
-!!! danger "Tarea Básica"
-	Compila, flashea y monitoriza el ejemplo `station` situado en el directorio
-	`examples/wifi/getting_started`. Recuerda copiarlo antes a tu directorio de
-	trabajo. Antes de compilarlo, modifica el SSID de la red al que conectará,
-	así como la contraseña elegida (puedes usar el mismo punto de acceso que
-	creaste anteriormente como objetivo de tu conexión) a través del sistema de
-	menús de configuración.
+!!! Note "Nota"
+Crea un proyecto a partir del ejempl `station` situado en el directorio
+`examples/wifi/getting_started`. Compilalo, flashealo y monitoriza su salida estándar. Acuerdate de modificar el SSID de la red al que conectará, así como la contraseña elegida a través del sistema de menús de configuración.
 
 Observa su funcionamiento. El *firmware* simplemente inicializa el dispositivo
-en modo *station* (en contraposición al modo *Access Point*, que veremos en 
+en modo *station* (en contraposición al modo *Access Point*, que veremos en
 la próxima sesión), realizando una conexión al punto de acceso preconfigurado
 a través del menú de configuración.
 
@@ -521,13 +399,13 @@ Analiza el código de la función `wifi_init_sta`. Esta función, que implementa
 la tarea principal, se divide básicamente en dos partes:
 
 * **Gestión de eventos**. Observa el mecanismo mediante el cual se registra
-y se asocia la recepción de un evento a la ejecución de un manejador o función
-determinada.
+  y se asocia la recepción de un evento a la ejecución de un manejador o función
+  determinada.
 
-!!! danger "Tarea Adicional"
-	Responde a la siguiente pregunta de forma razonada:
-    ¿Qué eventos se asocian a la ejecución de qué función en el *firmware* que
-    estás estudiando?
+!!! Note "Nota"
+Responde a la siguiente pregunta de forma razonada:
+¿Qué eventos se asocian a la ejecución de qué función en el *firmware* que
+estás estudiando?
 
 * **Configuración de la conexión a un punto de acceso**. La configuración de la
   conexión se realiza a través de los campos correspondientes de una estructura
@@ -539,10 +417,10 @@ determinada.
   funciones y anota en tu informe aquellos aspectos que consideres más
   relevantes.
 
-!!! danger "Tarea Adicional"
-	Modifica el *firmware* para que el *handler* de tratamiento de la obtención
-	de una dirección IP sea independiente del tratamiento del resto de eventos
-	del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
-	sigue observándose la salida asociada a dicho evento, aun cuando ambas
-	funciones sean independientes. Entrega o añade al informe  el código
-	modificado.
+!!! danger "Tarea 7"
+Modifica el *firmware* para que el *handler* de tratamiento de la obtención
+de una dirección IP sea independiente del tratamiento del resto de eventos
+del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
+sigue observándose la salida asociada a dicho evento, aun cuando ambas
+funciones sean independientes. Entrega o añade al informe  el código
+modificado.
