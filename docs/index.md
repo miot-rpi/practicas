@@ -1,5 +1,16 @@
 # Calendario
 
+# LSI
+
+| Lab.     | Día | Título                                                   |
+|-------------|-----|-------------------------------------------------------|
+| 0        |21/03|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
+| 1        |28/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
+| 2        |11/04|[Clasificación de imágenes](LSI/Lab2/index.md)            |
+| 3        |18/04|[Detección de objetos](LSI/Lab3/index.md)                 |
+| 4        |25/04|[Segmentacion de objetos](LSI/Lab4/index.md)              |
+| 7        |09/05|[Reconocimiento de voz](LSI/Lab5/index.md)                |
+
 # RPI-I
 
 | Práctica | Día   | Título                                                          |
@@ -33,11 +44,12 @@
 | -        | 31/10 |**FESTIVO**                                   |
 | 3        | 07/11 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
 | -        | 14/11 |**FESTIVO**                                   |
-| 4        | 21/11 |[CoAP](RPI-II/P7/index.md)                    |
-| 4        | 28/11 |[LWM2M (I)](RPI-II/P8/index.md)               |
-| 5        | 05/12 |Gestión de despliegues                        |
-| 6        | 12/12 |[Dasboards](RPI-II/P9/index.md)               |
-|          | 09/01 | Presentaciones orales                        |
+| 4        | 21/11 |[CoAP (I)](RPI-II/P7/index.md)                    |
+| 4        | 28/11 |[CoAP (II)](RPI-II/P7/index.md)                    |
+| 5        | 05/12 |[Seguridad](RPI-II/P3/index.md)                        |
+| 6        | 12/12 |[Dasboards](RPI-II/P10/index.md)               |
+| 7 (opc)  | 09/01 |[LWM2M](RPI-II/P8/index.md)                        |
+| 8 (opc)  | 11/01 |[Eclipse Ditto](RPI-II/P11/index.md)                        |
 |          | 16/01 | Presentaciones orales                        |
 
 

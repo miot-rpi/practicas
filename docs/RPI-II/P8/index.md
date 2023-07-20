@@ -1,4 +1,4 @@
-# Práctica 8. El protocolo LWM2M
+# Práctica 7. El protocolo LWM2M
 
 ## Objetivos
 

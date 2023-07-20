@@ -1,4 +1,4 @@
-# Práctica 10. Frameworks IoT y Cloud
+# Práctica 6. Frameworks IoT y Cloud
 
 ## Objetivos
 
