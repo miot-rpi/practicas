@@ -422,13 +422,13 @@ principal:</p>
     esp_restart();
 </code></pre>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 1</p>
+<p class="admonition-title">Entregable 1</p>
 <p>Modifica el período de suspensión de la tarea para que sea mayor o menor, y
 comprueba que efectivamente esto modifica el comportamiento del <em>firmware</em>
 cargado.</p>
 </div>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 2</p>
+<p class="admonition-title">Entregable 2</p>
 <p>Modifica el programa para que se compruebe debidamente si el SoC
 tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t">la siguiente página</a>).</p>
 </div>
@@ -501,7 +501,7 @@ anteriormente, podría reestrcturarse en base a una única tarea, cuya función 
 }
 </code></pre>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 3</p>
+<p class="admonition-title">Entregable 3</p>
 <p>Implementa una modificación del programa <code>hello_world</code> que implemente
 y planifique dos tareas independientes con distinta funcionalidad (en este
 caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
@@ -541,7 +541,7 @@ que se proporciona como parte del fichero. En él, se definen las característic
 (nombre, rango, valor por defecto y descripcion) de la opción de configuración
 a definir.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 4</p>
+<p class="admonition-title">Entregable 4</p>
 <p>Modifica el proyecto <code>hello_world</code> para que defina dos opciones de
 configuración que permitán definir el tiempo de espera de cada una de las
 dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
@@ -554,7 +554,7 @@ en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 <em>firmware</em> cuya tarea es el escaneado de redes inalámbricas al alcance del ESP32,
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 5</p>
+<p class="admonition-title">Entregable 5</p>
 <p>Compila, flashea y monitoriza el ejemplo <code>scan</code> situado en el directorio
 <code>examples/wifi/scan</code>. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
 Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
@@ -564,7 +564,7 @@ efectivamente, es escaneado por el ejemplo.</p>
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 6</p>
+<p class="admonition-title">Entregable 6</p>
 <p>Analiza el código de la función <code>wifi_scan</code> (tarea principal).
 Céntrate especialmente en las líneas que permiten activar y configurar el
 escaneado de redes. Intenta entender el funcionamiento general del programa,
@@ -607,7 +607,7 @@ estás estudiando?</p>
   relevantes.</li>
 </ul>
 <div class="admonition danger">
-<p class="admonition-title">Tarea 7</p>
+<p class="admonition-title">Entregable 7</p>
 <p>Modifica el <em>firmware</em> para que el <em>handler</em> de tratamiento de la obtención
 de una dirección IP sea independiente del tratamiento del resto de eventos
 del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
