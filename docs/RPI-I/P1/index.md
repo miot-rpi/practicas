@@ -217,11 +217,13 @@ principal:
     esp_restart();
 ```
 
-!!! danger "Tarea 1" Modifica el período de suspensión de la tarea para que sea mayor o menor, y
+!!! danger "Tarea 1"
+Modifica el período de suspensión de la tarea para que sea mayor o menor, y
 comprueba que efectivamente esto modifica el comportamiento del *firmware*
 cargado.
 
-!!! danger "Tarea 2" Modifica el programa para que se compruebe debidamente si el SoC
+!!! danger "Tarea 2"
+Modifica el programa para que se compruebe debidamente si el SoC
 tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar [la siguiente página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
 
 ### Creación de tareas
