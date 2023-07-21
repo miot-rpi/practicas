@@ -341,7 +341,7 @@ de sockets) para mantenerse en un estado consistente.
     apaga el punto de acceso mientras la IP está concedida, y analiza los
     eventos generados y su respuesta. 
 
-!!! tarea "Tarea 1"    
+!!! tarea "Entregable 1"    
     Revisa el tratamiento de eventos del código anterior, añade el tratamiento
     de los eventos que falten por tratar. Añade en tu código un comentario
     explicando el código añadido.
@@ -388,7 +388,7 @@ de acceso, consulta este
     ello, conecta distintos clientes (*stations*), bien sean ESP32 o cualquier
     otro dispositivo, y analiza los eventos generados y su respuesta.
   
-!!! danger "Tarea 2"
+!!! danger "Entregable 2"
     Revisa el tratamiento de eventos del código anterior, añade el tratamiento
     de los eventos que falten por tratar. Añade en tu código un comentario
     explicando el código añadido.
@@ -411,7 +411,7 @@ como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
 
 ### Ejercicio: desarrollo de un nodo mixto *station/AP*
 
-!!! danger "Tarea 3"
+!!! danger "Entregable 3"
     Modifica el ejemplo `station` para que el ESP32 se comporte a la vez 
     como estación y como punto de acceso. Añade las opciones de configuración
     necesarias para que todos los parámetros se puedan modificar vía 
@@ -527,14 +527,14 @@ trabajo detallado anteriormente.
     éste es detectado corretamente. Estudia y modifica los tiempos de espera en el 
     escaneado y observa su efecto en el tiempo total de escaneado.
 
-!!! danger "Tarea 4"
+!!! danger "Entregable 4"
     Diseña un firmware de nodo que realice un escaneado de las redes
     disponibles. Si el nodo detecta la presencia de una o más de las *redes
     conocidas*, se conectará en modo STA a la red de mayor prioridad entre las
     conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
     móvil y vuestro domicilio.
   
-!!! danger "Tarea 5"
+!!! danger "Entregable 5"
     Codificar el código de la tarea anterior para que la lista de *redes
     conocidas* y la prioridad relativa se puedan configurar con menuconfig.
 
@@ -563,7 +563,7 @@ parámetros:
     * EAP USERNAME: tuusuario@ucm.es
     * EAP PASSWORD: (tu contraseña UCM)
 
-!!! danger "Tarea 6"
+!!! danger "Entregable 6"
     Configura el ejemplo de autenticación para WPA2 Enterprise con tus
     credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
     adjunta una captura de pantalla que demuestre la correcta conexión del nodo

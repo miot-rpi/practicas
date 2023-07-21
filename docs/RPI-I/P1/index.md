@@ -217,12 +217,12 @@ principal:
     esp_restart();
 ```
 
-!!! danger "Tarea 1"
+!!! danger "Entregable 1"
     Modifica el período de suspensión de la tarea para que sea mayor o menor, y
     comprueba que efectivamente esto modifica el comportamiento del *firmware*
     cargado.
 
-!!! danger "Tarea 2"
+!!! danger "Entregable 2"
     Modifica el programa para que se compruebe debidamente si el SoC
     tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar [la siguiente página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
 
@@ -306,7 +306,7 @@ void app_main()
 }
 ```
 
-!!! danger "Tarea 3"
+!!! danger "Entregable 3"
     Implementa una modificación del programa `hello_world` que implemente
     y planifique dos tareas independientes con distinta funcionalidad (en este
     caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
@@ -351,7 +351,7 @@ que se proporciona como parte del fichero. En él, se definen las característic
 (nombre, rango, valor por defecto y descripcion) de la opción de configuración
 a definir.
 
-!!! danger "Tarea 4"
+!!! danger "Entregable 4"
     Modifica el proyecto `hello_world` para que defina dos opciones de
     configuración que permitán definir el tiempo de espera de cada una de las
     dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
@@ -365,7 +365,7 @@ en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 *firmware* cuya tarea es el escaneado de redes inalámbricas al alcance del ESP32,
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.
 
-!!! danger "Tarea 5"
+!!! danger "Entregable 5"
     Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
     `examples/wifi/scan`. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
     Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
@@ -375,7 +375,7 @@ Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).
 
-!!! danger "Tarea 6"
+!!! danger "Entregable 6"
     Analiza el código de la función `wifi_scan` (tarea principal).
     Céntrate especialmente en las líneas que permiten activar y configurar el
     escaneado de redes. Intenta entender el funcionamiento general del programa,
@@ -417,7 +417,7 @@ la tarea principal, se divide básicamente en dos partes:
   funciones y anota en tu informe aquellos aspectos que consideres más
   relevantes.
 
-!!! danger "Tarea 7"
+!!! danger "Entregable 7"
     Modifica el *firmware* para que el *handler* de tratamiento de la obtención
     de una dirección IP sea independiente del tratamiento del resto de eventos
     del sistema WiFi que ya se están considerando. Comprueba que, efectivamente

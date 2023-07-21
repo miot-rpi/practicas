@@ -9,6 +9,10 @@
 - Observar en funcionamiento una red ESP-MESH, así como sus capacidades de
   autoconfiguración.
 
+!!! danger "Entregable"
+
+    Para esta práctica los alumnos harán un breve informe documentando las 
+    tareas realizadas y los resultados obtenidos.
 
 ## ESP WiFi Mesh
 
@@ -31,13 +35,15 @@ en las distintas fases del ciclo de vida de una red (por ejemplo, para un
 nodo determinado, conexión o desconexión de su nodo padre, o de uno de sus
 nodos hijo). Antes de utilizar los eventos ESP-MESH para gestionar u observar
 el funcionamiento de la red, es necesario registrarlos vía
-`esp_event_handler_register()`. Algunos usos típicos de los eventos  incluyen,
-por ejemplo, la situación de conexión de un nodo padre (`MESH_EVENT_PARENT_CONNECTED`)
-o de un hijo (`MESH_EVENT_CHILD_CONNECTED`), indicando, respectivamente, que
-un nodo puede comenzar a emitir hacia arriba en el grafo, o hacia abajo. Del
-mismo modo, en un nodo raíz, la recepción de los eventos
-`IP_EVENT_STA_GOT_IP` y `IP_EVENT_STA_LOST_IP` se pueden aprovechar para 
-indicar que dicho nodo raíz puede o no enviar datos a la red IP externa.
+`esp_event_handler_register()`. 
+
+Algunos usos típicos de los eventos  incluyen, por ejemplo, la situación de
+conexión de un nodo padre (`MESH_EVENT_PARENT_CONNECTED`) o de un hijo
+(`MESH_EVENT_CHILD_CONNECTED`), indicando, respectivamente, que un nodo puede
+comenzar a emitir hacia arriba en el grafo, o hacia abajo. Del mismo modo, en un
+nodo raíz, la recepción de los eventos `IP_EVENT_STA_GOT_IP` y
+`IP_EVENT_STA_LOST_IP` se pueden aprovechar para indicar que dicho nodo raíz
+puede o no enviar datos a la red IP externa.
 
 ### Eventos
 
@@ -88,13 +94,13 @@ el canal en el que lo ha conseguido.
 El código de una aplicación que haga uso de ESP-MESH puede  acceder directamente
 a la pila MESH sin pasar por la pila IP. De hecho, la pila IP sólo es
 estrictamente necesaria por parte del nodo raíz, al ser el único que puede
-recibir o transmitir datos desde o hacia la red IP externa. Sin embargo, 
-como cualquier nodo de la topología puede potencialmente convertirse en 
-nodo raíz (ya que su selección es automática), todos los nodos deberán
-inicializar la pila IP.
+recibir o transmitir datos desde o hacia la red IP externa. 
 
-Por tanto, todos los nodos incializan la pila IP vía `tcpip_adapter_init()`. Además, todos los nodos deberán detener el servidor DHCP en la interfaz
-`softAP`, y el cliente DHCP en la interfaz `station`:
+Sin embargo, como cualquier nodo de la topología puede potencialmente
+convertirse en nodo raíz (ya que su selección es automática), todos los nodos
+deberán inicializar la pila IP. Por tanto, todos los nodos incializan la pila IP
+vía `tcpip_adapter_init()`. Además, todos los nodos deberán detener el servidor
+DHCP en la interfaz `softAP`, y el cliente DHCP en la interfaz `station`:
 
 ```c
 /*  tcpip initialization */
@@ -108,16 +114,14 @@ ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
 ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
 ```
 
-Sin embargo, en el caso de un nodo que se convierte en raíz, es 
-imprescindible arrancar el cliente DHCP como respuesta al evento
-corresondiente para así obtener dirección IP desde el router que
-da salida hacia la red externa.
+No obstante, en el caso de un nodo que se convierte en raíz, debe arrancar el
+cliente DHCP como respuesta al evento corresondiente, para así obtener dirección
+IP desde el router que da salida hacia la red externa.
 
 ### Estructura básica de una aplicación ESP-MESH
 
-El siguiente código muestra la estructura básica de inicialización
-de pilas IP y WiFi necesarias para comenzar con la configuración de la 
-red MESH:
+El siguiente código muestra la estructura básica de inicialización de pilas IP y
+WiFi necesarias para comenzar con la configuración de la red MESH:
 
 ```c
 tcpip_adapter_init();
@@ -141,8 +145,8 @@ ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 ```
 
-Tras esta inicialización, comienza la fase de configuración e inicialización
-de la malla, que procederá en tres pasos principales:
+Tras esta inicialización, comienza la fase de configuración e inicialización de
+la malla, que procederá en tres pasos principales:
 
 1. Inicialización de la malla
 2. Configuración de la red ESP-MESH
@@ -161,9 +165,9 @@ ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_e
 
 ### Paso 2. Configuración de la red ESP-MESH
 
-La configuración de ESP-MESH se realiza a través de la
-función `esp_mesh_set_config()`, que recibe una estructura de tipo
-`mesh_cfg_t` con la configuración de la red:
+La configuración de ESP-MESH se realiza a través de la función
+`esp_mesh_set_config()`, que recibe una estructura de tipo `mesh_cfg_t` con la
+configuración de la red:
 
 | Parámetro           | Descripción |
 |---------------------|------------|
@@ -204,12 +208,12 @@ El arranque de la red MESH es sencillo:
 ESP_ERROR_CHECK(esp_mesh_start());
 ```
 
-Tras el arranque, la aplicación debería comprobar los eventos para determinar
-si la conexión a la red ha sido exitosa. En dicho caso, tras la conexión,
-la aplicación puede comenzar a transmitir paquetes a través de la red MESH
+Tras el arranque, la aplicación debería comprobar los eventos para determinar si
+la conexión a la red ha sido exitosa. En dicho caso, tras la conexión, la
+aplicación puede comenzar a transmitir paquetes a través de la red MESH
 utilizando las rutinas `esp_mesh_send()` y `esp_mesh_recv()`.
 
-## Ejercicio Basico (en clase). Despliegue conjunto de una red WiFi Mesh
+## Despliegue conjunto de una red WiFi Mesh
 
 La forma más conveniente de observar el comportamiento de una red WiFi
 Mesh es desplegar una infraestructura con suficiente número de nodos pertenecientes
@@ -230,28 +234,24 @@ como contraseña `password`.
 
 De momento, no realizaremos ningún cambio en el código del ejemplo.
 
-Compila y ejecuta tu código. En la dirección
-del [enlace](https://docs.google.com/spreadsheets/d/1H0ETY_oDMOFHQOw2lci0t7ShT4lp2LO16FeVm_ORv_Q/edit?usp=sharing)
-dispones de una primera pestaña en la que deberás completar cierta información
-que observarás en la salida de monitorización una vez arranques el ESP32, 
-en la celda correspondiente a tu puesto.
-Esta información, en principio, incluye:
+Compila y ejecuta tu código. Monitoriza la salida estándar del nodo para obtener
+la siguiente información: 
 
-1. Tu nombre.
-2. Direcciones MAC de las interfaces `STA` y `SoftAP` (lo observarás en los
+1. Direcciones MAC de las interfaces `STA` y `SoftAP` (lo observarás en los
 primeros mensajes de salida).
-3. Capa de la topología en la que se encuentra tu nodo (lo observarás
+2. Capa de la topología Mesh en la que se encuentra tu nodo (lo observarás
 en formato `[L:XX]` en los envíos y recepciones de datos).
-4. En caso de haber sido elegido nodo raíz, anotar también esta circunstancia
+3. En caso de haber sido elegido nodo raíz, anota también esta circunstancia
 y la IP asignada por el *router* (observa la respuesta al evento correspondiente).
 
-Además, anota la ID de la red Mesh que se ha utilizado para conectar.
-
-Antes de rellenar la información, espera que el profesor te indique que la
+Apunta toda esta información en el 
+[siguiente documento google](https://docs.google.com/spreadsheets/d/1PU-A_VcAuNlECCh3yE4_xDZmpq6414AZUvDlpeOSosc/edit?usp=sharing)
+accesible a todos los alumnos. Además, anota la ID de la red Mesh que se ha
+utilizado para conectar. Antes de rellenar la información, espera que el profesor te indique que la
 topología ha convergido, y que por tanto no habrá ningún cambio más en ella
 (siempre que ningun nodo deje de formar parte de la misma).
 
-!!! danger "Tarea Básica"
+!!! danger "Tarea"
     Captura el estado de la red cuando todos tus compañeros hayan llegado al
     punto de convergencia, e intenta determinar, en forma de grafo, 
     la topología de la misma.
@@ -259,16 +259,19 @@ topología ha convergido, y que por tanto no habrá ningún cambio más en ella
 A continuación, apagaremos el nodo raíz y esperaremos a la vuelta a la 
 convergencia de la red.
 
-!!! danger "Tarea Básica"
+!!! danger "Tarea"
     Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
     llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
     la topología de la misma.
 
-## Ejercicio Adicional (en clase). Despliegue conjunto de una red WiFi Mesh de menores dimensiones
+    Documentan el proceso en tu informe de la práctica, así como los 
+    resultados observados. ¿Se crea más de una wifi Mesh?
+
+## Despliegue conjunto de una red WiFi Mesh de menores dimensiones
 
 Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
 que tengas asignado. Observa los colores asignados a cada grupo de puestos
-en la siguiente [hoja](https://docs.google.com/spreadsheets/d/1OiMcjNNNq8DRjlju2pZ5Di_XOjbv6qLnmEqAN1fHy2c/edit?usp=sharing).
+en la [siguiente hoja](https://docs.google.com/spreadsheets/d/1J3YKUC7LNZAST80ewciZFkNf60esLnjHuOCKfvv8pIQ/edit?usp=sharing).
 
 Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
@@ -279,10 +282,10 @@ Una vez hecho esto, reconstruid la información de las tablas para reflejar
 las nuevas topologías. Podéis hacer pruebas posteriores apagando el 
 nodo raíz y observando la convergencia de la red.
 
-!!! danger "Tarea Adicional"
+!!! danger "Tarea"
     Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
     llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
-    la topología de la misma.
+    la topología de la misma. Documenta esta actividad en tu informe.
 
 El estudio detallado del código para el despliegue de la red queda como
 ejercicio para el alumno. Observa el tratamiento de eventos y la fase

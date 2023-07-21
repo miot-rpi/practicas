@@ -18,7 +18,7 @@ aspectos avanzados de wifi. Los objetivos de cada parte son:
     - Observar la desviación en latencia de recepción de paquetes en función
     del modo aplicado.
 
-!!! Note "Nota"
+!!! danger "Entregable"
 
     Para esta práctica los alumnos harán un breve informe documentando las 
     tareas realizadas y los resultados obtenidos.
@@ -198,19 +198,17 @@ para dispositivos Android como IOS, en las versiones con transporte BLE o SoftAP
     - [Provisionamiento BLE](https://apps.apple.com/in/app/esp-ble-provisioning/id1473590141).
     - [Provisionamiento SoftAP](https://apps.apple.com/in/app/esp-softap-provisioning/id1474040630).
 
-!!! note "Tarea"
+!!! danger "Tarea"
     Utilizando las aplicaciones correspondientes a tu dispositivo móvil, 
     tanto para el uso de BLE como de SoftAP, provisiona tu ESP32 utilizando
     las credenciales que correspondan a tu red WiFi. Recuerda, antes de cada
 	  repetición del experimento, utilizar la orden `idf.py erase_flash` para
 	  eliminar información de provisionamiento de sesiones anteriores. Comprueba
 	  el funcionamiento de los distintos niveles de seguridad.
-
-!!! danger "Tarea 1"
-    Prepara un breve informe de la práctica describiendo el proceso
-    desarrollado en la tarea anterior, añadiendo las capturas de pantalla
-    correspondientes a la salida del ESP32 que evidencien que el proceso de
-    provisionamiento se ha realizado correctamente.
+    
+    Añade a tu informe las capturas de pantalla correspondientes a la salida 
+    del ESP32 que evidencien que el proceso de provisionamiento se ha realizado 
+    correctamente.
 
 Estas aplicaciones funcionan mediante una comunicación muy sencilla con el
 ESP32 no provisionado, cuyos mecanismos dependen del transporte utilizado;
@@ -267,7 +265,7 @@ como por ejemplo WireShark. Esto nos permitirá ver el contenido de los paquetes
 enviados por la red y determinar si la contraseña se envía en claro o si por el
 contrario está cifrada.
 
-!!! danger "Tarea 2"
+!!! danger "Tarea"
 
     Realiza el proceso de provisionamiento desde línea de comandos siguiendo el
     procedimiento explicado arriba. Captura el tráfico de red con Wireshark y
@@ -334,7 +332,7 @@ Estos modos pueden configurarse a través del menú de configuración; además,
 se ofrece una opción para modificar el tiempo de escucha en el caso del modo
 de ahorro *máximo*.
 
-!!! danger "Tarea 3"
+!!! danger "Tarea"
 
     Compila, flashea y ejecuta el código de ejemplo utilizando los tres modos
     disponibles (sin ahorro, con ahorro mínimo y con ahorro máximo). En todos 
