@@ -10,7 +10,6 @@ de forma simultánea.
 - Conocer los mecanismos de escaneado de redes en ESP-IDF.
 - Conectar a redes vía WPA2 Enterprise desde el ESP32 (*eduroam*).
 
-
 ## Introducción
 
 Las bibliotecas y componentes de soporte WiFi en ESP-IDF proporcionan soporte
@@ -47,30 +46,30 @@ programación sencillo que se puede resumir en la siguiente imagen:
 
 ![](img/blockdiag.png)
 
-Puede considerarse que el driver WiFi es una caja negra que desconoce cualquier
-detalle de la aplicación a mayor nivel, por ejemplo de la pila TCP/IP, 
-las tareas de aplicación, los eventos, etc.
-El código de las tareas de aplicación generalmente invoca a la API WiFi
-para inicializar el dispositivo inalámbrico y tratar eventos específicos
-cuando resulta necesario. El driver WiFi recibe invocaciones a su API, 
-las procesa y emite eventos a la aplicación. 
+Puede considerarse que el driver WiFi es una caja negra independiente del resto
+de la aplicación, como la pila TCP/IP, las tareas de aplicación y los eventos.
+El código de las tareas de aplicación generalmente invoca a la API WiFi para
+inicializar el dispositivo inalámbrico y tratar eventos específicos cuando
+resulta necesario. El driver WiFi recibe invocaciones a su API, las procesa y
+emite eventos a la aplicación. 
 
-El tratamiento de eventos WiFi se basa en la [biblioteca de eventos esp_event](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html); los eventos se envían por parte del driver
-a bucle de tratamiento de eventos
-[por defecto](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html#esp-event-default-loops). La aplicación 
-procesa estos eventos en funciones *callback* registradas previamente a 
-través de la función `esp_event_handler_register()`. 
-Algún tipo de eventos es también procesado por el componente 
-`esp_netif` para proporcionar reacciones por defecto ante su recepción; un
-ejemplo claro sucede de forma transparente cuando un dispositivo se conecta
-a un AP, momento en el cual `esp_netif` arranca un cliente DHCP para obtener
-una dirección IP sin intervención del código de usuario (aunque este
-comportamiento por defecto puede ser personalizado para, por ejemplo, asignar
-una dirección IP estáticamente).
+El tratamiento de eventos WiFi se basa en la [biblioteca de eventos
+esp_event](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html);
+los eventos se envían por parte del driver al [bucle de tratamiento de eventos
+por
+defecto](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html#esp-event-default-loops).
+La aplicación registra una serie de funciones *callback*, a través de la función
+`esp_event_handler_register()`, que serán las responsables de tratar estos
+eventos. Algún tipo de eventos es también procesado por el componente
+`esp_netif` para proporcionar reacciones por defecto ante su recepción. Por
+ejemplo, cuando un dispositivo se conecta a un AP el `esp_netif` arranca un
+cliente DHCP para obtener una dirección IP sin intervención del código de
+usuario (aunque este comportamiento por defecto puede ser personalizado para,
+por ejemplo, asignar una dirección IP estáticamente).
 
 !!! note "Nota"
-    Toda la API mencionada a continuación se encuentra descrita en profundidad en
-    este [enlace](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html). Se aconseja disponer de esta información durante el proceso
+    Toda la API mencionada a continuación se encuentra descrita en profundidad 
+    [aquí](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html). Se aconseja disponer de esta información durante el proceso
     de desarrollo y también en el propio desarrollo de la práctica.
 
 ### Eventos WiFi
@@ -80,15 +79,15 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
 
 * `WIFI_EVENT_SCAN_DONE`
 
-    Este evento se envía automáticamente en la invocación de 
+    Este evento se envía automáticamente en la invocación de
     `esp_wifi_scan_start()`, en los siguientes escenarios:
 
-    - El escaneado de redes se completa, es decir, se ha encontrado el punto
-    de acceso (AP) objetivo.
+    - El escaneado de redes se completa, es decir, se ha encontrado el punto de
+      acceso (AP) objetivo.
     - El escaneado de redes finaliza tras la invocación de `esp_wifi_scan_stop()`.
     - Se invoca al inicio de un nuevo escaneo (mediante la rutina
-    `esp_wifi_scan_start()`) antes de finalizar un escaneado previo. Este nuevo
-    escaneado se superpondrá al anterior y se emitirá el evento.
+      `esp_wifi_scan_start()`) antes de finalizar un escaneado previo. Este
+      nuevo escaneado se superpondrá al anterior y se emitirá el evento.
 
     El evento no se emite cuando el escaneado se fuerza mediante la invocación
     a `esp_wifi_connect()`.
@@ -335,14 +334,17 @@ de sockets) para mantenerse en un estado consistente.
 
 ### Análisis de un ejemplo (`wifi/getting_started/station`)
 
-!!! danger "Tarea Básica"
+!!! note "Tarea"
     Analiza el ejemplo `station`, compílalo y flashealo. Estudia el tratamiento
     de eventos que realiza, y cómo estos son emitidos para casos reales. Para
     ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
     apaga el punto de acceso mientras la IP está concedida, y analiza los
-    eventos generados y su respuesta. Si no existe respuesta a alguno de ellos,
-    añádela. Documenta las observaciones que consideres de interés y las 
-    posibles modificaciones realizadas en tu memoria.
+    eventos generados y su respuesta. 
+
+!!! tarea "Tarea 1"    
+    Revisa el tratamiento de eventos del código anterior, añade el tratamiento
+    de los eventos que falten por tratar. Añade en tu código un comentario
+    explicando el código añadido.
 
 ## Modo Punto de Acceso
 
@@ -380,14 +382,16 @@ de acceso, consulta este
 
 ### Análisis de un ejemplo (`wifi/getting_started/softAP`)
 
-!!! danger "Tarea Básica"
-	Analiza el ejemplo `softAP`, compílalo y flashealo. Estudia el tratamiento
-	de eventos que realiza, y cómo estos son emitidos para casos reales. Para
-	ello, conecta distintos clientes (*stations*), bien sean ESP32 o cualquier
-	otro dispositivo, y analiza los eventos generados y su respuesta. Si no
-	existe respuesta a alguno de ellos, añádela. Documenta las observaciones que
-	consideres de interés y las posibles modificaciones realizadas en tu
-	memoria.
+!!! note "Tarea"
+    Analiza el ejemplo `softAP`, compílalo y flashealo. Estudia el tratamiento
+    de eventos que realiza, y cómo estos son emitidos para casos reales. Para
+    ello, conecta distintos clientes (*stations*), bien sean ESP32 o cualquier
+    otro dispositivo, y analiza los eventos generados y su respuesta.
+  
+!!! danger "Tarea 2"
+    Revisa el tratamiento de eventos del código anterior, añade el tratamiento
+    de los eventos que falten por tratar. Añade en tu código un comentario
+    explicando el código añadido.
 
 ## Modo combinado Station/Punto de Acceso
 
@@ -407,14 +411,13 @@ como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
 
 ### Ejercicio: desarrollo de un nodo mixto *station/AP*
 
-!!! danger "Tarea Adicional"
+!!! danger "Tarea 3"
     Modifica el ejemplo `station` para que el ESP32 se comporte a la vez 
     como estación y como punto de acceso. Añade las opciones de configuración
     necesarias para que todos los parámetros se puedan modificar vía 
     `menuconfig`. Comprueba que el ESP32 efectivamente se conecta al punto
     de acceso y que a la vez es posible conectar otro dispositivo al mismo
-    (por ejemplo, tu teléfono móvil). Adjunta en la entrega tanto el código
-    como evidencias de su correcto funcionamiento.
+    (por ejemplo, tu teléfono móvil).
 
 ## Escaneado de redes WiFi
 
@@ -513,17 +516,27 @@ cada AP.
 
 ### Análisis de un ejemplo (`wifi/scan`)
 
-Analiza el ejemplo de escaneado, e intenta observar el flujo de trabajo 
-detallado anteriormente.
+Analiza el ejemplo de escaneado *wifi/scan*, e intenta observar el flujo de
+trabajo detallado anteriormente.
 
-!!! danger "Tarea Adicional"
+!!! note "Tarea"
     Compila, flashea y ejecuta el ejemplo de escaneado. Observa si los resultados
     son los esperados en el laboratorio o en un entorno doméstico. Modifica el 
     código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
     de que si fijas un canal específico en el que tu punto de acceso está trabajando,
     éste es detectado corretamente. Estudia y modifica los tiempos de espera en el 
-    escaneado y observa su efecto en el tiempo total de escaneado. Documenta las 
-    modificaciones realizadas y las observaciones que consideres de interés.
+    escaneado y observa su efecto en el tiempo total de escaneado.
+
+!!! danger "Tarea 4"
+    Diseña un firmware de nodo que realice un escaneado de las redes
+    disponibles. Si el nodo detecta la presencia de una o más de las *redes
+    conocidas*, se conectará en modo STA a la red de mayor prioridad entre las
+    conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
+    móvil y vuestro domicilio.
+  
+!!! danger "Tarea 5"
+    Codificar el código de la tarea anterior para que la lista de *redes
+    conocidas* y la prioridad relativa se puedan configurar con menuconfig.
 
 ## Conexión a una red WPA2 Enterprise (*eduroam*)
 
@@ -533,45 +546,13 @@ desarrollo de un ejemplo concreto van más allá del objetivo de la práctica,
 es deseable realizar una prueba de conexión a *eduroam* en el laboratorio, 
 ya que nos resultará de utilidad de cara a futuras prácticas. 
 
-Como preparación, debemos utilizar la última versión de ESP-IDF, disponible 
-en Github, en lugar de la versión 4.1 que has utilizado hasta ahora.
-Para ello, en un directorio independiente del que has utilizado hasta ahora
-instala la última versión de ESP-IDF siguiendo las mismas instrucciones
-que en la instalación incial, pero clonando la rama *master* del repositorio,
-es decir, ejecutando la siguiente instrucción exclusivamente:
-
-```sh
-git clone --recursive https://github.com/espressif/esp-idf.git
-```
-
-En lugar de las cadena de ordenes que usaste en la primera práctica:
-
-```sh
-## NO EJECUTAR ESTAS ORDENES EN LA NUEVA INSTALACIÓN
-git clone --recursive https://github.com/espressif/esp-idf.git
-cd esp-idf
-git fetch
-git checkout release/v4.1
-git pull
-git submodule update --init --recursive
-```
-
-En cualquier caso, tras la ejecución anterior, deberás instalar las dependencias
-de nuevo y a continuación exportar las variables de entorno correctas:
-
-```sh
-sh install.sh
-. export.sh
-```
-
-### Conexión a *eduroam* (`wifi/wpa2_enterprise`)
-
 Para conectar a *eduroam* nuestro ESP32, necesitaremos seguir los siguientes
 pasos:
 
 1. Descarga el certificado de la CA de la UCM desde 
 [este enlace](https://ssii.ucm.es/file/eduroam). Copia el fichero descargado, 
 con nombre `eduroam.crt` al directorio `main`, y asígnale el nombre `wpa2_ca.pem`.
+
 2. Configura el proyecto a través de `idf.py menuconfig` con los siguientes
 parámetros:
     * SSID: eduroam
@@ -582,7 +563,9 @@ parámetros:
     * EAP USERNAME: tuusuario@ucm.es
     * EAP PASSWORD: (tu contraseña UCM)
 
-!!! danger "Tarea Adicional"
-    Configura, compila y ejecuta el ejemplo de autenticación y adjunta una
-    captura de pantalla que demuestre la correcta conexión a *eduroam*.
+!!! danger "Tarea 6"
+    Configura el ejemplo de autenticación para WPA2 Enterprise con tus
+    credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
+    adjunta una captura de pantalla que demuestre la correcta conexión del nodo
+    a *eduroam*.
 
