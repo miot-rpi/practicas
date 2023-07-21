@@ -423,15 +423,15 @@ principal:</p>
 </code></pre>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 1</p>
-</div>
 <p>Modifica el período de suspensión de la tarea para que sea mayor o menor, y
 comprueba que efectivamente esto modifica el comportamiento del <em>firmware</em>
 cargado.</p>
+</div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 2</p>
-</div>
 <p>Modifica el programa para que se compruebe debidamente si el SoC
 tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t">la siguiente página</a>).</p>
+</div>
 <h3 id="creacion-de-tareas">Creación de tareas</h3>
 <p>El anterior proyecto puede replantearse para que no sea la tarea principal la
 que ejecute la lógica del programa. Para ello, es necesario introducir
@@ -502,12 +502,12 @@ anteriormente, podría reestrcturarse en base a una única tarea, cuya función 
 </code></pre>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 3</p>
-</div>
 <p>Implementa una modificación del programa <code>hello_world</code> que implemente
 y planifique dos tareas independientes con distinta funcionalidad (en este
 caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
 tiempos de suspensión. Comprueba que, efectivamente, ambas tareas se
 ejecutan concurrentemente.</p>
+</div>
 <h2 id="personalizacion-del-proyecto">Personalización del proyecto</h2>
 <p>ESP-IDF utiliza la biblioteca <code>kconfiglib</code> para proporcionar un sistema de
 configuracion de proyectos en tiempo de compilación sencillo y extensible. Para
@@ -522,18 +522,18 @@ específicas del proyecto a compilar (por ejemplo, seleccionando los componentes
 que deseemos habilitar en la construcción del mismo).</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-</div>
 <p>Navega por las opciones que aparecen en los menús de configuración para
 familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
 uso en el informe de la práctica.</p>
+</div>
 <p>En el proyecto <code>blink</code>, observa que una de las opciones del menú de navegación,
 llamada <em>Example configuration</em>, incluye una opción llamada <em>Blink GPIO number</em>.
 Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear. Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada <code>CONFIG_BLINK_GPIO</code>, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-</div>
 <p>Observa el uso que da el código del proyecto <code>blink</code> a la constante
 <code>CONFIG_BLINK_GPIO</code>.</p>
+</div>
 <p>Esta opción de configuración no forma parte de las opciones por defecto de
 ESP-IDF, sino que ha sido añadida por los desarrolladores del proyecto <code>blink</code>.
 Observa y estudia el formato y contenido del fichero <code>main/Kconfig.projbuild</code>
@@ -542,12 +542,12 @@ que se proporciona como parte del fichero. En él, se definen las característic
 a definir.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 4</p>
-</div>
 <p>Modifica el proyecto <code>hello_world</code> para que defina dos opciones de
 configuración que permitán definir el tiempo de espera de cada una de las
 dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
 tu código y comprueba que efectivamente su modificación a través del sistema
 de menús permite una personalización del comportamiento de tus códigos.</p>
+</div>
 <h2 id="escaneado-de-redes-wifi">Escaneado de redes WiFi</h2>
 <p>A modo de ejemplo, y en preparación para los códigos con los que trabajaremos
 en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
@@ -555,29 +555,29 @@ en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 5</p>
-</div>
 <p>Compila, flashea y monitoriza el ejemplo <code>scan</code> situado en el directorio
 <code>examples/wifi/scan</code>. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
 Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
 efectivamente, es escaneado por el ejemplo.</p>
+</div>
 <p>Observa su funcionamiento. El <em>firmware</em> simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 6</p>
-</div>
 <p>Analiza el código de la función <code>wifi_scan</code> (tarea principal).
 Céntrate especialmente en las líneas que permiten activar y configurar el
 escaneado de redes. Intenta entender el funcionamiento general del programa,
 consultando y apuntando el cometido de cada línea, con especial interés a
 aquellas funciones con prefijo <code>esp_wifi_*</code>. Si tienes dudas puede consultar la  <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html">documentación oficial de ESP-IDF</a>.</p>
+</div>
 <h2 id="gestion-de-eventos-de-red">Gestión de eventos de red</h2>
 <p>El segundo ejemplo que estudiarems es un programa para la conexión del ESP32 a un punto de acceso existente. Este ejemplo nos permitirá observar, a grandes rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite gestionar la respuestas a eventos de red, como por ejemplo la obtención de dirección IP o la conexión exitosa a un punto de acceso.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-</div>
 <p>Crea un proyecto a partir del ejempl <code>station</code> situado en el directorio
 <code>examples/wifi/getting_started</code>. Compilalo, flashealo y monitoriza su salida estándar. Acuerdate de modificar el SSID de la red al que conectará, así como la contraseña elegida a través del sistema de menús de configuración.</p>
+</div>
 <p>Observa su funcionamiento. El <em>firmware</em> simplemente inicializa el dispositivo
 en modo <em>station</em> (en contraposición al modo <em>Access Point</em>, que veremos en
 la próxima sesión), realizando una conexión al punto de acceso preconfigurado
@@ -591,10 +591,10 @@ la tarea principal, se divide básicamente en dos partes:</p>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-</div>
 <p>Responde a la siguiente pregunta de forma razonada:
 ¿Qué eventos se asocian a la ejecución de qué función en el <em>firmware</em> que
 estás estudiando?</p>
+</div>
 <ul>
 <li><strong>Configuración de la conexión a un punto de acceso</strong>. La configuración de la
   conexión se realiza a través de los campos correspondientes de una estructura
@@ -608,13 +608,13 @@ estás estudiando?</p>
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Tarea 7</p>
-</div>
 <p>Modifica el <em>firmware</em> para que el <em>handler</em> de tratamiento de la obtención
 de una dirección IP sea independiente del tratamiento del resto de eventos
 del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
 sigue observándose la salida asociada a dicho evento, aun cuando ambas
 funciones sean independientes. Entrega o añade al informe  el código
-modificado.</p></div>
+modificado.</p>
+</div></div>
             </div>
         </div>
 
