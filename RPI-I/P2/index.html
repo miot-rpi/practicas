@@ -307,29 +307,29 @@ desarrollo de códigos y proyectos más complejos con mínimas modificaciones.</
 <p>El modelo de programación del driver WiFi en ESP-IDF sigue un modelo de 
 programación sencillo que se puede resumir en la siguiente imagen:</p>
 <p><img alt="" src="img/blockdiag.png" /></p>
-<p>Puede considerarse que el driver WiFi es una caja negra que desconoce cualquier
-detalle de la aplicación a mayor nivel, por ejemplo de la pila TCP/IP, 
-las tareas de aplicación, los eventos, etc.
-El código de las tareas de aplicación generalmente invoca a la API WiFi
-para inicializar el dispositivo inalámbrico y tratar eventos específicos
-cuando resulta necesario. El driver WiFi recibe invocaciones a su API, 
-las procesa y emite eventos a la aplicación. </p>
-<p>El tratamiento de eventos WiFi se basa en la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">biblioteca de eventos esp_event</a>; los eventos se envían por parte del driver
-a bucle de tratamiento de eventos
-<a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html#esp-event-default-loops">por defecto</a>. La aplicación 
-procesa estos eventos en funciones <em>callback</em> registradas previamente a 
-través de la función <code>esp_event_handler_register()</code>. 
-Algún tipo de eventos es también procesado por el componente 
-<code>esp_netif</code> para proporcionar reacciones por defecto ante su recepción; un
-ejemplo claro sucede de forma transparente cuando un dispositivo se conecta
-a un AP, momento en el cual <code>esp_netif</code> arranca un cliente DHCP para obtener
-una dirección IP sin intervención del código de usuario (aunque este
-comportamiento por defecto puede ser personalizado para, por ejemplo, asignar
-una dirección IP estáticamente).</p>
+<p>Puede considerarse que el driver WiFi es una caja negra independiente del resto
+de la aplicación, como la pila TCP/IP, las tareas de aplicación y los eventos.
+El código de las tareas de aplicación generalmente invoca a la API WiFi para
+inicializar el dispositivo inalámbrico y tratar eventos específicos cuando
+resulta necesario. El driver WiFi recibe invocaciones a su API, las procesa y
+emite eventos a la aplicación. </p>
+<p>El tratamiento de eventos WiFi se basa en la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">biblioteca de eventos
+esp_event</a>;
+los eventos se envían por parte del driver al <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html#esp-event-default-loops">bucle de tratamiento de eventos
+por
+defecto</a>.
+La aplicación registra una serie de funciones <em>callback</em>, a través de la función
+<code>esp_event_handler_register()</code>, que serán las responsables de tratar estos
+eventos. Algún tipo de eventos es también procesado por el componente
+<code>esp_netif</code> para proporcionar reacciones por defecto ante su recepción. Por
+ejemplo, cuando un dispositivo se conecta a un AP el <code>esp_netif</code> arranca un
+cliente DHCP para obtener una dirección IP sin intervención del código de
+usuario (aunque este comportamiento por defecto puede ser personalizado para,
+por ejemplo, asignar una dirección IP estáticamente).</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Toda la API mencionada a continuación se encuentra descrita en profundidad en
-este <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html">enlace</a>. Se aconseja disponer de esta información durante el proceso
+<p>Toda la API mencionada a continuación se encuentra descrita en profundidad 
+<a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html">aquí</a>. Se aconseja disponer de esta información durante el proceso
 de desarrollo y también en el propio desarrollo de la práctica.</p>
 </div>
 <h3 id="eventos-wifi">Eventos WiFi</h3>
@@ -338,15 +338,15 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.</p>
 <ul>
 <li>
 <p><code>WIFI_EVENT_SCAN_DONE</code></p>
-<p>Este evento se envía automáticamente en la invocación de 
+<p>Este evento se envía automáticamente en la invocación de
 <code>esp_wifi_scan_start()</code>, en los siguientes escenarios:</p>
 <ul>
-<li>El escaneado de redes se completa, es decir, se ha encontrado el punto
-de acceso (AP) objetivo.</li>
+<li>El escaneado de redes se completa, es decir, se ha encontrado el punto de
+  acceso (AP) objetivo.</li>
 <li>El escaneado de redes finaliza tras la invocación de <code>esp_wifi_scan_stop()</code>.</li>
 <li>Se invoca al inicio de un nuevo escaneo (mediante la rutina
-<code>esp_wifi_scan_start()</code>) antes de finalizar un escaneado previo. Este nuevo
-escaneado se superpondrá al anterior y se emitirá el evento.</li>
+  <code>esp_wifi_scan_start()</code>) antes de finalizar un escaneado previo. Este
+  nuevo escaneado se superpondrá al anterior y se emitirá el evento.</li>
 </ul>
 <p>El evento no se emite cuando el escaneado se fuerza mediante la invocación
 a <code>esp_wifi_connect()</code>.</p>
@@ -575,15 +575,19 @@ de sockets) para mantenerse en un estado consistente.</li>
 <li>Invocación a <code>esp_wifi_deinit()</code> para descargar el driver WiFi.</li>
 </ol>
 <h3 id="analisis-de-un-ejemplo-wifigetting_startedstation">Análisis de un ejemplo (<code>wifi/getting_started/station</code>)</h3>
-<div class="admonition danger">
-<p class="admonition-title">Tarea Básica</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
 <p>Analiza el ejemplo <code>station</code>, compílalo y flashealo. Estudia el tratamiento
 de eventos que realiza, y cómo estos son emitidos para casos reales. Para
 ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
 apaga el punto de acceso mientras la IP está concedida, y analiza los
-eventos generados y su respuesta. Si no existe respuesta a alguno de ellos,
-añádela. Documenta las observaciones que consideres de interés y las 
-posibles modificaciones realizadas en tu memoria.</p>
+eventos generados y su respuesta. </p>
+</div>
+<div class="admonition tarea">
+<p class="admonition-title">Tarea 1</p>
+<p>Revisa el tratamiento de eventos del código anterior, añade el tratamiento
+de los eventos que falten por tratar. Añade en tu código un comentario
+explicando el código añadido.</p>
 </div>
 <h2 id="modo-punto-de-acceso">Modo Punto de Acceso</h2>
 <p>La siguiente figura describe, a grandes rasgos, algunos de los escenarios
@@ -613,15 +617,18 @@ los parámetros de configuración. Observa el siguiente ejemplo de configuració
 de acceso, consulta este 
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html#ap-basic-configuration">enlace</a>.</p>
 <h3 id="analisis-de-un-ejemplo-wifigetting_startedsoftap">Análisis de un ejemplo (<code>wifi/getting_started/softAP</code>)</h3>
-<div class="admonition danger">
-<p class="admonition-title">Tarea Básica</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
 <p>Analiza el ejemplo <code>softAP</code>, compílalo y flashealo. Estudia el tratamiento
 de eventos que realiza, y cómo estos son emitidos para casos reales. Para
 ello, conecta distintos clientes (<em>stations</em>), bien sean ESP32 o cualquier
-otro dispositivo, y analiza los eventos generados y su respuesta. Si no
-existe respuesta a alguno de ellos, añádela. Documenta las observaciones que
-consideres de interés y las posibles modificaciones realizadas en tu
-memoria.</p>
+otro dispositivo, y analiza los eventos generados y su respuesta.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea 2</p>
+<p>Revisa el tratamiento de eventos del código anterior, añade el tratamiento
+de los eventos que falten por tratar. Añade en tu código un comentario
+explicando el código añadido.</p>
 </div>
 <h2 id="modo-combinado-stationpunto-de-acceso">Modo combinado Station/Punto de Acceso</h2>
 <p>ESP-IDF soporta un modo mixto de conexión, en el que el ESP32 es a la vez
@@ -638,14 +645,13 @@ de configuración (<code>esp_wifi_set_config</code>) con cada una de dichas estr
 como en modo <em>AP</em> --<code>esp_netif_create_default_wifi_ap()</code>).</p>
 <h3 id="ejercicio-desarrollo-de-un-nodo-mixto-stationap">Ejercicio: desarrollo de un nodo mixto <em>station/AP</em></h3>
 <div class="admonition danger">
-<p class="admonition-title">Tarea Adicional</p>
+<p class="admonition-title">Tarea 3</p>
 <p>Modifica el ejemplo <code>station</code> para que el ESP32 se comporte a la vez 
 como estación y como punto de acceso. Añade las opciones de configuración
 necesarias para que todos los parámetros se puedan modificar vía 
 <code>menuconfig</code>. Comprueba que el ESP32 efectivamente se conecta al punto
 de acceso y que a la vez es posible conectar otro dispositivo al mismo
-(por ejemplo, tu teléfono móvil). Adjunta en la entrega tanto el código
-como evidencias de su correcto funcionamiento.</p>
+(por ejemplo, tu teléfono móvil).</p>
 </div>
 <h2 id="escaneado-de-redes-wifi">Escaneado de redes WiFi</h2>
 <h3 id="modos-de-escaneado-de-redes-wifi">Modos de escaneado de redes WiFi</h3>
@@ -747,17 +753,29 @@ cada AP. </p>
 </li>
 </ol>
 <h3 id="analisis-de-un-ejemplo-wifiscan">Análisis de un ejemplo (<code>wifi/scan</code>)</h3>
-<p>Analiza el ejemplo de escaneado, e intenta observar el flujo de trabajo 
-detallado anteriormente.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea Adicional</p>
+<p>Analiza el ejemplo de escaneado <em>wifi/scan</em>, e intenta observar el flujo de
+trabajo detallado anteriormente.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
 <p>Compila, flashea y ejecuta el ejemplo de escaneado. Observa si los resultados
 son los esperados en el laboratorio o en un entorno doméstico. Modifica el 
 código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
 de que si fijas un canal específico en el que tu punto de acceso está trabajando,
 éste es detectado corretamente. Estudia y modifica los tiempos de espera en el 
-escaneado y observa su efecto en el tiempo total de escaneado. Documenta las 
-modificaciones realizadas y las observaciones que consideres de interés.</p>
+escaneado y observa su efecto en el tiempo total de escaneado.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea 4</p>
+<p>Diseña un firmware de nodo que realice un escaneado de las redes
+disponibles. Si el nodo detecta la presencia de una o más de las <em>redes
+conocidas</em>, se conectará en modo STA a la red de mayor prioridad entre las
+conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
+móvil y vuestro domicilio.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea 5</p>
+<p>Codificar el código de la tarea anterior para que la lista de <em>redes
+conocidas</em> y la prioridad relativa se puedan configurar con menuconfig.</p>
 </div>
 <h2 id="conexion-a-una-red-wpa2-enterprise-eduroam">Conexión a una red WPA2 Enterprise (<em>eduroam</em>)</h2>
 <p>Las últimas versiones de ESP-IDF permiten la conexión a redes con autenticación
@@ -765,37 +783,18 @@ RADIUS, como por ejemplo <em>eduroam</em>. Aunque los detalles de configuración
 desarrollo de un ejemplo concreto van más allá del objetivo de la práctica, 
 es deseable realizar una prueba de conexión a <em>eduroam</em> en el laboratorio, 
 ya que nos resultará de utilidad de cara a futuras prácticas. </p>
-<p>Como preparación, debemos utilizar la última versión de ESP-IDF, disponible 
-en Github, en lugar de la versión 4.1 que has utilizado hasta ahora.
-Para ello, en un directorio independiente del que has utilizado hasta ahora
-instala la última versión de ESP-IDF siguiendo las mismas instrucciones
-que en la instalación incial, pero clonando la rama <em>master</em> del repositorio,
-es decir, ejecutando la siguiente instrucción exclusivamente:</p>
-<pre><code class="language-sh">git clone --recursive https://github.com/espressif/esp-idf.git
-</code></pre>
-<p>En lugar de las cadena de ordenes que usaste en la primera práctica:</p>
-<pre><code class="language-sh">## NO EJECUTAR ESTAS ORDENES EN LA NUEVA INSTALACIÓN
-git clone --recursive https://github.com/espressif/esp-idf.git
-cd esp-idf
-git fetch
-git checkout release/v4.1
-git pull
-git submodule update --init --recursive
-</code></pre>
-<p>En cualquier caso, tras la ejecución anterior, deberás instalar las dependencias
-de nuevo y a continuación exportar las variables de entorno correctas:</p>
-<pre><code class="language-sh">sh install.sh
-. export.sh
-</code></pre>
-<h3 id="conexion-a-eduroam-wifiwpa2_enterprise">Conexión a <em>eduroam</em> (<code>wifi/wpa2_enterprise</code>)</h3>
 <p>Para conectar a <em>eduroam</em> nuestro ESP32, necesitaremos seguir los siguientes
 pasos:</p>
 <ol>
-<li>Descarga el certificado de la CA de la UCM desde 
+<li>
+<p>Descarga el certificado de la CA de la UCM desde 
 <a href="https://ssii.ucm.es/file/eduroam">este enlace</a>. Copia el fichero descargado, 
-con nombre <code>eduroam.crt</code> al directorio <code>main</code>, y asígnale el nombre <code>wpa2_ca.pem</code>.</li>
-<li>Configura el proyecto a través de <code>idf.py menuconfig</code> con los siguientes
-parámetros:<ul>
+con nombre <code>eduroam.crt</code> al directorio <code>main</code>, y asígnale el nombre <code>wpa2_ca.pem</code>.</p>
+</li>
+<li>
+<p>Configura el proyecto a través de <code>idf.py menuconfig</code> con los siguientes
+parámetros:</p>
+<ul>
 <li>SSID: eduroam</li>
 <li>Validate server: activo</li>
 <li>EAP method: TTLS</li>
@@ -807,9 +806,11 @@ parámetros:<ul>
 </li>
 </ol>
 <div class="admonition danger">
-<p class="admonition-title">Tarea Adicional</p>
-<p>Configura, compila y ejecuta el ejemplo de autenticación y adjunta una
-captura de pantalla que demuestre la correcta conexión a <em>eduroam</em>.</p>
+<p class="admonition-title">Tarea 6</p>
+<p>Configura el ejemplo de autenticación para WPA2 Enterprise con tus
+credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
+adjunta una captura de pantalla que demuestre la correcta conexión del nodo
+a <em>eduroam</em>.</p>
 </div></div>
             </div>
         </div>
