@@ -218,13 +218,13 @@ principal:
 ```
 
 !!! danger "Tarea 1"
-Modifica el período de suspensión de la tarea para que sea mayor o menor, y
-comprueba que efectivamente esto modifica el comportamiento del *firmware*
-cargado.
+    Modifica el período de suspensión de la tarea para que sea mayor o menor, y
+    comprueba que efectivamente esto modifica el comportamiento del *firmware*
+    cargado.
 
 !!! danger "Tarea 2"
-Modifica el programa para que se compruebe debidamente si el SoC
-tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar [la siguiente página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
+    Modifica el programa para que se compruebe debidamente si el SoC
+    tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar [la siguiente página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
 
 ### Creación de tareas
 
@@ -307,11 +307,11 @@ void app_main()
 ```
 
 !!! danger "Tarea 3"
-Implementa una modificación del programa `hello_world` que implemente
-y planifique dos tareas independientes con distinta funcionalidad (en este
-caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
-tiempos de suspensión. Comprueba que, efectivamente, ambas tareas se
-ejecutan concurrentemente.
+    Implementa una modificación del programa `hello_world` que implemente
+    y planifique dos tareas independientes con distinta funcionalidad (en este
+    caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
+    tiempos de suspensión. Comprueba que, efectivamente, ambas tareas se
+    ejecutan concurrentemente.
 
 ## Personalización del proyecto
 
@@ -332,17 +332,17 @@ específicas del proyecto a compilar (por ejemplo, seleccionando los componentes
 que deseemos habilitar en la construcción del mismo).
 
 !!! Note "Nota"
-Navega por las opciones que aparecen en los menús de configuración para
-familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
-uso en el informe de la práctica.
+    Navega por las opciones que aparecen en los menús de configuración para
+    familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
+    uso en el informe de la práctica.
 
 En el proyecto `blink`, observa que una de las opciones del menú de navegación,
 llamada *Example configuration*, incluye una opción llamada *Blink GPIO number*.
 Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear. Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada `CONFIG_BLINK_GPIO`, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.
 
 !!! note "Nota"
-Observa el uso que da el código del proyecto `blink` a la constante
-`CONFIG_BLINK_GPIO`.
+    Observa el uso que da el código del proyecto `blink` a la constante
+    `CONFIG_BLINK_GPIO`.
 
 Esta opción de configuración no forma parte de las opciones por defecto de
 ESP-IDF, sino que ha sido añadida por los desarrolladores del proyecto `blink`.
@@ -352,11 +352,11 @@ que se proporciona como parte del fichero. En él, se definen las característic
 a definir.
 
 !!! danger "Tarea 4"
-Modifica el proyecto `hello_world` para que defina dos opciones de
-configuración que permitán definir el tiempo de espera de cada una de las
-dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
-tu código y comprueba que efectivamente su modificación a través del sistema
-de menús permite una personalización del comportamiento de tus códigos.
+    Modifica el proyecto `hello_world` para que defina dos opciones de
+    configuración que permitán definir el tiempo de espera de cada una de las
+    dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
+    tu código y comprueba que efectivamente su modificación a través del sistema
+    de menús permite una personalización del comportamiento de tus códigos.
 
 ## Escaneado de redes WiFi
 
@@ -366,29 +366,29 @@ en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.
 
 !!! danger "Tarea 5"
-Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
-`examples/wifi/scan`. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
-Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
-efectivamente, es escaneado por el ejemplo.
+    Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
+    `examples/wifi/scan`. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
+    Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
+    efectivamente, es escaneado por el ejemplo.
 
 Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).
 
 !!! danger "Tarea 6"
-Analiza el código de la función `wifi_scan` (tarea principal).
-Céntrate especialmente en las líneas que permiten activar y configurar el
-escaneado de redes. Intenta entender el funcionamiento general del programa,
-consultando y apuntando el cometido de cada línea, con especial interés a
-aquellas funciones con prefijo `esp_wifi_*`. Si tienes dudas puede consultar la  [documentación oficial de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html).
+    Analiza el código de la función `wifi_scan` (tarea principal).
+    Céntrate especialmente en las líneas que permiten activar y configurar el
+    escaneado de redes. Intenta entender el funcionamiento general del programa,
+    consultando y apuntando el cometido de cada línea, con especial interés a
+    aquellas funciones con prefijo `esp_wifi_*`. Si tienes dudas puede consultar la  [documentación oficial de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html).
 
 ## Gestión de eventos de red
 
 El segundo ejemplo que estudiarems es un programa para la conexión del ESP32 a un punto de acceso existente. Este ejemplo nos permitirá observar, a grandes rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite gestionar la respuestas a eventos de red, como por ejemplo la obtención de dirección IP o la conexión exitosa a un punto de acceso.
 
 !!! Note "Nota"
-Crea un proyecto a partir del ejempl `station` situado en el directorio
-`examples/wifi/getting_started`. Compilalo, flashealo y monitoriza su salida estándar. Acuerdate de modificar el SSID de la red al que conectará, así como la contraseña elegida a través del sistema de menús de configuración.
+    Crea un proyecto a partir del ejempl `station` situado en el directorio
+    `examples/wifi/getting_started`. Compilalo, flashealo y monitoriza su salida estándar. Acuerdate de modificar el SSID de la red al que conectará, así como la contraseña elegida a través del sistema de menús de configuración.
 
 Observa su funcionamiento. El *firmware* simplemente inicializa el dispositivo
 en modo *station* (en contraposición al modo *Access Point*, que veremos en
@@ -403,9 +403,9 @@ la tarea principal, se divide básicamente en dos partes:
   determinada.
 
 !!! Note "Nota"
-Responde a la siguiente pregunta de forma razonada:
-¿Qué eventos se asocian a la ejecución de qué función en el *firmware* que
-estás estudiando?
+    Responde a la siguiente pregunta de forma razonada:
+    ¿Qué eventos se asocian a la ejecución de qué función en el *firmware* que
+    estás estudiando?
 
 * **Configuración de la conexión a un punto de acceso**. La configuración de la
   conexión se realiza a través de los campos correspondientes de una estructura
@@ -418,9 +418,9 @@ estás estudiando?
   relevantes.
 
 !!! danger "Tarea 7"
-Modifica el *firmware* para que el *handler* de tratamiento de la obtención
-de una dirección IP sea independiente del tratamiento del resto de eventos
-del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
-sigue observándose la salida asociada a dicho evento, aun cuando ambas
-funciones sean independientes. Entrega o añade al informe  el código
-modificado.
+    Modifica el *firmware* para que el *handler* de tratamiento de la obtención
+    de una dirección IP sea independiente del tratamiento del resto de eventos
+    del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
+    sigue observándose la salida asociada a dicho evento, aun cuando ambas
+    funciones sean independientes. Entrega o añade al informe  el código
+    modificado.
