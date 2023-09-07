@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Práctica 7. 6LowPAN con simulador Cooja - Master IoT UCM - Prácticas RPI/LSI</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Master IoT UCM - Prácticas RPI/LSI</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
+</li>
+                                    
+<li>
+    <a href="../../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
+</li>
+                                    
+<li>
+    <a href="../../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
+</li>
+                                    
+<li>
+    <a href="../../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
+</li>
+                                    
+<li>
+    <a href="../../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
+</li>
+                                    
+<li>
+    <a href="../../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../P8/index.md" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../../ANIOT/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-7-6lowpan-con-simulador-cooja" class="nav-link">Práctica 7. 6LowPAN con simulador Cooja</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#instalacion-de-requisitos-software" class="nav-link">Instalación de requisitos software</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#codigo-contiki" class="nav-link">Código Contiki</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#compilacion-del-codigo" class="nav-link">Compilación del código</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#simulacion-en-cooja" class="nav-link">Simulación en Cooja</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#la-utilidad-tunslip" class="nav-link">La utilidad tunslip</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#verificacion-de-resultados" class="nav-link">Verificación de resultados</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-7-6lowpan-con-simulador-cooja">Práctica 7. 6LowPAN con simulador Cooja</h1>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Esta práctica es opcional para aquellos que opten a evaluación por proyecto
+y obligatoria para los que se evaluen por prácticas. Las tareas aquí
+descritas son por tanto obligatorias para los que se presentan por
+prácticas, los que vayan por proyecto no tienen qué hacerlas.</p>
+</div>
+<h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
+<p>Los routers de borde son enrutadores que pueden encontrarse en el borde de una
+red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
+función, en definitiva, es conectar una red con otra.</p>
+<p>En esta práctica, veremos cómo construir una simulación utilizando un router de
+borde en Contiki. Más concretamente, veremos cómo un router de borde Contiki
+puede utilizarse para enrutar tráfico entre una red RPL (una red de sensores
+Contiki con protocolo de enrutamiento RPL sobre IPv6) y una red IPv4 externa,
+siguiendo el siguiente diagrama:</p>
+<p><img alt="" src="img/diagram.png" /></p>
+<p>El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
+tanto una red RPL con Contiki en el simulador Cooja, así como conseguir hacerla
+interactuar con una segunda red externa real utilizando la herramienta
+<code>tunslip</code>.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Escribe un informe en el que describas cada una de las tareas propuestas, su
+desarrollo y los resultados obeservados, así como tus observaciones o
+comentarios personales.</p>
+</div>
+<h2 id="instalacion-de-requisitos-software">Instalación de requisitos software</h2>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Si utilizas la máquina virtual proporcionada por los profesores de RPI es
+posible que contiki y cooja ya estén instalados y por tanto puedas saltarte
+este paso. Compruébalo.</p>
+</div>
+<p>La instalación básica de Contiki (en su versión 2.7) se encuentra en el
+directorio <code>/home/ubuntu/contiki</code> de tu máquina virtual.</p>
+<p>Antes de comenzar, necesitarás instalar una serie de software de soporte para el
+correcto desarrollo de la práctica:</p>
+<pre><code class="language-sh">sudo apt install -y openjdk-8-jdk openjdk-8-jre
+</code></pre>
+<p>A continuación, asegúrate de seleccionar la versión 8 de Java para un correcto
+funcionamiento del proceso de compilación de Cooja:</p>
+<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools/cooja$ sudo update-alternatives --config java
+Existen 3 opciones para la alternativa java (que provee /usr/bin/java).
+
+  Selección   Ruta                                            Prioridad  Estado
+------------------------------------------------------------
+  0            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      modo automático
+  1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      modo manual
+  2            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      modo manual
+* 3            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      modo manual
+
+Pulse &lt;Intro&gt; para mantener el valor por omisión [*] o pulse un número de selección: 3
+</code></pre>
+<p>Por último, necesitarás instalar el compilador que nos permitirá generar las
+imágenes para los nodos en la simulación:</p>
+<pre><code class="language-sh">sudo apt-get install gcc-msp430 gdb-msp430
+</code></pre>
+<h2 id="codigo-contiki">Código Contiki</h2>
+<p>En el desarrollo de la práctica, utilizaremos los siguientes ficheros, 
+todos situados en el directorio <code>examples/ipv6/rpl-border-router</code> de la 
+instalación de Contiki:</p>
+<ul>
+<li><code>border_router.c</code>: que contendrá la lógica de enrutamiento del router de
+  borde.</li>
+<li><code>udp-client.c</code> o <code>udp_server.c</code> (en el directorio <code>examples/ipv6/rpl-udp</code>):
+  que actuarán como nodos en la red RPL (de momento, no es importante su
+  funcionalidad, aunque como en la siguiente práctica utilizarás el cliente UDP,
+  se aconseja utilizar éste).</li>
+<li><code>slip-bridge.c</code>: que contiene las funciones de <em>callback</em> para procesar una
+  petición de conexión SLIP.</li>
+<li><code>httpd-simple.c</code>: que contiene un servidor web sencillo que nos permitirá
+  consultar las tablas de enrutamiento del router de borde.</li>
+</ul>
+<p>Los nodos que implementen el código <code>udp-client.c</code> o <code>udp-server.c</code> formarán un
+DAG con el router de borde configurado como raíz. El router de borde recibirá el
+prefijo de red vía una conexión SLIP (<em>Serial Line Interface Protocol</em>) y lo
+comunicará al resto de nodos de la red RPL para que conformen sus respectivas
+direcciones IPv6 globales.</p>
+<p>Aunque no es de mayor interés de cara a la práctica, los siguientes fragmentos
+de código en el router de borde establecen los puntos en los que espera a la
+configuración del prefijo de red. Una vez recibido, el router de borde se
+configura como la raíz del DAG y envía el prefijo al resto de nodos de la red:</p>
+<pre><code class="language-c">/* Request prefix until it has been received */ 
+ while(!prefix_set) { 
+   etimer_set(&amp;et, CLOCK_SECOND); 
+   request_prefix(); 
+   PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&amp;et)); 
+ } 
+
+
+ dag = rpl_set_root(RPL_DEFAULT_INSTANCE,(uip_ip6addr_t *)dag_id); 
+ if(dag != NULL) { 
+   rpl_set_prefix(dag, &amp;prefix, 64); 
+   PRINTF(&quot;created a new RPL dag\n&quot;); 
+ }
+</code></pre>
+<p>Por defecto, el router de borde aloja una página web sencilla que nos servirá
+para consultar el estado de sus tablas de enrutamiento. Esta página se mostrará
+cuando introduzcamos la dirección IPv6 del router de borde en cualquier
+navegador. El uso de esta página puede desactivarse a través del valor de la
+macro <code>WEBSERVER</code>, y su activación en Contiki en base a su valor es sencilla
+(fichero <code>http-simple.c</code>):</p>
+<pre><code class="language-c">PROCESS(border_router_process, &quot;Border router process&quot;);
+#if WEBSERVER==0
+/* No webserver */
+AUTOSTART_PROCESSES(&amp;border_router_process);
+#elif WEBSERVER&gt;1
+/* Use an external webserver application */
+#include &quot;webserver-nogui.h&quot;
+AUTOSTART_PROCESSES(&amp;border_router_process,&amp;webserver_nogui_process); 
+</code></pre>
+<h2 id="compilacion-del-codigo">Compilación del código</h2>
+<p>El código para router de borde puede encontrarse en la ruta
+<code>examples/ipv6/rpl-border-router</code>. Utiliza la siguiente orden para realizar la
+compilación:</p>
+<pre><code class="language-sh">cd examples/ipv6/rpl-border-router
+make TARGET=z1
+</code></pre>
+<p>Una vez ejecutado, se creará un fichero llamado <code>border-router.z1</code>, que se
+utilizará para programar las motas (dispositivos simulados) router de borde en
+el simulador Cooja.</p>
+<p>Para demostrar la funcionalidad del router de borde, crearemos una red de nodos
+con el router de borde como raíz. Para ello, utilizaremos nodos cliente UDP,
+implementados en el fichero <code>udp-client.c</code>. Para ello, prepara imágenes para las
+motas de la siguiente manera:</p>
+<pre><code class="language-sh">cd examples/ipv6/rpl-udp
+make TARGET=z1
+</code></pre>
+<p>Del mismo modo que anteriormente, dispondrás de un fihcero <code>udp-client.z1</code>, que
+conformarán un DAG con el router de borde como raíz y que utilizaremos en el
+resto de motas de la simulación. </p>
+<h2 id="simulacion-en-cooja">Simulación en Cooja</h2>
+<p>Tras la compilación de las imágenes, llega el momento de crear la simulación
+completa en Cooja. Arranca el simulador usando la siguiente orden:</p>
+<pre><code class="language-sh">cd tools/cooja
+ant run
+</code></pre>
+<p>Tras la ejecución, sigue los siguientes pasos para crear una nueva simulación:</p>
+<ol>
+<li>Selecciona la opción <code>File-&gt;New Simulation</code>. Selecciona <code>UDGM</code> e introduce el
+   nombre de la simulación. Presiona <code>Create</code>.</li>
+<li>En el menú <code>Motes</code>, selecciona <code>Add New Motes-&gt;Create new motes</code> y seleccona
+   el timp de mota <code>Z1</code>.</li>
+<li>Busca la localización de la imagen de router de borde
+   (<code>examples/ipv6/rpl-border-router</code>) y selecciona el fichero
+   <code>rpl-border-router.z1</code>. Clica en <code>Create</code> y añade <em>una</em> mota de este tipo.</li>
+<li>Repite los pasos 2 y 3 pero esta vez con la imagen del cliente o servidor UDP
+   que creaste anteriormente. Añade <em>cuatro</em> o <em>cinco</em> motas de este tipo y
+   distribuyelas por la simulación.</li>
+</ol>
+<p><img alt="" src="img/Cooja_motes.png" /></p>
+<p>Selecciona las opciones del menú <code>View</code> como se muestra en la figura, ya que
+esto te permitirá crear de forma más clara tu topología (puedes temporalmente
+añadir también la dirección IP, aunque puede resultar demasiada información):</p>
+<p><img alt="" src="img/Motes_view.png" /></p>
+<p>A continuación, crearemos un puente entre la red RPL simulada en Cooja y la
+máquina local. Esto puede realizarse en la mota programada como router de borde.
+Selecciona <code>Tools</code> y <code>Serial Socket (SERVER)</code> sobre la mota router de borde
+(identíficala con su valor numérico). Obtendrás un mensaje como el de la
+siguiente figura (observa que el mensaje indica <em>Listening on port 60001</em>):</p>
+<p><img alt="" src="img/Serial_Socket.png" /></p>
+<p>A continuación, <em>arranca la simulación</em> (botón <code>Start</code>).</p>
+<h2 id="la-utilidad-tunslip">La utilidad <em>tunslip</em></h2>
+<p>Como hemos dicho, un router de borde actúa como enlace para conectar una red a
+otra. En este ejemplo, el router de borde se usa para establecer ruta de datos
+entre la red RPL y una red externa. Hasta ahora, sólo hemos creado la red RPL,
+por lo que necesitamos simular un escenario en el que esta red RPL se conecte a
+una red externa. Para ello, utilizaremos la utilidad <em>tunslip</em> proporcionada con
+Contiki. En este ejemplo, <em>tunslip</em> crea un puente entre la red RPL y la máquina
+local. </p>
+<p>El código <code>tunslip6.c</code> se encuentra en el directorio <code>tools</code> de la instalación,
+y se puede compilar con la orden:</p>
+<pre><code class="language-sh">make tunslip6
+</code></pre>
+<p>A continuación, podemos establecer una conexión entre la red RPL y la máquina
+local:</p>
+<pre><code class="language-sh">sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
+</code></pre>
+<p>Si la ejecución ha sido correcta, veremos una salida similar a la siguiente
+en la terminal:</p>
+<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools$ sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
+slip connected to ``127.0.0.1:60001''
+opened tun device ``/dev/tun0''
+ifconfig tun0 inet `hostname` mtu 1500 up
+ifconfig tun0 add aaaa::1/64
+ifconfig tun0 add fe80::0:0:0:1/64
+ifconfig tun0
+
+tun0: flags=4305&lt;UP,POINTOPOINT,RUNNING,NOARP,MULTICAST&gt;  mtu 1500
+        inet 127.0.1.1  netmask 255.255.255.255  destination 127.0.1.1
+        inet6 aaaa::1  prefixlen 64  scopeid 0x0&lt;global&gt;
+        inet6 fe80::1  prefixlen 64  scopeid 0x20&lt;link&gt;
+        inet6 fe80::ace4:dadf:8e12:be05  prefixlen 64  scopeid 0x20&lt;link&gt;
+        unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 500  (UNSPEC)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*** Address:aaaa::1 =&gt; aaaa:0000:0000:0000
+Got configuration message of type P
+Setting prefix aaaa::
+Server IPv6 addresses:
+ aaaa::c30c:0:0:1
+ fe80::c30c:0:0:1
+</code></pre>
+<p>El programa ha creado una interfaz puente <code>tun0</code> con IPv4 127.0.1.1, y ha
+enviado, vía serie, un mensaje de configuración al router de borde indicando el
+prefijo deseado para los nodos de la red RPL (<code>aaaa</code>). La salida de las últimas
+dos líneas pertenece al router de borde, e indica cuáles son sus direcciones
+IPv6 tras la recepción del prefijo.</p>
+<p>Vuelve al simulador Cooja y observa que ha aparecido un mensaje en el que se
+observa la cadena <em>Client connected: /127.0.0.1</em>.</p>
+<h2 id="verificacion-de-resultados">Verificación de resultados</h2>
+<p>Es posible verificar la dirección del router de borde a través de una orden ping
+desde tu máquina virtual:</p>
+<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:1
+PING aaaa::c30c:0:0:1(aaaa::c30c:0:0:1) 56 data bytes
+64 bytes from aaaa::c30c:0:0:1: icmp_seq=1 ttl=64 time=21.5 ms
+64 bytes from aaaa::c30c:0:0:1: icmp_seq=2 ttl=64 time=7.44 ms
+64 bytes from aaaa::c30c:0:0:1: icmp_seq=3 ttl=64 time=8.57 ms
+64 bytes from aaaa::c30c:0:0:1: icmp_seq=4 ttl=64 time=62.7 ms
+64 bytes from aaaa::c30c:0:0:1: icmp_seq=5 ttl=64 time=15.2 ms
+--- aaaa::c30c:0:0:1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4015ms
+rtt min/avg/max/mdev = 7.442/23.066/62.661/20.427 ms
+</code></pre>
+<p>Así como la de cualquier nodo de la red, por ejemplo el nodo 4:</p>
+<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:4
+PING aaaa::c30c:0:0:4(aaaa::c30c:0:0:4) 56 data bytes
+64 bytes from aaaa::c30c:0:0:4: icmp_seq=1 ttl=62 time=116 ms
+64 bytes from aaaa::c30c:0:0:4: icmp_seq=2 ttl=62 time=106 ms
+64 bytes from aaaa::c30c:0:0:4: icmp_seq=3 ttl=62 time=108 ms
+64 bytes from aaaa::c30c:0:0:4: icmp_seq=4 ttl=62 time=111 ms
+64 bytes from aaaa::c30c:0:0:4: icmp_seq=5 ttl=62 time=79.0 ms
+^C
+--- aaaa::c30c:0:0:4 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4016ms
+rtt min/avg/max/mdev = 79.002/104.028/115.794/12.937 ms
+</code></pre>
+<p>La dirección de cada nodo puede obtenerse filtrando el la pantalla de log en
+función del ID del nodo (mota) destino.</p>
+<p>Desde cualquier navegador (en la red de la máquina virtual), puedes navegar a la
+dirección IP del router de borde para observar su estado:</p>
+<p><img alt="" src="img/Border_Router_Status.png" /></p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Sigue los pasos descritos arriba para crear una red RPL con un número
+reducido de nodos (entre 5 y 10), conectándola a tu red local. Haz que no
+todos los nodos estén al alcance del router de borde, y comienza tu
+simulación.</p>
+<p>Estudia y reporta en tu informe de la práctica el tráfico RPL generado en el
+proceso de generación del DAG, y comprueba la conectividad con todos ellos
+vía <code>ping6</code>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Realiza una serie de movimientos sobre una mota que esté al alcance del
+router de borde, para que deje de estarlo. Con una ejecución de <code>ping6</code>
+activa sobre dicha mota, reporta el tiempo que tarda RPL en hacer converger
+de nuevo el DODAG. Documenta el proceso y tus observaciones.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Realiza movimientos sobre los nodos, o crea nuevas motas en la simulación, y
+estudia, a través de la interfaz web del router de borde, el tiempo de
+establecimiento de nuevas rutas. Documenta el proceso y tus observaciones.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Examina los paquetes enviados y obten de forma razonada la topología de red
+que se está usando, identificando el padre preferente de cada nodo. Para
+ello puedes averiguar a qué nodo envían el paquete DAO.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js" defer></script>
+        <script src="../../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
