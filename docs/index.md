@@ -3,7 +3,7 @@
 # LSI
 
 | Lab.     | Día | Título                                                   |
-|-------------|-----|-------------------------------------------------------|
+|-----------|-----|-------------------------------------------------------|
 | 0        |21/03|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
 | 1        |28/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
 | 2        |11/04|[Clasificación de imágenes](LSI/Lab2/index.md)            |
@@ -15,21 +15,21 @@
 
 | Práctica | Día   | Título                                                          |
 |----------|-------|-----------------------------------------------------------------|
-|          | 19/09 | Clase de Teoría                                                 |
-|          | 26/09 | Clase de Teoría                                                 |
-| 1        | 03/10 | [Introducción al entorno de desarrollo](RPI-I/P1/index.md)      |
-| 2        | 10/10 | [WiFi en el ESP32](RPI-I/P2/index.md)                           |
-| 3        | 17/10 | [WiFi. Provisionamiento y ahorro de energía](RPI-I/P3/index.md) |
-| 4        | 24/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                              |
-|          | 31/10 | **FESTIVO**                                                     |
-| 5        | 07/11 | [Bluetooth Low Energy (BLE)](RPI-I/P5/index.md)                 |
-|          | 14/11 | **FESTIVO**                                                     |
-| 6        | 21/11 | [BLE Mesh](RPI-I/P6/index.md)                                   |
-| 7        | 28/11 | [6LowPAN](RPI-I/P7/index.md)                                    |
-| -        | 05/12 | Recuperación de prácticas                                       |
-| 8        | 12/12 | [LoRA](RPI-I/P8/index.md)                                       |
-|          | 09/01 | Presentaciones orales                                           |
-|          | 16/01 | Presentaciones orales                                           |
+|          | 11/09 | Clase de Teoría                                                 |
+| 1        | 18/09 | [Introducción al entorno de desarrollo](RPI-I/P1/index.md)      |
+| 2        | 25/09 | [WiFi en el ESP32](RPI-I/P2/index.md)                           |
+| 3        | 02/10 | [WiFi. Provisionamiento y ahorro de energía](RPI-I/P3/index.md) |
+| 4        | 09/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                              |
+| 5        | 16/10 | [BLE: servidor GATT](RPI-I/P5/index.md)                         |
+| 6        | 23/10 | [BLE: cliente GATT](RPI-I/P6/index.md)                          |
+| 7        | 30/10 | [BLE Mesh](RPI-I/P7/index.md)                                   |
+|          | 06/11 | Presentaciones orales                                           |
+|          | 13/11 | Proyecto                                                        |
+|          | 20/11 | Proyecto                                                        |
+|          | 27/11 | Proyecto                                                        |
+|          | 04/12 | Proyecto                                                        |
+|          | 11/12 | Proyecto                                                        |
+|          | 18/12 | Proyecto                                                        |
 
 # RPI-II
 
