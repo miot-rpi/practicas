@@ -512,10 +512,12 @@ en la distribución de ESP-IDF. Crea un nuevo proyecto a partir de dicho ejemplo
 <p>Para configurar un proyecto ESP-IDF se puede pulsar el botón ESP-IDF SDC Configuration Editor en la barra de comandos de IDF, o bien ejecutando dicho comando en la paleta de comandos de VSCode o ejecutando el comando menuconfig en el terminal:</p>
 <pre><code class="language-sh">idf.py menuconfig
 </code></pre>
-<p>Al ejecutar el comando se nos mostrará un menún por el que podremos navegar usando las teclas del cursor (arriba, abajo, izquierda y derecha). El menú nos presenta unas
-opciones de carácter general, que permitirán configurar las características
-específicas del proyecto a compilar (por ejemplo, seleccionando los componentes
-que deseemos habilitar en la construcción del mismo).</p>
+<p>Al ejecutar el comando se nos mostrará un menún por el que podremos navegar
+usando el ratón (o las teclas del cursor si lo ejecutamos desde terminal). El
+menú nos presenta unas opciones de carácter general, que permitirán configurar
+las características específicas del proyecto a compilar (por ejemplo,
+seleccionando los componentes que deseemos habilitar en la construcción del
+mismo).</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Navega por las opciones que aparecen en los menús de configuración para
@@ -549,8 +551,8 @@ de menús permite una personalización del comportamiento de tus códigos.</p>
 en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 <em>firmware</em> cuya tarea es el escaneado de redes inalámbricas al alcance del ESP32,
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.</p>
-<div class="admonition danger">
-<p class="admonition-title">Entregable 5</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
 <p>Compila, flashea y monitoriza el ejemplo <code>scan</code> situado en el directorio
 <code>examples/wifi/scan</code>. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
 Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
@@ -559,8 +561,8 @@ efectivamente, es escaneado por el ejemplo.</p>
 <p>Observa su funcionamiento. El <em>firmware</em> simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).</p>
-<div class="admonition danger">
-<p class="admonition-title">Entregable 6</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
 <p>Analiza el código de la función <code>wifi_scan</code> (tarea principal).
 Céntrate especialmente en las líneas que permiten activar y configurar el
 escaneado de redes. Intenta entender el funcionamiento general del programa,
@@ -608,8 +610,7 @@ estás estudiando?</p>
 de una dirección IP sea independiente del tratamiento del resto de eventos
 del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
 sigue observándose la salida asociada a dicho evento, aun cuando ambas
-funciones sean independientes. Entrega o añade al informe  el código
-modificado.</p>
+funciones sean independientes. Entrega el código modificado.</p>
 </div></div>
             </div>
         </div>
