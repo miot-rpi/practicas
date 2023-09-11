@@ -367,7 +367,7 @@ en futuras prácticas,  vamos a analizar a continuación un ejemplo concreto de
 *firmware* cuya tarea es el escaneado de redes inalámbricas al alcance del ESP32,
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa). Para cada red escaneada, se reportarán sus características principales.
 
-!!! danger "Entregable 5"
+!!! Note "Tarea"
     Compila, flashea y monitoriza el ejemplo `scan` situado en el directorio
     `examples/wifi/scan`. Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración del ejemplo.
     Crea un punto de acceso WiFi con tu teléfono móvil y observa que,
@@ -377,7 +377,7 @@ Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).
 
-!!! danger "Entregable 6"
+!!! Note "Tarea"
     Analiza el código de la función `wifi_scan` (tarea principal).
     Céntrate especialmente en las líneas que permiten activar y configurar el
     escaneado de redes. Intenta entender el funcionamiento general del programa,
@@ -424,5 +424,4 @@ la tarea principal, se divide básicamente en dos partes:
     de una dirección IP sea independiente del tratamiento del resto de eventos
     del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
     sigue observándose la salida asociada a dicho evento, aun cuando ambas
-    funciones sean independientes. Entrega o añade al informe  el código
-    modificado.
+    funciones sean independientes. Entrega el código modificado.
