@@ -326,10 +326,12 @@ Para configurar un proyecto ESP-IDF se puede pulsar el botón ESP-IDF SDC Config
 idf.py menuconfig
 ```
 
-Al ejecutar el comando se nos mostrará un menún por el que podremos navegar usando las teclas del cursor (arriba, abajo, izquierda y derecha). El menú nos presenta unas
-opciones de carácter general, que permitirán configurar las características
-específicas del proyecto a compilar (por ejemplo, seleccionando los componentes
-que deseemos habilitar en la construcción del mismo).
+Al ejecutar el comando se nos mostrará un menún por el que podremos navegar
+usando el ratón (o las teclas del cursor si lo ejecutamos desde terminal). El
+menú nos presenta unas opciones de carácter general, que permitirán configurar
+las características específicas del proyecto a compilar (por ejemplo,
+seleccionando los componentes que deseemos habilitar en la construcción del
+mismo).
 
 !!! Note "Nota"
     Navega por las opciones que aparecen en los menús de configuración para
