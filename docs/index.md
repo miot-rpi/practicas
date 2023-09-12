@@ -56,19 +56,20 @@
 # ANIOT
 
 | Práctica | Día   | Título                                       |
-|----------|-------|----------------------------------------------|
-| -        | 20/09 |Clase de teoría                               |
-| 1        | 27/09 |[Introducción al entorno](ANIOT/P1/index.md) |
-| 2        | 04/10 |[ Tareas y Eventos](ANIOT/P2/index.md) |
-| 3        | 11/10 |[Timers y GPIO ](ANIOT/P3/index.md)       |
-| 4        | 18/10 |[E/S - ADC ](ANIOT/P4/index.md)         |
-| 5        | 25/10 |[I2C ](ANIOT/P5/index.md)    |
-| -        | 01/11 |**FESTIVO**                                   |
-| 5        | 08/11 |[I2C  ](ANIOT/P5/index.md)     |
-| 6        | 15/11 |[Componentes](ANIOT/P6/index.md)              |
-| 7        | 22/11 |[OTA  ](ANIOT/P7/index.md)               |
-| 8        | 29/11 |[Modos de consumo ](ANIOT/P8/index.md)          |
-| -        | 06/12 | **FESTIVO**                 |
-| -        | 13/12 | **REPESCA**           |
-|          | 10/01 | Presentaciones orales                        |
-|          | 17/01 | Presentaciones orales                        |
+|----------|-------|-----------------------------------------------------------------|
+|          | 12/09 | Presentación del curso                                                 |
+| 1        | 19/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
+| 2        | 26/09 | [Componentes. Sensores](ANIOT/P9/index.md)                           |
+| 3        | 03/10 | [Timers, tareas, eventos](ANIOT/P9/index.md) |
+| 4        | 10/10 | [Timers, tareas, eventos](ANIOT/P9/index.md)                              |
+| 5        | 17/10 | [I2C](ANIOT/P9/index.md)                         |
+| 6        | 24/10 | [ADC](ANIOT/P9/index.md)                          |
+| 7        | 31/10 | [Modos de consumo](ANIOT/P9/index.md)                                   |
+|          | 07/11 | Definición de proyectos ANIOT                                           |
+|          | 14/11 | Proyecto                                                        |
+|          | 21/11 | Proyecto                                                        |
+|          | 28/11 | Proyecto                                                        |
+|          | 05/12 | Proyecto                                                        |
+|          | 12/12 | Proyecto                                                        |
+|          | 19/12 | Proyecto                                                        |
+
