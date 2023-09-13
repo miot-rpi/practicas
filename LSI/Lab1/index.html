@@ -9,200 +9,192 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Laboratorio 1 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Laboratorio 1</a>
+<li>
+    <a href="./" class="dropdown-item active">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 8</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../Lab0/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../Lab0/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../Lab2/">
+                            <li class="nav-item">
+                                <a rel="next" href="../Lab2/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -212,17 +204,46 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#laboratorio-1-introduccion-a-tflite-sobre-la-raspberry-pi">Laboratorio 1. Introducción a TFLite sobre la Raspberry Pi</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#interaccion-con-la-camara-via-opencv">Interacción con la cámara vía OpenCV</a></li>
-            <li><a href="#tensorflow-lite">TensorFlow Lite</a></li>
-            <li><a href="#clasificacion-basica-de-imagenes-usando-tflite">Clasificación básica de imágenes usando TFLite</a></li>
-            <li><a href="#deteccion-de-objetos-usando-tflite">Detección de objetos usando TFLite</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#laboratorio-1-introduccion-a-tflite-sobre-la-raspberry-pi" class="nav-link">Laboratorio 1. Introducción a TFLite sobre la Raspberry Pi</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#interaccion-con-la-camara-via-opencv" class="nav-link">Interacción con la cámara vía OpenCV</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tensorflow-lite" class="nav-link">TensorFlow Lite</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#clasificacion-basica-de-imagenes-usando-tflite" class="nav-link">Clasificación básica de imágenes usando TFLite</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#deteccion-de-objetos-usando-tflite" class="nav-link">Detección de objetos usando TFLite</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="laboratorio-1-introduccion-a-tflite-sobre-la-raspberry-pi">Laboratorio 1. Introducción a TFLite sobre la Raspberry Pi</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -250,7 +271,7 @@ vídeo transformado.</p>
 <code>VideoCapture</code>; su único argumento puede ser o bien un índice de dispositivo o un fichero
 de vídeo. Un índice de dispositivo es simplemente un identificador único para cada una de las
 cámaras conectadas al equipo: </p>
-<pre><code class="python">import numpy as np
+<pre><code class="language-python">import numpy as np
 import cv2
 
 # 0. Configura camara 0.
@@ -272,7 +293,6 @@ while(True):
 cap.release()
 cv2.destroyAllWindows()
 </code></pre>
-
 <p><code>cap.read()</code> devuelve un valor <em>booleano</em> en función de si el <em>frame</em> fue leído correctamente o no. Podemos, 
 por tanto, comprobar la finalización de un flujo de vídeo utilizando dicho valor de retorno.</p>
 <p>Es posible acceder  aalgunas de las caracterísitcas del vídeo utilizando el método
@@ -297,7 +317,7 @@ de imágenes, etc.) Para ello, deberás consultar la documentación de OpenCV.</
 sino los fotogramas por segundo (FPS) obtenidos. </p>
 </div>
 <p>Desde C++, la lógica de captura es muy similar, como también lo es la API utilizada:</p>
-<pre><code class="cpp">// OpenCV includes.
+<pre><code class="language-cpp">// OpenCV includes.
 #include &lt;opencv2/core.hpp&gt;
 #include &lt;opencv2/videoio.hpp&gt;
 #include &lt;opencv2/highgui.hpp&gt;
@@ -352,19 +372,16 @@ int main(int, char**)
     return 0;
 }
 </code></pre>
-
 <p>Para compilar y enlazar el anterior código, nos ayudaremos de la herramienta <code>pkg-config</code>, que nos ayudará a
 fijar los flags de compilación y enlazado para programas que utilicen OpenCV. Como curiosidad, observa la salida
 de la siguiente ejecución:</p>
-<pre><code class="sh">pi@raspberrypi:~/Test/Lab1/Camera/CPP $ pkg-config --cflags --libs opencv4
+<pre><code class="language-sh">pi@raspberrypi:~/Test/Lab1/Camera/CPP $ pkg-config --cflags --libs opencv4
 -I/usr/local/include/opencv4 -L/usr/local/lib -lopencv_gapi -lopencv_stitching -lopencv_aruco -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn_objdetect -lopencv_dnn_superres -lopencv_dpm -lopencv_highgui -lopencv_face -lopencv_freetype -lopencv_fuzzy -lopencv_hdf -lopencv_hfs -lopencv_img_hash -lopencv_intensity_transform -lopencv_line_descriptor -lopencv_mcc -lopencv_quality -lopencv_rapid -lopencv_reg -lopencv_rgbd -lopencv_saliency -lopencv_stereo -lopencv_structured_light -lopencv_phase_unwrapping -lopencv_superres -lopencv_optflow -lopencv_surface_matching -lopencv_tracking -lopencv_datasets -lopencv_text -lopencv_dnn -lopencv_plot -lopencv_videostab -lopencv_videoio -lopencv_xfeatures2d -lopencv_shape -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_xobjdetect -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core
 </code></pre>
-
 <p>Estas son las opciones, flags y bibliotecas que será necesario incluir en el proceso de compilación de cualquier prorama
 OpenCV. Así, para compilar el anterior programa, puedes utilizar la orden:</p>
-<pre><code class="sh">g++ programa.cpp -o programa.x `pkg-config --cflags --libs opencv4`
+<pre><code class="language-sh">g++ programa.cpp -o programa.x `pkg-config --cflags --libs opencv4`
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Compila y ejecuta el anterior programa (está incluido en el paquete proporcionado). Estudia el código y modifícalo
@@ -382,7 +399,7 @@ de captura. ¿Cuál es la resolución máxima soportada por la cámara que os pr
 pero reemplazando el índice de cámara por un nombre de fichero. Utilizaremos la función <code>cv.waitKey()</code> con un valor
 apropiado: si es demasiado corto, el vídeo se reproducirá demasiado rápidamente; 
 si es demasiado largo, el vídeo se reproducirá demasiado lentamente:</p>
-<pre><code class="python">import numpy as np
+<pre><code class="language-python">import numpy as np
 import cv2 as cv
 
 cap = cv.VideoCapture('vtest.avi')
@@ -404,7 +421,6 @@ while cap.isOpened():
 cap.release()
 cv.destroyAllWindows()
 </code></pre>
-
 <h3 id="almacenamiento-de-un-video-en-disco">Almacenamiento de un vídeo en disco</h3>
 <p>Para almacenar un <em>frame</em> capturado desde cámara en disco, utilizaremos <code>cv.imwrite()</code> (busca y estudia su 
 documentación, y modifica los códigos anteriores para realizar una "fotografía" desde la cámara).</p>
@@ -416,11 +432,10 @@ de grises (véase la documentación de la función para más información). </p>
 <p><a href="http://en.wikipedia.org/wiki/FourCC">FourCC</a> es un código de 4 bytes que permite especificar el codec de vídeo
 deseado. Puedes obtener la lista de todos los codigos en <a href="fourcc.org">fourcc.org</a>. Así, por ejemplo, para utilizar
 XVID, usaríamos:</p>
-<pre><code class="python">fourcc = cv.VideoWriter_fourcc(*'XVID')
+<pre><code class="language-python">fourcc = cv.VideoWriter_fourcc(*'XVID')
 </code></pre>
-
 <p>El siguiente código captura desde la cámara, rota cada frame en la dirección vertical, y almacena el vídeo resultante:</p>
-<pre><code class="python">import numpy as np
+<pre><code class="language-python">import numpy as np
 import cv2 as cv
 
 cap = cv.VideoCapture(0)
@@ -447,7 +462,6 @@ out.release()
 
 cv.destroyAllWindows()
 </code></pre>
-
 <h2 id="tensorflow-lite">TensorFlow Lite</h2>
 <p>Una vez estudiados de forma básica los códigos que nos permiten realizar capturas e interacción desde la cámara 
 proporcionada, veremos cómo aplicar un modelo preentrenado al mismo, que nos permitirá realizar un proceso de 
@@ -529,9 +543,8 @@ muchas aplicaciones. En nuestro caso, la red <code>Mobilenet v1 1.0_224</code> e
 de dimensión <code>224 x 224</code> y tres canales (RGB), entrenada para devolver la probabilidad de pertenencia a cada una de las 1001
 clases para la que ha sido preentrenada.</p>
 <p>Antes de comenzar, descarga el modelo, fichero de etiquetas y demás requisitos invocando al script <code>download.sh</code> proporcionado:</p>
-<pre><code class="sh">bash download.sh Modelos
+<pre><code class="language-sh">bash download.sh Modelos
 </code></pre>
-
 <p>Esta ejecución, si todo ha ido bien, descargará en el directorio <code>Modelos</code> tres ficheros que utilizaremos en el resto del laboratorio:</p>
 <ul>
 <li><code>mobilenet_v1_1.0_224_quant.tflite</code>: modelo preentrenado y cuantizado MobileNet.</li>
@@ -543,7 +556,7 @@ clases para la que ha sido preentrenada.</p>
 capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a paso a continuación:</p>
 <h4 id="invocacion-y-argumentos">Invocación y argumentos</h4>
 <p>Observa el inicio de la función <code>main</code> proporcionada:</p>
-<pre><code class="python">def main():
+<pre><code class="language-python">def main():
   parser = argparse.ArgumentParser(
       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
   parser.add_argument(
@@ -552,7 +565,6 @@ capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a
       '--labels', help='File path of labels file.', required=True)
   args = parser.parse_args()
 </code></pre>
-
 <p>El programa recibirá, de forma obligatoria, dos argumentos:</p>
 <ul>
 <li>El modelo a aplicar, en formato <code>tflite</code> (FlatBuffer), a través del parámetro <code>--model</code>.</li>
@@ -560,21 +572,18 @@ capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a
 </ul>
 <p>Así, podremos ejecutar el programa directamente utilizando la orden (suponiendo que ambos ficheros residen en el directorio
 <code>../Modelos</code>):</p>
-<pre><code class="sh">python3 classify_opencv.py  --model ../Modelos/mobilenet_v1_1.0_224_quant_edgetpu.tflite   --labels ../Modelos/labels_mobilenet_quant_v1_224.txt
+<pre><code class="language-sh">python3 classify_opencv.py  --model ../Modelos/mobilenet_v1_1.0_224_quant_edgetpu.tflite   --labels ../Modelos/labels_mobilenet_quant_v1_224.txt
 </code></pre>
-
 <p>De momento, no es necesario que ejecutes el código, ya que en primer lugar habrá que realizar algunos ajustes en el código.</p>
 <p>La función <code>load_labels</code> simplemente lee el fichero de etiqueta y las almacena en memoria para su posterior procesamiento tras la inferencia.</p>
 <h4 id="preparacion-del-interprete-tflite">Preparación del intérprete TFLite</h4>
 <p>El siguiente paso es la preparación del intérprete de TFLite:</p>
-<pre><code class="python">  interpreter = Interpreter(args.model)
+<pre><code class="language-python">  interpreter = Interpreter(args.model)
 </code></pre>
-
 <p>Observa que el único parámetro proporcionado es el nombre del modelo a cargar en formato TFLite. 
 Observa también que necesitaremos cargar los módulos correspondientes a TFLite antes de hacer uso de esta función:</p>
-<pre><code class="python">from tflite_runtime.interpreter import Interpreter
+<pre><code class="language-python">from tflite_runtime.interpreter import Interpreter
 </code></pre>
-
 <p>A continuación, obtenemos información sobre el tensor de entrada del modelo recién cargado, utilizando la función 
 <code>get_input_details</code>, y consultando la propiedad <code>shape</code> de dicha entrada. Esto nos devolverá en las variables 
 <code>widght</code> y <code>height</code> los tamaños de imagen esperados por el modelo. A partir de ahora, puedes consultar la forma de
@@ -588,7 +597,7 @@ trabajar con la API de Python a través de la <a href="https://www.tensorflow.or
 <p>En el bucle principal de captura, se invoca a la función <code>classify_image</code>. Esta es una función propia, que
 recibe simplemente el intérprete TFLite construido y la imagen capturada, pero cuyo cuerpo
 contiene cierta funcionalidad de interés:</p>
-<pre><code class="python">## Invoke model and process output (quantization-aware).
+<pre><code class="language-python">## Invoke model and process output (quantization-aware).
 def classify_image(interpreter, image, top_k=1):
   &quot;&quot;&quot;Returns a sorted array of classification results.&quot;&quot;&quot;
   set_input_tensor(interpreter, image)
@@ -606,17 +615,15 @@ def classify_image(interpreter, image, top_k=1):
   ordered = np.argpartition(-output, top_k)
   return [(i, output[i]) for i in ordered[:top_k]]
 </code></pre>
-
 <p>Observa que la función opera en varias fases. En primer lugar, se obtiene una referencia al tensor de entrada
 del modelo (invocando a la función propia <code>set_input_tensor</code>). En este caso, se copia, elemento a elemento,
 la imagen de entrada (<code>image</code>) a dicho tensor:</p>
-<pre><code class="python">## Establish input tensor from an image (copying).
+<pre><code class="language-python">## Establish input tensor from an image (copying).
 def set_input_tensor(interpreter, image):
   tensor_index = interpreter.get_input_details()[0]['index']
   input_tensor = interpreter.tensor(tensor_index)()[0]
   input_tensor[:, :] = image
 </code></pre>
-
 <p>Volviendo a la función <code>classify_image</code>, una vez copiada la entrada al tensor de entrada del modelo, se invoca
 al modelo TFLite (<code>interpreter.invoke()</code>). <strong>Este es el proceso de inferencia o aplicación del modelo</strong>, y su tiempo
 de respuesta es crítico.</p>
@@ -632,41 +639,35 @@ observado a dicha clase (<code>output[i]</code>).</p>
 </div>
 <p>Obsérvese que, de forma previa a la invocación del modelo, la imágen capturada se ha reescalado de forma acorde al tamaño
 del tensor de entrada del modelo:</p>
-<pre><code class="python">    image = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
+<pre><code class="language-python">    image = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
 </code></pre>
-
 <h4 id="postprocesamiento">Postprocesamiento</h4>
 <p>Por último, el programa sobreimpresiona información sobre etiqueta de clasificación, probabilidad de pertenencia a la clase y 
 tiempo de inferencia sobre el propio <em>frame</em>, mostrando la imagen resultante:</p>
-<pre><code class="python">   cv2.putText(frame, '%s %.2f\n%.1fms' % ( labels[label_id], prob, elapsed_ms ), bottomLeftCornerOfText, font, fontScale, fontColor, lineType)
+<pre><code class="language-python">   cv2.putText(frame, '%s %.2f\n%.1fms' % ( labels[label_id], prob, elapsed_ms ), bottomLeftCornerOfText, font, fontScale, fontColor, lineType)
    cv2.imshow('image',frame)
 </code></pre>
-
 <h3 id="uso-de-google-coral">Uso de Google Coral</h3>
 <p>Para utilizar el acelerador Google Coral (que debe estar conectado a la Raspberry Pi), realizaremos ciertas modificaciones en 
 el código, que en este caso son mínimas. </p>
 <p>En primer lugar, añadiremos un <code>import</code> en nuestro fichero:</p>
-<pre><code class="python">from tflite_runtime.interpreter import load_delegate
+<pre><code class="language-python">from tflite_runtime.interpreter import load_delegate
 </code></pre>
-
 <p>A continuación, reemplazaremos la construcción del intérprete:</p>
-<pre><code class="python">interpreter = Interpreter(args.model)
+<pre><code class="language-python">interpreter = Interpreter(args.model)
 </code></pre>
-
 <p>Por la especificación de una biblioteca delegada para realizar la inferencia sobre la Google Coral:</p>
-<pre><code class="python">interpreter = Interpreter(args.model,
+<pre><code class="language-python">interpreter = Interpreter(args.model,
     experimental_delegates=[load_delegate('libedgetpu.so.1.0')])
 </code></pre>
-
 <p>El fichero <code>libedgetpu.so.1.0</code> viene ya instalado en la imagen proporcionada, aunque es directamente instalable siguiendo las instrucciones de instalación proporcionadas por el fabricante.</p>
 <p>Finalmente, será necesario aplicar un modelo especialmente compilado para la Google Coral. Normalmente, este modelo se obtiene 
 utilizando el <a href="https://coral.withgoogle.com/docs/edgetpu/compiler/">compilador de la Edge TPU</a>, pero en este caso se descarga y proporciona mediante el script <code>download.sh</code>. El nombre del modelo es <code>mobilenet_v1_1.0_224_quant_edgetpu.tflite</code>.</p>
 <p>Así, podremos ejecutar sobre la Edge TPU usando:</p>
-<pre><code class="sh">python3 classify_opencv.py \
+<pre><code class="language-sh">python3 classify_opencv.py \
   --model ../Modelos/mobilenet_v1_1.0_224_quant_edgetpu.tflite \
   --labels ../Modelos/labels_mobilenet_quant_v1_224.txt
 </code></pre>
-
 <p>Obviamente, tu Google Coral deberá estar conectada a la Raspberry Pi para que el anterior comando tenga éxito.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
@@ -677,11 +678,10 @@ utilizando el <a href="https://coral.withgoogle.com/docs/edgetpu/compiler/">comp
 base desarrollada en C++ sobre la que trabajar para el ejemplo de clasificación.</p>
 <p>El fichero <code>classification.cpp</code> proporciona un flujo de trabajo completo para realizar una clasificación de imágenes similar a la realizada anteriormente usando la API de Python. </p>
 <p>En primer lugar, compila y ejecuta el programa para validar su funcionamiento:</p>
-<pre><code class="sh">g++ classification.cpp -I /home/pi/tensorflow/ /home/pi/tensorflow/tensorflow/lite/tools/make/gen/linux_aarch64/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv4` -o classification.x
+<pre><code class="language-sh">g++ classification.cpp -I /home/pi/tensorflow/ /home/pi/tensorflow/tensorflow/lite/tools/make/gen/linux_aarch64/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv4` -o classification.x
 
 ./classification.x
 </code></pre>
-
 <p>Observa que se utiliza la biblioteca <code>libtensorflow-lite.a</code>, disponible en cualquier instalación TensorFlow.</p>
 <p>La salida está preparada para mostrar el código numérico de la clase detectada con mayor probabilidad, dicha probabilidad, y 
 la descripción textual de la clase.</p>
@@ -689,7 +689,7 @@ la descripción textual de la clase.</p>
 de la <a href="https://www.tensorflow.org/lite/api_docs/cc">API utilizada</a>:</p>
 <h4 id="ficheros-de-cabecera">Ficheros de cabecera</h4>
 <p>Incluiremos ficheros de cabecera genéricos, para OpenCV y para TFLite:</p>
-<pre><code class="cpp">#include &lt;stdio.h&gt;
+<pre><code class="language-cpp">#include &lt;stdio.h&gt;
 
 // TFLite includes.
 #include &quot;tensorflow/lite/interpreter.h&quot;
@@ -711,11 +711,10 @@ de la <a href="https://www.tensorflow.org/lite/api_docs/cc">API utilizada</a>:</
 #include &lt;numeric&gt;      // std::iota
 #include &lt;algorithm&gt;    // std::sort, std::stable_sort
 </code></pre>
-
 <h4 id="carga-del-modelo-desde-un-fichero">Carga del modelo desde un fichero</h4>
 <p>En este ejemplo, se realiza la carga del modelo directamente desde un fichero en disco, utilizando la 
 rutina <code>BuildFromFile</code>:</p>
-<pre><code class="cpp">   // 1. Cargamos modelo desde un fichero.
+<pre><code class="language-cpp">   // 1. Cargamos modelo desde un fichero.
    std::unique_ptr&lt;tflite::FlatBufferModel&gt; model = tflite::FlatBufferModel::BuildFromFile(&quot;../Modelos/mobilenet_v1_1.0_224_quant.tflite&quot;);
 
    if(!model){
@@ -731,20 +730,18 @@ rutina <code>BuildFromFile</code>:</p>
    // 3. Alojamos espacio para tensores.
    interpreter-&gt;AllocateTensors();
 </code></pre>
-
 <p>Observa que, en el anterior fragmento de código, además de la carga del modelo, se construye un intérprete utilizando
 la clase <code>InterpreterBuilder</code>, y se aloja espacio para los tensores necesarios para aplicar el modelo.</p>
 <h4 id="caracaterizacion-de-tensores-de-entrada-y-salida">Caracaterización de tensores de entrada y salida</h4>
 <p>Como hemos hecho en el código Python, será necesario realizar una caracterización de los tensores de entrada y salida. El primero,
 para copiar nuestra imagen capturada desde cámara; el segundo, para procesar la salida obtenida:</p>
-<pre><code class="cpp">    // 4. Identificamos el tensor de entrada y de salida.
+<pre><code class="language-cpp">    // 4. Identificamos el tensor de entrada y de salida.
     int input_number  = interpreter-&gt;inputs()[0];
     uint8_t * input_tensor  = interpreter-&gt;typed_tensor&lt;uint8_t&gt;(input_number);
 
     int output_number = interpreter-&gt;outputs()[0];
     uint8_t * output_tensor = interpreter-&gt;typed_tensor&lt;uint8_t&gt;(output_number);
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>¿Cuál es el índice de los tensores de entrada y salida generados? Coinciden con los observados al mostrar por pantalla la información sobre ellos en el código Python.</p>
@@ -752,30 +749,27 @@ para copiar nuestra imagen capturada desde cámara; el segundo, para procesar la
 <h4 id="invocacion-del-modelo-tflite">Invocación del modelo TFLite</h4>
 <p>Tras comenzar con la captura de vídeo y redimensionar la imagen de entrada, copiaremos al tensor de entrada
 la imagen capturada, pixel a pixel:</p>
-<pre><code class="cpp">   // 8. Copiamos imagen al tensor de entrada.
+<pre><code class="language-cpp">   // 8. Copiamos imagen al tensor de entrada.
    for (int i = 0; i &lt; 224*224; ++i) {
       input_tensor[3*i + 0] = frame.at&lt;cv::Vec3b&gt;(i)[0];
       input_tensor[3*i + 1] = frame.at&lt;cv::Vec3b&gt;(i)[1];
       input_tensor[3*i + 2] = frame.at&lt;cv::Vec3b&gt;(i)[2];
    }
 </code></pre>
-
 <p>A continuación, invocamos al modelo:</p>
-<pre><code class="cpp">   // 9. Invocamos al modelo.
+<pre><code class="language-cpp">   // 9. Invocamos al modelo.
    if (interpreter-&gt;Invoke() != kTfLiteOk) {
      cerr &lt;&lt; &quot;Failed to invoke tflite!&quot;;
      exit(-1);
    }
 </code></pre>
-
 <h4 id="clasificacion-y-analisis-de-salida">Clasificación y análisis de salida</h4>
 <p>El proceso de análisis de salida es ligeramente distinto al usado en Python, aunque sigue una filosofía similar. En primer lugar, analizamos el tensor de salida:</p>
-<pre><code class="cpp">   // 10. Analizamos el tamaño del tensor de salida.
+<pre><code class="language-cpp">   // 10. Analizamos el tamaño del tensor de salida.
    TfLiteIntArray* output_dims = interpreter-&gt;tensor(output_number)-&gt;dims;
    auto output_size = output_dims-&gt;data[output_dims-&gt;size - 1];
    cout &lt;&lt; output_size &lt;&lt; endl;
 </code></pre>
-
 <p>Como en el caso de Python, en función de la cuantización de la salida, deberemos procesarla de forma acorde (trataremos la cuantización en futuros laboratorios). 
 En cualquier caso, el array <code>logits</code> contiene la probabilidad de pertenencia a cada una de las 1001 clases disponibles. El código que se os proporciona ordena dicho array y muestra por pantalla la clase más probable, junto a su probabilidad asociada.</p>
 <div class="admonition danger">
@@ -789,7 +783,7 @@ En cualquier caso, el array <code>logits</code> contiene la probabilidad de pert
 <p>En futuros laboratorios veremos también cómo utilizar el acelerador Google Coral desde código C++.</p>
 <h2 id="deteccion-de-objetos-usando-tflite">Detección de objetos usando TFLite</h2>
 <p>Como segundo caso de uso, proporcionamos un programa completo para la detección de objetos utilizando una red neuronal de convolución ya entrenada (MobileNet SSD). El ejemplo proporcionado, que utiliza la API de Python, es equivalente en estructura al observado para clasificación de imágenes, pero en este caso, la red neuronal nos proporciona cuatro tensores de salida en lugar de uno, como puedes observar en la función <code>detect_objects</code>:</p>
-<pre><code class="python">def detect_objects(interpreter, image, threshold):
+<pre><code class="language-python">def detect_objects(interpreter, image, threshold):
   &quot;&quot;&quot;Returns a list of detection results, each a dictionary of object info.&quot;&quot;&quot;
   set_input_tensor(interpreter, image)
   interpreter.invoke()
@@ -811,7 +805,6 @@ En cualquier caso, el array <code>logits</code> contiene la probabilidad de pert
       results.append(result)
   return results
 </code></pre>
-
 <p>Observa que, tras la invocación del modelo, se obtienen cuatro tensores de salida, que respectivamente
 almacenan las <em>cajas</em> o <em>bounding boxes</em> de los objetos detectados, la identificación de la clase a la que
 pertenecen, el <em>score</em> de pertenencia a dichas clases y el número de objetos detectado, mostrándose dicha información
@@ -830,6 +823,7 @@ por pantalla.</p>
 <p class="admonition-title">Tarea (opcional)</p>
 <p>Obtén una implementación en C++ del código de detección de objetos. En principio, esta implementación no será necesaria hasta el laboratorio correspondiente a detección de objetos, pero resulta conveniente adelantar esta tarea a este laboratorio inicial.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -843,35 +837,32 @@ por pantalla.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

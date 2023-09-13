@@ -9,200 +9,192 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 2 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 2</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 8</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P1/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P1/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P3/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P3/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -212,19 +204,54 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-2-wifi-en-el-esp32">Práctica 2. WiFi en el ESP32</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#modo-station">Modo Station</a></li>
-            <li><a href="#modo-punto-de-acceso">Modo Punto de Acceso</a></li>
-            <li><a href="#modo-combinado-stationpunto-de-acceso">Modo combinado Station/Punto de Acceso</a></li>
-            <li><a href="#escaneado-de-redes-wifi">Escaneado de redes WiFi</a></li>
-            <li><a href="#conexion-a-una-red-wpa2-enterprise-eduroam">Conexión a una red WPA2 Enterprise (eduroam)</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-2-wifi-en-el-esp32" class="nav-link">Práctica 2. WiFi en el ESP32</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#modo-station" class="nav-link">Modo Station</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#modo-punto-de-acceso" class="nav-link">Modo Punto de Acceso</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#modo-combinado-stationpunto-de-acceso" class="nav-link">Modo combinado Station/Punto de Acceso</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#escaneado-de-redes-wifi" class="nav-link">Escaneado de redes WiFi</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#conexion-a-una-red-wpa2-enterprise-eduroam" class="nav-link">Conexión a una red WPA2 Enterprise (eduroam)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-2-wifi-en-el-esp32">Práctica 2. WiFi en el ESP32</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -468,7 +495,7 @@ realizarla en este punto, porque algunos de los parámetros que pueden variar
 forzarán una reconexión WiFi, aspecto que es mejor evitar.</p>
 <p>La rutina <code>esp_wifi_set_config()</code> permite configurar los aspectos básicos
 de la conexión WiFi. Por ejemplo, el código:</p>
-<pre><code class="c">    wifi_config_t wifi_config = {
+<pre><code class="language-c">    wifi_config_t wifi_config = {
         .sta = {
             .ssid = EXAMPLE_ESP_WIFI_SSID,
             .password = EXAMPLE_ESP_WIFI_PASS,
@@ -483,7 +510,6 @@ de la conexión WiFi. Por ejemplo, el código:</p>
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &amp;wifi_config) );
 </code></pre>
-
 <p>Realiza una configuración básica WiFi proporcionando SSID, contraseña y 
 modo de autenticación antes de configurar la conexión.</p>
 <p><strong>Fase 3: inicio WiFi</strong></p>
@@ -566,7 +592,7 @@ principales que pueden darse en modo <em>AP (access point)</em>:</p>
 <p>El flujo de trabajo es muy similar al del modo <em>station</em>, con la diferencia
 básica del tipo de configuración WiFi a realizar (<code>WIFI_MODE_AP</code>) y obviamente
 los parámetros de configuración. Observa el siguiente ejemplo de configuración:</p>
-<pre><code class="c">    wifi_config_t wifi_config = {
+<pre><code class="language-c">    wifi_config_t wifi_config = {
         .ap = {
             .ssid = EXAMPLE_ESP_WIFI_SSID,
             .ssid_len = strlen(EXAMPLE_ESP_WIFI_SSID),
@@ -583,7 +609,6 @@ los parámetros de configuración. Observa el siguiente ejemplo de configuració
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &amp;wifi_config));
 </code></pre>
-
 <p>Para más información sobre los parámetros de configuración de un punto 
 de acceso, consulta este 
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html#ap-basic-configuration">enlace</a>.</p>
@@ -783,6 +808,7 @@ credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
 adjunta una captura de pantalla que demuestre la correcta conexión del nodo
 a <em>eduroam</em>.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -796,35 +822,32 @@ a <em>eduroam</em>.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
