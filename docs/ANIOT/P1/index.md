@@ -17,6 +17,7 @@ Aprovecharemos para ver varios aspectos del entorno ESP-IDF:
 
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes
 enlaces:
+
 * [Guía básica ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html). Si queremos usar directamente las herramientas de Espressif, conviene conocer el flujo de trabajo básico en línea de comandos.
 * [Extensión ESP-IDF para VSCode ](https://github.com/espressif/vscode-esp-idf-extension). Documentación de la extensión de ESP-IDF para VSCode.
 * [API de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/index.html)
