@@ -34,11 +34,11 @@ la extensión oficial de Espressif de VSCode.
 
 La primera parte de esta sesión consistirá en la instalación de dicha extensión y su configuración
 para volcar un ejemplo en nuestra placa ESP32. La documentación proporcionada por
-Espressif se encuentra en [su repositorio de GitHub](https://github.com/espressif/vscode-esp-idfextension).
+Espressif se encuentra en [su repositorio de GitHub](https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md).
 A partir de ahí, es posible encontrar enlaces a diferentes tutoriales que explican
 con detalle el proceso de instalación, configuración, desarrollo...
 
-* En primer lugar, sigue los pasos indicados en su [guía de instalación](https://github.com/espressif/vscodeesp-idf-extension/blob/master/docs/tutorial/install.md) para instalar
+* En primer lugar, sigue los pasos indicados en su [guía de instalación](https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md) para instalar
 de la extensión en VSCode. **Realiza este paso antes de venir al laboratorio**, pues la instalación tardará varios minutos. Podéis saltar el paso 6 (OPCIONAL) y basta con elegir la opción *EXPRESS*
 
 * A continuación, sigue los pasos del [ejemplo básico](https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/basic_use.md) para volcar en la placa el código del
