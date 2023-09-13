@@ -1,16 +1,5 @@
 # Calendario
 
-# LSI
-
-| Lab.     | Día | Título                                                   |
-|-----------|-----|-------------------------------------------------------|
-| 0        |21/03|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
-| 1        |28/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
-| 2        |11/04|[Clasificación de imágenes](LSI/Lab2/index.md)            |
-| 3        |18/04|[Detección de objetos](LSI/Lab3/index.md)                 |
-| 4        |25/04|[Segmentacion de objetos](LSI/Lab4/index.md)              |
-| 7        |09/05|[Reconocimiento de voz](LSI/Lab5/index.md)                |
-
 # RPI-I
 
 | Práctica | Día   | Título                                                          |
@@ -35,22 +24,22 @@
 
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
-| -        | 19/09 |Clase de teoría                               |
-| 1        | 26/09 |[Programación de sockets en C](RPI-II/P1_I/index.md). [Introducción a Node-RED](RPI-II/P1_II/index.md) |
-| 1        | 03/10 |[Sockets TCP/UDP (ESP32). Node-RED](RPI-II/P1_III/index.md). [Programación de sockets en Python](RPI-II/P1_IV/index.md) |
-| 2        | 10/10 |[MQTT (I)](RPI-II/P6/index.md)                |
-| 2        | 17/10 |[MQTT (II)](RPI-II/P6-II/index.md)            |
-| 3        | 24/10 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
-| -        | 31/10 |**FESTIVO**                                   |
-| 3        | 07/11 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
-| -        | 14/11 |**FESTIVO**                                   |
-| 4        | 21/11 |[CoAP (I)](RPI-II/P7/index.md)                    |
-| 4        | 28/11 |[CoAP (II)](RPI-II/P7/index.md)                    |
-| 5        | 05/12 |[Seguridad](RPI-II/P3/index.md)                        |
-| 6        | 12/12 |[Dasboards](RPI-II/P10/index.md)               |
-| 7 (opc)  | 09/01 |[LWM2M](RPI-II/P8/index.md)                        |
-| 8 (opc)  | 11/01 |[Eclipse Ditto](RPI-II/P11/index.md)                        |
-|          | 16/01 | Presentaciones orales                        |
+| -        | 11/09 |Clase de teoría                               |
+| 1        | 18/09 |[Programación de sockets en C](RPI-II/P1_I/index.md). [Introducción a Node-RED](RPI-II/P1_II/index.md) |
+| 1        | 25/09 |[Sockets TCP/UDP (ESP32). Node-RED](RPI-II/P1_III/index.md). [Programación de sockets en Python](RPI-II/P1_IV/index.md) |
+| 2        | 02/10 |[MQTT (I)](RPI-II/P6/index.md)                |
+| 2        | 09/10 |[MQTT (II)](RPI-II/P6-II/index.md)            |
+| 3        | 16/10 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
+| 4        | 23/10 |[CoAP](RPI-II/P7/index.md)                    |
+| 5        | 30/10 |[Seguridad](RPI-II/P3/index.md)                        |
+| 6        | 06/11 |[Eclipse Ditto](RPI-II/P11/index.md)                        |
+|          | 13/11 | Proyecto                                                        |
+|          | 20/11 | Proyecto                                                        |
+|          | 27/11 | Proyecto                                                        |
+|          | 04/12 | Proyecto                                                        |
+|          | 11/12 | Proyecto                                                        |
+|          | 18/12 | Proyecto                                                        |
+
 
 
 # ANIOT
@@ -72,4 +61,16 @@
 |          | 05/12 | Proyecto                                                        |
 |          | 12/12 | Proyecto                                                        |
 |          | 19/12 | Proyecto                                                        |
+
+# LSI
+
+| Lab.     | Día | Título                                                   |
+|-----------|-----|-------------------------------------------------------|
+| 0        |21/03|[Introducción y entorno experimental](LSI/Lab0/index.md)  |
+| 1        |28/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
+| 2        |11/04|[Clasificación de imágenes](LSI/Lab2/index.md)            |
+| 3        |18/04|[Detección de objetos](LSI/Lab3/index.md)                 |
+| 4        |25/04|[Segmentacion de objetos](LSI/Lab4/index.md)              |
+| 7        |09/05|[Reconocimiento de voz](LSI/Lab5/index.md)                |
+
 
