@@ -260,7 +260,7 @@ o usando servicios remotos (por ejemplo, *Freeboard*):
 
 * **Node-RED Guide**: [enlace a documentación](http://noderedguide.com).
 
-!!! note "Tarea 1.5"
+!!! note "Tarea 1.4"
     Se pide estudiar la documentación asociada a Node-RED, tanto en su web
     oficial como en la guía de programación *Node-RED Guide* (específicamente sus 
     cuatro primeras partes). 
