@@ -269,11 +269,12 @@ o usando servicios remotos (por ejemplo, *Freeboard*):
     nodos TCP (in/out/request) y sus correspondientes versiones UDP.
 
     La tarea consiste en el diseño y desarrollo de un sistema cliente/servidor similar al 
-    desarrollado en la tarea 1.4, pero que, en esta ocasión, despliegue sus componentes 
+    desarrollado en la tarea 1.3, pero que, en esta ocasión, despliegue sus componentes 
     utilizando exclusivamente Node-RED. El objetivo final de la tarea es que sea posible
     interactuar entre un cliente/servidor desarrollado en C y un servidor/cliente desarrollado
-    en Node-RED. Se aceptará simplificar el protocolo de aplicación desarrollado en la tarea 1.4
-    si ello facilita el dearrollo de la tarea. 
+    en Node-RED. Se aceptará simplificar el protocolo de aplicación desarrollado en la tarea 1.3
+    si ello facilita el dearrollo de la tarea.  Puede ser de ayuda el estudio del nodo 
+    [buffer-parser](https://flows.nodered.org/node/node-red-contrib-buffer-parser).
 
     Se entregará el fichero o ficheros JSON que describen los nodos, así como 
     una breve memoria que describa el sistema diseñado y el trabajo realizado, 
