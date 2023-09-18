@@ -337,6 +337,7 @@ elegiremos la interfaz de *Loopback* (lo) y comenzaremos la captura.
     el tráfico generado. Especialmente, fíjate en el proceso de establecimiento
     de conexión en tres vías, paquetes de *Acknowledge* tras el envío de cada
     mensaje y, en general, en cualquier otro aspecto que consideres de interés.
+    Repite a continuación el mismo proceso para el protocolo UDP.
 
 ### Construcción de mensajes
 
