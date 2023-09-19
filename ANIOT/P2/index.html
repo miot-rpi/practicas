@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 2. Programación con tareas y eventos en ESP-IDF - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
+        <title>Práctica 2 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -143,7 +143,7 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -152,7 +152,7 @@
 </li>
                                     
 <li>
-    <a href="../P9/" class="dropdown-item">Práctica 2</a>
+    <a href="./" class="dropdown-item active">Práctica 2</a>
 </li>
                                     
 <li>
@@ -188,6 +188,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P1/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../P9/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -203,10 +213,10 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#practica-2-programacion-con-tareas-y-eventos-en-esp-idf" class="nav-link">Práctica 2. Programación con tareas y eventos en ESP-IDF</a>
+            <li class="nav-item" data-level="1"><a href="#practica-2-entorno-de-compilacion-uso-de-timers" class="nav-link">Práctica 2. Entorno de compilación. Uso de timers</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -216,15 +226,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+            <li class="nav-item" data-level="2"><a href="#proyectos-esp-idf" class="nav-link">Proyectos ESP-IDF</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#ejercicios-basicos" class="nav-link">Ejercicios básicos</a>
+            <li class="nav-item" data-level="2"><a href="#esp-idf-high-resolution-timer" class="nav-link">ESP-IDF: High Resolution Timer</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#ejercicio-adicional" class="nav-link">Ejercicio adicional</a>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-final" class="nav-link">Ejercicio final</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -235,104 +245,146 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-2-programacion-con-tareas-y-eventos-en-esp-idf">Práctica 2. Programación con tareas y eventos en ESP-IDF</h1>
+<h1 id="practica-2-entorno-de-compilacion-uso-de-timers">Práctica 2. Entorno de compilación. Uso de timers</h1>
 <h2 id="objetivos">Objetivos</h2>
-<p>El objetivo  de esta práctica es conocer los mecanismos para la gestión de tareas
-que ofrece FreeRTOS, concretamente en su porting  ESP-IDF (con alguna
-particularidad por el hecho de estar adaptado a tener 2 cores).</p>
-<p>Trabajaremos los siguientes aspectos del API de ESP-IDF:</p>
+<p>El objetivo de esta práctica es familiarizarse con la estructura de componentes en que se basa la compilación de proyectos en ESP-IDF. 
+Asímismo, aprovecharemos para utlizar <em>timers</em>. Trabajaremos los siguientes aspectos:</p>
 <ul>
-<li>Familiarizarse con la API de <em>tareas</em> y <em>eventos</em> en ESP/IDF.</li>
-<li>Uso de <em>delays</em> para tareas periódicas (veremos mejores opciones en el futuro)</li>
-<li>Comunicación y sincronización de tareas mediante colas</li>
+<li>Creación de componentes en nuestro proyecto.</li>
+<li>Incorporar componentes externos.</li>
+<li>Uso del componente  <code>console</code> para tener un entorno interactivo. </li>
+<li>Familiarizarse con la API de <em>High Resolution Timers</em>  en ESP/IDF.</li>
 </ul>
 <h2 id="material-de-consulta">Material de consulta</h2>
 <p>Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:</p>
 <ul>
-<li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/api-reference/system/freertos.html">API de ESP-IDF</a></li>
-<li><a href="https://www.freertos.org/features.html}. Documentación oficial de FreeRTOS">Documentación oficial de FreeRTOS</a></li>
-<li><a href="https://www.freertos.org/fr-content-src/uploads/2018/07/161204_Mastering_the_FreeRTOS_Real_Time_Kernel-A_Hands-On_Tutorial_Guide.pdf">Mastering de FreeRTOS Real Time Kernel</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#component-configuration">Documentación sobre el sistema de compilación</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/console.html">Documentación del componente <code>console</code></a></li>
+<li><a href="https://www.argtable.org/">Documentación sobre la librería Argtable</a></li>
+<li><a href="https://cmake.org/">Documentación sobre CMake</a></li>
+<li><a href="hhttps://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_timer.html">API de High Resolution Timers</a></li>
 </ul>
-<h2 id="introduccion">Introducción</h2>
-<p>Al desarrollar código para sistemas empotrados, como nuestro nodo basado en ESP32, es habitual organizar la aplicación en torno a diferentes tareas que se ejecutan de forma concurrente. Habrá tareas dedicadas al muestreo de sensores, tareas dedicadas a la conectividad, tareas de <em>logging</em>... </p>
-<p>Por tanto, al comenzar un desarrollo con un nuevo <em>RTOS</em> (Real-Time Operating System) es importante conocer qué servicios ofrece el sistema para la gestión de hilos/tareas. En ocasiones, puede no haber ningún soporte. En otras ocasiones, el API ofrecida será específica del sistema operativo utilizado (como es el caso con FreeRTOS y, por tanto, con la extensión que usaremos: ESP-IDF). Y, en ocasiones, el sistema ofrecerá algún API estándar, como el de <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/pthread.h.html">POSIX</a>.</p>
-<p>En los vídeos y transparencias de la asignatura disponibles en el Campus Virtual se hace una breve introducción de los mecanismos de:</p>
+<h2 id="proyectos-esp-idf">Proyectos ESP-IDF</h2>
+<p>Tal y como hemos visto en clase, un proyecto ESP-IDF está formada de  <em>componentes</em>.
+un componente es la unidad en la que se organiza el código en un proyecto ESP-IDF. Cada componente se compila formando una librería estática, que posteriormente se enlazará junto al resto de componentes y al <em>kernel</em> de ESP-IDF para crear la aplicación. El código que incluyamos en la carpeta <code>main</code> no es más que otro componente, con pequeños matices que lo diferencian de otros.</p>
+<p>Los elementos principales en ESP-IDF son:</p>
 <ul>
-<li>Creación y destrucción de tareas en ESP-IDF.</li>
-<li>Comunicación y sincronización de tareas mediante colas </li>
-<li>Uso de <em>eventos</em> como sistema de comunicación asíncrona.</li>
+<li><strong>Proyecto</strong>. Un directorio que contiene  todos los ficheros y configuración para construir un “app” (ejecutable).
+Incluye elementos como tabla de partición, sistemas de ficheros y bootloader</li>
+<li><strong>Configuración de proyecto</strong>. Se mantiene en el fichero sdkconfig  en el directorio raíz del proyecto. Se modifica a través de menuconfig. Cada proyecto tiene un único fichero de configuración.</li>
+<li><strong>app</strong>. Es un ejecutable resultado de la compilación/enlazado.  De un proyecto se suelen crear 2 apps</li>
+<li>Project app: el ejectuable principal con nuestro código</li>
+<li>Bootloader app: el programa inicial que se encarga de cargar nuestro código</li>
+<li><strong>Componentes</strong>. Partes modulares del código que se compilan como librearías estáticas (ficheros .a) y se enlazan en la app. Algunos componentes los proporciona ESP-IDF, pero pueden ser externos
+https://components.espressif.com/ (aún no público)</li>
+<li><strong>Target</strong>.  Es el hardware para el que construimos la aplicación. Podemos comprobar los targets disponibles para una versión de ESP-IDF con el comando <code>idf.py -list-targets</code></li>
 </ul>
-<p>Los siguientes ejercicios se proponen como una práctica sencilla de esos mecanismos.</p>
-<h2 id="ejercicios-basicos">Ejercicios básicos</h2>
-<h3 id="muestreo-periodico-del-sensor-de-efecto-hall">Muestreo periódico del sensor de efecto Hall</h3>
-<p>Un sensor de efecto Hall permite la medición de campos magnéticos o corrientes. En este ejercicio no entraremos a ver los detalles del sensor en sí y simplemente estamos interesados en su uso en el entorno ESP-IDF. El <a href="https://docs.espressif.com/projects/esp-idf/en/v4.0.3/api-reference/peripherals/adc.html#_CPPv416hall_sensor_readv">Hall sensor</a> está conectado a un canal del <em>ADC</em> (Conversor Analógico-Digital) que estudiaremos más adelante. Por ahora, nos basta con saber que para realizar una lectura del sensor basta con invocar a la función <code>hall_sensor_read()</code> y que, previamente, es necesario configurar el ADC mediante la llamada <code>adc1_config_width(ADC_WIDTH_12Bit)</code> (sólo es necesario invocar esta llamada una vez).</p>
-<pre><code class="language-c">#include &lt;driver/adc.h&gt;
-...
-
-    adc1_config_width(ADC_WIDTH_12Bit);
-    int val = hall_sensor_read();
+<p>La compilación se basa en la herramienta <a href="https://cmake.org/">CMake</a>, por lo que tendremos un fichero <code>CMakeLists.txt</code> para cada componente, y uno general para el proyecto. Así, la estructura general de un proyecto podría ser similar a:</p>
+<p><img alt="estructura proyect" src="img/est-proy.png" /></p>
+<p>El contenido mínimo del fichero <code>CMakeLists.txt</code> del proyecto (el que se encuentra en la carpeta <code>myProject</code> en el ejemplo anterior) es:</p>
+<pre><code class="language-c">cmake_minimum_required(VERSION 3.5)
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+project(si7021)
 </code></pre>
-<p>En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucle infinito en la función <code>app_main()</code> para leer de forma periódica el sensor. Asimismo, usaremos la llamada <code>void vTaskDelay(const TickType_t xTicksToDelay)</code> para realizar las esperas entre lecturas.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>¿Qué prioridad tiene la tarea inicial que ejecuta la función <code>app_main()</code>? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?</p>
-</div>
-<h3 id="creacion-de-una-tarea-para-realizar-el-muestreo">Creación de una tarea para realizar el muestreo</h3>
-<p>Modifica el código anterior para crear una nueva tarea que sea la encargada de realizar el muestreo (denominaremos <em>muestreadora</em> a dicha tarea). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta <code>app_main()</code>) a través de una variable global.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>La tarea creada leerá el valor del sensor de efecto Hall con un período que se pasará como argumento a la tarea. La tarea inicial recogerá ese valor y lo mostrará por puerto serie.</p>
-</div>
+<h3 id="componentes">Componentes</h3>
+<p>Un componente es cualquier directorio en COMPONENT_DIRS que contenga un fichero <code>CMakeLists.txt</code>. Puede ser un directorio sin <code>CMakeLists.txt</code> pero con subdirectorios, cada uno de ellos con su <code>CMakeLists.txt</code>. Se creará una librería estática para cada componente, cuyo nombre será, por defecto, el nombre del directorio. Cada componente puede, asimismo, tener su propio fichero <code>Kconfig</code>.</p>
+<p>El fichero <code>CMakeLists.txt</code> debe indicar las fuentes que se enlazarán en la librería y la ubicación de los ficheros de cabecera públicos del componente. Asimismo, puede indicar dependencias con otros componentes (si las hubiera)</p>
+<pre><code class="language-c">idf_component_register(SRCS &quot;foo.c&quot; &quot;bar.c&quot;
+INCLUDE_DIRS &quot;include&quot;
+REQUIRES mbedtls
+)
+</code></pre>
+<p>La variable <code>COMPONENT_DIRS</code> indica los directorios en los que ESP-IDF buscará componentes. Creará bibliotecas para todos aquellos componentes que encuentre. Por defecto buscará en:</p>
+<ul>
+<li><code>IDF_PATH/components</code></li>
+<li><code>PROJECT_DIR/componentes</code></li>
+<li><code>EXTRA_COMPONENT_DIRS</code></li>
+</ul>
+<p>Es posible reescribir la variable <code>COMPONENT_DIRS</code>para incluir algún directorio o, especialmente, para limitar la búsquda de directorios.</p>
+<p>La variable <code>EXTRA_COMPONENT_DIRS</code> nos permite incluir directorios adicionales en la búsqueda de componentes. Las rutas pueden ser absolutas o relativas al directorio del proyecto. Se indica en el <em>top-level</em>  <code>CMakeLists.txt</code>, antes del <code>include</code>.</p>
+<p>La variable <code>COMPONENTS</code> permita hacer explícita la lista de componentes que queremos incluir en el proyecto. Como decíamos anteriormente, por defecto serán todos aquellos que se encuentren en <code>COMPONENT_DIRS</code>. Su uso permite reducir el tamaño del binario final, lo que puede resultar conveniente en muchos proyectos.</p>
+<h3 id="aplicacion-consola-opcional">Aplicación <em>Consola</em> (opcional)</h3>
+<p>En muchos entornos resulta muy conveniente tener una aplicación de tipo <em>consola</em>: un intérprete de comandos que nos permita interaccionar de forma básica con el sistema. Muchos sistemas empotrados tienen la opción de arrancar en modo consola, para tareas de mantenimiento y depuración. En funcionamiento <em>normal</em> la consola no se ejecutará o se saldrá de dicho modo transcurrido un tiempo de inactividad, arrancándose entonces la aplicación real.</p>
+<p>ESP-IDF incluye un componente llamado <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/console.html"><em>Console</em></a> que nos da un servicio mínimo tipo REPL (Read-Evaluate-Print-Loop)  El componente incluye toda la funcionalidad necesaria para el procesamiento/eidción de línea, basándose en la <a href="https://github.com/antirez/linenoise">librería lineoise</a>. De ese modo, sabe interpretar la acción de borrado, movimiento por cursores, auto completa, indica el formato de cada comando... Asimismo, tiene funciones para que sea sencillo registrar nuevos comandos escritos por nosotros mismos.</p>
+<p>Vamos a partir  <a href="https://github.com/espressif/esp-idf/tree/4b6d9c8ad317dc9e45f3c7699525dd9479f1f4c7/examples/system/console/basic">del ejemplo de consola básico</a>. Estudia el código, y responde a las siguientes preguntas:</p>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
 <ul>
-<li>¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?</li>
-<li>Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?</li>
+<li>¿Qué componente se está incluyendo además de los que siempre se incluyen por defecto?</li>
+<li>¿Qué funcionalidad se importa de dicho componente?</li>
+<li>¿Qué particiones se crean al volcar el proyecto en nuestro dispositivo?</li>
 </ul>
 </div>
-<h3 id="comunicacion-mediante-colas">Comunicación mediante colas</h3>
-<p>Modifica el código anterior para que las dos tareas (inicial y muestreadora) se comuniquen mediante una <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#queue-api">cola de ESP-IDF</a>.</p>
+<h3 id="importar-codigo-externo-como-componente">Importar código externo como componente</h3>
+<p>Espressif tiene una <a href="https://components.espressif.com/">base de datos de componentes</a> que permite incorporar componentes <em>open-source</em> en nuestros proyectos ESP-IDF de forma sencilla. Podemos incluir un componente del registro mediante el comando <code>idf.py add-dependency &lt;componentName&gt;</code> o descargando el fichero de la web de componentes y copiándolo en nuestro proyecto. Bastará con copiar la carpeta descargada dentro de la carpeta <code>components</code> de nuestro proyecto.</p>
+<p>En ocasiones, encontraremos códigos no incluidos en el registro oficial de Espressif pero que pueden resultar útiles para nuestros desarollos. Nuevamente, resulta aconsejable importar esos proyectos externos como componentes en nuestros proyectos. Y así lo haremos en la siguiente tarea:</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo y la cola en la que deberá escribir los datos leídos.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>Al enviar un dato por una cola, ¿el dato se pasa por copia o por referencia?. Consulta la documentación para responder.</p>
-</div>
-<h3 id="uso-de-eventos">Uso de eventos</h3>
-<p>Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">eventos</a> para notificar que hay una nueva lectura que mostrar por el puerto serie.</p>
-<p>Para ello se declara un nuevo <em>event base</em> llamado <em>HALL_EVENT</em> y al menos un <code>event ID</code> que se denominará <code>HALL_EVENT_NEWSAMPLE</code>.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de <code>esp_event_post_to()</code>. La tarea inicial registrará un <code>handler</code> que se encargará de escribir en el puerto serie.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>¿Qué debe hacer la tarea inicial tras registrar el <em>handle</em>? ¿Puede finalizar?   </p>
-</div>
-<h2 id="ejercicio-adicional">Ejercicio adicional</h2>
-<p>Los ejercicios anteriores son de entrega obligatoria para obtener un 5 en la calificación de la práctica. La realización del siguiente ejercicio permite mejorar la calificación.</p>
-<h3 id="gestion-de-multiples-tareas">Gestión de múltiples tareas</h3>
-<p>Se creará un sistema con múltiples tareas que se comunicarán entre sí por eventos:</p>
+<p>El <a href="https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf">sensor Si7021</a> incorpora un sensor de tempertarua y de humedad con una interfaz I2C que facilita su uso. En el maletín disponemos de una <a href="https://www.adafruit.com/product/3251">placa de Adafruit que incorpora dicho sensor</a>. A partir del código disponible en <a href="https://github.com/jessebraham/esp-si7021">este repositorio de GitHub (https://github.com/jessebraham/esp-si7021)</a>, crea un componente llamado <code>si7021</code> para poder utilizar el sensor sin necesidad de consultar el <em>datasheet</em>. </p>
 <ul>
-<li>Tarea <em>Sampler</em> (muestreadora), similar a la del apartado anterior. Comunicará sus muestras mediante eventos (<code>HALL_EVENT_NEWSAMPLE</code>).</li>
-<li>Tarea <em>Filter</em> que irá acumulando muestras de la tarea <em>Sampler</em> y realizará la media  de las últimas 5 muestras recibidas. Enviará dicha media mediante un evento <code>HALL_EVENT_FILTERSAMPLE</code>.</li>
-<li>Tarea <em>Logger</em> que escribe por puerto serie lo que le comunican otras tareas. Debe ser una tarea diferente a la inicial. Recibirá información a través de los eventos correspondientes (a los que deberá suscribirse).</li>
-<li>Tarea <em>Monitor</em> que monitoriza el estado de las otras tareas creadas. Usará el API de Tareas para consultar el espacio de pila restante de cada tarea. Comunicará los datos a la tarea <em>Logger</em>, incluyendo nombre de la tarea, prioridad y cantidad de pila restante. Puede usar la llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#task-api">vTaskGetInfo()</a> que devuelve un tipo <a href="https://www.freertos.org/vTaskGetInfo.html#TaskStatus_t">TaskStatus_t</a>. Enviará la información periódicamente (cada minuto) a través del evento <code>TASK_EVENT_MONITOR</code>.</li>
+<li>Copia los ficheros <code>i2c_config.c</code> y <code>i2c_config.h</code> proporcionados en el Campus Virtual en la carpeta <code>main.c</code> de tu proyecto.</li>
+<li>Modifica los ficheros <code>CMakeLists.txt</code> necesarios para la compilación del proyecto.</li>
+<li>
+<p>Conecta los pines del sensor Si7021</p>
+<ul>
+<li>SDA -&gt; GPIO 26</li>
+<li>SCL -&gt; GPIO 27</li>
+<li>GND -&gt; GND</li>
+<li>VIN -&gt; 5V</li>
 </ul>
-<p>La tarea inicial creará las tareas <em>Sampler</em>, <em>Filter</em> y <em>Logger</em> y, por último, la tarea <em>Monitor</em> que recibirá los <em>handlers</em> de las tareas anteriores. </p>
+</li>
+<li>
+<p>En el fichero principal (aquel que contenga la función  <code>app_main</code>), incluye una llamada al nuevo componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.</p>
+</li>
+</ul>
+</div>
+<h2 id="esp-idf-high-resolution-timer">ESP-IDF: High Resolution Timer</h2>
+<p>Un <em>Timer</em> es un temporizador que podemos programar para que nos <em>avise</em> transcurrido un cierto tiempo. Es similar a una cuenta atrás con alarma y es un mecanismo perfecto para planificar tareas periódicas. El <em>aviso</em> será asíncrono, por lo que no sabemos en qué punto de nuestro código estaremos cuando se dispare la alarma.</p>
+<p>ESP-IDF ofrece un API para el uso de <em>timers</em> que, a su vez, utlizan los <em>timers</em> de 64 bits disponibles en el hardware para garantizar una precisión de hasta 50us. </p>
+<p>Cuando programamos un <em>timer</em> podemos optar por 2 comportamientos:</p>
+<ul>
+<li><em>One-shot</em> (<code>esp_timer_start_once()</code>), que programrá el <em>timer</em> para que genere una única alarma transcurrido el plazo establecido.</li>
+<li><em>Continuo</em> (<code>esp_timer_start_periodic()</code>) que re-programará el <em>timer</em> de forma automática cada vez que la cuenta llegue a 0. Este mecanismo es el idóneo para muestreos periódicos.</li>
+</ul>
+<p>Cuando el <em>timer</em> genere la alarma, se ejecutará un <em>callback</em>, una función que habremos definido previamente (y asociado a ese <em>timer</em>). Dicha función se ejecutará en el contexto de una tarea específica (<code>ESP_TIMER_TASK</code>) o en el de una rutina de tratamiento de interrupción (<code>ESP_TIMER_ISR</code>). En nuestro caso, es aconsejable usar el primer mecanismo (tarea específica).</p>
+<p>En la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_timer.html">documentación de ESP-IDF</a> podéis encontrar el resto de llamadas relevantes para crear y configurar <em>timers</em>. Es muy recomendable, asimismo, estudiar los <a href="https://github.com/espressif/esp-idf/tree/master/examples/system/esp_timer">ejemplos disponibles en la distribución</a></p>
+<p>A continuación se incluye un ejemplo de uso, extraíado de la distribución de ESP-IDF:</p>
+<pre><code class="language-c">void app_main() { 
+     ...
+    const esp_timer_create_args_t periodic_timer_args = {
+         .callback = &amp;periodic_timer_callback,
+         .name = &quot;periodic&quot; };
+    esp_timer_handle_t periodic_timer; esp_timer_create(&amp;periodic_timer_args, &amp;periodic_timer);
+     ...
+    esp_timer_start_periodic(periodic_timer, 500000); ....
+    esp_timer_stop(periodic_timer); ...
+    esp_timer_delete(periodic_timer); 
+}
+
+static void periodic_timer_callback(void* arg) { 
+    int64_t time_since_boot = esp_timer_get_time();
+    printf(&quot;Periodic timer called, time since boot: %lld us&quot;,time_since_boot);
+}
+</code></pre>
+<h3 id="encendido-de-leds-con-gpio-y-timer">Encendido de LEDs con GPIO y timer</h3>
+<p>El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conectar a nuestro ESP32. Para ello, basta con conectar el pin de GPIO escogido (que configuraremos como entrada) al conector de un LED. También debemos asegurarnos <strong>de que las tierras son comunes</strong>. Para ello, conectaremos el pin de tierra del ESP32 al conector <em>GND</em> del entrenador.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Escribe una aplicación que realice la funcionalidad anterior. El código debe organizarse en varios ficheros fuente (.c): uno para la funcionalidad relativa al muestreo del sensor y su filtrado, otro para el <em>logging</em> y otro para la monitorización de tareas (además del fichero <code>main.c</code>). Si se usa algún tipo de datos propio (una cola circular puede ser perfecta para el filtrado), se incluirá en otro fichero fuente diferente, con su fichero de cabecera (.h) correspondiente</p>
+<p>Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un <em>timer</em> para cambiar el estado del LED cada segundo. Recuerda usar una tierra común.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>¿Qué opinas de esta estructura de código? ¿Es razonable el número de tareas empleado? ¿Qué cambiarías en el diseño? </p>
+<h2 id="ejercicio-final">Ejercicio final</h2>
+<p>Completa este ejercicio después de haber resuelto los anteriores. De cara la entrega de la práctica, <strong>sólo es necesario entregar este ejercicio</strong></p>
+<div class="admonition danger">
+<p class="admonition-title">Tareas</p>
+<ul>
+<li>Incluye el componente <code>si7021</code> en tu proyecto, junto con los ficheros <code>i2c_config.c</code> y <code>i2c_config.h</code> y conecta la placa del sensor a la placa del ESP32.</li>
+<li>Crea una aplicación que:<ul>
+<li>Muestree la temperatura cada segundo utilizando un <em>timer</em>.</li>
+<li>Muestre el progreso de la temperatura usando 4 LEDs. Si la temperatura es inferior a 20 grados, todos estarán apagados. Se encederá un LED por cada 2 grados de temperatura.</li>
+<li>Se programará un segundo timer que mostrará por pantalla (puerto serie) la última medida de temperatura realizada cada 10 segundos. </li>
+</ul>
+</li>
+</ul>
 </div></div>
             </div>
         </div>
