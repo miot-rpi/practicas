@@ -335,8 +335,8 @@ mismo).
 
 !!! Note "Nota"
     Navega por las opciones que aparecen en los menús de configuración para
-    familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
-    uso en el informe de la práctica.
+    familiarizarte con ellos. Aprende a utilizar el menú de configuración, pues
+    lo utilizarás en futuras prácticas.
 
 En el proyecto `blink`, observa que una de las opciones del menú de navegación,
 llamada *Example configuration*, incluye una opción llamada *Blink GPIO number*.
@@ -416,8 +416,7 @@ la tarea principal, se divide básicamente en dos partes:
   través del sistema de configuración. Observa también cómo, una vez realizadas
   dichas personalizaciones, inicializa el sistema de comunicación inalámbrica a
   través de `esp_wifi_start()`. Consulta la documentación relativa a dichas
-  funciones y anota en tu informe aquellos aspectos que consideres más
-  relevantes.
+  funciones y toma nota de aquellos aspectos que consideres más relevantes.
 
 !!! danger "Entregable 7"
     Modifica el *firmware* para que el *handler* de tratamiento de la obtención

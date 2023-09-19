@@ -7,7 +7,7 @@
   utilizando C.
 * Ser capaces de analizar el tráfico generado en una conexión TCP y UDP a 
   través de Wireshark.
-* Diseñar un protocolo de capa de aplicación para simular una aplicación
+* Diseñar un protocolo de capa de aplicación sencillo para simular una aplicación
   cliente/servidor utilizando TCP y UDP para interactuar entre un cliente y un
   servidor bajo un sistema operativo Linux.
 
@@ -290,7 +290,9 @@ int close(int fd);
 
 ## Ejemplos
 
-Se proporcionan a continuación ejemplos completos de uso de la API de *sockets*
+Descarga el paquete con los códigos de ejemplo para el resto de la práctica
+en [este enlace](files/Ejemplos_UDP_TCP.tgz).
+En él, se proporcionan ejemplos completos de uso de la API de *sockets*
 en C para el desarrollo de sistemas cliente/servidor sencillos. Para cada 
 uno de ellos, comprueba que, efectivamente, el uso y secuencia de aplicación
 de cada llamada sigue las directivas de la figura:
@@ -298,7 +300,7 @@ de cada llamada sigue las directivas de la figura:
 ![flow](img/flow.png)
 
 !!! note "Tarea 1.1"
-    Compila (utilizando la oren `gcc ejemplo.c -o ejemplo.x` desde
+    Compila (utilizando la orden `gcc ejemplo.c -o ejemplo.x` desde
     una terminal) y a continuación ejecuta (`./ejemplo.x`) cada par
     de códigos y comprueba su funcionamiento. Estudia con detenimiento el uso
     de cada rutina y como efectivamente siguen las directivas marcadas 
@@ -306,143 +308,6 @@ de cada llamada sigue las directivas de la figura:
     páginas de manual correspondientes, o con tu profesor, para resolver todas
     tus dudas. Asegúrate de entender el proceso de compilación, enlazado y 
     ejecución de un binario.
-
-### Ejemplo: un cliente TCP
-
-```c
-#include <arpa/inet.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <netinet/in.h>
-
-
-int main() {
-        const int server_port = 9000;
-
-        struct sockaddr_in server_address;
-        memset(&server_address, 0, sizeof(server_address));
-        server_address.sin_family = AF_INET;
-
-        server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
-        server_address.sin_port = htons(server_port);
-
-        int sock;
-        if ((sock = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-                printf("Error en socket\n");
-                return 1;
-        }
-
-        if (connect(sock, (struct sockaddr*)&server_address,
-                    sizeof(server_address)) < 0) {
-                printf("Error en connect\n");
-                return 1;
-        }
-
-        const char* data_to_send = "Hola, RPI!!";
-        send(sock, data_to_send, strlen(data_to_send), 0);
-
-        int n = 0;
-        int len = 0, maxlen = 100;
-        char buffer[maxlen];
-        char* pbuffer = buffer;
-
-        if ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
-                pbuffer += n;
-                maxlen -= n;
-                len += n;
-
-                buffer[len] = '\0';
-                printf("Recibido: '%s'\n", buffer);
-        }
-
-        close(sock);
-        return 0;
-}
-```
-
-### Ejemplo: un servidor TCP
-
-```c
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-int main(int argc, char *argv[]) {
-        int SERVER_PORT = 9000;
-
-        struct sockaddr_in server_address;
-        memset(&server_address, 0, sizeof(server_address));
-        server_address.sin_family = AF_INET;
-
-        server_address.sin_port = htons(SERVER_PORT);
-
-        server_address.sin_addr.s_addr = htonl(INADDR_ANY);
-
-        int listen_sock;
-        if ((listen_sock = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-                printf("Error en socket\n");
-                return 1;
-        }
-
-        if ((bind(listen_sock, (struct sockaddr *)&server_address,
-                  sizeof(server_address))) < 0) {
-                printf("Error en bind\n");
-                return 1;
-        }
-
-        int wait_size = 16;  
-
-        if (listen(listen_sock, wait_size) < 0) {
-                printf("Error en listen\n");
-                return 1;
-        }
-
-        struct sockaddr_in client_address;
-        int client_address_len = 0;
-
-        while (true) {
-                int sock;
-                if ((sock =
-                         accept(listen_sock, (struct sockaddr *)&client_address,
-                                &client_address_len)) < 0) {
-                        printf("Error en accept\n");
-                        return 1;
-                }
-
-                int n = 0;
-                int len = 0, maxlen = 100;
-                char buffer[maxlen];
-                char *pbuffer = buffer;
-
-                printf("Cliente conectado con IP: %s\n",
-                       inet_ntoa(client_address.sin_addr));
-
-                while ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
-                        pbuffer += n;
-                        maxlen -= n;
-                        len += n;
-
-                        printf("Recibido: '%s'\n", buffer);
-
-                        send(sock, buffer, len, 0);
-                }
-
-                close(sock);
-        }
-
-        close(listen_sock);
-        return 0;
-}
-```
-
-!!! note "Tarea 1.2"
-    Reproduce el funcionamiento del anterior sistema cliente/servidor *echo*
-    utilizando UDP.
 
 ## Capturas de tráfico vía Wireshark
 
@@ -466,12 +331,13 @@ nos permitirá definir en qué interfaz de red se realizará la captura. En
 nuestro caso, ya que vamos a comunicar dos procesos en la misma máquina, 
 elegiremos la interfaz de *Loopback* (lo) y comenzaremos la captura.
 
-!!! note "Tarea 1.3"
+!!! note "Tarea 1.2"
     Arranca Wireshark y prepara una captura sobre la interfaz de *loopback* de tu máquina.
     Ejecuta el servidor *echo* TCP y el cliente correspondiente, y analiza
     el tráfico generado. Especialmente, fíjate en el proceso de establecimiento
     de conexión en tres vías, paquetes de *Acknowledge* tras el envío de cada
     mensaje y, en general, en cualquier otro aspecto que consideres de interés.
+    Repite a continuación el mismo proceso para el protocolo UDP.
 
 ### Construcción de mensajes
 
@@ -493,7 +359,7 @@ mensaje.x = x; mensaje.y = y;
 send( socketfd, &mensaje, sizeof( mensaje ), 0 );
 ```
 
-!!! note "Tarea 1.4"
+!!! note "Tarea 1.3 (entregable)"
     Se pide diseñar un sistema cliente/servidor programado en C, que 
     simule el envío de un conjunto de datos sensorizados desde un cliente
     hacia un servidor. El protocolo a utilizar (formato de datos enviado
