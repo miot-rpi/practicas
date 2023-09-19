@@ -9,200 +9,192 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 1 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li class="active">
-    <a href="./">Práctica 1</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 8</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../../LSI/Lab5/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../../LSI/Lab5/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P2/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P2/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -212,20 +204,58 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-1-introduccion-al-entorno-de-desarrollo-esp-idf">Práctica 1. Introducción al entorno de desarrollo ESP-IDF</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#vscode-y-plugin-de-espressif-para-esp-idf">VSCode y plugin de Espressif para ESP-IDF</a></li>
-            <li><a href="#proyecto-de-ejemplo">Proyecto de ejemplo</a></li>
-            <li><a href="#analisis-de-un-proyecto-sencillo-hola-mundo-en-esp-idf">Análisis de un proyecto sencillo (Hola, mundo) en ESP-IDF</a></li>
-            <li><a href="#personalizacion-del-proyecto">Personalización del proyecto</a></li>
-            <li><a href="#escaneado-de-redes-wifi">Escaneado de redes WiFi</a></li>
-            <li><a href="#gestion-de-eventos-de-red">Gestión de eventos de red</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-1-introduccion-al-entorno-de-desarrollo-esp-idf" class="nav-link">Práctica 1. Introducción al entorno de desarrollo ESP-IDF</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#vscode-y-plugin-de-espressif-para-esp-idf" class="nav-link">VSCode y plugin de Espressif para ESP-IDF</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#proyecto-de-ejemplo" class="nav-link">Proyecto de ejemplo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#analisis-de-un-proyecto-sencillo-hola-mundo-en-esp-idf" class="nav-link">Análisis de un proyecto sencillo (Hola, mundo) en ESP-IDF</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#personalizacion-del-proyecto" class="nav-link">Personalización del proyecto</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#escaneado-de-redes-wifi" class="nav-link">Escaneado de redes WiFi</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#gestion-de-eventos-de-red" class="nav-link">Gestión de eventos de red</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-1-introduccion-al-entorno-de-desarrollo-esp-idf">Práctica 1. Introducción al entorno de desarrollo ESP-IDF</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -259,28 +289,24 @@ en marcha de la interfaz WiFi sobre una placa ESP32.</p>
 pertenezca al grupo <code>dialout</code>. Para ello puedes editar el fichero <code>/etc/group</code>
 añadiendo a tu usuario a la línea que indica el grupo correspondiente, e
 iniciando de nuevo tu sesión, o puedes utilizar el comando adduser:</p>
-<pre><code class="sh">sudo adduser ubuntu dialout
+<pre><code class="language-sh">sudo adduser ubuntu dialout
 </code></pre>
-
 <p>Después tendrás que salir de la sesión y volver a entrar para que el nuevo grupo
 esté tenido en cuenta.</p>
 <h3 id="instalacion-manual-de-las-herramientas-de-esp-idf-y-uso-desde-terminal">Instalación manual de las herramientas de ESP-IDF y uso desde terminal</h3>
 <p>Otra opción es instalar manualmente las herramientas de Espressif siguiendo las instrucciones de su <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html">Guía de inicio</a>.</p>
 <p>Si queremos usar las herramientas de espressif diréctamente desde el terminal de comandos debemos recordar que tenemos que importar las variables de entorno antes de usar las herramientas. Para ello se proporciona un script (<code>export.sh</code>) disponible en la ruta en la que hayas instalado las herramientas (~/esp/esp-idf por defecto). Entonces, desde dicho directorio ejecutamos:</p>
-<pre><code class="sh">source export.sh
+<pre><code class="language-sh">source export.sh
 </code></pre>
-
 <p>Puedes añadir esta línea en cualquier fichero de inicio de sesión para no tener
 que ejecutar el comando cada vez. Por ejemplo, puedes editar el fichero
 $HOME/.bashrc, y añadir al final de dicho fichero la línea:</p>
-<pre><code class="sh">source $HOME/esp/esp-idf/export.sh
+<pre><code class="language-sh">source $HOME/esp/esp-idf/export.sh
 </code></pre>
-
 <p>Si has seguido todos estos pasos correctamente deberías tener acceso a un programa llamado <code>idf.py</code>. Compruébalo por ejemplo pidiendo la versión del comando (el número de subversión podría variar en tu salida):</p>
-<pre><code class="sh">$ idf.py --version
+<pre><code class="language-sh">$ idf.py --version
 ESP-IDF v4.1-332-g7b7c64107
 </code></pre>
-
 <h2 id="proyecto-de-ejemplo">Proyecto de ejemplo</h2>
 <p>En esta primera parte, nos basaremos en un ejemplo sencillo de código
 desarrollado en base a ESP-IDF. No es el objetivo de esta práctica analizar en
@@ -290,16 +316,14 @@ detalle los la estructura de dicho código, sino utilizarlo para ilustrar el flu
 <p>Para compilar el proyecto desde Visual Studio Code basta con pulsar el botón de compilación en la barra inferior de comandos:</p>
 <p><img alt="barra comandos esp-idf" src="img/barra_comandos_esp_idf.png" /></p>
 <p>Otras opciones son seleccionar la opción ESP-IDF: Build Project en la paleta de comandos o usar la combinación Ctrl+E seguido de B. Finalmente, otra opción es utilizar el comando<code>idf.py</code> desde cualquier terminal:</p>
-<pre><code class="sh">idf.py build
+<pre><code class="language-sh">idf.py build
 </code></pre>
-
 <p>Si todo ha ido bien, en el directorio <code>build</code> se habrán generado los objetos
 y binarios listos para ser <em>flasheados</em> en el ESP32.</p>
 <h3 id="volcado-a-memoria-flash-flasheado">Volcado a memoria flash (<em>Flasheado</em>)</h3>
 <p>Para programar la placa del ESP32 podemos pulsar el botón de flash de la barra de comandos, seleccionar la opción ESP-IDF: Flash your project o pulsar Ctrl+E seguido de F. Asimismo, podemos usar la herramienta <em>idf.py</em> desde un terminal:</p>
-<pre><code class="sh">idf.py -p PUERTO flash
+<pre><code class="language-sh">idf.py -p PUERTO flash
 </code></pre>
-
 <p>En este punto, el ESP32 debe estar conectado utilizando el cable microUSB, y si
 estás trabajando en una máquina virtual, debe haberse hecho visible a la misma
 (por ejemplo, en VirtualBox, a través del menú <em>Dispositivos-&gt;USB-&gt;Silicon Labs
@@ -309,14 +333,13 @@ te proporcionará información sobre el PUERTO que debes utilizar en el proceso
 de <em>flasheado</em> y montorización posterior.</p>
 <h3 id="monitorizacion">Monitorización</h3>
 <p>Podemos monitorizar la salida estándar del programa que se está ejecutando en el ESP32, utilizando el puerto serie virtual creado al conectar el dispositivo al equipo. Desde el Visual Studio Code podemos pulsar el botón de monitorización en la barra de comandos de IDF (el que parece una pantalla) para comenzar a ver la salida estándar en el terminal integrado. Alternativamente podemos ejecutar el comando <em>ESP-IDF: Monitor your device</em> en la paleta de comandos o ejecutar en el terminal el comando:</p>
-<pre><code class="sh">idf.py -p PUERTO monitor
+<pre><code class="language-sh">idf.py -p PUERTO monitor
 </code></pre>
-
 <h2 id="analisis-de-un-proyecto-sencillo-hola-mundo-en-esp-idf">Análisis de un proyecto sencillo (<em>Hola, mundo</em>) en ESP-IDF</h2>
 <p>Observa la estructura general del directorio <code>hello_world</code> que compilaste
 anteriormente. Específicamente, nos interesará inspeccionar la estructura
 básica de un programa principal para ESP-IDF, en este caso <code>hello_world_main.c</code>.</p>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &quot;sdkconfig.h&quot;
 #include &quot;freertos/FreeRTOS.h&quot;
 #include &quot;freertos/task.h&quot;
@@ -352,7 +375,6 @@ void app_main(void)
     esp_restart();
 }
 </code></pre>
-
 <p>A alto nivel, la función <code>app_main</code> es el punto de entrada a todo programa
 desarrollado usando ESP-IDF. De modo más específico, tras la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/general-notes.html">carga del
 sistema</a>,
@@ -364,7 +386,7 @@ adelante). Normalmente, esta función se utiliza para llevar a cabo tareas
 iniciales de configuración o para crear y lanzar a ejecución otras tareas. Se puede implementar cualquier funcionalidad dentro de la función <code>app_main</code> o invocar a otras funciones que la implementen.</p>
 <p>En este ejemplo, se muestra en primer lugar información genérica sobre el SoC
 que está ejecutando el <em>firmware</em>:</p>
-<pre><code class="c">/* Print chip information */
+<pre><code class="language-c">/* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&amp;chip_info);
     printf(&quot;This is %s chip with %d CPU cores, WiFi%s%s, &quot;,
@@ -380,24 +402,21 @@ que está ejecutando el <em>firmware</em>:</p>
 
     printf(&quot;Minimum free heap size: %d bytes\n&quot;, esp_get_minimum_free_heap_size());
 </code></pre>
-
 <p>A continuación, dentro de un bucle sencillo, el sistema muestra un mensaje y
 después suspende su ejecución por un determinado período de tiempo
 utilizando la función de FreeRTOS <a href="https://www.freertos.org/a00127.html">vTaskDelay</a>. Esta función recibe como parámetro el número de <em>ticks</em> de reloj que se desea
 suspender la ejecución de la tarea, que puede calcularse dividiendo el tiempo que deseamos suspender la tarea por lo que la duración de un <em>tick</em>. FreeRTOS proporciona la constante <code>portTIC_PERIOD_MS</code>, que nos da la duración en milisegundos de un <em>tick</em>:</p>
-<pre><code class="c">    for (int i = 10; i &gt;= 0; i--) {
+<pre><code class="language-c">    for (int i = 10; i &gt;= 0; i--) {
         printf(&quot;Restarting in %d seconds...\n&quot;, i);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 </code></pre>
-
 <p>Finalmente, la tarea reinicia el sistema tras la finalización de la tarea
 principal:</p>
-<pre><code class="c">    printf(&quot;Restarting now.\n&quot;);
+<pre><code class="language-c">    printf(&quot;Restarting now.\n&quot;);
     fflush(stdout);
     esp_restart();
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Entregable 1</p>
 <p>Modifica el período de suspensión de la tarea para que sea mayor o menor, y
@@ -415,7 +434,7 @@ que ejecute la lógica del programa. Para ello, es necesario introducir
 brevemente la API básica para la gestión de tareas (en nuestro caso sólo necesitamos  crear una tarea). Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que no veremos aquí más detalles de los estrictamente necesarios.</p>
 <p>La función <code>xTaskCreate</code> (incluida en <code>task.h</code>) permite la creación de nuevas
 tareas:</p>
-<pre><code class="c"> BaseType_t xTaskCreate( TaskFunction_t pvTaskCode,
+<pre><code class="language-c"> BaseType_t xTaskCreate( TaskFunction_t pvTaskCode,
                          const char * const pcName,
                          configSTACK_DEPTH_TYPE usStackDepth,
                          void *pvParameters,
@@ -423,7 +442,6 @@ tareas:</p>
                          TaskHandle_t *pxCreatedTask
                         );
 </code></pre>
-
 <p>Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
 ejecución, recibiendo como parámetros:</p>
 <ul>
@@ -431,7 +449,7 @@ ejecución, recibiendo como parámetros:</p>
   implementarse como un bucle infinito. No deberen retornar de la función de entrada
   ni finalizar abruptamente. Para finalizar correctamente una tarea ésta debe ejecutar la función <em>vTaskDelete</em> con el parámetro NULL. Alternativamente, puede usarse esta función para matar otra tarea, pasándo como argumento a <em>vTaskDelete</em> la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS.</li>
 </ul>
-<pre><code class="c"> void vATaskFunction( void *pvParameters )
+<pre><code class="language-c"> void vATaskFunction( void *pvParameters )
     {
         for( ;; )
         {
@@ -447,7 +465,6 @@ ejecución, recibiendo como parámetros:</p>
         vTaskDelete( NULL );
     }
 </code></pre>
-
 <ul>
 <li><code>pcName</code>: Nombre (en forma de cadena) descriptivo de la tarea a ejecutar,
   típicamente usado en tiempo de depuración.</li>
@@ -460,7 +477,7 @@ ejecución, recibiendo como parámetros:</p>
 </ul>
 <p>Así, la funcionalidad del programa <code>Hola, mundo</code> que hemos analizado
 anteriormente, podría reestrcturarse en base a una única tarea, cuya función de entrada podría ser (al reiniciar el sistema no necesitamos terminar correctamente la tarea ejecutando <em>vTaskDelete</em>):</p>
-<pre><code class="c">void hello_task(void *pvParameter)
+<pre><code class="language-c">void hello_task(void *pvParameter)
 {
     printf(&quot;Hello world!\n&quot;);
     for (int i = 10; i &gt;= 0; i--) {
@@ -472,15 +489,13 @@ anteriormente, podría reestrcturarse en base a una única tarea, cuya función 
     esp_restart();
 }
 </code></pre>
-
 <p>La función <em>app_main</em> se limitaría entonces a crear la tarea:</p>
-<pre><code class="c">void app_main()
+<pre><code class="language-c">void app_main()
 {
     nvs_flash_init();
     xTaskCreate( &amp;hello_task, &quot;hello_task&quot;, 2048, NULL, 5, NULL );
 }
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Entregable 3</p>
 <p>Implementa una modificación del programa <code>hello_world</code> que implemente
@@ -495,9 +510,8 @@ configuracion de proyectos en tiempo de compilación sencillo y extensible. Para
 ilustrar su funcionamiento, utilizaremos el ejemplo <code>blink</code> que puedes encontrar
 en la distribución de ESP-IDF. Crea un nuevo proyecto a partir de dicho ejemplo.</p>
 <p>Para configurar un proyecto ESP-IDF se puede pulsar el botón ESP-IDF SDC Configuration Editor en la barra de comandos de IDF, o bien ejecutando dicho comando en la paleta de comandos de VSCode o ejecutando el comando menuconfig en el terminal:</p>
-<pre><code class="sh">idf.py menuconfig
+<pre><code class="language-sh">idf.py menuconfig
 </code></pre>
-
 <p>Al ejecutar el comando se nos mostrará un menún por el que podremos navegar
 usando el ratón (o las teclas del cursor si lo ejecutamos desde terminal). El
 menú nos presenta unas opciones de carácter general, que permitirán configurar
@@ -507,8 +521,8 @@ mismo).</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Navega por las opciones que aparecen en los menús de configuración para
-familiarizarte con ellos. Los utilizarás en futuras prácticas. Describe su
-uso en el informe de la práctica.</p>
+familiarizarte con ellos. Aprende a utilizar el menú de configuración, pues
+lo utilizarás en futuras prácticas.</p>
 </div>
 <p>En el proyecto <code>blink</code>, observa que una de las opciones del menú de navegación,
 llamada <em>Example configuration</em>, incluye una opción llamada <em>Blink GPIO number</em>.
@@ -587,8 +601,7 @@ estás estudiando?</p>
   través del sistema de configuración. Observa también cómo, una vez realizadas
   dichas personalizaciones, inicializa el sistema de comunicación inalámbrica a
   través de <code>esp_wifi_start()</code>. Consulta la documentación relativa a dichas
-  funciones y anota en tu informe aquellos aspectos que consideres más
-  relevantes.</li>
+  funciones y toma nota de aquellos aspectos que consideres más relevantes.</li>
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Entregable 7</p>
@@ -598,6 +611,7 @@ del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
 sigue observándose la salida asociada a dicho evento, aun cuando ambas
 funciones sean independientes. Entrega el código modificado.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -611,35 +625,32 @@ funciones sean independientes. Entrega el código modificado.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

@@ -9,200 +9,192 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 5 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 5</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P9/">Práctica 8</a>
+<li>
+    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P4/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P4/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P6/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P6/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -212,25 +204,81 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-5-bluetooth-low-energy-ble">Práctica 5. Bluetooth Low Energy (BLE)</a></li>
-        <li class="main "><a href="#objetivos">Objetivos</a></li>
-        <li class="main "><a href="#implementacion-de-un-servidor-gatt-basado-en-tablas">Implementación de un servidor GATT basado en tablas</a></li>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#inclusion-de-encabezados">Inclusión de encabezados</a></li>
-            <li><a href="#la-tabla-de-servicios">La tabla de servicios</a></li>
-            <li><a href="#punto-de-entrada">Punto de entrada</a></li>
-            <li><a href="#registro-de-aplicacion">Registro de aplicación</a></li>
-            <li><a href="#parametros-gap">Parámetros GAP</a></li>
-            <li><a href="#estructura-de-la-tabla-gatt">Estructura de la tabla GATT</a></li>
-            <li><a href="#inicializacion-del-servicio">Inicialización del servicio</a></li>
-            <li><a href="#el-manejador-de-eventos-gap">El manejador de eventos GAP</a></li>
-        <li class="main "><a href="#interaccion-a-traves-de-un-cliente-gatt">Interacción a través de un cliente GATT</a></li>
-            <li><a href="#uso-de-hcitool-y-gatttool-en-modo-cliente">Uso de hcitool y gatttool en modo cliente</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-5-bluetooth-low-energy-ble" class="nav-link">Práctica 5. Bluetooth Low Energy (BLE)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#implementacion-de-un-servidor-gatt-basado-en-tablas" class="nav-link">Implementación de un servidor GATT basado en tablas</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#inclusion-de-encabezados" class="nav-link">Inclusión de encabezados</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#la-tabla-de-servicios" class="nav-link">La tabla de servicios</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#punto-de-entrada" class="nav-link">Punto de entrada</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#registro-de-aplicacion" class="nav-link">Registro de aplicación</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#parametros-gap" class="nav-link">Parámetros GAP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#estructura-de-la-tabla-gatt" class="nav-link">Estructura de la tabla GATT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#inicializacion-del-servicio" class="nav-link">Inicialización del servicio</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#el-manejador-de-eventos-gap" class="nav-link">El manejador de eventos GAP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#interaccion-a-traves-de-un-cliente-gatt" class="nav-link">Interacción a través de un cliente GATT</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#uso-de-hcitool-y-gatttool-en-modo-cliente" class="nav-link">Uso de hcitool y gatttool en modo cliente</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-5-bluetooth-low-energy-ble">Práctica 5. Bluetooth Low Energy (BLE)</h1>
 <h1 id="objetivos">Objetivos</h1>
@@ -265,7 +313,7 @@ para nosotros será el valor de medición de ritmo cardiaco, con su valor
 <h2 id="inclusion-de-encabezados">Inclusión de encabezados</h2>
 <p>Los siguientes ficheros de cabecera son necesarios para dotar de funcionalidad
 BLE a nuestro <em>firmware</em>:</p>
-<pre><code class="c">#include &quot;freertos/FreeRTOS.h&quot;
+<pre><code class="language-c">#include &quot;freertos/FreeRTOS.h&quot;
 #include &quot;freertos/task.h&quot;
 #include &quot;freertos/event_groups.h&quot;
 #include &quot;esp_system.h&quot;
@@ -278,7 +326,6 @@ BLE a nuestro <em>firmware</em>:</p>
 #include &quot;gatts_table_creat_demo.h&quot;
 #include &quot;esp_gatt_common_api.h&quot;
 </code></pre>
-
 <p>Estos encabezados son necesarios para un correcto funcionamiento de <em>FreeRTOS</em>
 y de sus componentes, incluyendo funcionalidad relativa a <em>logging</em> y 
 almacenamiento no volátil. 
@@ -294,7 +341,7 @@ para la implementación del <em>firmware</em>:</p>
 <h2 id="la-tabla-de-servicios">La tabla de servicios</h2>
 <p>El fichero de cabecera <a href="main/gatts_table_creat_demo.h">gatts_table_creat_demo.h</a> 
 contiene una enumeración de los servicios y características deseadas:</p>
-<pre><code class="c">enum
+<pre><code class="language-c">enum
 {
     IDX_SVC,
     IDX_CHAR_A,
@@ -310,7 +357,6 @@ contiene una enumeración de los servicios y características deseadas:</p>
     HRS_IDX_NB,
 };
 </code></pre>
-
 <p>Los elementos de la anterior estructura se han incluido en el mismo orden que
 los atributos del <em>Heart Rate Profile</em>, comenzando con el servicio, seguido por
 las características del mismo. Además, la característica <em>Heart Rate
@@ -334,7 +380,7 @@ identificar a cada elemento a la hora de crear la tabla de atributos:</p>
 <h2 id="punto-de-entrada">Punto de entrada</h2>
 <p>El punto de entrada de la aplicación (<code>app_main()</code>) se implementa como 
 sigue:</p>
-<pre><code class="c">void app_main(void)
+<pre><code class="language-c">void app_main(void)
 {
     esp_err_t ret;
 
@@ -397,15 +443,13 @@ sigue:</p>
     }
 }
 </code></pre>
-
 <p>Las acciones realizadas por esta función de entrada se describen en los
 siguientes apartados.</p>
 <h3 id="inicializacion-de-la-flash-para-almacenamiento-no-volatil">Inicialización de la flash para almacenamiento no volátil</h3>
 <p>La función principal procede incializando el almacenamiento no volátil, para 
 almacenar los parámetros necesarios en memoria <em>flash</em>:</p>
-<pre><code class="c">ret = nvs_flash_init();
+<pre><code class="language-c">ret = nvs_flash_init();
 </code></pre>
-
 <h3 id="inicializacion-y-configuracion-de-ble">Inicialización y configuración de BLE</h3>
 <p>A continuación la función principal inicializa el controlador Bluetooth, creando
 en primer lugar una estructura de configuración para tal fin de tipo
@@ -417,14 +461,12 @@ programador.  La configuración incluye el tamaño de pila reservado al
 controlador, prioridad y baudios para la transmisión. Con estas configuraciones,
 el controlador puede ser inicializado y activado con la función
 <code>esp_bt_controller_init()</code>:</p>
-<pre><code class="c">esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+<pre><code class="language-c">esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
 ret = esp_bt_controller_init(&amp;bt_cfg);
 </code></pre>
-
 <p>Una vez inicializado el controlador se activa el modo BLE:</p>
-<pre><code class="c">ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
+<pre><code class="language-c">ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 </code></pre>
-
 <p>Existen cuatro modos de funcioinamiento del controlador Bluetooth:</p>
 <ol>
 <li><code>ESP_BT_MODE_IDLE</code>: Bluetooth no funcional</li>
@@ -434,10 +476,9 @@ ret = esp_bt_controller_init(&amp;bt_cfg);
 </ol>
 <p>Tras la incialización del controlador Bluetooth, se inicializa y activa la pila
 Bluedroid (que incluye APIs tanto para BLE como para Bluetooth Clásico):</p>
-<pre><code class="c">ret = esp_bluedroid_init();
+<pre><code class="language-c">ret = esp_bluedroid_init();
 ret = esp_bluedroid_enable();
 </code></pre>
-
 <p>La pila Bluetooth está, a partir de este punto, lista para funcionar, pero
 todavía no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
 se define con el clásico mecanismo basado en eventos, que pueden ser emitidos,
@@ -447,10 +488,9 @@ establecer una conexión. </p>
 GATT. La aplicación necesita registrar una función de <em>callback</em> para cada uno
 de ellos, que será la encargada de tratar los eventos correspondiente a estos
 servicios.</p>
-<pre><code class="c">esp_ble_gatts_register_callback(gatts_event_handler);
+<pre><code class="language-c">esp_ble_gatts_register_callback(gatts_event_handler);
 esp_ble_gap_register_callback(gap_event_handler);
 </code></pre>
-
 <p>En la aplicación de ejemplo estos <em>callbacks</em> son las funciones
 <code>gatts_event_handler()</code> y <code>gap_event_handler()</code>, que manejarán los eventos
 emitidos por la pila BLE hacia la plicación.</p>
@@ -464,11 +504,10 @@ implementar uno o más perfiles de aplicación (Aplicaciones en el mundo BLE).</
 valor seleccionable por el usuario para identificar cada perfil; su uso se
 recude al registro del perfil en la pila Bluetooth. En el ejemplo, el ID es
 <code>0x55</code>.</p>
-<pre><code class="c">#define PROFILE_NUM                  1
+<pre><code class="language-c">#define PROFILE_NUM                  1
 #define PROFILE_APP_IDX              0
 #define ESP_APP_ID                   0x55
 </code></pre>
-
 <p>Los perfiles se almacenan en el array <code>heart_rate_profile_tab</code>. 
 Al haber un único perfil en el ejemplo, sólo se almacena un elemento en el 
 array, con índice 0 (tal y como se define en <code>PROFILE_APP_IDX</code>). 
@@ -478,7 +517,7 @@ diferenciada, representada por el parámetro <code>gats_if</code>. Para la incia
 este parámetro se iguala a <code>ESP_GATT_IF_NONE</code>; 
 cuando la aplicación se registre, más adelante, el parámetro <code>gatts_if</code> se 
 actualizará con la interfaz generada automáticamente por la pila Bluetooth.</p>
-<pre><code class="c">/* One gatt-based profile one app_id and one gatts_if, this array will store the gatts_if returned by ESP_GATTS_REG_EVT */
+<pre><code class="language-c">/* One gatt-based profile one app_id and one gatts_if, this array will store the gatts_if returned by ESP_GATTS_REG_EVT */
 static struct gatts_profile_inst heart_rate_profile_tab[PROFILE_NUM] = {
     [PROFILE_APP_IDX] = {
         .gatts_cb = gatts_profile_event_handler,
@@ -486,10 +525,9 @@ static struct gatts_profile_inst heart_rate_profile_tab[PROFILE_NUM] = {
     },
 };
 </code></pre>
-
 <p>La estructura <code>gatts_profile_inst</code> completa presenta los siguientes campos (no
 todos se usan en el ejemplo):</p>
-<pre><code class="c">struct gatts_profile_inst {
+<pre><code class="language-c">struct gatts_profile_inst {
     esp_gatts_cb_t gatts_cb;
     uint16_t gatts_if;
     uint16_t app_id;
@@ -504,19 +542,17 @@ todos se usan en el ejemplo):</p>
     esp_bt_uuid_t descr_uuid;
 };
 </code></pre>
-
 <p>El registro de la aplicación tiene lugar en la función <code>app_main()</code>,
 utilizando la función <code>esp_ble_gatts_app_register()</code>:</p>
-<pre><code class="c">esp_ble_gatts_app_register(ESP_APP_ID);
+<pre><code class="language-c">esp_ble_gatts_app_register(ESP_APP_ID);
 </code></pre>
-
 <h2 id="registro-de-aplicacion">Registro de aplicación</h2>
 <p>El evento de registro de aplicación <code>ESP_GATTS_REG_EVT</code> es el primero que se
 generará en la vida del programa. Este evento es tratado por el callback
 registrado como manejador de eventos del servidor gatt, que en nuestro ejemplo
 lo termina delegando en el callback asociado al perfil de aplicación
 (<code>gatts_profile_event_handler</code> en nuestro ejemplo):</p>
-<pre><code class="c">static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
+<pre><code class="language-c">static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
     ESP_LOGI(GATTS_TABLE_TAG, &quot;EVT %d, gatts if %d\n&quot;, event, gatts_if);
 
@@ -545,13 +581,11 @@ lo termina delegando en el callback asociado al perfil de aplicación
     } while (0);
 }
 </code></pre>
-
 <p>Los parámetros asociados al evento son:</p>
-<pre><code class="c">esp_gatt_status_t status;    /* Operation status */
+<pre><code class="language-c">esp_gatt_status_t status;    /* Operation status */
 uint16_t app_id;             /* Application id which input in register API */
 esp_gatt_if_t gatts_if;      /* Interfaz GATTS assignada por la pila BLE */
 </code></pre>
-
 <p>A partir de ese momento deberá usarse la interfaz <code>gatts_if</code> para operar, por
 lo que la función registra esta interfaz en la tabla de descripción del perfil
 de aplicación.</p>
@@ -561,7 +595,7 @@ los eventos asociados al perfil (<code>gatts_profile_event_handler</code>).</p>
 <p>Como hemos visto arriba, el evento <code>ESP_GATTS_REG_EVT</code> es delegado en la
 función <code>gatss_profile_event_handler</code> por el manejador de eventos del servidor
 gatt, para completar su procesamiento:</p>
-<pre><code class="c">static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
+<pre><code class="language-c">static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
     switch (event) {
         case ESP_GATTS_REG_EVT:{
@@ -592,7 +626,6 @@ gatt, para completar su procesamiento:</p>
             ...
 }
 </code></pre>
-
 <p>Esta función utiliza el evento para configurar parámetros GAP (de anuncio). Las
 funciones asociadas son:</p>
 <ul>
@@ -601,13 +634,12 @@ funciones asociadas son:</p>
 </ul>
 <p>Como podemos ver en el código de arriba, se comienza estableciendo el nombre del
 dispositivo:</p>
-<pre><code class="c">    case ESP_GATTS_REG_EVT:{
+<pre><code class="language-c">    case ESP_GATTS_REG_EVT:{
         esp_err_t set_dev_name_ret = esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
         if (set_dev_name_ret){
             ESP_LOGE(GATTS_TABLE_TAG, &quot;set device name failed, error code = %x&quot;, set_dev_name_ret);
         }
 </code></pre>
-
 <p>A continuación se configuran los datos de anuncio. La función
 <code>esp_ble_gap_config_adv_data_raw()</code> toma un puntero a un array de bytes con
 los datos de anuncio. Cada dato anunciado se compone de:</p>
@@ -632,25 +664,23 @@ bytes (en nuestro ejemplo el anuncio ocupa 26 bytes). Para poder enviar
 más datos se puede configurar un <em>scan response</em>, lo que hará que los anuncios
 enviados sean de tipo scannable. El scan response se puede configurar usando la
 función <code>esp_ble_gap_config_scan_rsp_data_raw()</code>.</p>
-<pre><code class="c">    //config scan response data
+<pre><code class="language-c">    //config scan response data
     ret = esp_ble_gap_config_adv_data(&amp;scan_rsp_data);
     if (ret){
         ESP_LOGE(GATTS_TABLE_TAG, &quot;config scan response data failed, error code = %x&quot;, ret);
     }
     adv_config_done |= SCAN_RSP_CONFIG_FLAG;
 </code></pre>
-
 <p>Al final del tratamiento del evento de registro se inicializa la tabla del
 servidor GATT. En nuestro ejemplo los atributos de la tabla se pasan a través
 del array <code>gatt_db</code>, indicándose el número de entradas de este array
 (<code>HRS_IDX_NB</code>), el interfaz ble a utilizar (<code>gatts_if</code>) y la instancia de
 ese servicio (<code>SVC_INST_ID</code>).</p>
-<pre><code class="c">    esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
+<pre><code class="language-c">    esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
     if (create_attr_ret){
         ESP_LOGE(GATTS_TABLE_TAG, &quot;create attr table failed, error code = %x&quot;, create_attr_ret);
     }
 </code></pre>
-
 <h2 id="estructura-de-la-tabla-gatt">Estructura de la tabla GATT</h2>
 <p>Como hemos visto arriba, la tabla GATT se inicializa en el evento de Registro de
 Aplicación, usando la función <code>esp_ble_gatts_create_attr_tab()</code>. Esta función
@@ -658,10 +688,9 @@ toma como argumento un array de estructuras de tipo <code>esp_gatts_attr_db_t</c
 indexable con los valores del enumerado definido en el fichero
 <code>gatts_table_creat_demo.h</code>.</p>
 <p>Las estructuras <code>esp_gatts_attr_db_t</code> tienen dos miembros:</p>
-<pre><code class="c">esp_attr_control_t    attr_control;       /* The attribute control type*/
+<pre><code class="language-c">esp_attr_control_t    attr_control;       /* The attribute control type*/
 esp_attr_desc_t       att_desc;           /* The attribute type*/
 </code></pre>
-
 <ul>
 <li>
 <p><code>attr_control</code> es el parámetro de autorespuesta, típicamente fijado a
@@ -675,22 +704,20 @@ esp_attr_desc_t       att_desc;           /* The attribute type*/
   campos:</p>
 </li>
 </ul>
-<pre><code class="c">uint16_t uuid_length;      /* UUID length */
+<pre><code class="language-c">uint16_t uuid_length;      /* UUID length */
 uint8_t  *uuid_p;          /* UUID value */
 uint16_t perm;             /* Attribute permission */
 uint16_t max_length;       /* Maximum length of the element */
 uint16_t length;           /* Current length of the element */
 uint8_t  *value;           /* Element value array */
 </code></pre>
-
 <p>Por ejemplo, el primer elemento de la tabla en el ejemplo es el atributo de
 servicio:</p>
-<pre><code class="c">    // Service Declaration
+<pre><code class="language-c">    // Service Declaration
     [IDX_SVC]        =
     {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;primary_service_uuid, ESP_GATT_PERM_READ,
       sizeof(uint16_t), sizeof(GATTS_SERVICE_UUID_TEST), (uint8_t *)&amp;GATTS_SERVICE_UUID_TEST}},
 </code></pre>
-
 <p>Los valores de inicialización son:</p>
 <ul>
 <li><code>[IDX_SVC]</code>: Inicializador en la tabla.</li>
@@ -710,7 +737,7 @@ servicio:</p>
 <p>El resto de atributos se inicializan de forma similar. Algunos atributos también
 tienen activa la propiedad <em>NOTIFY</em>, que se establece vía 
 <code>&amp;char_prop_notify</code>. La tabla completa se inicializa como sigue:</p>
-<pre><code class="c">/* Full Database Description - Used to add attributes into the database */
+<pre><code class="language-c">/* Full Database Description - Used to add attributes into the database */
 static const esp_gatts_attr_db_t gatt_db[HRS_IDX_NB] =
 {
     // Service Declaration
@@ -755,24 +782,22 @@ static const esp_gatts_attr_db_t gatt_db[HRS_IDX_NB] =
 
 };
 </code></pre>
-
 <h2 id="inicializacion-del-servicio">Inicialización del servicio</h2>
 <p>Cuando la tabla se crea, se emite un evento de tipo
 <code>ESP_GATTS_CREAT_ATTR_TAB_EVT</code>, tratado por el manejador de eventos del
 perfil.  Este evento tiene los siguientes parámetros asociados:</p>
-<pre><code class="c">esp_gatt_status_t status;    /* Operation status */
+<pre><code class="language-c">esp_gatt_status_t status;    /* Operation status */
 esp_bt_uuid_t svc_uuid;      /* Service uuid type */
 uint16_t num_handle;         /* The number of the attribute handle to be added to the gatts database */
 uint16_t *handles;           /* The number to the handles */
 </code></pre>
-
 <p>Nuestro código de ejemplo utiliza este evento para comprobar que el tamaño de la
 tabla creada es igual al número de elementos en la enumeración (<code>HRS_IDX_NB</code>).
 Si la tabla se creó correctamente, se copian en la tabla
 <code>heart_rate_handle_table</code> los manejadores (handels) asignados por el servidor
 GATT a los atributos, y finalmente se inicializa el servicio utilizando la
 función <code>esp_ble_gatts_start_service()</code>:</p>
-<pre><code class="c">case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
+<pre><code class="language-c">case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
     if (param-&gt;add_attr_tab.status != ESP_GATT_OK){
         ESP_LOGE(GATTS_TABLE_TAG, &quot;create attribute table failed, error code=0x%x&quot;, param-&gt;add_attr_tab.status);
     }
@@ -787,7 +812,6 @@ función <code>esp_ble_gatts_start_service()</code>:</p>
     }
     break;
 </code></pre>
-
 <p>Los manejadores (handles) almacenados son números que identifican cada atributo.
 Estos manejadores pueden usarse en cualquier punto de la aplicación para operar
 sobre los atributos.</p>
@@ -802,7 +826,7 @@ emitirá también un evento de tipo
 <code>ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT</code>.  El manejador del código de
 ejemplo espera a que se produzcan estos dos eventos para comenzar con el proceso
 de anuncio, utilizando la función <code>esp_ble_gap_start_advertising()</code>:</p>
-<pre><code class="c">static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
+<pre><code class="language-c">static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
 {
     ESP_LOGE(GATTS_TABLE_TAG, &quot;GAP_EVT, event %d\n&quot;, event);
 
@@ -826,10 +850,9 @@ de anuncio, utilizando la función <code>esp_ble_gap_start_advertising()</code>:
     }
 }
 </code></pre>
-
 <p>La función de inicio de anuncios toma una estructura de tipo 
 <code>esp_ble_adv_params_t</code> con los parámetros de anuncio requeridos:</p>
-<pre><code class="c">/// Advertising parameters
+<pre><code class="language-c">/// Advertising parameters
 typedef struct {
     uint16_t adv_int_min; /* Minimum advertising interval for undirected and low
                            * duty cycle directed advertising.
@@ -851,14 +874,13 @@ typedef struct {
     esp_ble_adv_filter_t adv_filter_policy; /* Advertising filter policy */
 } esp_ble_adv_params_t;
 </code></pre>
-
 <p>Nótese como <code>esp_ble_gap_config_adv_data_raw()</code> (en
 <em>gatts_profile_event_handler</em>) configura los datos enviados en el anuncio,
 mientras que <code>esp_ble_gap_start_advertising()</code> pone al dispositivo en modo
 advertising, haciendo que el servidor comience a enviar los anuncios.  Los
 parámetros de anuncio configuran como y cuándo enviarlos. En nuestro ejemplo,
 los parámetros de anuncio se inicializan como sigue:</p>
-<pre><code class="c">static esp_ble_adv_params_t adv_params = {
+<pre><code class="language-c">static esp_ble_adv_params_t adv_params = {
     .adv_int_min         = 0x20,
     .adv_int_max         = 0x40,
     .adv_type            = ADV_TYPE_IND,
@@ -867,7 +889,6 @@ los parámetros de anuncio se inicializan como sigue:</p>
     .adv_filter_policy   = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
 };
 </code></pre>
-
 <p>Estos parámetros configuran el intervalo de anuncio entre 20 ms y 40 ms.  El
 anuncio es de tipo <code>ADV_TYPE_IND</code> (tipo genérico), destinados a ningún
 dispositivo central en particular, y anuncia que el servidor GATT es conectable.
@@ -877,7 +898,7 @@ de escaneo y conexión por parte de cualquier dispositivo central.</p>
 <code>ESP_GAP_BLE_ADV_START_COMPLETE_EVT</code>, que en este ejemplo se utiliza para
 comprobar si el estado es realmente <em>anunciando</em> u otro, en cuyo caso se emitirá
 un mensaje de error:</p>
-<pre><code class="c">...
+<pre><code class="language-c">...
     case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
         /* advertising start complete event to indicate advertising start successfully or failed */
         if (param-&gt;adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
@@ -888,7 +909,6 @@ un mensaje de error:</p>
         break;
 ...
 </code></pre>
-
 <h1 id="interaccion-a-traves-de-un-cliente-gatt">Interacción a través de un cliente GATT</h1>
 <p>Existen multitud de herramientas que permiten gestionar la conexión al servidor
 GATT. En Linux, utilizaremos <code>hcitool</code> y <code>gatttool</code>; en Windows, puedes utilizar
@@ -907,9 +927,8 @@ la interfaz Bluetooth del equipo en el que se ejecuta. En nuestro caso,
 necesitaremos determinar la dirección MAC Bluetooth de nuestro servidor.
 Para ello, en primer lugar, realizaremos un escaneado de los dispsitivos
 BLE disponibles en el entorno utilizando la orden:</p>
-<pre><code class="sh">sudo hcitool lescan
+<pre><code class="language-sh">sudo hcitool lescan
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Este comando no funcionará si no has pasado el control del dispositivo
@@ -946,9 +965,8 @@ tareas que realices en esta práctica.</p>
 </div>
 <p>Para comenzar una sesión <code>gatttool</code>, invocaremos a la herramienta en modo
 interactivo, utilizando la orden:</p>
-<pre><code class="sh">gatttool -b MAC -I
+<pre><code class="language-sh">gatttool -b MAC -I
 </code></pre>
-
 <p>Esto abrirá una consola interactiva, a la espera de las ordenes correspondientes.</p>
 <p>Para realizar el emparejamiento, y considerando que la MAC Bluetooth es 
 ya conocida, utilizaremos la orden <code>connect</code>. Si todo ha ido bien, deberemos observar
@@ -957,7 +975,7 @@ observa como en la salida de depuración del ESP32 se muestran los mensajes
 correspondientes al proceso de emparejamiento.</p>
 <p>Desde la terminal de <code>gatttool</code>, puedes ejecutar en cualquier momento la 
 orden <code>help</code> para obtener ayuda (en forma de lista de comandos disponibles):</p>
-<pre><code class="sh">gatttool -b 24:6F:28:36:60:B2 -I
+<pre><code class="language-sh">gatttool -b 24:6F:28:36:60:B2 -I
 [24:6F:28:36:60:B2][LE]&gt; connect
 Attempting to connect to 24:6F:28:36:60:B2
 Connection successful
@@ -978,7 +996,6 @@ char-write-cmd  &lt;handle&gt; &lt;new value&gt;           Characteristic Value 
 sec-level       [low | medium | high]          Set security level. Default: low
 mtu             &lt;value&gt;                        Exchange MTU for GATT/ATT
 </code></pre>
-
 <p>Comenzaremos consultando la lista de características del servidor GATT.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea Básica</p>
@@ -1058,7 +1075,7 @@ Específicamente, necesitaremos:</p>
    cliente si la notificación está activa, con un intervalo de envío de un
    segundo:</li>
 </ol>
-<pre><code class="c">static void publish_data_task(void *pvParameters)
+<pre><code class="language-c">static void publish_data_task(void *pvParameters)
 {
     while (1) {
         ESP_LOGI(&quot;APP&quot;, &quot;Sending data...&quot;); 
@@ -1072,12 +1089,10 @@ Específicamente, necesitaremos:</p>
     }
 }
 </code></pre>
-
 <p>Esta rutina deberá crearse en respuesta al evento de conexión por parte de un
 cliente, utilizando, por ejemplo, la invocación a:</p>
-<pre><code class="c">xTaskCreate(&amp;publish_data_task, &quot;publish_data_task&quot;, 4096, NULL, 5, NULL);
+<pre><code class="language-c">xTaskCreate(&amp;publish_data_task, &quot;publish_data_task&quot;, 4096, NULL, 5, NULL);
 </code></pre>
-
 <ol>
 <li>
 <p>La actualización del valor, realizada periódicamente y de forma aleatoria,
@@ -1097,17 +1112,15 @@ cliente, utilizando, por ejemplo, la invocación a:</p>
 <p>Para enviar la notificación, utilizaremos la siguiente función:</p>
 </li>
 </ol>
-<pre><code class="c">esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if, 
+<pre><code class="language-c">esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if, 
                                       heart_rate_profile_tab[0].conn_id,
                                       heart_rate_handle_table[IDX_CHAR_VAL_A],
                                       sizeof(char_value), char_value, false);
 </code></pre>
-
 <p>La activación de notificaciones desde <code>gatttool</code> se realizará mediante 
 la escritura del valor <code>0x0100</code> en la característica de configuración, esto es:</p>
-<pre><code class="sh">char-write-cmd HANDLER 0100
+<pre><code class="language-sh">char-write-cmd HANDLER 0100
 </code></pre>
-
 <p>Nuestro <em>firmware</em> deberá modificarse para que, al recibir dicho valor en 
 la característica, se sobreescriba el contenido de la variable
 <code>heart_measurement_ccc</code>. Esta escritura debe realizarse en respuesta al
@@ -1132,6 +1145,7 @@ pantalla) que demuestren que un cliente <code>gatttool</code> suscrito a notific
 recibe, cada segundo, la actualización de ritmo cardíaco por parte del
 sensor.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -1145,35 +1159,32 @@ sensor.</p>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
