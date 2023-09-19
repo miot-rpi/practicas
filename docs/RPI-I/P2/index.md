@@ -22,8 +22,8 @@ soporte incluye configuraciones para:
 * Modo `AP` (también denominado *softAP* o modo *Punto de Acceso*). En este
   caso, son las estaciones las que conectan al ESP32.
 
-* Modo combinado AP-STA, donde el ESP32 es actúa de forma concurrente como 
-  Punto de Acceso y cliente WiFi conectado a otro punto de acceso.
+* Modo combinado AP-STA, donde el ESP32 actúa de forma concurrente como punto de
+  acceso (AP) y cliente WiFi conectado a otro punto de acceso (STA).
 
 * Varios modos de seguridad tanto en modo cliente como en modo AP (WPA,
   WPA2, WEP, etc.)
@@ -137,7 +137,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
     - Cuando se invoca a `esp_wifi_connect()`, pero el driver WiFi no 
     consigue configurar una conexión con el AP debido a cualquier razón
     (por ejemplo, el escaneo no puede encontrar el AP objetivo, el proceso
-    de autenticación no tiene éxito, etc. Si hay más de un AP con el mismo
+    de autenticación no tiene éxito, etc). Si hay más de un AP con el mismo
     SSID, el evento se emite sólo cuando el dispositivo no puede conectar
     a ninguno de los APs encontrados.
     - Cuando la conexión WiFi se interrumpe, por ejemplo porque el dispositivo
@@ -299,14 +299,14 @@ En el paso 6 se trata este aspecto.
 
 **Fase 5: obtención de IP**
 
-  1. Una vez inicializado el cliente DHCP (paso 4.2) comienza la fase de obtención
-de IP.
-  2. Si se recibe con éxito una IP desde el servidor DHCP, se emite un evento
-de tipo `IP_EVENT_STA_GOT_IP)`.
-  3. La aplicación trará este evento de forma acorde. Realmente, en este punto
-puede comenzar la lógica de red de la aplicación, incluyendo, por ejemplo, la
-creación de sockets TCP/UDP. Es imprescindible la recepción de una dirección
-IP antes de la inicialización de sockets.
+  1. Una vez inicializado el cliente DHCP (paso 4.2) comienza la fase de
+     obtención de IP.
+  2. Si se recibe con éxito una IP desde el servidor DHCP, se emite un evento de
+     tipo `IP_EVENT_STA_GOT_IP`.
+  3. La aplicación tratará este evento. Realmente, en este punto puede comenzar
+     la lógica de red de la aplicación, incluyendo, por ejemplo, la creación de
+     sockets TCP/UDP. Es imprescindible la recepción de una dirección IP antes
+     de la inicialización de sockets.
 
 **Fase 6: desconexión WiFi**
 
@@ -341,9 +341,9 @@ de sockets) para mantenerse en un estado consistente.
     apaga el punto de acceso mientras la IP está concedida, y analiza los
     eventos generados y su respuesta. 
 
-!!! tarea "Entregable 1"    
+!!! danger "Entregable 1"    
     Revisa el tratamiento de eventos del código anterior, añade el tratamiento
-    de los eventos que falten por tratar. Añade en tu código un comentario
+    de los eventos que falten por tratar. Entrega tu código con comentarios
     explicando el código añadido.
 
 ## Modo Punto de Acceso
@@ -417,7 +417,7 @@ como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
     necesarias para que todos los parámetros se puedan modificar vía 
     `menuconfig`. Comprueba que el ESP32 efectivamente se conecta al punto
     de acceso y que a la vez es posible conectar otro dispositivo al mismo
-    (por ejemplo, tu teléfono móvil).
+    (por ejemplo, tu teléfono móvil). Entrega el código.
 
 ## Escaneado de redes WiFi
 
@@ -431,7 +431,7 @@ escaneado de redes, véase:
 * **Escaneado activo:** El escaneado se desarrolla mediante el envío de paquetes
 *probe* y esperando respuesta, de forma activa.
 * **Escaneado pasivo:** El escaneado se desarrolla simplemente escuchando en 
-cada canal y esperando el envío por parte de los APs de paquetes de balizamiento
+cada canal y esperando el envío por parte de los APs de paquetes baliza
 (*beacons*). El modo activo o pasivo puede configurarse desde la aplicación, 
 mediante el campo `scan_type` de la estrcutura `wifi_scan_config_t` (lo verás
 en el siguiente ejemplo).
@@ -468,7 +468,7 @@ de dicha estructura son:
 contrario, sólo se escanea el canal especificado.
 * `show_hidden`: Si es 0, se ignoran los AP con SSID oculto. En caso contrario
 se consideran SSIDs normales, y por tanto se muestran.
-* `scan_type`: Si tma el valor `WIFI_SCAN_TYPE_ACTIVE` realiza un escaneado 
+* `scan_type`: Si toma el valor `WIFI_SCAN_TYPE_ACTIVE` realiza un escaneado 
 activo. En cualquier otro caso, el escaneado es pasivo.
 * `scan_time`: Especifica el tiempo de escaneado por canal.
 
@@ -487,8 +487,7 @@ donde se está desarrollando el escaneado (opcional).
 
   2. Se invoca a `esp_wifi_scan_start()` para configurar el escaneado. Para
 ello, se utilizan los parámetros por defecto o se configuran tal y como
-se ha especificado en la sección anterior. En este caso, el tipo de escaneado
-exige fijar el SSID y canal a 0.
+se ha especificado en la sección anterior.
 
 **Fase 2: Fase de escaneado**
 
@@ -505,14 +504,14 @@ país en el que se lleva a cabo el análisis.
 
 **Fase 3: Fase de análisis de resultados**
 
-  1. Cuando todos los canales se han escaneado, se emite un evento de tipo 
-`WIFI_EVENT_SCAN_DONE`.
+  1. Cuando todos los canales se han escaneado, se emite un evento de tipo
+     `WIFI_EVENT_SCAN_DONE`.
 
   2. La aplicación, a través del *callback* correspondiente, recibe y procesa
-los resultados. Se invoca a `esp_wifi_scan_get_ap_num()` para obtener el 
-número de APs que se han encontrado. A continuación, aloja suficientes entradas
-e invoca a `esp_wifi_scan_get_ap_records()` para obtener la información de 
-cada AP. 
+     los resultados. Se invoca a `esp_wifi_scan_get_ap_num()` para obtener el
+     número de APs que se han encontrado. A continuación, reserva memoria para
+     este número de entradas e invoca a `esp_wifi_scan_get_ap_records()` para
+     obtener la información de cada AP. 
 
 ### Análisis de un ejemplo (`wifi/scan`)
 
@@ -560,7 +559,7 @@ parámetros:
     * EAP method: TTLS
     * Phase2 method for TTLS: PAP
     * EAP ID: anonymous@ucm.es
-    * EAP USERNAME: tuusuario@ucm.es
+    * EAP USERNAME: (tu correo UCM)
     * EAP PASSWORD: (tu contraseña UCM)
 
 !!! danger "Entregable 6"
