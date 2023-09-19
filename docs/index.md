@@ -48,9 +48,9 @@
 |----------|-------|-----------------------------------------------------------------|
 |          | 12/09 | Presentación del curso                                                 |
 | 1        | 19/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
-| 2        | 26/09 | [Componentes. Sensores](ANIOT/P9/index.md)                           |
-| 3        | 03/10 | [Timers, tareas, eventos](ANIOT/P9/index.md) |
-| 4        | 10/10 | [Timers, tareas, eventos](ANIOT/P9/index.md)                              |
+| 2        | 26/09 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
+| 3        | 03/10 | [Tarea y  eventos](ANIOT/P9/index.md) |
+| 4        | 10/10 | [Tarea y  eventos](ANIOT/P9/index.md)                              |
 | 5        | 17/10 | [I2C](ANIOT/P9/index.md)                         |
 | 6        | 24/10 | [ADC](ANIOT/P9/index.md)                          |
 | 7        | 31/10 | [Modos de consumo](ANIOT/P9/index.md)                                   |
