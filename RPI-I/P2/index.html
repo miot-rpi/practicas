@@ -278,8 +278,8 @@ soporte incluye configuraciones para:</p>
   caso, son las estaciones las que conectan al ESP32.</p>
 </li>
 <li>
-<p>Modo combinado AP-STA, donde el ESP32 es actúa de forma concurrente como 
-  Punto de Acceso y cliente WiFi conectado a otro punto de acceso.</p>
+<p>Modo combinado AP-STA, donde el ESP32 actúa de forma concurrente como punto de
+  acceso (AP) y cliente WiFi conectado a otro punto de acceso (STA).</p>
 </li>
 <li>
 <p>Varios modos de seguridad tanto en modo cliente como en modo AP (WPA,
@@ -390,7 +390,7 @@ esperando al evento <code>WIFI_EVENT_STA_GOT_IP</code>.</p>
 <li>Cuando se invoca a <code>esp_wifi_connect()</code>, pero el driver WiFi no 
 consigue configurar una conexión con el AP debido a cualquier razón
 (por ejemplo, el escaneo no puede encontrar el AP objetivo, el proceso
-de autenticación no tiene éxito, etc. Si hay más de un AP con el mismo
+de autenticación no tiene éxito, etc). Si hay más de un AP con el mismo
 SSID, el evento se emite sólo cuando el dispositivo no puede conectar
 a ninguno de los APs encontrados.</li>
 <li>Cuando la conexión WiFi se interrumpe, por ejemplo porque el dispositivo
@@ -538,14 +538,14 @@ de tipo <code>WIFI_EVENT_STA_DISCONNECTED</code> y se proporcionará la causa de
 En el paso 6 se trata este aspecto.</p>
 <p><strong>Fase 5: obtención de IP</strong></p>
 <ol>
-<li>Una vez inicializado el cliente DHCP (paso 4.2) comienza la fase de obtención
-de IP.</li>
-<li>Si se recibe con éxito una IP desde el servidor DHCP, se emite un evento
-de tipo <code>IP_EVENT_STA_GOT_IP)</code>.</li>
-<li>La aplicación trará este evento de forma acorde. Realmente, en este punto
-puede comenzar la lógica de red de la aplicación, incluyendo, por ejemplo, la
-creación de sockets TCP/UDP. Es imprescindible la recepción de una dirección
-IP antes de la inicialización de sockets.</li>
+<li>Una vez inicializado el cliente DHCP (paso 4.2) comienza la fase de
+     obtención de IP.</li>
+<li>Si se recibe con éxito una IP desde el servidor DHCP, se emite un evento de
+     tipo <code>IP_EVENT_STA_GOT_IP</code>.</li>
+<li>La aplicación tratará este evento. Realmente, en este punto puede comenzar
+     la lógica de red de la aplicación, incluyendo, por ejemplo, la creación de
+     sockets TCP/UDP. Es imprescindible la recepción de una dirección IP antes
+     de la inicialización de sockets.</li>
 </ol>
 <p><strong>Fase 6: desconexión WiFi</strong></p>
 <ol>
@@ -579,10 +579,10 @@ ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
 apaga el punto de acceso mientras la IP está concedida, y analiza los
 eventos generados y su respuesta. </p>
 </div>
-<div class="admonition tarea">
+<div class="admonition danger">
 <p class="admonition-title">Entregable 1</p>
 <p>Revisa el tratamiento de eventos del código anterior, añade el tratamiento
-de los eventos que falten por tratar. Añade en tu código un comentario
+de los eventos que falten por tratar. Entrega tu código con comentarios
 explicando el código añadido.</p>
 </div>
 <h2 id="modo-punto-de-acceso">Modo Punto de Acceso</h2>
@@ -647,7 +647,7 @@ como estación y como punto de acceso. Añade las opciones de configuración
 necesarias para que todos los parámetros se puedan modificar vía 
 <code>menuconfig</code>. Comprueba que el ESP32 efectivamente se conecta al punto
 de acceso y que a la vez es posible conectar otro dispositivo al mismo
-(por ejemplo, tu teléfono móvil).</p>
+(por ejemplo, tu teléfono móvil). Entrega el código.</p>
 </div>
 <h2 id="escaneado-de-redes-wifi">Escaneado de redes WiFi</h2>
 <h3 id="modos-de-escaneado-de-redes-wifi">Modos de escaneado de redes WiFi</h3>
@@ -659,7 +659,7 @@ escaneado de redes, véase:</p>
 <li><strong>Escaneado activo:</strong> El escaneado se desarrolla mediante el envío de paquetes
 <em>probe</em> y esperando respuesta, de forma activa.</li>
 <li><strong>Escaneado pasivo:</strong> El escaneado se desarrolla simplemente escuchando en 
-cada canal y esperando el envío por parte de los APs de paquetes de balizamiento
+cada canal y esperando el envío por parte de los APs de paquetes baliza
 (<em>beacons</em>). El modo activo o pasivo puede configurarse desde la aplicación, 
 mediante el campo <code>scan_type</code> de la estrcutura <code>wifi_scan_config_t</code> (lo verás
 en el siguiente ejemplo).</li>
@@ -695,7 +695,7 @@ de dicha estructura son:</p>
 contrario, sólo se escanea el canal especificado.</li>
 <li><code>show_hidden</code>: Si es 0, se ignoran los AP con SSID oculto. En caso contrario
 se consideran SSIDs normales, y por tanto se muestran.</li>
-<li><code>scan_type</code>: Si tma el valor <code>WIFI_SCAN_TYPE_ACTIVE</code> realiza un escaneado 
+<li><code>scan_type</code>: Si toma el valor <code>WIFI_SCAN_TYPE_ACTIVE</code> realiza un escaneado 
 activo. En cualquier otro caso, el escaneado es pasivo.</li>
 <li><code>scan_time</code>: Especifica el tiempo de escaneado por canal.</li>
 </ul>
@@ -713,8 +713,7 @@ donde se está desarrollando el escaneado (opcional).</p>
 <li>
 <p>Se invoca a <code>esp_wifi_scan_start()</code> para configurar el escaneado. Para
 ello, se utilizan los parámetros por defecto o se configuran tal y como
-se ha especificado en la sección anterior. En este caso, el tipo de escaneado
-exige fijar el SSID y canal a 0.</p>
+se ha especificado en la sección anterior.</p>
 </li>
 </ol>
 <p><strong>Fase 2: Fase de escaneado</strong></p>
@@ -737,15 +736,15 @@ país en el que se lleva a cabo el análisis.</p>
 <p><strong>Fase 3: Fase de análisis de resultados</strong></p>
 <ol>
 <li>
-<p>Cuando todos los canales se han escaneado, se emite un evento de tipo 
-<code>WIFI_EVENT_SCAN_DONE</code>.</p>
+<p>Cuando todos los canales se han escaneado, se emite un evento de tipo
+     <code>WIFI_EVENT_SCAN_DONE</code>.</p>
 </li>
 <li>
 <p>La aplicación, a través del <em>callback</em> correspondiente, recibe y procesa
-los resultados. Se invoca a <code>esp_wifi_scan_get_ap_num()</code> para obtener el 
-número de APs que se han encontrado. A continuación, aloja suficientes entradas
-e invoca a <code>esp_wifi_scan_get_ap_records()</code> para obtener la información de 
-cada AP. </p>
+     los resultados. Se invoca a <code>esp_wifi_scan_get_ap_num()</code> para obtener el
+     número de APs que se han encontrado. A continuación, reserva memoria para
+     este número de entradas e invoca a <code>esp_wifi_scan_get_ap_records()</code> para
+     obtener la información de cada AP. </p>
 </li>
 </ol>
 <h3 id="analisis-de-un-ejemplo-wifiscan">Análisis de un ejemplo (<code>wifi/scan</code>)</h3>
@@ -796,7 +795,7 @@ parámetros:</p>
 <li>EAP method: TTLS</li>
 <li>Phase2 method for TTLS: PAP</li>
 <li>EAP ID: anonymous@ucm.es</li>
-<li>EAP USERNAME: tuusuario@ucm.es</li>
+<li>EAP USERNAME: (tu correo UCM)</li>
 <li>EAP PASSWORD: (tu contraseña UCM)</li>
 </ul>
 </li>
