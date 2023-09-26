@@ -20,7 +20,7 @@ Asímismo, aprovecharemos para probar la partición NVS. Trabajaremos los siguie
 * [Documentación sobre CMake](https://cmake.org/)
 
 ## Proyectos ESP-IDF
-Tal y como hemos visto en clase, un proyecto ESP-IDF se componente a partir de *componentes*
+Tal y como hemos visto en clase, un proyecto ESP-IDF está formada de  *componentes*.
 un componente es la unidad en la que se organiza el código en un proyecto ESP-IDF. Cada componente se compila formando una librería estática, que posteriormente se enlazará junto al resto de componentes y al *kernel* de ESP-IDF para crear la aplicación. El código que incluyamos en la carpeta `main` no es más que otro componente, con pequeños matices que lo diferencian de otros.
 
 Los elementos principales en ESP-IDF son:

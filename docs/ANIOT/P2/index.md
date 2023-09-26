@@ -37,7 +37,7 @@ https://components.espressif.com/ (aún no público)
 
 La compilación se basa en la herramienta [CMake](https://cmake.org/), por lo que tendremos un fichero `CMakeLists.txt` para cada componente, y uno general para el proyecto. Así, la estructura general de un proyecto podría ser similar a:
 
-![estructura proyect](img/est-proy.png)
+![estructura proyecto](img/est-proy.png)
 
 El contenido mínimo del fichero `CMakeLists.txt` del proyecto (el que se encuentra en la carpeta `myProject` en el ejemplo anterior) es:
 
@@ -101,7 +101,7 @@ En ocasiones, encontraremos códigos no incluidos en el registro oficial de Espr
         * GND -> GND
         * VIN -> 5V
 
-    * En el fichero principal (aquel que contenga la función  `app_main`), incluye una llamada al nuevo componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.
+    * En el fichero principal (aquel que contenga la función  `app_main`), incluye una llamada a 'i2c_master_init()'. Posteriormente, utiliza el componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.
 
 
 ## ESP-IDF: High Resolution Timer
