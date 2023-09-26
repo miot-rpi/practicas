@@ -291,13 +291,13 @@ project(si7021)
 <p>El fichero <code>CMakeLists.txt</code> debe indicar las fuentes que se enlazarán en la librería y la ubicación de los ficheros de cabecera públicos del componente. Asimismo, puede indicar dependencias con otros componentes (si las hubiera)</p>
 <pre><code class="language-c">idf_component_register(SRCS &quot;foo.c&quot; &quot;bar.c&quot;
 INCLUDE_DIRS &quot;include&quot;
-REQUIRES mbedtls
+REQUIRES driver
 )
 </code></pre>
 <p>La variable <code>COMPONENT_DIRS</code> indica los directorios en los que ESP-IDF buscará componentes. Creará bibliotecas para todos aquellos componentes que encuentre. Por defecto buscará en:</p>
 <ul>
 <li><code>IDF_PATH/components</code></li>
-<li><code>PROJECT_DIR/componentes</code></li>
+<li><code>PROJECT_DIR/components</code></li>
 <li><code>EXTRA_COMPONENT_DIRS</code></li>
 </ul>
 <p>Es posible reescribir la variable <code>COMPONENT_DIRS</code>para incluir algún directorio o, especialmente, para limitar la búsquda de directorios.</p>
@@ -334,9 +334,14 @@ REQUIRES mbedtls
 </ul>
 </li>
 <li>
-<p>En el fichero principal (aquel que contenga la función  <code>app_main</code>), incluye una llamada a 'i2c_master_init()'. Posteriormente, utiliza el componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.</p>
+<p>En el fichero principal (aquel que contenga la función  <code>app_main</code>), incluye una llamada a <code>i2c_master_init()</code>. Posteriormente, utiliza el componente para leer la temperatura. </p>
+</li>
+<li>
+<p>En las fuentes descargadas, posiblemente tengas que cambiar las referencias a <code>portTICK_RATE_MS</code> por la más reciente <code>portTICK_PERIOD_MS</code>.</p>
 </li>
 </ul>
+<p><strong>IMPORTANTE</strong>: recuerda incluir la línea <code>REQUIRES driver</code>
+en el fichero <code>CMakeLists.txt</code> del componente. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos. Puedes usar la macro <code>I2C_MASTER_NUM</code> como <em>port number</em> en las llamadas a <code>readTemperature()</code>.</p>
 </div>
 <h2 id="esp-idf-high-resolution-timer">ESP-IDF: High Resolution Timer</h2>
 <p>Un <em>Timer</em> es un temporizador que podemos programar para que nos <em>avise</em> transcurrido un cierto tiempo. Es similar a una cuenta atrás con alarma y es un mecanismo perfecto para planificar tareas periódicas. El <em>aviso</em> será asíncrono, por lo que no sabemos en qué punto de nuestro código estaremos cuando se dispare la alarma.</p>
