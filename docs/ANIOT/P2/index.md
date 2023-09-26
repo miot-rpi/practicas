@@ -56,14 +56,14 @@ El fichero `CMakeLists.txt` debe indicar las fuentes que se enlazarán en la lib
 ```c
 idf_component_register(SRCS "foo.c" "bar.c"
 INCLUDE_DIRS "include"
-REQUIRES mbedtls
+REQUIRES driver
 )
 ```
 
 La variable `COMPONENT_DIRS` indica los directorios en los que ESP-IDF buscará componentes. Creará bibliotecas para todos aquellos componentes que encuentre. Por defecto buscará en:
 
 * `IDF_PATH/components`
-* `PROJECT_DIR/componentes`
+* `PROJECT_DIR/components`
 * `EXTRA_COMPONENT_DIRS`
 
 Es posible reescribir la variable `COMPONENT_DIRS`para incluir algún directorio o, especialmente, para limitar la búsquda de directorios.
@@ -101,7 +101,12 @@ En ocasiones, encontraremos códigos no incluidos en el registro oficial de Espr
         * GND -> GND
         * VIN -> 5V
 
-    * En el fichero principal (aquel que contenga la función  `app_main`), incluye una llamada a 'i2c_master_init()'. Posteriormente, utiliza el componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.
+    * En el fichero principal (aquel que contenga la función  `app_main`), incluye una llamada a `i2c_master_init()`. Posteriormente, utiliza el componente para leer la temperatura. 
+
+    * En las fuentes descargadas, posiblemente tengas que cambiar las referencias a `portTICK_RATE_MS` por la más reciente `portTICK_PERIOD_MS`.
+    
+    **IMPORTANTE**: recuerda incluir la línea `REQUIRES driver`
+    en el fichero `CMakeLists.txt` del componente. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos. Puedes usar la macro `I2C_MASTER_NUM` como *port number* en las llamadas a `readTemperature()`.
 
 
 ## ESP-IDF: High Resolution Timer
