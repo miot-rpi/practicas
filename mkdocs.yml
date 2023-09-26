@@ -1,0 +1,41 @@
+site_name: Master IoT UCM - Prácticas RPI/LSI/ANIOT
+markdown_extensions:
+    - admonition
+nav:
+    - Calendario: index.md
+    - LSI:
+      - Laboratorio 0: LSI/Lab0/index.md
+      - Laboratorio 1: LSI/Lab1/index.md
+      - Laboratorio 2: LSI/Lab2/index.md
+      - Laboratorio 3: LSI/Lab3/index.md
+      - Laboratorio 4: LSI/Lab4/index.md
+      - Laboratorio 5: LSI/Lab5/index.md
+    - RPI-I: 
+      - Práctica 1: RPI-I/P1/index.md
+      - Práctica 2: RPI-I/P2/index.md
+      - Práctica 3: RPI-I/P3/index.md
+      - Práctica 4: RPI-I/P4/index.md
+      - Práctica 5: RPI-I/P5/index.md
+      - Práctica 6: RPI-I/P6/index.md
+      - Práctica 7: RPI-I/P7/index.md
+    - RPI-II: 
+      - Práctica 1 (I): RPI-II/P1_I/index.md
+      - Práctica 1 (II): RPI-II/P1_II/index.md
+      - Práctica 2 (I): RPI-II/P6/index.md
+      - Práctica 2 (II): RPI-II/P6-II/index.md
+      - Práctica 3: RPI-II/P5/index.md
+      - Práctica 4: RPI-II/P7/index.md
+      - Práctica 5: RPI-II/P3/index.md
+      - Práctica 6: RPI-II/P10/index.md
+      - Práctica 7: RPI-II/P8/index.md
+      - Práctica 8: RPI-II/P11/index.md
+    - ANIOT: 
+      - Práctica 1: ANIOT/P1/index.md
+      - Práctica 2: ANIOT/P2/index.md
+      - Práctica 3: ANIOT/P3/index.md
+      - Práctica 4: ANIOT/P9/index.md
+      - Práctica 5: ANIOT/P9/index.md
+      - Práctica 6: ANIOT/P9/index.md
+      - Práctica 7: ANIOT/P9/index.md
+      - Práctica 8: ANIOT/P9/index.md
+ 

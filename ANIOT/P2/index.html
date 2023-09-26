@@ -280,7 +280,7 @@ https://components.espressif.com/ (aún no público)</li>
 <li><strong>Target</strong>.  Es el hardware para el que construimos la aplicación. Podemos comprobar los targets disponibles para una versión de ESP-IDF con el comando <code>idf.py -list-targets</code></li>
 </ul>
 <p>La compilación se basa en la herramienta <a href="https://cmake.org/">CMake</a>, por lo que tendremos un fichero <code>CMakeLists.txt</code> para cada componente, y uno general para el proyecto. Así, la estructura general de un proyecto podría ser similar a:</p>
-<p><img alt="estructura proyect" src="img/est-proy.png" /></p>
+<p><img alt="estructura proyecto" src="img/est-proy.png" /></p>
 <p>El contenido mínimo del fichero <code>CMakeLists.txt</code> del proyecto (el que se encuentra en la carpeta <code>myProject</code> en el ejemplo anterior) es:</p>
 <pre><code class="language-c">cmake_minimum_required(VERSION 3.5)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
@@ -334,7 +334,7 @@ REQUIRES mbedtls
 </ul>
 </li>
 <li>
-<p>En el fichero principal (aquel que contenga la función  <code>app_main</code>), incluye una llamada al nuevo componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.</p>
+<p>En el fichero principal (aquel que contenga la función  <code>app_main</code>), incluye una llamada a 'i2c_master_init()'. Posteriormente, utiliza el componente para leer la temperatura. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos.</p>
 </li>
 </ul>
 </div>
