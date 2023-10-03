@@ -36,33 +36,17 @@ Los siguientes ejercicios se proponen como una práctica sencilla de esos mecani
 
 ## Ejercicios básicos
 
-### Muestreo periódico del sensor de efecto Hall
-Un sensor de efecto Hall permite la medición de campos magnéticos o corrientes. En este ejercicio no entraremos a ver los detalles del sensor en sí y simplemente estamos interesados en su uso en el entorno ESP-IDF. El [Hall sensor](https://docs.espressif.com/projects/esp-idf/en/v4.0.3/api-reference/peripherals/adc.html#_CPPv416hall_sensor_readv) está conectado a un canal del *ADC* (Conversor Analógico-Digital) que estudiaremos más adelante. Por ahora, nos basta con saber que para realizar una lectura del sensor basta con invocar a la función `hall_sensor_read()` y que, previamente, es necesario configurar el ADC mediante la llamada `adc1_config_width(ADC_WIDTH_12Bit)` (sólo es necesario invocar esta llamada una vez).
-
-```c
-#include <driver/adc.h>
-...
-
-    adc1_config_width(ADC_WIDTH_12Bit);
-    int val = hall_sensor_read();
-```
-En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucle infinito en la función `app_main()` para leer de forma periódica el sensor. Asimismo, usaremos la llamada `void vTaskDelay(const TickType_t xTicksToDelay)` para realizar las esperas entre lecturas.
-
-!!! danger "Tarea"
-	Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.
-
-!!! note "Cuestión"
-    ¿Qué prioridad tiene la tarea inicial que ejecuta la función `app_main()`? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?
 
 
 ### Creación de una tarea para realizar el muestreo
 
-Modifica el código anterior para crear una nueva tarea que sea la encargada de realizar el muestreo (denominaremos *muestreadora* a dicha tarea). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global.
+Escribe una aplicación que creará una tarea para muestrear un sensor cualquier. Denominaremos *muestreadora* a dicha tarea y puede muestrear el sensor Si7021 o simplemente generar un número aleatorio simulando el comportamiento de un sensor (de un sensor estropeado...). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global. 
 
 !!! danger "Tarea"
-	La tarea creada leerá el valor del sensor de efecto Hall con un período que se pasará como argumento a la tarea. La tarea inicial recogerá ese valor y lo mostrará por puerto serie.
+	La tarea creada leerá el valor del sensor  con un período que se pasará como argumento a la tarea. La tarea inicial recogerá el valor muestreado y lo mostrará por puerto serie.
 
 !!! note "Cuestión"
+    * ¿Qué prioridad tiene la tarea inicial que ejecuta la función `app_main()`? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?
 	* ¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?
 	* Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?
 
@@ -81,7 +65,7 @@ Modifica el código anterior para que las dos tareas (inicial y muestreadora) se
 
 Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice [eventos](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html) para notificar que hay una nueva lectura que mostrar por el puerto serie.
 
-Para ello se declara un nuevo *event base* llamado *HALL_EVENT* y al menos un `event ID` que se denominará `HALL_EVENT_NEWSAMPLE`.
+Para ello se declara un nuevo *event base* llamado *SENSOR_EVENT* y al menos un `event ID` que se denominará `SENSOR_EVENT_NEWSAMPLE`.
 
 !!! danger "Tarea" 
     La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de `esp_event_post_to()`. La tarea inicial registrará un `handler` que se encargará de escribir en el puerto serie.
@@ -169,7 +153,7 @@ La funcionalidad del sistema será la siguiente:
 
 * Cuando consigamos conexión (WiFi + IP), enviaremos los datos que tengamos pendientes en la memoria flash (si hay alguno).
 
-* La aplicación monitorizará (cada `nhall` segundos; parametrizable) un pin de GPIO para detectar pulsaciones de un botón. Si se produce una pulsación, pasaremos al modo `consola`. Se escribirá un componente para esta funcionalida. Si se detecta una pulsación,  *se enviará un evento*.
+* La aplicación monitorizará (cada `nbutton` segundos; parametrizable) un pin de GPIO para detectar pulsaciones de un botón. Si se produce una pulsación, pasaremos al modo `consola`. Se escribirá un componente para esta funcionalida. Si se detecta una pulsación,  *se enviará un evento*.
 
 * Cuando estemos en el modo `consola` se utilizará el componente `consola` de ESP-IDF para leer comandos del usuario. En concreto habrá 3 comandos disponibles:
     * `help` que mostrará los comandos disponibles
