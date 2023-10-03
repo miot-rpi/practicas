@@ -278,32 +278,16 @@ particularidad por el hecho de estar adaptado a tener 2 cores).</p>
 </ul>
 <p>Los siguientes ejercicios se proponen como una práctica sencilla de esos mecanismos.</p>
 <h2 id="ejercicios-basicos">Ejercicios básicos</h2>
-<h3 id="muestreo-periodico-del-sensor-de-efecto-hall">Muestreo periódico del sensor de efecto Hall</h3>
-<p>Un sensor de efecto Hall permite la medición de campos magnéticos o corrientes. En este ejercicio no entraremos a ver los detalles del sensor en sí y simplemente estamos interesados en su uso en el entorno ESP-IDF. El <a href="https://docs.espressif.com/projects/esp-idf/en/v4.0.3/api-reference/peripherals/adc.html#_CPPv416hall_sensor_readv">Hall sensor</a> está conectado a un canal del <em>ADC</em> (Conversor Analógico-Digital) que estudiaremos más adelante. Por ahora, nos basta con saber que para realizar una lectura del sensor basta con invocar a la función <code>hall_sensor_read()</code> y que, previamente, es necesario configurar el ADC mediante la llamada <code>adc1_config_width(ADC_WIDTH_12Bit)</code> (sólo es necesario invocar esta llamada una vez).</p>
-<pre><code class="language-c">#include &lt;driver/adc.h&gt;
-...
-
-    adc1_config_width(ADC_WIDTH_12Bit);
-    int val = hall_sensor_read();
-</code></pre>
-<p>En este primer ejercicio NO crearemos más tareas y simplemente usaremos un bucle infinito en la función <code>app_main()</code> para leer de forma periódica el sensor. Asimismo, usaremos la llamada <code>void vTaskDelay(const TickType_t xTicksToDelay)</code> para realizar las esperas entre lecturas.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Crea una aplicación que lea el valor del sensor de efecto Hall cada 2 segundos y muestre el valor leído por puerto serie.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Cuestión</p>
-<p>¿Qué prioridad tiene la tarea inicial que ejecuta la función <code>app_main()</code>? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?</p>
-</div>
 <h3 id="creacion-de-una-tarea-para-realizar-el-muestreo">Creación de una tarea para realizar el muestreo</h3>
-<p>Modifica el código anterior para crear una nueva tarea que sea la encargada de realizar el muestreo (denominaremos <em>muestreadora</em> a dicha tarea). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta <code>app_main()</code>) a través de una variable global.</p>
+<p>Escribe una aplicación que creará una tarea para muestrear un sensor cualquier. Denominaremos <em>muestreadora</em> a dicha tarea y puede muestrear el sensor Si7021 o simplemente generar un número aleatorio simulando el comportamiento de un sensor (de un sensor estropeado...). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta <code>app_main()</code>) a través de una variable global. </p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>La tarea creada leerá el valor del sensor de efecto Hall con un período que se pasará como argumento a la tarea. La tarea inicial recogerá ese valor y lo mostrará por puerto serie.</p>
+<p>La tarea creada leerá el valor del sensor  con un período que se pasará como argumento a la tarea. La tarea inicial recogerá el valor muestreado y lo mostrará por puerto serie.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Cuestión</p>
 <ul>
+<li>¿Qué prioridad tiene la tarea inicial que ejecuta la función <code>app_main()</code>? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?</li>
 <li>¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?</li>
 <li>Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?</li>
 </ul>
@@ -320,7 +304,7 @@ particularidad por el hecho de estar adaptado a tener 2 cores).</p>
 </div>
 <h3 id="uso-de-eventos">Uso de eventos</h3>
 <p>Finalmente, se modificará nuevamente el código de muestreo original (no el que usa una cola para comunicar) para que utilice <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">eventos</a> para notificar que hay una nueva lectura que mostrar por el puerto serie.</p>
-<p>Para ello se declara un nuevo <em>event base</em> llamado <em>HALL_EVENT</em> y al menos un <code>event ID</code> que se denominará <code>HALL_EVENT_NEWSAMPLE</code>.</p>
+<p>Para ello se declara un nuevo <em>event base</em> llamado <em>SENSOR_EVENT</em> y al menos un <code>event ID</code> que se denominará <code>SENSOR_EVENT_NEWSAMPLE</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>La tarea creada (muestreadora) recibirá como argumento el período de muestreo. Cuando tenga una nueva muestra, la comunicará a través de <code>esp_event_post_to()</code>. La tarea inicial registrará un <code>handler</code> que se encargará de escribir en el puerto serie.</p>
@@ -397,7 +381,7 @@ gpio_config(&amp;io_conf);
 <p>Cuando consigamos conexión (WiFi + IP), enviaremos los datos que tengamos pendientes en la memoria flash (si hay alguno).</p>
 </li>
 <li>
-<p>La aplicación monitorizará (cada <code>nhall</code> segundos; parametrizable) un pin de GPIO para detectar pulsaciones de un botón. Si se produce una pulsación, pasaremos al modo <code>consola</code>. Se escribirá un componente para esta funcionalida. Si se detecta una pulsación,  <em>se enviará un evento</em>.</p>
+<p>La aplicación monitorizará (cada <code>nbutton</code> segundos; parametrizable) un pin de GPIO para detectar pulsaciones de un botón. Si se produce una pulsación, pasaremos al modo <code>consola</code>. Se escribirá un componente para esta funcionalida. Si se detecta una pulsación,  <em>se enviará un evento</em>.</p>
 </li>
 <li>
 <p>Cuando estemos en el modo <code>consola</code> se utilizará el componente <code>consola</code> de ESP-IDF para leer comandos del usuario. En concreto habrá 3 comandos disponibles:</p>
