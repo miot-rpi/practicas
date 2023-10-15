@@ -1,114 +1,94 @@
-# Práctica 5. Bus I2C. Sensor de temperatura
+# Práctica 5.  Uso de ADC.
 
-Esta práctica se desarrollará en *2 sesiones: el 25 de octubre y el 8 de noviembre.*
 
 ## Objetivos
-El objetivo de esta práctica es conocer el funcionamiento del bus I2C y la interfaz que ofrece ESP-IDF para su uso.
-Trabajaremos los siguientes aspectos del API de ESP-IDF: 
-* Configuración y uso del controlador I2C.
-* Uso de sensor de temperatura y humedad (Si7021).
+El objetivo  de esta práctica es continuar conociendo los mecanismos de entrada/salida ofrecidos
+por ESP-IDF para interaccionar con dispositivos usando ESP32.
+
+Trabajaremos los siguientes aspectos del API de ESP-IDF:
+
+* Uso de un conversor analógico-digital (ADC).
+* Uso de un sensor de infrarrojos para medir distancias.
 
 ## Material de consulta
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:
 
-* [Documentación del API de I2C](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2c.html)
-* [Recurso online sobre I2C](https://www.i2c-bus.org/)
-* [Hoja de especificaciones del sensor Si7021](https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf)
+* [Documentación del API de ESP-IDF para los 2 ADCs disponibles en modo one-shot](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_oneshot.html).  
+* [Calibración de ADC en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_calibration.html)
+* La hoja de especificaciones del sensor de infrarrojos SHARP GP2Y0A41SK, disponible en el Campus Virtual
+* [Más información sobre la operación de una ADC](https://wiki.analog.com/university/courses/electronics/text/chapter-20)
 
 
-## Bus I2C
-Fue desarrollado en la empresa **Philips** (ahora **NXP**) en la década de los 80 con el objetivo de  comunicar circuitos integrados con número mínimo de pines. El nombre I2C viene de *Inter IC*. Se usa tanto la abreviatura I2C como IIC. En 2014, *NXP* publicó la Rev. 6 del protocolo.
+## Conversor Analógico-Digital (ADC)
+Un sensor permite *capturar* magnitudes físicas (temperatura, presión, distancia, intensidad lumínica...)  y transformarlas en una señal eléctrica analógica mediante un transductor.
+Un conversor analógico-digital (ADC) muestrea esas señales analógicas y las transforma en una señal digital, que podemos procesar en nuestra CPU.
 
-Proporciona una conexión *serie síncrona unidireccional* (no permite envíos en dos direcciones de forma simultanea). La velocida máxima de comunicación era originalmente de 100 kbit/s, y muchas aplicaciones no requieren de velocidades mayores. Existe un *fast mode* a 400kbits/s, *fast mode plus*  (1Mbits/s), ambos compatibles hacia atrás y sin lógica adicional (aunque puede suponer ajustes en las resistencias de *pull-up* para controlar las corrientes requeridas).  La especificación  *high speed mode - HS I2C* permite conexiones a 3.4Mbits/s, pero exige lógica adicional. En nuestras pruebas, se recomienda mantener 400 kbits/s.
+Un ADC muestrea periódicamente una señal analógica y asigna un valor digital a cada muestra (*sampling* y *quantization*). El valor se obtiene al dividir el valor del voltaje de entrada muestreado por un voltaje de referencia  y multiplicándolo por el número de niveles digitales. El valor resultante  se representa como un entero, en un formato adecuado para su almacenamiento en memoria y su uso por parte de nuestro procesador. 
 
-Las principales características de I2C son:
-* Sólo require dos líneas: SDA y SCL. 
-* No hay requerimientos estrictos de *baud rate* como en RS232, ya que el *master* genera la señal de reloj.
-* Existe una relación sencilla *master/slave* entre todos los componentes.
-* Permite tener varios *master* pues proporciona mecanismos de arbitraje y detección de colisiones.
-* Cada dispositivo tiene una única dirección de 7-bits (en ocasiones, de 10 bits) que proporciona el fabricante.
+La **resolución** de un ADC indica cuántos bits tiene la salida (es decir, cuántos bits emplea para codificar cada muestra que toma de la señala de entrada analógica) La siguiente figura muestra un ejemplo de la cuantización de una señal analógica (en gris) y su transformación a una serie de valores, cada uno de ellos codificados usando 3 bits.
 
-## Interfaz I2C en ESP-IDF
+![cuantiza](img/cuantiza-3bits.png)
 
-ESP-IDF [proporciona un API](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2c.html) para el uso de dispositivos I2C. Permite usar el ESP32  tanto como *master* como en modo *slave*. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como *master* y otro como *slave* (o cualquier otra combinación).
+Otro factor relevante a la hora de escoger un ADC es su *frecuencia de muestreo*. De acuerdo al *Teorema del muestreo* para que la señal muestreada *x(nT)* represente fielmente la señal analógica *x(t)*:
+* *x(t)* debe ser una señal limitada en banda de ancho de banda *fN*.
+* La frecuencia de muestreo *fs* debe ser al menos el doble de la máxima frecuencia de la señal analógica *x(t)*.
 
-Los pasos para usar un dispositivo I2C son:
+ ### ADCs en nuestro ESP32
+ El ESP32 dispone de 2 ADCs tipo SAR (*Succesive Aproximation-Register*) de 12 bit (es configurable entre 9 y 12 bits). El voltaje de referencia es 1100mV, por lo que deberíamos adaptar la señal de entrada a ese rango para obtener la mayor precisión. 
 
-* Configuración de la conexión. Indcaremos qué pines usamos como SDA y como SCL, si queremos  habilitar *pull-up* (es aconsejable tener uno externo), el modo (*master/slave*) y la frecuencia de reloj en HZ. Todo ello se escribe en una estructura de tipo `i2c_configt_t`y se cconfigura mediante la llamada a `i2c_param_config()`.
-* Instalación del driver mediante la llamada `i2c_driver_install`, donde indicaremos, entre otras cosas, qué controlador I2C usaremos (0 o 1).
-* Realizar las escrituras y lecturas necesarias.
+Hay 2 ADCs disponibles que ofrecen un total de 18 canales: 8 en el *ADC1* (GPIO32 - GPIO39) y 10 más  en el *ADC2* (GPIO0, GPIO2, GPIO4, GPIO12 - GPIO15, GOIO25 - GPIO27. **Es mejor evitar el uso de GPIO2, GPIO2 y GPIO15** como canal de ADC. [Consultad la documentación para más detalles](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/adc.html)). Es decir, podríamos muestrear hasta 18 señales analógicas diferentes, conectando cada una a un pin GPIO diferente. Es importante recordar que no podemos usar un mismo GPIO para varios propósitos simultáneamente (por ejemplo, como entrada digital y como ADC).
 
-Para comuicarnos con un sensor, configuraremos el ESP32 en modo *master*. Tras instalar el *driver* procederemos a iniciar la comunicación con el sensor:
-
-![escritura](img/i2c-espidf.png)
-
-Como se indica en la figura anterior, extraída de la web oficial de Espressif, debemos crear un paquete de comandos (*cmd_link*) mediante la llamda a `i2c_cmd_link_create()`. En ella incluiremos cada elemento del protocolo I2C:
-* Bit de start.
-* Dirección del dispositivo *slave* (7 bits).
-* Bit de lectura/escritura.
-* Secuencia de bytes que se desean escribir.
-
-Es importante resaltar que, aunque lo que deseemos sea leer de un sensor (por ejemplo, leer la temperatura), es necesario escribir en el bus, pues lo primero que haremos será enviar la dirección (primer *write_byte*) y, habitualmente, un comando al dispositivo sensor.
-
-También conviene resaltar que la comunicación no se produce hasta que no se llega a la llamada `i2c_master_cmd_begin()`.
-
-En la siguiente figura se observa un patrón habitual para la lectura:
-
-![lectura](img/i2c_read.png)
-
-Nuevamente, la primera llamada (tras crear el enlace y el bit de *start*), es a `i2c_master_write_byte()`, pero esta vez se establecerá el bit de operación a lectura (el bit que se incluye tras los 7 bits de dirección del *slave*). Tras enviar ese primer byte, el ESP32 quedará a la escucha de bytes por parte del sensor mediante llamadas a `i2c_master_read()`.
-
-Como en el ejemplo anterior, la comunicación no se produce hasta que no se llega a la llamada `i2c_master_cmd_begin()`, por lo que si queremos leer varios bytes debemos almacenarlos en posiciones diferentes de memoria y procesarlos después de esta llamada.
-
-Existen también llamadas de más alto nivel, como `i2c_master_read_from_device()` y `i2c_master_write_read_device()` que permiten, en ocasiones, simplificar nuestro código.
-
-## Sensor Si7021
-
-El Si7021 es un sensor de humedad y temperatura fabricado por *Silicon Labs*. Este sensor incopora un ADC internamente, que permite digitalizar las lecturas de los sensores y enviarlas a través del interfaz I2C integrado.
-
-![sensor](img/si7021.png)
-
-En el maletín del máster viene montado en una [placa fabricada por *Adafruit*](https://www.adafruit.com/product/3251). Adfruit es una compañía fundada por Limor Fried con la intención de convertirse en un portal de referencia para el aprendizaje de electrónica y la fabricación de diseños para *makers* de todos los niveles. ¡Merece mucho la pena echar un vistazo a su *web*!
-
-Dependiendo de la versión del PCB que haya en el maletín, puede que únicamente haya pines expuestos (*Vin*, *3Vo*, *GND*, *SCL* y *SDA*) o conectores *STEMMA QT*, compatible con los conectores [*Qwiic* de Sparkfun](https://www.sparkfun.com/qwiic) (Sparkfun es otra compañía tan interesante como *Adafruit*). Lamentablemente, nuestra placa ESP32 DevKit-C no tiene conectores de ese tipo, por lo que necesitaremos conectar directamente los 4 cables: alimentación, tierra, SCL y SDA.
-
-De acuerdo a las [especificaciones del sensor Si7021](https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf), el voltaje de entrada no debe superar los 3.6V. La placa de *Adafruit* proporcionada tiene un regulador de voltaje que nos permite conectar tanto 3.3V como 5V. 
-
-La sección de la [hoja de especificaciones del sensor Si7021](https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf) informa acerca del interfaz I2C que ofrece el sensor. Nos indica los 7 bits de dirección del sensor, así como de los comandos disponibles (la mayoría de ellos de 1 byte). 
-
-!!! note "Cuestión"
-    La dirección del sensor es `1000000`(es decir, `0x40` expresado en hexadecimal). Si queremos hacer una operación de lectura (bit R/W a 1), ¿cómo construiremos el segundo argumento de la llamada a `i2c_master_write_byte()` que haremos tras `i2c_master_start()`?
-
-La sección 5.1.2 del documento explica cómo obtener una medida de temperatura tras haber realizado una medidad de humedad. Para ello usa el comando 0xE0. En nuestro caso deberemos usar 0xE3 o 0xF3.
-
-!!! note "Cuestión"
-    * ¿Cuál es la diferencia entre 0xE3 y 0xF3? ¿Qué es *clock stretching*?
-    * Dichos comandos devuelven 2 bytes, que leeremos en dos variables diferentes. ¿Cómo obtenemos posteriormente nuestro número de 16 bits para calcular la temperatura?
+!!! note "ADC2 y WiFI"
+    Recuerda que la radio WiFi usa el  ADC2. Por tanto, tu aplicación no debe usar ningún canal del ADC2 si está utilizando la radio WiFi.
 
 
-## Ejercicios obligatorios
+#### Voltaje de referencia: atenuación
+Aunque el voltaje de referencia indicado por Espressif es de 1100mV, cada placa sufrirá pequeñas variaciones durante su fabricación, que moverán ligeramente dicha referencia. Para solventarlo, las placas se someten a una calibración tras su fabricación. Todos nuestros SoCs están calibrados y su referencia real está presenta en memoria no volátil (eFuse).
 
-### Uso de i2ctools
-Compila y prueba el ejemplo *i2c_tools* de la carpeta de ejemplos (*examples/peripherals/i2c/i2c_tools*). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando `i2cdetect`. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.
+El ESP32 permite atenuar  la señal de entrada para adaptarla al rango de referencia (aunque siempre resulta aconsejable hacerlo con un circuito externo si es posible). 
 
-### Lectura de temperatura
-Crea una aplicación que monitorice la temperatura cada segundo usando un *timer*. Modulariza el código de modo que la funcionalidad relativa al sensor, quede en los ficheros `si7021.c` y `si7021.h`.
 
-## Ejercicios avanzados
+| Atenuación |  Rango medible en la entrada |
+------------ | --------------------------------- |
+| `ADC_ATTEN_DB_0` | 100 mV ~ 950 mV   |
+| `ADC_ATTEN_DB_2_5` | 100 mV ~ 1250 mV |
+| `ADC_ATTEN_DB_6`  |   150 mV ~ 1750 mV |
+| `ADC_ATTEN_DB_11` |  150 mV ~ 2450 mV |
 
-### Uso de CRC en sensor
-El sensor Si7021 permite el cálculo de un byte de *checksum* (CRC) para comprobar que no ha habido errores en el envío. Completa tu código anterior para leer dicho byte y comprobar que no ha habido errores. Conviene leer la sección 5.1 y una [librería para el cálculo de CRC como la ofrecida por BARR](https://barrgroup.com/tech-talks/checksums-and-crcs).
 
-### Aplicación con FSM
-Escribe una aplicación que:
+#### Lectura del  ADC
+Consulta las transparencias de la asignatura y la [documentación del API de ESP-IDF del  modo one-shot](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_oneshot.html) así como la de la [calibración de ADC en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_calibration.html).
 
-* Muestree el sensor de efecto Hall cada segundo.
-* Muestree la temperatura cada 2 segundos.
-* Encienda/apague LEDs (del entrenador) en función de la temperatura medida.
-* Muestre por puerto serie las lecturas temperatura y del sensor de efecto Hall cada 5 segundos (se mostrará una media de las medidas tomadas)
-* Por cada grado se incremente la tempertura  desde la medida inicial, se encenderá un nuevo LED. Incialmente habrá uno encendido. Cuando se decremente, bajaremos.
-* Se emitirán eventos para informar del incremento/decremento de un grado centígrado en la medida.
-* Si el sensor de efecto Hall varía su lectura en más de un 20% respecto a la anterior, emitirá un evento que hará que entremos en un modo en el que no se leerá la temperatura hasta que el sensor de efecto Hall vuelva a sus valores *normales*. Los LEDs parpadearán mientras permanezcamos en este modo.
+Asimismo, es muy recomendable revisar [el ejemplo disponible en la distribución de esp-idf](https://github.com/espressif/esp-idf/tree/8fc8f3f47997aadba21facabc66004c1d22de181/examples/peripherals/adc/oneshot_read).
 
-Cada dispositivo (efecto Hall, LEDs, sensor SI7021) estará en un módulo (ficheros .c/.h) diferente (se valorará el uso de *componentes* deESP-IDF). 
-El código se estructurará en torno a una máquina de estados (FSM), que puede ser extremademente sencilla. Puede recibir  como entrada  información temporal (por ejemplo, el paso de un segundo) así como los eventos de incremento/decremento de la temperatura y de variación del sensor efecto Hall (*pero NO es obligatorio seguir esa propuesta*). Se aconseja usar  [colas de FreeRTOS](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#queue-api) para proporcionar la entrada a la FSM (unas tareas  de  escribirán en la cola. La tarea del FSM leerá de la cola. Deberéis crear un tipo de datos para modelar lo que se introduce en la cola)
+### Lectura del sensor de infrarrojos
+
+El sensor GP2Y0A41SK0F de Sharp permite medir distancias de entre 4 y 30cm usando infrarrojos. Combina un PSD (*Position Sensitive Detector*) y IR-LED (*infrared
+emitting diode*) de manera que puede emitir luz infrarroja y determinar cuándo ha vuelto al sensor tras reflejarse en un obstáculo cercano. Ese tiempo de vuelo se utiliza para determinar la distancia al objeto.
+
+De acuerdo a la hoja de especificaciones que se puede encontrar en el Campus Virtual, este sensor proporciona una tensión en función de la distancia al obejto más cercano. La siguiente figura muestra esa relación (figura extraída de la hoja de especificaciones del sensor):
+
+![distToVolt](img/Sharp-curve.png)
+
+Dicha curva nos indica que, para una distancia de 8cm debemos esperar un voltaje de salida de aprox. 1.58V. Para 22cm, veremos 0.6V en la salida del sensor.  Es importante observar que, para distancias inferiores a 4cm, los valores obtenidos en la salida no nos permiten discriminar la distancia de forma correcta.
+
+Por tanto, bastará con conectar la salida del sensor (cable amarillo) a un canal ADC de nuestro ESP32 y medir el voltaje que saca el sensor (ojo: no el valor *raw* del ADC, sino el valor de voltaje que ofrece el sensor). 
+
+!!! note "Voltaje a distancia"
+    Una vez conseguido el voltaje que está devolviendo el sensor, ¿qué expresión usarás en el código para obtener la distancia en centímetros?
+
+En la página 3 de la hoja de especificaciones del GP2Y0A41SK0F se nos indica que Vcc = 4.5 - 5.5 V. Por tanto, debemos alimentar el sensor con 5V (cable rojo del sensor al pin de 5V; cable negro a pin de tierra). De acuerdo a la figura anterior (en página 4 de la hoja de especificaciones), el voltaje de salida del sensor es siempre inferior a 3.3V por lo que en principio no debería ser un problema conectar directamente dicha salida (cable amarillo) a un pin GPIO del ESP32
+
+!!! danger "Voltaje de entrada en ESP32"
+    El ESP32 funciona a 3.3V, lo que significa que nunca deberíamos presentarle un voltaje mayor de 3.3V en ningún pin (configurado como entrada o como ADC). Espressif no especifica claramente si dispone de circuito de protección en todos los pines, por lo que debemos obrar con cautela. En este ejercicio, conectaremos directamente el sensor de ifnrarrojos a un pin, pero de acuerdo a la hoja de especificaciones (página 3, primera tabla), el voltaje de salida podría ser de Vcc (5V en nuestro caso), potencialmente dañando el ESP32. Dicha salida se dará en situaciones extarordinarias de reflexión, y no deberían producirse en nuestras pruebas (usaremos un folio en blanco). Pero, para mayor robustez y seguridad, convendría adaptar la señal con un divisor de tensión o un op-amp.
+
+
+    
+## Ejercicio: lectura de distancias
+
+USaremos el sensor de distancia GP2Y0A41SK0F de Sharp conectado al ADC de  ESP32. Deberás conectar la alimentación del senor al pin de 5V del ESP32, las tierras en común y el cable de medida a un pin GPIO del ESP32 que configurarás para usar un canal de ADC.
+
+* Muestrear el ADC correspondiente cada segundo, haciendo la media de  `N` lecturas en cada muestreo (siendo `N` una constante que se puede modificar via *menuconfig*). Usad un *timer* para el muestreo. Se notificará mediante *un evento^, la disponibilidad de un nuevo dato. El código relativo al acceso al sensor estará en un componente separado con  llamadas para la configuración, arranque/parada de las medidas, y obtener el último valor de distancia medido. 
+* El programa principal registará un *handle* del evento correspondiente. En dicho  *handle* se invocará a la función del módulo anterior para conseguir el valor de la última distancia medida, y se mostrará por pantalla.
+* Se deberá comprobar la salida de las funciones invocadas, e informar en caso de error. Utiliza las [funciones proporcionadas por ESP-IDF documentadas en su web](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/error-handling.html)
+
