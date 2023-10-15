@@ -256,7 +256,7 @@ por ESP-IDF para interaccionar con dispositivos usando ESP32.</p>
 Un conversor analógico-digital (ADC) muestrea esas señales analógicas y las transforma en una señal digital, que podemos procesar en nuestra CPU.</p>
 <p>Un ADC muestrea periódicamente una señal analógica y asigna un valor digital a cada muestra (<em>sampling</em> y <em>quantization</em>). El valor se obtiene al dividir el valor del voltaje de entrada muestreado por un voltaje de referencia  y multiplicándolo por el número de niveles digitales. El valor resultante  se representa como un entero, en un formato adecuado para su almacenamiento en memoria y su uso por parte de nuestro procesador. </p>
 <p>La <strong>resolución</strong> de un ADC indica cuántos bits tiene la salida (es decir, cuántos bits emplea para codificar cada muestra que toma de la señala de entrada analógica) La siguiente figura muestra un ejemplo de la cuantización de una señal analógica (en gris) y su transformación a una serie de valores, cada uno de ellos codificados usando 3 bits.</p>
-<p><img alt="cuantiza" src="../img/cuantiza-3bits.png" /></p>
+<p><img alt="cuantiza" src="img/cuantiza-3bits.png" /></p>
 <p>Otro factor relevante a la hora de escoger un ADC es su <em>frecuencia de muestreo</em>. De acuerdo al <em>Teorema del muestreo</em> para que la señal muestreada <em>x(nT)</em> represente fielmente la señal analógica <em>x(t)</em>:
 * <em>x(t)</em> debe ser una señal limitada en banda de ancho de banda <em>fN</em>.
 * La frecuencia de muestreo <em>fs</em> debe ser al menos el doble de la máxima frecuencia de la señal analógica <em>x(t)</em>.</p>
@@ -316,13 +316,13 @@ Puedes consultar [ejemplos de uso del ADC en los ejemplos de ESP-IDF(https://git
 <h4 id="toma-de-medidas-con-adc">Toma de medidas con ADC</h4>
 <p>El ADC es un elemento muy susceptible al ruido, especialmente si el ADC no es de buena calidad (y el del ESP32, no lo es). Por ello, <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/adc.html">la documentación de ESP-IDF</a> propone colocar un condesador de <em>bypass</em> a la entrada del pin y realizar un muestreo múltiple en el momento de tomar una medida. Nótese que ambas soluciones disminuyen significativamente las frecuencias máximas que podremos medir; para nuestros objetivos (medir temperatura, humedad ambiente...), no suponen mayor problema.</p>
 <p>El <em>muestreo múltiple</em> consiste simplemente en tomar más de una medida del ADC y realizar la media, en lugar de tomar una única medida. Como se puede ver en la siguiente figura, extraída de  <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/adc.html">la documentación de ESP-IDF</a>, realizar una múltiples lecturas del ADC para cada muestra proporciona valores mucho más estables:</p>
-<p><img alt="NoiseADC" src="../img/adc-noise-graph.jpg" /></p>
+<p><img alt="NoiseADC" src="img/adc-noise-graph.jpg" /></p>
 <p>En <a href="https://deepbluembedded.com/esp32-adc-tutorial-read-analog-voltage-arduino/">este enlace podéis leer un buen tutorial sobre el uso del ADC</a>. Incluye sugerencias para acondicionar la señal y ejemplos de calibrado, aunque usa el entorno de Arduino, y no ESP-IDF.</p>
 <h3 id="lectura-del-sensor-de-infrarrojos">Lectura del sensor de infrarrojos</h3>
 <p>El sensor GP2Y0A41SK0F de Sharp permite medir distancias de entre 4 y 30cm usando infrarrojos. Combina un PSD (<em>Position Sensitive Detector</em>) y IR-LED (<em>infrared
 emitting diode</em>) de manera que puede emitir luz infrarroja y determinar cuándo ha vuelto al sensor tras reflejarse en un obstáculo cercano. Ese tiempo de vuelo se utiliza para determinar la distancia al objeto.</p>
 <p>De acuerdo a la hoja de especificaciones que se puede encontrar en el Campus Virtual, este sensor proporciona una tensión en función de la distancia al obejto más cercano. La siguiente figura muestra esa relación (figura extraída de la hoja de especificaciones del sensor):</p>
-<p><img alt="distToVolt" src="../img/Sharp-curve.png" /></p>
+<p><img alt="distToVolt" src="img/Sharp-curve.png" /></p>
 <p>Dicha curva nos indica que, para una distancia de 8cm debemos esperar un voltaje de salida de aprox. 1.58V. Para 22cm, veremos 0.6V en la salida del sensor.  Es importante observar que, para distancias inferiores a 4cm, los valores obtenidos en la salida no nos permiten discriminar la distancia de forma correcta.</p>
 <p>Por tanto, bastará con conectar la salida del sensor (cable amarillo) a un canal ADC de nuestro ESP32 y medir el voltaje que saca el sensor (ojo: no el valor <em>raw</em> del ADC, sino el valor de voltaje que ofrece el sensor). </p>
 <div class="admonition note">
