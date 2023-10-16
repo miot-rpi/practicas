@@ -89,7 +89,7 @@ export NODE_OPTIONS=--openssl-legacy-provider
 set NODE_OPTIONS=--openssl-legacy-provider
 ```
 
-En este punto, ya podrás ejecutar, desde el directorio base del ejemplo, la
+Una vez construido el front-end, ya podrás ejecutar, desde el directorio base del ejemplo, la
 orden de compilación y flasheado:
 
 ```sh
