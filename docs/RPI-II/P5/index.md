@@ -133,7 +133,7 @@ escritura sobre nuestro servidor HTTP REST.
 !!! note "Nota"
 	La versión de `curl` de `PowerShell` en Windows hace uso de `Invoke-WebRequest` 
 	y es mejor evitarla. Es preferible usar la versión de `curl` de `CMD` que es más
-	compatible con las UNIX (Linux/MacOS). 
+	compatible con las versiones UNIX (Linux/MacOS). 
 
 Concretamente, para realizar una petición HTTP `GET` sobre nuestro servidor, 
 podemos ejecutar:
