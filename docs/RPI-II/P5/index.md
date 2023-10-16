@@ -74,6 +74,21 @@ npm install
 npm run build 
 ```
 
+Dependiendo del sistema, en este punto se puede producir un error de openssl ("digital envelope routines::unsupported").
+Si fuese el caso, es preciso establecer la variable de entorno adecudada y volver a ejecutar el comando `npm run build`.
+
+* En Linux/MacOS:
+
+```sh
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+
+* En Windows:
+
+```
+set NODE_OPTIONS=--openssl-legacy-provider
+```
+
 En este punto, ya podrás ejecutar, desde el directorio base del ejemplo, la
 orden de compilación y flasheado:
 
@@ -114,6 +129,11 @@ de luminosidad que hipotéticamente podría equipar el ESP32.
 otras (muchas) funcionalidades, `curl` soporta los métodos `GET` y `PUT` del 
 protocolo HTTP, justo las necesarias para realizar peticiones de lectura y 
 escritura sobre nuestro servidor HTTP REST. 
+
+!!! note "Nota"
+	La versión de `curl` de `PowerShell` en Windows hace uso de `Invoke-WebRequest` 
+	y es mejor evitarla. Es preferible usar la versión de `curl` de `CMD` que es más
+	compatible con las UNIX (Linux/MacOS). 
 
 Concretamente, para realizar una petición HTTP `GET` sobre nuestro servidor, 
 podemos ejecutar:
