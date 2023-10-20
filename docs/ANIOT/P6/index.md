@@ -1,5 +1,5 @@
-# Práctica 8. Modos de bajo consumo
-Esta práctica se desarrollará el 29 de noviembre.
+# Práctica 6. Modos de bajo consumo
+Esta práctica se desarrollará el 24 de noviembre.
 
 ## Objetivos
 El objetivo de esta práctica es  conocer los diferentes modos de bajo consumo que ofrece el ESP32 y la interfaz que expone ESP-IDF para usarlos.
@@ -70,7 +70,7 @@ Vamos a partir  [del ejemplo que entra manualmente en *light-sleep*](https://git
     
 !!! note "Cuestión"
     * ¿Qué número de GPIO está configurado por defecto para despertar al sistema? ¿Está conectado dicho GPIO a algún elemento de la placa *ESP Devkit-c* que estamos usando? [Puedes tratar de responder consultando el esquemático de la placa](https://dl.espressif.com/dl/schematics/esp32_devkitc_v4-sch.pdf)
-    * ¿Qué flanco provocará que salgamos de *light-sleep* tras configura el GPIO con `gpio_wakeup_enable(GPIO_WAKEUP_NUM, GPIO_WAKEUP_LEVEL == 0 ? GPIO_INTR_LOW_LEVEL : GPIO_INTR_HIGH_LEVEL)`?
+    * ¿Qué flanco provocará que salgamos de *light-sleep* tras configurar el GPIO con `gpio_wakeup_enable(GPIO_WAKEUP_NUM, GPIO_WAKEUP_LEVEL == 0 ? GPIO_INTR_LOW_LEVEL : GPIO_INTR_HIGH_LEVEL)`?
    
 
 !!! danger "Tareas"
