@@ -50,11 +50,11 @@
 | 1        | 19/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
 | 2        | 26/09 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
 | 3        | 03/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
-| 4        | 10/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
-| 5        | 17/10 | [I2C](ANIOT/P4/index.md)                         |
-| 6        | 18/10 | [ADC](ANIOT/P5/index.md)                          |
-| 7        | 24/10 | [Modos de consumo](ANIOT/P6/index.md)                          |
-| 8        | 31/10 | [OTA](ANIOT/P9/index.md)                                   |
+| 3        | 10/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
+| 4        | 17/10 | [I2C](ANIOT/P4/index.md)                         |
+| 5        | 18/10 | [ADC](ANIOT/P5/index.md)                          |
+| 6        | 24/10 | [Modos de consumo](ANIOT/P6/index.md)                          |
+| 7        | 31/10 | [OTA](ANIOT/P9/index.md)                                   |
 |          | 07/11 | Definición de proyectos ANIOT                                           |
 |          | 14/11 | Proyecto                                                        |
 |          | 21/11 | Proyecto                                                        |
