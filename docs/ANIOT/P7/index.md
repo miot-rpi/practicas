@@ -7,7 +7,7 @@ El objetivo de esta práctica es familiarizarse con el concepto de OTA, la actua
 
  Trabajaremos los siguientes aspectos:
 
-* Actualización de *firmware* mendiante HTTPS-.
+* Actualización de *firmware* mendiante HTTPS.
 * Incorporación de certificados en nuestra aplicación.
 * Firmado de binarios.
 
@@ -18,6 +18,8 @@ El objetivo de esta práctica es familiarizarse con el concepto de OTA, la actua
 * [Documentación sobre el proceso de arranque segurlo](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html)
 * [Documentación sobre la tabla de particiones de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html)
 * [Ejemplos de OTA proporicionados por ESP-IDF](https://github.com/espressif/esp-idf/tree/master/examples/system/ota)
+* [Documentación sobre cómo incluir datos binarios/texto en la app](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data)
+* [Tutorial básico sobre TLS](https://medium.com/talpor/ssl-tls-authentication-explained-86f00064280) 
 
 
 ## Over-The-Air Update (OTA)
@@ -28,9 +30,9 @@ En un despliegue IoT, la funcionalidad OTA es imprescindible. Debe contemplarse 
 
 ### Particiones y tabla de particiones
 
-Habitualmente, la imagen que se recibe vía red se almanceará en una **partición** diferente a la que se esté actualizando para ejecutar en el dispositivo. Una partició es una región de un dispositivo de almacenamiento que se gestiona de forma independiente. Se puede ver como un dispositivo virtual en sí mismo.
+Habitualmente, la imagen que se recibe vía red se almanceará en una **partición** diferente a la que se esté actualizando para ejecutar en el dispositivo. Una partición es una región de un dispositivo de almacenamiento que se gestiona de forma independiente. Se puede ver como un dispositivo virtual en sí mismo.
 
-La *tabla de particiones* es la estructura que almacena la división del dispositivo de almacenamiento en particiones. La tabla indica el tamaño, tipo y ubicación de cada una, Se suele almacenar en una posición fija del propio dispositivo y ser de tamaño fijo.
+La *tabla de particiones* es la estructura que almacena la división del dispositivo de almacenamiento en particiones. La tabla indica el tamaño, tipo y ubicación de cada una. Se suele almacenar en una posición fija del propio dispositivo y ser de tamaño fijo.
 
 En el caso concreto del ESP32 utilizado, la tabla de particiones se almacena en la *flash* (único dispositivo de almacenamiento presente), en el desplazamiento 0x8000 (32KiB más allá del comienzo de la *flash*). Tiene un tamaño de 3072 bytes, más un *checksum* MD5 almacenado tras la tabla para garantizar la integridad. Por tanto, se asigna un sector de *flash* (4KiB) para almacenar la tabla.
 
@@ -105,6 +107,20 @@ Como se puede comprobar en la figura y en el código, en un arranque que se prod
 * Si la funcionalidad de la nueva imagen es correcta, llamaremos a `esp_ota_mark_app_valid_cancel_rollback()` y el estado de esa partición pasará a `ESP_OTA_IMG_VALID`. Los arranques posteriores (tras *reset*) seguirán siendo desde esta partición.
 * Si la funcionalidad de la nueva imagen no es correcta, llamaremos a  `esp_ota_mark_app_invalid_rollback_and_reboot()` y el estado de esa partición pasará a `ESP_OTA_IMG_INVALID`. No se volerá a tratar de arrancar esta imange, y se volverá a marcar como activa la partición OTA que estuviéramos usando antes de iniciar el proceso de actualización.
 
+## Seguridad
+
+Hay varios aspectos que debemos considerar en la seguridad de la operación OTA:
+* El servidor del que descargamos la nueva imagen es de confianza (*autenticación*). Usar HTTPS es una opción segura, almacenando el certificado público de dicho servidor (o una cadena de certificados de confianza) en el nodo. 
+  * Algunos dispositivos disponen de hardware específico para almacenar este tipo de secretos *compartidos* (claves públicas; también claves privadas en ocasiones), pero no es el caso de nuestro ESP32.
+  * Al usar HTTPS, se usará el protocolo TLS para garantizar la  autenticación, integridad y confidencialidad de  las comunicaciones. Para ello, debemos usar certificados TLS: una clave pública con cierta información incorporada. Este certificiado puede ser autofirmado, como haremos en esta práctica, o podemos tener que usar una entidad certificadora (CA - Certification Authority).
+  * Revisad las [opciones de compilación para saber cómo podemos incrustar el certificado en nuestro binario](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data)
+
+* La imagen recibida es de confianza. Parte de este aspecto queda cubierto por la garantía de *integridad* de TLS, pero podemos ir un paso más allá: podemos requerir que la imagen recibida esté firmada. Nuevamente, exigirá la generación de un par de claves para la firma del binario (con la clave privada) y su comprobación (con la clave pública). Puedes [leer acerca de este proceso en la documentación de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html#signed-app-verification-without-hardware-secure-boot)
+
+ **IMPORTANTE**  NO habilitéis nunca el arranque seguro (Secure Boot) en *menuconfig*. Una vez activado, no podemos desactivarlo, y supondría un problema para el hardware del laboratorio. Es posible habilitar únicamente la verficación de la APP sin el arranque segruo completo.
+
+
+
 
 ## Ejercicios básicos
 
@@ -120,15 +136,15 @@ Vamos a partir  [del ejemplo de OTA básico](https://github.com/espressif/esp-id
 !!! danger "Tareas"
     * Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará [este certificado para la conexión segura por HTTP](file/ca_cert.pem) y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.
     * Alterar un byte del fichero del certificado y probar nuevamente.
-    * [Seguir los pasos del ejemnplo]((https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado. 
+    * [Seguir los pasos del ejemplo]((https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.
 
 ## Ejercicio avanzado
 Integraremos OTA en la aplicación que hemos ido desarrollando a lo largo de estas prácticas (lectura periódica del sensor de temperatura).
 
 !!! danger "Tareas"
-    La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del senor de temperatura cuyo valor se mostrará por pantalla. Se añadirá la siguiente funcionalidad: 
+    La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del sensor de temperatura. Se añadirá la siguiente funcionalidad: 
     
-    * Cuando se reciba un evento externo (puede ser un mensaje por MQTT o la pulsación de un botón), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). 
+    * Cuando se reciba un evento externo (la pulsación de un botón o la lectura del sensor de infrarrojos de una distancia menor que un umbral), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). 
     * Se desarrollará una función de auto-diagnóstico (*self-test*) que permita decidir si la nueva imagen se comporta de forma correcta.
     * Se utilizará la opción de *rollback* para indicar si la nueva imagen se elige para futuros arranques o se marca como inválida.
 

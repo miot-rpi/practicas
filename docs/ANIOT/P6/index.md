@@ -22,7 +22,6 @@ El objetivo de esta práctica es  conocer los diferentes modos de bajo consumo q
 
 
 
-
 ## Modos de bajos consumo
 ESP32 ofrece dos modos de ahorro de consumo energético: *Light-sleep* y *Deep-sleep*.
 
@@ -58,6 +57,15 @@ Si todo está configurado correctamente y no hay ningún cerrojo adquirido, el s
 * *Timers* registrados con el API de *High resolution timer*
 
 El sistema saldrá de *light-sleep* para tratar el evento más próximo. Si queremos que nuestros *timers* no nos saquen de *light-sleep* los podemos inicializar con la opción `skip_unhandled_events`.
+
+## Librería NVS
+
+La librería [*Non-volatile storage* (NVS)](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/nvs_flash.html)  está diseñada para almacenar pares *clave-valor* en memoria flash (soporte no volátil). Resulta muy útil para mantener determinados parámetros de diferentes módulos de nuestra aplicación, que queremos mantener almacenados entre diferentes arranques de nuestro sistema.
+
+Para utilizar la librería es necesario disponer de una partición de tipo NVS en nuestro dispositivo flash.  Una partición es una porción del dispositivo de almacenamiento (flash en nuestro caso) a la que daremos una identidad específica. Por ejemplo, una partición contendrá la lista de pares *clave-valor* tal y como los organiza la librería NVS. Otra partición puede contener un sistema de ficheros basado en FAT, para que podamos almacenar información y distribuirla en ficheros y directorios.
+
+En la zona inicial de la flash se ubicará la [tabla de particiones](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html) que indica qué particiones tendremos en nuestro dipositivo y de qué tamaño y tipo son cada una de ellas.
+
 
 ## Ejercicios básicos
 

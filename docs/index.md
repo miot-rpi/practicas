@@ -54,7 +54,7 @@
 | 4        | 17/10 | [I2C](ANIOT/P4/index.md)                         |
 | 5        | 18/10 | [ADC](ANIOT/P5/index.md)                          |
 | 6        | 24/10 | [Modos de consumo](ANIOT/P6/index.md)                          |
-| 7        | 31/10 | [OTA](ANIOT/P9/index.md)                                   |
+| 7        | 31/10 | [OTA](ANIOT/P7/index.md)                                   |
 |          | 07/11 | Definición de proyectos ANIOT                                           |
 |          | 14/11 | Proyecto                                                        |
 |          | 21/11 | Proyecto                                                        |
