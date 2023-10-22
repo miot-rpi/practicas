@@ -1,6 +1,5 @@
 # Práctica 7. Over-The-Air Updates (OTA)
 
-Esta práctica se desarrollará el 22 de noviembre.
 
 ## Objetivos
 El objetivo de esta práctica es familiarizarse con el concepto de OTA, la actualización del *firmware* de forma remota. Específicamente, usaremos el interfaz simplificado que ofrece ESP-IDF para realizar la actualización de aplicaciones.
@@ -110,11 +109,11 @@ Como se puede comprobar en la figura y en el código, en un arranque que se prod
 ## Seguridad
 
 Hay varios aspectos que debemos considerar en la seguridad de la operación OTA:
-* El servidor del que descargamos la nueva imagen es de confianza (*autenticación*). Usar HTTPS es una opción segura, almacenando el certificado público de dicho servidor (o una cadena de certificados de confianza) en el nodo. 
-  * Algunos dispositivos disponen de hardware específico para almacenar este tipo de secretos *compartidos* (claves públicas; también claves privadas en ocasiones), pero no es el caso de nuestro ESP32.
-  * Al usar HTTPS, se usará el protocolo TLS para garantizar la  autenticación, integridad y confidencialidad de  las comunicaciones. Para ello, debemos usar certificados TLS: una clave pública con cierta información incorporada. Este certificiado puede ser autofirmado, como haremos en esta práctica, o podemos tener que usar una entidad certificadora (CA - Certification Authority).
-  * Revisad las [opciones de compilación para saber cómo podemos incrustar el certificado en nuestro binario](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data)
 
+* El servidor del que descargamos la nueva imagen es de confianza (*autenticación*). Usar HTTPS es una opción segura, almacenando el certificado público de dicho servidor (o una cadena de certificados de confianza) en el nodo. 
+    * Algunos dispositivos disponen de hardware específico para almacenar este tipo de secretos *compartidos* (claves públicas; también claves privadas en ocasiones), pero no es el caso de nuestro ESP32.
+    * Al usar HTTPS, se usará el protocolo TLS para garantizar la  autenticación, integridad y confidencialidad de  las comunicaciones. Para ello, debemos usar certificados TLS: una clave pública con cierta información incorporada. Este certificiado puede ser autofirmado, como haremos en esta práctica, o podemos tener que usar una entidad certificadora (CA - Certification Authority).
+    * Revisad las [opciones de compilación para saber cómo podemos incrustar el certificado en nuestro binario](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data)
 * La imagen recibida es de confianza. Parte de este aspecto queda cubierto por la garantía de *integridad* de TLS, pero podemos ir un paso más allá: podemos requerir que la imagen recibida esté firmada. Nuevamente, exigirá la generación de un par de claves para la firma del binario (con la clave privada) y su comprobación (con la clave pública). Puedes [leer acerca de este proceso en la documentación de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html#signed-app-verification-without-hardware-secure-boot)
 
  **IMPORTANTE**  NO habilitéis nunca el arranque seguro (Secure Boot) en *menuconfig*. Una vez activado, no podemos desactivarlo, y supondría un problema para el hardware del laboratorio. Es posible habilitar únicamente la verficación de la APP sin el arranque segruo completo.
