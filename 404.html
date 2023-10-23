@@ -9,178 +9,186 @@
         
         <link rel="shortcut icon" href="/img/favicon.ico">
         <title>Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="/css/font-awesome.min.css" rel="stylesheet">
         <link href="/css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="/js/jquery-1.10.2.min.js" defer></script>
-        <script src="/js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="/js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
-                <a class="navbar-brand" href="/.">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/.">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                </div>
 
                 <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href="/." class="nav-link">Calendario</a>
+                            <li >
+                                <a href="/.">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="/LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
+<li >
+    <a href="/LSI/Lab0/">Laboratorio 0</a>
 </li>
                                     
-<li>
-    <a href="/LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
+<li >
+    <a href="/LSI/Lab1/">Laboratorio 1</a>
 </li>
                                     
-<li>
-    <a href="/LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
+<li >
+    <a href="/LSI/Lab2/">Laboratorio 2</a>
 </li>
                                     
-<li>
-    <a href="/LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
+<li >
+    <a href="/LSI/Lab3/">Laboratorio 3</a>
 </li>
                                     
-<li>
-    <a href="/LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
+<li >
+    <a href="/LSI/Lab4/">Laboratorio 4</a>
 </li>
                                     
-<li>
-    <a href="/LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
+<li >
+    <a href="/LSI/Lab5/">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="/RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="/RPI-I/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="/RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="/RPI-I/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="/RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="/RPI-I/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="/RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="/RPI-I/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="/RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="/RPI-I/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="/RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="/RPI-I/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="/RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="/RPI-I/P7/">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="/RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+<li >
+    <a href="/RPI-II/P1_I/">Práctica 1 (I)</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
+<li >
+    <a href="/RPI-II/P1_II/">Práctica 1 (II)</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
+<li >
+    <a href="/RPI-II/P6/">Práctica 2 (I)</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
+<li >
+    <a href="/RPI-II/P6-II/">Práctica 2 (II)</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P5/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="/RPI-II/P5/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P7/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="/RPI-II/P7/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P3/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="/RPI-II/P3/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P10/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="/RPI-II/P10/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P8/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="/RPI-II/P8/">Práctica 7</a>
 </li>
                                     
-<li>
-    <a href="/RPI-II/P11/" class="dropdown-item">Práctica 8</a>
+<li >
+    <a href="/RPI-II/P11/">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li>
-    <a href="/ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+<li >
+    <a href="/ANIOT/P1/">Práctica 1</a>
 </li>
                                     
-<li>
-    <a href="/ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+<li >
+    <a href="/ANIOT/P2/">Práctica 2</a>
 </li>
                                     
-<li>
-    <a href="/ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+<li >
+    <a href="/ANIOT/P3/">Práctica 3</a>
 </li>
                                     
-<li>
-    <a href="/ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+<li >
+    <a href="/ANIOT/P4/">Práctica 4</a>
 </li>
                                     
-<li>
-    <a href="/ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+<li >
+    <a href="/ANIOT/P5/">Práctica 5</a>
 </li>
                                     
-<li>
-    <a href="/ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+<li >
+    <a href="/ANIOT/P6/">Práctica 6</a>
 </li>
                                     
-<li>
-    <a href="/ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+<li >
+    <a href="/ANIOT/P7/">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -190,7 +198,6 @@
         </div>
 
         <div class="container">
-            <div class="row">
 
     <div class="row-fluid">
       <div id="main-content" class="span12">
@@ -200,7 +207,6 @@
     </div>
 
 
-            </div>
         </div>
 
         <footer class="col-md-12">
@@ -214,32 +220,35 @@
         <script src="/js/base.js" defer></script>
         <script src="/search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
                     <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
