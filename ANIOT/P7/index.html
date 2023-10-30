@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 7. Over-The-Air Updates (OTA) - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
+        <title>Práctica 7 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -140,7 +140,7 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -157,23 +157,19 @@
 </li>
                                     
 <li>
-    <a href="../P9/" class="dropdown-item">Práctica 4</a>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
 <li>
-    <a href="../P9/" class="dropdown-item">Práctica 5</a>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
 <li>
-    <a href="../P9/" class="dropdown-item">Práctica 6</a>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
 <li>
-    <a href="../P9/" class="dropdown-item">Práctica 7</a>
-</li>
-                                    
-<li>
-    <a href="../P9/" class="dropdown-item">Práctica 8</a>
+    <a href="./" class="dropdown-item active">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
@@ -185,6 +181,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P6/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -221,6 +227,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#seguridad" class="nav-link">Seguridad</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#ejercicios-basicos" class="nav-link">Ejercicios básicos</a>
               <ul class="nav flex-column">
               </ul>
@@ -237,12 +247,11 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="practica-7-over-the-air-updates-ota">Práctica 7. Over-The-Air Updates (OTA)</h1>
-<p>Esta práctica se desarrollará el 22 de noviembre.</p>
 <h2 id="objetivos">Objetivos</h2>
 <p>El objetivo de esta práctica es familiarizarse con el concepto de OTA, la actualización del <em>firmware</em> de forma remota. Específicamente, usaremos el interfaz simplificado que ofrece ESP-IDF para realizar la actualización de aplicaciones.</p>
 <p>Trabajaremos los siguientes aspectos:</p>
 <ul>
-<li>Actualización de <em>firmware</em> mendiante HTTPS-.</li>
+<li>Actualización de <em>firmware</em> mendiante HTTPS.</li>
 <li>Incorporación de certificados en nuestra aplicación.</li>
 <li>Firmado de binarios.</li>
 </ul>
@@ -252,14 +261,16 @@
 <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html">Documentación sobre el proceso de arranque segurlo</a></li>
 <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html">Documentación sobre la tabla de particiones de ESP-IDF</a></li>
 <li><a href="https://github.com/espressif/esp-idf/tree/master/examples/system/ota">Ejemplos de OTA proporicionados por ESP-IDF</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data">Documentación sobre cómo incluir datos binarios/texto en la app</a></li>
+<li><a href="https://medium.com/talpor/ssl-tls-authentication-explained-86f00064280">Tutorial básico sobre TLS</a> </li>
 </ul>
 <h2 id="over-the-air-update-ota">Over-The-Air Update (OTA)</h2>
 <p><em>OTA</em> es el nombre que suele dar al proceso de actualización de <em>firmware</em> de forma remota, independientemente del mecanismo de comunicación utilizado (WiFi, Bluetooth, Ethernet...).
 Dicho proceso implica la recepción de una nueva imagen, su escritura y comprobación en un dispositivo de almacenamiento (no volátil), y el posterior arranque a partor de la nueva imagen.</p>
 <p>En un despliegue IoT, la funcionalidad OTA es imprescindible. Debe contemplarse desde el inicio en el diseño de la aplicación, porque su buen funcionamiento es crítico.</p>
 <h3 id="particiones-y-tabla-de-particiones">Particiones y tabla de particiones</h3>
-<p>Habitualmente, la imagen que se recibe vía red se almanceará en una <strong>partición</strong> diferente a la que se esté actualizando para ejecutar en el dispositivo. Una partició es una región de un dispositivo de almacenamiento que se gestiona de forma independiente. Se puede ver como un dispositivo virtual en sí mismo.</p>
-<p>La <em>tabla de particiones</em> es la estructura que almacena la división del dispositivo de almacenamiento en particiones. La tabla indica el tamaño, tipo y ubicación de cada una, Se suele almacenar en una posición fija del propio dispositivo y ser de tamaño fijo.</p>
+<p>Habitualmente, la imagen que se recibe vía red se almanceará en una <strong>partición</strong> diferente a la que se esté actualizando para ejecutar en el dispositivo. Una partición es una región de un dispositivo de almacenamiento que se gestiona de forma independiente. Se puede ver como un dispositivo virtual en sí mismo.</p>
+<p>La <em>tabla de particiones</em> es la estructura que almacena la división del dispositivo de almacenamiento en particiones. La tabla indica el tamaño, tipo y ubicación de cada una. Se suele almacenar en una posición fija del propio dispositivo y ser de tamaño fijo.</p>
 <p>En el caso concreto del ESP32 utilizado, la tabla de particiones se almacena en la <em>flash</em> (único dispositivo de almacenamiento presente), en el desplazamiento 0x8000 (32KiB más allá del comienzo de la <em>flash</em>). Tiene un tamaño de 3072 bytes, más un <em>checksum</em> MD5 almacenado tras la tabla para garantizar la integridad. Por tanto, se asigna un sector de <em>flash</em> (4KiB) para almacenar la tabla.</p>
 <p>Por defecto, el contenido de la tabla en ESP32 es:</p>
 <pre><code class="language-c"># ESP-IDF Partition Table
@@ -318,6 +329,18 @@ if (esp_ota_get_state_partition(running, &amp;ota_state) == ESP_OK) {
 <li>Si la funcionalidad de la nueva imagen es correcta, llamaremos a <code>esp_ota_mark_app_valid_cancel_rollback()</code> y el estado de esa partición pasará a <code>ESP_OTA_IMG_VALID</code>. Los arranques posteriores (tras <em>reset</em>) seguirán siendo desde esta partición.</li>
 <li>Si la funcionalidad de la nueva imagen no es correcta, llamaremos a  <code>esp_ota_mark_app_invalid_rollback_and_reboot()</code> y el estado de esa partición pasará a <code>ESP_OTA_IMG_INVALID</code>. No se volerá a tratar de arrancar esta imange, y se volverá a marcar como activa la partición OTA que estuviéramos usando antes de iniciar el proceso de actualización.</li>
 </ul>
+<h2 id="seguridad">Seguridad</h2>
+<p>Hay varios aspectos que debemos considerar en la seguridad de la operación OTA:</p>
+<ul>
+<li>El servidor del que descargamos la nueva imagen es de confianza (<em>autenticación</em>). Usar HTTPS es una opción segura, almacenando el certificado público de dicho servidor (o una cadena de certificados de confianza) en el nodo. <ul>
+<li>Algunos dispositivos disponen de hardware específico para almacenar este tipo de secretos <em>compartidos</em> (claves públicas; también claves privadas en ocasiones), pero no es el caso de nuestro ESP32.</li>
+<li>Al usar HTTPS, se usará el protocolo TLS para garantizar la  autenticación, integridad y confidencialidad de  las comunicaciones. Para ello, debemos usar certificados TLS: una clave pública con cierta información incorporada. Este certificiado puede ser autofirmado, como haremos en esta práctica, o podemos tener que usar una entidad certificadora (CA - Certification Authority).</li>
+<li>Revisad las <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data">opciones de compilación para saber cómo podemos incrustar el certificado en nuestro binario</a></li>
+</ul>
+</li>
+<li>La imagen recibida es de confianza. Parte de este aspecto queda cubierto por la garantía de <em>integridad</em> de TLS, pero podemos ir un paso más allá: podemos requerir que la imagen recibida esté firmada. Nuevamente, exigirá la generación de un par de claves para la firma del binario (con la clave privada) y su comprobación (con la clave pública). Puedes <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html#signed-app-verification-without-hardware-secure-boot">leer acerca de este proceso en la documentación de ESP-IDF</a></li>
+</ul>
+<p><strong>IMPORTANTE</strong>  NO habilitéis nunca el arranque seguro (Secure Boot) en <em>menuconfig</em>. Una vez activado, no podemos desactivarlo, y supondría un problema para el hardware del laboratorio. Es posible habilitar únicamente la verficación de la APP sin el arranque segruo completo.</p>
 <h2 id="ejercicios-basicos">Ejercicios básicos</h2>
 <p>Vamos a partir  <a href="https://github.com/espressif/esp-idf/tree/master/examples/system/ota/simple_ota_example">del ejemplo de OTA básico</a>. Estudia el código, y responde a las siguientes preguntas:</p>
 <div class="admonition note">
@@ -334,16 +357,16 @@ if (esp_ota_get_state_partition(running, &amp;ota_state) == ESP_OK) {
 <ul>
 <li>Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará <a href="file/ca_cert.pem">este certificado para la conexión segura por HTTP</a> y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.</li>
 <li>Alterar un byte del fichero del certificado y probar nuevamente.</li>
-<li>[Seguir los pasos del ejemnplo]((https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado. </li>
+<li>[Seguir los pasos del ejemplo]((https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.</li>
 </ul>
 </div>
 <h2 id="ejercicio-avanzado">Ejercicio avanzado</h2>
 <p>Integraremos OTA en la aplicación que hemos ido desarrollando a lo largo de estas prácticas (lectura periódica del sensor de temperatura).</p>
 <div class="admonition danger">
 <p class="admonition-title">Tareas</p>
-<p>La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del senor de temperatura cuyo valor se mostrará por pantalla. Se añadirá la siguiente funcionalidad: </p>
+<p>La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del sensor de temperatura. Se añadirá la siguiente funcionalidad: </p>
 <ul>
-<li>Cuando se reciba un evento externo (puede ser un mensaje por MQTT o la pulsación de un botón), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). </li>
+<li>Cuando se reciba un evento externo (la pulsación de un botón o la lectura del sensor de infrarrojos de una distancia menor que un umbral), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). </li>
 <li>Se desarrollará una función de auto-diagnóstico (<em>self-test</em>) que permita decidir si la nueva imagen se comporta de forma correcta.</li>
 <li>Se utilizará la opción de <em>rollback</em> para indicar si la nueva imagen se elige para futuros arranques o se marca como inválida.</li>
 </ul>

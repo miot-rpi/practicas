@@ -157,23 +157,19 @@
 </li>
                                     
 <li>
-    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 4</a>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
 <li>
-    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 5</a>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
 <li>
-    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 6</a>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
 <li>
-    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 7</a>
-</li>
-                                    
-<li>
-    <a href="../../ANIOT/P9/" class="dropdown-item">Práctica 8</a>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
@@ -251,7 +247,7 @@
 <li>Conocer una API básica de programación de sistemas cliente/servidor en ESP-IDF (ESP-TLS).</li>
 </ul>
 <h2 id="contenido-del-paquete-proporcionado-y-setup-basico">Contenido del paquete proporcionado y setup básico</h2>
-<p>El paquete proporcionado (puedes descargarlo <a href="https://drive.google.com/file/d/1ewK-vxUyOdmGIkIsdjMDzWbrSfo8YtMU/view?usp=sharing">aquí</a>) 
+<p>El paquete proporcionado (puedes descargarlo <a href="https://drive.google.com/drive/folders/1JJZDf151Qpa6ltNKFMMzIF7VRMVu0LA_?usp=share_link">aquí</a>) 
 incluye ejemplos de sistemas cliente/servidor
 programados utilizando TLS y DTLS mediante el uso de la biblioteca WolfSSL.
 Estos códigos están diseñados para ejecutarse exclusivamente en un sistema
@@ -259,7 +255,7 @@ Linux, y requieren la instalación de los paquetes de desarrollo WolfSSL. </p>
 <p>Para realizar la instalación, ejecuta en tu máquina virtual (esta línea
 podría cambiar si usas otra distribución de Linux, en cuyo caso deberás
 buscar los paquetes equivalentes):</p>
-<pre><code class="language-sh">sudo apt-get install libwolfssl-dev libwolfssl24
+<pre><code class="language-sh">sudo apt-get install libwolfssl-dev libwolfssl*
 </code></pre>
 <p>Una vez hecho esto, prueba a realizar la compilación tanto del ejemplo
 TLS como DTLS utilizando la orden <code>make</code> en el directorio correspondiente. Si
@@ -417,7 +413,7 @@ transferidos.</p>
 simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece 
 una funcionalidad suficientemente amplia como para implementar casos de uso
 comunes en entornos IoT. </p>
-<p>La API de ESP-TLS es sencilla,y se basa en el uso de cuatro funciones básicas:</p>
+<p>La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:</p>
 <h3 id="establecimiento-de-conexion-tls-esp_tls_conn_new">Establecimiento de conexión TLS (<code>esp_tls_conn_new()</code>)</h3>
 <ul>
 <li>Prototipo:</li>
@@ -575,13 +571,6 @@ la totalidad de su código para que se comporte como un simple cliente <em>echo<
 el servidor TLS que probaste anteriormente en el <em>host</em>. Comprueba que, efectivamente,
 los datos se transfieren cifrados entre ambos extremos, y que el intercambio de 
 paquetes es similar al que observaste entre cliente y servidor en el <em>host</em>.</p>
-</div>
-<div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
-<p>Adapta tu sistema cliente/servidor TCP desarrollado en la práctica 1
-para que se ejecute sobre el binomio <em>host</em>/ESP32 utlizando TLS. 
-Entrega el código generado junto con una captura de tráfico que demuestre su 
-correcto funcionamiento.</p>
 </div></div>
             </div>
         </div>
