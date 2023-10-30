@@ -166,7 +166,7 @@ previa a cualquier intercambio de datos.
     `init_resources`, y añade un nuevo recurso llamado *temperature*. 
     Este recurso aceptará dos consultas distintas: *?celsius* (consulta por defecto)
     devolverá el valor de temperatura expresado en grados centígrados, mientras que
-    *\tt fahrenheit* devolverá la temperatura en grados Fahrenheit. En este caso, el valor
+    *?fahrenheit* devolverá la temperatura en grados Fahrenheit. En este caso, el valor
     de temperatura se obtendrá directamente a través de un número aleatorio, pero se
     valorará su obtención a partir de un sensor real.
 
