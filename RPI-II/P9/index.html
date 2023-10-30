@@ -4,191 +4,180 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
+        
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <title>Práctica 9. Node-RED - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
-    <body class="homepage">
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 3</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 4</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 5</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P10/">Práctica 6</a>
+<li>
+    <a href="../P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P8/">Práctica 7</a>
+<li>
+    <a href="../P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../P11/">Práctica 8</a>
+<li>
+    <a href="../P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -198,19 +187,54 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-9-node-red">Práctica 9. Node-RED</a></li>
-            <li><a href="#introduccion-y-objetivos">Introducción y objetivos</a></li>
-            <li><a href="#instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</a></li>
-            <li><a href="#ejemplo-1">Ejemplo 1</a></li>
-            <li><a href="#ejemplo-2">Ejemplo 2</a></li>
-            <li><a href="#cliente-mqtt-y-despliegue-de-un-panel-de-control">Cliente MQTT y despliegue de un panel de control</a></li>
-            <li><a href="#documentacion-adicional">Documentación adicional</a></li>
-            <li><a href="#ejercicio-entregable">Ejercicio entregable</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-9-node-red" class="nav-link">Práctica 9. Node-RED</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#instalacion-y-puesta-en-marcha" class="nav-link">Instalación y puesta en marcha</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejemplo-1" class="nav-link">Ejemplo 1</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejemplo-2" class="nav-link">Ejemplo 2</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#cliente-mqtt-y-despliegue-de-un-panel-de-control" class="nav-link">Cliente MQTT y despliegue de un panel de control</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#documentacion-adicional" class="nav-link">Documentación adicional</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-entregable" class="nav-link">Ejercicio entregable</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-9-node-red">Práctica 9. Node-RED</h1>
 <h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
@@ -237,27 +261,24 @@ instalación y uso básico de la herramienta Node-RED. </p>
 <h2 id="instalacion-y-puesta-en-marcha">Instalación y puesta en marcha</h2>
 <p>Para instalar Node-RED en la máquina virtual del curso, es suficiente con 
 utilizar el gestor <code>npm</code>:</p>
-<pre><code class="sh">sudo npm install -g --unsafe-perm node-red
+<pre><code class="language-sh">sudo npm install -g --unsafe-perm node-red
 </code></pre>
-
 <p>Al finalzar, si todo ha ido bien, deberías observar una salida similar a la
 siguiente:</p>
-<pre><code class="sh">+ node-red@1.1.0
+<pre><code class="language-sh">+ node-red@1.1.0
 added 332 packages from 341 contributors in 18.494s
 found 0 vulnerabilities
 </code></pre>
-
 <p>En caso de que se muestre un mensaje indicando que la versión de Node.js no es compatible 
 y que se requiera al menos una versión 14, es preciso actualizarlo mediante los siguientes
 comandos:</p>
-<pre><code class="sh">curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+<pre><code class="language-sh">curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 </code></pre>
-
 <p>Para ejecutar Node-RED, una vez instalado, es posible utilizar la orden
 <code>node-red</code> desde cualquier terminal. Para detener el proceso, es suficiente
 con utilizar <code>Ctrl-C</code>:</p>
-<pre><code class="sh">$ node-red
+<pre><code class="language-sh">$ node-red
 
 Welcome to Node-RED
 ===================
@@ -277,7 +298,6 @@ Welcome to Node-RED
 30 Jun 23:43:44 - [info] Started flows
 30 Jun 23:43:44 - [info] Server now running at http://127.0.0.1:1880/red/
 </code></pre>
-
 <p>Con el <em>software</em> arrancado, es posible acceder al editor Node-RED a través
 de la dirección <code>http://localhost:1880</code> en cualquier navegador.</p>
 <p>Tras arrancarlo, observarás cuatro áreas en el editor:</p>
@@ -338,14 +358,13 @@ función JavaScript. Borra el <em>Wire</em> existente y añade un nodo <em>Funct
 entre los nodos <em>Inject</em> y <em>Debug</em>.</p>
 <p>Haz doble clic en el nuevo nodo para abrir el diálogo de edición. Copia el
 siguiente código en el campo <em>Function</em>:</p>
-<pre><code class="javascript">// Create a Date object from the payload
+<pre><code class="language-javascript">// Create a Date object from the payload
 var date = new Date(msg.payload);
 // Change the payload to be a formatted Date string
 msg.payload = date.toString();
 // Return the message so it can be sent on
 return msg;
 </code></pre>
-
 <p>Clica en <em>Done</em> y despliega el flujo. Observa que, ahora, los mensajes
 de depuración muestran marcas de tiempo en formato visible. Ten en cuenta
 que un nodo siempre recibe un mensaje (<em>msg</em>) de entrada y devuelve un 
@@ -394,18 +413,16 @@ establecer el valor de <code>msg.payload</code> a <code>ALARMA</code>.</p>
 <p>Añade un nodo <em>Debug</em> y despliega el flujo.</p>
 <p>En el panel de <em>Debug</em>, deberás obsevar, para cada activación del nodo 
 <em>Inject</em>, una salida similar a esta:</p>
-<pre><code class="sh">msg.payload : Object
+<pre><code class="language-sh">msg.payload : Object
 {&quot;time&quot;:&quot;2017-11-19T15:09:03.120Z&quot;,&quot;latitude&quot;:-21.5167,&quot;longitude&quot;:168.5426,&quot;depth&quot;:14.19,&quot;mag&quot;:6.6,&quot;magType&quot;:&quot;mww&quot;,&quot;gap&quot;:21,&quot;dmin&quot;:0.478,&quot;rms&quot;:0.86,&quot;net&quot;:&quot;us&quot;,&quot;id&quot;:&quot;us2000brgk&quot;,&quot;updated&quot;:&quot;2017-11-19T17:10:58.449Z&quot;,&quot;place&quot;:&quot;68km E of Tadine, New Caledonia&quot;,&quot;type&quot;:&quot;earthquake&quot;,&quot;horizontalError&quot;:6.2,&quot;depthError&quot;:2.8,&quot;magError&quot;:0.037,&quot;magNst&quot;:72,&quot;status&quot;:&quot;reviewed&quot;,&quot;locationSource&quot;:&quot;us&quot;,&quot;magSource&quot;:&quot;us&quot;}
 </code></pre>
-
 <p>Puedes clicar en la pequeña flecha a la izquierda de cada propiedad para 
 expandirla y examinar sus contenidos. </p>
 <p>Si existe cualquier terremoto de magnitud mayor a <code>6.2</code>, observarás una
 salida adicional:</p>
-<pre><code class="sh">msg.payload : string(6)
+<pre><code class="language-sh">msg.payload : string(6)
 &quot;ALARMA&quot;
 </code></pre>
-
 <p>Para más información sobre los nodos básicos en Node-RED, puedes consultar:</p>
 <ul>
 <li><strong>The Core Nodes</strong>: <a href="https://nodered.org/docs/user-guide/nodes">enlace a documentación</a>.</li>
@@ -481,7 +498,7 @@ persistente (Base de Datos no relacional, ficheros, ...) para permitir
 su posterior análisis y en un panel de control.</p>
 </li>
 <li>
-<p><strong> (2 puntos)</strong>. El sistema actuará como un sistema de alarma únicamente 
+<p>** (2 puntos)**. El sistema actuará como un sistema de alarma únicamente 
 ante ciertas condiciones de entrada (por ejemplo, al recibir un valor desde 
 un sensor superior a un umbral establecido; dicho valor podría, por ejemplo,
 configurarse vía MQTT o a través de un panel de control).</p>
@@ -496,48 +513,48 @@ una breve memoria que describa el sistema diseñado y el trabajo realizado,
 haciendo hincapié en las dificultades encontradas y aquellos aspectos que se 
 consideren de interés por parte del alumno/a. </p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
@@ -575,8 +592,3 @@ consideren de interés por parte del alumno/a. </p>
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.0.4
-Build Date UTC : 2023-10-23 11:53:34
--->

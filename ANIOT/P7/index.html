@@ -9,196 +9,185 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 7 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-I/P1/">Práctica 1</a>
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P2/">Práctica 2</a>
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P3/">Práctica 3</a>
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P4/">Práctica 4</a>
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P5/">Práctica 5</a>
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P6/">Práctica 6</a>
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-I/P7/">Práctica 7</a>
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../P6/">Práctica 6</a>
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 7</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P6/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P6/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="disabled">
-                                <a rel="prev" >
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -208,19 +197,54 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-7-over-the-air-updates-ota">Práctica 7. Over-The-Air Updates (OTA)</a></li>
-            <li><a href="#objetivos">Objetivos</a></li>
-            <li><a href="#material-de-consulta">Material de consulta</a></li>
-            <li><a href="#over-the-air-update-ota">Over-The-Air Update (OTA)</a></li>
-            <li><a href="#ota-rollback">OTA rollback</a></li>
-            <li><a href="#seguridad">Seguridad</a></li>
-            <li><a href="#ejercicios-basicos">Ejercicios básicos</a></li>
-            <li><a href="#ejercicio-avanzado">Ejercicio avanzado</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-7-over-the-air-updates-ota" class="nav-link">Práctica 7. Over-The-Air Updates (OTA)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#material-de-consulta" class="nav-link">Material de consulta</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#over-the-air-update-ota" class="nav-link">Over-The-Air Update (OTA)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ota-rollback" class="nav-link">OTA rollback</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#seguridad" class="nav-link">Seguridad</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicios-basicos" class="nav-link">Ejercicios básicos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#ejercicio-avanzado" class="nav-link">Ejercicio avanzado</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-7-over-the-air-updates-ota">Práctica 7. Over-The-Air Updates (OTA)</h1>
 <h2 id="objetivos">Objetivos</h2>
@@ -249,19 +273,18 @@ Dicho proceso implica la recepción de una nueva imagen, su escritura y comproba
 <p>La <em>tabla de particiones</em> es la estructura que almacena la división del dispositivo de almacenamiento en particiones. La tabla indica el tamaño, tipo y ubicación de cada una. Se suele almacenar en una posición fija del propio dispositivo y ser de tamaño fijo.</p>
 <p>En el caso concreto del ESP32 utilizado, la tabla de particiones se almacena en la <em>flash</em> (único dispositivo de almacenamiento presente), en el desplazamiento 0x8000 (32KiB más allá del comienzo de la <em>flash</em>). Tiene un tamaño de 3072 bytes, más un <em>checksum</em> MD5 almacenado tras la tabla para garantizar la integridad. Por tanto, se asigna un sector de <em>flash</em> (4KiB) para almacenar la tabla.</p>
 <p>Por defecto, el contenido de la tabla en ESP32 es:</p>
-<pre><code class="c"># ESP-IDF Partition Table
+<pre><code class="language-c"># ESP-IDF Partition Table
 # Name,   Type, SubType, Offset,  Size, Flags
 nvs,      data, nvs,     0x9000,  0x6000,
 phy_init, data, phy,     0xf000,  0x1000,
 factory,  app,  factory, 0x10000, 1M,
 </code></pre>
-
 <p>Como se puede observar, justo tras la propia tabla (recordemos, en el desplazamiento <em>0x8000</em> y de tamaño un sector), se encuentra una partición de tipo <em>nvs</em> (<em>Non-Volatile Storage</em> API) cuyo cometido se observó en prácticas anteriores (almacenamiento de pares clave-valor). Esta partición, de 6 sectores (24KiB) por defecto, almacena infomración de la interfaz WiFi (entre otras) si se utiliza <em>WIFI_STORAGE_FLASH</em> como argumento de <em>esp_wifi_set_storage()</em> (y así es por defecto). Se recomienda que el mínimo de esta partición sea de 3 sectores, y que se haga mayor de 6 si se prevé almacenar mucha información propia de la aplicación.</p>
 <p>La partición <em>phy_init</em> almacena datos de configuración para la inicialización del interfaz PHY. Por defecto, esta partición no se utiliza y los datos de inicialización del PHY se compilan en el propio binario de la aplicación. Si queremos que se cargue la configuración PHY desde esta partición (para, por ejemplo, particularizar el calibrado por dispositivo) debemos habilitar <code>CONFIG_ESP_PHY_INIT_DATA_IN_PARTITION</code> en <em>menuconfig</em> y volcar explícitamente la partición, ya que no se hace por defecto.</p>
 <p>Finalmente, la partición <em>factory</em> de tipo <em>app</em> y subtipo <em>factory</em> es la partición donde escribiremos nuestro código (fichero <code>.bin</code> generado a partir del <code>.elf</code>) cuando volquemos el proyecto en la placa (<code>idf.py flash -p &lt;port&gt;</code>).</p>
 <h3 id="particiones-para-ota">Particiones para OTA</h3>
 <p>En ESP-IDF, si nuestro proyecto quiere incorporar la posibilidad de actualizarse de forma remota, debemos preverlo desde el comienzo, pues son necesarias varias particiones específicas:</p>
-<pre><code class="c"># Name,   Type, SubType,  Offset,   Size,  Flags
+<pre><code class="language-c"># Name,   Type, SubType,  Offset,   Size,  Flags
 nvs,      data, nvs,      0x9000,  0x4000
 otadata,  data, ota,      0xd000,  0x2000
 phy_init, data, phy,      0xf000,  0x1000
@@ -270,7 +293,6 @@ ota_0,    app,  ota_0,    ,         1M
 ota_1,    app,  ota_1,    ,         1M
 nvs_key,  data, nvs_keys, ,        0x1000
 </code></pre>
-
 <p>Comparando con la tabla anterior, vemos dos tipo de particiones nuevas:</p>
 <ul>
 <li><em>otadata</em> de tipo <em>ota</em>. Ocupa dos sectores y mantiene la información sobre las particiones <em>ota_<n></em> existentes y su estado. Inicialmente, se debe inicializar a 0xFF (todo <em>unos</em>) para indicar que el arranque se debe hacer desde la partición <em>factory</em></li>
@@ -280,7 +302,7 @@ nvs_key,  data, nvs_keys, ,        0x1000
 <p>ESP-IDF incluye la posibilidad de hacer <em>rollback</em> tras recibir una nueva imagen. La secuencia de estados por los que pasa una partición es la siguiente:</p>
 <p><img alt="estados OTA" src="img/estadosOTA.png" /></p>
 <p>Un posible código para usar esta funcionalidad sería:</p>
-<pre><code class="c">void app_main(void) {
+<pre><code class="language-c">void app_main(void) {
 ...
 const esp_partition_t *running = esp_ota_get_running_partition();
 esp_ota_img_states_t ota_state;
@@ -299,7 +321,6 @@ if (esp_ota_get_state_partition(running, &amp;ota_state) == ESP_OK) {
   }
 }
 </code></pre>
-
 <p>Como se puede comprobar en la figura y en el código, en un arranque que se produce tras escribir una nueva imagen en <em>flash</em> deberíamos seguir los siguientes pasos:</p>
 <ul>
 <li>Conseguir el manejador de la partición activa (la que está ejecutando la imagen actualemnte) mediante <code>esp_ota_get_running_partition()</code></li>
@@ -360,48 +381,48 @@ if (esp_ota_get_state_partition(running, &amp;ota_state) == ESP_OK) {
 <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/mbedtls.html">Mbed TLS</a></li>
 </ul>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">

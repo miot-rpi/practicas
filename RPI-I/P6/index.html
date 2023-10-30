@@ -9,196 +9,185 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 6 - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
-                </div>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li >
-                                <a href="../..">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../LSI/Lab0/">Laboratorio 0</a>
+<li>
+    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab1/">Laboratorio 1</a>
+<li>
+    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab2/">Laboratorio 2</a>
+<li>
+    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab3/">Laboratorio 3</a>
+<li>
+    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab4/">Laboratorio 4</a>
+<li>
+    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
 </li>
                                     
-<li >
-    <a href="../../LSI/Lab5/">Laboratorio 5</a>
+<li>
+    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../P1/">Práctica 1</a>
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../P2/">Práctica 2</a>
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../P3/">Práctica 3</a>
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../P4/">Práctica 4</a>
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../P5/">Práctica 5</a>
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Práctica 6</a>
+<li>
+    <a href="./" class="dropdown-item active">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../P7/">Práctica 7</a>
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../RPI-II/P1_I/">Práctica 1 (I)</a>
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P1_II/">Práctica 1 (II)</a>
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6/">Práctica 2 (I)</a>
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 2 (I)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P6-II/">Práctica 2 (II)</a>
+<li>
+    <a href="../../RPI-II/P6-II/" class="dropdown-item">Práctica 2 (II)</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P5/">Práctica 3</a>
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P7/">Práctica 4</a>
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P3/">Práctica 5</a>
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P10/">Práctica 6</a>
+<li>
+    <a href="../../RPI-II/P10/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P8/">Práctica 7</a>
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 7</a>
 </li>
                                     
-<li >
-    <a href="../../RPI-II/P11/">Práctica 8</a>
+<li>
+    <a href="../../RPI-II/P11/" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../ANIOT/P1/">Práctica 1</a>
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P2/">Práctica 2</a>
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P3/">Práctica 3</a>
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P4/">Práctica 4</a>
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P5/">Práctica 5</a>
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P6/">Práctica 6</a>
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
-<li >
-    <a href="../../ANIOT/P7/">Práctica 7</a>
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../P5/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../P5/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../P7/">
+                            <li class="nav-item">
+                                <a rel="next" href="../P7/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -208,23 +197,73 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#practica-6-bluetooth-low-energy-ble">Práctica 6. Bluetooth Low Energy (BLE)</a></li>
-        <li class="main "><a href="#objetivos">Objetivos</a></li>
-        <li class="main "><a href="#implementacion-de-un-cliente-gatt-para-escaneo-y-conexion-a-servidor">Implementación de un cliente GATT para escaneo y conexión a servidor</a></li>
-        <li class="main "><a href="#descripcion-del-codigo-de-ejemplo">Descripción del código de ejemplo</a></li>
-            <li><a href="#ficheros-de-cabecera">Ficheros de cabecera</a></li>
-            <li><a href="#punto-de-entrada-principal">Punto de Entrada Principal</a></li>
-            <li><a href="#inicializacion-del-controlador-bluetooth-y-la-pila-ble">Inicialización del Controlador Bluetooth y la Pila BLE</a></li>
-            <li><a href="#perfiles-de-aplicacion">Perfiles de Aplicación</a></li>
-            <li><a href="#configuracion-de-parametros-de-escaneo">Configuración de Parámetros de Escaneo</a></li>
-            <li><a href="#configuracion-del-tamano-de-mtu">Configuración del Tamaño de MTU</a></li>
-            <li><a href="#obteniendo-caracteristicas">Obteniendo Características</a></li>
-            <li><a href="#registro-para-notificaciones">Registro para Notificaciones</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-6-bluetooth-low-energy-ble" class="nav-link">Práctica 6. Bluetooth Low Energy (BLE)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#implementacion-de-un-cliente-gatt-para-escaneo-y-conexion-a-servidor" class="nav-link">Implementación de un cliente GATT para escaneo y conexión a servidor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#descripcion-del-codigo-de-ejemplo" class="nav-link">Descripción del código de ejemplo</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#ficheros-de-cabecera" class="nav-link">Ficheros de cabecera</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#punto-de-entrada-principal" class="nav-link">Punto de Entrada Principal</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#inicializacion-del-controlador-bluetooth-y-la-pila-ble" class="nav-link">Inicialización del Controlador Bluetooth y la Pila BLE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#perfiles-de-aplicacion" class="nav-link">Perfiles de Aplicación</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuracion-de-parametros-de-escaneo" class="nav-link">Configuración de Parámetros de Escaneo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuracion-del-tamano-de-mtu" class="nav-link">Configuración del Tamaño de MTU</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#obteniendo-caracteristicas" class="nav-link">Obteniendo Características</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#registro-para-notificaciones" class="nav-link">Registro para Notificaciones</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="practica-6-bluetooth-low-energy-ble">Práctica 6. Bluetooth Low Energy (BLE)</h1>
 <h1 id="objetivos">Objetivos</h1>
@@ -246,7 +285,7 @@
 <p>Los archivos de encabezado contenidos en <a href="../main/gattc_demo.c">gattc_demo.c</a> son:</p>
 <h2 id="ficheros-de-cabecera">Ficheros de cabecera</h2>
 <p>Observa los ficheros de cabecera incluidos (similares a los que utilizaste en la práctica anterior):</p>
-<pre><code class="c">#include &lt;stdint.h&gt;
+<pre><code class="language-c">#include &lt;stdint.h&gt;
 #include &lt;string.h&gt;
 #include &lt;stdbool.h&gt;
 #include &lt;stdio.h&gt;
@@ -261,7 +300,6 @@
 #include &quot;esp_bt_main.h&quot;
 #include &quot;esp_gatt_common_api.h&quot;
 </code></pre>
-
 <p>Estos <code>includes</code> son necesarios para que funcionen los componentes del sistema subyacente y FreeRTOS, incluida la funcionalidad de registro y una biblioteca para almacenar datos en memoria flash no volátil. Estamos interesados en <code>"bt.h"</code>, <code>"esp_bt_main.h"</code>, <code>"esp_gap_ble_api.h"</code> y <code>"esp_gattc_api.h"</code>, que exponen las API de BLE necesarias para implementar este ejemplo.</p>
 <ul>
 <li><code>bt.h</code>: configura el controlador BT y VHCI desde el lado del host.</li>
@@ -271,7 +309,7 @@
 </ul>
 <h2 id="punto-de-entrada-principal">Punto de Entrada Principal</h2>
 <p>La función de punto de entrada del programa es <code>app_main()</code>:</p>
-<pre><code class="c">void app_main()
+<pre><code class="language-c">void app_main()
 {
     // Inicializar NVS.
     esp_err_t ret = nvs_flash_init();
@@ -333,26 +371,22 @@
 
 }
 </code></pre>
-
 <p>La función principal comienza inicializando la biblioteca de almacenamiento no volátil. Esta biblioteca permite guardar pares clave-valor en la memoria flash y se utiliza en algunos componentes, como la biblioteca Wi-Fi, para guardar el SSID y la contraseña:</p>
-<pre><code class="c">esp_err_t ret = nvs_flash_init();
+<pre><code class="language-c">esp_err_t ret = nvs_flash_init();
 if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
     ESP_ERROR_CHECK(nvs_flash_erase());
     ret = nvs_flash_init();
 }
 ESP_ERROR_CHECK( ret );
 </code></pre>
-
 <h2 id="inicializacion-del-controlador-bluetooth-y-la-pila-ble">Inicialización del Controlador Bluetooth y la Pila BLE</h2>
 <p>La función principal también inicializa el controlador BT al crear primero una estructura de configuración del controlador BT llamada <code>esp_bt_controller_config_t</code> con ajustes predeterminados generados por la macro <code>BT_CONTROLLER_INIT_CONFIG_DEFAULT()</code>. El controlador BT implementa la Interfaz del Controlador Host (HCI) en el lado del controlador, la Capa de Enlace (LL) y la Capa Física (PHY). El controlador BT es invisible para las aplicaciones de usuario y se encarga de las capas inferiores de la pila BLE. La configuración del controlador incluye el tamaño de la pila del controlador BT, la prioridad y la velocidad de baudios HCI. Con la configuración creada, se inicializa y habilita el controlador BT con la función <code>esp_bt_controller_init()</code>:</p>
-<pre><code class="c">esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+<pre><code class="language-c">esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
 ret = esp_bt_controller_init(&amp;bt_cfg);
 </code></pre>
-
 <p>A continuación, el controlador se habilita en el modo BLE.</p>
-<pre><code class="c">ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
+<pre><code class="language-c">ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 </code></pre>
-
 <blockquote>
 <p>El controlador debe habilitarse en <code>ESP_BT_MODE_BTDM</code> si desea utilizar el modo dual (BLE + BT).</p>
 </blockquote>
@@ -364,13 +398,12 @@ ret = esp_bt_controller_init(&amp;bt_cfg);
 <li><code>ESP_BT_MODE_BTDM</code>: Modo dual (BLE + BT clásico).</li>
 </ol>
 <p>Después de la inicialización del controlador BT, se inicializa y habilita la pila Bluedroid, que incluye las definiciones y API comunes tanto para BT clásico como para BLE. Esto se realiza mediante:</p>
-<pre><code class="c">esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
+<pre><code class="language-c">esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
 ret = esp_bluedroid_init_with_cfg(&amp;bluedroid_cfg);
 ret = esp_bluedroid_enable();
 </code></pre>
-
 <p>La función principal finaliza registrando los controladores de eventos GAP y GATT, así como el Perfil de Aplicación y configurando el tamaño máximo admitido de MTU.</p>
-<pre><code class="c">    // Registrar la función de devolución de llamada en el módulo GAP
+<pre><code class="language-c">    // Registrar la función de devolución de llamada en el módulo GAP
     ret = esp_ble_gap_register_callback(esp_gap_cb);
 
     // Registrar la función de devolución de llamada en el módulo GATTC
@@ -383,16 +416,14 @@ ret = esp_bluedroid_enable();
         ESP_LOGE(GATTC_TAG, &quot;configuración del MTU local fallida, código de error = %x&quot;, local_mtu_ret);
     }
 </code></pre>
-
 <p>Los controladores de eventos GAP y GATT son las funciones utilizadas para capturar los eventos generados por la pila BLE y ejecutar funciones para configurar los parámetros de la aplicación. Además, los controladores de eventos también se utilizan para manejar eventos de lectura y escritura que provienen del dispositivo central. El controlador de eventos GAP se encarga del escaneo y la conexión a servidores, y el controlador GATT administra los eventos que ocurren después de que el cliente se haya conectado a un servidor, como la búsqueda de servicios y la escritura y lectura de datos. Los controladores de eventos GAP y GATT se registran mediante:</p>
-<pre><code class="c">esp_ble_gap_register_callback();
+<pre><code class="language-c">esp_ble_gap_register_callback();
 esp_ble_gattc_register_callback();
 </code></pre>
-
 <p>Las funciones <code>esp_gap_cb()</code> y <code>esp_gattc_cb()</code> manejan todos los eventos generados por la pila BLE.</p>
 <h2 id="perfiles-de-aplicacion">Perfiles de Aplicación</h2>
 <p>Los Perfiles de Aplicación son una forma de agrupar funcionalidades diseñadas para una o más aplicaciones de servidor. Por ejemplo, puede tener un Perfil de Aplicación conectado a sensores de ritmo cardíaco y otro conectado a sensores de temperatura. Cada Perfil de Aplicación crea una interfaz GATT para conectarse a otros dispositivos. Las estructuras de Perfiles de Aplicación en el código son instancias de la estructura <code>gattc_profile_inst</code>, que se define como:</p>
-<pre><code class="c">struct gattc_profile_inst {
+<pre><code class="language-c">struct gattc_profile_inst {
     esp_gattc_cb_t gattc_cb;
     uint16_t gattc_if;
     uint16_t app_id;
@@ -403,7 +434,6 @@ esp_ble_gattc_register_callback();
     esp_bd_addr_t remote_bda;
 };
 </code></pre>
-
 <p>La estructura de Perfil de Aplicación contiene:</p>
 <ul>
 <li><code>gattc_cb</code>: función de devolución de llamada del cliente GATT</li>
@@ -416,22 +446,20 @@ esp_ble_gattc_register_callback();
 <li><code>remote_bda</code>: dirección del dispositivo remoto conectado a este cliente.</li>
 </ul>
 <p>En este ejemplo, hay un Perfil de Aplicación y su ID se define como:</p>
-<pre><code class="c">#define PROFILE_NUM 1
+<pre><code class="language-c">#define PROFILE_NUM 1
 #define PROFILE_A_APP_ID 0
 </code></pre>
-
 <p>Los Perfiles de Aplicación se almacenan en el array <code>gl_profile_tab</code>, que se inicializa de la siguiente manera:</p>
-<pre><code class="c">/* Un perfil basado en GATT, un app_id y un gattc_if, este arreglo almacenará el gattc_if devuelto por ESP_GATTS_REG_EVT */
+<pre><code class="language-c">/* Un perfil basado en GATT, un app_id y un gattc_if, este arreglo almacenará el gattc_if devuelto por ESP_GATTS_REG_EVT */
 static struct gattc_profile_inst gl_profile_tab[PROFILE_NUM] = {
         [PROFILE_A_APP_ID] = {.gattc_cb = gattc_profile_event_handler,
                                   .gattc_if = ESP_GATT_IF_NONE, /* No se obtiene el gatt_if, por lo que se inicializa como ESP_GATT_IF_NONE */
     },
 };
 </code></pre>
-
 <p>La inicialización del array de tablas de Perfiles de Aplicación incluye la definición de la función de devolución de llamada para el Perfil. En este caso, es <code>gattc_profile_event_handler()</code>. Además, la interfaz GATT se inicializa con el valor predeterminado de <code>ESP_GATT_IF_NONE</code>. Más adelante, cuando se registre el Perfil de Aplicación, la pila BLE devolverá una instancia de interfaz GATT para usar con ese Perfil de Aplicación.</p>
 <p>El registro del perfil desencadena un evento <code>ESP_GATTC_REG_EVT</code>, que es manejado por el manejador de eventos <code>esp_gattc_cb()</code>. El manejador toma la interfaz GATT devuelta por el evento y la almacena en la tabla de perfiles:</p>
-<pre><code class="c">static void esp_gattc_cb(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gattc_cb_param_t *param)
+<pre><code class="language-c">static void esp_gattc_cb(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gattc_cb_param_t *param)
 {
     ESP_LOGI(GATTC_TAG, &quot;EVT %d, gattc if %d&quot;, event, gattc_if);
 
@@ -448,9 +476,8 @@ static struct gattc_profile_inst gl_profile_tab[PROFILE_NUM] = {
     }
 …
 </code></pre>
-
 <p>Finalmente, la función de devolución de llamada invoca el manejador de eventos correspondiente para cada perfil en la tabla <code>gl_profile_tab</code>.</p>
-<pre><code class="c">…
+<pre><code class="language-c">…
 /* Si gattc_if es igual al perfil A, llamar al manejador de cb del perfil A,
      * por lo tanto, aquí llamar a la función cb de cada perfil */
     do {
@@ -466,10 +493,9 @@ static struct gattc_profile_inst gl_profile_tab[PROFILE_NUM] = {
     } while (0);
 }
 </code></pre>
-
 <h2 id="configuracion-de-parametros-de-escaneo">Configuración de Parámetros de Escaneo</h2>
 <p>El cliente GATT normalmente escanea servidores cercanos y trata de conectarse a ellos si está interesado. Sin embargo, para realizar el escaneo, primero es necesario configurar los parámetros de configuración. Esto se hace después del registro de los Perfiles de Aplicación, porque una vez completado el registro, desencadena un evento <code>ESP_GATTC_REG_EVT</code>. La primera vez que se desencadena este evento, el manejador de eventos GATT lo captura y asigna una interfaz GATT al Perfil A. Luego, el evento se reenvía al manejador de eventos GATT del Perfil A. En este manejador de eventos, el evento se utiliza para llamar a la función <code>esp_ble_gap_set_scan_params()</code>, que toma una instancia de estructura <code>ble_scan_params</code> como parámetro. Esta estructura se define como:</p>
-<pre><code class="c">/// Parámetros de escaneo BLE
+<pre><code class="language-c">/// Parámetros de escaneo BLE
 typedef struct {
     esp_ble_scan_type_t     scan_type;              /*!&lt; Tipo de escaneo */
     esp_ble_addr_type_t     own_addr_type;          /*!&lt; Tipo de dirección propia */
@@ -486,9 +512,8 @@ typedef struct {
     //Rango de tiempo: 2.5 ms a 10240 ms
 } esp_ble_scan_params_t;
 </code></pre>
-
 <p>Y se inicializa de la siguiente manera:</p>
-<pre><code class="c">static esp_ble_scan_params_t ble_scan_params = {
+<pre><code class="language-c">static esp_ble_scan_params_t ble_scan_params = {
     .scan_type              = BLE_SCAN_TYPE_ACTIVE,
     .own_addr_type          = BLE_ADDR_TYPE_PUBLIC,
     .scan_filter_policy     = BLE_SCAN_FILTER_ALLOW_ALL,
@@ -496,10 +521,9 @@ typedef struct {
     .scan_window            = 0x30
 };
 </code></pre>
-
 <p>Los parámetros de escaneo BLE se configuran de manera que el tipo de escaneo sea activo (incluye la lectura de la respuesta de escaneo), es de tipo público, permite leer cualquier dispositivo anunciado y tiene un intervalo de escaneo de 100 ms (1.25 ms * 0x50) y una ventana de escaneo de 60 ms (1.25 ms * 0x30).</p>
 <p>Los valores de escaneo se establecen utilizando la función <code>esp_ble_gap_set_scan_params()</code>:</p>
-<pre><code class="c">case ESP_GATTC_REG_EVT:
+<pre><code class="language-c">case ESP_GATTC_REG_EVT:
         ESP_LOGI(GATTC_TAG, &quot;REG_EVT&quot;);
         esp_err_t scan_ret = esp_ble_gap_set_scan_params(&amp;ble_scan_params);
         if (scan_ret){
@@ -507,20 +531,18 @@ typedef struct {
         }
         break;
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea Básica</p>
 <p>Configura los parámetros de escaneo para que éste se produzca con menos frecuencia (e.g. 1 segundo o un valor superior). Para ello, adapta el valor del campo <code>scan_interval</code> con el valor apropiado.</p>
 </div>
 <p>Una vez que se establecen los parámetros de escaneo, se desencadena un evento <code>ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT</code>, que es manejado por el manejador de eventos GAP <code>esp_gap_cb()</code>. Este evento se utiliza para iniciar el escaneo de los servidores GATT cercanos:</p>
-<pre><code class="c">case ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT: {
+<pre><code class="language-c">case ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT: {
         //la unidad de la duración es en segundos
         uint32_t duration = 30;
         esp_ble_gap_start_scanning(duration);
         break;
 }
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea Básica</p>
 <p>El valor de duración del proceso de escaneado es configurable. En esta primera parte de la práctica, auméntalo para que el proceso sea más largo y así tengas más tiempo para analizar la salidaproducida. Comprueba que efectivamente el tiempo en el que el dispositivo se encuentra en fase de escaneo es el seleccionado.</p>
@@ -531,7 +553,7 @@ typedef struct {
 </div>
 <p>El escaneo se inicia mediante la función <code>esp_ble_gap_start_scanning()</code>, que toma un parámetro que representa la duración del escaneo continuo (en segundos). Una vez que finaliza el período de escaneo, se desencadena un evento <code>ESP_GAP_SEARCH_INQ_CMPL_EVT</code>.</p>
 <p>Los resultados del escaneo se muestran tan pronto como llegan con el evento <code>ESP_GAP_BLE_SCAN_RESULT_EVT</code>, que incluye los siguientes parámetros:</p>
-<pre><code class="c">    /**
+<pre><code class="language-c">    /**
      * @brief ESP_GAP_BLE_SCAN_RESULT_EVT
      */
     struct ble_scan_result_evt_param {
@@ -548,9 +570,8 @@ typedef struct {
         uint8_t scan_rsp_len;                       /*!&lt; Longitud de respuesta de escaneo */
     } scan_rst;                                     /*!&lt; Parámetro de evento de ESP_GAP_BLE_SCAN_RESULT_EVT */
 </code></pre>
-
 <p>Este evento también incluye una lista de subeventos, como se muestra a continuación:</p>
-<pre><code class="c">/// Sub Evento de ESP_GAP_BLE_SCAN_RESULT_EVT
+<pre><code class="language-c">/// Sub Evento de ESP_GAP_BLE_SCAN_RESULT_EVT
 typedef enum {
     ESP_GAP_SEARCH_INQ_RES_EVT             = 0,      /*!&lt; Resultado de la investigación para un dispositivo par. */
     ESP_GAP_SEARCH_INQ_CMPL_EVT            = 1,      /*!&lt; Búsqueda completa. */
@@ -561,9 +582,8 @@ typedef enum {
     ESP_GAP_SEARCH_SEARCH_CANCEL_CMPL_EVT  = 6,      /*!&lt; Búsqueda cancelada */
 } esp_gap_search_evt_t;
 </code></pre>
-
 <p>Nos interesa el evento <code>ESP_GAP_SEARCH_INQ_RES_EVT</code>, que se llama cada vez que se encuentra un nuevo dispositivo. También nos interesa el evento <code>ESP_GAP_SEARCH_INQ_CMPL_EVT</code>, que se desencadena cuando se completa la duración del escaneo y se puede utilizar para reiniciar el procedimiento de escaneo:</p>
-<pre><code class="c">case ESP_GAP_BLE_SCAN_RESULT_EVT: {
+<pre><code class="language-c">case ESP_GAP_BLE_SCAN_RESULT_EVT: {
         esp_ble_gap_cb_param_t *scan_result = (esp_ble_gap_cb_param_t *)param;
         switch (scan_result-&gt;scan_rst.search_evt) {
             case ESP_GAP_SEARCH_INQ_RES_EVT:
@@ -586,23 +606,19 @@ typedef enum {
             }
             break;
 </code></pre>
-
 <p>Primero, se resuelve el nombre del dispositivo y se compara con el nombre del dispositivo del servidor GATT en el que estamos interesados. Si coincide con el nombre del dispositivo del servidor GATT que estamos buscando, se detiene el escaneo.</p>
 <p>Cada vez que recibimos un resultado del evento <code>ESP_GAP_SEARCH_INQ_RES_EVT</code>, el código primero imprime la dirección del dispositivo remoto:</p>
-<pre><code class="c">case ESP_GAP_SEARCH_INQ_RES_EVT:
+<pre><code class="language-c">case ESP_GAP_SEARCH_INQ_RES_EVT:
      esp_log_buffer_hex(GATTC_TAG, scan_result-&gt;scan_rst.bda, 6);
 </code></pre>
-
 <p>Luego, el cliente imprime la longitud de los datos anunciados y la longitud de la respuesta de escaneo:</p>
-<pre><code class="c">ESP_LOGI(GATTC_TAG, &quot;searched Adv Data Len %d, Scan Response Len %d&quot;, scan_result-&gt;scan_rst.adv_data_len, scan_result-&gt;scan_rst.scan_rsp_len);
+<pre><code class="language-c">ESP_LOGI(GATTC_TAG, &quot;searched Adv Data Len %d, Scan Response Len %d&quot;, scan_result-&gt;scan_rst.adv_data_len, scan_result-&gt;scan_rst.scan_rsp_len);
 </code></pre>
-
 <p>Para obtener el nombre del dispositivo, utilizamos la función <code>esp_ble_resolve_adv_data()</code>, que toma los datos anunciados almacenados en <code>scan_result-&gt;scan_rst.ble_adv</code>, el tipo de datos anunciados y la longitud, para extraer el valor del paquete publicitario. Luego, se imprime el nombre del dispositivo.</p>
-<pre><code class="c">adv_name = esp_ble_resolve_adv_data(scan_result-&gt;scan_rst.ble_adv, ESP_BLE_AD_TYPE_NAME_CMPL, &amp;adv_name_len);
+<pre><code class="language-c">adv_name = esp_ble_resolve_adv_data(scan_result-&gt;scan_rst.ble_adv, ESP_BLE_AD_TYPE_NAME_CMPL, &amp;adv_name_len);
 ESP_LOGI(GATTC_TAG, &quot;searched Device Name Len %d&quot;, adv_name_len);
 esp_log_buffer_char(GATTC_TAG, adv_name, adv_name_len);
 </code></pre>
-
 <div class="admonition danger">
 <p class="admonition-title">Tarea básica</p>
 <p>Muestra por pantalla el valor de RSSI de cada dispositivo BLE encontrado. Para ello, busca en la estructura de parámetros recibidos el campo correspondiente.</p>
@@ -626,7 +642,7 @@ esp_log_buffer_char(GATTC_TAG, adv_name, adv_name_len);
 <p>Finalmente, si el nombre del dispositivo remoto es el mismo que hemos definido anteriormente, el dispositivo local detiene el escaneo y trata de abrir una conexión con el dispositivo remoto utilizando la función <code>esp_ble_gattc_open()</code>. Esta función toma como parámetros la interfaz GATT del Perfil de Aplicación, la dirección del servidor remoto y un valor booleano. El valor booleano se utiliza para indicar si la conexión se realiza directamente o en segundo plano (autoconexión). En este momento, este valor booleano debe establecerse en verdadero para establecer la conexión. Ten en cuenta que el cliente abre una conexión virtual con el servidor. La conexión virtual devuelve un ID de conexión. La conexión virtual es la conexión entre el Perfil de Aplicación y el servidor remoto. Dado que muchos Perfiles de Aplicación pueden ejecutarse en un ESP32, podría haber muchas conexiones virtuales abiertas al mismo servidor remoto. También está la conexión física, que es el enlace BLE real entre el cliente y el servidor. Por lo tanto, si la conexión física se desconecta con la función <code>esp_ble_gap_disconnect()</code>, se cierran todas las demás conexiones virtuales. En este ejemplo, cada Perfil de Aplicación crea una conexión virtual al mismo servidor con la función <code>esp_ble_gattc_open()</code>, por lo que cuando se llama a la función de cierre, solo se cierra esa conexión del Perfil de Aplicación, mientras que si se llama a la función de desconexión GAP, se cerrarán ambas conexiones. Además, los eventos de conexión se propagan a todos los perfiles porque se relacionan con la conexión física, mientras que los eventos de apertura se propagan solo al perfil que crea la conexión virtual.</p>
 <h2 id="configuracion-del-tamano-de-mtu">Configuración del Tamaño de MTU</h2>
 <p>El ATT_MTU se define como el tamaño máximo de cualquier paquete enviado entre un cliente y un servidor. Cuando el cliente se conecta al servidor, informa al servidor qué tamaño de MTU usar intercambiando unidades de datos de protocolo de solicitud y respuesta de MTU (PDUs). Esto se hace después de abrir la conexión. Después de abrir la conexión, se desencadena un evento <code>ESP_GATTC_CONNECT_EVT</code>:</p>
-<pre><code class="c">     case ESP_GATTC_CONNECT_EVT:
+<pre><code class="language-c">     case ESP_GATTC_CONNECT_EVT:
         //p_data-&gt;connect.status siempre será ESP_GATT_OK
         ESP_LOGI(GATTC_TAG, &quot;ESP_GATTC_CONNECT_EVT conn_id %d, if %d, status %d&quot;, conn_id, gattc_if, p_data-&gt;connect.status);
         conn_id = p_data-&gt;connect.conn_id;
@@ -640,55 +656,48 @@ esp_log_buffer_char(GATTC_TAG, adv_name, adv_name_len);
         }
         break;
 </code></pre>
-
 <p>El ID de conexión y la dirección del dispositivo remoto (servidor) se almacenan en la tabla de Perfiles de la Aplicación y se imprimen en la consola:</p>
-<pre><code class="c">conn_id = p_data-&gt;connect.conn_id;
+<pre><code class="language-c">conn_id = p_data-&gt;connect.conn_id;
 gl_profile_tab[PROFILE_A_APP_ID].conn_id = p_data-&gt;connect.conn_id;
 memcpy(gl_profile_tab[PROFILE_A_APP_ID].remote_bda, p_data-&gt;connect.remote_bda, sizeof(esp_bd_addr_t));
 ESP_LOGI(GATTC_TAG, &quot;BDA REMOTO:&quot;);
 esp_log_buffer_hex(GATTC_TAG, gl_profile_tab[PROFILE_A_APP_ID].remote_bda, sizeof(esp_bd_addr_t));
 </code></pre>
-
 <p>El tamaño típico del MTU para una conexión Bluetooth 4.0 es de 23 bytes. Un cliente puede cambiar el tamaño del MTU utilizando la función <code>esp_ble_gattc_send_mtu_req()</code>, que toma la interfaz GATT y el ID de conexión. El tamaño del MTU solicitado se define mediante <code>esp_ble_gatt_set_local_mtu()</code>. Luego, el servidor puede aceptar o rechazar la solicitud. El ESP32 admite un tamaño de MTU de hasta 517 bytes, que se define en <code>ESP_GATT_MAX_MTU_SIZE</code> en <code>esp_gattc_api.h</code>. En este ejemplo, el tamaño del MTU se establece en 500 bytes. En caso de que la configuración falle, se imprime el error devuelto:</p>
-<pre><code class="c">esp_err_t mtu_ret = esp_ble_gattc_send_mtu_req (gattc_if, conn_id);
+<pre><code class="language-c">esp_err_t mtu_ret = esp_ble_gattc_send_mtu_req (gattc_if, conn_id);
 if (mtu_ret){
     ESP_LOGE(GATTC_TAG, &quot;error de configuración de MTU, código de error = %x&quot;, mtu_ret);
 }
 break;
 </code></pre>
-
 <p>La apertura de la conexión también desencadena un evento <code>ESP_GATTC_OPEN_EVT</code>, que se utiliza para comprobar si la apertura de la conexión se realizó con éxito; de lo contrario, se imprime un error y se sale del programa:</p>
-<pre><code class="c">case ESP_GATTC_OPEN_EVT:
+<pre><code class="language-c">case ESP_GATTC_OPEN_EVT:
         if (param-&gt;open.status != ESP_GATT_OK){
             ESP_LOGE(GATTC_TAG, &quot;apertura fallida, estado %d&quot;, p_data-&gt;open.status);
             break;
         }
 ESP_LOGI(GATTC_TAG, &quot;apertura exitosa&quot;);
 </code></pre>
-
 <p>Cuando se intercambia el MTU, se desencadena un evento <code>ESP_GATTC_CFG_MTU_EVT</code>, que en este ejemplo se utiliza para imprimir el nuevo tamaño del MTU:</p>
-<pre><code class="c">case ESP_GATTC_CFG_MTU_EVT:
+<pre><code class="language-c">case ESP_GATTC_CFG_MTU_EVT:
         if (param-&gt;cfg_mtu.status != ESP_GATT_OK){
             ESP_LOGE(GATTC_TAG,&quot;configuración de MTU fallida, estado de error = %x&quot;, param-&gt;cfg_mtu.status);
         }
         ESP_LOGI(GATTC_TAG, &quot;ESP_GATTC_CFG_MTU_EVT, Estado %d, MTU %d, ID de conexión %d&quot;, param-&gt;cfg_mtu.status, param-&gt;cfg_mtu.mtu, param-&gt;cfg_mtu.conn_id);
 …
 </code></pre>
-
 <p>La configuración del MTU se utiliza también para comenzar a descubrir los servicios disponibles en el servidor al que se ha conectado el cliente. Para descubrir los servicios, se utiliza la función <code>esp_ble_gattc_search_service()</code>. Los parámetros de la función son la interfaz GATT, el ID de conexión del perfil de la aplicación y el UUID de la aplicación de servicio que interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:</p>
-<pre><code class="c">static esp_bt_uuid_t remote_filter_service_uuid = {
+<pre><code class="language-c">static esp_bt_uuid_t remote_filter_service_uuid = {
     .len = ESP_UUID_LEN_16,
     .uuid = {.uuid16 = REMOTE_SERVICE_UUID,},
 };
 </code></pre>
-
 <p>Donde,</p>
-<pre><code class="c">#define REMOTE_SERVICE_UUID        0x00FF
+<pre><code class="language-c">#define REMOTE_SERVICE_UUID        0x00FF
 </code></pre>
-
 <p>Si el UUID de la aplicación de servicio que interesa al usuario es de 128 bits, hay una nota relevante para el usuario que se relaciona con el modo de almacenamiento en "little-endian" de la arquitectura del procesador.</p>
 <p>La estructura del UUID se define de la siguiente manera:</p>
-<pre><code class="c">typedef struct {
+<pre><code class="language-c">typedef struct {
 #define ESP_UUID_LEN_16     2
 #define ESP_UUID_LEN_32     4
 #define ESP_UUID_LEN_128    16
@@ -700,15 +709,13 @@ ESP_LOGI(GATTC_TAG, &quot;apertura exitosa&quot;);
     } uuid;                                 /*!&lt; UUID */
 } __attribute__((packed)) esp_bt_uuid_t;
 </code></pre>
-
 <p>Nota: En el modo de almacenamiento en "little-endian", puedes definir directamente el UUID del servicio en el orden normal si es un UUID de 16 bits o 32 bits, pero si el UUID del servicio es de 128 bits, hay una pequeña diferencia. Por ejemplo, si el UUID de la aplicación de servicio que le interesa al usuario es 12345678-a1b2-c3d4-e5f6-9fafd205e457, <code>REMOTE_SERVICE_UUID</code> debería definirse como {0x57,0xE4,0x05,0xD2,0xAF,0x9F,0xF6,0xE5,0xD4,0xC3,0xB2,0xA1,0x78,0x56,0x34,0x12}.</p>
 <p>Los servicios se descubren de la siguiente manera:</p>
-<pre><code class="c">esp_ble_gattc_search_service(gattc_if, param-&gt;cfg_mtu.conn_id, &amp;remote_filter_service_uuid);
+<pre><code class="language-c">esp_ble_gattc_search_service(gattc_if, param-&gt;cfg_mtu.conn_id, &amp;remote_filter_service_uuid);
         break;
 </code></pre>
-
 <p>El servicio encontrado, si lo hay, se devolverá desde un evento <code>ESP_GATTC_SEARCH_RES_EVT</code>. Para cada servicio encontrado, se desencadena un evento para imprimir información sobre el servicio descubierto, según el tamaño del UUID:</p>
-<pre><code class="c"> case ESP_GATTC_SEARCH_RES_EVT: {
+<pre><code class="language-c"> case ESP_GATTC_SEARCH_RES_EVT: {
         esp_gatt_srvc_id_t *srvc_id = &amp;p_data-&gt;search_res.srvc_id;
         conn_id = p_data-&gt;search_res.conn_id;
         Si el `len` del UUID en `srvc_id-&gt;id.uuid` es igual a `ESP_UUID_LEN_16` y `uuid16` coincide con `REMOTE_SERVICE_UUID`, 
@@ -720,15 +727,13 @@ ESP_LOGI(GATTC_TAG, &quot;apertura exitosa&quot;);
         }
         break;
 </code></pre>
-
 <p>En caso de que el cliente encuentre el servicio que busca, la bandera <code>get_server</code> se establece en true y se guardan los valores de inicio y fin que se utilizarán posteriormente para obtener todas las características de ese servicio. Una vez que se han devuelto todos los resultados de los servicios, se completa la búsqueda y se desencadena un evento <code>ESP_GATTC_SEARCH_CMPL_EVT</code>.</p>
 <h2 id="obteniendo-caracteristicas">Obteniendo Características</h2>
 <p>Este ejemplo implementa la obtención de datos de características de un servicio predefinido. El servicio del cual queremos obtener características tiene un UUID de 0x00FF, y la característica de interés tiene un UUID de 0xFF01:</p>
-<pre><code class="c">#define REMOTE_NOTIFY_CHAR_UUID    0xFF01
+<pre><code class="language-c">#define REMOTE_NOTIFY_CHAR_UUID    0xFF01
 </code></pre>
-
 <p>Un servicio se define utilizando la estructura <code>esp_gatt_srvc_id_t</code> de la siguiente manera:</p>
-<pre><code class="c">/**
+<pre><code class="language-c">/**
  * @brief Gatt id, include uuid and instance id
  */
 typedef struct {
@@ -736,9 +741,8 @@ typedef struct {
     uint8_t         inst_id;                /*!&lt; ID de instancia */
 } __attribute__((packed)) esp_gatt_id_t;
 </code></pre>
-
 <p>En este ejemplo, definimos el servicio del cual queremos obtener las características de la siguiente manera:</p>
-<pre><code class="c">static esp_gatt_srvc_id_t remote_service_id = {
+<pre><code class="language-c">static esp_gatt_srvc_id_t remote_service_id = {
     .id = {
         .uuid = {
             .len = ESP_UUID_LEN_16,
@@ -749,9 +753,8 @@ typedef struct {
     .is_primary = true,
 };
 </code></pre>
-
 <p>Una vez definido, podemos obtener las características de ese servicio utilizando la función <code>esp_ble_gattc_get_characteristic()</code>, la cual se llama en el evento <code>ESP_GATTC_SEARCH_CMPL_EVT</code> después de que se haya completado la búsqueda de servicios y el cliente ha encontrado el servicio que estaba buscando.</p>
-<pre><code class="c">case ESP_GATTC_SEARCH_CMPL_EVT:
+<pre><code class="language-c">case ESP_GATTC_SEARCH_CMPL_EVT:
     if (p_data-&gt;search_cmpl.status != ESP_GATT_OK){
         ESP_LOGE(GATTC_TAG, &quot;búsqueda de servicio fallida, estado de error = %x&quot;, p_data-&gt;search_cmpl.status);
         break;
@@ -804,12 +807,11 @@ typedef struct {
     }
     break;
 </code></pre>
-
 <p><code>esp_ble_gattc_get_attr_count()</code> obtiene el número de atributos con el tipo de atributo dado en la caché GATT. Los parámetros de la función <code>esp_ble_gattc_get_attr_count()</code> son la interfaz GATT, el ID de conexión, el tipo de atributo definido en <code>esp_gatt_db_attr_type_t</code>, el valor de inicio del atributo, el valor final del atributo, el identificador de la característica (este parámetro solo es válido cuando el tipo se establece en <code>ESP_GATT_DB_DESCRIPTOR</code>) y la salida del número de atributos encontrados en la caché GATT con el tipo de atributo dado.</p>
 <p>Luego, se asigna un búfer para guardar la información de la característica para la función <code>esp_ble_gattc_get_char_by_uuid()</code>. Esta función busca la característica con el UUID de característica dado en la caché GATT. Simplemente obtiene la característica de la caché local, en lugar de los dispositivos remotos. En un servidor, puede haber más de una característica con el mismo UUID. Sin embargo, en nuestro ejemplo de gatt_server, cada característica tiene un UUID único y es por eso que solo usamos la primera característica en <code>char_elem_result</code>, que es el puntero a la característica del servicio. El contador inicialmente almacena la cantidad de características que el cliente desea encontrar y se actualizará con la cantidad de características que se han encontrado en la caché GATT con <code>esp_ble_gattc_get_char_by_uuid</code>.</p>
 <h2 id="registro-para-notificaciones">Registro para Notificaciones</h2>
 <p>El cliente puede registrarse para recibir notificaciones del servidor cada vez que cambia el valor de la característica. En este ejemplo, queremos registrarnos para recibir notificaciones de la característica identificada con un UUID de 0xff01. Después de obtener todas las características, verificamos las propiedades de la característica recibida y luego utilizamos la función <code>esp_ble_gattc_register_for_notify()</code> para registrarnos para notificaciones. Los argumentos de la función son la interfaz GATT, la dirección del servidor remoto y el identificador del que queremos recibir notificaciones.</p>
-<pre><code class="c">...
+<pre><code class="language-c">...
 /* Cada servicio tiene solo una característica en nuestra demostración 'ESP_GATTS_DEMO', por lo que usamos primero 'char_elem_result' */
                     if (count &gt; 0 &amp;&amp; (char_elem_result[0].properties &amp; ESP_GATT_CHAR_PROP_BIT_NOTIFY)){
                         gl_profile_tab[PROFILE_A_APP_ID].char_handle = char_elem_result[0].char_handle;
@@ -818,9 +820,8 @@ typedef struct {
                         }
 ...
 </code></pre>
-
 <p>Este procedimiento registra notificaciones en la pila BLE y desencadena un evento <code>ESP_GATTC_REG_FOR_NOTIFY_EVT</code>. Este evento se utiliza para escribir en el Descriptor de Configuración del Cliente del servidor:</p>
-<pre><code class="c">    case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
+<pre><code class="language-c">    case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
         ESP_LOGI(GATTC_TAG, &quot;ESP_GATTC_REG_FOR_NOTIFY_EVT&quot;);
         if (p_data-&gt;reg_for_notify.status != ESP_GATT_OK){
             ESP_LOGE(GATTC_TAG, &quot;REG FOR NOTIFY falló: estado de error = %d&quot;, p_data-&gt;reg_for_notify.status);
@@ -879,9 +880,8 @@ typedef struct {
         break;
     }
 </code></pre>
-
 <p>El evento se utiliza primero para imprimir el estado del registro de notificaciones y los UUID del servicio y de la característica que acaban de registrarse. Luego, el cliente escribe en el Descriptor de Configuración del Cliente utilizando la función <code>esp_ble_gattc_write_char_descr()</code>. Hay muchos descriptores de características definidos en la especificación de Bluetooth. Sin embargo, en este caso, nos interesa escribir en el descriptor que se encarga de habilitar las notificaciones, que es el descriptor de Configuración del Cliente. Para pasar este descriptor como parámetro, primero lo definimos como:</p>
-<pre><code class="c">static esp_gatt_id_t notify_descr_id = {
+<pre><code class="language-c">static esp_gatt_id_t notify_descr_id = {
     .uuid = {
         .len = ESP_UUID_LEN_16,
         .uuid = {.uuid16 = ESP_GATT_UUID_CHAR_CLIENT_CONFIG,},
@@ -889,58 +889,56 @@ typedef struct {
     .inst_id = 0,
 };
 </code></pre>
-
 <p>Donde <code>ESP_GATT_UUID_CHAR_CLIENT_CONFIG</code> se define con el UUID para identificar la Configuración del Cliente de la Característica:</p>
-<pre><code class="c">#define ESP_GATT_UUID_CHAR_CLIENT_CONFIG            0x2902          /*  Configuración del Cliente de Características */
+<pre><code class="language-c">#define ESP_GATT_UUID_CHAR_CLIENT_CONFIG            0x2902          /*  Configuración del Cliente de Características */
 </code></pre>
-
 <p>El valor a escribir es "1" para habilitar las notificaciones. También pasamos <code>ESP_GATT_WRITE_TYPE_RSP</code> para solicitar que el servidor responda a la solicitud de habilitar las notificaciones y <code>ESP_GATT_AUTH_REQ_NONE</code> para indicar que la solicitud de escritura no requiere autorización.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea adicional</p>
 <p>Modifica el cliente para que las notificaciones enviadas por tu servidor GATT modificado en la práctica anterior sean recibidas y monitorizadas por parte del cliente GATT.</p>
 </div></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
