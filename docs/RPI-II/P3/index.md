@@ -342,8 +342,12 @@ void app_main( void )
 }
 ```
 
-!!! note Tarea
+!!! danger "Tarea entregable"
     Compila y ejecuta el cliente TLS en el ESP32, y consigue que interactúe con
     el servidor TLS que probaste anteriormente en el *host*. Comprueba que, efectivamente,
     los datos se transfieren cifrados entre ambos extremos, y que el intercambio de 
     paquetes es similar al que observaste entre cliente y servidor en el *host*.
+	
+!!!	note 
+	Puedes valerte para ello de la base del ejemplo `examples/protocols/https_request`, 
+	obviamente adaptando la totalidad de su código para que se comporte como un simple cliente *echo*.
