@@ -1,11 +1,5 @@
 # Práctica 7. BLE Mesh
 
-!!! note "Nota"
-	Esta práctica es opcional para aquellos que opten a evaluación por proyecto
-	y obligatoria para los que se evaluen por prácticas, es decir, las tareas
-	aquí descritas son obligatorias sólo para los que se presentan por
-	prácticas.
-
 ## Objetivos
 
 * Poner en práctica los conceptos estudiados en teoría en relación a BLE MESH,
