@@ -33,7 +33,7 @@ implementar un servidor CoAP en el ESP32.
 ## Instalación de requisitos adicionales y *libcoap*
 
 En primer lugar, instalemos los prerequisitos necesarios para hacer funcionar
-{\tt libcoap}. Para ello, en la máquina virtual, ejecutaremos las siguientes
+`libcoap`. Para ello, en la máquina virtual, ejecutaremos las siguientes
 órdenes:
 
 ```sh
@@ -41,7 +41,7 @@ sudo apt-get update
 sudo apt-get install libtool
 ```
 
-Procedemos ahora con la instalación de {\tt libcoap}. Para ello, descarga la última
+Procedemos ahora con la instalación de `libcoap. Para ello, descarga la última
 versión de la biblioteca desde la página web del proyecto, descomprímelo y pasa a la
 fase de compilación e instalación:
 
@@ -105,7 +105,7 @@ disponibles en el mismo, así como algunas características adicionales.
 ## Obtención de información desde recursos
 
 Utilizando el cliente CoAP proporcionado, resulta sencillo realizar consultas para 
-obtener datos desde el servidor. Para ello, utilizaremos la acción (verbo) {\tt GET},
+obtener datos desde el servidor. Para ello, utilizaremos la acción (verbo) `GET`,
 seguido del recurso a consultar y, opcionalmente, de una consulta concreta. 
 
 !!! note "Tarea 4.4"
@@ -166,7 +166,7 @@ previa a cualquier intercambio de datos.
     `init_resources`, y añade un nuevo recurso llamado *temperature*. 
     Este recurso aceptará dos consultas distintas: *?celsius* (consulta por defecto)
     devolverá el valor de temperatura expresado en grados centígrados, mientras que
-    *\tt fahrenheit* devolverá la temperatura en grados Fahrenheit. En este caso, el valor
+    *?fahrenheit* devolverá la temperatura en grados Fahrenheit. En este caso, el valor
     de temperatura se obtendrá directamente a través de un número aleatorio, pero se
     valorará su obtención a partir de un sensor real.
 

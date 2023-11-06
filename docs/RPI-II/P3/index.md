@@ -9,7 +9,7 @@
 
 ## Contenido del paquete proporcionado y setup básico
 
-El paquete proporcionado (puedes descargarlo [aquí](https://drive.google.com/file/d/1ewK-vxUyOdmGIkIsdjMDzWbrSfo8YtMU/view?usp=sharing)) 
+El paquete proporcionado (puedes descargarlo [aquí](https://drive.google.com/drive/folders/1JJZDf151Qpa6ltNKFMMzIF7VRMVu0LA_?usp=share_link)) 
 incluye ejemplos de sistemas cliente/servidor
 programados utilizando TLS y DTLS mediante el uso de la biblioteca WolfSSL.
 Estos códigos están diseñados para ejecutarse exclusivamente en un sistema
@@ -20,7 +20,7 @@ podría cambiar si usas otra distribución de Linux, en cuyo caso deberás
 buscar los paquetes equivalentes):
 
 ```sh
-sudo apt-get install libwolfssl-dev libwolfssl24
+sudo apt-get install libwolfssl-dev libwolfssl*
 ```
 
 Una vez hecho esto, prueba a realizar la compilación tanto del ejemplo
@@ -215,7 +215,7 @@ simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece
 una funcionalidad suficientemente amplia como para implementar casos de uso
 comunes en entornos IoT. 
 
-La API de ESP-TLS es sencilla,y se basa en el uso de cuatro funciones básicas:
+La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:
 
 ### Establecimiento de conexión TLS (`esp_tls_conn_new()`)
 
@@ -359,9 +359,3 @@ la totalidad de su código para que se comporte como un simple cliente *echo*.
     el servidor TLS que probaste anteriormente en el *host*. Comprueba que, efectivamente,
     los datos se transfieren cifrados entre ambos extremos, y que el intercambio de 
     paquetes es similar al que observaste entre cliente y servidor en el *host*.
-
-!!! danger "Tarea entregable"
-    Adapta tu sistema cliente/servidor TCP desarrollado en la práctica 1
-    para que se ejecute sobre el binomio *host*/ESP32 utlizando TLS. 
-    Entrega el código generado junto con una captura de tráfico que demuestre su 
-    correcto funcionamiento.
