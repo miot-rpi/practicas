@@ -59,8 +59,8 @@ como suscripciones, tamaño de TTL o funcionalidad de *relay* de mensajes.
 2. *Modelo Generic OnOff Server*, que implementa la funcionalidad básica de
 encendido/apagado de una luz.
 
-El código en el fichero `ble_mesh_demo_main.c` contiene la funcionalidad
-básica del servidor, que podemos resumir en:
+El código en el fichero `main.c` contiene la funcionalidad básica del servidor,
+que podemos resumir en:
 
 * Inicialización de la pila BLE (*bluedroid*).
 * Inicialización de la pila BLE Mesh.
