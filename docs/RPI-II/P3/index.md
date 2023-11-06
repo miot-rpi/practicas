@@ -290,8 +290,7 @@ static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
 
 Un cliente TCP implementado sobre ESP-IDF para dar soporte TLS, 
 requiere ciertas modificaciones con respecto a la versión sin TLS. 
-De hecho, el uso de ESP-IDF simplifica el código del cliente (puedes 
-compararlo con tus clientes TCP desarrollados en sesiones anteriores). La
+De hecho, el uso de ESP-IDF simplifica el código del cliente. La
 estructura básica resultaría:
 
 ```c
@@ -342,17 +341,6 @@ void app_main( void )
   // ...
 }
 ```
-
-Observa como, efectivamente, el código del cliente se simplifica en gran 
-medida con respecto a tu cliente TCP original. 
-
-Toma el código del proyecto que
-utilizaste para desarrollar tu cliente TCP original y, siguiendo las anteriores
-directivas, adapta la única tarea a crear (por ejemplo, puede recibir el
-nombre `tls_client_task`) para que realice un envío y recepción de datos 
-(una cadena) al servidor TLS que probaste en el *host*. Puedes valerte para ello
-de la base del ejemplo `examples/protocols/https_request`, obviamente adaptando
-la totalidad de su código para que se comporte como un simple cliente *echo*.
 
 !!! note Tarea
     Compila y ejecuta el cliente TLS en el ESP32, y consigue que interactúe con
