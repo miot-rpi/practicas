@@ -1,4 +1,4 @@
-# Práctica Adicional. Eclipse Ditto
+# ráctica 6 (opcional). Eclipse Ditto
 
 ## Objetivos
 
