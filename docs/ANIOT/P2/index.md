@@ -145,7 +145,7 @@ static void periodic_timer_callback(void* arg) {
 ```
 
 ### Encendido de LEDs con GPIO y timer
-El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conectar a nuestro ESP32. Para ello, basta con conectar el pin de GPIO escogido (que configuraremos como entrada) al conector de un LED. También debemos asegurarnos **de que las tierras son comunes**. Para ello, conectaremos el pin de tierra del ESP32 al conector *GND* del entrenador.
+El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conectar a nuestro ESP32. Para ello, basta con conectar el pin de GPIO escogido (que configuraremos como salida) al conector de un LED. También debemos asegurarnos **de que las tierras son comunes**. Para ello, conectaremos el pin de tierra del ESP32 al conector *GND* del entrenador.
 
 !!! danger "Tarea"
 	Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un *timer* para cambiar el estado del LED cada segundo. Recuerda usar una tierra común.
