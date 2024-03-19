@@ -513,18 +513,17 @@ base desarrollada en C++ sobre la que trabajar para el ejemplo de clasificación
 
 El fichero `classification.cpp` proporciona un flujo de trabajo completo para realizar una clasificación de imágenes similar a la realizada anteriormente usando la API de Python. 
 
-En primer lugar, compila y ejecuta el programa para validar su funcionamiento:
+En primer lugar, es necesario instalar la biblioteca `libtensorflow-lite.a` siguiendo las instrucciones del siguiente [enlace](https://qengineering.eu/install-tensorflow-2-lite-on-raspberry-pi-4.html) (TensorFlow Lite 2.5 y Buster 32-bits OS).
+
+A continuación, compila y ejecuta el programa para validar su funcionamiento:
 
 ```sh
-g++ classification.cpp -I /home/pi/tensorflow/ /home/pi/tensorflow/tensorflow/lite/tools/make/gen/linux_aarch64/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv` -o classification.x
+g++ classification.cpp -I /home/pi/tensorflow /home/pi/tensorflow/tensorflow/lite/tools/make/gen/rpi_armv7l/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv` -o classification.x
 
 ./classification.x
 ```
 
-Observa que se utiliza la biblioteca `libtensorflow-lite.a`, disponible en cualquier instalación TensorFlow.
-
-La salida está preparada para mostrar el código numérico de la clase detectada con mayor probabilidad, dicha probabilidad, y 
-la descripción textual de la clase.
+La salida está preparada para mostrar el código numérico de la clase detectada con mayor probabilidad, dicha probabilidad, y la descripción textual de la clase.
 
 El código desarrollado es similar, paso a paso, al descrito para Python, por lo que no se incidirá en los detalles más allá
 de la [API utilizada](https://www.tensorflow.org/lite/api_docs/cc):
