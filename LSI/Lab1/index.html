@@ -250,7 +250,7 @@
 <li>Acelerar el proceso de inferencia utilizando el acelerador Google Coral.</li>
 <li>Diseñar e implementar una aplicación básica para detección de objetos.</li>
 </ul>
-<p>Puedes obtener los ficheros necesarios para el desarrollo de la práctica <a href="https://drive.google.com/file/d/14Ld3kCbXjCxA_Lax97t9Y5BKvOutR8X-/view?usp=sharing">aquí</a>.</p>
+<p>Puedes obtener los ficheros necesarios para el desarrollo de la práctica <a href="https://drive.google.com/file/d/1890dkKgdtwe9-QZlZlTBg7YylZeR02KN/view?usp=sharing">aquí</a>.</p>
 <h2 id="interaccion-con-la-camara-via-opencv">Interacción con la cámara vía OpenCV</h2>
 <p>Existen múltiples APIs para acceder a la cámara proporcionada junto a la Raspberry Pi en el entorno experimental. 
 <a href="https://picamera.readthedocs.io/en/release-1.13/">Picamera</a> es una API específica y de código abierto 
@@ -676,14 +676,13 @@ utilizando el <a href="https://coral.withgoogle.com/docs/edgetpu/compiler/">comp
 <p>El rendimiento es un factor determinante en aplicaciones <em>Edge computing</em>, por lo que resultará interesante disponer de una 
 base desarrollada en C++ sobre la que trabajar para el ejemplo de clasificación.</p>
 <p>El fichero <code>classification.cpp</code> proporciona un flujo de trabajo completo para realizar una clasificación de imágenes similar a la realizada anteriormente usando la API de Python. </p>
-<p>En primer lugar, compila y ejecuta el programa para validar su funcionamiento:</p>
-<pre><code class="language-sh">g++ classification.cpp -I /home/pi/tensorflow/ /home/pi/tensorflow/tensorflow/lite/tools/make/gen/linux_aarch64/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv` -o classification.x
+<p>En primer lugar, es necesario instalar la biblioteca <code>libtensorflow-lite.a</code> siguiendo las instrucciones del siguiente <a href="https://qengineering.eu/install-tensorflow-2-lite-on-raspberry-pi-4.html">enlace</a> (TensorFlow Lite 2.5 y Buster 32-bits OS).</p>
+<p>A continuación, compila y ejecuta el programa para validar su funcionamiento:</p>
+<pre><code class="language-sh">g++ classification.cpp -I /home/pi/tensorflow /home/pi/tensorflow/tensorflow/lite/tools/make/gen/rpi_armv7l/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv` -o classification.x
 
 ./classification.x
 </code></pre>
-<p>Observa que se utiliza la biblioteca <code>libtensorflow-lite.a</code>, disponible en cualquier instalación TensorFlow.</p>
-<p>La salida está preparada para mostrar el código numérico de la clase detectada con mayor probabilidad, dicha probabilidad, y 
-la descripción textual de la clase.</p>
+<p>La salida está preparada para mostrar el código numérico de la clase detectada con mayor probabilidad, dicha probabilidad, y la descripción textual de la clase.</p>
 <p>El código desarrollado es similar, paso a paso, al descrito para Python, por lo que no se incidirá en los detalles más allá
 de la <a href="https://www.tensorflow.org/lite/api_docs/cc">API utilizada</a>:</p>
 <h4 id="ficheros-de-cabecera">Ficheros de cabecera</h4>
