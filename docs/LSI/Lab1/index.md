@@ -7,7 +7,7 @@
 * Acelerar el proceso de inferencia utilizando el acelerador Google Coral.
 * Diseñar e implementar una aplicación básica para detección de objetos.
 
-Puedes obtener los ficheros necesarios para el desarrollo de la práctica [aquí](https://drive.google.com/file/d/14Ld3kCbXjCxA_Lax97t9Y5BKvOutR8X-/view?usp=sharing).
+Puedes obtener los ficheros necesarios para el desarrollo de la práctica [aquí](https://drive.google.com/file/d/1890dkKgdtwe9-QZlZlTBg7YylZeR02KN/view?usp=sharing).
 
 ## Interacción con la cámara vía OpenCV
 
