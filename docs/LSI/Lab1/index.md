@@ -59,7 +59,7 @@ cv2.destroyAllWindows()
 `cap.read()` devuelve un valor *booleano* en función de si el *frame* fue leído correctamente o no. Podemos, 
 por tanto, comprobar la finalización de un flujo de vídeo utilizando dicho valor de retorno.
 
-Es posible acceder  aalgunas de las caracterísitcas del vídeo utilizando el método
+Es posible acceder  a algunas de las características del vídeo utilizando el método
 `cap.get(propId)`, donde `propId` es un número entre 0 y 18. Cada número denota una 
 propiedad del vídeo (si dicha propiedad se puede aplicar al vídeo en cuestión). Para más
 información, consulta 
@@ -73,7 +73,7 @@ la resolución de la captura utilizando
 
 !!! danger "Tarea"
     Ejecuta el anterior script (está incluido en el paquete proporcionado) utilizando `python3`. Estudia el código y modifícalo
-    para introducir nuevas transformaciones en las imágenes capturadas (tranformación a otros espacios de color, redimensionado 
+    para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado 
     de imágenes, etc.) Para ello, deberás consultar la documentación de OpenCV.
 
 !!! danger "Tarea"
@@ -139,20 +139,25 @@ int main(int, char**)
 }
 ```
 
-Para compilar y enlazar el anterior código, nos ayudaremos de la herramienta `pkg-config`, que nos ayudará a
-fijar los flags de compilación y enlazado para programas que utilicen OpenCV. Como curiosidad, observa la salida
-de la siguiente ejecución:
+Para compilar y enlazar el anterior código, nos ayudaremos de la herramienta `pkg-config`, que nos ayudará a fijar los flags de compilación y enlazado para programas que utilicen OpenCV. 
+
+!!! note "Nota"
+    Si no están instaladas las cabeceras de OpenCV (`/usr/include/opencv`) instálalas mediante el comando `sudo apt install libopencv-dev`.
+
+Como curiosidad, observa la salida de la siguiente ejecución:
 
 ```sh
-pi@raspberrypi:~/Test/Lab1/Camera/CPP $ pkg-config --cflags --libs opencv4
--I/usr/local/include/opencv4 -L/usr/local/lib -lopencv_gapi -lopencv_stitching -lopencv_aruco -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn_objdetect -lopencv_dnn_superres -lopencv_dpm -lopencv_highgui -lopencv_face -lopencv_freetype -lopencv_fuzzy -lopencv_hdf -lopencv_hfs -lopencv_img_hash -lopencv_intensity_transform -lopencv_line_descriptor -lopencv_mcc -lopencv_quality -lopencv_rapid -lopencv_reg -lopencv_rgbd -lopencv_saliency -lopencv_stereo -lopencv_structured_light -lopencv_phase_unwrapping -lopencv_superres -lopencv_optflow -lopencv_surface_matching -lopencv_tracking -lopencv_datasets -lopencv_text -lopencv_dnn -lopencv_plot -lopencv_videostab -lopencv_videoio -lopencv_xfeatures2d -lopencv_shape -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_xobjdetect -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core
+pi@raspberrypi:~/Test/Lab1/Camera/CPP $ pkg-config --cflags --libs opencv
+````
+
+```
+-I/usr/local/include/opencv -L/usr/local/lib -lopencv_gapi -lopencv_stitching -lopencv_aruco -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn_objdetect -lopencv_dnn_superres -lopencv_dpm -lopencv_highgui -lopencv_face -lopencv_freetype -lopencv_fuzzy -lopencv_hdf -lopencv_hfs -lopencv_img_hash -lopencv_intensity_transform -lopencv_line_descriptor -lopencv_mcc -lopencv_quality -lopencv_rapid -lopencv_reg -lopencv_rgbd -lopencv_saliency -lopencv_stereo -lopencv_structured_light -lopencv_phase_unwrapping -lopencv_superres -lopencv_optflow -lopencv_surface_matching -lopencv_tracking -lopencv_datasets -lopencv_text -lopencv_dnn -lopencv_plot -lopencv_videostab -lopencv_videoio -lopencv_xfeatures2d -lopencv_shape -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_xobjdetect -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core
 ```
 
-Estas son las opciones, flags y bibliotecas que será necesario incluir en el proceso de compilación de cualquier prorama
-OpenCV. Así, para compilar el anterior programa, puedes utilizar la orden:
+Estas son las opciones, flags y bibliotecas que será necesario incluir en el proceso de compilación de cualquier programa OpenCV. Así, para compilar el anterior programa, puedes utilizar la orden:
 
 ```sh
-g++ programa.cpp -o programa.x `pkg-config --cflags --libs opencv4`
+g++ programa.cpp -o programa.x `pkg-config --cflags --libs opencv`
 ```
 
 !!! danger "Tarea"
@@ -208,7 +213,7 @@ es el flag `isColor`, que nos permitirá determinar si el codificador de vídeo 
 de grises (véase la documentación de la función para más información). 
 
 [FourCC](http://en.wikipedia.org/wiki/FourCC) es un código de 4 bytes que permite especificar el codec de vídeo
-deseado. Puedes obtener la lista de todos los codigos en [fourcc.org](fourcc.org). Así, por ejemplo, para utilizar
+deseado. Puedes obtener la lista de todos los códigos en [fourcc.org](http://fourcc.org). Así, por ejemplo, para utilizar
 XVID, usaríamos:
 
 ```python
@@ -249,11 +254,11 @@ cv.destroyAllWindows()
 ## TensorFlow Lite
 
 Una vez estudiados de forma básica los códigos que nos permiten realizar capturas e interacción desde la cámara 
-proporcionada, veremos cómo aplicar un modelo preentrenado al mismo, que nos permitirá realizar un proceso de 
+proporcionada, veremos cómo aplicar un modelo pre-entrenado al mismo, que nos permitirá realizar un proceso de 
 **clasificación** de los objetos mostrados en el flujo de vídeo. Nótese que el objetivo de esta práctica no es
 estudiar en profundidad el proceso en sí de clasificación, sino simplemente servir como una primera toma de 
 contacto con la biblioteca [TensorFlow Lite](tensorflow.org/lite). TFLite es un conjunto de herramientas que 
-perimtan ejecutar modelos entrenados TensorFlow en dispostivos móviles, empotrados y en entornos IoT. A diferencia
+permitan ejecutar modelos entrenados TensorFlow en dispositivos móviles, empotrados y en entornos IoT. A diferencia
 de Tensorflow, TFLite permite realizar procesos de **inferencia** con tiempos de latencia muy reducidos, y un
 *footprint* también muy reducido. 
 
@@ -281,17 +286,17 @@ microcontroladores.
 
 * APIs para múltiples lenguajes, incluyendo Java, Swift, Objective-C, **C++** y **Python** (estos dos últimos serán de nuestro especial interés).
 
-* Alto rendimiento, con soporte para **aceleración hardware** sobre dispositivos aceleradores (en nuestro caso, sobre Google Coral) y kernels optmizados para cada tipo de dispositivo.
+* Alto rendimiento, con soporte para **aceleración hardware** sobre dispositivos aceleradores (en nuestro caso, sobre Google Coral) y kernels optimizados para cada tipo de dispositivo.
 
 * Herramientas de optimización de modelos, que incluyen [cuantización](https://www.tensorflow.org/lite/performance/post_training_quantization), técnica qu estudiaremos en futuros laboratorios, imprescindible para integrar el uso de aceleradores como la Google Coral.
 
 * Un formato de almacenamiento eficiente, utilizando [FlatBuffer](https://www.tensorflow.org/lite/convert/index) optimizado para una reducción de tamaño y en aras de la portabilidad entre dispositivos
 
-* Un conjunto amplio de [modelos preentrenados](https://www.tensorflow.org/lite/models) disponibles directamente para su uso en inferencia.
+* Un conjunto amplio de [modelos pre-entrenados](https://www.tensorflow.org/lite/models) disponibles directamente para su uso en inferencia.
 
 El flujo básico de trabajo cuando estamos desarrollando una aplicación basada en TFLite se basa en cuatro modelos principales:
 
-1. Selección de modelo preentrenado o creación/entrenamiento sobre un nuevo modelo. Típicamente utilizando frameworks existentes, como TensorFlow.
+1. Selección de modelo pre-entrenado o creación/entrenamiento sobre un nuevo modelo. Típicamente utilizando frameworks existentes, como TensorFlow.
 
 2. Conversión del modelo, utilizando el conversor de TFLite desde Python para adaptarlo a las especificidades de TFLite.
 
@@ -306,14 +311,14 @@ en la red neuronal Mobilenet), que interactúe con imágenes tomadas directament
 Pi. 
 
 !!! danger "Tarea"
-    Los ficheros que estudiaremos en esta parte están disponibles en el directorio `Clasificacion` del paquete proporcionado.
+    Los ficheros que estudiaremos en esta parte están disponibles en el directorio `Clasificación` del paquete proporcionado.
 
 Como hemos dicho, el objetivo del laboratorio es aplicar inferencia sobre un modelo ya preentrenado, por lo que no incidiremos
 en la estructura interna del mismo. Sin embargo, es conveniente saber que [Mobilenet](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) es una familia de redes neuronales de convolución diseñadas para ser pequeñas en tamaño,
-y de baja latencia en inferencia, aplicables a procesos de clasificación, detección o segementación de imágenes, entre otras
+y de baja latencia en inferencia, aplicables a procesos de clasificación, detección o segmentación de imágenes, entre otras
 muchas aplicaciones. En nuestro caso, la red `Mobilenet v1 1.0_224` es una red de convolución que acepta imágenes
 de dimensión `224 x 224` y tres canales (RGB), entrenada para devolver la probabilidad de pertenencia a cada una de las 1001
-clases para la que ha sido preentrenada.
+clases para la que ha sido pre-entrenada.
 
 Antes de comenzar, descarga el modelo, fichero de etiquetas y demás requisitos invocando al script `download.sh` proporcionado:
 
@@ -323,14 +328,13 @@ bash download.sh Modelos
 
 Esta ejecución, si todo ha ido bien, descargará en el directorio `Modelos` tres ficheros que utilizaremos en el resto del laboratorio:
 
-* `mobilenet_v1_1.0_224_quant.tflite`: modelo preentrenado y cuantizado MobileNet.
-* `mobilenet_v1_1.0_224_quant_edgetpu.tflite`: modelo preentrenado y cuantizado MobileNet, compilado con soporte para Google Coral.
+* `mobilenet_v1_1.0_224_quant.tflite`: modelo pre-entrenado y cuantizado MobileNet.
+* `mobilenet_v1_1.0_224_quant_edgetpu.tflite`: modelo pre-entrenado y cuantizado MobileNet, compilado con soporte para Google Coral.
 * `labels_mobilenet_quant_v1_224.txt`: fichero de descripción de etiquetas (clases), con el nombre de una clase por línea. La posición de estas líneas coincide con cada una de las (1001) posiciones del tensor de salida. 
 
 ### Desarrollo utilizando Python
 
-El fichero `classify_opencv.py` contiene el código necesario para realizar inferencia (clasificación) de imágenes partiendo de 
-capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a paso a continuación:
+El fichero `classify_opencv.py` contiene el código necesario para realizar inferencia (clasificación) de imágenes partiendo de capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a paso a continuación:
 
 #### Invocación y argumentos
 
@@ -512,7 +516,7 @@ El fichero `classification.cpp` proporciona un flujo de trabajo completo para re
 En primer lugar, compila y ejecuta el programa para validar su funcionamiento:
 
 ```sh
-g++ classification.cpp -I /home/pi/tensorflow/ /home/pi/tensorflow/tensorflow/lite/tools/make/gen/linux_aarch64/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv4` -o classification.x
+g++ classification.cpp -I /home/pi/tensorflow/ /home/pi/tensorflow/tensorflow/lite/tools/make/gen/linux_aarch64/lib/libtensorflow-lite.a -lpthread -ldl `pkg-config --cflags --libs opencv` -o classification.x
 
 ./classification.x
 ```

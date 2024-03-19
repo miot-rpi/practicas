@@ -68,7 +68,7 @@
 | Lab.     | Día | Título                                                       |
 |----------|-----|--------------------------------------------------------------|
 | 0 (C)    |12/03|[Introducción y entorno experimental](LSI/Lab0/index.md)      |
-| 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi]() |
+| 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
 | 2 (C)    |09/04|[Clasificación de imágenes]()                |
 | 3 (C)    |16/04|[Detección de objetos]()                     |
 | 4 (L)    |23/04|[Segmentacion de objetos]()                  |
