@@ -2,7 +2,7 @@
 
 Las siguientes instrucciones suponen que se ha instalado Raspberry Pi OS 64-bit en su versión Bookworm 2024-03-15.
 
-![Screenshot 2024-04-01 at 18.10.45](/Users/luis/Desktop/Screenshot 2024-04-01 at 18.10.45.png)
+![RaspberryPi OS Version](RaspberryPiOS-version.png)
 
 Y que se emplea la siguiente versión del LSI_Lab1_old.zip.
 
