@@ -12,9 +12,12 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
@@ -210,7 +213,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#deteccion-de-objetos" class="nav-link">Detección de objetos</a>
@@ -220,10 +223,6 @@
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#codigo-necesario" class="nav-link">Código necesario</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#ejecucion-de-modelos-en-edge-tpu-desde-c" class="nav-link">Ejecución de modelos en Edge TPU desde C++</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -249,64 +248,11 @@
 <h1 id="deteccion-de-objetos">Detección de objetos</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
-<li>Interactuar con el dispositivo Google Coral realizando inferencias aceleradas desde un código C++.</li>
 <li>Entender el funcionamiento básico de los extractores de características MobileNet y de los detectores de objetos SSD.</li>
 <li>Integrar un detector de objetos con funcionalidades de <em>tracking</em> en un entorno de monitorización IoT.</li>
 </ul>
 <h2 id="codigo-necesario">Código necesario</h2>
-<p>El código necesario para el desarrollo de la práctica puede obtenerse clonando el 
-<a href="https://github.com/google-coral/example-object-tracker.git">siguiente repositorio</a>.</p>
-<h2 id="ejecucion-de-modelos-en-edge-tpu-desde-c">Ejecución de modelos en Edge TPU desde C++</h2>
-<p>Para ilustrar el funcionamiento del proceso de inferencia utilizando el dispositivo Google Coral
-desde un programa C++, las modificaciones a realizar son mínimas:</p>
-<h3 id="inclusion-de-ficheros-de-cabecera">Inclusión de ficheros de cabecera</h3>
-<p>Es necesario incluir los ficheros de cabecera correspondientes para la creación de las estructuras
-de datos necesarias (básicamente, un componente <em>delegado</em> que ejecute el modelo en la TPU):</p>
-<pre><code class="language-cpp">#include &quot;edgetpu_c.h&quot;
-</code></pre>
-<h3 id="deteccion-del-dispositivo">Detección del dispositivo</h3>
-<p>El proceso de descarga del modelo a dispositivo comienza con la detección del mismo. Este paso debe realizarse
-antes de la generación del intérprete (es decir, en primer lugar):</p>
-<pre><code class="language-cpp">  // Paso 0: buscamos dispositivos compatibles.
-  size_t num_devices;
-  std::unique_ptr&lt;edgetpu_device, decltype(&amp;edgetpu_free_devices)&gt; devices(
-      edgetpu_list_devices(&amp;num_devices), &amp;edgetpu_free_devices);
-
-  if (num_devices == 0) {
-    std::cerr &lt;&lt; &quot;No connected TPU found&quot; &lt;&lt; std::endl;
-    return 1;
-  }
-  const auto&amp; device = devices.get()[0];
-</code></pre>
-<h3 id="construccion-del-delegado">Construcción del delegado</h3>
-<p>A continuación, antes de alojar memoria para los tensores, pero tras la creación del intérprete, 
-crearemos un delegado asociado al dispositivo Google Coral:</p>
-<pre><code class="language-cpp"> auto* delegate = edgetpu_create_delegate(device.type, device.path, nullptr, 0);
- interpreter-&gt;ModifyGraphWithDelegate(delegate);
-</code></pre>
-<p>A nivel de código, estas son todas las modificaciones necesarias. </p>
-<h3 id="compilacion-y-enlazado">Compilación y enlazado</h3>
-<p>A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes. Básicamente, trataremos de añadir
-el directorio que contenga el fichero <code>edgetpu_c.h</code>, por ejemplo:</p>
-<pre><code class="language-sh">g++ -I/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/  ...
-</code></pre>
-<div class="admonition danger">
-<p class="admonition-title">Nota</p>
-<p>Si no encuentras en tu sistema de ficheros el fichero de cabecera <code>edgetpu_c.h</code>, puedes obtener una copia siguiendo las siguientes instrucciones:</p>
-<p><code>mkdir coral &amp;&amp; cd coral
-git clone https://github.com/google-coral/pycoral.git
-cd pycoral</code></p>
-<p>En el directorio <code>libedgetpu_bin</code> encontrarás el fichero de cabecera correspondiente. Utiliza la ruta al fichero como argumento de la opción <code>-I</code> de la línea de compilación.</p>
-</div>
-<p>Por otro lado, será necesario enlazar con la biblioteca <em>libedgetpu.so.1</em> correspondiente a nuestra arquitectura,
-en el caso de la Raspberry Pi alojada en:</p>
-<pre><code class="language-sh">/usr/lib/aarch64-linux-gnu/
-</code></pre>
-<p>Por tanto, añadiremos la cadena <code>/usr/lib/aarch64-linux-gnu/libedgetpu.so.1</code> a la línea de compilación y debería estar todo listo para compilar y enlazar.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Modifica y compara el rendimiento de los programas de clasificación y detección de objetos (este último, sólo si lo desarrollaste) utilizando C++ con respecto a sus correspondientes versiones en Python.</p>
-</div>
+<p>El código necesario para el desarrollo de la práctica puede obtenerse descargando el código de la <a href="https://drive.google.com/file/d/1765YtV6_UgCSNukjGf5bs2_iW28PDABT/view?usp=sharing">URL</a>.</p>
 <h2 id="deteccion-basica-de-objetos-mobilenets-y-ssd">Detección básica de objetos. Mobilenets y SSD</h2>
 <p>La detección de objetos es a día de hoy uno de los campos más importantes dentro de la visión 
 por computador. Se trata de una extensión de la clasificación de imágenes, donde el objetivo
@@ -519,36 +465,35 @@ para realizar la inferencia, ejecutando el <em>script</em> <code>download_models
 <p>A continuación, en el directorio <code>gstreamer</code>, ejecuta el <em>script</em> <code>install_requirements.sh</code> para instalar los requisitos necesarios para el desarrollo
 del laboratorio. </p>
 <p>Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, mediante la orden:</p>
-<pre><code class="language-sh">python3 detect.py
+<pre><code class="language-sh">python3 tracking.py
 </code></pre>
 <p>Observa que la salida, en forma de ventana de vídeo, mostrará una <em>bounding box</em> y clase asociada para cada objeto detectado en la escena. Por defecto,
 el modelo que se toma es <em>Mobilenet v2 SSD</em>. </p>
-<p>Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, dentro de la función
-<code>user_callback</code> se realiza la inferencia y se analizan los resultados obtenidos (objetos detectados) como retorno de la función <code>get_output</code>. </p>
+<p>Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a <code>detect_objects</code> y se analizan los resultados obtenidos (objetos detectados) en <code>tracker_annotate</code> dibujando las cajas en <code>draw_objects_tracked</code>. </p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la página de modelos de Google Coral.</p>
+<p>Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la <a href="https://coral.ai/models/all/">página de modelos de Google Coral</a>.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada <em>bounding box</em> y cómo estos valores varían al mover un objeto por la pantalla.</p>
+<p>Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable <code>tracks</code>, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada <em>box</em> y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`</p>
 </div>
 <h2 id="tracking-de-objetos-en-tflite"><em>Tracking</em> de objetos en TFLite</h2>
 <p>El código proporcionado integra un <em>tracker</em> o seguidor de objetos, que no solo detecta objetos en un fotograma determinado, sino que los 
-identifica y sigue mientras aparezcan en pantalla. Esta implementación está basada en el <em>tracker</em> <code>Sort</code> (<a href="https://github.com/abewley/sort">enlace</a>).</p>
-<p>Puedes lanzar la versión con <em>tracker</em> utilizando la línea:</p>
-<pre><code class="language-sh">python3 detect.py --tracker sort
+identifica y sigue mientras aparezcan en pantalla. Esta implementación está basada en el <em>motpy</em> (<a href="https://pypi.org/project/motpy/">enlace</a>).</p>
+<p>Para instalar el tracker es necesario instalar el paquete <em>motpy</em>:</p>
+<pre><code class="language-sh">pip3 install motpy
 </code></pre>
 <p>Observa que, al ejecutar el <em>script</em>, se asocia no sólo un <em>bounding box</em> y clase a cada objeto, sino también un identificador que (idealmente), debería
 mantenerse mientras el objeto siga en la imagen.</p>
 <p>El <em>tracker</em> <code>Sort</code> devuelve, en su función <code>update</code>, un array Numpy en el que cada fila contiene un <em>bounding box</em> válido, y un identificador de objeto único en su última columna. </p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Modifica el código para que, utilizando la opción de <em>tracking</em>, se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.</p>
+<p>Modifica el código para que se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable (80% de la nota)</p>
-<p>Se pide modificar el script inicial (sin tracking) para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral.</p>
+<p>Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en python pueden encontrarse en los ejemplos de <a href="https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py">la implementación de MQTT Paho</a></p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable (20% de la nota)</p>
@@ -561,14 +506,12 @@ mantenerse mientras el objeto siga en la imagen.</p>
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../../js/jquery-3.6.0.min.js"></script>
-        <script src="../../js/bootstrap.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js"></script>
-        <script src="../../search/main.js"></script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -578,13 +521,16 @@ mantenerse mientras el objeto siga en la imagen.</p>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
