@@ -21,9 +21,6 @@ En este laboratorio utilizaremos los modelos de Bodypix, partiendo de la librer�
 !!! danger "Tarea"
     Probar a usar un modelo `.tflite`.
 
-!!! danger "Tarea"
-    Probar a usar uno de los modelos del [Google Coral Projet Bodbypix](https://github.com/google-coral/project-bodypix/tree/master/models) y compara los tiempos.
-
 ## Segmentación de personas
 
 A un nivel básico, la segmentación de personas consiste en realizar una segmentación de una o más imágenes de entrada en píxeles que son parte de una persona, y píxeles que no lo son. En Bodypix, tras proporcionar una imagen al modelo para inferencia, ésta se devuelve comen forma de matriz bidimensional con valores flotantes entre 0 y 1 para cada posición (pixel), indicando la probabilidad de que una persona ocupe dicho píxel. Un valor típicamente denominado *umbral de segmentación* decidirá en último término el valor mínimo de probabilidad para que dicho píxel se considere como parte de una persona. Este valor puede utilizarse, por ejemplo, para eliminar el fondo de una imagen (o sustituirlo por otro):
