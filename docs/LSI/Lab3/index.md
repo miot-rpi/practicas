@@ -1,91 +1,13 @@
 # Detección de objetos
 
 ## Objetivos
-
-* Interactuar con el dispositivo Google Coral realizando inferencias aceleradas desde un código C++.
 * Entender el funcionamiento básico de los extractores de características MobileNet y de los detectores de objetos SSD.
 * Integrar un detector de objetos con funcionalidades de *tracking* en un entorno de monitorización IoT.
 
 ## Código necesario
 
-El código necesario para el desarrollo de la práctica puede obtenerse clonando el 
-[siguiente repositorio](https://github.com/google-coral/example-object-tracker.git).
+El código necesario para el desarrollo de la práctica puede obtenerse descargando el código de la [URL](https://drive.google.com/file/d/1765YtV6_UgCSNukjGf5bs2_iW28PDABT/view?usp=sharing).
 
-## Ejecución de modelos en Edge TPU desde C++
-
-Para ilustrar el funcionamiento del proceso de inferencia utilizando el dispositivo Google Coral
-desde un programa C++, las modificaciones a realizar son mínimas:
-
-### Inclusión de ficheros de cabecera
-
-Es necesario incluir los ficheros de cabecera correspondientes para la creación de las estructuras
-de datos necesarias (básicamente, un componente *delegado* que ejecute el modelo en la TPU):
-
-```cpp
-#include "edgetpu_c.h"
-```
-
-### Detección del dispositivo
-
-El proceso de descarga del modelo a dispositivo comienza con la detección del mismo. Este paso debe realizarse
-antes de la generación del intérprete (es decir, en primer lugar):
-
-```cpp
-  // Paso 0: buscamos dispositivos compatibles.
-  size_t num_devices;
-  std::unique_ptr<edgetpu_device, decltype(&edgetpu_free_devices)> devices(
-      edgetpu_list_devices(&num_devices), &edgetpu_free_devices);
-
-  if (num_devices == 0) {
-    std::cerr << "No connected TPU found" << std::endl;
-    return 1;
-  }
-  const auto& device = devices.get()[0];
-```
-
-### Construcción del delegado
-
-A continuación, antes de alojar memoria para los tensores, pero tras la creación del intérprete, 
-crearemos un delegado asociado al dispositivo Google Coral:
-
-```cpp
- auto* delegate = edgetpu_create_delegate(device.type, device.path, nullptr, 0);
- interpreter->ModifyGraphWithDelegate(delegate);
-```
-
-A nivel de código, estas son todas las modificaciones necesarias. 
-
-### Compilación y enlazado
-
-A la hora de compilar, deberemos indicar al compilador la ruta a los ficheros de cabecera correspondientes. Básicamente, trataremos de añadir
-el directorio que contenga el fichero `edgetpu_c.h`, por ejemplo:
-
-```sh
-g++ -I/home/pi/Test/Coral/coral/pycoral/libedgetpu_bin/  ...
-```
-
-!!! danger "Nota"
-    Si no encuentras en tu sistema de ficheros el fichero de cabecera `edgetpu_c.h`, puedes obtener una copia siguiendo las siguientes instrucciones:
-
-    ```
-    mkdir coral && cd coral
-    git clone https://github.com/google-coral/pycoral.git
-    cd pycoral
-    ```
-
-    En el directorio `libedgetpu_bin` encontrarás el fichero de cabecera correspondiente. Utiliza la ruta al fichero como argumento de la opción `-I` de la línea de compilación.
-
-Por otro lado, será necesario enlazar con la biblioteca *libedgetpu.so.1* correspondiente a nuestra arquitectura,
-en el caso de la Raspberry Pi alojada en:
-
-```sh
-/usr/lib/aarch64-linux-gnu/
-```
-
-Por tanto, añadiremos la cadena `/usr/lib/aarch64-linux-gnu/libedgetpu.so.1` a la línea de compilación y debería estar todo listo para compilar y enlazar.
-
-!!! danger "Tarea"
-    Modifica y compara el rendimiento de los programas de clasificación y detección de objetos (este último, sólo si lo desarrollaste) utilizando C++ con respecto a sus correspondientes versiones en Python.
 
 ## Detección básica de objetos. Mobilenets y SSD
 
@@ -392,31 +314,30 @@ del laboratorio.
 Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, mediante la orden:
 
 ```sh
-python3 detect.py
+python3 tracking.py
 ```
 
 Observa que la salida, en forma de ventana de vídeo, mostrará una *bounding box* y clase asociada para cada objeto detectado en la escena. Por defecto,
 el modelo que se toma es *Mobilenet v2 SSD*. 
 
 
-Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, dentro de la función
-`user_callback` se realiza la inferencia y se analizan los resultados obtenidos (objetos detectados) como retorno de la función `get_output`. 
+Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a `detect_objects` y se analizan los resultados obtenidos (objetos detectados) en `tracker_annotate` dibujando las cajas en `draw_objects_tracked`. 
 
 !!! danger "Tarea"
-    Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la página de modelos de Google Coral.
+    Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la [página de modelos de Google Coral](https://coral.ai/models/all/).
     
 !!! danger "Tarea"
-    Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada *bounding box* y cómo estos valores varían al mover un objeto por la pantalla.
+    Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable `tracks`, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada *box* y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`
 
 ## *Tracking* de objetos en TFLite
 
 El código proporcionado integra un *tracker* o seguidor de objetos, que no solo detecta objetos en un fotograma determinado, sino que los 
-identifica y sigue mientras aparezcan en pantalla. Esta implementación está basada en el *tracker* `Sort` ([enlace](https://github.com/abewley/sort)).
+identifica y sigue mientras aparezcan en pantalla. Esta implementación está basada en el *motpy* ([enlace](https://pypi.org/project/motpy/)).
 
-Puedes lanzar la versión con *tracker* utilizando la línea:
+Para instalar el tracker es necesario instalar el paquete *motpy*:
 
 ```sh
-python3 detect.py --tracker sort
+pip3 install motpy
 ```
 
 Observa que, al ejecutar el *script*, se asocia no sólo un *bounding box* y clase a cada objeto, sino también un identificador que (idealmente), debería
@@ -426,10 +347,10 @@ El *tracker* `Sort` devuelve, en su función `update`, un array Numpy en el que 
 
 
 !!! danger "Tarea"
-    Modifica el código para que, utilizando la opción de *tracking*, se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.
+    Modifica el código para que se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.
 
 !!! danger "Tarea entregable (80% de la nota)"
-    Se pide modificar el script inicial (sin tracking) para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral.
+    Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en python pueden encontrarse en los ejemplos de [la implementación de MQTT Paho](https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py)
 
 !!! danger "Tarea entregable (20% de la nota)"
     Haciendo uso de las capacidades de *tracking* del script original, se pide diseñar e implementar una solución para monitorizar el paso de personas en sentido entrada y salida en una entrada a un recinto. Así, se supondrá una cámara situada de forma perpendicular a la entrada al recinto, de modo que las personas que accedan al mismo ingresarán en la escena por uno de los extremos y saldrán por el opuesto. Las personas que salgan del recinto discurrirán por la imagen en sentido contrario. Se pide que el sistema almacene el número de personas que han entrado y salido del recinto, así como el momento en el que lo han hecho.
