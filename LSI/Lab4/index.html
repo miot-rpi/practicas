@@ -260,6 +260,12 @@
 <p class="admonition-title">Tarea</p>
 <p>Probar a usar un modelo <code>.tflite</code>.</p>
 </div>
+<h3 id="informacion-complementaria">Información complementaria</h3>
+<ul>
+<li><a href="https://blog.tensorflow.org/2019/11/updated-bodypix-2.html">Blog Tensorflow</a></li>
+<li>Código original bodypix (<a href="https://github.com/tensorflow/tfjs-models/blob/master/body-pix/README-v1.md">readme</a> y <a href="https://github.com/tensorflow/tfjs-models/tree/master/body-pix">repositorio</a>).</li>
+<li><a href="https://github.com/google-coral/project-bodypix">Coral bodypix</a> (<a href="https://github.com/google-coral/project-bodypix/tree/master/models">modelos TFLite y EdgeTPU</a>)</li>
+</ul>
 <h2 id="segmentacion-de-personas">Segmentación de personas</h2>
 <p>A un nivel básico, la segmentación de personas consiste en realizar una segmentación de una o más imágenes de entrada en píxeles que son parte de una persona, y píxeles que no lo son. En Bodypix, tras proporcionar una imagen al modelo para inferencia, ésta se devuelve comen forma de matriz bidimensional con valores flotantes entre 0 y 1 para cada posición (pixel), indicando la probabilidad de que una persona ocupe dicho píxel. Un valor típicamente denominado <em>umbral de segmentación</em> decidirá en último término el valor mínimo de probabilidad para que dicho píxel se considere como parte de una persona. Este valor puede utilizarse, por ejemplo, para eliminar el fondo de una imagen (o sustituirlo por otro):</p>
 <p><img alt="" src="img/2a_example.png" /></p>
