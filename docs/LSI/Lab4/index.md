@@ -21,6 +21,12 @@ En este laboratorio utilizaremos los modelos de Bodypix, partiendo de la librer�
 !!! danger "Tarea"
     Probar a usar un modelo `.tflite`.
 
+### Información complementaria
+
+* [Blog Tensorflow](https://blog.tensorflow.org/2019/11/updated-bodypix-2.html)
+* Código original bodypix ([readme](https://github.com/tensorflow/tfjs-models/blob/master/body-pix/README-v1.md) y [repositorio](https://github.com/tensorflow/tfjs-models/tree/master/body-pix)).
+* [Coral bodypix](https://github.com/google-coral/project-bodypix) ([modelos TFLite y EdgeTPU](https://github.com/google-coral/project-bodypix/tree/master/models))
+
 ## Segmentación de personas
 
 A un nivel básico, la segmentación de personas consiste en realizar una segmentación de una o más imágenes de entrada en píxeles que son parte de una persona, y píxeles que no lo son. En Bodypix, tras proporcionar una imagen al modelo para inferencia, ésta se devuelve comen forma de matriz bidimensional con valores flotantes entre 0 y 1 para cada posición (pixel), indicando la probabilidad de que una persona ocupe dicho píxel. Un valor típicamente denominado *umbral de segmentación* decidirá en último término el valor mínimo de probabilidad para que dicho píxel se considere como parte de una persona. Este valor puede utilizarse, por ejemplo, para eliminar el fondo de una imagen (o sustituirlo por otro):
@@ -68,5 +74,5 @@ Una posible combinación y representación final de la imagen con información d
     * Posición de las manos a la misma altura, y siempre por debajo de la cabeza. Este valor indicará que las manos están situadas en posición correcta en el volante.
     * Posición de los ojos aproximadamente a la misma altura, lo que indicará una posición correcta de la cabeza. 
     * Hombros a la misma altura.
-
+    
     El panel de control combinará (en el porcentaje que desees) dichas métricas, para obtener un valor de calidad unificado. Si se supera por debajo el valor de calidad considerado umbral, se emitirá una alarma utilizando el mecanismo de aviso que consideres adecuado. (**Nota: puedes proponer escenarios distintos al propuesto si son de tu interés, siempre que la dificultad sea similar a la propuesta, y que se utilice el mismo tipo de información**).
