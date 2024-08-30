@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,9 +10,13 @@
         <link rel="shortcut icon" href="img/favicon.ico">
         <title>Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
@@ -22,7 +26,7 @@
             <div class="container">
                 <a class="navbar-brand" href=".">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -30,40 +34,11 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem active">
-                                <a href="." class="nav-link">Calendario</a>
+                            <li class="nav-item">
+                                <a href="." class="nav-link active" aria-current="page">Calendario</a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
-</li>
-                                    
-<li>
-    <a href="LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
-</li>
-                                    
-<li>
-    <a href="LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
-</li>
-                                    
-<li>
-    <a href="LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
-</li>
-                                    
-<li>
-    <a href="LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
-</li>
-                                    
-<li>
-    <a href="LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -95,8 +70,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -144,8 +119,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -179,9 +154,9 @@
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
+                    <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -191,7 +166,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="LSI/Lab0/" class="nav-link">
+                                <a rel="next" href="RPI-I/P1/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -202,38 +177,38 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#calendario" class="nav-link">Calendario</a>
+            <li class="nav-item" data-bs-level="1"><a href="#calendario" class="nav-link">Calendario</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             
-            <li class="nav-item" data-level="1"><a href="#rpi-i" class="nav-link">RPI-I</a>
+            <li class="nav-item" data-bs-level="1"><a href="#rpi-i" class="nav-link">RPI-I</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             
-            <li class="nav-item" data-level="1"><a href="#rpi-ii" class="nav-link">RPI-II</a>
+            <li class="nav-item" data-bs-level="1"><a href="#rpi-ii" class="nav-link">RPI-II</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             
-            <li class="nav-item" data-level="1"><a href="#aniot" class="nav-link">ANIOT</a>
+            <li class="nav-item" data-bs-level="1"><a href="#aniot" class="nav-link">ANIOT</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             
-            <li class="nav-item" data-level="1"><a href="#lsi" class="nav-link">LSI</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lsi" class="nav-link">LSI</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -256,7 +231,7 @@
 <tr>
 <td></td>
 <td>11/09</td>
-<td>Clase de Teoría</td>
+<td>Clase de teoría</td>
 </tr>
 <tr>
 <td>1</td>
@@ -342,77 +317,72 @@
 <tbody>
 <tr>
 <td>-</td>
-<td>11/09</td>
-<td>Clase de teoría</td>
+<td>09/09</td>
+<td>Clase de teoría (intro)</td>
 </tr>
 <tr>
 <td>1</td>
-<td>18/09</td>
-<td><a href="RPI-II/P1_I/">Programación de sockets en C</a>. <a href="RPI-II/P1_II/">Introducción a Node-RED</a></td>
-</tr>
-<tr>
-<td>1</td>
-<td>25/09</td>
-<td><a href="RPI-II/P1_III/">Sockets TCP/UDP (ESP32). Node-RED</a>. <a href="RPI-II/P1_IV/">Programación de sockets en Python</a></td>
+<td>16/09</td>
+<td>TCP/UDP (linux)</td>
 </tr>
 <tr>
 <td>2</td>
-<td>02/10</td>
-<td><a href="RPI-II/P6/">MQTT (I)</a></td>
-</tr>
-<tr>
-<td>2</td>
-<td>09/10</td>
-<td><a href="RPI-II/P6-II/">MQTT (II)</a></td>
+<td>23/09</td>
+<td>TCP/UDP (ESP32)</td>
 </tr>
 <tr>
 <td>3</td>
-<td>16/10</td>
-<td><a href="RPI-II/P5/">Servidores REST y representación de la información (JSON y CBOR)</a></td>
+<td>30/10</td>
+<td>TLS/DTLS</td>
 </tr>
 <tr>
 <td>4</td>
-<td>23/10</td>
-<td><a href="RPI-II/P7/">CoAP</a></td>
+<td>07/10</td>
+<td>Websockets</td>
 </tr>
 <tr>
 <td>5</td>
-<td>30/10</td>
-<td><a href="RPI-II/P3/">Seguridad</a></td>
+<td>14/10</td>
+<td>REST y representación de la información</td>
 </tr>
 <tr>
 <td>6</td>
-<td>06/11</td>
-<td><a href="RPI-II/P11/">Eclipse Ditto</a></td>
+<td>21/10</td>
+<td>MQTT (1)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>28/10</td>
+<td>MQTT (2)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>04/11</td>
+<td>Thingsboard</td>
+</tr>
+<tr>
+<td>8</td>
+<td>11/11</td>
+<td>CoAP</td>
+</tr>
+<tr>
+<td>9</td>
+<td>18/11</td>
+<td>LWM2M</td>
 </tr>
 <tr>
 <td></td>
-<td>13/11</td>
+<td>25/11</td>
+<td>Otros protocolos (demo)</td>
+</tr>
+<tr>
+<td></td>
+<td>02/12</td>
 <td>Proyecto</td>
 </tr>
 <tr>
 <td></td>
-<td>20/11</td>
-<td>Proyecto</td>
-</tr>
-<tr>
-<td></td>
-<td>27/11</td>
-<td>Proyecto</td>
-</tr>
-<tr>
-<td></td>
-<td>04/12</td>
-<td>Proyecto</td>
-</tr>
-<tr>
-<td></td>
-<td>11/12</td>
-<td>Proyecto</td>
-</tr>
-<tr>
-<td></td>
-<td>18/12</td>
+<td>09/12</td>
 <td>Proyecto</td>
 </tr>
 </tbody>
@@ -520,34 +490,9 @@
 </thead>
 <tbody>
 <tr>
-<td>0 (C)</td>
-<td>12/03</td>
-<td><a href="LSI/Lab0/">Introducción y entorno experimental</a></td>
-</tr>
-<tr>
-<td>1 (L)</td>
-<td>19/03</td>
-<td><a href="LSI/Lab1/">Introducción a TFLite en la Raspberry Pi</a></td>
-</tr>
-<tr>
-<td>2 (L)</td>
-<td>02/04</td>
-<td><a href="LSI/Lab2/">Clasificación de imágenes</a></td>
-</tr>
-<tr>
-<td>3 (C)</td>
-<td>09/04</td>
-<td><a href="LSI/Lab3/">Detección de objetos</a></td>
-</tr>
-<tr>
-<td>4 (L)</td>
-<td>23/04</td>
-<td><a href="LSI/Lab4/">Segmentacion de objetos</a></td>
-</tr>
-<tr>
-<td>5 (C)</td>
-<td>07/05</td>
-<td><a href="LSI/Lab5/">Reconocimiento de voz</a></td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
 </tr>
 </tbody>
 </table>
@@ -566,8 +511,7 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="js/jquery-3.6.0.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
         <script>
             var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
@@ -580,7 +524,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -600,7 +544,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <table class="table">
@@ -640,6 +584,6 @@
 </html>
 
 <!--
-MkDocs version : 1.5.3
-Build Date UTC : 2024-04-30 18:01:58.882050+00:00
+MkDocs version : 1.6.0
+Build Date UTC : 2024-08-30 12:44:55.209036+00:00
 -->

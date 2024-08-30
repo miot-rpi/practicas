@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,9 +10,13 @@
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 2 (I) - Master IoT UCM - Prácticas RPI/LSI/ANIOT</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
@@ -22,7 +26,7 @@
             <div class="container">
                 <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/LSI/ANIOT</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -30,40 +34,11 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href="../.." class="nav-link">Calendario</a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">LSI <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../../LSI/Lab0/" class="dropdown-item">Laboratorio 0</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab1/" class="dropdown-item">Laboratorio 1</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab2/" class="dropdown-item">Laboratorio 2</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab3/" class="dropdown-item">Laboratorio 3</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab4/" class="dropdown-item">Laboratorio 4</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab5/" class="dropdown-item">Laboratorio 5</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -95,8 +70,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -116,7 +91,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Práctica 2 (I)</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Práctica 2 (I)</a>
 </li>
                                     
 <li>
@@ -144,8 +119,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -179,9 +154,9 @@
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
+                    <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -202,40 +177,40 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#practica-2-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico" class="nav-link">Práctica 2. El protocolo MQTT (I). Despliegue de clientes y servidores/brokers. Análisis de tráfico</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-2-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico" class="nav-link">Práctica 2. El protocolo MQTT (I). Despliegue de clientes y servidores/brokers. Análisis de tráfico</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#publicacionsuscripcion-contra-un-broker-en-la-nube" class="nav-link">Publicación/suscripción contra un broker en la nube</a>
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#despliegue-de-un-broker-local-usando-eclipse-mosquitto" class="nav-link">Despliegue de un broker local usando Eclipse Mosquitto</a>
+            <li class="nav-item" data-bs-level="2"><a href="#publicacionsuscripcion-contra-un-broker-en-la-nube" class="nav-link">Publicación/suscripción contra un broker en la nube</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#wildcards" class="nav-link">Wildcards</a>
+            <li class="nav-item" data-bs-level="2"><a href="#despliegue-de-un-broker-local-usando-eclipse-mosquitto" class="nav-link">Despliegue de un broker local usando Eclipse Mosquitto</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#desarrollo-de-un-clientes-locales-opcion-1-node-red" class="nav-link">Desarrollo de un clientes locales. Opción 1: Node-RED</a>
+            <li class="nav-item" data-bs-level="2"><a href="#wildcards" class="nav-link">Wildcards</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#desarrollo-de-un-clientes-locales-opcion-2-eclipse-paho" class="nav-link">Desarrollo de un clientes locales. Opción 2: Eclipse Paho</a>
+            <li class="nav-item" data-bs-level="2"><a href="#desarrollo-de-un-clientes-locales-opcion-1-node-red" class="nav-link">Desarrollo de un clientes locales. Opción 1: Node-RED</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#desarrollo-de-un-clientes-locales-opcion-2-eclipse-paho" class="nav-link">Desarrollo de un clientes locales. Opción 2: Eclipse Paho</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -549,8 +524,7 @@ para parsear los objetos recibidos en Python, o los nodos correspondientes en No
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../../js/jquery-3.6.0.min.js"></script>
-        <script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
@@ -563,7 +537,7 @@ para parsear los objetos recibidos en Python, o los nodos correspondientes en No
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -583,7 +557,7 @@ para parsear los objetos recibidos en Python, o los nodos correspondientes en No
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <table class="table">
