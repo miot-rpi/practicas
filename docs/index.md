@@ -4,7 +4,7 @@
 
 | Práctica | Día   | Título                                                          |
 |----------|-------|-----------------------------------------------------------------|
-|          | 11/09 | Clase de Teoría                                                 |
+|          | 11/09 | Clase de teoría                                                 |
 | 1        | 18/09 | [Introducción al entorno de desarrollo](RPI-I/P1/index.md)      |
 | 2        | 25/09 | [WiFi en el ESP32](RPI-I/P2/index.md)                           |
 | 3        | 02/10 | [WiFi. Provisionamiento y ahorro de energía](RPI-I/P3/index.md) |
@@ -24,21 +24,20 @@
 
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
-| -        | 11/09 |Clase de teoría                               |
-| 1        | 18/09 |[Programación de sockets en C](RPI-II/P1_I/index.md). [Introducción a Node-RED](RPI-II/P1_II/index.md) |
-| 1        | 25/09 |[Sockets TCP/UDP (ESP32). Node-RED](RPI-II/P1_III/index.md). [Programación de sockets en Python](RPI-II/P1_IV/index.md) |
-| 2        | 02/10 |[MQTT (I)](RPI-II/P6/index.md)                |
-| 2        | 09/10 |[MQTT (II)](RPI-II/P6-II/index.md)            |
-| 3        | 16/10 |[Servidores REST y representación de la información (JSON y CBOR)](RPI-II/P5/index.md)       |
-| 4        | 23/10 |[CoAP](RPI-II/P7/index.md)                    |
-| 5        | 30/10 |[Seguridad](RPI-II/P3/index.md)                        |
-| 6        | 06/11 |[Eclipse Ditto](RPI-II/P11/index.md)                        |
-|          | 13/11 | Proyecto                                                        |
-|          | 20/11 | Proyecto                                                        |
-|          | 27/11 | Proyecto                                                        |
-|          | 04/12 | Proyecto                                                        |
-|          | 11/12 | Proyecto                                                        |
-|          | 18/12 | Proyecto                                                        |
+| -        | 09/09 | Clase de teoría (intro)                      |
+| 1        | 16/09 | TCP/UDP (linux)                              |
+| 2        | 23/09 | TCP/UDP (ESP32)                              |
+| 3        | 30/10 | TLS/DTLS                                     |
+| 4        | 07/10 | Websockets                                   |
+| 5        | 14/10 | REST y representación de la información      |
+| 6        | 21/10 | MQTT (1)                                     |
+| 6        | 28/10 | MQTT (2)                                     |
+| 7        | 04/11 | Thingsboard                                  |
+| 8        | 11/11 | CoAP                                         |
+| 9        | 18/11 | LWM2M                                        |
+|          | 25/11 | Otros protocolos (demo)                      |
+|          | 02/12 | Proyecto                                     |
+|          | 09/12 | Proyecto                                     |
 
 
 
@@ -67,12 +66,8 @@
 
 | Lab.     | Día | Título                                                       |
 |----------|-----|--------------------------------------------------------------|
-| 0 (C)    |12/03|[Introducción y entorno experimental](LSI/Lab0/index.md)      |
-| 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
-| 2 (L)    |02/04|[Clasificación de imágenes](LSI/Lab2/index.md)                |
-| 3 (C)    |09/04|[Detección de objetos](LSI/Lab3/index.md)                     |
-| 4 (L)    |23/04|[Segmentacion de objetos](LSI/Lab4/index.md)                  |
-| 5 (C)    |07/05|[Reconocimiento de voz](LSI/Lab5/index.md)                    |
+| TBD      | TBD | TBD                                                          |
+
 <!---
 | 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
 | 2 (C)    |09/04|[Clasificación de imágenes](LSI/Lab2/index.md)                |
