@@ -1,4 +1,4 @@
-site_name: Master IoT UCM - Prácticas RPIANIOT
+site_name: Master IoT UCM - Prácticas RPI/ANIOT/LSI
 markdown_extensions:
     - admonition
 nav:
