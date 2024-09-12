@@ -12,9 +12,9 @@
 | 5        | 14/10 | [BLE: servidor GATT](RPI-I/P5/index.md)                         |
 | 6        | 21/10 | [BLE: cliente GATT](RPI-I/P6/index.md)                          |
 | 7        | 28/10 | [BLE Mesh](RPI-I/P7/index.md)                                   |
-| 8        | 04/11 | P8 802.15.4 y Thread                                            |
-| 9        | 11/11 | P9 6LowPAN                                                      |
-| 10       | 18/11 | P10 LoRa y LoRaWan                                              |
+| 8        | 04/11 | 802.15.4 y Thread                                               |
+| 9        | 11/11 | 6LowPAN                                                         |
+| 10       | 18/11 | LoRa y LoRaWan                                                  |
 |          | 25/11 | Charla SigFox (Por confirmar)                                   |
 |          | 02/12 | Proyecto                                                        |
 |          | 09/12 | Proyecto                                                        |
