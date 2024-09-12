@@ -4,21 +4,20 @@
 
 | Práctica | Día   | Título                                                          |
 |----------|-------|-----------------------------------------------------------------|
-|          | 11/09 | Clase de teoría                                                 |
-| 1        | 18/09 | [Introducción al entorno de desarrollo](RPI-I/P1/index.md)      |
-| 2        | 25/09 | [WiFi en el ESP32](RPI-I/P2/index.md)                           |
-| 3        | 02/10 | [WiFi. Provisionamiento y ahorro de energía](RPI-I/P3/index.md) |
-| 4        | 09/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                              |
-| 5        | 16/10 | [BLE: servidor GATT](RPI-I/P5/index.md)                         |
-| 6        | 23/10 | [BLE: cliente GATT](RPI-I/P6/index.md)                          |
-| 7        | 30/10 | [BLE Mesh](RPI-I/P7/index.md)                                   |
-|          | 06/11 | Presentaciones orales                                           |
-|          | 13/11 | Proyecto                                                        |
-|          | 20/11 | Proyecto                                                        |
-|          | 27/11 | Proyecto                                                        |
-|          | 04/12 | Proyecto                                                        |
-|          | 11/12 | Proyecto                                                        |
-|          | 18/12 | Proyecto                                                        |
+|          | 09/09 | Clase de Teoría                                                 |
+| 1        | 16/09 | [Introducción al entorno de desarrollo](RPI-I/P1/index.md)      |
+| 2        | 23/09 | [WiFi en el ESP32](RPI-I/P2/index.md)                           |
+| 3        | 30/09 | [WiFi. Provisionamiento y ahorro de energía](RPI-I/P3/index.md) |
+| 4        | 07/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                              |
+| 5        | 14/10 | [BLE: servidor GATT](RPI-I/P5/index.md)                         |
+| 6        | 21/10 | [BLE: cliente GATT](RPI-I/P6/index.md)                          |
+| 7        | 28/10 | [BLE Mesh](RPI-I/P7/index.md)                                   |
+| 8        | 04/11 | P8 802.15.4 y Thread                                            |
+| 9        | 11/11 | P9 6LowPAN                                                      |
+| 10       | 18/11 | P10 LoRa y LoRaWan                                              |
+|          | 25/11 | Charla SigFox (Por confirmar)                                   |
+|          | 02/12 | Proyecto                                                        |
+|          | 09/12 | Proyecto                                                        |
 
 # RPI-II
 
