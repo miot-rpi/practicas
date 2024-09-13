@@ -10,6 +10,14 @@
 * Personalizar variables de configuración de proyectos ESP-IDF
 * Responder a eventos básicos de red en ESP-IDF
 
+## Entregable
+
+Se entregará un zip (o similar) con:
+
+- Un breve informe en pdf describiendo el trabajo realizado, los ejercicios y
+  los resultados observados/obtenidos.
+- El código desarrollado para cada uno de los ejercicos de la práctica.
+
 ## Introducción
 
 ESP-IDF (*Espressif IoT Development Framework*) es el entorno de desarrollo
@@ -77,7 +85,8 @@ ESP-IDF v4.1-332-g7b7c64107
 
 En esta primera parte, nos basaremos en un ejemplo sencillo de código
 desarrollado en base a ESP-IDF. No es el objetivo de esta práctica analizar en
-detalle los la estructura de dicho código, sino utilizarlo para ilustrar el flujo de trabajo típico en un proyecto ESP-IDF.
+detalle la estructura de dicho código, sino utilizarlo para ilustrar el flujo de
+trabajo típico en un proyecto ESP-IDF.
 
 Para empezar crearemos en nuestro sistema una carpeta para almacenar nuestros proyectos y abriremos dicha carpeta con Visual Studio Code. Después crearemos en esta carpeta un proyecto a partir de uno de los ejemplos que vienen con el sdk de espressif, concretamente el ejemplo `hello_world`. Desde Visual Studio Code podemos pulsar la combinación de teclas Shift+Ctrl+P, lo que nos abre la paleta de comandos en la parte central superior de la ventana. En ella escribiremos ESP-IDF, para filtrar las opciones de ESP-IDF, y buscaremos la entrada *ESP-IDF: Show Examples Projects*. Al seleccionarla nos abrirá una pestaña con los ejemplos que vienen con el SDK. Seleccionamos el ejemplo *Hello World* y, cuando nos pregunte, la carpeta donde queremos guardar el proyecto. Esto copiará el ejemplo que viene con las herramientas (~/esp/esp-idf/examples por defecto) a nuestra carpeta de trabajo.
 
@@ -217,12 +226,12 @@ principal:
     esp_restart();
 ```
 
-!!! danger "Entregable 1"
+!!! danger "Ejercicio 1"
     Modifica el período de suspensión de la tarea para que sea mayor o menor, y
     comprueba que efectivamente esto modifica el comportamiento del *firmware*
     cargado.
 
-!!! danger "Entregable 2"
+!!! danger "Ejercicio 2"
     Modifica el programa para que se compruebe debidamente si el SoC
     tiene capacidades WiFi y muestre la información correspondiente por la salida estándar (para ello, puedes consultar [la siguiente página](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system.html#_CPPv415esp_chip_info_t)).
 
@@ -306,7 +315,7 @@ void app_main()
 }
 ```
 
-!!! danger "Entregable 3"
+!!! danger "Ejercicio 3"
     Implementa una modificación del programa `hello_world` que implemente
     y planifique dos tareas independientes con distinta funcionalidad (en este
     caso, es suficiente con mostrar por pantalla algún mensaje) y distintos
@@ -353,7 +362,7 @@ que se proporciona como parte del fichero. En él, se definen las característic
 (nombre, rango, valor por defecto y descripcion) de la opción de configuración
 a definir.
 
-!!! danger "Entregable 4"
+!!! danger "Ejercicio 4"
     Modifica el proyecto `hello_world` para que defina dos opciones de
     configuración que permitán definir el tiempo de espera de cada una de las
     dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
@@ -386,7 +395,11 @@ SSID, modo de autenticación o canal primario).
 
 ## Gestión de eventos de red
 
-El segundo ejemplo que estudiarems es un programa para la conexión del ESP32 a un punto de acceso existente. Este ejemplo nos permitirá observar, a grandes rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite gestionar la respuestas a eventos de red, como por ejemplo la obtención de dirección IP o la conexión exitosa a un punto de acceso.
+El segundo ejemplo que estudiaremos es un programa para la conexión del ESP32 a
+un punto de acceso existente. Este ejemplo nos permitirá observar, a grandes
+rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite
+gestionar la respuestas a eventos de red, como por ejemplo la obtención de
+dirección IP o la conexión exitosa a un punto de acceso.
 
 !!! Note "Nota"
     Crea un proyecto a partir del ejempl `station` situado en el directorio
@@ -418,7 +431,7 @@ la tarea principal, se divide básicamente en dos partes:
   través de `esp_wifi_start()`. Consulta la documentación relativa a dichas
   funciones y toma nota de aquellos aspectos que consideres más relevantes.
 
-!!! danger "Entregable 7"
+!!! danger "Ejercicio 7"
     Modifica el *firmware* para que el *handler* de tratamiento de la obtención
     de una dirección IP sea independiente del tratamiento del resto de eventos
     del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
