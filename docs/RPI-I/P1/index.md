@@ -14,8 +14,8 @@
 
 Se entregará un zip (o similar) con:
 
-- Un breve informe en pdf describiendo el trabajo realizado, los ejercicios y
-  los resultados observados/obtenidos.
+- Un breve informe en pdf describiendo el trabajo realizado y los resultados
+  observados/obtenidos.
 - El código desarrollado para cada uno de los ejercicos de la práctica.
 
 ## Introducción
