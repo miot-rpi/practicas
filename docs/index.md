@@ -24,7 +24,7 @@
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
 | -        | 09/09 | Clase de teoría (intro)                      |
-| 1        | 16/09 | TCP/UDP (linux)                              |
+| 1        | 16/09 | [TCP/UDP (Host)](RPI-II/P1_I/index.md)       |
 | 2        | 23/09 | TCP/UDP (ESP32)                              |
 | 3        | 30/10 | TLS/DTLS                                     |
 | 4        | 07/10 | Websockets                                   |

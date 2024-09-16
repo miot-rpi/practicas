@@ -9,7 +9,7 @@
   través de Wireshark.
 * Diseñar un protocolo de capa de aplicación sencillo para simular una aplicación
   cliente/servidor utilizando TCP y UDP para interactuar entre un cliente y un
-  servidor bajo un sistema operativo Linux.
+  servidor bajo un sistema operativo de tipo Linux.
 
 ## Introducción
 
@@ -31,20 +31,22 @@ la que se basan se mantiene inalterada.
 El tipo más común de aplicaciones basadas en *sockets* se basa en el paradigma
 cliente/servidor, donde una de las partes actúa como **servidor**, esperando
 pasivamente conexiones desde un conjunto de uno o más **clientes**. A 
-continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
+continuación, veremos cómo desarrollar este tipo de paradigma desde C,
 utilizando *sockets Berkeley*. Existen también los llamados *Unix domain
 sockets*, que permiten la comunicación directa entre procesos en el mismo
 *host*, aunque quedan fuera de nuestro interés en el ámbito de IoT.
 
 
-En la práctica anterior, vimos cómo desarrollar sistemas cliente/servidor
-sencillos utilizando Python, tanto en sus variantes TCP como UDP.
 El objetivo de la presente práctica es estudiar y desarrollar componentes
 de red (clientes y servidores TCP y UDP) que puedan ejecutarse sobre el 
 ESP32 haciendo uso de las facilidades propuestas por ESP-IDF. Además, 
 demostraremos que es posible hacer interactuar clientes y servidores ejecutándose
-indistintamente en la máquina virtual (programados vía Python) y en la propia
-placa (utilizando la API de sockets de C).
+indistintamente en un PC (programados vía C) y en la propia
+placa (utilizando la API de sockets de C). Para ello, en esta primera parte
+de la práctica, comenzaremos analizando y desarrollando sencillos despliegues
+de tipo cliente/servidor haciendo uso de los protocolos de transporte TCP y UDP, 
+analizando sus pros y sus contras desde el punto de vista del tráfico generado
+y de las características soportadas.
 
 ## La API de sockets en C
 
@@ -300,7 +302,7 @@ de cada llamada sigue las directivas de la figura:
 ![flow](img/flow.png)
 
 !!! note "Tarea 1.1"
-    Compila (utilizando la orden `gcc ejemplo.c -o ejemplo.x` desde
+    Compila (utilizando por ejemplo la orden `gcc ejemplo.c -o ejemplo.x` desde
     una terminal) y a continuación ejecuta (`./ejemplo.x`) cada par
     de códigos y comprueba su funcionamiento. Estudia con detenimiento el uso
     de cada rutina y como efectivamente siguen las directivas marcadas 
