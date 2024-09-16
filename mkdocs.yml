@@ -1,6 +1,10 @@
-site_name: Master IoT UCM - Prácticas RPI/ANIOT/LSI
+site_name: Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)
+extra_javascript:
+  - https://code.jquery.com/jquery-3.7.1.min.js
+  - https://code.jquery.com/jquery-3.6.0.min.js
 markdown_extensions:
     - admonition
+    - tables
 nav:
     - Calendario: index.md
     - RPI-I: 
@@ -12,7 +16,7 @@ nav:
       - Práctica 6: RPI-I/P6/index.md
       - Práctica 7: RPI-I/P7/index.md
     - RPI-II: 
-      - Práctica 1: uc.md
+      - Práctica 1: RPI-II/P1_I/index.md
     - ANIOT: 
       - Práctica 1: ANIOT/P1/index.md
       - Práctica 2: ANIOT/P2/index.md
