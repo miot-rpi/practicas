@@ -12,12 +12,9 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
-
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
     <body>
@@ -176,7 +173,7 @@
   través de Wireshark.</li>
 <li>Diseñar un protocolo de capa de aplicación sencillo para simular una aplicación
   cliente/servidor utilizando TCP y UDP para interactuar entre un cliente y un
-  servidor bajo un sistema operativo Linux.</li>
+  servidor bajo un sistema operativo de tipo Linux.</li>
 </ul>
 <h2 id="introduccion">Introducción</h2>
 <p>La historia de los <em>sockets</em> se remonta al origen de ARPANET, en 1971, y su
@@ -195,18 +192,20 @@ la que se basan se mantiene inalterada.</p>
 <p>El tipo más común de aplicaciones basadas en <em>sockets</em> se basa en el paradigma
 cliente/servidor, donde una de las partes actúa como <strong>servidor</strong>, esperando
 pasivamente conexiones desde un conjunto de uno o más <strong>clientes</strong>. A 
-continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
+continuación, veremos cómo desarrollar este tipo de paradigma desde C,
 utilizando <em>sockets Berkeley</em>. Existen también los llamados <em>Unix domain
 sockets</em>, que permiten la comunicación directa entre procesos en el mismo
 <em>host</em>, aunque quedan fuera de nuestro interés en el ámbito de IoT.</p>
-<p>En la práctica anterior, vimos cómo desarrollar sistemas cliente/servidor
-sencillos utilizando Python, tanto en sus variantes TCP como UDP.
-El objetivo de la presente práctica es estudiar y desarrollar componentes
+<p>El objetivo de la presente práctica es estudiar y desarrollar componentes
 de red (clientes y servidores TCP y UDP) que puedan ejecutarse sobre el 
 ESP32 haciendo uso de las facilidades propuestas por ESP-IDF. Además, 
 demostraremos que es posible hacer interactuar clientes y servidores ejecutándose
-indistintamente en la máquina virtual (programados vía Python) y en la propia
-placa (utilizando la API de sockets de C).</p>
+indistintamente en un PC (programados vía C) y en la propia
+placa (utilizando la API de sockets de C). Para ello, en esta primera parte
+de la práctica, comenzaremos analizando y desarrollando sencillos despliegues
+de tipo cliente/servidor haciendo uso de los protocolos de transporte TCP y UDP, 
+analizando sus pros y sus contras desde el punto de vista del tráfico generado
+y de las características soportadas.</p>
 <h2 id="la-api-de-sockets-en-c">La API de sockets en C</h2>
 <h3 id="funciones-para-ordenacion-de-bytes">Funciones para ordenacion de bytes</h3>
 <p>Como TCP/IP es un estándar universal, y permite comunicaciones entre cualquier
@@ -488,7 +487,7 @@ de cada llamada sigue las directivas de la figura:</p>
 <p><img alt="flow" src="img/flow.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Tarea 1.1</p>
-<p>Compila (utilizando la orden <code>gcc ejemplo.c -o ejemplo.x</code> desde
+<p>Compila (utilizando por ejemplo la orden <code>gcc ejemplo.c -o ejemplo.x</code> desde
 una terminal) y a continuación ejecuta (<code>./ejemplo.x</code>) cada par
 de códigos y comprueba su funcionamiento. Estudia con detenimiento el uso
 de cada rutina y como efectivamente siguen las directivas marcadas 
@@ -558,12 +557,14 @@ reales enviados) introducida por cada protocolo de capa de transporte.</p>
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
