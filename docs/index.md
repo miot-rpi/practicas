@@ -44,22 +44,20 @@
 
 | Práctica | Día   | Título                                       |
 |----------|-------|-----------------------------------------------------------------|
-|          | 12/09 | Presentación del curso                                                 |
-| 1        | 19/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
-| 2        | 26/09 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
-| 3        | 03/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
-| 3        | 10/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
-| 4        | 17/10 | [I2C](ANIOT/P4/index.md)                         |
-| 5        | 18/10 | [ADC](ANIOT/P5/index.md)                          |
-| 6        | 24/10 | [Modos de consumo](ANIOT/P6/index.md)                          |
-| 7        | 31/10 | [OTA](ANIOT/P7/index.md)                                   |
-|          | 07/11 | Definición de proyectos ANIOT                                           |
-|          | 14/11 | Proyecto                                                        |
-|          | 21/11 | Proyecto                                                        |
-|          | 28/11 | Proyecto                                                        |
-|          | 05/12 | Proyecto                                                        |
-|          | 12/12 | Proyecto                                                        |
-|          | 19/12 | Proyecto                                                        |
+|          | 10/09 | Presentación del curso                                                 |
+| 1        | 17/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
+| 1        | 24/09 | Depuración                       |
+| 2        | 01/10 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
+| 3        | 08/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
+| 3        | 15/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
+| 4        | 22/10 | [I2C](ANIOT/P4/index.md)                         |
+| 4        | 29/10 | [I2C](ANIOT/P4/index.md)                         |
+| 5        | 05/11 | [ADC](ANIOT/P5/index.md)                          |
+| 6        | 12/11 | [Modos de consumo](ANIOT/P6/index.md)                          |
+| 7        | 19/11 | [OTA](ANIOT/P7/index.md)                                   |
+| 8        | 26/11 | QEMU - CI/CD - github                                           |
+|          | 03/12 | Proyecto                                                        |
+|          | 10/12 | Proyecto                                                        |
 
 # LSI
 
