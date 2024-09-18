@@ -56,6 +56,10 @@ sudo adduser ubuntu dialout
 Después tendrás que salir de la sesión y volver a entrar para que el nuevo grupo
 esté tenido en cuenta.
 
+En los sistemas Windows es necesario seguir [estas instrucciones](https://docs.espressif.com/projects/esp-idf/en/v5.0/esp32c3/api-guides/jtag-debugging/configure-builtin-jtag.html#configure-usb-drivers)
+si queremos poder depurar en circuito usando el controlador jtag integrado en
+las placas esp devkit rust con esp32c3.
+
 ### Instalación manual de las herramientas de ESP-IDF y uso desde terminal
 
 Otra opción es instalar manualmente las herramientas de Espressif siguiendo las instrucciones de su [Guía de inicio](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html).
