@@ -144,7 +144,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#practica-1-introduccion-al-entorno-de-desarrollo-esp-idf" class="nav-link">Práctica 1. Introducción al entorno de desarrollo ESP-IDF</a>
@@ -235,6 +235,9 @@ iniciando de nuevo tu sesión, o puedes utilizar el comando adduser:</p>
 </code></pre>
 <p>Después tendrás que salir de la sesión y volver a entrar para que el nuevo grupo
 esté tenido en cuenta.</p>
+<p>En los sistemas Windows es necesario seguir <a href="https://docs.espressif.com/projects/esp-idf/en/v5.0/esp32c3/api-guides/jtag-debugging/configure-builtin-jtag.html#configure-usb-drivers">estas instrucciones</a>
+si queremos poder depurar en circuito usando el controlador jtag integrado en
+las placas esp devkit rust con esp32c3.</p>
 <h3 id="instalacion-manual-de-las-herramientas-de-esp-idf-y-uso-desde-terminal">Instalación manual de las herramientas de ESP-IDF y uso desde terminal</h3>
 <p>Otra opción es instalar manualmente las herramientas de Espressif siguiendo las instrucciones de su <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html">Guía de inicio</a>.</p>
 <p>Si queremos usar las herramientas de espressif diréctamente desde el terminal de comandos debemos recordar que tenemos que importar las variables de entorno antes de usar las herramientas. Para ello se proporciona un script (<code>export.sh</code>) disponible en la ruta en la que hayas instalado las herramientas (~/esp/esp-idf por defecto). Entonces, desde dicho directorio ejecutamos:</p>
