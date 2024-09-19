@@ -26,9 +26,9 @@ aspectos avanzados de wifi. Los objetivos de cada parte son:
 ## Parte 1.Provisionamiento de credenciales WiFi
 
 Entendemos por provisionamiento WiFi el mecanismo o mecanismos mediante los
-cuales es posible proporcionar, de forma externa y segura, el conjunto de
-credenciales de conexión a una red WiFi a un dispositivo no conectado. Es decir,
-si nuestro código en el ESP32 está preparado para conectarse a una wifi por WPA2
+cuales es posible proporcionar a un dispositivo, de forma externa y segura, el
+conjunto de credenciales necesario para conectarse a una red WiFi. Es decir, si
+nuestro código en el ESP32 está preparado para conectarse a una wifi por WPA2
 personal, en lugar de configurar una red fija o una serie de redes válidas,
 añadimos a nuestro código un componente de provisionamiento, que permitirá al
 usuario conectarse de algún modo al ESP32 para indicarle el nombre de la Wifi a
