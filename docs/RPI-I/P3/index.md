@@ -113,28 +113,41 @@ un nombre de servicio y una clave. Esto se traduce en:
   de provisionamiento se ha configurado como `wifi_prov_scheme_ble`).
 
 Además, internamente el componente de provisionamiento utiliza el mecanismo de
-comunicación *protocomm*, que permite dos niveles de seguridad en la
+comunicación *protocomm*, que permite tres niveles de seguridad en la
 comunicación de credenciales de provisionamiento:
 
-- Nivel 1 de seguridad, que consiste en un *handshake* previo entre ambos
-  extremos, con intercambio de claves y utilización de una prueba de posesión
-  (PoP, *proof of possession*), y utilizando encriptación AES para el intercambio
-  de mensajes.
+protocomm_security0 (no security)
 
-- Nivel 0 de seguridad, que consiste en un intercambio de credenciales utilizando
-  texto plano y sin *PoP*.
+protocomm_security1 (Curve25519 key exchange + AES-CTR encryption/decryption)
+
+protocomm_security2 (SRP6a-based key exchange + AES-GCM encryption/decryption)
+
+- Nivel 0, que consiste en un intercambio de credenciales utilizando
+  texto plano y sin *PoP*
+
+- Nivel 1, que consiste en un *handshake* previo entre ambos extremos, con
+  intercambio de claves y utilizando encriptación AES-CTR para el intercambio de
+  mensajes. Admite el uso de una prueba de posesión (PoP, *proof of
+  possession*). 
+
+- Nivel 2, que consiste en un *handshake* previo entre ambos extremos, con
+  intercambio de claves y utilizando encriptación AES-GCM para el intercambio de
+  mensajes. Permite el uso de *Sal y Verificador* (salt and verifier).
 
 Así, un ejemplo de inicialización del servicio de provisionamiento podría
 resultar en el siguiente código:
 
 ```c
-const char *service_name = "my_device";
-const char *service_key  = "password";
+const char *service_key = NULL;
 
-wifi_prov_security_t security = WIFI_PROV_SECURITY_1;
-const char *pop = "abcd1234";
+wifi_prov_security2_params_t sec2_params = {};
 
-ESP_ERR_CHECK( wifi_prov_mgr_start_provisioning(security, pop, service_name, service_key) );
+ESP_ERROR_CHECK(example_get_sec2_salt(&sec2_params.salt, &sec2_params.salt_len));
+ESP_ERROR_CHECK(example_get_sec2_verifier(&sec2_params.verifier, &sec2_params.verifier_len));
+
+wifi_prov_security2_params_t *sec_params = &sec2_params;
+
+ESP_ERROR_CHECK(wifi_prov_mgr_start_provisioning(security, (const void *) sec_params, service_name, service_key));
 ```
 
 El servicio de provisionamiento finalizará automáticamente al conectar a un 
@@ -186,9 +199,10 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 
 ### Herramientas de provisionamiento para dispositivos móviles
 
-Existen aplicaciones preparadas por Espressif para llevar a cabo el proceso
-de provisionamiento sobre ESP32. Estas aplicaciones están disponibles tanto
-para dispositivos Android como IOS, en las versiones con transporte BLE o SoftAP:
+Existen aplicaciones para móviles preparadas por Espressif para llevar a cabo el
+proceso de provisionamiento sobre ESP32. Estas aplicaciones están disponibles
+tanto para dispositivos Android como IOS, en las versiones con transporte BLE o
+SoftAP:
 
 - Android:
     - [Provisionamiento BLE](https://play.google.com/store/apps/details?id=com.espressif.provble).
@@ -197,19 +211,7 @@ para dispositivos Android como IOS, en las versiones con transporte BLE o SoftAP
 - IOS:
     - [Provisionamiento BLE](https://apps.apple.com/in/app/esp-ble-provisioning/id1473590141).
     - [Provisionamiento SoftAP](https://apps.apple.com/in/app/esp-softap-provisioning/id1474040630).
-
-!!! danger "Tarea"
-    Utilizando las aplicaciones correspondientes a tu dispositivo móvil, 
-    tanto para el uso de BLE como de SoftAP, provisiona tu ESP32 utilizando
-    las credenciales que correspondan a tu red WiFi. Recuerda, antes de cada
-	  repetición del experimento, utilizar la orden `idf.py erase_flash` para
-	  eliminar información de provisionamiento de sesiones anteriores. Comprueba
-	  el funcionamiento de los distintos niveles de seguridad.
-    
-    Añade a tu informe las capturas de pantalla correspondientes a la salida 
-    del ESP32 que evidencien que el proceso de provisionamiento se ha realizado 
-    correctamente.
-
+ 
 Estas aplicaciones funcionan mediante una comunicación muy sencilla con el
 ESP32 no provisionado, cuyos mecanismos dependen del transporte utilizado;
 en el caso de BLE, se crea una tabla GATT con distintas características que
@@ -231,6 +233,19 @@ adaptados en función de la información adicional que deseemos intercambiar):
 | Configuración de provisionamiento | prov-config                    | http://IP:80/prov-config      |
 | Versión del protocolo             | proto-ver                      | http://IP:80/proto-ver        |
 
+!!! danger "Tarea"
+    Utilizando las aplicaciones correspondientes a tu dispositivo móvil, 
+    tanto para el uso de BLE como de SoftAP, provisiona tu ESP32 utilizando
+    las credenciales que correspondan a tu red WiFi. Recuerda, antes de cada
+	  repetición del experimento, utilizar la orden `idf.py erase_flash` para
+	  eliminar información de provisionamiento de sesiones anteriores. Comprueba
+	  el funcionamiento de los distintos niveles de seguridad.
+    
+    Añade a tu informe las capturas de pantalla correspondientes a la salida 
+    del ESP32 que evidencien que el proceso de provisionamiento se ha realizado 
+    correctamente.
+
+
 Los detalles de este tipo de protocolo de provisionamiento quedan como ejercicio
 adicional al alumno, y van más allá del objetivo de la práctica. No obstante, es
 conveniente disponer de algún mecanismo que permita inspeccionar lo que hacen,
@@ -241,20 +256,28 @@ línea de comandos proporcionada con el SDK de Espressif (ESP-IDF), llamada
 
 !!! note "Nota"
     Antes de utilizar el programa, debes instalar las dependencias respectivas
-    utilizando las órdenes (desde el propio directorio `tools/esp_prov`):
+    ejecutando los siguientes comandos desde el directorio de instalación del
+    esp-idf:
 
+    ```sh
+    bash install.sh --enable-pytest
     ```
-    pip install -r requirements.txt
-    pip install -r requirements_linux_extra.txt
-    ```
+
+Esta herramienta, permite hacer el provisionamiento de los dispositivos desde
+nuestro portátil y ofrece además la posibilidad de usar un end-point adicional
+(custom-data) para pasar información adicional de provisonamiento, como el
+nombre del dispositivo, alguna credencial que se necesite para un servidor
+externo, etc.
 
 Su uso es sencillo, y puede consultarse ejecutando `python esp_prov.py -h`.
 Básicamente, se trata de usar esta herramienta como provisionador para un
-dispositivo que usa el componente de provisionamiento en modo `softAP`.
-Conectaremos entonces el ordenador a la wifi temporal del nodo. El componente de
-provisionamiento estará escuchando en el puerto 80 del nodo (192.168.4.1), la
-aplicación se conectará a dicho servidor y realizará el provisionamiento,
-pasando las credenciales indicadas en la línea de comandos:
+dispositivo, usando tanto `ble` como `softAP`.
+
+En el caso de usar `softAP` el ordenador debe conectarse a la wifi temporal
+generada por el nodo a provisionar. El componente de provisionamiento estará
+escuchando en el puerto 80 del nodo (192.168.4.1), la aplicación se conectará a
+dicho servidor y realizará el provisionamiento, pasando las credenciales
+indicadas en la línea de comandos:
 
 ```sh
 python esp_prov.py --transport softap --service_name "192.168.4.1:80" --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
@@ -265,13 +288,31 @@ como por ejemplo WireShark. Esto nos permitirá ver el contenido de los paquetes
 enviados por la red y determinar si la contraseña se envía en claro o si por el
 contrario está cifrada.
 
+Podemos usar también `ble` y versiones de seguridad más avanzadas:
+
+```sh
+python esp_prov.py --transport ble --sec_ver 2
+```
+
+En un caso como este, en el que no pasamos los datos necesarios como parámetros
+de la línea de comandos, el programa nos irá preguntando los datos de forma
+interactiva.
+
 !!! danger "Tarea"
 
-    Realiza el proceso de provisionamiento desde línea de comandos siguiendo el
-    procedimiento explicado arriba. Captura el tráfico de red con Wireshark y
-    comprueba que la contraseña se envía en claro (sin cifrar). A continuación,
-    pasa a un modo seguro (opción `--sec_ver 1`) y observa cómo las claves se
-    intercambian cifradas. Documenta esta tarea en el informe de la práctica.
+    Realiza el proceso de provisionamiento con softAP desde línea de comandos
+    siguiendo el procedimiento explicado arriba. Captura el tráfico de red con
+    Wireshark y comprueba que la contraseña se envía en claro (sin cifrar). A
+    continuación, pasa a un modo seguro (opción `--sec_ver 2`) y observa cómo
+    las claves se intercambian cifradas.
+
+!!! danger "Tarea"
+
+    Realiza el proceso de provisionamiento (con ble o softAP) y usa el parámetro
+    --custom_data para pasar el nombre de dispositivo a usar. Modifica el
+    programa para que en el bucle principal se muestre "Hello world from ..."
+    sustituyendo los puntos suspensivos por el nombre recibido durante el
+    provisionamiento.
 
 ## Parte 2. Modos de ahorro de consumo WiFi
 
