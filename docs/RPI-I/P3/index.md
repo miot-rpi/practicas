@@ -116,12 +116,6 @@ Además, internamente el componente de provisionamiento utiliza el mecanismo de
 comunicación *protocomm*, que permite tres niveles de seguridad en la
 comunicación de credenciales de provisionamiento:
 
-protocomm_security0 (no security)
-
-protocomm_security1 (Curve25519 key exchange + AES-CTR encryption/decryption)
-
-protocomm_security2 (SRP6a-based key exchange + AES-GCM encryption/decryption)
-
 - Nivel 0, que consiste en un intercambio de credenciales utilizando
   texto plano y sin *PoP*
 
