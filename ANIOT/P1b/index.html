@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 1 (segunda parte). Flujos de trabajo. Compilación en la nube y herramientas de depuración, perfilado y logging - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#practica-1-segunda-parte-flujos-de-trabajo-compilacion-en-la-nube-y-herramientas-de-depuracion-perfilado-y-logging" class="nav-link">Práctica 1 (segunda parte). Flujos de trabajo. Compilación en la nube y herramientas de depuración, perfilado y logging</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#material-de-consulta" class="nav-link">Material de consulta</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#github-actions" class="nav-link">Github Actions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#depuracion-de-memoria-dinamica" class="nav-link">Depuración de memoria dinámica</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#monitorizacion-de-rendimiento" class="nav-link">Monitorización de rendimiento</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-1-segunda-parte-flujos-de-trabajo-compilacion-en-la-nube-y-herramientas-de-depuracion-perfilado-y-logging">Práctica 1 (segunda parte). Flujos de trabajo. Compilación en la nube y herramientas de depuración, perfilado y logging</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Aprender a utilizar Github Actions para compilar un proyecto ESP-IDF de forma remota.</li>
+<li>Introducir los conceptos básicos de depuración a nivel de gestión de memoria (heap).</li>
+<li>Aprender la API básica de monitorización de rendimiento en ESP-IDF.</li>
+</ul>
+<h2 id="material-de-consulta">Material de consulta</h2>
+<p>Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes
+enlaces:</p>
+<ul>
+<li><a href="https://docs.github.com/en">Git and github essentials</a></li>
+<li><a href="https://training.github.com/downloads/es_ES/github-git-cheat-sheet.pdf">Git cheatsheet</a></li>
+<li><a href="https://docs.github.com/en/actions">Github Actions</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/mem_alloc.html">Heap memory allocation</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/perfmon.html">Performance monitoring</a></li>
+</ul>
+<h2 id="github-actions">Github Actions</h2>
+<p>GitHub Actions es una plataforma de integración y despliegue continuos (CI/CD) que 
+permite automatizar el flujo de compilación, pruebas y despliegue. </p>
+<p>GitHub Actions permite ejecutar flujos de trabajo cuando suceden determinados eventos 
+en un repositorio. Por ejemplo, es posible ejecutar un flujo de trabajo para que 
+agregue automáticamente las etiquetas adecuadas cada que alguien cree una propuesta 
+nueva en un repositorio, o compilar un código cuando se realiza un <code>push</code> sobre el 
+mismo.</p>
+<p>GitHub proporciona máquinas virtuales Linux, Windows y macOS para ejecutar 
+flujos de trabajo, o es posible hospedar ejecutores propios hospedados en una
+máquina propia o en una infraestructura en la nube.</p>
+<h3 id="componentes-en-github-actions">Componentes en Github Actions</h3>
+<p>Es posible configurar un flujo de trabajo de GitHub Actions que se desencadene cuando 
+se produzca un evento en el repositorio, por ejemplo, la apertura de una solicitud de 
+incorporación de cambios o la creación de una incidencia. </p>
+<p>El flujo de trabajo contiene uno o varios trabajos que se pueden ejecutar en orden 
+secuencial o en paralelo. 
+Cada trabajo se ejecutará dentro de su propio ejecutor de máquina virtual o dentro de 
+un contenedor, y tendrá uno o varios pasos que pueden ejecutar un script que defina, 
+o bien una acción, que es una extensión reutilizable que puede simplificar el flujo 
+de trabajo.</p>
+<h3 id="flujos-de-trabajo">Flujos de trabajo</h3>
+<p>Un flujo de trabajo es un proceso automatizado configurable que ejecutará uno o más trabajos. Los flujos de trabajo se definen mediante un archivo de YAML que se verifica en tu repositorio y se ejecutará cuando lo active un evento dentro de este o puede activarse manualmente o en una programación definida.</p>
+<p>Los flujos de trabajo se definen en el directorio .github/workflows de un repositorio. Un repositorio puede tener varios flujos de trabajo, y cada uno puede realizar un conjunto diferente de tareas, como las siguientes:</p>
+<ul>
+<li>Compilar y probar de solicitudes de incorporación de cambios.  </li>
+<li>Implementar la aplicación cada vez que se crea una versión.</li>
+<li>Agregar una etiqueta cada vez que se abre una incidencia nueva.</li>
+</ul>
+<p>Un flujo de trabajo debe contener los siguientes componentes básicos:</p>
+<ul>
+<li>Uno o varios eventos que desencadenarán el flujo de trabajo.</li>
+<li>Uno o varios trabajos, cada uno de los cuales se ejecutará en una máquina del ejecutor y ejecutará uno o varios pasos.</li>
+<li>Cada paso puede ejecutar un script que definas, o bien una acción, que es una extensión reutilizable que puede simplificar el flujo de trabajo.</li>
+</ul>
+<p>Los activadores de los flujos de trabajo son eventos que ocasionan que se ejecute un flujo de trabajo. Estos eventos pueden ser:</p>
+<ul>
+<li>Eventos que ocurren en el repositorio de tu flujo de trabajo</li>
+<li>Eventos que se producen fuera de GitHub y desencadenan un evento repository_dispatch en GitHub</li>
+<li>Tiempos programados</li>
+<li>Manual</li>
+</ul>
+<p>Por ejemplo, puedes configurar tu flujo de trabajo para que se ejecute cuando se realiza una subida a la rama predeterminada de tu repositorio, cuando se crea un lanzamiento o cuando se abre una propuesta.</p>
+<p>Los flujos de trabajo se definen mediante YAML. Para obtener la referencia completa de la sintaxis de YAML para crear flujos de trabajo, consulta <a href="https://docs.github.com/es/actions/writing-workflows/workflow-syntax-for-github-actions#about-yaml-syntax-for-workflows">"Sintaxis del flujo de trabajo para Acciones de GitHub"</a>.</p>
+<h3 id="un-ejemplo-creacion-de-un-flujo-de-trabajo-para-compilacion-de-un-proyecto-esp-idf">Un ejemplo: creación de un flujo de trabajo para compilación de un proyecto ESP-IDF</h3>
+<p>Imagina que dispones de un <code>fork</code> de ESP-IDF en forma de un repositorio propio asociado a tu usuario. </p>
+<p>El siguiente fragmento de código compilará un firmware que incluirá el ejemplo <code>hello_world</code> proporcionado
+por la distribución estándar de ESP_IDF:</p>
+<pre><code class="language-yaml">name: &quot;Espressif IoT Development Framework (ESP-IDF) on push&quot;
+on:
+  push:
+    branches: master
+
+    inputs:
+      path:
+        description: &quot;Relative path under $GITHUB_WORKSPACE to place the repository&quot;
+        default: &quot;examples/get-started/hello_world&quot;
+        required: false
+      esp_idf_version:
+        description: &quot;Version of ESP-IDF docker image to use&quot;
+        default: &quot;latest&quot;
+        required: false
+      target:
+        description: &quot;ESP32 variant to build for&quot;
+        default: &quot;esp32c3&quot;
+        required: false
+      command:
+        description: &quot;Command to run inside the docker container (default: builds the project)&quot;
+        default: &quot;idf.py build&quot;
+        required: false
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: esp-idf build
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v5.3
+        target: esp32c3
+        path: 'examples/get-started/hello_world'
+    - name: Download built firmware
+      uses: actions/upload-artifact@v4
+      with:
+        name: hello_world.bin
+        path: |
+          examples/get-started/hello_world/build/hello_world.bin
+</code></pre>
+<p>Observa sus partes principales: </p>
+<ol>
+<li><strong>Nombre</strong>: nombre del flujo de trabajo.</li>
+<li><strong>Eventos sobre los que se activará</strong>. En este caso, lo hará ante la acción de <code>push</code> sobre la rama <code>master</code> del repositorio.Además, el flujo de trabajo recibe ciertos argumentos obligatorios como entradas, requeridos por la acción específica de construcción (esp-idf-ci-action) proporcionada por Espressif. Estas entradas incluyen la ruta al ejemplo dentro del repositorio, la versión de ESP-IDF a utilizar, la variante de ESP32 a usar y el comando específico que se ejecutará. Todos estos inputs son configurables.</li>
+<li><strong>Tareas/trabajos a ejecutar</strong>. En esta sección, incluimos una tarea de construcción, a ejecutar sobre una distribución Ubuntu, compuesta por una serie de pasos consecutivos. Estos pasos incluyen el <em>checkout</em> de nuestro repositorio en la máquina destino, la construcción (usando una acción específica proporcionada por ESP-IDF), y por último la publicación de un <em>artifact</em> (resultado de la compilación) como resultado de la ejecución del flujo de trabajo.</li>
+</ol>
+<p>Alternativamente, es posible controlar de forma manual la ejecución de la acción. Simplemente, utiliza un workflow como el siguiente (podrás a continuación lanzar el proceso de compilación desde la propia pestaña de Github Actions en el repositorio):</p>
+<pre><code class="language-yaml">name: &quot;Espressif IoT Development Framework (ESP-IDF)&quot;
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        description: &quot;Relative path under $GITHUB_WORKSPACE to place the repository&quot;
+        default: &quot;&quot;
+        required: false
+      esp_idf_version:
+        description: &quot;Version of ESP-IDF docker image to use&quot;
+        default: &quot;latest&quot;
+        required: false
+      target:
+        description: &quot;ESP32 variant to build for&quot;
+        default: &quot;esp32&quot;
+        required: false
+      command:
+        description: &quot;Command to run inside the docker container (default: builds the project)&quot;
+        default: &quot;idf.py build&quot;
+        required: false
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: esp-idf build
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v5.3
+        target: esp32c3
+        path: 'examples/get-started/hello_world'
+    - name: Download built firmware
+      uses: actions/upload-artifact@v4
+      with:
+        name: hello_world.bin
+        path: |
+          examples/get-started/hello_world/build/hello_world.bin
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<ul>
+<li>Si no tienes un usuario Github, créalo.</li>
+<li>Realiza una operación de fork sobre el repositorio ESP-IDF de Espressif sobre tu usuario.</li>
+<li>Clónalo en tu máquina (puedes usar línea de comandos o bien la herramienta Github Desktop).</li>
+<li>Crea el fichero .github/workflows/idf_build.yml con el contenido anterior. </li>
+<li>Sube los cambios al repositorio (<code>git commit</code> + <code>git push</code>) y observa, en la pestaña Actions de tu repositorio, que efectivamente se ha construido con éxito el artifact resultado de la compilación.</li>
+<li>Adapta el trabajo para otro ejemplo (elige tú mismo/a el ejemplo) y consigue una imagen compilada para cualquiera de tus placas. ¿Serías capaz de descargarla y flashearla manualmente en la placa (necesitarás determinar qué comandos son necesarios para un proceso de flasheo manual observando la salida de VSCode para dicho proceso)?</li>
+<li>Proporciona al profesor un enlace al repositorio creado para que pueda revisar la correcta compilación del proyecto.</li>
+</ul>
+</div>
+<h2 id="depuracion-de-memoria-dinamica">Depuración de memoria dinámica</h2>
+<p>Aunque ya conoces la funcionalidad de depuración integrada en VS Code, en ocasiones hay 
+situaciones que son difícilmente detectables por un depurador. Uno de estos ejemplos es 
+la depuración de memoria dinámica (alojada en el <em>heap</em>).</p>
+<p>ESP-IDF integra herramientas para solicitar información sobre el heap, para detectar corrupción
+en el heap y para tracear el estado del heap periódicamente. </p>
+<h3 id="obtencion-de-informacion-sobre-el-heap">Obtención de información sobre el <em>heap</em></h3>
+<p>To obtain information about the state of the heap, call the following functions:</p>
+<ul>
+<li>
+<p><code>heap_caps_get_free_size()</code> se puede utilizar para devolver la memoria libre actual para diferentes tipos de memoria.</p>
+</li>
+<li>
+<p><code>heap_caps_get_largest_free_block()</code> se puede usar para devolver el bloque libre más grande del heap, que también es la asignación individual más grande posible actualmente. El seguimiento de este valor y su comparación con el heap libre total permite detectar la fragmentación del montón.</p>
+</li>
+<li>
+<p><code>heap_caps_get_minimum_free_size()</code> puede usarse para obtener el mínimo tamaño libre en el heap desde el arranque.</p>
+</li>
+<li>
+<p><code>heap_caps_get_info()</code> retorna una estructura <code>multi_heap_info_t</code>,  que contiene información sobre las funciones de más arriba, así como datos específicos sobre el heap (número de reservas, por ejemplo).</p>
+</li>
+<li>
+<p><code>heap_caps_print_heap_info()</code> imprime por salida estándar la información recogida por la anterior función.</p>
+</li>
+<li>
+<p><code>heap_caps_dump()</code> y <code>heap_caps_dump_all()</code> muestran información detallada sobre la estructura de cada bloque en el heap. La salida puede ser grande.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Compila y estudia el ejemplo <code>system/heap_task_tracking</code> de ESP-IDF. Observa el uso de las anteriores funciones. Moficia el código para que la cantidad de memoria reservada en cada iteración de la tarea sea constante. Prueba a eliminar la invocación a <code>free</code> cada cierto número de iteraciones, para observar cómo va agotándose el espacio libre en el <code>heap</code>. Intenta observar la fragmentación en el heap volviendo a hacer reservas de tamaño aleatorias, y liberaciones sólo cada cierto número de iteraciones.</p>
+</div>
+<h3 id="hooks-para-la-reserva-y-liberacion-de-memoria-en-el-heap">Hooks para la reserva y liberación de memoria en el heap</h3>
+<p>Los hooks para la asignación y liberación de memoria en el heap permiten recibir notificaciones cada vez que se realiza una reserva o una liberación sobre el mismo:</p>
+<ul>
+<li>Si se proporciona una definición de la función <code>esp_heap_trace_alloc_hook()</code>, se notificará cada vez que se realice con éxito una reserva de memoria.</li>
+<li>Si se proporciona una definición de la función <code>esp_heap_trace_free_hook()</code>, se notificará cada vez que se realice con éxito una liberación de memoria.</li>
+</ul>
+<p>Por ejemplo:</p>
+<pre><code class="language-c">#include &quot;esp_heap_caps.h&quot;
+
+void esp_heap_trace_alloc_hook(void* ptr, size_t size, uint32_t caps)
+{
+  ...
+}
+void esp_heap_trace_free_hook(void* ptr)
+{
+  ...
+}
+
+void app_main()
+{
+    ...
+}
+</code></pre>
+<p>Esta característica se activa fijando la opción de configuración <code>CONFIG_HEAP_USE_HOOKS</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Modifica el anterior ejemplo para que se invoque a tus hooks de información en cada reserva y liberación de memoria, y que se aporte en el mensaje que se mostrará por pantalla información sobre la misma.</p>
+</div>
+<h2 id="monitorizacion-de-rendimiento">Monitorización de rendimiento</h2>
+<p>ESP-IDF proporciona un componente dedicado exclusivamente a la monitorización del rendimiento de las aplicaciones. Este componente proporciona una API para utilizar los contadores hardware de rendimiento disponibles en los ESP32. 
+Este tipo de componentes permiten perfilar y evaluar el rendimiento de partes concretas del código, de modo que dan soporte a la optimización del mismo sobre una arquitectura concreta.</p>
+<p>En primer lugar, compila y estudia el ejemplo proporcionado por ESP-IDF para <a href="https://github.com/espressif/esp-idf/tree/46acfdce/examples/system/perfmon">monitorización de rendimiento</a>. <strong>Este ejemplo no es funcional sobre arquitecturas RISC-V, por lo que deberás utilizar la placa DevkitC que tienes en tu maletín</strong>.</p>
+<p>Una vez compilado y flasheado, ejecuta el binario y estudia el código proporcionado. Básicamente, el código de ejemplo calcula estadísticas de redimiento para una función de test determinada. Esta función (<code>exec_test_function</code>) simplemente introduce instrucciones NOP (<em>no operation</em>) durante 100 iteraciones. Esta función, que puede ser reemplazada por cualquier otra, se invocará consecutivamente 200 veces con dos configuraciones distintas: recolectando todos los posibles contadores hardware, y a continuación seleccionando un subconjunto a partir de una lista proporcionada por el programador.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Estudia el código asociado a la tarea, así como la salida proporcionada en cada caso. Observa cómo se utiliza la API para seleccionar qué contadores hardware se desean reportar. Apóyate en la descripción de la API proporcionada en la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/perfmon.html">documentación oficial</a> para ayudarte en la tarea. Por último, modifica la función de ejemplo para implementar algún tipo de funcionalidad avanzada (por ejemplo, que incluya operaciones aritméticas), y observa los cambios en la salida. Experimenta con distintas opciones de compilador para optimizacón (a través de menuconfig), para ver si puedes obtener cambios significativos en los valores reportados (adicionalmente, puedes observar el impacto de estos flags en el tamaño del ejecutable). </p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
