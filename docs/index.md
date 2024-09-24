@@ -46,7 +46,7 @@
 |----------|-------|-----------------------------------------------------------------|
 |          | 10/09 | Presentación del curso                                                 |
 | 1        | 17/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
-| 1        | 24/09 | Depuración                       |
+| 1        | 24/09 | [Depuración, loggging y monitorización de rendimiento](ANIOT/P1b/index.md)     |
 | 2        | 01/10 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
 | 3        | 08/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
 | 3        | 15/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |

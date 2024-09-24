@@ -9,6 +9,7 @@ nav:
     - Calendario: index.md
     - RPI-I: 
       - Práctica 1: RPI-I/P1/index.md
+      - Práctica 1 (segunda parte): RPI-I/P1b/index.md
       - Práctica 2: RPI-I/P2/index.md
       - Práctica 3: RPI-I/P3/index.md
       - Práctica 4: RPI-I/P4/index.md
