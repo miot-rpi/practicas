@@ -271,7 +271,7 @@ idf.py monitor
 
 ## TLS en el ESP32. El componente ESP-TLS
 
-ESP-IDF proporciona un componente (ESP-TLS) que ofrece una interfaz (API)
+ESP-IDF proporciona un componente (ESP-TLS) que ofrece una interfaz ([API](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/esp_tls.html))
 simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece 
 una funcionalidad suficientemente amplia como para implementar casos de uso
 comunes en entornos IoT. 
