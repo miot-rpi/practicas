@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 1. Programación con sockets en C - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <title>Práctica 2 - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -75,11 +75,27 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../P1_I/" class="dropdown-item">Práctica 1</a>
+    <a href="../P1_I/" class="dropdown-item">Práctica 1 (1)</a>
+</li>
+                                    
+<li>
+    <a href="../P1_II/" class="dropdown-item">Práctica 1 (2)</a>
+</li>
+                                    
+<li>
+    <a href="../P1_III/" class="dropdown-item">Práctica 1 (3)</a>
+</li>
+                                    
+<li>
+    <a href="../P1_IV/" class="dropdown-item">Práctica 1 (4)</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Práctica 2</a>
 </li>
                                 </ul>
                             </li>
@@ -124,6 +140,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P1_IV/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../ANIOT/P1/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -142,37 +168,29 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-1-programacion-con-sockets-en-c" class="nav-link">Práctica 1. Programación con sockets en C</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-2-seguridad-tls-y-dtls" class="nav-link">Práctica 2. Seguridad (TLS y DTLS)</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+            <li class="nav-item" data-bs-level="2"><a href="#wolfssl" class="nav-link">WolfSSL</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#la-api-de-sockets-en-c" class="nav-link">La API de sockets en C</a>
+            <li class="nav-item" data-bs-level="2"><a href="#clienteservidor-tls-ejemplo-basico-en-host" class="nav-link">Cliente/servidor TLS. Ejemplo básico en host</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#ejemplos" class="nav-link">Ejemplos</a>
+            <li class="nav-item" data-bs-level="2"><a href="#clienteservidor-dtls-ejemplo-basico-en-host" class="nav-link">Cliente/servidor DTLS. Ejemplo básico en host</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#capturas-de-trafico-via-wireshark" class="nav-link">Capturas de tráfico vía Wireshark</a>
+            <li class="nav-item" data-bs-level="2"><a href="#tls-en-el-esp32-el-componente-wolfssl-version-572" class="nav-link">TLS en el ESP32. El componente wolfSSL (version 5.7.2)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#sistemas-clienteservidor-en-el-esp32" class="nav-link">Sistemas cliente/servidor en el ESP32</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#clienteservidor-udp-en-el-esp32" class="nav-link">Cliente/servidor UDP en el ESP32</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#clienteservidor-tcp-en-el-esp32" class="nav-link">Cliente/servidor TCP en el ESP32</a>
+            <li class="nav-item" data-bs-level="2"><a href="#tls-en-el-esp32-el-componente-esp-tls" class="nav-link">TLS en el ESP32. El componente ESP-TLS</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -183,683 +201,362 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-1-programacion-con-sockets-en-c">Práctica 1. Programación con sockets en C</h1>
+<h1 id="practica-2-seguridad-tls-y-dtls">Práctica 2. Seguridad (TLS y DTLS)</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
-<li>Familiarizarse con la API de <em>sockets</em> en C.</li>
-<li>Desarrollar esquemas básicos de sistemas cliente/servidor TCP y UDP
-  utilizando C.</li>
-<li>Ser capaces de analizar el tráfico generado en una conexión TCP y UDP a 
-  través de Wireshark.</li>
-<li>Diseñar un protocolo de capa de aplicación para simular una aplicación
-  cliente/servidor utilizando TCP y UDP para interactuar entre un host y 
-  la placa ESP32</li>
+<li>Observar el comportamiento de TLS y DTLS para el intercambio cifrado de mensajes.</li>
+<li>Conocer las diferencias básicas entre TLS y DTLS.</li>
+<li>Conocer una API básica de programación de sistemas cliente/servidor usando TLS y DTLS (WolfSSL).</li>
+<li>Conocer una API básica de programación de sistemas cliente/servidor en ESP-IDF (ESP-TLS/WolfSSL).</li>
 </ul>
-<h2 id="introduccion">Introducción</h2>
-<p>La historia de los <em>sockets</em> se remonta al origen de ARPANET, en 1971, y su
-posterior estandarización en forma de API dentro del sistema operativo
-<em>Berkeley Software Distribution (BSD)</em>, liberado en 1983, bajo el nombre
-de <em>sockets de Berkeley</em>.</p>
-<p>Con la popularización de Internet en los años 90, y de la mano de la
-<em>World Wide Web</em>, la programación de red sufrió también una notable evolución.
-Los servidores web y los navegadores no fueron (ni son) las únicas aplicaciones
-basadas en <em>sockets</em>. De hecho, los sistemas cliente/servidor son a día de hoy
-ubicuos e incluyen, por supuesto, a todos los protocolos de alto nivel que
-dan soporte a Internet de las Cosas. De hecho, a día de hoy, aunque los 
-potocolos de alto nivel (capa de aplicación) han evolucionado hasta niveles
-de sofisticación no considerados en sus inicios, la API de bajo nivel sobre
-la que se basan se mantiene inalterada.</p>
-<p>El tipo más común de aplicaciones basadas en <em>sockets</em> se basa en el paradigma
-cliente/servidor, donde una de las partes actúa como <strong>servidor</strong>, esperando
-pasivamente conexiones desde un conjunto de uno o más <strong>clientes</strong>. A 
-continuación, veremos cómo desarrollar este tipo de paradigma desde Python,
-utilizando <em>sockets Berkeley</em>. Existen también los llamados <em>Unix domain
-sockets</em>, que permiten la comunicación directa entre procesos en el mismo
-<em>host</em>, aunque quedan fuera de nuestro interés en el ámbito de IoT.</p>
-<p>En la práctica anterior, vimos cómo desarrollar sistemas cliente/servidor
-sencillos utilizando Python, tanto en sus variantes TCP como UDP.
-El objetivo de la presente práctica es estudiar y desarrollar componentes
-de red (clientes y servidores TCP y UDP) que puedan ejecutarse sobre el 
-ESP32 haciendo uso de las facilidades propuestas por ESP-IDF. Además, 
-demostraremos que es posible hacer interactuar clientes y servidores ejecutándose
-indistintamente en la máquina virtual (programados vía Python) y en la propia
-placa (utilizando la API de sockets de C).</p>
-<h2 id="la-api-de-sockets-en-c">La API de sockets en C</h2>
-<h3 id="funciones-para-ordenacion-de-bytes">Funciones para ordenacion de bytes</h3>
-<p>Como TCP/IP es un estándar universal, y permite comunicaciones entre cualquier
-plataforma y arquitectura, es necesario disponer de un método de ordenación
-de los bytes para que máquinas <em>big-endian</em> y <em>little-endian</em> puedan comunicarse
-de forma transparente y correcta. Para ello, se suelen proporcionar rutinas
-de reordenación de bytes. En plataformas donde los datos ya están correctamente
-ordenados, estas funciones no tienen ninguna funcionalidad especial, pero en
-cualquier caso, es necesario utilizarlas siempre para que la comunicación
-entre pares sea correcta. Las funciones típicas de reordenación de datos
-son cuatro: <code>htons</code>, <code>htonl</code>, <code>ntohs</code> y <code>ntohl</code>. Su nombre explica correctamente
-su semántica: <em>host to network (short)</em>
-<em>host to network (long)</em>, <em>network to host (short)</em> y <em>network to host (long)</em>,
-convirtiendo tipos de datos <em>short</em> y <em>long</em> desde el formato utilizado en
-transmisiones de red (<em>network</em>) a representación en el <em>host</em>. Así, siempre
-que enviemos un dato binario por la red, deberá ser transformado utilizando 
-<code>hton*</code> y cuando lo recibamos y debamos procesarlo, utilizando <code>ntoh*</code>.</p>
-<h3 id="estructuras-de-datos">Estructuras de datos</h3>
-<p>Antes de estudiar la API de <em>sockets</em> básica, es necesario mostrar el cometido
-de un conjunto de estructuras de datos utilizadas comúnmente en todas ellas. La
-más importante es <code>sockaddr_in</code>, que se define como sigue:</p>
-<pre><code class="language-c">struct sockaddr_in
-{
-    short          sin_family;
-    u_short        sin_port;
-    struct in_addr sin_addr;
-    char           sin_zero[8];
-};
+<h2 id="wolfssl">WolfSSL</h2>
+<p>De las principales librerías que implementan protocolos de seguridad, sin duda alguna la más eficiente es <a href="https://www.wolfssl.com/">WolfSSL</a> y es por ello que esta práctica se centra en ella.</p>
+<h3 id="instalacion-linux">Instalación (Linux)</h3>
+<p>Aunque se pueden emplear paquetes binarios de la propia distribución de Linux, es recomendable partir del código fuente y compilarlo/instalarlo.</p>
+<p>Por lo tanto, lo primero es descargar el fichero <code>wolfssl-5.7.2.zip</code> de este <a href="https://www.wolfssl.com/download/">enlace</a> y descomprimirlo en una ruta sin espacios <em>(esta recomendación es aplicable a todas las prácticas)</em>.</p>
+<p>Antes de proceder a su compilación es necesario instalar una serie de pre-requisitos:</p>
+<pre><code class="language-sh">sudo apt install build-essential libtool-bin autoconf libevent-dev
 </code></pre>
-<p>La estructura <code>in_addr</code> utilizada en <code>sockaddr_in</code> se define como:</p>
-<pre><code class="language-c">struct in_addr
-{
-    u_long s_addr;
-};
+<p>Moverse al directorio descomprimido para configurar y construir la librería:</p>
+<pre><code class="language-sh">./autogen.sh 
+./configure --enable-dtls  --enable-dtls13 
+make
+sudo make install
 </code></pre>
-<p>Ésta consiste en un campo de tipo <code>unsigned long int</code> que contiene la 
-dirección IP que se asociará con el socket. </p>
-<p>La estructura <code>sockaddr_in</code> contiene dos campos importantes: </p>
-<ul>
-<li><code>sin_family</code>: que indica al socket qué familia de protocolos se utilizarán 
-  (usaremos la constante <code>AF_INET</code> para IPv4).</li>
-<li><code>sin_port</code>: que indica el puerto asociado al socket.</li>
-</ul>
-<h3 id="api-basica">API básica</h3>
-<h4 id="socket"><code>socket()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int socket(int family, int type, int protocol);
+<h2 id="clienteservidor-tls-ejemplo-basico-en-host">Cliente/servidor TLS. Ejemplo básico en host</h2>
+<p>El repositorio <a href="https://github.com/wolfSSL/wolfssl-examples.git"><code>wolfssl-examples</code></a> contiene aplicaciones de ejemplo, escritas en C, que demuestran cómo usar la biblioteca WolfSSL.</p>
+<p>Aunque sólo vamos a usar un par de ellas, lo más sencillo es clonar el repositorio completo:</p>
+<pre><code class="language-sh">git clone https://github.com/wolfSSL/wolfssl-examples.git
+cd wolfssl-examples/
 </code></pre>
-<ul>
-<li>
-<p>Descripción: Crea un <em>endpoint</em> de comunicación y devuelve un descriptor 
-  de fichero para manejarlo.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>family</code>:  <code>AF_INET</code> (IPv4), <code>AF_INET6</code> (IPv6).</li>
-<li><code>type</code>: <code>SOCK_DGRAM</code> (UDP), <code>SOCK_STREAM</code> (TCP), <code>SOCK_RAW</code>.</li>
-<li><code>protocol</code>: Típicamente 0 (no usado en sockets de Internet).</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve el descriptor de <em>socket</em>.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>socket</code> (<code>man socket</code>).</p>
-</li>
-</ul>
-<h4 id="bind"><code>bind()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+<h3 id="servidor-tls">Servidor TLS</h3>
+<p>Analizaremos en primer lugar el código básico del servidor TLS. Para ello, 
+observa el contenido del fichero <code>tls/server-tls.c</code>.</p>
+<h3 id="cabeceras-y-constantes">Cabeceras y constantes</h3>
+<p>El uso de WolfSSL requiere la inclusión de dos cabeceras básicas:</p>
+<pre><code class="language-c">#include &lt;wolfssl/options.h&gt;
+#include &lt;wolfssl/ssl.h&gt;
 </code></pre>
-<ul>
-<li>
-<p>Descripción: Asocia un <em>socket</em> a una dirección especificada por <code>addr</code>.
-  Normalmente, es necesario asignar una dirección local vía esta función
-  antes de que un socket TCP pueda recibir conexiones.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
-<li><code>addr</code>: dirección a asociar (véase estructura en sección anterior).</li>
-<li><code>addrlen</code>: longitud (en bytes) de la anterior estructura.</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve 0.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>bind</code> (<code>man bind</code>).</p>
-</li>
-</ul>
-<h4 id="listen"><code>listen()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int listen(int sockfd, int backlog);
+<p>Además, ya que serán necesarios en el desarrollo, definiremos las rutas al
+certificado (clave pública) del servidor y su clave privada:</p>
+<pre><code class="language-c">#define CERT_FILE &quot;../certs/server-cert.pem&quot;
+#define KEY_FILE  &quot;../certs/server-key.pem&quot;
 </code></pre>
-<ul>
-<li>
-<p>Descripción: Marca el <em>socket</em> proporcionado como <em>pasivo</em>, esto es, 
-  un <em>socket</em> que podrá ser utilizado para aceptar conexiones entrantes
-  usando la llamada <code>accept</code>.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
-<li><code>backlog</code>: longitud máxima que podrá tener la cola de conexiones pendientes
-para el <em>socket</em>. Si se sobrepasa, el cliente recibirá un error en su
-intento de conexión.</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve 0.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>listen</code> (<code>man listen</code>).</p>
-</li>
-</ul>
-<h4 id="accept"><code>accept()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+<p>Observa además que el puerto de escucha del servidor será el <code>11111</code>.</p>
+<h3 id="objetos-basicos-wolfssl-contexto-y-objeto-ssl">Objetos básicos WolfSSL. Contexto y objeto SSL</h3>
+<p>Definiremos dos objetos básicos que se utilizarán de forma recurrente
+en el código:</p>
+<pre><code class="language-c">WOLFSSL_CTX* ctx;
+WOLFSSL*     ssl;
 </code></pre>
-<ul>
-<li>
-<p>Descripción: En <em>sockets</em> orientados a conexión, extrae la primera solicitud
-  de conexión de la cola de conexiones pendientes para el <em>socket</em> proporcionado,
-  crea un nuevo <em>socket conectado</em> y devuelve su descriptor. </p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
-<li><code>addr</code>:  es un puntero a una estructura de tipo <code>sockaddr</code>, cuyos campos
-  serán rellenados con los datos de dirección del socket remoto.</li>
-<li><code>addrlen</code>: tamaño de la estructura <code>addr</code>.</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve el descriptor de socket.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>accept</code> (<code>man accept</code>).</p>
-</li>
-</ul>
-<h4 id="connect"><code>connect()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-</code></pre>
-<ul>
-<li>
-<p>Descripción: Conecta el <em>socket</em> proporcionada a la dirección especificada por
-  <code>addr</code>. Si el <em>socket</em> es UDP, <code>addr</code> será la dirección a la que se enviarán
-  los datagramas por defecto, y la única desde la que se recibirán datagramas.
-  En caso de TCP, esta llamada inicia el proceso de conexión a la dirección
-  especificada.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>sockfd</code>:  descriptor de <em>socket</em> (devuelto por <code>socket</code>).</li>
-<li><code>addr</code>:  es un puntero a una estructura de tipo <code>sockaddr</code>, cuyos campos
-  indican la dirección de conexión destino.</li>
-<li><code>addrlen</code>: tamaño de la estructura <code>addr</code>.</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve el descriptor de socket.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>connect</code> (<code>man connect</code>).</p>
-</li>
-</ul>
-<h4 id="send"><code>send()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-</code></pre>
-<ul>
-<li>
-<p>Descripción: En un <em>socket</em> en estado <em>conectado</em> (con receptor conocido)
-  transmite mensajes a un socket remoto.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>sockfd</code>:  descriptor de <em>socket</em> de envío.</li>
-<li><code>buf</code>:  <em>buffer</em> de envío donde se almacena el mensaje a enviar.</li>
-<li><code>len</code>: número de bytes a enviar.</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve el número de bytes enviados.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>send</code> (<code>man send</code>).</p>
-</li>
-</ul>
-<h4 id="recvrecvfrom"><code>recv()</code>/<code>recvfrom()</code></h4>
-<ul>
-<li>Prototipos:</li>
-</ul>
-<pre><code class="language-c">ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-
-ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
-                 struct sockaddr *src_addr, socklen_t *addrlen);
-
-</code></pre>
-<ul>
-<li>
-<p>Descripción: Reciben mensajes desde un  <em>socket</em>, tanto en sockets orientados
-  como no orientados a conexión. <code>recvfrom</code>, a diferencia de <code>recv</code>, recibe
-  parámetros de salida adicionales que almacenan información sobre la dirección
-  origen del mensaje.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>sockfd</code>:  descriptor de <em>socket</em> de recepción.</li>
-<li><code>buf</code>:  <em>buffer</em> de recepción donde se almacena el mensaje a recibir.</li>
-<li><code>len</code>: número de bytes a recibir.</li>
-<li><code>src_addr</code>: dirección del extremo remoto del socket (origen de la comunicación).</li>
-<li><code>addrlen</code>: tamaño de la estructura <code>src_addr</code>.</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: Si tiene éxito, devuelve el número de bytes recibidos.
-                    Devuelve <code>-1</code> si se produce un error.</p>
-</li>
-<li>
-<p>Detalles: consultad las páginas de manual de <code>recv</code> y <code>recv_from</code> (<code>man recv</code> y 
-  <code>man recv_from</code>).</p>
-</li>
-</ul>
-<h4 id="close"><code>close()</code></h4>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int close(int fd);
-</code></pre>
-<ul>
-<li>
-<p>Descripción: Cierra un socket.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>fd</code>:  descriptor de <em>socket</em>.</li>
-</ul>
-</li>
-<li>
-<p>Detalles: consultad la página de manual de <code>close</code> (<code>man close</code>).</p>
-</li>
-</ul>
-<h2 id="ejemplos">Ejemplos</h2>
-<p>Se proporcionan a continuación ejemplos completos de uso de la API de <em>sockets</em>
-en C para el desarrollo de sistemas cliente/servidor sencillos. Para cada 
-uno de ellos, comprueba que, efectivamente, el uso y secuencia de aplicación
-de cada llamada sigue las directivas de la figura:</p>
-<p><img alt="flow" src="img/flow.png" /></p>
-<div class="admonition note">
-<p class="admonition-title">Tarea</p>
-<p>Compila (utilizando la oren <code>gcc ejemplo.c -o ejemplo.x</code> desde
-una terminal) y a continuación ejecuta (<code>./ejemplo.x</code>) cada par
-de códigos y comprueba su funcionamiento. Estudia con detenimiento el uso
-de cada rutina y como efectivamente siguen las directivas marcadas 
-anteriormente. Si no tienes experiencia en desarrollo en C, consulta las 
-páginas de manual correspondientes, o con tu profesor, para resolver todas
-tus dudas. Asegúrate de entender el proceso de compilación, enlazado y 
-ejecución de un binario.</p>
-</div>
-<h3 id="ejemplo-un-cliente-tcp">Ejemplo: un cliente TCP</h3>
-<pre><code class="language-c">#include &lt;arpa/inet.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-#include &lt;sys/socket.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;netinet/in.h&gt;
-
-
-int main() {
-        const int server_port = 9000;
-
-        struct sockaddr_in server_address;
-        memset(&amp;server_address, 0, sizeof(server_address));
-        server_address.sin_family = AF_INET;
-
-        server_address.sin_addr.s_addr = inet_addr(&quot;127.0.0.1&quot;);
-        server_address.sin_port = htons(server_port);
-
-        int sock;
-        if ((sock = socket(PF_INET, SOCK_STREAM, 0)) &lt; 0) {
-                printf(&quot;Error en socket\n&quot;);
-                return 1;
-        }
-
-        if (connect(sock, (struct sockaddr*)&amp;server_address,
-                    sizeof(server_address)) &lt; 0) {
-                printf(&quot;Error en connect\n&quot;);
-                return 1;
-        }
-
-        const char* data_to_send = &quot;Hola, RPI!!&quot;;
-        send(sock, data_to_send, strlen(data_to_send), 0);
-
-        int n = 0;
-        int len = 0, maxlen = 100;
-        char buffer[maxlen];
-        char* pbuffer = buffer;
-
-        if ((n = recv(sock, pbuffer, maxlen, 0)) &gt; 0) {
-                pbuffer += n;
-                maxlen -= n;
-                len += n;
-
-                buffer[len] = '\0';
-                printf(&quot;Recibido: '%s'\n&quot;, buffer);
-        }
-
-        close(sock);
-        return 0;
+<p>El contexto (<code>ctx</code>) incluye valores globales para cada conexión SSL, incluyendo
+información sobre certificados. Es posible utilizar un mismo contexto para 
+múltiples conexiones, siempre que compartan características. Para crear un 
+nuevo contexto, utilizaremos la función <code>wolfSSL_CTX_new</code> como sigue:</p>
+<pre><code class="language-c">/* Create and initialize WOLFSSL_CTX */
+if ((ctx = wolfSSL_CTX_new(wolfTLSv1_2_server_method())) == NULL) {
+  fprintf(stderr, &quot;ERROR: failed to create WOLFSSL_CTX\n&quot;);
+  return -1;
 }
 </code></pre>
-<h3 id="ejemplo-un-servidor-tcp">Ejemplo: un servidor TCP</h3>
-<pre><code class="language-c">#include &lt;arpa/inet.h&gt;
-#include &lt;netinet/in.h&gt;
-#include &lt;stdbool.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-#include &lt;unistd.h&gt;
-
-int main(int argc, char *argv[]) {
-        int SERVER_PORT = 9000;
-
-        struct sockaddr_in server_address;
-        memset(&amp;server_address, 0, sizeof(server_address));
-        server_address.sin_family = AF_INET;
-
-        server_address.sin_port = htons(SERVER_PORT);
-
-        server_address.sin_addr.s_addr = htonl(INADDR_ANY);
-
-        int listen_sock;
-        if ((listen_sock = socket(PF_INET, SOCK_STREAM, 0)) &lt; 0) {
-                printf(&quot;Error en socket\n&quot;);
-                return 1;
-        }
-
-        if ((bind(listen_sock, (struct sockaddr *)&amp;server_address,
-                  sizeof(server_address))) &lt; 0) {
-                printf(&quot;Error en bind\n&quot;);
-                return 1;
-        }
-
-        int wait_size = 16;  
-
-        if (listen(listen_sock, wait_size) &lt; 0) {
-                printf(&quot;Error en listen\n&quot;);
-                return 1;
-        }
-
-        struct sockaddr_in client_address;
-        int client_address_len = 0;
-
-        while (true) {
-                int sock;
-                if ((sock =
-                         accept(listen_sock, (struct sockaddr *)&amp;client_address,
-                                &amp;client_address_len)) &lt; 0) {
-                        printf(&quot;Error en accept\n&quot;);
-                        return 1;
-                }
-
-                int n = 0;
-                int len = 0, maxlen = 100;
-                char buffer[maxlen];
-                char *pbuffer = buffer;
-
-                printf(&quot;Cliente conectado con IP: %s\n&quot;,
-                       inet_ntoa(client_address.sin_addr));
-
-                while ((n = recv(sock, pbuffer, maxlen, 0)) &gt; 0) {
-                        pbuffer += n;
-                        maxlen -= n;
-                        len += n;
-
-                        printf(&quot;Recibido: '%s'\n&quot;, buffer);
-
-                        send(sock, buffer, len, 0);
-                }
-
-                close(sock);
-        }
-
-        close(listen_sock);
-        return 0;
+<p>El argumento proporcionado incluye información sobre la versión de protocolo
+a utilizar. Actualmente, WolfSSL soporta SSL 3.0,
+TLS 1.1, TLS 1.2,  DTLS 1.0 y DTLS 1.2. En este caso, para la parte cliente,
+las funciones a utilizar como argumento serían:</p>
+<ul>
+<li><code>wolfSSLv3_server_method();     // SSLv3</code></li>
+<li><code>wolfTLSv1_server_method();     // TLSv1</code></li>
+<li><code>wolfTLSv1_1_server_method();   // TLSv1.1</code></li>
+<li><code>wolfTLSv1_2_server_method();   // TLSv1.2</code></li>
+<li><code>wolfDTLSv1_server_method();    // DTLS</code></li>
+<li><code>wolfDTLSv1_2_server_method();  // DTLS 1.2</code></li>
+</ul>
+<p>En segundo lugar, es necesario cargar nuestra CA (Autoridad Certificadora)
+en el contexto, para que cualquier cliente pueda verificar, en el momento de
+su conexión, la identidad del servidor. Para ello, usamos la función
+<code>wolfSSL_CTX_use_certificate_file</code> de la siguiente manera:</p>
+<pre><code class="language-c">/* Load server certificates into WOLFSSL_CTX */
+if (wolfSSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM)
+        != SSL_SUCCESS) {
+  fprintf(stderr, &quot;ERROR: failed to load %s, please check the file.\n&quot;,
+                CERT_FILE);
+  return -1;
 }
 </code></pre>
-<div class="admonition note">
-<p class="admonition-title">Tarea</p>
-<p>Reproduce el funcionamiento del anterior sistema cliente/servidor <em>echo</em>
-utilizando UDP.</p>
-</div>
-<h2 id="capturas-de-trafico-via-wireshark">Capturas de tráfico vía Wireshark</h2>
-<p>Wireshark es una herramienta de código abierto ampliamente utilizada para 
-analizar protocolos de comunicación de red en cualquiera de las capas de la pila 
-TCP/IP (como también en otros protocolos). Wireshark implementa un amplio 
-abanico de filtros para definir criterios de búsqueda en las capturas de
-tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtros
-específicos.</p>
-<p>Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
-instalación básica Linux), teclea en tu terminal:</p>
-<pre><code class="language-bash">$ sudo wireshark
+<p>Del mismo modo, el servidor deberá incluir su clave privada en formato PEM:</p>
+<pre><code class="language-c">/* Load server key into WOLFSSL_CTX */
+if (wolfSSL_CTX_use_PrivateKey_file(ctx, KEY_FILE, SSL_FILETYPE_PEM)
+        != SSL_SUCCESS) {
+  fprintf(stderr, &quot;ERROR: failed to load %s, please check the file.\n&quot;,
+                KEY_FILE);
+  return -1;
+}
 </code></pre>
-<p>Tras el arranque, podemos comenzar una nueva captura de tráfico a través
-del menú <code>Capture</code>, opción <code>Start</code>. La pantalla de selección de interfaz 
-nos permitirá definir en qué interfaz de red se realizará la captura. En 
-nuestro caso, ya que vamos a comunicar dos procesos en la misma máquina, 
-elegiremos la interfaz de <em>Loopback</em> (lo) y comenzaremos la captura.</p>
-<div class="admonition note">
-<p class="admonition-title">Tarea</p>
-<p>Arranca Wireshark y prepara una captura sobre la interfaz de <em>loopback</em> de tu máquina.
-Ejecuta el servidor <em>echo</em> TCP y el cliente correspondiente, y analiza
-el tráfico generado. Especialmente, fíjate en el proceso de establecimiento
-de conexión en tres vías, paquetes de <em>Acknowledge</em> tras el envío de cada
-mensaje y, en general, en cualquier otro aspecto que consideres de interés.</p>
-</div>
-<h3 id="construccion-de-mensajes">Construcción de mensajes</h3>
-<p>Para enviar mensajes que encapsulen distintos tipos de datos en una sola
-invocación, puedes definir un mensaje como el siguiente:</p>
-<pre><code class="language-c">typedef struct {
-  int x;
-  int y;
-} mensaje;
-</code></pre>
-<p>Dando valor a cada campo y a continuación enviándolo proporcionando la dirección
-de inicio de la estructura, del siguiente modo:</p>
-<pre><code class="language-c">mensaje.x = x; mensaje.y = y;
-send( socketfd, &amp;mensaje, sizeof( mensaje ), 0 );
-</code></pre>
-<div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
-<p>Se pide diseñar un sistema cliente/servidor programado en C, que 
-simule el envío de un conjunto de datos sensorizados desde un cliente
-hacia un servidor. El protocolo a utilizar (formato de datos enviado
-por la red a nivel de aplicación) 
-debe ser propuesto por el propio alumno y descrito previamente
-al desarrollo. Se valorará el uso de múltiples tipos de datos tanto en
-el envío de datos sensorizados como de posibles respuestas por parte
-del servidor. Se desarrollará una versión utilizando TCP y otra
-equivalente usando UDP. El cliente enviará los datos de forma periódica y se
-éstos generarán de modo aleatorio.</p>
-<p>A modo de entrega, se solicitan los códigos desarrollados, así como un 
-análisis del tráfico generado, considerando la sobrecarga (en bytes 
-reales enviados) introducida por cada protocolo de capa de transporte.</p>
-</div>
-<h2 id="sistemas-clienteservidor-en-el-esp32">Sistemas cliente/servidor en el ESP32</h2>
-<p>La razón por la que hemos ejercitado el uso de la API de sockets desde C
-en Linux es que la implementación de la pila TCP/IP en ESP-IDF 
-(llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/lwip.html">Lightweight TCP/IP (lwIP)</a>) implementa al 100% dicha API. Por tanto, tanto
-la estructura básica de un <em>firmware</em> que implemente un cliente o servidor
-como la API utilizada permanece inalterada. </p>
-<p>En esta última sección, se pide trabajar con dos ejemplos básicos de implementación
-de sistemas cliente/servidor UDP y TCP sobre el ESP32, con el objetivo de estudiar
-su funcionalidad, comprobar su interoperabilidad y realizar modificaciones para
-adaptarlas a una hipotética aplicación IoT.</p>
-<h2 id="clienteservidor-udp-en-el-esp32">Cliente/servidor UDP en el ESP32</h2>
-<p>En esta parte, trabajarás con dos ejemplos proporcionados dentro de la colección
-de ejemplos de ESP-IDF. Por tanto, copia en tu espacio de trabajo (fuera del
-árbol principal de ESP-IDF) los ejemplos:</p>
-<ul>
-<li><strong>Servidor UDP</strong>: <code>examples/protocols/sockets/udp_server/</code></li>
-<li><strong>Cliente UDP</strong>: <code>examples/protocols/sockets/udp_client/</code></li>
-</ul>
-<h3 id="estructura-general">Estructura general</h3>
-<p>Observa sus códigos (<code>udp_server.c</code> para el servidor, y <code>udp_client.c</code> para el
-cliente). Comprueba que, tanto la estructura básica de ambos componentes como
-las invocaciones a la API de sockets concuerdan con las que vimos para el 
-sistema <em>echo</em> programado en C. </p>
-<p>Acerca de la tarea principal (función <code>app_main</code>) observa que realiza 
-una serie de llamadas a APIs de configuración de algunos subsistemas de
-FreeRTOS, principalmente:</p>
-<pre><code class="language-c">// Inicializa la partición NVS (Non-volatile storage) por defecto. 
-ESP_ERROR_CHECK(nvs_flash_init());
-// Inicializa la infraestructura ESP-NETIF.
-ESP_ERROR_CHECK(esp_netif_init());
-// Crea un bucle de eventos por defecto.
-ESP_ERROR_CHECK(esp_event_loop_create_default());
+<p>A continuación, observa como el código de escucha y aceptación de conexiones
+entrantes no difieren de cualquier código que hayas desarrollado previamente
+para aceptar conexiones entrantes TCP (<code>bind</code>, + <code>listen</code> + <code>accept</code>).</p>
+<p>Justo tras la conexión (<code>accept</code>), resulta necesario crear un nuevo objeto
+SSL, así como asociar el descriptor de socket con la nueva sesión (conexión)
+TLS:</p>
+<pre><code class="language-c">/* Create a WOLFSSL object */
+if ((ssl = wolfSSL_new(ctx)) == NULL) {
+  fprintf(stderr, &quot;ERROR: failed to create WOLFSSL object\n&quot;);
+  return -1;
+}
 
-/* Esta función configura WiFi o Ethernet, tal y como seleccionemos via menuconfig.
-*/
-ESP_ERROR_CHECK(example_connect());
+/* Attach wolfSSL to the socket */
+wolfSSL_set_fd(ssl, connd);
 
-xTaskCreate(udp_server_task, &quot;udp_server&quot;, 4096, NULL, 5, NULL);
+/* Establish TLS connection */
+ret = wolfSSL_accept(ssl);
+if (ret != SSL_SUCCESS) {
+  fprintf(stderr, &quot;wolfSSL_accept error = %d\n&quot;,
+                wolfSSL_get_error(ssl, ret));
+  return -1;
+}
 </code></pre>
-<ul>
-<li>
-<p><code>example_connect()</code>, función que no forma parte de ESP-IDF, establece una 
-conexión WiFi o Ethernet. La función es bloqueante, y retorna cuando se ha
-conseguido establecer una conexión.</p>
-</li>
-<li>
-<p>Las características de la conexión WiFi (SSID y contraseña) se deben proporcionar
-a través de <code>menuconfig</code>.</p>
-</li>
-<li>
-<p>El objetivo de ESP-NETIF es proporcionar una capa de abstracción por encima de 
-  la pila TCP/IP, de modo que pueda migrarse la pila sin que los códigos del 
-  usuario cambien. Puedes consultar su documentación en la 
-  <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_netif.html">página oficial</a>.</p>
-</li>
-<li>
-<p>Por último, se crea una tarea que ejecutará la lógica del servidor (lo mismo
-  ocurre en el cliente).</p>
-</li>
-<li>
-<p>Observa que, en todo el código, los mensajes de error se anotan utilizando
-  la macro <code>ESP_LOGE</code> y los informativos con <code>ESP_LOGI</code>; intenta seguir este 
-  convenio en tus códigos.</p>
-</li>
-</ul>
-<h3 id="despliegue-opcion-1">Despliegue. Opción 1</h3>
-<p>En este caso, desplegarás el cliente en un ESP32 y el servidor en otro. Si
-no dispones de dos ESP32, puedes trabajar con un compañero.</p>
-<p>En cualquier caso, ambos ESP32 deben pertenecer a la misma red inalámbrica,
-por lo que deberán conectarse a un mismo punto de acceso (el profesor te
-proporcionará los datos, o simplemente puedes utilizar tu punto de acceso
-doméstico). Configura los siguientes puntos de la infraestructura:</p>
-<ul>
-<li>
-<p>Configura el SSID y contraseña del punto de acceso vía <code>menuconfig</code> antes
-de compilar y flashear el código tanto en el cliente como en el servidor. </p>
-</li>
-<li>
-<p>En el servidor, configura vía <code>menuconfig</code> el puerto sobre el que escuchará.</p>
-</li>
-<li>
-<p>Arranca primero el nodo servidor y apunta la IP proporcionada por el punto de 
- acceso; utilízala en el cliente para
-configurar la IP destino de la comunicación. No olvides configurar también
-el puerto destino de acuerdo al configurado en el servidor vía <code>menuconfig</code>.</p>
-</li>
-</ul>
-<p>Ên este punto, podrás arrancar el cliente y deberías estar comunicando dos
-nodos ESP32 vía UDP.</p>
-<h3 id="despliegue-opcion-2">Despliegue. Opción 2</h3>
-<p>Si sólo dispones de un nodo, o si simplemente quieres probar otra forma de 
-comunicación en la que uno de los equipos es un PC, puedes utilizar alguna
-de las herramientas del sistema:</p>
-<div class="admonition danger">
-<p class="admonition-title">Nota</p>
-<p>Ten en cuenta que portátil (es decir, máquina virtual) y ESP32 deben
-pertenecerá la misma red. Para conseguirlo, para tu máquina virtual y añade
-una nueva interfaz de red de tipo <em>bridge</em> conectada a la interfaz Wifi
-física de tu PC. Así, tendrás una interfaz con IP en la misma red, otorgada
-directamente por tu punto de acceso.</p>
-</div>
-<ul>
-<li>Para recibir un paquete UDP a través de un puerto (es decir, emular un
-  servidor UDP):</li>
-</ul>
-<pre><code class="language-sh">nc -ul -p 3333
+<p>A partir de este punto, podemos enviar y recibir datos a través del socket
+(y por tanto de la conexión TLS) de forma muy similar a como lo hacemos 
+con el enfoque clásico. Así, para recibir datos:</p>
+<pre><code class="language-c">if (wolfSSL_read(ssl, buff, sizeof(buff)-1) == -1) {
+  fprintf(stderr, &quot;ERROR: failed to read\n&quot;);
+  return -1;
+}
 </code></pre>
-<ul>
-<li>Para enviar un paquete UDP a una IP/puerto remotos (es decir, emular un cliente):</li>
-</ul>
-<pre><code class="language-sh">nc -u IP_REMOTA 3333
+<p>Y para enviar datos de vuelta:</p>
+<pre><code class="language-c">/* Reply back to the client */
+if (wolfSSL_write(ssl, buff, len) != len) {
+  fprintf(stderr, &quot;ERROR: failed to write\n&quot;);
+  return -1;
+}
 </code></pre>
-<p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
-servidores UDP Python que puedes también utilizar.</p>
-<h2 id="clienteservidor-tcp-en-el-esp32">Cliente/servidor TCP en el ESP32</h2>
-<p>El despliegue de cliente y servidor TCP es equivalente al UDP.</p>
-<ul>
-<li>Para recibir un paquete TCP a través de un puerto (es decir, emular un
-  servidor TCP):</li>
-</ul>
-<pre><code class="language-sh">nc -l IP -p 3333
-</code></pre>
-<ul>
-<li>Para enviar un paquete TCP a una IP/puerto remotos (es decir, emular un cliente):</li>
-</ul>
-<pre><code class="language-sh">nc IP 3333
-</code></pre>
-<p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
-servidores TCP Python que puedes también utilizar.</p>
-<div class="admonition note">
-<p class="admonition-title">Tarea</p>
-<p>Experimenta con los ejemplos proporcionados en ESP-IDF (cliente/servidor
-TCP y UDP) y consigue ejecutar todos los elementos en la placa. Si sólo
-dispones de una placa, utiliza la máquina virtual como cliente/servidor
-para comprobar el correcto funcionamiento de cada código.</p>
+<p>Por último, finalizaremos la conexión con la invocación de la función
+<code>wolfSSL_free(ssl)</code>.</p>
+<div class="admonition note tarea">
+<p class="admonition-title">Note</p>
+<p>El cliente proporcionado sigue una estrategia de implementación similar.
+Compara ambos códigos (cliente y servidor) y asegúrate de entender las
+diferencias entre ellos.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
-<p>En este punto, deberías disponer de un conjunto de códigos que implementan
-sistemas cliente/servidor tanto en un host (utilizando Python y/o C) como en
-la placa ESP32 (utilizando C y ESP-IDF), y deberías haber comprobado su
-correcto funcionamiento.</p>
-<p>Específicamente, dispondrás de:</p>
+<p>Compila y ejecuta el sistema cliente/servidor TLS y obtén capturas de
+tráfico tanto de las fases de establecimiento de conexión como de las
+fases de transferencia de datos. En base a lo aprendido en las clases
+de teoría y la documentación adicional sobre TLS y wolfSSL, redacta 
+un breve informe que resuma el proceso de <em>handshake</em> y transferencia
+de datos en TLS tomando como base los paquetes reales observados para
+esta conexión.</p>
+</div>
+<h2 id="clienteservidor-dtls-ejemplo-basico-en-host">Cliente/servidor DTLS. Ejemplo básico en host</h2>
+<p>El desarrollo de un sistema básico cliente/servidor con soporte DTLS utilizando
+WolfSSL es muy similar al visto anteriormente para TLS. Observa el contenido del fichero <code>dtls/server-dtls.c</code>.</p>
+<p>Eel código sigue una filosofía similar a TLS, adaptado, obviamente,
+a las características de UDP (tipo de socket, ausencia de conexión, etc.), por
+lo que se deja como ejercicio su análisis y ejecución.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Analiza, compila y ejecuta los códigos correspondientes al sistema cliente/servidor
+DTLS. Realiza capturas de tráfico y compáralas, paquete a paquete, con las generadas
+para un patrón de tráfico similar en el caso de TLS. Incide en sus similitudes
+y diferencias, tanto a nivel de <em>handshake</em> como de transferencia de datos. Observa,
+en este último caso, la aparición de nuevos campos de encabezado en los envíos
+de datos DTLS. ¿Cuál/cuáles son esos campos y por qué aparecen? Realiza una comparativa
+del tráfico total generado en ambos casos para exactamente la misma cantidad de datos 
+transferidos.</p>
+</div>
+<h2 id="tls-en-el-esp32-el-componente-wolfssl-version-572">TLS en el ESP32. El componente wolfSSL (version 5.7.2)</h2>
+<p>La librería WolfSSL está disponible como <a href="https://components.espressif.com/components/wolfssl/wolfssl/versions/5.7.2?language=en">componente de Espressif</a>. A continuación veremos un ejemplo de uso de cliente TLS apto para conectarse el servidor anterior.</p>
+<p>Aunque es posible usar el GUI de la Extensión de ESP-IDF de VSCode, por brevedad vamos a realizar los pasos desde línea de comandos en el terminal <code>ESP-IDF Terminal</code>.</p>
+<p>Moverse a la carpeta dónde se quiera importar el ejemplo y ejecutar el siguiente comando.</p>
+<pre><code>idf.py create-project-from-example &quot;wolfssl/wolfssl^5.7.2:wolfssl_client&quot;
+cd wolfssl_client`
+</code></pre>
+<p>Ejecuta la utilidad <code>menuconfig</code> :</p>
+<pre><code>idf.py menuconfig
+</code></pre>
+<p>Y configura los diferentes parámetros para el dispositivo objetivo, junto con la configuración local de WiFi:</p>
+<ul>
+<li>Host de destino: <code>CONFIG_WOLFSSL_TARGET_HOST</code> (en nuestro caso del del host en el que se ejecute el servidor TLS)</li>
+<li>Puerto de destino: <code>CONFIG_WOLFSSL_TARGET_PORT</code> (por defecto 11111)</li>
+<li>SSID de WiFi de ejemplo: <code>CONFIG_EXAMPLE_WIFI_SSID</code></li>
+<li>Contraseña de WiFi de ejemplo: <code>CONFIG_EXAMPLE_WIFI_PASSWORD</code></li>
+</ul>
+<p>Cabe señalar que los <em>makefiles</em> de este ejemplo no requieren la instalación de wolfSSL copiando archivos localmente.</p>
+<p>Es preciso señalar que hay un pequeño error en el código de ejemplo y preciso realizar la siguiente modificación del fichero <code>main\include\client-tls.h</code> o de lo contrario no usa la dirección destino configurada previamente:</p>
+<pre><code class="language-c">/* See main/Kconfig.projbuild for default configuration settings */
+#ifdef CONFIG_WOLFSSL_TARGET_HOST
+    #define TLS_SMP_TARGET_HOST         CONFIG_WOLFSSL_TARGET_HOST
+#else
+    #define TLS_SMP_TARGET_HOST         &quot;192.168.1.41&quot;
+#endif
+</code></pre>
+<p>A continuación se puede compilar y cargar el firmware para ver el ejemplo en acción.</p>
+<pre><code class="language-shell">idf.py build
+idf.py flash
+idf.py monitor
+</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Compila y ejecuta el cliente TLS en el ESP32, y consigue que interactúe con
+el servidor TLS que probaste anteriormente en el <em>host</em>. Comprueba que, efectivamente,
+los datos se transfieren cifrados entre ambos extremos, y que el intercambio de 
+paquetes es similar al que observaste entre cliente y servidor en el <em>host</em>. </p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Repite el mismo proceso para el cliente DTLS.</p>
+</div>
+<h2 id="tls-en-el-esp32-el-componente-esp-tls">TLS en el ESP32. El componente ESP-TLS</h2>
+<p>ESP-IDF proporciona un componente (ESP-TLS) que ofrece una interfaz (API)
+simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece 
+una funcionalidad suficientemente amplia como para implementar casos de uso
+comunes en entornos IoT. </p>
+<p>La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:</p>
+<h3 id="establecimiento-de-conexion-tls-esp_tls_conn_new">Establecimiento de conexión TLS (<code>esp_tls_conn_new()</code>)</h3>
+<ul>
+<li>Prototipo:</li>
+</ul>
+<pre><code class="language-c">esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
+</code></pre>
 <ul>
 <li>
-<p>Sistema cliente/servidor desarrollado en la Práctica 1, escrito en Python
-e implementando un protocolo básico de aplicacion (tipo de mensaje) propuesto
-por ti.</p>
+<p>Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
+  conexión contra un servidor establecido. </p>
 </li>
 <li>
-<p>Código básico en C para implementación de un servidor/cliente <em>echo</em> 
-programado en C, cuyos códigos se proporcionan en este boletín.</p>
+<p>Parámetros: </p>
+<ul>
+<li><code>hostname</code>: Identificación del host.</li>
+<li><code>hostlen</code>: Longitud del parámetro <code>hostname</code>.</li>
+<li><code>port</code>: Puerto de conexión con el host.</li>
+<li><code>cfg</code>: Configuración de la conexión TLS.</li>
+</ul>
 </li>
 <li>
-<p>Códigos básicos en C/ESP-IDF para implementar servidores/clientes
-<em>echo</em> sobre el ESP32.</p>
+<p>Valor de retorno: Puntero a <code>esp_tls_t</code> (manejador de la conexión).
+                    Devuelve <code>NULL</code> si se produce un error en la conexión.</p>
 </li>
 </ul>
-<p>Como tarea entregable, se pide que adaptes tu entrega de la Práctica 1 para
-que tanto cliente como servidor puedan funcionar en el host (bien usando
-tu implementación Python, o bien utilizando una nueva implementación en 
-C) o en el ESP32. Se entregarán los códigos y una breve memoria con capturas
-de tráfico que demuestren el correcto funcionamiento del sistema.</p>
+<h3 id="destruccion-de-conexion-tls-esp_tls_conn_delete">Destrucción de conexión TLS (<code>esp_tls_conn_delete()</code>)</h3>
+<pre><code class="language-c">void esp_tls_conn_delete(esp_tls_t *tls)
+</code></pre>
+<ul>
+<li>
+<p>Descripción: Cierra la conexión TLS/SSL. </p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>tls</code>: Manejador de la conexión.</li>
+</ul>
+</li>
+</ul>
+<h3 id="escritura-de-datos-esp_tls_conn_read">Escritura de datos (<code>esp_tls_conn_read()</code>)</h3>
+<pre><code class="language-c">static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
+</code></pre>
+<ul>
+<li>
+<p>Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
+  <code>data</code>.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>tls</code>: Manejador de la conexión. </li>
+<li><code>data</code>: Buffer de envío.</li>
+<li><code>datalen</code>: Longitud del buffer de envío (o número máximo 
+   de bytes a escribir).</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: </p>
+<ul>
+<li><code>&gt;=0</code>: éxito en el envío. Número de bytes efectivamente enviados.</li>
+<li><code>&lt;0</code>: error en el envío.</li>
+</ul>
+</li>
+</ul>
+<h3 id="lectura-de-datos-esp_tls_conn_read">Lectura de datos (<code>esp_tls_conn_read()</code>)</h3>
+<pre><code class="language-c">static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
+</code></pre>
+<ul>
+<li>
+<p>Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer <code>data</code>.</p>
+</li>
+<li>
+<p>Parámetros: </p>
+<ul>
+<li><code>tls</code>: Manejador de la conexión. </li>
+<li><code>data</code>: Buffer de recepción.</li>
+<li><code>datalen</code>: Longitud del buffer de recepción (o número máximo 
+   de bytes a leer).</li>
+</ul>
+</li>
+<li>
+<p>Valor de retorno: </p>
+<ul>
+<li><code>&gt;0</code>: éxito en la recepción. Número de bytes efectivamente leídos.</li>
+<li><code>=0</code>: error en la recepción. La conexión se cerró.</li>
+<li><code>&lt;0</code>: error en la recepción. </li>
+</ul>
+</li>
+</ul>
+<h3 id="estructura-basica-de-un-cliente-tcp-usando-esp-idf">Estructura básica de un cliente TCP usando ESP-IDF</h3>
+<p>Un cliente TCP implementado sobre ESP-IDF para dar soporte TLS, 
+requiere ciertas modificaciones con respecto a la versión sin TLS. 
+De hecho, el uso de ESP-IDF simplifica el código del cliente. La
+estructura básica resultaría:</p>
+<pre><code class="language-c">/// Includes anteriores.
+#include &quot;esp_tls.h&quot;
+
+// Puede tomarse desde menuconfig.
+#define HOST_IP_ADDR DIRECCION_DE_HOST
+#define PORT PUERTO 
+
+static const char *payload = &quot;Hola, mundo via TLS&quot;;
+
+// ...
+
+static void tls_client_task( void  *pvParameters )
+{
+  // ...
+
+  // Configuración de ESP-TLS (vacío para opciones defecto).
+  esp_tls_cfg_t cfg = { };
+
+  // Creación de conexión.
+  struct esp_tls *tls = esp_tls_conn_new( HOST_IP_ADDR, longitud, PORT, &amp;cfg);
+
+  // Chequeo de errores.
+  // ...
+
+  // Envío de datos.
+  ret = esp_tls_conn_write(tls, payload, strlen(payload));
+
+  // Chequeo de errores.
+  // ...
+
+  // Lectura de datos
+  ret = esp_tls_conn_read(tls, (char *)rx_buffer, 128);
+
+  // Chequeo de errores.
+  // ...
+
+  // Destrucción de la conexión
+  esp_tls_conn_delete( tls );
+
+  vTaskDelete( NULL );
+}
+
+void app_main( void )
+{
+  // ...
+}
+</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Estudia y prueba el ejemplo base <code>examples/protocols/https_request</code>.</p>
 </div></div>
             </div>
         </div>
