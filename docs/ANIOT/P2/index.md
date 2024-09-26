@@ -17,7 +17,8 @@ Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura
 * [Documentación del componente `console`](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/console.html)
 * [Documentación sobre la librería Argtable](https://www.argtable.org/)
 * [Documentación sobre CMake](https://cmake.org/)
-* [API de High Resolution Timers](hhttps://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_timer.html)
+* [API de High Resolution Timers](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/system/esp_timer.html)
+* [API sobre GPIO en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/gpio.html)
 
 ## Proyectos ESP-IDF
 Tal y como hemos visto en clase, un proyecto ESP-IDF está formada de  *componentes*.
