@@ -252,10 +252,14 @@ línea de comandos proporcionada con el SDK de Espressif (ESP-IDF), llamada
     Antes de utilizar el programa, debes instalar las dependencias respectivas
     ejecutando los siguientes comandos desde el directorio de instalación del
     esp-idf:
-
-    ```sh
-    bash install.sh --enable-pytest
-    ```
+    En linux
+```
+bash install.sh --enable-pytest
+```
+    En windows
+```
+install.bat --enable-pytest
+```
 
 Esta herramienta, permite hacer el provisionamiento de los dispositivos desde
 nuestro portátil y ofrece además la posibilidad de usar un end-point adicional
