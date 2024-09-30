@@ -17,7 +17,8 @@ Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura
 * [Documentación del componente `console`](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/console.html)
 * [Documentación sobre la librería Argtable](https://www.argtable.org/)
 * [Documentación sobre CMake](https://cmake.org/)
-* [API de High Resolution Timers](hhttps://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_timer.html)
+* [API de High Resolution Timers](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/system/esp_timer.html)
+* [API sobre GPIO en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/gpio.html)
 
 ## Proyectos ESP-IDF
 Tal y como hemos visto en clase, un proyecto ESP-IDF está formada de  *componentes*.
@@ -91,22 +92,38 @@ Espressif tiene una [base de datos de componentes](https://components.espressif.
 En ocasiones, encontraremos códigos no incluidos en el registro oficial de Espressif pero que pueden resultar útiles para nuestros desarollos. Nuevamente, resulta aconsejable importar esos proyectos externos como componentes en nuestros proyectos. Y así lo haremos en la siguiente tarea:
 
 !!! danger "Tarea"
-    El [sensor Si7021](https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf) incorpora un sensor de tempertarua y de humedad con una interfaz I2C que facilita su uso. En el maletín disponemos de una [placa de Adafruit que incorpora dicho sensor](https://www.adafruit.com/product/3251). A partir del código disponible en [este repositorio de GitHub (https://github.com/jessebraham/esp-si7021)](https://github.com/jessebraham/esp-si7021), crea un componente llamado `si7021` para poder utilizar el sensor sin necesidad de consultar el *datasheet*. 
+    La placa de desarrollo ESP32-C3-DevKit-RUST-1 tiene dos sensores de temperatura. Uno está integrado en el propio ESP32-C3 (puedes econtrar su API en [la documentación de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/peripherals/temp_sensor.html)). El segundo está en la placa, tal y como se indica en [su documentación](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file). Se trata de un sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link) que está conectado al SoC mediante el bus I2C.
 
-    * Copia los ficheros `i2c_config.c` y `i2c_config.h` proporcionados en el Campus Virtual en la carpeta `main.c` de tu proyecto.
-    * Modifica los ficheros `CMakeLists.txt` necesarios para la compilación del proyecto.
-    * Conecta los pines del sensor Si7021
-        * SDA -> GPIO 26
-        * SCL -> GPIO 27
-        * GND -> GND
-        * VIN -> 5V
+    * A partir del código disponible en [este repositorio de Github https://github.com/mauriciobarroso/shtc3 ](https://github.com/mauriciobarroso/shtc3)  crea un componente llamado `shtc3` para poder utilizar el sensor sin necesidad de consultar el *datasheet*.  Los ficheros del repositorio ya están preparados para usarse como un componente en ESP-IDF v5.3 Sólo debes ubicarlos en la carpeta correcta. 
+    * En el fichero principal de tu aplicación, deberás inicializar el driver del bus I2C y el propio sensor. Puedes usar el código que se proporciona a continuación.
 
-    * En el fichero principal (aquel que contenga la función  `app_main`), incluye una llamada a `i2c_master_init()`. Posteriormente, utiliza el componente para leer la temperatura. 
 
-    * En las fuentes descargadas, posiblemente tengas que cambiar las referencias a `portTICK_RATE_MS` por la más reciente `portTICK_PERIOD_MS`.
-    
-    **IMPORTANTE**: recuerda incluir la línea `REQUIRES driver`
-    en el fichero `CMakeLists.txt` del componente. Imita el código de la práctica 1 para incluir un bucle infinito que lea la temperatura y la muestre por pantalla cada 2 segundos. Puedes usar la macro `I2C_MASTER_NUM` como *port number* en las llamadas a `readTemperature()`.
+```c
+shtc3_t tempSensor;
+  i2c_master_bus_handle_t bus_handle;
+
+void init_i2c(void) {
+ uint16_t id;
+i2c_master_bus_config_t i2c_bus_config = {
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .i2c_port = I2C_NUM_0,
+        .scl_io_num = 8,
+        .sda_io_num = 10,
+        .glitch_ignore_cnt = 7,
+        .flags.enable_internal_pullup = true,
+    };
+
+    ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_config, &bus_handle));
+
+   shtc3_init(&tempSensor, bus_handle, 0x70);
+}
+```
+
+!!! danger "Tarea"
+    En relación al código anterior:
+
+     *  ¿Por qué *scl_io_num* es 8? ¿Por qué *sda_io_num* es 10? ¿Se pueden cambiar?
+     * ¿Por qué la llamada a *shtc3_init()* reciba 0x70 como tercer argumento?
 
 
 ## ESP-IDF: High Resolution Timer
@@ -145,10 +162,10 @@ static void periodic_timer_callback(void* arg) {
 ```
 
 ### Encendido de LEDs con GPIO y timer
-El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conectar a nuestro ESP32. Para ello, basta con conectar el pin de GPIO escogido (que configuraremos como salida) al conector de un LED. También debemos asegurarnos **de que las tierras son comunes**. Para ello, conectaremos el pin de tierra del ESP32 al conector *GND* del entrenador.
+La placa de desarrollo ESP32-C3-DevKit-RUST-1 tiene dos LEDs, uno de ellos conectado
 
 !!! danger "Tarea"
-	Configura un GPIO como salida y conéctalo a un LED del entrenador del laboratorio. Programa un *timer* para cambiar el estado del LED cada segundo. Recuerda usar una tierra común.
+	Configura el  GPIO asociado al LED (GPIO 7) como salida. Programa un *timer* para cambiar el estado del LED cada segundo. 
 
 
 ## Ejercicio final
@@ -156,8 +173,11 @@ El entrenador que está en el laboratorio, cuenta con 8 LEDs que podemos conecta
 Completa este ejercicio después de haber resuelto los anteriores. De cara la entrega de la práctica, **sólo es necesario entregar este ejercicio**
 
 !!! danger "Tareas"
-    * Incluye el componente `si7021` en tu proyecto, junto con los ficheros `i2c_config.c` y `i2c_config.h` y conecta la placa del sensor a la placa del ESP32.
-    * Crea una aplicación que:
-        * Muestree la temperatura cada segundo utilizando un *timer*.
-        * Muestre el progreso de la temperatura usando 4 LEDs. Si la temperatura es inferior a 20 grados, todos estarán apagados. Se encederá un LED por cada 2 grados de temperatura.
-        * Se programará un segundo timer que mostrará por pantalla (puerto serie) la última medida de temperatura realizada cada 10 segundos. 
+    Partiendo del ejemplo *Blink* (usando el denominado *LED_STRIP* en GPIO 2, no como la usamos el primer día), crea una applicación que:
+
+    * Incluya el componente `shtc3` en tu proyecto.
+    * Muestree la temperatura cada segundo utilizando un *timer*.
+    * Muestre el progreso de la temperatura en el LED programable de la placa. Si la temperatura es inferior a 20 grados, estará apagado. Por cada grado que suba la temperatura, se modificará el color/intensidad del LED.
+        * Para variar el color/intensidad, sólo debes cambiar los 3 últimos argumentos de la llamada `led_strip_set_pixel()` del código de ejemplo. 
+    * Se programará un segundo timer que mostrará por pantalla (puerto serie) la última medida de temperatura realizada cada 10 segundos. 
+    * [Opcional] Configura el GPIO 9, al que está conectado el botón BOOT, para que genere interrupciones cuando soltemos el botón. ¿Qué valor lógico se lee del GPIO 9 con el botón pulsado?. Consulta [la documentación de GPIO](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/gpio.html) y el [ejemplo de GPIO genérico](https://github.com/espressif/esp-idf/tree/v5.3.1/examples/peripherals/gpio/generic_gpio) para entender cómo configurar un GPIO como entrada por interrupciones.

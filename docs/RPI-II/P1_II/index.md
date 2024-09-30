@@ -1,4 +1,4 @@
-# Práctica 1 (Parte 2). Introducción a Node-RED
+# Práctica 1 (apéndice). Introducción a Node-RED
 
 ## Objetivos
 
@@ -260,7 +260,7 @@ o usando servicios remotos (por ejemplo, *Freeboard*):
 
 * **Node-RED Guide**: [enlace a documentación](http://noderedguide.com).
 
-!!! note "Tarea 1.4"
+!!! note "Tarea 1.3bis"
     Se pide estudiar la documentación asociada a Node-RED, tanto en su web
     oficial como en la guía de programación *Node-RED Guide* (específicamente sus 
     cuatro primeras partes). 

@@ -148,13 +148,13 @@ nc IP 3333
 En el directorio `scripts` dispones también de pequeños ejemplos de clientes y
 servidores TCP Python que puedes también utilizar.
 
-!!! note "Tarea 1.6"
+!!! note "Tarea 1.4"
     Experimenta con los ejemplos proporcionados en ESP-IDF (cliente/servidor
     TCP y UDP) y consigue ejecutar todos los elementos en la placa. Si sólo
-    dispones de una placa, utiliza la máquina virtual como cliente/servidor
+    dispones de una placa, utiliza tu máquina (o una máquina virtual) como cliente/servidor
     para comprobar el correcto funcionamiento de cada código.
 
-!!! note "Tarea 1.7"
+!!! note "Tarea 1.5 (entregable)"
     En este punto, deberías disponer de un conjunto de códigos que implementan
     sistemas cliente/servidor tanto en un host (utilizando C, y en Node-RED, así como
     en Python si has seguido el anexo opcional a la práctica) como en
@@ -169,7 +169,7 @@ servidores TCP Python que puedes también utilizar.
     * Códigos básicos en C/ESP-IDF para implementar servidores/clientes
     *echo* sobre el ESP32.
 
-    Como tarea, se pide que adaptes tu entrega de la tarea 1.4 para
+    Como tarea, se pide que adaptes tu entrega de la tarea 1.3 para
     que tanto cliente como servidor puedan funcionar en el host (bien usando
     tu implementación Node-RED (o Python), o bien utilizando una implementación en 
     C) o en el ESP32. Se entregarán los códigos y una breve memoria con capturas
