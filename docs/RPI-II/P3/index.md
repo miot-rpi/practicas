@@ -723,7 +723,7 @@ recuerda que simplemente debes pegar la salida generada por `xxd`):
 
 ![](img/cbor.me.png)
 
-Otra opción de visualización puede ser un programa Python (podrías integrarlo
+<!--Otra opción de visualización puede ser un programa Python (podrías integrarlo
 en tu servidor TCP/UDP, por ejemplo), que haga uso del módulo `cbor2`
  ([documentación](https://pypi.org/project/cbor2/)). Para
 comprobar su funcionamiento, primero instálalo:
@@ -749,3 +749,4 @@ Al ejecutarlo, observarás el contenido del objeto:
 python cbor.py
 [{'chip': 'esp32', 'unicore': False, 'ip': [192, 168, 1, 100]}, 3.140000104904175, CBORSimpleValue(value=99), '2019-07-10 09:00:00+0000', undefined]
 ```
+-->
