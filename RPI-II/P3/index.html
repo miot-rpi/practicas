@@ -848,13 +848,19 @@ realizar la conversión antes de pegarlo en la web, puedes hacerlo con la orden:
 la herramiente automáticamente indenta el contenido del panel derecho; 
 recuerda que simplemente debes pegar la salida generada por <code>xxd</code>):</p>
 <p><img alt="" src="img/cbor.me.png" /></p>
-<p>Otra opción de visualización puede ser un programa Python (podrías integrarlo
-en tu servidor TCP/UDP, por ejemplo), que haga uso del módulo <code>cbor2</code>
- (<a href="https://pypi.org/project/cbor2/">documentación</a>). Para
-comprobar su funcionamiento, primero instálalo:</p>
+<!--Otra opción de visualización puede ser un programa Python (podrías integrarlo
+en tu servidor TCP/UDP, por ejemplo), que haga uso del módulo `cbor2`
+ ([documentación](https://pypi.org/project/cbor2/)). Para
+comprobar su funcionamiento, primero instálalo:
+
+
 <pre><code class="language-sh">pip install cbor2
 </code></pre>
-<p>Y comprueba si efectivamente funciona utilizando el siguiente programa Python:</p>
+
+
+Y comprueba si efectivamente funciona utilizando el siguiente programa Python:
+
+
 <pre><code class="language-python">from cbor2 import dumps, loads, dump, load
 
 with open('output.cbor', 'rb') as fp:
@@ -862,10 +868,16 @@ with open('output.cbor', 'rb') as fp:
 
 print(obj)
 </code></pre>
-<p>Al ejecutarlo, observarás el contenido del objeto:</p>
+
+
+Al ejecutarlo, observarás el contenido del objeto:
+
+
 <pre><code class="language-sh">python cbor.py
 [{'chip': 'esp32', 'unicore': False, 'ip': [192, 168, 1, 100]}, 3.140000104904175, CBORSimpleValue(value=99), '2019-07-10 09:00:00+0000', undefined]
-</code></pre></div>
+</code></pre>
+
+--></div>
             </div>
         </div>
 
