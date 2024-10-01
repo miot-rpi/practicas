@@ -269,7 +269,7 @@ observar la interacción con el mismo. Esta última parte no es estrictamente
 necesaria, pero nos ayudará en la interacción con el dispositivo de forma 
 visual hasta que veamos cómo hacerlo a través de línea de comandos.</p>
 <p>A través del menú de configuración,
-configura un nombre para el dispositivo (por ejemplo, 'esp_home_tunombre'),
+configura un nombre para el dispositivo (por ejemplo, <code>esp-home-nombre</code>),
 e indica que el modo de despliegue (<code>Website deploy mode</code>) sea
 <em>Deploy website to SPI Nor Flash</em>. Por último, configura las credenciales
 del punto de acceso WiFi al que conectará, siguiendo la metodología habitual.</p>
@@ -282,7 +282,7 @@ npm install
 npm run build 
 </code></pre>
 <p>Dependiendo del sistema, en este punto se puede producir un error de openssl ("digital envelope routines::unsupported").
-Si fuese el caso, es preciso establecer la variable de entorno adecudada y volver a ejecutar el comando <code>npm run build</code>.</p>
+Si fuese el caso, es preciso establecer la variable de entorno adecuada y volver a ejecutar el comando <code>npm run build</code>.</p>
 <ul>
 <li>En Linux/MacOS:</li>
 </ul>
@@ -303,7 +303,8 @@ idf.py monitor
 <p>Si todo ha ido bien, podrás observar en la salida de monitorización la
 IP proporcionada al ESP32. Abre un navegador en la máquina virtual o 
 en tu PC (estando conectada a la misma red que tu ESP32), navega hacia 
-la dirección IP del ESP32, y deberías observar una página como la siguiente:</p>
+la dirección IP del ESP32 o simplemente <code>esp-home-nombre</code> si el equipo host soporta mDNS, 
+y deberías observar una página como la siguiente:</p>
 <p><img alt="" src="img/captura1.png" /></p>
 <p>Esta es una página web servida por el propio ESP32, que te permitirá interactuar
 con él. Concretamente, la página dispone de dos funcionalidades:</p>
@@ -352,7 +353,7 @@ por el dispositivo:</p>
 <pre><code class="language-sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
 -X POST http://192.168.1.26/api/v1/light/brightness
 </code></pre>
-<p>Observa que hemos incluido el tipo de recurso enviado (<code>JSON</code>) y la operacion
+<p>Observa que hemos incluido el tipo de recurso enviado (<code>JSON</code>) y la operación
 solicitada (<code>POST</code>). Volveremos a esto en breve.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea 3.2</p>
@@ -364,7 +365,7 @@ formado o con información incorrecta.</p>
 <h3 id="interaccion-con-el-dispositivo-via-node-red">Interacción con el dispositivo vía Node-RED</h3>
 <p>Para interactuar con el dispositivo vía Node-RED, simplemente despliega un flujo
 que contenga un nodo de tipo <code>HTTP Request</code>. En su cuadro de diálogo de configuración,
-podrás incliur tanto el método a utilizar (e.g. <code>GET</code> o <code>POST</code>) como el <em>endpoint</em> (URL)
+podrás incluir tanto el método a utilizar (e.g. <code>GET</code> o <code>POST</code>) como el <em>endpoint</em> (URL)
 destino y, opcionalmente, los datos a enviar si esto es necesario.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea 3.3</p>
@@ -375,10 +376,10 @@ aunque esto lo veremos en las siguientes secciones.</p>
 </div>
 <h3 id="implementacion-de-un-servidor-http-con-api-rest">Implementación de un servidor HTTP con API REST</h3>
 <p>La implementación de un servidor HTTP en ESP-IDF se delega al componente
-<em>HTTP Server</em>, que implementa toda la funcionalida necesaria para tal fin
+<em>HTTP Server</em>, que implementa toda la funcionalidad necesaria para tal fin
 de forma eficiente y ligera. La construcción de un servidor puede
 resumirse en tres funciones principales (observa la implementación de la
-funcion <code>start_rest_server</code> en el fichero <code>rest_server.c</code>) del ejemplo:</p>
+función <code>start_rest_server</code> en el fichero <code>rest_server.c</code>) del ejemplo:</p>
 <ul>
 <li>
 <p><code>httpd_start</code>: crea una instancia de servidor HTTP, y aloja recursos para
@@ -497,7 +498,7 @@ un componente totalmente independiente al lenguaje.</p>
 <ul>
 <li>
 <p>Valores numéricos: permitiendo números con y sin signo, y con parte
-decimla en notación separada por puntos.</p>
+decimal en notación separada por puntos.</p>
 </li>
 <li>
 <p>Cadenas: secuencias de cero o más caracteres.</p>
