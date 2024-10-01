@@ -182,6 +182,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#controladores-gpio" class="nav-link">Controladores GPIO</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#esp-idf-high-resolution-timer" class="nav-link">ESP-IDF: High Resolution Timer</a>
               <ul class="nav flex-column">
               </ul>
@@ -306,6 +310,50 @@ i2c_master_bus_config_t i2c_bus_config = {
 <li>¿Por qué la llamada a <em>shtc3_init()</em> reciba 0x70 como tercer argumento?</li>
 </ul>
 </div>
+<h2 id="controladores-gpio">Controladores GPIO</h2>
+<p>Los controladores de GPIO (<em>General Purpose Input-Ouput</em>) permiten controlar ciertos pines de nuestro dispositivo para usarlos como entrada (por ejemplo, para conectar un botón) o salida (por ejemplo para conectar un LED) o con funciones <em>especiales</em> (que forme parte de un bus serie, por ejemplo). </p>
+<h3 id="placa-esp32-devkitc-v4">Placa ESP32-DevKitC v4</h3>
+<p>El SoC ESP32 que usamos proporciona 40 GPIO <em>pads</em> (el SoC no tiene pines propiamente dichos, sino conectores, normalmente de superfície, que se deminan <em>pad</em>). El módulo WROOM-32 que usamos expone 38 de ellos, que son accesibles a traves de los pines (los conectores físicos a ambos lados de la placa) que incorpora nuestra placa DevKitC.</p>
+<p>En la siguiente figura se muestra la disposición de los pines en la placa ESP32-DevKitC que usamos en nuestras prácticas: </p>
+<p><img alt="pinout" src="img/esp32-devkitC-v4-pinout.png" /></p>
+<p>En <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html">la web de Espressif</a> se pueden encontrar más detalles de la placa.</p>
+<p><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/gpio.html">Como se indica en la documentación de  ESP-IDF</a>, algunos de esos pines tiene un propósito específico. Por ejemplo, GPIO6-11 y 16-17 no deben usarse porque están internamente conectados a la memoria SPI flash. También nos indica que los pines del canal 2 del ADC (ADC2) NO deben usarse mientras se utiliza Wi-Fi.  Es muy conveniente leer todas las restricciones para evitar problemas en nuestros desarrollos.</p>
+<h3 id="placa-rust-board-esp32-c3">Placa  Rust Board ESP32-C3</h3>
+<p>En la siguiente figura se muestra la disposición de los pines en la placa ESP32-Rust board que usamos en nuestras prácticas: </p>
+<p><img alt="pinoutRust" src="img/rust_board_v1_pin-layout.png" /></p>
+<p>En <a href="https://github.com/esp-rs/esp-rust-board">la web de la placa</a> se pueden encontrar más detalles sobre los componenentes, esquemáticos, BOM... </p>
+<p>Entre otra documentación podéis encontrar el esquemático de la placa, que permite conocer a qué pines del SoC se conectan los diferentes elementos (LEDs, botones) de la placa:</p>
+<p><img alt="schematicRust" src="img/esp-rust-board.png" /></p>
+<h3 id="api-de-esp-idf">API de ESP-IDF</h3>
+<p>La documentación muestra también la API que ofrece ESP-IDF para configurar los pines (entrada o salida, uso de pull-up/pull-down) establecer un valor lógico (0 ó 1)en un pin (previamente configurado como salida) o leer el valor lógico de un pin (configurado como entrada).</p>
+<p>El siguiente código, <a href="https://github.com/espressif/esp-idf/tree/master/examples/peripherals/gpio/generic_gpio">extraído del ejemplo de GPIO proporcionado en la distribución ESP-IDF</a>, muestra cómo configurar los pines GPIO18 y GPIO19 como salida. Observa cómo se construye la máscara de bits <code>GPIO_OUTPUT_PIN_SEL</code> para indicar a <code>gpio_config()</code> qué pines se configuran.</p>
+<pre><code class="language-c">#define GPIO_OUTPUT_IO_0 18
+#define GPIO_OUTPUT_IO_1 19
+#define GPIO_OUTPUT_PIN_SEL ((1ULL&lt;&lt;GPIO_OUTPUT_IO_0) | (1ULL&lt;&lt;GPIO_OUTPUT_IO_1))
+gpio_config_t io_conf;
+io_conf.intr_type = GPIO_PIN_INTR_DISABLE; 
+io_conf.mode = GPIO_MODE_OUTPUT; 
+io_conf.pin_bit_mask = GPIO_OUTPUT_PIN_SEL; 
+io_conf.pull_down_en = 0; 
+io_conf.pull_up_en = 0; 
+gpio_config(&amp;io_conf);
+</code></pre>
+<p>Posteriormente, podemos establecer el valor lógico de la salida con una llamada similar a <code>gpio_set_level(GPIO_OUTPUT_IO_1, valor);</code>, siendo <code>valor</code> igual a 0 ó 1.</p>
+<p>De forma similar el siguiente código configura los pines 4 y 5 como entrada:</p>
+<pre><code class="language-c">
+    #define GPIO_INPUT_IO_0 4
+    #define GPIO_INPUT_IO_1 5
+    #define GPIO_INPUT_PIN_SEL ((1ULL&lt;&lt;GPIO_INPUT_IO_0) | (1ULL&lt;&lt;GPIO_INPUT_IO_1))
+    gpio_config_t io_conf;  
+    io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;
+    io_conf.mode = GPIO_MODE_INPUT;
+    gpio_config(&amp;io_conf);
+</code></pre>
+<p>Posteriormente, podremos leer el valor lógico de esos pines con una llamada a <code>gpio_get_level()</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Busca información</p>
+<p>En relación al código anterior: en la configuración anterior, los pines de entrada deben muestrearse periódicamente para conocer su estado. Investiga cómo configurar los pines como entrada de modo que generen una interrupción cuando se produce un flanco (subida, bajado o ambos).</p>
+</div>
 <h2 id="esp-idf-high-resolution-timer">ESP-IDF: High Resolution Timer</h2>
 <p>Un <em>Timer</em> es un temporizador que podemos programar para que nos <em>avise</em> transcurrido un cierto tiempo. Es similar a una cuenta atrás con alarma y es un mecanismo perfecto para planificar tareas periódicas. El <em>aviso</em> será asíncrono, por lo que no sabemos en qué punto de nuestro código estaremos cuando se dispare la alarma.</p>
 <p>ESP-IDF ofrece un API para el uso de <em>timers</em> que, a su vez, utlizan los <em>timers</em> de 64 bits disponibles en el hardware para garantizar una precisión de hasta 50us. </p>
@@ -354,6 +402,7 @@ static void periodic_timer_callback(void* arg) {
 </li>
 <li>Se programará un segundo timer que mostrará por pantalla (puerto serie) la última medida de temperatura realizada cada 10 segundos. </li>
 <li>[Opcional] Configura el GPIO 9, al que está conectado el botón BOOT, para que genere interrupciones cuando soltemos el botón. ¿Qué valor lógico se lee del GPIO 9 con el botón pulsado?. Consulta <a href="https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/gpio.html">la documentación de GPIO</a> y el <a href="https://github.com/espressif/esp-idf/tree/v5.3.1/examples/peripherals/gpio/generic_gpio">ejemplo de GPIO genérico</a> para entender cómo configurar un GPIO como entrada por interrupciones.</li>
+<li>[Opcional] Importa el componente <strong>ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)</strong> del <a href="https://components.espressif.com/components/espressif/icm42670/versions/1.0.0">Registro de Componentes</a>. Utiliza el acelerómetro para determinar la orientación de la placa (boca arriba, boca abajo, en vertical, horizontal...). Puedes actuar sobre el LED conectado a GPIO 7 en función de la orientación.</li>
 </ul>
 </div></div>
             </div>
