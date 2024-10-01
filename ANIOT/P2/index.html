@@ -402,7 +402,6 @@ static void periodic_timer_callback(void* arg) {
 </li>
 <li>Se programará un segundo timer que mostrará por pantalla (puerto serie) la última medida de temperatura realizada cada 10 segundos. </li>
 <li>[Opcional] Configura el GPIO 9, al que está conectado el botón BOOT, para que genere interrupciones cuando soltemos el botón. ¿Qué valor lógico se lee del GPIO 9 con el botón pulsado?. Consulta <a href="https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/gpio.html">la documentación de GPIO</a> y el <a href="https://github.com/espressif/esp-idf/tree/v5.3.1/examples/peripherals/gpio/generic_gpio">ejemplo de GPIO genérico</a> para entender cómo configurar un GPIO como entrada por interrupciones.</li>
-<li>[Opcional] Importa el componente <strong>ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)</strong> del <a href="https://components.espressif.com/components/espressif/icm42670/versions/1.0.0">Registro de Componentes</a>. Utiliza el acelerómetro para determinar la orientación de la placa (boca arriba, boca abajo, en vertical, horizontal...). Puedes actuar sobre el LED conectado a GPIO 7 en función de la orientación.</li>
 </ul>
 </div></div>
             </div>
