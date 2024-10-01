@@ -58,7 +58,7 @@ necesaria, pero nos ayudará en la interacción con el dispositivo de forma
 visual hasta que veamos cómo hacerlo a través de línea de comandos.
 
 A través del menú de configuración,
-configura un nombre para el dispositivo (por ejemplo, 'esp_home_tunombre'),
+configura un nombre para el dispositivo (por ejemplo, `esp-home-nombre`),
 e indica que el modo de despliegue (`Website deploy mode`) sea
 *Deploy website to SPI Nor Flash*. Por último, configura las credenciales
 del punto de acceso WiFi al que conectará, siguiendo la metodología habitual.
@@ -75,7 +75,7 @@ npm run build
 ```
 
 Dependiendo del sistema, en este punto se puede producir un error de openssl ("digital envelope routines::unsupported").
-Si fuese el caso, es preciso establecer la variable de entorno adecudada y volver a ejecutar el comando `npm run build`.
+Si fuese el caso, es preciso establecer la variable de entorno adecuada y volver a ejecutar el comando `npm run build`.
 
 * En Linux/MacOS:
 
@@ -103,7 +103,8 @@ idf.py monitor
 Si todo ha ido bien, podrás observar en la salida de monitorización la
 IP proporcionada al ESP32. Abre un navegador en la máquina virtual o 
 en tu PC (estando conectada a la misma red que tu ESP32), navega hacia 
-la dirección IP del ESP32, y deberías observar una página como la siguiente:
+la dirección IP del ESP32 o simplemente `esp-home-nombre` si el equipo host soporta mDNS, 
+y deberías observar una página como la siguiente:
 
 ![](img/captura1.png)
 
@@ -160,7 +161,7 @@ curl -d '{"red":70,"green":80,"blue":99}' -H "Content-Type: application/json"
 -X POST http://192.168.1.26/api/v1/light/brightness
 ```
 
-Observa que hemos incluido el tipo de recurso enviado (`JSON`) y la operacion
+Observa que hemos incluido el tipo de recurso enviado (`JSON`) y la operación
 solicitada (`POST`). Volveremos a esto en breve.
 
 !!! note "Tarea 3.2"
@@ -173,7 +174,7 @@ solicitada (`POST`). Volveremos a esto en breve.
 
 Para interactuar con el dispositivo vía Node-RED, simplemente despliega un flujo
 que contenga un nodo de tipo `HTTP Request`. En su cuadro de diálogo de configuración,
-podrás incliur tanto el método a utilizar (e.g. `GET` o `POST`) como el *endpoint* (URL)
+podrás incluir tanto el método a utilizar (e.g. `GET` o `POST`) como el *endpoint* (URL)
 destino y, opcionalmente, los datos a enviar si esto es necesario.
 
 !!! note "Tarea 3.3"
@@ -185,10 +186,10 @@ destino y, opcionalmente, los datos a enviar si esto es necesario.
 ### Implementación de un servidor HTTP con API REST
 
 La implementación de un servidor HTTP en ESP-IDF se delega al componente
-*HTTP Server*, que implementa toda la funcionalida necesaria para tal fin
+*HTTP Server*, que implementa toda la funcionalidad necesaria para tal fin
 de forma eficiente y ligera. La construcción de un servidor puede
 resumirse en tres funciones principales (observa la implementación de la
-funcion `start_rest_server` en el fichero `rest_server.c`) del ejemplo:
+función `start_rest_server` en el fichero `rest_server.c`) del ejemplo:
 
 * `httpd_start`: crea una instancia de servidor HTTP, y aloja recursos para
 ella según la configuración proporcionada. En función del tráfico generado
@@ -317,7 +318,7 @@ un componente totalmente independiente al lenguaje.
 Los tipos de datos soportados por JSON incluyen:
 
 * Valores numéricos: permitiendo números con y sin signo, y con parte
-decimla en notación separada por puntos.
+decimal en notación separada por puntos.
 
 * Cadenas: secuencias de cero o más caracteres.
 
