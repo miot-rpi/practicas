@@ -3,14 +3,12 @@
 ## Objetivos
 
 El objetivo  de esta práctica es conocer los mecanismos para la gestión de tareas
-que ofrece FreeRTOS, concretamente en su porting  ESP-IDF (con alguna
-particularidad por el hecho de estar adaptado a tener 2 cores).
+que ofrece FreeRTOS, concretamente en su porting  ESP-IDF.
 
 Trabajaremos los siguientes aspectos del API de ESP-IDF:
 
 * Familiarizarse con la API de *tareas* y *eventos* en ESP/IDF.
-* Uso de *delays* para tareas periódicas (veremos mejores opciones en el futuro)
-* Comunicación y sincronización de tareas mediante colas
+* Comunicación y sincronización de tareas mediante colas.
 
 ## Material de consulta
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:
@@ -34,20 +32,20 @@ En los vídeos y transparencias de la asignatura disponibles en el Campus Virtua
 Los siguientes ejercicios se proponen como una práctica sencilla de esos mecanismos.
 
 
-## Ejercicios básicos
+## Primera sesión: Ejercicios básicos
 
 
 
 ### Creación de una tarea para realizar el muestreo
 
-Escribe una aplicación que creará una tarea para muestrear un sensor cualquier. Denominaremos *muestreadora* a dicha tarea y puede muestrear el sensor Si7021 o simplemente generar un número aleatorio simulando el comportamiento de un sensor (de un sensor estropeado...). La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global. 
+Escribe una aplicación que creará una tarea para muestrear un sensor. Denominaremos *muestreadora* a dicha tarea y deberá muestrear periódicamnete el sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link).  La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global. 
 
 !!! danger "Tarea"
-	La tarea creada leerá el valor del sensor  con un período que se pasará como argumento a la tarea. La tarea inicial recogerá el valor muestreado y lo mostrará por puerto serie.
+	La tarea creada leerá el valor del sensor  con un período que se pasará como argumento a la tarea. Dicha tarea tendrá un bucle infinito en el que realizará la lectura del sensor, modificará la variable global y dormirá durante el tiempo establecido. La tarea inicial (app_main) recogerá el valor muestreado y lo mostrará por puerto serie.
 
 !!! note "Cuestión"
     * ¿Qué prioridad tiene la tarea inicial que ejecuta la función `app_main()`? ¿Con qué llamada de ESP-IDF podemos conocer la prioridad de una tarea?
-	* ¿Cómo sincronizas ambas tareas?¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?
+	* ¿Cómo sincronizas ambas tareas? ¿Cómo sabe la tarea inicial que hay un nuevo dato generado por la tarea muestreadora?
 	* Si además de pasar el período como parámetro, quisiéramos pasar como argumento la dirección en la que la tarea muestreadora debe escribir las lecturas, ¿cómo pasaríamos los dos argumentos a la nueva tarea?
 
 
@@ -74,7 +72,8 @@ Para ello se declara un nuevo *event base* llamado *SENSOR_EVENT* y al menos un 
     ¿Qué debe hacer la tarea inicial tras registrar el *handle*? ¿Puede finalizar?   
 
 
-
+!!! note "ENTREGA"
+    **NO ES NECESARIO HACER UNA ENTREGA DE LAS TAREAS DE ESTA SESIÓN** 
 
 ## Segunda sesión: ejercicio de estructuración de código
 
@@ -87,7 +86,7 @@ La funcionalidad del sistema será la siguiente:
 
 * Monitorizará la temperatura y la humedad cada `n` segundos, siendo éste un parámetro seleccionable por `menuconfig`. La lectura de cada medida se *comunicará mediante eventos*. Todo el código relacionado con las lecturas del sensor estará en un componente separado. Se valorará la modularización del código (uso de más componentes) para el resto de funcionalidad de este punto.
 
-* Las lecturas se enviarán por red mediante WiFi. En este caso, no usaremos realmente la WiFi pero se programará un componente que lo simulre. Ofrecerá un API similar a:
+* Las lecturas se enviarán por red mediante WiFi. En este caso, no usaremos realmente la WiFi pero se programará un componente que lo simule. Ofrecerá un API similar a:
     * `wifi_connect()` trata de conectar a WiFi. Cuando la conexión se produce, recibiremos un evento. Una vez conseguida, tratará de conseguir una IP (sin que hagamos ninguna otra llamada)  y recibiremos un evento al conseguirla.
      * `wifi_disconnect()`. Desconecta de la WiFi.
     * `esp_err_t send_data_wifi(void* data, size_t size)`. Permite enviar un dato mediante la conexión WiFI. Devolverá un error si el envío no se pudo realizar. Imprimirá el dato por puerto serie (pasaremos siempre una cadena de caracteres como dato de entrada).
@@ -115,7 +114,7 @@ La funcionalidad del sistema será la siguiente:
     * `monitor` que volverá nuevamente al modo `monitorización`, tratando de conectar a WiFi de nuevo.
     * `quota` que nos informará de cuántos bytes tiene ocupadas la flash simulada (es decir, cuántos no se han leído)
 
-    Durante este modo de funcionamiento, no se monitorizará el sensor Si7021 y nos desconetaremos de la WiFi.
+    Durante este modo de funcionamiento, no se monitorizará el sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link)  y nos desconetaremos de la WiFi.
 
 !!! danger "Tarea" 
     Escribe una aplicación que realice la funcionalidad anterior. Se valorará especialmente la modularidad y estructura del código, de modo que sea extensible y reutilizable.
