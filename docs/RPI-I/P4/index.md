@@ -254,12 +254,6 @@ convergencia de la red.
     Documentan el proceso en tu informe de la práctica, así como los 
     resultados observados.
 
-!!! danger "Tarea"
-    Analiza el código del ejemplo. Observa el tratamiento de eventos y la fase
-    de configuración de la red. Intenta entender el funcionamiento del código
-    (envíos y recepciones, destinatarios de los mismos, etc.). Explica en tu
-    informe lo que hace esta aplicación wifi mesh.
-
 ## Despliegue conjunto de una red WiFi Mesh de menores dimensiones
 
 Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
@@ -279,4 +273,10 @@ nodo raíz y observando la convergencia de la red.
     Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
     llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
     la topología de la misma. Documenta esta actividad en tu informe.
+
+!!! danger "Tarea"
+    Analiza el código del ejemplo. Observa el tratamiento de eventos y la fase
+    de configuración de la red. Intenta entender el funcionamiento del código
+    (envíos y recepciones, destinatarios de los mismos, etc.). Explica en tu
+    informe lo que hace esta aplicación wifi mesh.
 
