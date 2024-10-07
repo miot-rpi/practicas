@@ -89,7 +89,7 @@ puede o no enviar datos a la red IP externa.
 todos los canales para encontrar una red mesh a la que conectar, devolviendo
 el canal en el que lo ha conseguido.
 
-### Uso de la pila IP
+### Uso de la pila IP (lwIP)
 
 El código de una aplicación que haga uso de ESP-MESH puede  acceder directamente
 a la pila MESH sin pasar por la pila IP. De hecho, la pila IP sólo es
@@ -98,40 +98,27 @@ recibir o transmitir datos desde o hacia la red IP externa.
 
 Sin embargo, como cualquier nodo de la topología puede potencialmente
 convertirse en nodo raíz (ya que su selección es automática), todos los nodos
-deberán inicializar la pila IP. Por tanto, todos los nodos incializan la pila IP
-vía `tcpip_adapter_init()`. Además, todos los nodos deberán detener el servidor
-DHCP en la interfaz `softAP`, y el cliente DHCP en la interfaz `station`:
+deberán inicializar la pila IP. Cada nodo que pueda convertirse en root debe
+inicializar LwIP llamando a `esp_netif_init()`. Para prevenir el acceso de nodos
+no-root a LwIP, la aplicación no debe crear o registrar ninguna interfaz de red
+usando el API de `esp_netif`.
 
-```c
-/*  tcpip initialization */
-tcpip_adapter_init();
-/*
- * for mesh
- * stop DHCP server on softAP interface by default
- * stop DHCP client on station interface by default
- */
-ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
-ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
-```
-
-No obstante, en el caso de un nodo que se convierte en raíz, debe arrancar el
-cliente DHCP como respuesta al evento corresondiente, para así obtener dirección
-IP desde el router que da salida hacia la red externa.
+ESP-WIFI-MESH requiere que un nodo raíz esté conectado con un router. Por lo
+tanto, en el caso de que un nodo se convierta en raíz, el manejador
+correspondiente debe iniciar el servicio cliente DHCP y obtener inmediatamente
+una dirección IP. Hacer esto permitirá a otros nodos comenzar a
+transmitir/recibir paquetes hacia/desde la red IP externa. Sin embargo, este
+paso es innecesario si se utilizan configuraciones IP estáticas.
 
 ### Estructura básica de una aplicación ESP-MESH
 
-El siguiente código muestra la estructura básica de inicialización de pilas IP y
-WiFi necesarias para comenzar con la configuración de la red MESH:
+Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y Wi-Fi,
+El siguiente fragmento de código demuestra los pasos necesarios requisito previo
+antes de ESP-WIFI-MESH en sí se puede inicializar.
+
 
 ```c
-tcpip_adapter_init();
-/*
- * for mesh
- * stop DHCP server on softAP interface by default
- * stop DHCP client on station interface by default
- */
-ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
-ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
+ESP_ERROR_CHECK(esp_netif_init());
 
 /*  event initialization */
 ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -145,16 +132,17 @@ ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 ```
 
-Tras esta inicialización, comienza la fase de configuración e inicialización de
-la malla, que procederá en tres pasos principales:
+Tras inicializar LwIP y Wi-Fi, el proceso para poner en marcha una red
+ESP-WIFI-MESH puede resumirse en los tres pasos siguientes:
 
-1. Inicialización de la malla
-2. Configuración de la red ESP-MESH
-3. Arranque de la red
+1. Inicializar ESP-MESH
+2. Configurar una red ESP-WIFI-MESH
+3. Iniciar Mesh
 
-### Paso 1. Inicialización de la malla
 
-La inicialización de la malla y registro de eventos propios es sencilla:
+### Paso 1. Inicializar ESP-MESH
+
+La inicialización de ESP-MESH y el registro de eventos propios es sencilla:
 
 ```c
 /*  mesh initialization */
@@ -163,11 +151,11 @@ ESP_ERROR_CHECK(esp_mesh_init());
 ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_event_handler, NULL));
 ```
 
-### Paso 2. Configuración de la red ESP-MESH
+### Paso 2. Configurar una red ESP-WIFI-MESH
 
-La configuración de ESP-MESH se realiza a través de la función
-`esp_mesh_set_config()`, que recibe una estructura de tipo `mesh_cfg_t` con la
-configuración de la red:
+ESP-WIFI-MESH se configura a través de `esp_mesh_set_config()` que recibe sus
+argumentos usando la estructura `mesh_cfg_t`. La estructura contiene los
+siguientes parámetros utilizados para configurar ESP-WIFI-MESH:
 
 | Parámetro           | Descripción |
 |---------------------|------------|
@@ -175,12 +163,11 @@ configuración de la red:
 | *Mesh ID*           | Identificación de la red MESH (6 bytes) |
 | *Router*            | SSID y contraseña de conexión al router de salida        |
 | *Mesh AP*           | Configuración específica del AP generado por cada nodo |
+| Crypto Functions  | Funciones criptográficas para Mesh IE |
 
 Un ejemplo de configuración podría ser:
 
 ```c
-/* Mesh ID */
-static const uint8_t MESH_ID = { 0x77, 0x77, 0x77, 0x77, 0x77, 0x77 };
 /* Enable the Mesh IE encryption by default */
 mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
 /* mesh ID */
@@ -209,9 +196,9 @@ ESP_ERROR_CHECK(esp_mesh_start());
 ```
 
 Tras el arranque, la aplicación debería comprobar los eventos para determinar si
-la conexión a la red ha sido exitosa. En dicho caso, tras la conexión, la
-aplicación puede comenzar a transmitir paquetes a través de la red MESH
-utilizando las rutinas `esp_mesh_send()` y `esp_mesh_recv()`.
+la conexión a la red ha sido exitosa. Tras la conexión, la aplicación puede
+comenzar a transmitir paquetes a través de la red MESH utilizando las rutinas
+`esp_mesh_send()` y `esp_mesh_recv()`.
 
 ## Despliegue conjunto de una red WiFi Mesh
 
@@ -240,16 +227,17 @@ la siguiente información:
 1. Direcciones MAC de las interfaces `STA` y `SoftAP` (lo observarás en los
 primeros mensajes de salida).
 2. Capa de la topología Mesh en la que se encuentra tu nodo (lo observarás
-en formato `[L:XX]` en los envíos y recepciones de datos).
+en formato `layer:XX` en los envíos y recepciones de datos).
 3. En caso de haber sido elegido nodo raíz, anota también esta circunstancia
 y la IP asignada por el *router* (observa la respuesta al evento correspondiente).
 
-Apunta toda esta información en el 
-[siguiente documento google](https://docs.google.com/spreadsheets/d/1PU-A_VcAuNlECCh3yE4_xDZmpq6414AZUvDlpeOSosc/edit?usp=sharing)
+Apunta toda esta información en el [siguiente documento
+google](https://docs.google.com/spreadsheets/d/13xWFNzazypz7vrbK65Y-3QT6KJL4L3u1KegS_Xb7EAw/edit?usp=sharing)
 accesible a todos los alumnos. Además, anota la ID de la red Mesh que se ha
-utilizado para conectar. Antes de rellenar la información, espera que el profesor te indique que la
-topología ha convergido, y que por tanto no habrá ningún cambio más en ella
-(siempre que ningun nodo deje de formar parte de la misma).
+utilizado para conectar. Antes de rellenar la información, espera que el
+profesor te indique que la topología ha convergido, y que por tanto no habrá
+ningún cambio más en ella (siempre que ningun nodo deje de formar parte de la
+misma).
 
 !!! danger "Tarea"
     Captura el estado de la red cuando todos tus compañeros hayan llegado al
@@ -263,15 +251,20 @@ convergencia de la red.
     Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
     llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
     la topología de la misma.
-
     Documentan el proceso en tu informe de la práctica, así como los 
-    resultados observados. ¿Se crea más de una wifi Mesh?
+    resultados observados.
+
+!!! danger "Tarea"
+    Analiza el código del ejemplo. Observa el tratamiento de eventos y la fase
+    de configuración de la red. Intenta entender el funcionamiento del código
+    (envíos y recepciones, destinatarios de los mismos, etc.). Explica en tu
+    informe lo que hace esta aplicación wifi mesh.
 
 ## Despliegue conjunto de una red WiFi Mesh de menores dimensiones
 
 Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
-que tengas asignado. Observa los colores asignados a cada grupo de puestos
-en la [siguiente hoja](https://docs.google.com/spreadsheets/d/1J3YKUC7LNZAST80ewciZFkNf60esLnjHuOCKfvv8pIQ/edit?usp=sharing).
+en el que estés sentado. Observa los colores asignados a cada grupo de puestos
+en la [siguiente hoja](https://docs.google.com/spreadsheets/d/14inzpio9ijOM9VhkMrrYAMVQ9iPW6ctlQB6dWIqypDI/edit?usp=drive_link).
 
 Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
@@ -287,7 +280,3 @@ nodo raíz y observando la convergencia de la red.
     llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
     la topología de la misma. Documenta esta actividad en tu informe.
 
-El estudio detallado del código para el despliegue de la red queda como
-ejercicio para el alumno. Observa el tratamiento de eventos y la fase
-de configuración de la red. Intenta entender el funcionamiento del código
-(envíos y recepciones, destinatarios de los mismos, etc.).
