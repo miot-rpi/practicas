@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,26 +7,25 @@
         
         
         
-        <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Práctica 7. 6LowPAN con simulador Cooja - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
-        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../../css/brands.min.css" rel="stylesheet">
-        <link href="../../../css/solid.min.css" rel="stylesheet">
-        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 9. 6LowPAN con simulador Cooja - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -34,109 +33,109 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="../../.." class="nav-link">Calendario</a>
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../P1/" class="dropdown-item">Práctica 1</a>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
 <li>
-    <a href="../../P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+    <a href="../P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
 </li>
                                     
 <li>
-    <a href="../../P2/" class="dropdown-item">Práctica 2</a>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
 <li>
-    <a href="../../P3/" class="dropdown-item">Práctica 3</a>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
 <li>
-    <a href="../../P4/" class="dropdown-item">Práctica 4</a>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
 <li>
-    <a href="../../P5/" class="dropdown-item">Práctica 5</a>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
 <li>
-    <a href="../../P6/" class="dropdown-item">Práctica 6</a>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
 <li>
-    <a href="../../P7/" class="dropdown-item">Práctica 7</a>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (1)</a>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (1)</a>
 </li>
                                     
 <li>
-    <a href="../../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (2)</a>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (2)</a>
 </li>
                                     
 <li>
-    <a href="../../../RPI-II/P1_III/" class="dropdown-item">Práctica 1 (3)</a>
+    <a href="../../RPI-II/P1_III/" class="dropdown-item">Práctica 1 (3)</a>
 </li>
                                     
 <li>
-    <a href="../../../RPI-II/P1_IV/" class="dropdown-item">Práctica 1 (4)</a>
+    <a href="../../RPI-II/P1_IV/" class="dropdown-item">Práctica 1 (4)</a>
 </li>
                                     
 <li>
-    <a href="../../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
 </li>
                                     
 <li>
-    <a href="../../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
 </li>
                                     
 <li>
-    <a href="../../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
 </li>
                                     
 <li>
-    <a href="../../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
 <li>
-    <a href="../../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
 </li>
                                     
 <li>
-    <a href="../../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
 </li>
                                     
 <li>
-    <a href="../../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
 </li>
                                 </ul>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ms-md-auto">
+                    <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -147,44 +146,44 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-7-6lowpan-con-simulador-cooja" class="nav-link">Práctica 7. 6LowPAN con simulador Cooja</a>
+            <li class="nav-item" data-level="1"><a href="#practica-9-6lowpan-con-simulador-cooja" class="nav-link">Práctica 9. 6LowPAN con simulador Cooja</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#instalacion-de-requisitos-software" class="nav-link">Instalación de requisitos software</a>
+            <li class="nav-item" data-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#codigo-contiki" class="nav-link">Código Contiki</a>
+            <li class="nav-item" data-level="2"><a href="#instalacion-de-requisitos-software" class="nav-link">Instalación de requisitos software</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#compilacion-del-codigo" class="nav-link">Compilación del código</a>
+            <li class="nav-item" data-level="2"><a href="#codigo-contiki" class="nav-link">Código Contiki</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#simulacion-en-cooja" class="nav-link">Simulación en Cooja</a>
+            <li class="nav-item" data-level="2"><a href="#compilacion-del-codigo" class="nav-link">Compilación del código</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#la-utilidad-tunslip" class="nav-link">La utilidad tunslip</a>
+            <li class="nav-item" data-level="2"><a href="#simulacion-en-cooja" class="nav-link">Simulación en Cooja</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#verificacion-de-resultados" class="nav-link">Verificación de resultados</a>
+            <li class="nav-item" data-level="2"><a href="#la-utilidad-tunslip" class="nav-link">La utilidad tunslip</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#verificacion-de-resultados" class="nav-link">Verificación de resultados</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -195,27 +194,21 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-7-6lowpan-con-simulador-cooja">Práctica 7. 6LowPAN con simulador Cooja</h1>
-<div class="admonition note">
-<p class="admonition-title">Nota</p>
-<p>Esta práctica es opcional para aquellos que opten a evaluación por proyecto
-y obligatoria para los que se evaluen por prácticas. Las tareas aquí
-descritas son por tanto obligatorias para los que se presentan por
-prácticas, los que vayan por proyecto no tienen qué hacerlas.</p>
-</div>
+<h1 id="practica-9-6lowpan-con-simulador-cooja">Práctica 9. 6LowPAN con simulador Cooja</h1>
 <h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
 <p>Los routers de borde son enrutadores que pueden encontrarse en el borde de una
 red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.</p>
-<p>En esta práctica, veremos cómo construir una simulación utilizando un router de
-borde en Contiki. Más concretamente, veremos cómo un router de borde Contiki
-puede utilizarse para enrutar tráfico entre una red RPL (una red de sensores
-Contiki con protocolo de enrutamiento RPL sobre IPv6) y una red IPv4 externa,
-siguiendo el siguiente diagrama:</p>
+<p>En esta práctica, usaremos el simulador Cooja, del proyecto Contiki-ng, para
+construir una red de nodos que se comuniquen por 6LowPAN, usando RPL como
+algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-ng.
+Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
+red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
+siguiente diagrama:</p>
 <p><img alt="" src="img/diagram.png" /></p>
 <p>El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
-tanto una red RPL con Contiki en el simulador Cooja, así como conseguir hacerla
-interactuar con una segunda red externa real utilizando la herramienta
+tanto una red RPL con Contiki-ng en el simulador Cooja, así como conseguir
+hacerla interactuar con una segunda red externa real utilizando la herramienta
 <code>tunslip</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
@@ -224,47 +217,77 @@ desarrollo y los resultados obeservados, así como tus observaciones o
 comentarios personales.</p>
 </div>
 <h2 id="instalacion-de-requisitos-software">Instalación de requisitos software</h2>
-<div class="admonition note">
-<p class="admonition-title">Nota</p>
-<p>Si utilizas la máquina virtual proporcionada por los profesores de RPI es
-posible que contiki y cooja ya estén instalados y por tanto puedas saltarte
-este paso. Compruébalo.</p>
-</div>
-<p>La instalación básica de Contiki (en su versión 2.7) se encuentra en el
-directorio <code>/home/ubuntu/contiki</code> de tu máquina virtual.</p>
-<p>Antes de comenzar, necesitarás instalar una serie de software de soporte para el
-correcto desarrollo de la práctica:</p>
-<pre><code class="language-sh">sudo apt install -y openjdk-8-jdk openjdk-8-jre
+<p>A continuación indicamos los pasos a seguir para realizar la instalación del
+software necesario en un sistema GNU/Linux. Los detalles de instalación para
+Windows y Mac OS X están detallados en la <a href="https://docs.contiki-ng.org/en/develop/doc/getting-started/Docker.html"><em>getting started guide</em> de
+Contiki-ng</a>.</p>
+<p>Comenzaremos por instalar docker si no lo tenemos instalado ya, haciendo:</p>
+<pre><code class="language-sh">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 </code></pre>
-<p>A continuación, asegúrate de seleccionar la versión 8 de Java para un correcto
-funcionamiento del proceso de compilación de Cooja:</p>
-<pre><code class="language-sh">ubuntu@ubuntu2004:~/contiki/tools/cooja$ sudo update-alternatives --config java
-Existen 3 opciones para la alternativa java (que provee /usr/bin/java).
+<p>Si nuestro usuario no pertenece al grupo docker, lo añadimos:</p>
+<pre><code class="language-sh">sudo usermod -aG docker &lt;your-user&gt;
+</code></pre>
+<p>Después de añadirlo deberemos salir de la sesión de escritorio y volver a entrar
+para que se actualice la lista de grupos del usuario.</p>
+<p>A continuación descargaremos la imagen del contenedor de Contiki-ng:</p>
+<pre><code class="language-sh">docker pull contiker/contiki-ng
+</code></pre>
+<p>Esto descarga la imagen contiker/contiki-ng:latest. Podríamos cambiar el tag de
+la imagen por otra anterior si no interesase por algún motivo.</p>
+<p>Una vez descargada la image clonaremos el repositorio git de contiki (por
+ejemplo en nuestro directorio home), de forma que podamos editar los ficheros
+desde la máquina host:</p>
+<pre><code class="language-sh">git clone https://github.com/contiki-ng/contiki-ng.git
+cd contiki-ng
+git submodule update --init --recursive
+</code></pre>
+<p>A continuación crearemos el script $HOME/.local/bin/contiker que usaremos en el
+futuro para lanzar el contenedor. El contenido de este script será:</p>
+<pre><code class="language-bash">#!/bin/bash
 
-  Selección   Ruta                                            Prioridad  Estado
-------------------------------------------------------------
-  0            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      modo automático
-  1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      modo manual
-  2            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      modo manual
-* 3            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      modo manual
+export CNG_PATH=$HOME/contiki-ng
+xhost +SI:localuser:$(id -un)
+docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 \
+  --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng \
+  -e DISPLAY=$DISPLAY -e LOCAL_UID=$(id -u $USER) -e LOCAL_GID=$(id -g $USER) \
+  -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb \
+  -ti contiker/contiki-ng
+xhost -SI:localuser:$(id -un)
+</code></pre>
+<p>En este momento, si tenemos añadida la ruta <em>$HOME/.local/bin</em> en la variable
+<em>PATH</em>, podemos ejecutar el contenedor de contiki-ng ejecutando el script
+contiker; y una vez dentro del contenedor ejecutar el simulador cooja:</p>
+<pre><code class="language-sh">$ contiker
+localuser:christian being added to access control list
+To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.
+See &quot;man sudo_root&quot; for details.
 
-Pulse &lt;Intro&gt; para mantener el valor por omisión [*] o pulse un número de selección: 3
+user@6dd1f25a702d:~/contiki-ng$ cooja
 </code></pre>
-<p>Por último, necesitarás instalar el compilador que nos permitirá generar las
-imágenes para los nodos en la simulación:</p>
-<pre><code class="language-sh">sudo apt-get install gcc-msp430 gdb-msp430
+<p>La primera vez que lo ejecutemos tardará un poco porque se descargará una serie
+de ficheros java necesarios para el simulador. Es posible que se produzca un
+error en la resolución de nombres (DNS). En ese caso debemos configurar el dns
+de docker:</p>
+<pre><code class="language-sh">dockerd --dns 8.8.8.8
 </code></pre>
+<p>Si queremos ahorrar el tiempo de descarga de los ficheros jar podemos modificar
+la imagen del docker:</p>
+<pre><code class="language-sh">$ docker ps -a
+CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS         PORTS     NAMES
+77675abad9f3   contiker/contiki-ng        &quot;/usr/local/bin/rema…&quot;   10 seconds ago   Up 9 seconds             hardcore_kilby
+
+$ docker commit hardcore_kilby contiker/contiki-ng-cooja 
+</code></pre>
+<p>No te olvides en este caso de actualizar el script contiker para que use la
+nueva imagen, y si quieres puedes borrar la imagen anterior.</p>
 <h2 id="codigo-contiki">Código Contiki</h2>
-<p>En el desarrollo de la práctica, utilizaremos los siguientes ficheros, 
-todos situados en el directorio <code>examples/ipv6/rpl-border-router</code> de la 
-instalación de Contiki:</p>
+<p>En el desarrollo de la práctica utilizaremos algunos de los ejemplos de la
+instalación de contiki-ng (en el directorio contiki-ng/examples):</p>
 <ul>
-<li><code>border_router.c</code>: que contendrá la lógica de enrutamiento del router de
-  borde.</li>
-<li><code>udp-client.c</code> o <code>udp_server.c</code> (en el directorio <code>examples/ipv6/rpl-udp</code>):
-  que actuarán como nodos en la red RPL (de momento, no es importante su
-  funcionalidad, aunque como en la siguiente práctica utilizarás el cliente UDP,
-  se aconseja utilizar éste).</li>
+<li><code>rpl-border-router/border_router.c</code>: que contendrá la lógica de enrutamiento
+  del router de borde.</li>
+<li><code>rpl-udp/udp-client.c</code> y <code>rpl-udp/udp_server.c</code>: que actuarán como nodos en la
+  red RPL (de momento, no es importante su funcionalidad).</li>
 <li><code>slip-bridge.c</code>: que contiene las funciones de <em>callback</em> para procesar una
   petición de conexión SLIP.</li>
 <li><code>httpd-simple.c</code>: que contiene un servidor web sencillo que nos permitirá
@@ -478,22 +501,21 @@ ello puedes averiguar a qué nodo envían el paquete DAO.</p>
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../../../js/bootstrap.bundle.min.js"></script>
         <script>
-            var base_url = "../../..",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../../js/base.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="../../../search/main.js"></script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+        <script src="../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -513,7 +535,7 @@ ello puedes averiguar a qué nodo envían el paquete DAO.</p>
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
               <table class="table">

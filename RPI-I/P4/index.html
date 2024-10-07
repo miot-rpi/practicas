@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,15 +10,14 @@
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Práctica 4 - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../css/brands.min.css" rel="stylesheet">
-        <link href="../../css/solid.min.css" rel="stylesheet">
-        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
@@ -26,7 +25,7 @@
             <div class="container">
                 <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -34,11 +33,11 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
+                            <li class="navitem">
                                 <a href="../.." class="nav-link">Calendario</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -58,7 +57,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Práctica 4</a>
+    <a href="./" class="dropdown-item active">Práctica 4</a>
 </li>
                                     
 <li>
@@ -74,8 +73,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -99,8 +98,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -134,9 +133,9 @@
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ms-md-auto">
+                    <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -157,32 +156,32 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-4-esp-wifi-mesh" class="nav-link">Práctica 4. ESP WiFi Mesh</a>
+            <li class="nav-item" data-level="1"><a href="#practica-4-esp-wifi-mesh" class="nav-link">Práctica 4. ESP WiFi Mesh</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#esp-wifi-mesh" class="nav-link">ESP WiFi Mesh</a>
+            <li class="nav-item" data-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#despliegue-conjunto-de-una-red-wifi-mesh" class="nav-link">Despliegue conjunto de una red WiFi Mesh</a>
+            <li class="nav-item" data-level="2"><a href="#esp-wifi-mesh" class="nav-link">ESP WiFi Mesh</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones" class="nav-link">Despliegue conjunto de una red WiFi Mesh de menores dimensiones</a>
+            <li class="nav-item" data-level="2"><a href="#despliegue-conjunto-de-una-red-wifi-mesh" class="nav-link">Despliegue conjunto de una red WiFi Mesh</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones" class="nav-link">Despliegue conjunto de una red WiFi Mesh de menores dimensiones</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -297,40 +296,28 @@ todos los canales para encontrar una red mesh a la que conectar, devolviendo
 el canal en el que lo ha conseguido.</p>
 </li>
 </ul>
-<h3 id="uso-de-la-pila-ip">Uso de la pila IP</h3>
+<h3 id="uso-de-la-pila-ip-lwip">Uso de la pila IP (lwIP)</h3>
 <p>El código de una aplicación que haga uso de ESP-MESH puede  acceder directamente
 a la pila MESH sin pasar por la pila IP. De hecho, la pila IP sólo es
 estrictamente necesaria por parte del nodo raíz, al ser el único que puede
 recibir o transmitir datos desde o hacia la red IP externa. </p>
 <p>Sin embargo, como cualquier nodo de la topología puede potencialmente
 convertirse en nodo raíz (ya que su selección es automática), todos los nodos
-deberán inicializar la pila IP. Por tanto, todos los nodos incializan la pila IP
-vía <code>tcpip_adapter_init()</code>. Además, todos los nodos deberán detener el servidor
-DHCP en la interfaz <code>softAP</code>, y el cliente DHCP en la interfaz <code>station</code>:</p>
-<pre><code class="language-c">/*  tcpip initialization */
-tcpip_adapter_init();
-/*
- * for mesh
- * stop DHCP server on softAP interface by default
- * stop DHCP client on station interface by default
- */
-ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
-ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
-</code></pre>
-<p>No obstante, en el caso de un nodo que se convierte en raíz, debe arrancar el
-cliente DHCP como respuesta al evento corresondiente, para así obtener dirección
-IP desde el router que da salida hacia la red externa.</p>
+deberán inicializar la pila IP. Cada nodo que pueda convertirse en root debe
+inicializar LwIP llamando a <code>esp_netif_init()</code>. Para prevenir el acceso de nodos
+no-root a LwIP, la aplicación no debe crear o registrar ninguna interfaz de red
+usando el API de <code>esp_netif</code>.</p>
+<p>ESP-WIFI-MESH requiere que un nodo raíz esté conectado con un router. Por lo
+tanto, en el caso de que un nodo se convierta en raíz, el manejador
+correspondiente debe iniciar el servicio cliente DHCP y obtener inmediatamente
+una dirección IP. Hacer esto permitirá a otros nodos comenzar a
+transmitir/recibir paquetes hacia/desde la red IP externa. Sin embargo, este
+paso es innecesario si se utilizan configuraciones IP estáticas.</p>
 <h3 id="estructura-basica-de-una-aplicacion-esp-mesh">Estructura básica de una aplicación ESP-MESH</h3>
-<p>El siguiente código muestra la estructura básica de inicialización de pilas IP y
-WiFi necesarias para comenzar con la configuración de la red MESH:</p>
-<pre><code class="language-c">tcpip_adapter_init();
-/*
- * for mesh
- * stop DHCP server on softAP interface by default
- * stop DHCP client on station interface by default
- */
-ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
-ESP_ERROR_CHECK(tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA));
+<p>Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y Wi-Fi,
+El siguiente fragmento de código demuestra los pasos necesarios requisito previo
+antes de ESP-WIFI-MESH en sí se puede inicializar.</p>
+<pre><code class="language-c">ESP_ERROR_CHECK(esp_netif_init());
 
 /*  event initialization */
 ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -343,24 +330,24 @@ ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &amp;i
 ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 </code></pre>
-<p>Tras esta inicialización, comienza la fase de configuración e inicialización de
-la malla, que procederá en tres pasos principales:</p>
+<p>Tras inicializar LwIP y Wi-Fi, el proceso para poner en marcha una red
+ESP-WIFI-MESH puede resumirse en los tres pasos siguientes:</p>
 <ol>
-<li>Inicialización de la malla</li>
-<li>Configuración de la red ESP-MESH</li>
-<li>Arranque de la red</li>
+<li>Inicializar ESP-MESH</li>
+<li>Configurar una red ESP-WIFI-MESH</li>
+<li>Iniciar Mesh</li>
 </ol>
-<h3 id="paso-1-inicializacion-de-la-malla">Paso 1. Inicialización de la malla</h3>
-<p>La inicialización de la malla y registro de eventos propios es sencilla:</p>
+<h3 id="paso-1-inicializar-esp-mesh">Paso 1. Inicializar ESP-MESH</h3>
+<p>La inicialización de ESP-MESH y el registro de eventos propios es sencilla:</p>
 <pre><code class="language-c">/*  mesh initialization */
 ESP_ERROR_CHECK(esp_mesh_init());
 /*  register mesh events handler */
 ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &amp;mesh_event_handler, NULL));
 </code></pre>
-<h3 id="paso-2-configuracion-de-la-red-esp-mesh">Paso 2. Configuración de la red ESP-MESH</h3>
-<p>La configuración de ESP-MESH se realiza a través de la función
-<code>esp_mesh_set_config()</code>, que recibe una estructura de tipo <code>mesh_cfg_t</code> con la
-configuración de la red:</p>
+<h3 id="paso-2-configurar-una-red-esp-wifi-mesh">Paso 2. Configurar una red ESP-WIFI-MESH</h3>
+<p>ESP-WIFI-MESH se configura a través de <code>esp_mesh_set_config()</code> que recibe sus
+argumentos usando la estructura <code>mesh_cfg_t</code>. La estructura contiene los
+siguientes parámetros utilizados para configurar ESP-WIFI-MESH:</p>
 <table>
 <thead>
 <tr>
@@ -385,12 +372,14 @@ configuración de la red:</p>
 <td><em>Mesh AP</em></td>
 <td>Configuración específica del AP generado por cada nodo</td>
 </tr>
+<tr>
+<td>Crypto Functions</td>
+<td>Funciones criptográficas para Mesh IE</td>
+</tr>
 </tbody>
 </table>
 <p>Un ejemplo de configuración podría ser:</p>
-<pre><code class="language-c">/* Mesh ID */
-static const uint8_t MESH_ID = { 0x77, 0x77, 0x77, 0x77, 0x77, 0x77 };
-/* Enable the Mesh IE encryption by default */
+<pre><code class="language-c">/* Enable the Mesh IE encryption by default */
 mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
 /* mesh ID */
 memcpy((uint8_t *) &amp;cfg.mesh_id, MESH_ID, 6);
@@ -413,9 +402,9 @@ ESP_ERROR_CHECK(esp_mesh_set_config(&amp;cfg));
 ESP_ERROR_CHECK(esp_mesh_start());
 </code></pre>
 <p>Tras el arranque, la aplicación debería comprobar los eventos para determinar si
-la conexión a la red ha sido exitosa. En dicho caso, tras la conexión, la
-aplicación puede comenzar a transmitir paquetes a través de la red MESH
-utilizando las rutinas <code>esp_mesh_send()</code> y <code>esp_mesh_recv()</code>.</p>
+la conexión a la red ha sido exitosa. Tras la conexión, la aplicación puede
+comenzar a transmitir paquetes a través de la red MESH utilizando las rutinas
+<code>esp_mesh_send()</code> y <code>esp_mesh_recv()</code>.</p>
 <h2 id="despliegue-conjunto-de-una-red-wifi-mesh">Despliegue conjunto de una red WiFi Mesh</h2>
 <p>La forma más conveniente de observar el comportamiento de una red WiFi
 Mesh es desplegar una infraestructura con suficiente número de nodos pertenecientes
@@ -440,16 +429,17 @@ la siguiente información: </p>
 <li>Direcciones MAC de las interfaces <code>STA</code> y <code>SoftAP</code> (lo observarás en los
 primeros mensajes de salida).</li>
 <li>Capa de la topología Mesh en la que se encuentra tu nodo (lo observarás
-en formato <code>[L:XX]</code> en los envíos y recepciones de datos).</li>
+en formato <code>layer:XX</code> en los envíos y recepciones de datos).</li>
 <li>En caso de haber sido elegido nodo raíz, anota también esta circunstancia
 y la IP asignada por el <em>router</em> (observa la respuesta al evento correspondiente).</li>
 </ol>
-<p>Apunta toda esta información en el 
-<a href="https://docs.google.com/spreadsheets/d/1PU-A_VcAuNlECCh3yE4_xDZmpq6414AZUvDlpeOSosc/edit?usp=sharing">siguiente documento google</a>
+<p>Apunta toda esta información en el <a href="https://docs.google.com/spreadsheets/d/13xWFNzazypz7vrbK65Y-3QT6KJL4L3u1KegS_Xb7EAw/edit?usp=sharing">siguiente documento
+google</a>
 accesible a todos los alumnos. Además, anota la ID de la red Mesh que se ha
-utilizado para conectar. Antes de rellenar la información, espera que el profesor te indique que la
-topología ha convergido, y que por tanto no habrá ningún cambio más en ella
-(siempre que ningun nodo deje de formar parte de la misma).</p>
+utilizado para conectar. Antes de rellenar la información, espera que el
+profesor te indique que la topología ha convergido, y que por tanto no habrá
+ningún cambio más en ella (siempre que ningun nodo deje de formar parte de la
+misma).</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Captura el estado de la red cuando todos tus compañeros hayan llegado al
@@ -462,14 +452,21 @@ convergencia de la red.</p>
 <p class="admonition-title">Tarea</p>
 <p>Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
 llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
-la topología de la misma.</p>
-<p>Documentan el proceso en tu informe de la práctica, así como los 
-resultados observados. ¿Se crea más de una wifi Mesh?</p>
+la topología de la misma.
+Documentan el proceso en tu informe de la práctica, así como los 
+resultados observados.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Analiza el código del ejemplo. Observa el tratamiento de eventos y la fase
+de configuración de la red. Intenta entender el funcionamiento del código
+(envíos y recepciones, destinatarios de los mismos, etc.). Explica en tu
+informe lo que hace esta aplicación wifi mesh.</p>
 </div>
 <h2 id="despliegue-conjunto-de-una-red-wifi-mesh-de-menores-dimensiones">Despliegue conjunto de una red WiFi Mesh de menores dimensiones</h2>
 <p>Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
-que tengas asignado. Observa los colores asignados a cada grupo de puestos
-en la <a href="https://docs.google.com/spreadsheets/d/1J3YKUC7LNZAST80ewciZFkNf60esLnjHuOCKfvv8pIQ/edit?usp=sharing">siguiente hoja</a>.</p>
+en el que estés sentado. Observa los colores asignados a cada grupo de puestos
+en la <a href="https://docs.google.com/spreadsheets/d/14inzpio9ijOM9VhkMrrYAMVQ9iPW6ctlQB6dWIqypDI/edit?usp=drive_link">siguiente hoja</a>.</p>
 <p>Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
 configuracion del ejemplo (<em>channel</em>) y el identificador modificando
@@ -482,11 +479,7 @@ nodo raíz y observando la convergencia de la red.</p>
 <p>Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
 llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
 la topología de la misma. Documenta esta actividad en tu informe.</p>
-</div>
-<p>El estudio detallado del código para el despliegue de la red queda como
-ejercicio para el alumno. Observa el tratamiento de eventos y la fase
-de configuración de la red. Intenta entender el funcionamiento del código
-(envíos y recepciones, destinatarios de los mismos, etc.).</p></div>
+</div></div>
             </div>
         </div>
 
@@ -494,22 +487,21 @@ de configuración de la red. Intenta entender el funcionamiento del código
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../../js/bootstrap.bundle.min.js"></script>
         <script>
             var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="../../search/main.js"></script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+        <script src="../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -529,7 +521,7 @@ de configuración de la red. Intenta entender el funcionamiento del código
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
               <table class="table">
