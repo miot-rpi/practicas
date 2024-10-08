@@ -1,10 +1,4 @@
-# Práctica 7. 6LowPAN con simulador Cooja
-
-!!! note "Nota"
-	Esta práctica es opcional para aquellos que opten a evaluación por proyecto
-	y obligatoria para los que se evaluen por prácticas. Las tareas aquí
-	descritas son por tanto obligatorias para los que se presentan por
-	prácticas, los que vayan por proyecto no tienen qué hacerlas.
+# Práctica 9. 6LowPAN con simulador Cooja
 
 ## Introducción y objetivos
 
@@ -12,17 +6,18 @@ Los routers de borde son enrutadores que pueden encontrarse en el borde de una
 red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.
 
-En esta práctica, veremos cómo construir una simulación utilizando un router de
-borde en Contiki. Más concretamente, veremos cómo un router de borde Contiki
-puede utilizarse para enrutar tráfico entre una red RPL (una red de sensores
-Contiki con protocolo de enrutamiento RPL sobre IPv6) y una red IPv4 externa,
-siguiendo el siguiente diagrama:
+En esta práctica, usaremos el simulador Cooja, del proyecto Contiki-ng, para
+construir una red de nodos que se comuniquen por 6LowPAN, usando RPL como
+algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-ng.
+Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
+red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
+siguiente diagrama:
 
 ![](img/diagram.png)
 
 El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
-tanto una red RPL con Contiki en el simulador Cooja, así como conseguir hacerla
-interactuar con una segunda red externa real utilizando la herramienta
+tanto una red RPL con Contiki-ng en el simulador Cooja, así como conseguir
+hacerla interactuar con una segunda red externa real utilizando la herramienta
 `tunslip`.
 
 !!! danger "Tarea"
@@ -32,194 +27,181 @@ interactuar con una segunda red externa real utilizando la herramienta
 
 ## Instalación de requisitos software
 
-!!! note "Nota"
-	Si utilizas la máquina virtual proporcionada por los profesores de RPI es
-	posible que contiki y cooja ya estén instalados y por tanto puedas saltarte
-	este paso. Compruébalo.
 
-La instalación básica de Contiki (en su versión 2.7) se encuentra en el
-directorio `/home/ubuntu/contiki` de tu máquina virtual.
+A continuación indicamos los pasos a seguir para realizar la instalación del
+software necesario en un sistema GNU/Linux. Los detalles de instalación para
+Windows y Mac OS X están detallados en la [*getting started guide* de
+Contiki-ng](https://docs.contiki-ng.org/en/develop/doc/getting-started/Docker.html).
 
-Antes de comenzar, necesitarás instalar una serie de software de soporte para el
-correcto desarrollo de la práctica:
+Comenzaremos por instalar docker si no lo tenemos instalado ya, haciendo:
 
-```sh
-sudo apt install -y openjdk-8-jdk openjdk-8-jre
+```sh 
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-A continuación, asegúrate de seleccionar la versión 8 de Java para un correcto
-funcionamiento del proceso de compilación de Cooja:
+Si nuestro usuario no pertenece al grupo docker, lo añadimos:
 
-```sh
-ubuntu@ubuntu2004:~/contiki/tools/cooja$ sudo update-alternatives --config java
-Existen 3 opciones para la alternativa java (que provee /usr/bin/java).
-
-  Selección   Ruta                                            Prioridad  Estado
-------------------------------------------------------------
-  0            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      modo automático
-  1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      modo manual
-  2            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      modo manual
-* 3            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      modo manual
-
-Pulse <Intro> para mantener el valor por omisión [*] o pulse un número de selección: 3
+```sh 
+sudo usermod -aG docker <your-user>
 ```
 
-Por último, necesitarás instalar el compilador que nos permitirá generar las
-imágenes para los nodos en la simulación:
+Después de añadirlo deberemos salir de la sesión de escritorio y volver a entrar
+para que se actualice la lista de grupos del usuario.
 
-```sh
-sudo apt-get install gcc-msp430 gdb-msp430
+A continuación descargaremos la imagen del contenedor de Contiki-ng:
+
+```sh 
+docker pull contiker/contiki-ng
 ```
+
+Esto descarga la imagen contiker/contiki-ng:latest. Podríamos cambiar el tag de
+la imagen por otra anterior si no interesase por algún motivo.
+
+Una vez descargada la image clonaremos el repositorio git de contiki (por
+ejemplo en nuestro directorio home), de forma que podamos editar los ficheros
+desde la máquina host:
+
+```sh 
+git clone https://github.com/contiki-ng/contiki-ng.git
+cd contiki-ng
+git submodule update --init --recursive
+```
+
+A continuación crearemos el script $HOME/.local/bin/contiker que usaremos en el
+futuro para lanzar el contenedor. El contenido de este script será:
+
+```bash
+#!/bin/bash
+
+export CNG_PATH=$HOME/contiki-ng
+xhost +SI:localuser:$(id -un)
+docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 \
+  --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng \
+  -e DISPLAY=$DISPLAY -e LOCAL_UID=$(id -u $USER) -e LOCAL_GID=$(id -g $USER) \
+  -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb \
+  -ti contiker/contiki-ng
+xhost -SI:localuser:$(id -un)
+```
+
+En este momento, si tenemos añadida la ruta *$HOME/.local/bin* en la variable
+*PATH*, podemos ejecutar el contenedor de contiki-ng ejecutando el script
+contiker; y una vez dentro del contenedor ejecutar el simulador cooja:
+
+```sh 
+$ contiker
+localuser:christian being added to access control list
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+user@6dd1f25a702d:~/contiki-ng$ cooja
+```
+
+La primera vez que lo ejecutemos tardará un poco porque se descargará una serie
+de ficheros java necesarios para el simulador. Es posible que se produzca un
+error en la resolución de nombres (DNS). En ese caso debemos configurar el dns
+de docker:
+
+```sh 
+dockerd --dns 8.8.8.8
+```
+
+Si queremos ahorrar el tiempo de descarga de los ficheros jar podemos modificar
+la imagen del docker:
+
+```sh 
+$ docker ps -a
+CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS         PORTS     NAMES
+77675abad9f3   contiker/contiki-ng        "/usr/local/bin/rema…"   10 seconds ago   Up 9 seconds             hardcore_kilby
+
+$ docker commit hardcore_kilby contiker/contiki-ng-cooja 
+```
+
+No te olvides en este caso de actualizar el script contiker para que use la
+nueva imagen, y si quieres puedes borrar la imagen anterior.
 
 ## Código Contiki
 
-En el desarrollo de la práctica, utilizaremos los siguientes ficheros, 
-todos situados en el directorio `examples/ipv6/rpl-border-router` de la 
-instalación de Contiki:
+En el desarrollo de la práctica utilizaremos algunos de los ejemplos de la
+instalación de contiki-ng (en el directorio contiki-ng/examples):
 
-* `border_router.c`: que contendrá la lógica de enrutamiento del router de
-  borde.
-* `udp-client.c` o `udp_server.c` (en el directorio `examples/ipv6/rpl-udp`):
-  que actuarán como nodos en la red RPL (de momento, no es importante su
-  funcionalidad, aunque como en la siguiente práctica utilizarás el cliente UDP,
-  se aconseja utilizar éste).
-* `slip-bridge.c`: que contiene las funciones de *callback* para procesar una
-  petición de conexión SLIP.
-* `httpd-simple.c`: que contiene un servidor web sencillo que nos permitirá
-  consultar las tablas de enrutamiento del router de borde.
+* `rpl-border-router/border_router.c`: que contendrá la lógica de enrutamiento
+  del router de borde, que será la raiz del DODAG.
+* `hello-world/hello-world.c`: que ejecutarán el resto de nodos de la red RPL.
 
-Los nodos que implementen el código `udp-client.c` o `udp-server.c` formarán un
-DAG con el router de borde configurado como raíz. El router de borde recibirá el
-prefijo de red vía una conexión SLIP (*Serial Line Interface Protocol*) y lo
-comunicará al resto de nodos de la red RPL para que conformen sus respectivas
-direcciones IPv6 globales.
-
-Aunque no es de mayor interés de cara a la práctica, los siguientes fragmentos
-de código en el router de borde establecen los puntos en los que espera a la
-configuración del prefijo de red. Una vez recibido, el router de borde se
-configura como la raíz del DAG y envía el prefijo al resto de nodos de la red:
-
-```c
-/* Request prefix until it has been received */ 
- while(!prefix_set) { 
-   etimer_set(&et, CLOCK_SECOND); 
-   request_prefix(); 
-   PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et)); 
- } 
-
-
- dag = rpl_set_root(RPL_DEFAULT_INSTANCE,(uip_ip6addr_t *)dag_id); 
- if(dag != NULL) { 
-   rpl_set_prefix(dag, &prefix, 64); 
-   PRINTF("created a new RPL dag\n"); 
- }
-```
-
-Por defecto, el router de borde aloja una página web sencilla que nos servirá
-para consultar el estado de sus tablas de enrutamiento. Esta página se mostrará
-cuando introduzcamos la dirección IPv6 del router de borde en cualquier
-navegador. El uso de esta página puede desactivarse a través del valor de la
-macro `WEBSERVER`, y su activación en Contiki en base a su valor es sencilla
-(fichero `http-simple.c`):
-
-```c
-PROCESS(border_router_process, "Border router process");
-#if WEBSERVER==0
-/* No webserver */
-AUTOSTART_PROCESSES(&border_router_process);
-#elif WEBSERVER>1
-/* Use an external webserver application */
-#include "webserver-nogui.h"
-AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process); 
-```
-
-## Compilación del código
-
-El código para router de borde puede encontrarse en la ruta
-`examples/ipv6/rpl-border-router`. Utiliza la siguiente orden para realizar la
-compilación:
-
-```sh
-cd examples/ipv6/rpl-border-router
-make TARGET=z1
-```
-
-Una vez ejecutado, se creará un fichero llamado `border-router.z1`, que se
-utilizará para programar las motas (dispositivos simulados) router de borde en
-el simulador Cooja.
-
-Para demostrar la funcionalidad del router de borde, crearemos una red de nodos
-con el router de borde como raíz. Para ello, utilizaremos nodos cliente UDP,
-implementados en el fichero `udp-client.c`. Para ello, prepara imágenes para las
-motas de la siguiente manera:
-
-```sh
-cd examples/ipv6/rpl-udp
-make TARGET=z1
-```
-
-Del mismo modo que anteriormente, dispondrás de un fihcero `udp-client.z1`, que
-conformarán un DAG con el router de borde como raíz y que utilizaremos en el
-resto de motas de la simulación. 
+Los nodos que implementen el código `hello-world.c` formarán un DAG con el
+router de borde configurado como raíz. El router de borde recibirá el prefijo de
+red vía una conexión SLIP (*Serial Line Interface Protocol*) y lo comunicará al
+resto de nodos de la red RPL para que conformen sus respectivas direcciones IPv6
+globales. Una vez recibido el prefijo, el router de borde se configura como la
+raíz del DODAG y envía el prefijo al resto de nodos de la red.
 
 ## Simulación en Cooja
 
-Tras la compilación de las imágenes, llega el momento de crear la simulación
-completa en Cooja. Arranca el simulador usando la siguiente orden:
+Para crear una simulación completa en Cooja arrancamos el simulador usando la
+siguiente orden:
 
 ```sh
-cd tools/cooja
-ant run
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+user@e2d84745c836:~/contiki-ng$ cooja
 ```
 
-Tras la ejecución, sigue los siguientes pasos para crear una nueva simulación:
+Dependiendo de si usamos la imagen original del contenedor de contiki-ng o si la
+hemos modificado para almacenar los jar descargados por la ejecución de cooja,
+la primera vez que lo ejecutemos puede tardar un poco, pero finalmente se abrirá
+la ventana del simulador:
 
-1. Selecciona la opción `File->New Simulation`. Selecciona `UDGM` e introduce el
-   nombre de la simulación. Presiona `Create`.
-2. En el menú `Motes`, selecciona `Add New Motes->Create new motes` y seleccona
-   el timp de mota `Z1`.
-3. Busca la localización de la imagen de router de borde
-   (`examples/ipv6/rpl-border-router`) y selecciona el fichero
-   `rpl-border-router.z1`. Clica en `Create` y añade *una* mota de este tipo.
-4. Repite los pasos 2 y 3 pero esta vez con la imagen del cliente o servidor UDP
-   que creaste anteriormente. Añade *cuatro* o *cinco* motas de este tipo y
-   distribuyelas por la simulación.
+![](img/Cooja_Window.png)
 
-![](img/Cooja_motes.png)
 
-Selecciona las opciones del menú `View` como se muestra en la figura, ya que
-esto te permitirá crear de forma más clara tu topología (puedes temporalmente
-añadir también la dirección IP, aunque puede resultar demasiada información):
+Tras la ejecución, sigue los siguientes pasos para crear una nueva simulación.
+Primero selecciona la opción `File->New Simulation`. Selecciona `UDGM` e
+introduce el nombre de la simulación. Presiona `Create` y se abrirá una ventana
+de simulación:
 
-![](img/Motes_view.png)
+![](img/Cooja_New_Sim.png)
 
-A continuación, crearemos un puente entre la red RPL simulada en Cooja y la
-máquina local. Esto puede realizarse en la mota programada como router de borde.
-Selecciona `Tools` y `Serial Socket (SERVER)` sobre la mota router de borde
-(identíficala con su valor numérico). Obtendrás un mensaje como el de la
-siguiente figura (observa que el mensaje indica *Listening on port 60001*):
+En el menú `Motes`, selecciona `Add New Motes->Create new motes` y seleccona el
+tipo de mota `Cooja mote`. Luego selecciona como código fuente el fichero del
+ejemplo para el router de borde: `examples/rpl-border-router/rpl-border-router.c`.
 
-![](img/Serial_Socket.png)
+![](img/Cooja_New_Mote.png)
+
+Pulsa en `Compile`y luego en `Create` y añade *una única* mota de este tipo.
+
+Repite los pasos anteriores para crear de 4 a 8 motas de tipo `Cooja` que
+ejecuten el ejemplo `hello-world.c`. Distribuyelas por la simulación, vigilando
+que no todas estén al alcance del router de borde pero que puedan llegar a él
+pasando a través de otros nodos que sí están a su alcance.
+
+![](img/RPL_Red_Ejemplo.png)
+
+A continuación, crearemos un puente entre la red RPL simulada en Cooja y el
+contenedor. Para ello pulsamos en el menú `Tools`, `Serial Socket (SERVER)` y
+seleccionamos la mota correspondiente al router de borde (identíficala con su
+valor numérico). 
+
+![](img/Cooja_Serial_Socket.png)
+
+Obtendrás un mensaje como el de la siguiente figura (observa que el mensaje
+indica *Listening on port 60001*):
+
+![](img/Cooja_Serial_Listening.png)
 
 A continuación, *arranca la simulación* (botón `Start`).
 
-## La utilidad *tunslip*
+## Asignando el prefijo de red
 
 Como hemos dicho, un router de borde actúa como enlace para conectar una red a
 otra. En este ejemplo, el router de borde se usa para establecer ruta de datos
-entre la red RPL y una red externa. Hasta ahora, sólo hemos creado la red RPL,
-por lo que necesitamos simular un escenario en el que esta red RPL se conecte a
-una red externa. Para ello, utilizaremos la utilidad *tunslip* proporcionada con
-Contiki. En este ejemplo, *tunslip* crea un puente entre la red RPL y la máquina
-local. 
-
-El código `tunslip6.c` se encuentra en el directorio `tools` de la instalación,
-y se puede compilar con la orden:
+entre la red RPL y el docker. Para ello, utilizaremos la utilidad *tunslip6*
+proporcionada por Contiki-ng en el directorio `tools/serial-io`, y se puede
+compilar con la orden:
 
 ```sh
 make tunslip6
 ```
-
 A continuación, podemos establecer una conexión entre la red RPL y la máquina
 local:
 
@@ -231,7 +213,7 @@ Si la ejecución ha sido correcta, veremos una salida similar a la siguiente
 en la terminal:
 
 ```sh
-ubuntu@ubuntu2004:~/contiki/tools$ sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
+user@50a25697ee43:~/contiki-ng/examples/rpl-border-router$ sudo ../../tools/serial-io/tunslip6 -a 127.0.0.1 aaaa::1/64
 slip connected to ``127.0.0.1:60001''
 opened tun device ``/dev/tun0''
 ifconfig tun0 inet `hostname` mtu 1500 up
@@ -240,22 +222,33 @@ ifconfig tun0 add fe80::0:0:0:1/64
 ifconfig tun0
 
 tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
-        inet 127.0.1.1  netmask 255.255.255.255  destination 127.0.1.1
-        inet6 aaaa::1  prefixlen 64  scopeid 0x0<global>
+        inet 172.17.0.2  netmask 255.255.255.255  destination 172.17.0.2
         inet6 fe80::1  prefixlen 64  scopeid 0x20<link>
-        inet6 fe80::ace4:dadf:8e12:be05  prefixlen 64  scopeid 0x20<link>
+        inet6 aaaa::1  prefixlen 64  scopeid 0x0<global>
+        inet6 fe80::93d:daef:6b56:52a7  prefixlen 64  scopeid 0x20<link>
         unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 500  (UNSPEC)
         RX packets 0  bytes 0 (0.0 B)
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 0  bytes 0 (0.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
+[INFO: Main      ] Starting Contiki-NG-develop/v4.9-749-g7a8ba26ca-dirty
+[INFO: Main      ] - Routing: RPL Lite
+[INFO: Main      ] - Net: sicslowpan
+[INFO: Main      ] - MAC: CSMA
+[INFO: Main      ] - 802.15.4 PANID: 0xabcd
+[INFO: Main      ] - 802.15.4 Default channel: 26
+[INFO: Main      ] Node ID: 1
+[INFO: Main      ] Link-layer address: 0001.0001.0001.0001
+[INFO: Main      ] Tentative link-local IPv6 address: fe80::201:1:1:1
+[INFO: RPL BR    ] Contiki-NG Border Router Web Server Started
+[INFO: RPL BR    ] Contiki-NG Border Router started
+[INFO: BR        ] RPL-Border router started
 *** Address:aaaa::1 => aaaa:0000:0000:0000
-Got configuration message of type P
-Setting prefix aaaa::
-Server IPv6 addresses:
- aaaa::c30c:0:0:1
- fe80::c30c:0:0:1
+[INFO: BR        ] Waiting for prefix
+[INFO: BR        ] Server IPv6 addresses:
+[INFO: BR        ]   aaaa::201:1:1:1
+[INFO: BR        ]   fe80::201:1:1:1
 ```
 
 El programa ha creado una interfaz puente `tun0` con IPv4 127.0.1.1, y ha
@@ -273,64 +266,90 @@ Es posible verificar la dirección del router de borde a través de una orden pi
 desde tu máquina virtual:
 
 ```sh
-ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:1
-PING aaaa::c30c:0:0:1(aaaa::c30c:0:0:1) 56 data bytes
-64 bytes from aaaa::c30c:0:0:1: icmp_seq=1 ttl=64 time=21.5 ms
-64 bytes from aaaa::c30c:0:0:1: icmp_seq=2 ttl=64 time=7.44 ms
-64 bytes from aaaa::c30c:0:0:1: icmp_seq=3 ttl=64 time=8.57 ms
-64 bytes from aaaa::c30c:0:0:1: icmp_seq=4 ttl=64 time=62.7 ms
-64 bytes from aaaa::c30c:0:0:1: icmp_seq=5 ttl=64 time=15.2 ms
---- aaaa::c30c:0:0:1 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 4015ms
-rtt min/avg/max/mdev = 7.442/23.066/62.661/20.427 ms
+user@50a25697ee43:~/contiki-ng/examples/rpl-border-router$ ping6 aaaa::201:1:1:1
+PING aaaa::201:1:1:1(aaaa::201:1:1:1) 56 data bytes
+64 bytes from aaaa::201:1:1:1: icmp_seq=1 ttl=64 time=17.7 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=2 ttl=64 time=44.8 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=3 ttl=64 time=10.4 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=4 ttl=64 time=1.62 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=5 ttl=64 time=29.2 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=6 ttl=64 time=78.0 ms
+^C
+
 ```
 
-Así como la de cualquier nodo de la red, por ejemplo el nodo 4:
+Así como la de cualquier nodo de la red, por ejemplo el nodo 5:
 
 ```sh
-ubuntu@ubuntu2004:~/contiki/tools$ ping aaaa::c30c:0:0:4
-PING aaaa::c30c:0:0:4(aaaa::c30c:0:0:4) 56 data bytes
-64 bytes from aaaa::c30c:0:0:4: icmp_seq=1 ttl=62 time=116 ms
-64 bytes from aaaa::c30c:0:0:4: icmp_seq=2 ttl=62 time=106 ms
-64 bytes from aaaa::c30c:0:0:4: icmp_seq=3 ttl=62 time=108 ms
-64 bytes from aaaa::c30c:0:0:4: icmp_seq=4 ttl=62 time=111 ms
-64 bytes from aaaa::c30c:0:0:4: icmp_seq=5 ttl=62 time=79.0 ms
+user@50a25697ee43:~/contiki-ng/examples/rpl-border-router$ ping6 aaaa::205:5:5:5
+PING aaaa::205:5:5:5(aaaa::205:5:5:5) 56 data bytes
+64 bytes from aaaa::205:5:5:5: icmp_seq=1 ttl=61 time=6.56 ms
+64 bytes from aaaa::205:5:5:5: icmp_seq=2 ttl=61 time=17.2 ms
+64 bytes from aaaa::205:5:5:5: icmp_seq=3 ttl=61 time=6.38 ms
 ^C
---- aaaa::c30c:0:0:4 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 4016ms
-rtt min/avg/max/mdev = 79.002/104.028/115.794/12.937 ms
+--- aaaa::205:5:5:5 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 6.380/10.057/17.232/5.073 ms
 ```
 
 La dirección de cada nodo puede obtenerse filtrando el la pantalla de log en
 función del ID del nodo (mota) destino.
 
-Desde cualquier navegador (en la red de la máquina virtual), puedes navegar a la
-dirección IP del router de borde para observar su estado:
+## Captura de paquetes para análisis
 
-![](img/Border_Router_Status.png)
+En el simulador cooja, dentro del menú tools, podemos abrir la ventana de `Radio
+Messages`. Esta ventana nos permite capturar todos los paquetes de la simulación
+y generar un fichero `pcap` para su posterior análisis con wireshark. Para ello
+seleccionamos en el menú `Analyzer` de la ventana de `Radio Messages` la opción
+`6LowPAN Analyzer with PCAP`.
+
+Reiniciamos la simulación anterior pulsando en el botón `Reload` en la ventana
+de Cooja. Esto habrá cortado la comunicación con el host, por lo que debemos
+volver a ejecutar la herramienta tunslip6:
+```sh
+sudo ./tunslip6 -a 127.0.0.1 aaaa::1/64
+```
+
+Ahora estamos listos para volver a simular la red capturando todos los paquetes
+enviados entre los nodos, pulsando para ello el botón `Start` de la ventana de
+Cooja. Dejamos simular un rato y luego paramos la simulación. Cooja habrá
+generado un fichero `radiolog-<n>.pcap`, dónde `<n>` será un número aleatorio,
+en el directorio desde el que lanzamos cooja: `/home/user/contiki-ng`. Este
+direcorio es el que se ha mapeado con el direcorio del host donde clonamos el
+repositorio de contiki-ng, por lo que podemos abrir el fichero con el analizador
+de red `Wireshark` instalado en nuestro sistema operativo host (instálalo si no
+lo tienes instalado ya).
+
+Con wireshark podemos filtrar los paquetes relacionados con el protocolo RPL, y
+buscar los paquetes con `Destination Advertisement Objects`, que los nodos
+envían hacia la raiz indicando el nodo que han elegido como padre. Por ejemplo,
+en la siguiente figura podemos ver que el nodo 3 envía su DAO indicando que
+escoge al nodo 4 como padre:
+
+![](img/Wireshark_RPL_DAO.png)
+
+Esto es razonable para la topología escogida en la simulación en la que el nodo
+3 no tiene al nodo 1 al alcance de radio, pero sí al nodo 4, que está a un salto
+del nodo raiz:
+
+![](img/RPL_Red_Ejemplo.png)
 
 !!! danger "Tarea"
 	Sigue los pasos descritos arriba para crear una red RPL con un número
 	reducido de nodos (entre 5 y 10), conectándola a tu red local. Haz que no
 	todos los nodos estén al alcance del router de borde, y comienza tu
-	simulación.
-
-	Estudia y reporta en tu informe de la práctica el tráfico RPL generado en el
-	proceso de generación del DAG, y comprueba la conectividad con todos ellos
-	vía `ping6`.
+    simulación. Comprueba la conectividad con todos ellos vía `ping6` y
+    documenta el proceso en la memoria de la práctica.
 
 !!! danger "Tarea"
-	Realiza una serie de movimientos sobre una mota que esté al alcance del
-	router de borde, para que deje de estarlo. Con una ejecución de `ping6`
-	activa sobre dicha mota, reporta el tiempo que tarda RPL en hacer converger
-	de nuevo el DODAG. Documenta el proceso y tus observaciones.
+    Con una ejecución de `ping6` activa sobre una mota al alcance directo del
+    router de borde, cambia la posición de la mota para que necesite al menos un
+    salto intermedio para llegar a la raiz. Reporta el tiempo que tarda RPL en
+    hacer converger de nuevo el DODAG. Documenta el proceso y tus observaciones.
 
 !!! danger "Tarea"
-	Realiza movimientos sobre los nodos, o crea nuevas motas en la simulación, y
-	estudia, a través de la interfaz web del router de borde, el tiempo de
-	establecimiento de nuevas rutas. Documenta el proceso y tus observaciones.
-
-!!! danger "Tarea"
-	Examina los paquetes enviados y obten de forma razonada la topología de red
-	que se está usando, identificando el padre preferente de cada nodo. Para
-	ello puedes averiguar a qué nodo envían el paquete DAO.
+    Captura los mensajes enviados por los nodos en un fichero `pcap`. Estudia y
+    reporta en tu informe de la práctica el tráfico RPL generado en el proceso
+    de construcción del DAG. Deduce a partir de esta información la topología de
+    red que se está usando, identificando el padre preferente de cada nodo. Para
+	ello debes usar la información transmitida en los paquetes DAO.
