@@ -28,7 +28,7 @@
 | 1        | 23/09 | [TCP/UDP (ESP32)](RPI-II/P1_III/index.md). [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md)  [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md)   |
 | 2        | 30/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
 | 3        | 07/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
-| 4        | 14/10 | Websockets                                   |
+| 4        | 14/10 | [Websockets](RPI-II/P4/index.md)             |
 | 5        | 21/10 | MQTT (1)                                     |
 | 5        | 28/10 | MQTT (2)                                     |
 | 6        | 04/11 | Thingsboard                                  |
