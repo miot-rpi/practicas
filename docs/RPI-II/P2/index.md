@@ -322,12 +322,12 @@ comunes en entornos IoT.
 
 La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:
 
-### Establecimiento de conexión TLS (`esp_tls_conn_new()`)
+### Establecimiento de conexión TLS (`esp_tls_conn_new_sync()`)
 
 * Prototipo:
 
 ```c
-esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
+int esp_tls_conn_new_sync(const char *hostname, int hostlen, int port, const esp_tls_cfg_t *cfg, esp_tls_t *tls)
 ```
 
 * Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
@@ -338,14 +338,12 @@ esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constes
     - `hostlen`: Longitud del parámetro `hostname`.
     - `port`: Puerto de conexión con el host.
     - `cfg`: Configuración de la conexión TLS.
-
-* Valor de retorno: Puntero a `esp_tls_t` (manejador de la conexión).
-                    Devuelve `NULL` si se produce un error en la conexión.
+    - `tls`: Puntero a `esp_tls_t` (manejador de la conexión). Devuelve `NULL` si se produce un error en la conexión.
 
 ### Destrucción de conexión TLS (`esp_tls_conn_delete()`)
 
 ```c
-void esp_tls_conn_delete(esp_tls_t *tls)
+ void esp_tls_server_session_delete(esp_tls_t *tls)
 ```
 
 * Descripción: Cierra la conexión TLS/SSL. 
@@ -356,7 +354,7 @@ void esp_tls_conn_delete(esp_tls_t *tls)
 ### Escritura de datos (`esp_tls_conn_read()`)
 
 ```c
-static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
+ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
 ```
 
 * Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
@@ -375,7 +373,7 @@ static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datal
 ### Lectura de datos (`esp_tls_conn_read()`)
 
 ```c
-static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
+ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
 ```
 
 * Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer `data`.
@@ -418,7 +416,8 @@ static void tls_client_task( void  *pvParameters )
   esp_tls_cfg_t cfg = { };
 
   // Creación de conexión.
-  struct esp_tls *tls = esp_tls_conn_new( HOST_IP_ADDR, longitud, PORT, &cfg);
+  struct esp_tls tls;
+  ret = esp_tls_conn_new_sync( HOST_IP_ADDR, longitud, PORT, &cfg, &tls);
 
   // Chequeo de errores.
   // ...
@@ -436,7 +435,7 @@ static void tls_client_task( void  *pvParameters )
   // ...
 
   // Destrucción de la conexión
-  esp_tls_conn_delete( tls );
+  esp_tls_server_session_delete( tls );
 
   vTaskDelete( NULL );
 }
