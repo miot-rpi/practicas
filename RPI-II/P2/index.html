@@ -455,11 +455,11 @@ simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece
 una funcionalidad suficientemente amplia como para implementar casos de uso
 comunes en entornos IoT. </p>
 <p>La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:</p>
-<h3 id="establecimiento-de-conexion-tls-esp_tls_conn_new">Establecimiento de conexión TLS (<code>esp_tls_conn_new()</code>)</h3>
+<h3 id="establecimiento-de-conexion-tls-esp_tls_conn_new_sync">Establecimiento de conexión TLS (<code>esp_tls_conn_new_sync()</code>)</h3>
 <ul>
 <li>Prototipo:</li>
 </ul>
-<pre><code class="language-c">esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
+<pre><code class="language-c">int esp_tls_conn_new_sync(const char *hostname, int hostlen, int port, const esp_tls_cfg_t *cfg, esp_tls_t *tls)
 </code></pre>
 <ul>
 <li>
@@ -473,15 +473,12 @@ comunes en entornos IoT. </p>
 <li><code>hostlen</code>: Longitud del parámetro <code>hostname</code>.</li>
 <li><code>port</code>: Puerto de conexión con el host.</li>
 <li><code>cfg</code>: Configuración de la conexión TLS.</li>
+<li><code>tls</code>: Puntero a <code>esp_tls_t</code> (manejador de la conexión). Devuelve <code>NULL</code> si se produce un error en la conexión.</li>
 </ul>
-</li>
-<li>
-<p>Valor de retorno: Puntero a <code>esp_tls_t</code> (manejador de la conexión).
-                    Devuelve <code>NULL</code> si se produce un error en la conexión.</p>
 </li>
 </ul>
 <h3 id="destruccion-de-conexion-tls-esp_tls_conn_delete">Destrucción de conexión TLS (<code>esp_tls_conn_delete()</code>)</h3>
-<pre><code class="language-c">void esp_tls_conn_delete(esp_tls_t *tls)
+<pre><code class="language-c"> void esp_tls_server_session_delete(esp_tls_t *tls)
 </code></pre>
 <ul>
 <li>
@@ -495,7 +492,7 @@ comunes en entornos IoT. </p>
 </li>
 </ul>
 <h3 id="escritura-de-datos-esp_tls_conn_read">Escritura de datos (<code>esp_tls_conn_read()</code>)</h3>
-<pre><code class="language-c">static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
+<pre><code class="language-c">ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
 </code></pre>
 <ul>
 <li>
@@ -520,7 +517,7 @@ comunes en entornos IoT. </p>
 </li>
 </ul>
 <h3 id="lectura-de-datos-esp_tls_conn_read">Lectura de datos (<code>esp_tls_conn_read()</code>)</h3>
-<pre><code class="language-c">static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
+<pre><code class="language-c">ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
 </code></pre>
 <ul>
 <li>
@@ -568,7 +565,8 @@ static void tls_client_task( void  *pvParameters )
   esp_tls_cfg_t cfg = { };
 
   // Creación de conexión.
-  struct esp_tls *tls = esp_tls_conn_new( HOST_IP_ADDR, longitud, PORT, &amp;cfg);
+  struct esp_tls tls;
+  ret = esp_tls_conn_new_sync( HOST_IP_ADDR, longitud, PORT, &amp;cfg, &amp;tls);
 
   // Chequeo de errores.
   // ...
@@ -586,7 +584,7 @@ static void tls_client_task( void  *pvParameters )
   // ...
 
   // Destrucción de la conexión
-  esp_tls_conn_delete( tls );
+  esp_tls_server_session_delete( tls );
 
   vTaskDelete( NULL );
 }
