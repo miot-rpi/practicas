@@ -477,7 +477,7 @@ Y comentar estás líneas del fichero `https_request_example_main.c` para borrar
 
 Para comprobar el ejemplo `examples/protocols/https_request` con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de `openssl`.
 
-1. *Generación del certificado autofirmado.* Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.
+* *Generación del certificado autofirmado.* Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.
 
 ```sh
 openssl openssl genrsa -out server.key 2048
@@ -502,7 +502,7 @@ Common Name (e.g. server FQDN or YOUR name) []:<IP HOST>
 Email Address []:lpinuel@ucm.es
 ```
 
-2. *Arranque del servidor web*.
+* *Arranque del servidor web*.
 
 ```sh
 openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
