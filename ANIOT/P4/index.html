@@ -190,7 +190,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#interfaz-i2c-en-esp-idf" class="nav-link">Interfaz I2C en ESP-IDF</a>
+            <li class="nav-item" data-bs-level="2"><a href="#interfaz-i2c-en-esp-idf-antiguo-driver" class="nav-link">Interfaz I2C en ESP-IDF (antiguo driver)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#nueva-interfaz-i2c-en-esp-idf" class="nav-link">Nueva interfaz I2C en ESP-IDF</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -199,10 +203,6 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#ejercicios-obligatorios" class="nav-link">Ejercicios obligatorios</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#ejercicios-avanzados" class="nav-link">Ejercicios avanzados</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -218,7 +218,8 @@
 <p>El objetivo de esta práctica es conocer el funcionamiento del bus I2C y la interfaz que ofrece ESP-IDF para su uso.
 Trabajaremos los siguientes aspectos del API de ESP-IDF: 
 * Configuración y uso del controlador I2C.
-* Uso de sensor de temperatura y humedad (Si7021).</p>
+* Uso de sensor de temperatura y humedad (Si7021).
+* Uso del sensor ICM-42670-P (IMU)</p>
 <h2 id="material-de-consulta">Material de consulta</h2>
 <p>Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:</p>
 <ul>
@@ -235,8 +236,8 @@ Trabajaremos los siguientes aspectos del API de ESP-IDF:
 * Existe una relación sencilla <em>master/slave</em> entre todos los componentes.
 * Permite tener varios <em>master</em> pues proporciona mecanismos de arbitraje y detección de colisiones.
 * Cada dispositivo tiene una única dirección de 7-bits (en ocasiones, de 10 bits) que proporciona el fabricante.</p>
-<h2 id="interfaz-i2c-en-esp-idf">Interfaz I2C en ESP-IDF</h2>
-<p>ESP-IDF <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2c.html">proporciona un API</a> para el uso de dispositivos I2C. Permite usar el ESP32  tanto como <em>master</em> como en modo <em>slave</em>. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como <em>master</em> y otro como <em>slave</em> (o cualquier otra combinación).</p>
+<h2 id="interfaz-i2c-en-esp-idf-antiguo-driver">Interfaz I2C en ESP-IDF (antiguo driver)</h2>
+<p>ESP-IDF proporcionaba este API   para el uso de dispositivos I2C. Permite usar el ESP32  tanto como <em>master</em> como en modo <em>slave</em>. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como <em>master</em> y otro como <em>slave</em> (o cualquier otra combinación).</p>
 <p>Los pasos para usar un dispositivo I2C son:</p>
 <ul>
 <li>Configuración de la conexión. Indcaremos qué pines usamos como SDA y como SCL, si queremos  habilitar <em>pull-up</em> (es aconsejable tener uno externo), el modo (<em>master/slave</em>) y la frecuencia de reloj en HZ. Todo ello se escribe en una estructura de tipo <code>i2c_configt_t</code>y se cconfigura mediante la llamada a <code>i2c_param_config()</code>.</li>
@@ -257,6 +258,8 @@ Trabajaremos los siguientes aspectos del API de ESP-IDF:
 <p>Nuevamente, la primera llamada (tras crear el enlace y el bit de <em>start</em>), es a <code>i2c_master_write_byte()</code>, pero esta vez se establecerá el bit de operación a lectura (el bit que se incluye tras los 7 bits de dirección del <em>slave</em>). Tras enviar ese primer byte, el ESP32 quedará a la escucha de bytes por parte del sensor mediante llamadas a <code>i2c_master_read()</code>.</p>
 <p>Como en el ejemplo anterior, la comunicación no se produce hasta que no se llega a la llamada <code>i2c_master_cmd_begin()</code>, por lo que si queremos leer varios bytes debemos almacenarlos en posiciones diferentes de memoria y procesarlos después de esta llamada.</p>
 <p>Existen también llamadas de más alto nivel, como <code>i2c_master_read_from_device()</code> y <code>i2c_master_write_read_device()</code> que permiten, en ocasiones, simplificar nuestro código.</p>
+<h2 id="nueva-interfaz-i2c-en-esp-idf">Nueva interfaz I2C en ESP-IDF</h2>
+<p><strong>TBD</strong></p>
 <h2 id="sensor-si7021">Sensor Si7021</h2>
 <p>El Si7021 es un sensor de humedad y temperatura fabricado por <em>Silicon Labs</em>. Este sensor incopora un ADC internamente, que permite digitalizar las lecturas de los sensores y enviarlas a través del interfaz I2C integrado.</p>
 <p><img alt="sensor" src="img/si7021.png" /></p>
@@ -276,11 +279,16 @@ Trabajaremos los siguientes aspectos del API de ESP-IDF:
 <li>Dichos comandos devuelven 2 bytes, que leeremos en dos variables diferentes. ¿Cómo obtenemos posteriormente nuestro número de 16 bits para calcular la temperatura?</li>
 </ul>
 </div>
-<h2 id="ejercicios-obligatorios">Ejercicios obligatorios</h2>
-<h3 id="uso-de-i2ctools">Uso de i2ctools</h3>
+<div class="admonition danger">
+<p class="admonition-title">i2ctools (opcional)</p>
 <p>Compila y prueba el ejemplo <em>i2c_tools</em> de la carpeta de ejemplos (<em>examples/peripherals/i2c/i2c_tools</em>). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando <code>i2cdetect</code>. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.</p>
-<h2 id="ejercicios-avanzados">Ejercicios avanzados</h2>
-<h3 id="uso-de-crc-en-sensor">Uso de CRC en sensor</h3>
+</div>
+<h2 id="ejercicios-obligatorios">Ejercicios obligatorios</h2>
+<h3 id="portar-componente-icm-42670-p-a-nuevo-driver">Portar componente ICM-42670-P a nuevo driver</h3>
+<p>El <a href="https://components.espressif.com/">registro de componentes de IDF</a> incluye un componente para utilizar la IMU incluida en la placa ESP-RUST-BOARD (con el SoC ESP32-C3):<a href="https://components.espressif.com/components/espressif/icm42670/versions/2.0.0">ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)</a>.</p>
+<p>Sin embargo, el componente está preparado para funcionar con el driver antiguo. Realiza las modificaciones oportunas para conseguir que el componente utilice el nuevo driver. </p>
+<p>Crea una aplicación que monitorice el estado del acelerómetro y determine si la placa está boca arriba o boca abajo. El LED RGB cambiará de color en función de la orientación, y se imprimirá por terminal el estado actual.</p>
+<h3 id="opcional-uso-de-crc-en-sensor">[Opcional] Uso de CRC en sensor</h3>
 <p>El sensor Si7021 permite el cálculo de un byte de <em>checksum</em> (CRC) para comprobar que no ha habido errores en el envío. Completa el código del componente para leer dicho byte y comprobar que no ha habido errores. Conviene leer la sección 5.1 y una <a href="https://barrgroup.com/tech-talks/checksums-and-crcs">librería para el cálculo de CRC como la ofrecida por BARR</a>.</p></div>
             </div>
         </div>

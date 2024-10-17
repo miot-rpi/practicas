@@ -599,7 +599,53 @@ void app_main( void )
 <p>Estudia y prueba el ejemplo base <code>examples/protocols/https_request</code>. 
 Opcionalmente, modifica este ejemplo para que interactue con el servidor 
 TLS empleando previamente.</p>
-</div></div>
+</div>
+<h4 id="desactivacion-de-la-comprobacion-de-certificado-de-servidor">Desactivación de la comprobación de certificado de servidor</h4>
+<p>Basta con modificar la configuración del proyecto del siguiente modo:</p>
+<pre><code># CONFIG_EXAMPLE_CLIENT_SESSION_TICKETS is not set
+CONFIG_ESP_TLS_INSECURE=y
+CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY=y
+# CONFIG_MBEDTLS_CERTIFICATE_BUNDLE is not set
+</code></pre>
+<p>Y comentar estás líneas del fichero <code>https_request_example_main.c</code> para borrar la configuración de la entidad de certificación (de lo contrario prevalecería sobre la opción <code>CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY</code>):</p>
+<pre><code class="language-c">  esp_tls_cfg_t cfg = {
+  //    .cacert_buf = (const unsigned char *) server_root_cert_pem_start,
+  //    .cacert_bytes = server_root_cert_pem_end - server_root_cert_pem_start,
+  ...
+  };
+</code></pre>
+<h4 id="servidor-web-de-test-con-certificado-autofirmado">Servidor web de test con certificado autofirmado</h4>
+<p>Para comprobar el ejemplo <code>examples/protocols/https_request</code> con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de <code>openssl</code>.</p>
+<ol>
+<li><em>Generación del certificado autofirmado.</em> Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.</li>
+</ol>
+<pre><code class="language-sh">openssl openssl genrsa -out server.key 2048
+</code></pre>
+<pre><code class="language-sh">openssl openssl req -new -x509 -key server.key -out server.crt -days 365
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Madrid
+Locality Name (eg, city) []:Madrid
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:UCM
+Organizational Unit Name (eg, section) []:FDI
+Common Name (e.g. server FQDN or YOUR name) []:&lt;IP HOST&gt;
+Email Address []:lpinuel@ucm.es
+</code></pre>
+<ol>
+<li><em>Arranque del servidor web</em>.</li>
+</ol>
+<pre><code class="language-sh">openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
+
+Using default temp DH parameters
+ACCEPT
+</code></pre></div>
             </div>
         </div>
 
