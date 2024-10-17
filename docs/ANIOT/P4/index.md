@@ -6,6 +6,7 @@ El objetivo de esta práctica es conocer el funcionamiento del bus I2C y la inte
 Trabajaremos los siguientes aspectos del API de ESP-IDF: 
 * Configuración y uso del controlador I2C.
 * Uso de sensor de temperatura y humedad (Si7021).
+* Uso del sensor ICM-42670-P (IMU)
 
 ## Material de consulta
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:
@@ -27,9 +28,9 @@ Las principales características de I2C son:
 * Permite tener varios *master* pues proporciona mecanismos de arbitraje y detección de colisiones.
 * Cada dispositivo tiene una única dirección de 7-bits (en ocasiones, de 10 bits) que proporciona el fabricante.
 
-## Interfaz I2C en ESP-IDF
+## Interfaz I2C en ESP-IDF (antiguo driver)
 
-ESP-IDF [proporciona un API](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2c.html) para el uso de dispositivos I2C. Permite usar el ESP32  tanto como *master* como en modo *slave*. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como *master* y otro como *slave* (o cualquier otra combinación).
+ESP-IDF proporcionaba este API   para el uso de dispositivos I2C. Permite usar el ESP32  tanto como *master* como en modo *slave*. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como *master* y otro como *slave* (o cualquier otra combinación).
 
 Los pasos para usar un dispositivo I2C son:
 
@@ -61,6 +62,10 @@ Como en el ejemplo anterior, la comunicación no se produce hasta que no se lleg
 
 Existen también llamadas de más alto nivel, como `i2c_master_read_from_device()` y `i2c_master_write_read_device()` que permiten, en ocasiones, simplificar nuestro código.
 
+##  Nueva interfaz I2C en ESP-IDF 
+
+**TBD**
+
 ## Sensor Si7021
 
 El Si7021 es un sensor de humedad y temperatura fabricado por *Silicon Labs*. Este sensor incopora un ADC internamente, que permite digitalizar las lecturas de los sensores y enviarlas a través del interfaz I2C integrado.
@@ -85,13 +90,19 @@ La sección 5.1.2 del documento explica cómo obtener una medida de temperatura 
     * Dichos comandos devuelven 2 bytes, que leeremos en dos variables diferentes. ¿Cómo obtenemos posteriormente nuestro número de 16 bits para calcular la temperatura?
 
 
+
+!!! danger "i2ctools (opcional)" 
+     Compila y prueba el ejemplo *i2c_tools* de la carpeta de ejemplos (*examples/peripherals/i2c/i2c_tools*). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando `i2cdetect`. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.
+
+
 ## Ejercicios obligatorios
 
-### Uso de i2ctools
-Compila y prueba el ejemplo *i2c_tools* de la carpeta de ejemplos (*examples/peripherals/i2c/i2c_tools*). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando `i2cdetect`. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.
+### Portar componente ICM-42670-P a nuevo driver
+El [registro de componentes de IDF](https://components.espressif.com/) incluye un componente para utilizar la IMU incluida en la placa ESP-RUST-BOARD (con el SoC ESP32-C3):[ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)](https://components.espressif.com/components/espressif/icm42670/versions/2.0.0).
 
+Sin embargo, el componente está preparado para funcionar con el driver antiguo. Realiza las modificaciones oportunas para conseguir que el componente utilice el nuevo driver. 
 
-## Ejercicios avanzados
+Crea una aplicación que monitorice el estado del acelerómetro y determine si la placa está boca arriba o boca abajo. El LED RGB cambiará de color en función de la orientación, y se imprimirá por terminal el estado actual.
 
-### Uso de CRC en sensor
+### [Opcional] Uso de CRC en sensor
 El sensor Si7021 permite el cálculo de un byte de *checksum* (CRC) para comprobar que no ha habido errores en el envío. Completa el código del componente para leer dicho byte y comprobar que no ha habido errores. Conviene leer la sección 5.1 y una [librería para el cálculo de CRC como la ofrecida por BARR](https://barrgroup.com/tech-talks/checksums-and-crcs).

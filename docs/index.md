@@ -50,7 +50,7 @@
 | 2        | 01/10 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
 | 3        | 08/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
 | 3        | 15/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
-| 4        | 22/10 | [I2C](ANIOT/P4/index.md)                         |
+| 4        | 22/10 | [Continuación P3](ANIOT/P3/index.md)                         |
 | 4        | 29/10 | [I2C](ANIOT/P4/index.md)                         |
 | 5        | 05/11 | [ADC](ANIOT/P5/index.md)                          |
 | 6        | 12/11 | [Modos de consumo](ANIOT/P6/index.md)                          |
