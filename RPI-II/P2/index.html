@@ -616,9 +616,9 @@ CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY=y
 </code></pre>
 <h4 id="servidor-web-de-test-con-certificado-autofirmado">Servidor web de test con certificado autofirmado</h4>
 <p>Para comprobar el ejemplo <code>examples/protocols/https_request</code> con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de <code>openssl</code>.</p>
-<ol>
+<ul>
 <li><em>Generación del certificado autofirmado.</em> Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.</li>
-</ol>
+</ul>
 <pre><code class="language-sh">openssl openssl genrsa -out server.key 2048
 </code></pre>
 <pre><code class="language-sh">openssl openssl req -new -x509 -key server.key -out server.crt -days 365
@@ -638,9 +638,9 @@ Organizational Unit Name (eg, section) []:FDI
 Common Name (e.g. server FQDN or YOUR name) []:&lt;IP HOST&gt;
 Email Address []:lpinuel@ucm.es
 </code></pre>
-<ol>
+<ul>
 <li><em>Arranque del servidor web</em>.</li>
-</ol>
+</ul>
 <pre><code class="language-sh">openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
 
 Using default temp DH parameters
