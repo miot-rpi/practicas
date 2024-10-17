@@ -450,3 +450,63 @@ void app_main( void )
     Estudia y prueba el ejemplo base `examples/protocols/https_request`. 
     Opcionalmente, modifica este ejemplo para que interactue con el servidor 
     TLS empleando previamente.
+
+
+#### Desactivación de la comprobación de certificado de servidor
+
+Basta con modificar la configuración del proyecto del siguiente modo:
+
+```
+# CONFIG_EXAMPLE_CLIENT_SESSION_TICKETS is not set
+CONFIG_ESP_TLS_INSECURE=y
+CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY=y
+# CONFIG_MBEDTLS_CERTIFICATE_BUNDLE is not set
+```
+
+Y comentar estás líneas del fichero `https_request_example_main.c` para borrar la configuración de la entidad de certificación (de lo contrario prevalecería sobre la opción `CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY`):
+
+```c
+  esp_tls_cfg_t cfg = {
+  //    .cacert_buf = (const unsigned char *) server_root_cert_pem_start,
+  //    .cacert_bytes = server_root_cert_pem_end - server_root_cert_pem_start,
+  ...
+  };
+```
+
+#### Servidor web de test con certificado autofirmado
+
+Para comprobar el ejemplo `examples/protocols/https_request` con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de `openssl`.
+
+1. *Generación del certificado autofirmado.* Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.
+
+```sh
+openssl openssl genrsa -out server.key 2048
+```
+
+```sh
+openssl openssl req -new -x509 -key server.key -out server.crt -days 365
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Madrid
+Locality Name (eg, city) []:Madrid
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:UCM
+Organizational Unit Name (eg, section) []:FDI
+Common Name (e.g. server FQDN or YOUR name) []:<IP HOST>
+Email Address []:lpinuel@ucm.es
+```
+
+2. *Arranque del servidor web*.
+
+```sh
+openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
+
+Using default temp DH parameters
+ACCEPT
+```
