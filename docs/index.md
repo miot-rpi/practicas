@@ -29,8 +29,8 @@
 | 2        | 30/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
 | 3        | 07/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
 | 4        | 14/10 | [Websockets](RPI-II/P4/index.md)             |
-| 5        | 21/10 | MQTT (1)                                     |
-| 5        | 28/10 | MQTT (2)                                     |
+| 5        | 21/10 | [MQTT (I)](RPI-II/P5/index.md)               |
+| 5        | 28/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
 | 6        | 04/11 | Thingsboard                                  |
 | 7        | 11/11 | CoAP                                         |
 | 8        | 18/11 | LWM2M                                        |
