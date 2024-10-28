@@ -28,6 +28,81 @@ Las principales características de I2C son:
 * Permite tener varios *master* pues proporciona mecanismos de arbitraje y detección de colisiones.
 * Cada dispositivo tiene una única dirección de 7-bits (en ocasiones, de 10 bits) que proporciona el fabricante.
 
+##  Nueva interfaz I2C en ESP-IDF 
+
+ESP-IDF ha cambiado completamente el interfaz para el uso de dispositivos I2C, simplificando significativamente su uso. La nueva estructura puede observarse en la siguiente figura, obtenida de la [documentación de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/i2c.html).
+
+![estructura](img/i2c-structure.png)
+(fuente: ESP-IDF Programming Guide)
+
+Consulta la [documentación de  ESP-IDF sobre I2C](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/i2c.html) para ver los detalles de la API. A continuación, resumimos lo más relevante.
+
+El uso de dispositivos I2C con ESP-IDF sigue las siguientes etapas:
+
+* **Inicialización e instanciación del master bus driver**. Es necesario obtener un *handle*  del bus I2C qie se vaya a utilizar. En el SoC montado en la placa ESP32 Devkit-c hay 2 controladores I2C, mientras que en el SoC montado en la placa ESP32-C3 Rust Board sólo hay uno. Esta acción debe hacerse una única vez en toda la aplicación.
+
+* **Especificar y condigurar el dispositivo al que conectaremos**. Deberemos añadir al bus  cada dispositivo I2C que conectemos a nuestro ESP32, obteniendo así un *handle* que será el que finalmente utilizaremos en las llamadas de lectura/escritrura.
+
+* **Lectura y escritura del dispositivo**. A partir de ese punto, podemos realizar transacciones con el dispositivo.
+
+* **Liberar recursos**. Como en cualquier otro caso, una vez se haya finalizado con el uso de los recursos, conviene liberarlos para evitar *memory leaks*.
+
+### Inicialización e instanciación del master bus driver
+
+ESP-IDF proporciona 2 llamadas para configurar el bus I2C (pin SDA, pin SCL, señal de reloj...) e instanciar el bus para obtener un **handle**. A continuación se incluye un extracto de código con un ejemplo:
+
+```c
+
+static i2c_master_bus_handle_t i2c_handle;
+i2c_master_bus_config_t bus_config = {
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .i2c_port = I2C_NUM_0,
+        .scl_io_num = 8,
+        .sda_io_num = 10,
+        .glitch_ignore_cnt = 7,
+        .flags.enable_internal_pullup = true,
+};
+
+ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, &i2c_handle));
+
+```
+### Especificar y condigurar el dispositivo al que conectaremos
+
+Para cada dispositivo I2C que conectemos a nuestro bus (recuerda que podemos conectar múltiples dispositivos a las mismas líneas SDA/SCL) debemos obtener un *handle* especificando aspectos como su dirección, la velocidad del bus, la longitud de la dirección (7 bits por defecto, pero puede ser 10 bits)...
+
+Se incluye un pequeño extracto de código como ejemplo:
+
+```c
+
+i2c_master_dev_handle_t dev_handle;
+const i2c_device_config_t i2c_dev_cfg = {
+        .device_address = 0x43,
+        .scl_speed_hz = 400000,
+    };
+i2c_master_bus_add_device(i2c_bus, &i2c_dev_cfg, &dev_handle);
+    
+```
+
+### Lectura y escritura del dispositivo
+Una vez hemos obtenido el *handle* del dispositivo, podemos proceder a enviar comandos (mediante una escritura al dispositivo) y leer los valores enviados por el sensor (o escribir si se trata de un dispositivo de salida).
+
+Para ello, ESP-IDF proporciona varias funciones. A continuación se incluye el prototipo de las más habituales:
+
+```c
+
+// Trasnmite write_size bytes de información disponibles en write_buffer al dispositivo i2c_dev
+esp_err_t i2c_master_transmit(i2c_master_dev_handle_t i2c_dev, const uint8_t *write_buffer, size_t write_size, int xfer_timeout_ms);
+
+// Solicita read_size bytes de información al dispositivo i2c_dev para almancenarnos en read_buffer
+esp_err_t i2c_master_receive(i2c_master_dev_handle_t i2c_dev, uint8_t *read_buffer, size_t read_size, int xfer_timeout_ms);
+
+// Opreación de escritura I2C seguida de lectura
+esp_err_t i2c_master_transmit_receive(i2c_master_dev_handle_t i2c_dev, const uint8_t *write_buffer, size_t write_size, uint8_t *read_buffer, size_t read_size, int xfer_timeout_ms);
+
+```
+Habitualmente, se enviará primero un comando con la función **i2c_master_transmit()** y posteriormente se recibirá la información con **i2c_master_receive()**.
+
+
 ## Interfaz I2C en ESP-IDF (antiguo driver)
 
 ESP-IDF proporcionaba este API   para el uso de dispositivos I2C. Permite usar el ESP32  tanto como *master* como en modo *slave*. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como *master* y otro como *slave* (o cualquier otra combinación).
@@ -62,9 +137,6 @@ Como en el ejemplo anterior, la comunicación no se produce hasta que no se lleg
 
 Existen también llamadas de más alto nivel, como `i2c_master_read_from_device()` y `i2c_master_write_read_device()` que permiten, en ocasiones, simplificar nuestro código.
 
-##  Nueva interfaz I2C en ESP-IDF 
-
-**TBD**
 
 ## Sensor Si7021
 
@@ -80,14 +152,8 @@ De acuerdo a las [especificaciones del sensor Si7021](https://www.silabs.com/doc
 
 La sección de la [hoja de especificaciones del sensor Si7021](https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf) informa acerca del interfaz I2C que ofrece el sensor. Nos indica los 7 bits de dirección del sensor, así como de los comandos disponibles (la mayoría de ellos de 1 byte). 
 
-!!! note "Cuestión"
-    La dirección del sensor es `1000000`(es decir, `0x40` expresado en hexadecimal). Si queremos hacer una operación de lectura (bit R/W a 1), ¿cómo construiremos el segundo argumento de la llamada a `i2c_master_write_byte()` que haremos tras `i2c_master_start()`?
 
 La sección 5.1.2 del documento explica cómo obtener una medida de temperatura tras haber realizado una medidad de humedad. Para ello usa el comando 0xE0. En nuestro caso deberemos usar 0xE3 o 0xF3.
-
-!!! note "Cuestión"
-    * ¿Cuál es la diferencia entre 0xE3 y 0xF3? ¿Qué es *clock stretching*?
-    * Dichos comandos devuelven 2 bytes, que leeremos en dos variables diferentes. ¿Cómo obtenemos posteriormente nuestro número de 16 bits para calcular la temperatura?
 
 
 
@@ -97,12 +163,66 @@ La sección 5.1.2 del documento explica cómo obtener una medida de temperatura 
 
 ## Ejercicios obligatorios
 
-### Portar componente ICM-42670-P a nuevo driver
+### Usar componente ICM-42670-P con  nuevo driver
 El [registro de componentes de IDF](https://components.espressif.com/) incluye un componente para utilizar la IMU incluida en la placa ESP-RUST-BOARD (con el SoC ESP32-C3):[ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)](https://components.espressif.com/components/espressif/icm42670/versions/2.0.0).
-
-Sin embargo, el componente está preparado para funcionar con el driver antiguo. Realiza las modificaciones oportunas para conseguir que el componente utilice el nuevo driver. 
 
 Crea una aplicación que monitorice el estado del acelerómetro y determine si la placa está boca arriba o boca abajo. El LED RGB cambiará de color en función de la orientación, y se imprimirá por terminal el estado actual.
 
-### [Opcional] Uso de CRC en sensor
+Recuerda que, antes de poder usar cualquier dispositivo I2C, es necesario instanciar el controlador de bus I2C que vayamos a utilizar (en este caso, el úinico disponible en esta placa).
+
+```c
+
+static i2c_master_bus_handle_t i2c_handle;
+static void i2c_bus_init(void)
+{
+
+
+    i2c_master_bus_config_t bus_config = {
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .i2c_port = I2C_NUM_0,
+        .scl_io_num = 8,
+        .sda_io_num = 10,
+        .glitch_ignore_cnt = 7,
+        .flags.enable_internal_pullup = true,
+    };
+
+    ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, &i2c_handle));
+}
+
+```
+
+Asimismo, tras crear el *handle* del dispositivo, es necesario configurarlo. El componente ofrece una llamada para ello: *icm42670_config()*. Puedes usar el siguiente código de configuración:
+
+```c
+
+    /* Configuration of the accelerometer and gyroscope */
+    const icm42670_cfg_t imu_cfg = {
+        .acce_fs = ACCE_FS_2G,
+        .acce_odr = ACCE_ODR_400HZ,
+        .gyro_fs = GYRO_FS_2000DPS,
+        .gyro_odr = GYRO_ODR_400HZ,
+    };
+   ret = icm42670_config(icm42670, &imu_cfg);
+
+```
+
+Es muy recomendable consultar la carepta *test_apps* incluida en el propio componente para aprender a utilizarlo.
+
+
+!!! note "Cuestiones"
+     * ¿Qué dirección tiene el dispositivo I2C?
+     * ¿Qué llamada de ESP-IDF utiliza el código para determinar el *device id*? ¿Qué comando se envía?
+     * Antes de usar el acelerómetro, es necesario activarlo con la llamada ``icm42670_acce_set_pwr(icm42670, ACCE_PWR_LOWNOISE);``. Describe las transacciones en el bus I2C que se desencadena esa llamada. Usa un formato similar a: `START | 0x34 WR  | 0x44 ACK | ... | STOP | START ....`
+     * ¿Qué comando se utiliza para leer el valor en crudo (*raw*) del acelerómetro?
+     * ¿Cuántos bytes se leen tras enviar el comando de lectura de acelerómetro *raw*? ¿A qué se corresponde cada byte?
+
+## Ejercicios opcionales
+
+### Usar sensor Si7021 en ESP32 devkit-c 
+
+Escribe un código que monitorice la temperatura leyendo el sensor Si7021 conectado al ESP32 devkit-c v4 (placa antigua).  Utiliza el nuevo driver para realizar la implementación.
+
+
+###  Uso de CRC en sensor
 El sensor Si7021 permite el cálculo de un byte de *checksum* (CRC) para comprobar que no ha habido errores en el envío. Completa el código del componente para leer dicho byte y comprobar que no ha habido errores. Conviene leer la sección 5.1 y una [librería para el cálculo de CRC como la ofrecida por BARR](https://barrgroup.com/tech-talks/checksums-and-crcs).
+
