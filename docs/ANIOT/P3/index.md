@@ -13,9 +13,9 @@ Trabajaremos los siguientes aspectos del API de ESP-IDF:
 ## Material de consulta
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:
 
-* [API de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/api-reference/system/freertos.html)
-* [Documentación oficial de FreeRTOS](https://www.freertos.org/features.html}. Documentación oficial de FreeRTOS)
-* [Mastering de FreeRTOS Real Time Kernel](https://www.freertos.org/fr-content-src/uploads/2018/07/161204_Mastering_the_FreeRTOS_Real_Time_Kernel-A_Hands-On_Tutorial_Guide.pdf)
+* [API de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos_idf.html)
+* [Documentación oficial de FreeRTOS](https://www.freertos.org/Documentation/00-Overview)
+
 
 ## Introducción
 
@@ -38,7 +38,7 @@ Los siguientes ejercicios se proponen como una práctica sencilla de esos mecani
 
 ### Creación de una tarea para realizar el muestreo
 
-Escribe una aplicación que creará una tarea para muestrear un sensor. Denominaremos *muestreadora* a dicha tarea y deberá muestrear periódicamnete el sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link).  La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global. 
+Escribe una aplicación que creará una tarea para muestrear un sensor. Denominaremos *muestreadora* a dicha tarea y deberá muestrear periódicamnete el sensor [SHTC3 de Sensirion](https://sensirion.com/resource/datasheet/shtc3).  La tarea muestreadora comunicará la lectura con la tarea inicial (la que ejecuta `app_main()`) a través de una variable global. 
 
 !!! danger "Tarea"
 	La tarea creada leerá el valor del sensor  con un período que se pasará como argumento a la tarea. Dicha tarea tendrá un bucle infinito en el que realizará la lectura del sensor, modificará la variable global y dormirá durante el tiempo establecido. La tarea inicial (app_main) recogerá el valor muestreado y lo mostrará por puerto serie.
@@ -51,7 +51,7 @@ Escribe una aplicación que creará una tarea para muestrear un sensor. Denomina
 
 ### Comunicación mediante colas
 
-Modifica el código anterior para que las dos tareas (inicial y muestreadora) se comuniquen mediante una [cola de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos.html#queue-api).
+Modifica el código anterior para que las dos tareas (inicial y muestreadora) se comuniquen mediante una [cola de ESP-IDF]https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos_idf.html#queue-api).
 
 !!! danger "Tarea" 
     La tarea creada (muestreadora) recibirá como argumento el período de muestreo y la cola en la que deberá escribir los datos leídos.

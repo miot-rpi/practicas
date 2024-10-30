@@ -322,12 +322,12 @@ comunes en entornos IoT.
 
 La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:
 
-### Establecimiento de conexión TLS (`esp_tls_conn_new()`)
+### Establecimiento de conexión TLS (`esp_tls_conn_new_sync()`)
 
 * Prototipo:
 
 ```c
-esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constesp_tls_cfg_t *cfg)
+int esp_tls_conn_new_sync(const char *hostname, int hostlen, int port, const esp_tls_cfg_t *cfg, esp_tls_t *tls)
 ```
 
 * Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
@@ -338,14 +338,12 @@ esp_tls_t *esp_tls_conn_new(const char *hostname, int hostlen, int port, constes
     - `hostlen`: Longitud del parámetro `hostname`.
     - `port`: Puerto de conexión con el host.
     - `cfg`: Configuración de la conexión TLS.
-
-* Valor de retorno: Puntero a `esp_tls_t` (manejador de la conexión).
-                    Devuelve `NULL` si se produce un error en la conexión.
+    - `tls`: Puntero a `esp_tls_t` (manejador de la conexión). Devuelve `NULL` si se produce un error en la conexión.
 
 ### Destrucción de conexión TLS (`esp_tls_conn_delete()`)
 
 ```c
-void esp_tls_conn_delete(esp_tls_t *tls)
+ void esp_tls_server_session_delete(esp_tls_t *tls)
 ```
 
 * Descripción: Cierra la conexión TLS/SSL. 
@@ -356,7 +354,7 @@ void esp_tls_conn_delete(esp_tls_t *tls)
 ### Escritura de datos (`esp_tls_conn_read()`)
 
 ```c
-static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
+ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
 ```
 
 * Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
@@ -375,7 +373,7 @@ static ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datal
 ### Lectura de datos (`esp_tls_conn_read()`)
 
 ```c
-static ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
+ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
 ```
 
 * Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer `data`.
@@ -418,7 +416,8 @@ static void tls_client_task( void  *pvParameters )
   esp_tls_cfg_t cfg = { };
 
   // Creación de conexión.
-  struct esp_tls *tls = esp_tls_conn_new( HOST_IP_ADDR, longitud, PORT, &cfg);
+  struct esp_tls tls;
+  ret = esp_tls_conn_new_sync( HOST_IP_ADDR, longitud, PORT, &cfg, &tls);
 
   // Chequeo de errores.
   // ...
@@ -436,7 +435,7 @@ static void tls_client_task( void  *pvParameters )
   // ...
 
   // Destrucción de la conexión
-  esp_tls_conn_delete( tls );
+  esp_tls_server_session_delete( tls );
 
   vTaskDelete( NULL );
 }
@@ -451,3 +450,63 @@ void app_main( void )
     Estudia y prueba el ejemplo base `examples/protocols/https_request`. 
     Opcionalmente, modifica este ejemplo para que interactue con el servidor 
     TLS empleando previamente.
+
+
+#### Desactivación de la comprobación de certificado de servidor
+
+Basta con modificar la configuración del proyecto del siguiente modo:
+
+```
+# CONFIG_EXAMPLE_CLIENT_SESSION_TICKETS is not set
+CONFIG_ESP_TLS_INSECURE=y
+CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY=y
+# CONFIG_MBEDTLS_CERTIFICATE_BUNDLE is not set
+```
+
+Y comentar estás líneas del fichero `https_request_example_main.c` para borrar la configuración de la entidad de certificación (de lo contrario prevalecería sobre la opción `CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY`):
+
+```c
+  esp_tls_cfg_t cfg = {
+  //    .cacert_buf = (const unsigned char *) server_root_cert_pem_start,
+  //    .cacert_bytes = server_root_cert_pem_end - server_root_cert_pem_start,
+  ...
+  };
+```
+
+#### Servidor web de test con certificado autofirmado
+
+Para comprobar el ejemplo `examples/protocols/https_request` con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de `openssl`.
+
+* *Generación del certificado autofirmado.* Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.
+
+```sh
+openssl openssl genrsa -out server.key 2048
+```
+
+```sh
+openssl openssl req -new -x509 -key server.key -out server.crt -days 365
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Madrid
+Locality Name (eg, city) []:Madrid
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:UCM
+Organizational Unit Name (eg, section) []:FDI
+Common Name (e.g. server FQDN or YOUR name) []:<IP HOST>
+Email Address []:lpinuel@ucm.es
+```
+
+* *Arranque del servidor web*.
+
+```sh
+openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
+
+Using default temp DH parameters
+ACCEPT
+```

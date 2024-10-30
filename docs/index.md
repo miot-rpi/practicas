@@ -28,9 +28,9 @@
 | 1        | 23/09 | [TCP/UDP (ESP32)](RPI-II/P1_III/index.md). [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md)  [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md)   |
 | 2        | 30/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
 | 3        | 07/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
-| 4        | 14/10 | Websockets                                   |
-| 5        | 21/10 | MQTT (1)                                     |
-| 5        | 28/10 | MQTT (2)                                     |
+| 4        | 14/10 | [Websockets](RPI-II/P4/index.md)             |
+| 5        | 21/10 | [MQTT (I)](RPI-II/P5/index.md)               |
+| 5        | 28/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
 | 6        | 04/11 | Thingsboard                                  |
 | 7        | 11/11 | CoAP                                         |
 | 8        | 18/11 | LWM2M                                        |
@@ -50,7 +50,7 @@
 | 2        | 01/10 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
 | 3        | 08/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
 | 3        | 15/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
-| 4        | 22/10 | [I2C](ANIOT/P4/index.md)                         |
+| 4        | 22/10 | [Continuación P3](ANIOT/P3/index.md)                         |
 | 4        | 29/10 | [I2C](ANIOT/P4/index.md)                         |
 | 5        | 05/11 | [ADC](ANIOT/P5/index.md)                          |
 | 6        | 12/11 | [Modos de consumo](ANIOT/P6/index.md)                          |

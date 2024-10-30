@@ -1,4 +1,4 @@
-# Práctica 6. Bluetooth Low Energy (BLE)
+# Práctica 6. Bluetooth Low Energy (BLE). Cliente
 
 # Objetivos
 
