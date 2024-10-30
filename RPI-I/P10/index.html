@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 10. LoRa y LoRaWAN - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-I <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+</li>
+                                    
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">RPI-II <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (1)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P1_II/" class="dropdown-item">Práctica 1 (2)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P1_III/" class="dropdown-item">Práctica 1 (3)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P1_IV/" class="dropdown-item">Práctica 1 (4)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ANIOT <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#practica-10-lora-y-lorawan" class="nav-link">Práctica 10. LoRa y LoRaWAN</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#lorawan-the-things-network" class="nav-link">LoRaWAN. The Things Network</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#comunicacion-lora-raw" class="nav-link">Comunicación LoRa raw</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-10-lora-y-lorawan">Práctica 10. LoRa y LoRaWAN</h1>
+<h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
+<p>En esta práctica vamos a utilizar la tecnología LoRa para comunicar nuestros
+nodos esp32 entre ellos, así como con el Router de Red LoRaWAN y los servicios
+del cloud de The Things Network (TTN).</p>
+<p>El nodo esp32 con el que hemos venido trabajando no dispone de radio LoRa
+incorporada, por lo que deberemos conectar un transceptor externo antes de poder
+utilizar esta tecnología para nuestras comunicaciones. Asimismo, para la
+conexión con los servidores de TTN necesitaremos un gateway LoRa. Por motivos
+prácticos usaremos un único Gateway para toda la clase, que será configurado por
+el profesor, aunque la memoria de la práctica detalla los pasos a seguir para su
+configuración y registro en TTN.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Escribe un informe en el que describas cada una de las tareas propuestas, su
+desarrollo y los resultados obeservados, así como tus observaciones o
+comentarios personales.</p>
+</div>
+<h2 id="lorawan-the-things-network">LoRaWAN. The Things Network</h2>
+<p>En la arquitectura LoRaWAN los nodos envían mensajes al aire, cualquier gateway
+al alcance recibe el mensaje y lo envía por Internet al servidor de red
+configurado, que elimina los duplicados y reenvía a su vez el mensaje al
+servidor de aplicación configurado.</p>
+<p><a href="https://www.thethingsnetwork.org/">The Things Network (TTN)</a> es una red abierta
+en la que cualquier persona puede crear una cuenta y dar de alta gateways y/o
+nodos. Los paquetes capturados por cualquier gateway de la red TTN son enviados
+a su servidor de red, que los envía a su servidor de aplicación, que ofrece un
+dashboard al usuario donde puede ver los paquetes recibidos.</p>
+<p>Las siguientes subsecciones describen los elementos que necesitamos para montar
+una red LoRaWAN, con nodos esp32, que envíen datos a un gateway LoRa conectado a
+la red TTN.</p>
+<h3 id="registro-de-gateway-en-ttn">Registro de Gateway en TTN</h3>
+<p>Para poder desplegar nuestra red lo primero que debemos hacer es dar de alta un
+gateway en TTN. Esto no podemos hacerlo todos porque no habrá un gateway por
+alumno, pero aquí se documentan los pasos a seguir.</p>
+<p>Primero nos conectamos a TTN, nos registramos si no tenemos cuenta, y entramos
+en el sistema. Una vez conectados, se nos muestra el dashboard:</p>
+<p><img alt="" src="img/ttn-dashboard.png" /></p>
+<p>En el panel izquierdo pulsamos en Gateways y luego en el botón Create Gateway
+del lado derecho de la ventana. Nos aparecerá una ventana en la que tendremos
+que introducir el identificador universal del gateway (EUI) que vendrá en la
+pegatina de la tapa inferior del mismo (marcado como M2 EUI):</p>
+<p><img alt="" src="img/ttn-create-gateway.png" /></p>
+<p>Damos entonces a Register Gateway y el quedrá registrado en nuestro dashboard:</p>
+<p><img alt="" src="img/ttn-create-gateway-done.png" /></p>
+<p>Sólo nos falta crear un API key para permitir la conexión del gateway. Para ello
+seleccionamos API keys en el panel izquierdo del dashboard del gateway que hemos
+creado y pulsamos el botón Add API Key en el lado derecho de la ventana.
+Rellenamos los datos y pulsamos Create API Key:</p>
+<p><img alt="" src="img/ttn-gateway-api-key.png" /></p>
+<p>Se nos abrirá una ventana que nos permitirá copiar el API key generado. Es
+importante hacer la copia y guardarla porque la necesitarmos para configurar
+nuestro el Gateway.</p>
+<h3 id="gateway-laird-sentrinus-rg1xx">Gateway Laird Sentrinus RG1xx</h3>
+<p>Este proceso no podemos hacerlo todos puesto que no disponemos más que de un
+gateway LoRa comercial, concretamente el modelo Sentrinus RG1xx de Laird. A
+continuación se describe el proceso que debemos seguir para configurar dicho
+gateway para trabajar con TTN.</p>
+<p>Empezaremos por conectarnos a la web de configuración del gateway usando su
+interfaz wifi. Para ello pulsaremos el botón de usuario (parte trasera) durante
+unos 10 segundos y luego lo soltamos. Esto configurará un punto de acceso wifi
+con SSID rg1xx294c1f al que nos conectaremos. Una vez conectados abriremos un
+navegador web y nos conectaremos a la dirección 192.168.1.1 e introducimos el
+usuario y contraseña (consultar manual si no se ha cambiado). Entonces
+selecionamos la opción LoRa en el menú superior y se abrirá una página. En el
+panel izquierdo pulsaremos en Forwarder y en el panel central seleccionaremos el
+modo Semtech Basics Stations. Además tendremos que proporcionar la url del
+servidor de red (LNS server), el certificado del servidor y el <em>Key File</em>,
+siguiendo <a href="https://www.thethingsindustries.com/docs/gateways/concepts/lora-basics-station/lns/">las instrucciones de la página de
+TTN</a>
+y usando el API key generado en TTN en el paso anterior para el gateway.</p>
+<p><img alt="" src="img/ttn-rg1xx-gateway-config.png" /></p>
+<p>Podemos entonces conectar el gateway a la red por su interfaz ethernet (que
+podemos configurar previamente) o activar su interfaz wifi para el acceso a
+internet (que debemos configurar en esta misma web). Si todo ha ido bien,
+veremos en el dashboard de TTN que nuestro gateway se ha conectado:</p>
+<p><img alt="" src="img/ttn-rg1xx-gateway-connected.png" /></p>
+<h3 id="registro-de-aplicacion-en-ttn">Registro de Aplicación en TTN</h3>
+<p>Una vez registrado el Gateway debemos registrar una aplicación en TTN a la que
+podremos vincular nodos. Esto podemos hacerlo cada uno por nuestra cuenta. Para
+ello pulsaremos en Applications en el panel izquierdo del dashboard, y acto
+seguido en el botón Add Application de la parte derecha de la ventana, y
+rellenamos los datos para la aplicación:</p>
+<p><img alt="" src="img/ttn-add-application.png" /></p>
+<p>Pulsamos a Create Application y nos mostrará el dashboard de la aplicación, que
+nos permitirá añadir nodos a la aplicación, como se indica en la siguiente
+subsección.</p>
+<h3 id="registro-de-end-devices">Registro de End-Devices</h3>
+<p>El dashboard de la aplicación está actualmente vació:</p>
+<p><img alt="" src="img/ttn-add-application-done.png" /></p>
+<p>Para añadir un nodo pulsamos en Register End Device. Como vamos a crear un end
+device a partir de una placa esp32 debemos seleccionar <em>Enter end device
+specifics manually</em>; si tuvieramos un nodo comercial podríamos darlo de alta
+escaneando un QR o seleccionandolo en el menú desplegable. Introducimos los
+datos como muestra la figura siguiente, seleccionando como JoinEUI/AppEUI el
+identificador que queramos:</p>
+<p><img alt="" src="img/ttn-add-end-device-esp32.png" /></p>
+<p>Al pulsar en Confirm se nos mostrarán nuevos campos para introducir o generar
+el identificador del dispositivo (devEUI) y la clave de la aplicación (AppKey).
+Pulsaremos el botón generar en ambos casos y copiaremos los valores generados
+porque luego tendremos que usarlos en el firmware del nodo que desarrollemos.
+Finalmente pondremos un nombre a nuestro dispositivo:</p>
+<p><img alt="" src="img/ttn-add-end-device-esp32-filled.png" /></p>
+<p>Pulsaremos Register End Device para completar el proceso.</p>
+<h3 id="transceptor-hoperfm95">Transceptor HopeRFM95</h3>
+<p>El dispositvo <a href="https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&amp;/modules/index.html&amp;gad_source=1&amp;gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB">HopeRFM95</a>
+es un pequeño trasceptor LoRa que puede conectarse por SPI a cualquier
+microcontrolador para dotarle de conectividad LoRa. Han salido al mercado varios
+modelos de <em>breakout boards</em> que nos permiten adaptar este transceptor a una
+<em>breadboard</em> y así poder usar cables estándar para conectar el transceptor a
+nuestro nodo esp32.</p>
+<p>La siguiente figura muestra el esquema de una de estas placas de <em>breakout</em>:</p>
+<p><img alt="" src="img/hoperf-rfm95-breakout.webp" /></p>
+<p>Para conectar este transceptor al esp32 dev kit rust, debemos poner ambos sobre
+una breadboard. Debido a la anchura del transceptor no tendremos acceso a los
+pines por los dos lados, por lo que deberemos utilizar cable de puente (<em>jumper
+wire</em>) para sacar las conexiones de uno de los lados. Lo más sencillo es sacar
+uno de los pines de tierra (GND) y el de alimentación (3.3 V) dejando accesible
+el otro lado para conexiones directas.</p>
+<p>El pinout del dev kit rust es el siguiente:</p>
+<p><img alt="" src="img/dev-kit-rust-pinout.png" /></p>
+<p>Una posible conexión entre el transceptor y la esp32 dev kit rust sería la
+siguiente:</p>
+<table>
+<thead>
+<tr>
+<th>HopeRF breakout</th>
+<th style="text-align: center;">esp32 dev kit rust</th>
+<th style="text-align: center;">Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCK</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">SPI CLK</td>
+</tr>
+<tr>
+<td>MOSI</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">SPI MOSI</td>
+</tr>
+<tr>
+<td>MISO</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">SPI MISO</td>
+</tr>
+<tr>
+<td>NSS</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">SPI SS</td>
+</tr>
+<tr>
+<td>RST</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">Reset</td>
+</tr>
+<tr>
+<td>DIO0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">DIO0</td>
+</tr>
+<tr>
+<td>DIO1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">DIO1</td>
+</tr>
+<tr>
+<td>3.3 V</td>
+<td style="text-align: center;">3.3 V</td>
+<td style="text-align: center;">3.3 V</td>
+</tr>
+<tr>
+<td>GND</td>
+<td style="text-align: center;">GND</td>
+<td style="text-align: center;">GND</td>
+</tr>
+</tbody>
+</table>
+<p>La siguiente figura muestra como las dos placas conectadas con las conexiones
+indicadas en la tabla anterior:</p>
+<p><img alt="" src="img/esp32-and-rfm95.jpeg" /></p>
+<h3 id="codigo-del-nodo-libreria-ttn-esp32">Codigo del nodo: librería ttn-esp32</h3>
+<p>La librería <a href="https://github.com/manuelbl/ttn-esp32">ttn-esp32</a> es un componente
+para esp-idf que proporciona comunicación LoRaWAN con The Things Network.
+Soporta dispositivos conectados a transceptores Semtech SX127x. Esta librería
+soporta las siguientes características de TTN:</p>
+<ul>
+<li>OTAA (activación remota, <em>over the air activation</em>)</li>
+<li>Mensajes uplink y downlink</li>
+<li>Guardado los EUIs y la clave en memoria no volátil</li>
+<li>Deep sleep y apagado sin necesidad de reincorporación</li>
+<li>Comandos AT para el aprovisionamiento de EUIs y clave (de modo que el mismo
+  código puede ser flasheado a varios dispositivos)</li>
+<li>Compatibilidad con las regiones de Europa, América del Norte y del Sur,
+  Australia, Corea, Asia e India</li>
+<li>API en C y C++</li>
+</ul>
+<p>Este componente usa por debajo la librería LMIC de IBM (específicamente la
+versión mantenida por MCCI) y proporciona una API de alto nivel específicamente
+dirigida a The Things Network.</p>
+<p>Para crear un proyecto que use esta librería lo primero que haremos es clonar el
+repositorio en nuestro equipo o descargar el zip de la rama master:</p>
+<pre><code class="language-sh">git clone https://github.com/manuelbl/ttn-esp32.git
+</code></pre>
+<p>o</p>
+<pre><code class="language-sh">wget https://github.com/manuelbl/ttn-esp32/archive/master.zip
+unzip master.zip
+</code></pre>
+<p>Después copiaremos el ejemplo que viene con la librería en examples/hello_world
+a un nuevo directorio. Dentro de la copia creamos un directorio <em>components</em> y
+dentro copiaremos toda la librería ttn-esp32. La estructura que tendrá el
+proyecto será:</p>
+<pre><code class="language-sh">hello_world/
++- CMakeLists.txt
++- components/
+|  +- ttn-esp32
+|     +- ...
++- main/
+|   - CMakeLists.txt
+|   - component.mk
+|   - main.cpp
++- Makefile
+</code></pre>
+<p>Si echamos un vistazo al fichero main.cpp veremos que el programa se conectará a
+TTN, y después el nodo se pondrá a enviar mensajes "hello world" uplink (hacia
+el servidor de aplicación) al ritmo de uno por segundo. El programa debe ser
+configurado definiendo los valores de una serie de macros, que determinan por un
+lado los identificadores del nodo para TTN y por otro lado los pines usados para
+la conexión del esp32 con el transceptor LoRa.</p>
+<p>Para los identificadores del nodo en TTN usaremos los datos obtenidos en el
+registro del end device en TTN:</p>
+<pre><code class="language-c">// AppEUI (sometimes called JoinEUI)
+const char *appEui = &quot;0101010101010101&quot;;
+// DevEUI
+const char *devEui = &quot;70B3D57ED006B7B2&quot;;
+// AppKey
+const char *appKey = &quot;8427407CC943D5B188160CC89F176846&quot;;
+</code></pre>
+<p>Para la conexión entre ambos chips indicada, arriba en la sección del
+transceptor HopeRFM95, la configuración de pines sería como sigue:</p>
+<pre><code class="language-c">#define TTN_SPI_HOST      SPI2_HOST
+#define TTN_SPI_DMA_CHAN  SPI_DMA_DISABLED
+#define TTN_PIN_SPI_SCLK  4
+#define TTN_PIN_SPI_MOSI  2
+#define TTN_PIN_SPI_MISO  3
+#define TTN_PIN_NSS       6
+#define TTN_PIN_RXTX      TTN_NOT_CONNECTED
+#define TTN_PIN_RST       5
+#define TTN_PIN_DIO0      0
+#define TTN_PIN_DIO1      1
+</code></pre>
+<p>Una vez configurado el fichero fuente main.cpp, haremos un menuconfig para
+configurar la librería ttn-esp32. En la parte final (abajo) del menú principal
+encontraremos la entrada The Things Network, y seleccionaremos en ella las
+entradas como en la figura siguiente:</p>
+<p><img alt="" src="img/ttn-esp32-menuconfig.png" /></p>
+<p>Después podemos compilar el proyecto y descargarlo en la placa (flash). Lo
+monitorizaremos, y si todo ha ido bien iremos viendo en el dashboard de nuestra
+aplicación TTN cómo se van recibiendo los mensajes.</p>
+<p>La aplicación envía el mensaje hello world, pero el dashboard nos muestra el
+payload del mensaje en hexadecimal. Podemos usar el servicio de <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">RapidTable</a>
+para traducir el payload hexadecimal a ascii y comprobar así que el payload
+recibido es correcto.</p>
+<div class="admonition danger">
+<p class="admonition-title">tarea</p>
+<p>Modificar el código para que se envíen mensajes con payload {0xAA, 0xBB,
+0xCC, 0xDD} y comprobar en el dashboard que se reciben correctamente.
+Incluir en el informe las capturas de pantalla apropiadas.</p>
+</div>
+<h2 id="comunicacion-lora-raw">Comunicación LoRa raw</h2>
+<p>Podemos también hacer comunicaciones LoRa diréctamente entre los nodos sin
+necesidad de utilizar la infrastructura de red LoRaWAN. Para ello podemos hacer
+uso de la librería
+<a href="https://github.com/Inteform/esp32-lora-library">esp32-lora-library</a> que es un
+componente de esp-idf que podemos añadir a un proyecto para tener comunicaciones
+LoRa usando transceptores de la familia Semtech SX127x.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea opcional</p>
+<p>Clonar el repositorio de la librería. Crear un proyecto de esp-idf que use
+esta librería como componente. Programar dos nodos con el código de ejemplo
+que viene en el README.md de la librería, acordándonos de configurar los
+pines usados para la conexión con el transceptor a través del menuconfig.
+Monitorizar ambos nodos y comprobar que los paquetes enviados por uno son
+recibidos por el otro. Añadir a la memoria las capturas de pantalla
+apropiadas que muestren el correcto funcionamiento de los nodos.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
