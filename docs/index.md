@@ -14,7 +14,7 @@
 | 7        | 28/10 | [BLE Mesh](RPI-I/P7/index.md)                                   |
 | 8        | 04/11 | 802.15.4 y Thread                                               |
 | 9        | 11/11 | [6LowPAN y RPL](RPI-I/P9/index.md)                                                         |
-| 10       | 18/11 | LoRa y LoRaWan                                                  |
+| 10       | 18/11 | [LoRa y LoRaWan](RPI-I/P10/index.md)                                                  |
 |          | 25/11 | Charla SigFox (Por confirmar)                                   |
 |          | 02/12 | Proyecto                                                        |
 |          | 09/12 | Proyecto                                                        |
