@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Práctica 6 - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../P1_III/" class="dropdown-item">Práctica 1 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../P5/" class="dropdown-item">Práctica 5 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../P5_II/" class="dropdown-item">Práctica 5 (II)</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Práctica 6</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P5_II/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../ANIOT/P1/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#practica-6-introduccion-a-thingsboard" class="nav-link">Práctica 6. Introducción a ThingsBoard</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#introduccion-a-thingsboard" class="nav-link">Introducción a ThingsBoard</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#que-es-thingsboard" class="nav-link">¿Qué es ThingsBoard?</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#provisionamiento" class="nav-link">Provisionamiento</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#gestion-de-telemetria-y-visualizacion" class="nav-link">Gestión de telemetría y visualización</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#gestion-de-atributos" class="nav-link">Gestión de atributos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-6-introduccion-a-thingsboard">Práctica 6. Introducción a ThingsBoard</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Entender los conceptos básicos detrás de la plataforma IoT Thingsboard.</li>
+<li>Dominar el proceso de provisionamiento automático de dispositivos.</li>
+<li>Aprender a gestionar datos de telemetrí enviados a la plataforma desde el dispositivo. </li>
+<li>Aprender a gestionar atributos de dispositivos y diferenciar entre los tres tipos que ofrece Thingsboard.</li>
+<li>Realizar representaciones sencillas en forma de <em>dashboard</em> y gestionar alarmas.</li>
+</ul>
+<h2 id="introduccion-a-thingsboard">Introducción a ThingsBoard</h2>
+<h1 id="que-es-thingsboard">¿Qué es ThingsBoard?</h1>
+<p>ThingsBoard es una plataforma de código abierto para la gestión de dispositivos IoT (Internet de las Cosas) que permite a los usuarios conectar, administrar y analizar datos de dispositivos de forma sencilla y eficiente. Algunas de sus características clave incluyen:</p>
+<ol>
+<li>
+<p><strong>Gestión de Dispositivos</strong>: ThingsBoard permite a los usuarios registrar y administrar dispositivos IoT, así como definir atributos y telemetría que pueden ser enviados desde los dispositivos a la plataforma.</p>
+</li>
+<li>
+<p><strong>Visualización de Datos</strong>: La plataforma proporciona herramientas para crear dashboards personalizables, donde los usuarios pueden visualizar datos en tiempo real mediante gráficos, mapas y otros widgets.</p>
+</li>
+<li>
+<p><strong>Integración de Protocolos</strong>: ThingsBoard admite múltiples protocolos de comunicación, como MQTT, HTTP y CoAP, lo que facilita la conexión de dispositivos IoT de diferentes fabricantes.</p>
+</li>
+<li>
+<p><strong>Reglas y Alarmas</strong>: Los usuarios pueden configurar reglas y alertas para gestionar eventos en tiempo real, lo que permite automatizar acciones basadas en condiciones específicas.</p>
+</li>
+<li>
+<p><strong>Escalabilidad</strong>: Es adecuada para aplicaciones desde pequeñas hasta grandes, lo que la hace versátil para diferentes tipos de proyectos IoT.</p>
+</li>
+<li>
+<p><strong>API y Extensibilidad</strong>: ThingsBoard ofrece API REST y MQTT que permiten a los desarrolladores integrar la plataforma con otros sistemas y servicios.</p>
+</li>
+</ol>
+<p>En resumen, ThingsBoard es una solución robusta para la gestión y análisis de datos IoT que proporciona a los usuarios las herramientas necesarias para construir y escalar aplicaciones IoT de manera efectiva.</p>
+<h3 id="instalacion-y-acceso">Instalación y acceso</h3>
+<p>En esta práctica, puedes optar por utilizar la versión de demostración en <em>cloud</em> de 
+Thingsboard, o bien instalar tu propia versión de la plataforma en una máquina con
+acceso local o remoto. </p>
+<p>Dispones de toda la información sobre instalación en distintas plataformas en
+<a href="https://thingsboard.io/docs/user-guide/install/installation-options/">la página de ThingsBoard</a>.</p>
+<p>En un entorno Docker ya preparado, la forma más sencilla de proceder es mediante la instalación de
+la imagen <code>tb-postgres</code> (instrucciones <a href="https://hub.docker.com/r/thingsboard/tb-postgres/">aquí</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Instala en tu máquina local Thingsboard siguiendo el método de instalación más apropiado a tu caso.</p>
+</div>
+<h3 id="conceptos-basicos">Conceptos básicos</h3>
+<h3 id="prueba-basica-de-conectividad-de-un-dispositivo">Prueba básica de conectividad de un dispositivo</h3>
+<h2 id="provisionamiento">Provisionamiento</h2>
+<h3 id="conceptos-generales">Conceptos generales</h3>
+<p>El proceso de provisionamiento en ThingsBoard puede ser automatizado para así partir 
+de un <em>firmware</em> común que no deba personalizarse para cada dispositivo. Durante el
+provisionamiento automático, el dispositivo puede o bien generar credenciales únicas,
+o bien solicitar al servidor que le proporcione dichas credenciales.</p>
+<p>El funcionamiento es sencillo. El dispositivo envía una petición de provisonamiento
+(<em>request</em>) a ThingsBoard. Esta petición debe contener una clave de provisonamiento
+(<em>provision key</em>) y un secreto (<em>secret</em>). La petición puee incluir, opcionalmente,
+el nombre del dispositivo y las credenciales generadas por el dispositivo. Si dichas
+credenciales no se proporcionan, el servidor generará un <em>access token</em> para que sea
+utilizado en el futuro por el dispositivo provisionado. El esquema podría resumirse como:</p>
+<p><img alt="Provisioning schema" src="img/prov1.png" /></p>
+<p>Siendo un ejemplo de petición de provisionamiento:</p>
+<pre><code class="language-json">{
+  &quot;deviceName&quot;: &quot;DEVICE_NAME&quot;,
+  &quot;provisionDeviceKey&quot;: &quot;YOUR_PROVISION_KEY_HERE&quot;,
+  &quot;provisionDeviceSecret&quot;: &quot;YOUR_PROVISION_SECRET_HERE&quot;
+}
+</code></pre>
+<p>ThingsBoard validará la petición y responderá con la respuesta (<em>response</em>) de provisionamiento
+correspondiente. Una respuesta exitosa contendrá el identificador del dispositivo, tipo de credenciales,
+y el cuerpo de la respuesta (habitualmente, un <em>token</em>). Si la respuesta no fue exitosa, 
+típicamente únicamente contendrá el estado.</p>
+<p>Ejemplo de respuesta de provisionamiento:</p>
+<pre><code class="language-json">{
+  &quot;provisionDeviceStatus&quot;:&quot;SUCCESS&quot;,
+  &quot;credentialsType&quot;:&quot;ACCESS_TOKEN&quot;,
+  &quot;accessToken&quot;:&quot;sLzc0gDAZPkGMzFVTyUY&quot;
+}
+</code></pre>
+<p>Durante la validación de la petición, ThingsBoard comprobará la información proporcionada
+(<em>provisionDeviceKey</em> y <em>provisionDeviceSecret</em>) para encontrar el 
+<a href="https://thingsboard.io/docs/user-guide/device-profiles/">Perfil de Dispositivo</a> correspondiente.
+Cuando se encuentre, la plataforma utilizará la correspondiente estrategia de provisionamiento para
+validar el nombre del dispositivo.</p>
+<p>Existen dos tipos de estrategias de provisionamiento:</p>
+<ul>
+<li>
+<p><strong>Permitir crear nuevos dispositivos</strong>. Se comprueba que ningún dispositivo con el mismo nombre está ya provisonado en ThingsBoard. Esta estrategia es útil si no se dispone de una lista de nombres de dispositivo única (e.g. direcciones MAC) durante la fabricación de los dispositivos pero el dispositivo sí dispone de acceso a dicha información en el <em>firmware</em>. Es más sencilla de implementar, pero menos segura que la segunda estrategia.</p>
+</li>
+<li>
+<p><strong>Comprobar dispositivos pre-provisionados</strong>. Comprueba que el dispositivo con el mismo nombre ya ha sido creado en ThingsBoard, pero todavía no ha sido provisionado. Esta estrategia es útil cuando se desea provisionar sólo una lista preconfeccionada de dispositivos. Asumamos que se ha obtenido una lista de identificadores (e.g. MACs) durante la fabricación. Sería posible utilizar <a href="https://thingsboard.io/docs/user-guide/device-profiles/"><em>bulk provisioning</em></a> para subir dicha lista a ThingsBoard; así, los dispositivos de la lista pueden solicitar peticiones de provisionamiento, y ningún otro dispositivo podría hacerlo.</p>
+</li>
+</ul>
+<p>Cuando el provisionamiento ha finalizado, ThingsBoard actualizará el atributo del servidor <em>provisionState</em> asociado al dispositivo (más sobre atributos más adelante en esta misma práctica), asignándole el valor <em>provisioned</em>.</p>
+<h3 id="configuracion-del-perfil-de-dispositivo">Configuración del perfil de dispositivo</h3>
+<p>Es necesario configurar un perfil de dispositivo para habilitar la funcionalidad de provisionamiento. Concretamente, es necesario seguir los siguientes pasos:</p>
+<ol>
+<li>Crear un nuevo perfil de dispositivo, o editar uno existente. </li>
+<li>Asignarle un nombre, un tipo de transporte (e.g. MQTT), reglas de alarma para los dispositivos que se adhieran al perfil, y por último una estrategia de provisionamiento.</li>
+<li>En el paso 4 (Estrategia de Provisionamiento), seleccionar <em>Permitir crear nuevos dispositivos</em>, y anotar (o recordar clave y secreto de provisonamiento.</li>
+</ol>
+<p>Dispones de toda la información en la <a href="https://thingsboard.io/docs/user-guide/device-profiles/">documentación</a> de ThingsBoard.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Crea dos perfiles de dispositivo con capacidades de provisionamiento. Investiga la definición de alarmas para un campo de telemetría llamado "temperature", que active una alarma siempre que un dispositivo bajo dicho perfil emita un valor superior al umbral fijado. Fija el transporte en MQTT y recuerda los datos de credenciales para los nuevos perfiles.</p>
+</div>
+<h3 id="apis-para-provisonamiento">APIs para provisonamiento</h3>
+<p>En esta práctica, utilizaremos MQTT como API para forzar un proceso de provisionamiento automático desde el dispositivo. Existen alternativas utilizando HTTP y CoAP, que puedes consultar en la documentación de ThingsBoard.</p>
+<p>La API MQTT es sencilla. En esta práctica usaremos credenciales generadas por el servidor ThingsBoard, pero puedes encontrar fácilmente la correspondiente API para credenciales generadas por el dispositivo en la documentación de la plataforma. </p>
+<p>Mediante MQTT, el <em>firmware</em> de dispositivo puede solicitar un proceso de provisionamiento de forma sencilla. Sin embargo, veremos un ejemplo Python que nos servirá de inspiración para la tarea entregable, que se basará en un proceso equivalente utilizando ESP-IDF. Si no lo hiciste en la anterior práctica, instala <em>paho</em> en un entorno virtual:</p>
+<pre><code class="language-sh">python -m venv .venv
+source .venv/bin/activate
+pip install paho-mqtt
+</code></pre>
+<p>Observa el siguiente código; ejecútalo desde cualquier máquina con una instalación de <em>paho-mqtt</em> <code>python3 test.py</code>:</p>
+<pre><code class="language-py">from paho.mqtt.client import Client
+from json import dumps, loads
+
+RESULT_CODES = {
+    1: &quot;incorrect protocol version&quot;,
+    2: &quot;invalid client identifier&quot;,
+    3: &quot;server unavailable&quot;,
+    4: &quot;bad username or password&quot;,
+    5: &quot;not authorised&quot;,
+    }
+
+
+def collect_required_data():
+    config = {}
+    print(&quot;\n\n&quot;, &quot;=&quot;*80, sep=&quot;&quot;)
+    print(&quot; &quot;*10, &quot;\033[1m\033[94mThingsBoard device provisioning with basic authorization example script.\033[0m&quot;, sep=&quot;&quot;)
+    print(&quot;=&quot;*80, &quot;\n\n&quot;, sep=&quot;&quot;)
+    host = input(&quot;Please write your ThingsBoard \033[93mhost\033[0m or leave it blank to use default (thingsboard.cloud): &quot;)
+    config[&quot;host&quot;] = host if host else &quot;demo.thingsboard.io&quot;
+    port = input(&quot;Please write your ThingsBoard \033[93mport\033[0m or leave it blank to use default (1883): &quot;)
+    config[&quot;port&quot;] = int(port) if port else 1883
+    config[&quot;provision_device_key&quot;] = input(&quot;Please write \033[93mprovision device key\033[0m: &quot;)
+    config[&quot;provision_device_secret&quot;] = input(&quot;Please write \033[93mprovision device secret\033[0m: &quot;)
+    device_name = input(&quot;Please write \033[93mdevice name\033[0m or leave it blank to generate: &quot;)
+    if device_name:
+        config[&quot;device_name&quot;] = device_name
+    print(&quot;\n&quot;, &quot;=&quot;*80, &quot;\n&quot;, sep=&quot;&quot;)
+    return config
+
+
+class ProvisionClient(Client):
+    PROVISION_REQUEST_TOPIC = &quot;/provision/request&quot;
+    PROVISION_RESPONSE_TOPIC = &quot;/provision/response&quot;
+
+    def __init__(self, host, port, provision_request):
+        super().__init__()
+        self._host = host
+        self._port = port
+        self._username = &quot;provision&quot;
+        self.on_connect = self.__on_connect
+        self.on_message = self.__on_message
+        self.__provision_request = provision_request
+
+    def __on_connect(self, client, userdata, flags, rc):  # Callback for connect
+        if rc == 0:
+            print(&quot;[Provisioning client] Connected to ThingsBoard &quot;)
+            client.subscribe(self.PROVISION_RESPONSE_TOPIC)  # Subscribe to provisioning response topic
+            provision_request = dumps(self.__provision_request)
+            print(&quot;[Provisioning client] Sending provisioning request %s&quot; % provision_request)
+            client.publish(self.PROVISION_REQUEST_TOPIC, provision_request)  # Publishing provisioning request topic
+        else:
+            print(&quot;[Provisioning client] Cannot connect to ThingsBoard!, result: %s&quot; % RESULT_CODES[rc])
+
+    def __on_message(self, client, userdata, msg):
+        decoded_payload = msg.payload.decode(&quot;UTF-8&quot;)
+        print(&quot;[Provisioning client] Received data from ThingsBoard: %s&quot; % decoded_payload)
+        decoded_message = loads(decoded_payload)
+        provision_device_status = decoded_message.get(&quot;status&quot;)
+        if provision_device_status == &quot;SUCCESS&quot;:
+            self.__save_credentials(decoded_message[&quot;credentialsValue&quot;])
+        else:
+            print(&quot;[Provisioning client] Provisioning was unsuccessful with status %s and message: %s&quot; % (provision_device_status, decoded_message[&quot;errorMsg&quot;]))
+        self.disconnect()
+
+    def provision(self):
+        print(&quot;[Provisioning client] Connecting to ThingsBoard (provisioning client)&quot;)
+        self.__clean_credentials()
+        self.connect(self._host, self._port, 60)
+        self.loop_forever()
+
+    def get_new_client(self):
+        client_credentials = self.__get_credentials()
+        new_client = None
+        if client_credentials:
+            new_client = Client()
+            new_client.username_pw_set(client_credentials)
+            print(&quot;[Provisioning client] Read credentials from file.&quot;)
+        else:
+            print(&quot;[Provisioning client] Cannot read credentials from file!&quot;)
+        return new_client
+
+    @staticmethod
+    def __get_credentials():
+        new_credentials = None
+        try:
+            with open(&quot;credentials&quot;, &quot;r&quot;) as credentials_file:
+                new_credentials = credentials_file.read()
+        except Exception as e:
+            print(e)
+        return new_credentials
+
+    @staticmethod
+    def __save_credentials(credentials):
+        with open(&quot;credentials&quot;, &quot;w&quot;) as credentials_file:
+            credentials_file.write(credentials)
+
+    @staticmethod
+    def __clean_credentials():
+        open(&quot;credentials&quot;, &quot;w&quot;).close()
+
+
+def on_tb_connected(client, userdata, flags, rc):  # Callback for connect with received credentials
+    if rc == 0:
+        print(&quot;[ThingsBoard client] Connected to ThingsBoard with credentials: %s&quot; % client._username.decode())
+    else:
+        print(&quot;[ThingsBoard client] Cannot connect to ThingsBoard!, result: %s&quot; % RESULT_CODES[rc])
+
+
+if __name__ == '__main__':
+
+    config = collect_required_data()
+
+    THINGSBOARD_HOST = config[&quot;host&quot;]  # ThingsBoard instance host
+    THINGSBOARD_PORT = config[&quot;port&quot;]  # ThingsBoard instance MQTT port
+
+    PROVISION_REQUEST = {&quot;provisionDeviceKey&quot;: config[&quot;provision_device_key&quot;],  # Provision device key, replace this value with your value from device profile.
+                         &quot;provisionDeviceSecret&quot;: config[&quot;provision_device_secret&quot;],  # Provision device secret, replace this value with your value from device profile.
+                         }
+    if config.get(&quot;device_name&quot;) is not None:
+        PROVISION_REQUEST[&quot;deviceName&quot;] = config[&quot;device_name&quot;]
+    provision_client = ProvisionClient(THINGSBOARD_HOST, THINGSBOARD_PORT, PROVISION_REQUEST)
+    provision_client.provision()  # Request provisioned data
+    tb_client = provision_client.get_new_client()  # Getting client with provisioned data
+    if tb_client:
+        tb_client.on_connect = on_tb_connected  # Setting callback for connect
+        tb_client.connect(THINGSBOARD_HOST, THINGSBOARD_PORT, 60)
+        tb_client.loop_forever()  # Starting infinity loop
+    else:
+        print(&quot;Client was not created!&quot;)
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Contesta a las siguientes cuestiones:
+- ¿Qué nombre de usuario es necesario usar para la autenticación en el <em>broker</em> MQTT?
+- ¿Qué <em>topics</em> se utilizan para publicar la información de petición de provisionamiento y recibir la respuesta correspondiente?</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Crea un <em>firmware</em> con ESP-IDF que proceda de forma similar al anterior ejemplo, de modo que provisione automáticamente (con nombre generado por el servidor) a un dispositivo ESP32 en ThingsBoard.</p>
+</div>
+<h2 id="gestion-de-telemetria-y-visualizacion">Gestión de telemetría y visualización</h2>
+<p>ThingsBoard proporciona un conjunto de características que permite trabajar con datos en forma de series temporales, permitiendo:</p>
+<ul>
+<li><strong>Recolectar</strong> datos de dispositivos usando distintos <a href="https://thingsboard.io/docs/getting-started-guides/connectivity/">protocolos e integracioens</a>.</li>
+<li><strong>Almacenar</strong> series temporales en forma de base de datos SQL (PostgreSQL) o NoSQL (Cassandra o Timescale).</li>
+<li><strong>Consultar</strong> los últimos valores de telemetría obtenidos o todos los datos en rango de tiempo determinado.</li>
+<li><strong>Suscribirse</strong>  a actualizaciones de datos usando <a href="https://thingsboard.io/docs/user-guide/telemetry/#websocket-api">Websockets</a> para visualización en tiempo real y analítica.</li>
+<li><strong>Visualizar</strong> las series temporales usando <a href="https://thingsboard.io/docs/user-guide/dashboards/"><em>dashboards</em> configurables</a>.</li>
+<li><strong>Filtrar y analizar</strong> datos usando <a href="https://thingsboard.io/docs/user-guide/rule-engine-2-0/re-getting-started/">cadenas de reglas</a>.</li>
+<li><strong>Generar</strong> <a href="https://thingsboard.io/docs/user-guide/alarms/"><strong>alarmas</strong></a> basadas en datos recolectados.</li>
+<li><strong>Reenviar datos</strong> a servicios externos usando <a href="https://thingsboard.io/docs/user-guide/rule-engine-2-0/external-nodes/">reglas</a> (por ejemplo, a Kafka o RabbitMQ).</li>
+</ul>
+<h3 id="puntos-de-datos">Puntos de datos</h3>
+<p>ThingsBoard trata internamente los datos de series temporales como pares clave-valor con marca de tiempo. Llamamos punto de datos a un único par clave-valor con marca de tiempo. La flexibilidad y simplicidad del formato clave-valor permite una integración fácil y sin problemas con casi cualquier dispositivo IoT del mercado. La clave siempre es una cadena de texto y, básicamente, es el nombre de la clave del punto de datos, mientras que el valor puede ser una cadena, un valor booleano, un doble, un entero o un JSON.</p>
+<p>Los ejemplos a continuación usan el formato de datos interno. El propio dispositivo puede cargar datos utilizando varios protocolos y formatos de datos. Consulta la <a href="https://thingsboard.io/docs/user-guide/telemetry/#time-series-data-upload-api">API de carga de datos</a> para más información.</p>
+<p>El siguiente JSON contiene 5 puntos de datos: temperatura (double), humedad (integer), hvacEnabled (boolean), hvacState (string) y configuración (JSON):</p>
+<pre><code class="language-json">{
+  &quot;temperature&quot;: 42.2, 
+  &quot;humidity&quot;: 70,
+  &quot;hvacEnabled&quot;: true,
+  &quot;hvacState&quot;: &quot;IDLE&quot;,
+  &quot;configuration&quot;: {
+    &quot;someNumber&quot;: 42,
+    &quot;someArray&quot;: [1, 2, 3],
+    &quot;someNestedObject&quot;: {&quot;key&quot;: &quot;value&quot;}
+  }
+}
+</code></pre>
+<p>Observa que el JSON listado arriba no contiene información de marca de tiempo. En tal caso, ThingsBoard utiliza la marca de tiempo actual del servidor. Sin embargo, puedes incluir información de marca de tiempo en el mensaje. Consulta el ejemplo a continuación:</p>
+<pre><code class="language-json">{
+  &quot;ts&quot;: 1527863043000,
+  &quot;values&quot;: {
+    &quot;temperature&quot;: 42.2,
+    &quot;humidity&quot;: 70
+  }
+}
+</code></pre>
+<h3 id="api-mqtt">API MQTT</h3>
+<p>Para publicar datos de telemetría al servidor ThingsBoard desde cualquier dispositivo, es suficiente con publicar
+un mensaje MQTT bajo el siguiente topic:</p>
+<pre><code class="language-sh">v1/devices/me/telemetry`
+</code></pre>
+<p>El formato de datos más simple soportado es:</p>
+<pre><code class="language-json">{&quot;key1&quot;:&quot;value1&quot;, &quot;key2&quot;:&quot;value2&quot;}
+</code></pre>
+<p>o</p>
+<pre><code class="language-json">[{&quot;key1&quot;:&quot;value1&quot;}, {&quot;key2&quot;:&quot;value2&quot;}]
+</code></pre>
+<p>(en este caso, la marca de tiempo será asignada por el servidor).</p>
+<p>Si se desea que el cliente fije la marca de tiempo, es posible usar el formato:</p>
+<pre><code class="language-json">{&quot;ts&quot;:1451649600512, &quot;values&quot;:{&quot;key1&quot;:&quot;value1&quot;, &quot;key2&quot;:&quot;value2&quot;}}
+</code></pre>
+<p>Donde 1451649600512 es una marca de tiempo Unix con precisión de milisegundos.</p>
+<p>Usando las herramientas de la suite <em>mosquitto</em>, podríamos enviar un dato como:</p>
+<pre><code class="language-sh">mosquitto_pub -d -q 1 -h &quot;demo.thingsboard.io&quot; -t &quot;v1/devices/me/telemetry&quot; -u &quot;$ACCESS_TOKEN&quot; -m &quot;{&quot;temperature&quot;:42}&quot;
+</code></pre>
+<p>Para enviar un objeto JSON sin datos de marca de tiempo:</p>
+<pre><code class="language-sh">mosquitto_pub -d -q 1 -h &quot;demo.thingsboard.io&quot; -t &quot;v1/devices/me/telemetry&quot; -u &quot;$ACCESS_TOKEN&quot; -f &quot;telemetry-data-as-object.json&quot;
+</code></pre>
+<p>Siendo el contenido del fichero JSON:</p>
+<pre><code class="language-json">{
+  &quot;stringKey&quot;: &quot;value1&quot;,
+  &quot;booleanKey&quot;: true,
+  &quot;doubleKey&quot;: 42.0,
+  &quot;longKey&quot;: 73,
+  &quot;jsonKey&quot;: {
+    &quot;someNumber&quot;: 42,
+    &quot;someArray&quot;: [1,2,3],
+    &quot;someNestedObject&quot;: {&quot;key&quot;: &quot;value&quot;}
+  }
+}
+</code></pre>
+<p>Para publicar, por ejemplo, un objeto con marca de tiempo, usando datos más complejos, podríamos construir el siguiente JSON:</p>
+<pre><code class="language-json">{
+  &quot;ts&quot;: 1451649600512,
+  &quot;values&quot;: {
+    &quot;stringKey&quot;: &quot;value1&quot;,
+    &quot;booleanKey&quot;: true,
+    &quot;doubleKey&quot;: 42.0,
+    &quot;longKey&quot;: 73,
+    &quot;jsonKey&quot;: {
+      &quot;someNumber&quot;: 42,
+      &quot;someArray&quot;: [1, 2, 3],
+      &quot;someNestedObject&quot;: {
+        &quot;key&quot;: &quot;value&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Modifica el anterior firmware para que, desde una tarea y periódicamente, se envíe a Thingsboard datos de telemetría. Estos datos pueden tener un valor aleatorio, pero sería muy conveniente (aunque no evaluable para la práctica) que se tomasen desde sensores reales. El formato del mensaje es libre, pero intenta obtener uno que aune realismo y cierta complejidad en el uso de tipos de datos.</p>
+</div>
+<h2 id="gestion-de-atributos">Gestión de atributos</h2>
+<p>ThingsBoard proporciona la capacidad de asignar atributos personalizados a las entidades (por ejemplo, a los dispositivos) y gestionar estos atributos. Estos atributos se almacenan en la base de datos y pueden ser utilizados para la visualización y el procesamiento de datos.</p>
+<p>Los atributos se tratan como pares clave-valor. La flexibilidad y simplicidad del formato clave-valor permiten una integración fácil y sin problemas con casi cualquier dispositivo IoT del mercado. La clave siempre es una cadena de texto y, básicamente, es el nombre del atributo, mientras que el valor del atributo puede ser una cadena, un valor booleano, un doble, un entero o un JSON. Por ejemplo:</p>
+<pre><code class="language-json">{
+ &quot;firmwareVersion&quot;:&quot;v2.3.1&quot;, 
+ &quot;booleanParameter&quot;:true, 
+ &quot;doubleParameter&quot;:42.0, 
+ &quot;longParameter&quot;:73, 
+ &quot;configuration&quot;: {
+    &quot;someNumber&quot;: 42,
+    &quot;someArray&quot;: [1,2,3],
+    &quot;someNestedObject&quot;: {&quot;key&quot;: &quot;value&quot;}
+ }
+}
+</code></pre>
+<p>El desarrollador es libre para seleccionar cualquier nombre de atributo.</p>
+<h3 id="tipos-de-atributos">Tipos de atributos</h3>
+<h4 id="atributos-de-servidor">Atributos de servidor</h4>
+<p>Este tipo de atributo es compatible con casi cualquier entidad de la plataforma, incluyendo dispositivos, bienes, u otras entidades.
+Los atributos del lado del servidor son aquellos que pueden ser configurados a través de la interfaz de administración o la API REST. El firmware del dispositivo no puede acceder al atributo del lado del servidor.</p>
+<p><img alt="Atributos de servidor" src="img/server-side-attributes.svg" /></p>
+<p>Supongamos que deseas construir una solución de monitorización de edificios y revisemos algunos ejemplos:</p>
+<ul>
+<li>La latitud, longitud y dirección son buenos ejemplos de atributos del lado del servidor que puedes asignar a activos que representen edificios u otros bienes inmuebles. Puedes utilizar estos atributos en el widget de mapa en tu panel para visualizar la ubicación de los edificios.</li>
+<li>El atributo floorPlanImage puede contener una URL de la imagen. Puedes usar este atributo para visualizar el plano de planta en el widget de mapa de imagen.</li>
+<li>Los atributos maxTemperatureThreshold y temperatureAlarmEnabled pueden ser utilizados para configurar y habilitar/deshabilitar alarmas para un dispositivo o activo en particular.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<ol>
+<li>Ve a <strong>Dispositivos</strong>. Haz clic en la fila del dispositivo en particular para abrir los detalles del dispositivo.</li>
+<li>Selecciona la pestaña <strong>Atributos</strong>. Elige el alcance de <strong>Atributos del servidor</strong>. Haz clic en el icono "+".</li>
+<li>Introduce el nombre del nuevo atributo. Selecciona el tipo de valor del atributo e introduce el valor del atributo.</li>
+<li>Ordena usando <strong>Hora de la última actualización</strong> para ubicar rápidamente el atributo recién creado.</li>
+</ol>
+</div>
+<p>En la documentación de ThingsBoard encontrarás la API para gestionar este tipo de atributos programáticamente.</p>
+<h4 id="atributos-compartidos">Atributos compartidos</h4>
+<p>Este tipo de atributos está disponible solo para Dispositivos. Es similar a los atributos del lado del servidor, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede solicitar el valor de los atributos compartidos o suscribirse a las actualizaciones de estos atributos. Los dispositivos que se comunican mediante MQTT u otros protocolos de comunicación bidireccional pueden suscribirse a las actualizaciones de atributos y recibir notificaciones en tiempo real. Los dispositivos que se comunican a través de HTTP u otros protocolos de comunicación de solicitud-respuesta pueden solicitar periódicamente el valor de los atributos compartidos.</p>
+<p><img alt="Atributos compartidos" src="img/shared-attributes.svg" /></p>
+<p>El caso de uso más común de los atributos compartidos es almacenar configuraciones de dispositivos. Supongamos la misma solución de monitoreo de edificios y revisemos algunos ejemplos:</p>
+<ul>
+<li>El atributo targetFirmwareVersion puede ser utilizado para almacenar la versión de firmware para un dispositivo en particular.</li>
+<li>El atributo maxTemperature puede ser utilizado para activar automáticamente el sistema HVAC si hace demasiado calor en la habitación.</li>
+<li>El usuario puede cambiar el atributo a través de la interfaz de usuario. Un script u otra aplicación del lado del servidor puede cambiar el valor del atributo a través de la API REST.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<ol>
+<li>Ve a <strong>Dispositivos</strong>. Haz clic en la fila del dispositivo en particular para abrir los detalles del dispositivo.</li>
+<li>Selecciona la pestaña <strong>Atributos</strong>. Elige el alcance de <strong>Atributos compartidos</strong>. Haz clic en el icono "+".</li>
+<li>Introduce el nombre del nuevo atributo. Selecciona el tipo de valor del atributo e introduce el valor del atributo.</li>
+<li>Observa el nuevo atributo.</li>
+</ol>
+</div>
+<p>La función de <a href="https://thingsboard.io/docs/user-guide/bulk-provisioning/"><em>bulk provisioning</em></a> te permite crear rápidamente múltiples dispositivos y activos y sus atributos desde un archivo CSV.</p>
+<h4 id="atributos-de-cliente">Atributos de cliente</h4>
+<h3 id="este-tipo-de-atributos-esta-disponible-solo-para-dispositivos">Este tipo de atributos está disponible solo para Dispositivos</h3>
+<p>Se utiliza para reportar varios datos semiestáticos desde el Dispositivo (Cliente) a ThingsBoard (Servidor). Es similar a los atributos compartidos, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede enviar el valor de los atributos desde el dispositivo a la plataforma.</p>
+<p><img alt="Atributos de cliente" src="img/client-side-attributes.svg" /></p>
+<p>El caso de uso más común de los atributos del cliente es reportar el estado del dispositivo. Supongamos la misma solución de monitoreo de edificios y revisemos algunos ejemplos:</p>
+<ul>
+<li>El atributo <code>currentFirmwareVersion</code> puede ser utilizado para reportar la versión del firmware/aplicación instalada para el dispositivo a la plataforma.</li>
+<li>El atributo <code>currentConfiguration</code> puede ser utilizado para reportar la configuración actual del firmware/aplicación a la plataforma.</li>
+<li>El atributo <code>currentState</code> puede ser utilizado para persistir y restaurar el estado actual del firmware/aplicación a través de la red, si el dispositivo no tiene almacenamiento persistente.</li>
+</ul>
+<p>Los usuarios y las aplicaciones del lado del servidor pueden explorar los atributos del lado del cliente a través de la interfaz de usuario/API REST, pero no pueden cambiarlos. Básicamente, el valor del atributo del lado del cliente es de solo lectura para la UI/API REST.</p>
+<h3 id="api-para-gestion-de-atributos">API para gestión de atributos</h3>
+<p>La API de atributos de ThingsBoard permite a los dispositivos:</p>
+<ul>
+<li>Subir atributos del dispositivo del lado del cliente al servidor.</li>
+<li>Solicitar atributos del dispositivo del lado del cliente y compartidos desde el servidor.</li>
+<li>Suscribirse a atributos compartidos del dispositivo desde el servidor.</li>
+</ul>
+<h4 id="publicar-actualizacion-de-atributos-en-el-servidor">Publicar actualización de atributos en el servidor</h4>
+<p>Para publicar atributos del dispositivo del lado del cliente en el nodo del servidor de ThingsBoard, envía un mensaje <strong>PUBLISH</strong> al siguiente topic:</p>
+<pre><code class="language-sh">v1/devices/me/attributes
+</code></pre>
+<p>A continuación, se muestran ejemplos de cómo publicar atributos de dispositivo del lado del cliente.</p>
+<p>No olvides reemplazar <code>demo.thingsboard.io</code> con tu host y <code>$ACCESS_TOKEN</code> con el token de acceso de tu dispositivo. En este ejemplo, el nombre de host hace referencia al servidor de demostración en vivo.</p>
+<p><strong>Ejemplo 1. Publicar actualización de atributos del lado del cliente.</strong></p>
+<p>Datos de telemetría:</p>
+<pre><code class="language-json">{&quot;attribute1&quot;: &quot;value1&quot;, &quot;attribute2&quot;: true}
+</code></pre>
+<p>Ejecuta el comando:</p>
+<pre><code class="language-sh">mosquitto_pub -d -h &quot;demo.thingsboard.io&quot; -t &quot;v1/devices/me/attributes&quot; -u &quot;$ACCESS_TOKEN&quot; -m &quot;{&quot;attribute1&quot;: &quot;value1&quot;, &quot;attribute2&quot;: true}&quot;
+</code></pre>
+<p><strong>Ejemplo 2. Publicar actualización de atributos del lado del cliente utilizando datos del archivo <code>new-attributes-values.json</code>.</strong></p>
+<p>Contenido del archivo new-attributes-values.json:</p>
+<pre><code class="language-json">{
+  &quot;attribute1&quot;: &quot;value1&quot;,
+  &quot;attribute2&quot;: true,
+  &quot;attribute3&quot;: 42.0,
+  &quot;attribute4&quot;: 73,
+  &quot;attribute5&quot;: {
+    &quot;someNumber&quot;: 42,
+    &quot;someArray&quot;: [1, 2, 3],
+    &quot;someNestedObject&quot;: {&quot;key&quot;: &quot;value&quot;}
+  }
+}
+</code></pre>
+<h4 id="solicitar-valores-de-atributos-del-servidor">Solicitar valores de atributos del servidor</h4>
+<p>Para solicitar atributos del dispositivo del lado del cliente o compartidos en el nodo del servidor de ThingsBoard, envía un mensaje <strong>PUBLISH</strong> al siguiente topic:</p>
+<pre><code class="language-sh">v1/devices/me/attributes/request/$request_id
+</code></pre>
+<p>donde <code>$request_id</code> es tu identificador de solicitud entero. Antes de enviar el mensaje <strong>PUBLISH</strong> con la solicitud, el cliente necesita suscribirse a:</p>
+<pre><code class="language-sh">v1/devices/me/attributes/response/+
+</code></pre>
+<p>El siguiente ejemplo está escrito en JavaScript. No hay ejemplos en línea de comandos puros disponibles porque la suscripción y publicación deben ocurrir en la misma sesión de MQTT.</p>
+<p>Guarda el archivo <code>mqtt-js-attributes-request.js</code> en tu PC. No olvides reemplazar el nombre de host <code>demo.thingsboard.io</code> con tu host. </p>
+<pre><code class="language-javascript">var mqtt = require('mqtt')
+var client  = mqtt.connect('mqtt://demo.thingsboard.io',{
+    username: process.env.TOKEN
+})
+
+client.on('connect', function () {
+    console.log('connected')
+    client.subscribe('v1/devices/me/attributes/response/+')
+    client.publish('v1/devices/me/attributes/request/1', '{&quot;clientKeys&quot;:&quot;attribute1,attribute2&quot;, &quot;sharedKeys&quot;:&quot;shared1,shared2&quot;}')
+})
+
+client.on('message', function (topic, message) {
+    console.log('response.topic: ' + topic)
+    console.log('response.body: ' + message.toString())
+    client.end()
+})
+</code></pre>
+<p>Puedes ejecutar el comando desde cualquier máquina con <code>node</code> instalado:</p>
+<pre><code class="language-sh">export TOKEN=$ACCESS_TOKEN
+node mqtt-js-attributes-request.js
+</code></pre>
+<h4 id="suscribirse-a-las-actualizaciones-de-atributos-desde-el-servidor">Suscribirse a las actualizaciones de atributos desde el servidor</h4>
+<p>Para suscribirse a los cambios de atributos compartidos del dispositivo, envía un mensaje <strong>SUBSCRIBE</strong> al siguiente topic:</p>
+<pre><code class="language-sh">v1/devices/me/attributes
+</code></pre>
+<p>Cuando un atributo compartido es modificado por uno de los componentes del servidor (como la API REST o la Cadena de Reglas), el cliente recibirá la siguiente actualización:</p>
+<pre><code class="language-json">{&quot;key1&quot;:&quot;value1&quot;}
+</code></pre>
+<p>En el siguiente ejemplo, no olvides reemplazar demo.thingsboard.io con tu host y $ACCESS_TOKEN con el token de acceso de tu dispositivo. </p>
+<p>Ejecuta el comando:</p>
+<pre><code class="language-sh">mosquitto_sub -d -h &quot;demo.thingsboard.io&quot; -t &quot;v1/devices/me/attributes&quot; -u &quot;$ACCESS_TOKEN&quot;
+</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>En un escenario de monitorización de edificios en la UCM, aprovecha el concepto de atributo para reemplazar la jerarquía de topics que diseñaste en una práctica anterior. Busca en tu diseño utilizar atributos de los tres tipos mencionados anteriormente, descríbelos en la memoria e interactúa con ellos desde el <em>firmware</em> y usando APIs externas (para ello, deberás consultar la documentación de Thingsboard.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Mediante el uso de atributos, gestiona la activación/desactivación del envío de cada sensor, así como el intervalo entre envíos para un dispositivo. Deberías poder gestionar dichos valores desde la interfaz de Thingsboard.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Investiga en la documentación de Thingsboard sobre el desarrollo de <em>dashboard</em> y la gestión de alarmas. Desarrolla un <em>dashboard</em> de visualización para tus dispositivos, incluyendo información sobre alarmas recibidas.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
