@@ -12,10 +12,10 @@
 | 5        | 14/10 | [BLE: servidor GATT](RPI-I/P5/index.md)                         |
 | 6        | 21/10 | [BLE: cliente GATT](RPI-I/P6/index.md)                          |
 | 7        | 28/10 | [BLE Mesh](RPI-I/P7/index.md)                                   |
-| 8        | 04/11 | 802.15.4 y Thread                                               |
-| 9        | 11/11 | [6LowPAN y RPL](RPI-I/P9/index.md)                                                         |
-| 10       | 18/11 | [LoRa y LoRaWan](RPI-I/P10/index.md)                                                  |
-|          | 25/11 | Charla SigFox (Por confirmar)                                   |
+| 8        | 04/11 | [802.15.4 y Thread](RPI-I/P8/index.md)                          |
+| 9        | 11/11 | [6LowPAN y RPL](RPI-I/P9/index.md)                              |
+| 10       | 18/11 | [LoRa y LoRaWan](RPI-I/P10/index.md)                            |
+|          | 25/11 | Charla UnaBiz/Sigfox                                            |
 |          | 02/12 | Proyecto                                                        |
 |          | 09/12 | Proyecto                                                        |
 
@@ -31,7 +31,7 @@
 | 4        | 14/10 | [Websockets](RPI-II/P4/index.md)             |
 | 5        | 21/10 | [MQTT (I)](RPI-II/P5/index.md)               |
 | 5        | 28/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
-| 6        | 04/11 | Thingsboard                                  |
+| 6        | 04/11 | [Introducción a Thingsboard](RPI-II/P6/index.md) |
 | 7        | 11/11 | CoAP                                         |
 | 8        | 18/11 | LWM2M                                        |
 | 9        | 25/11 | Otros protocolos (demo)                      |
