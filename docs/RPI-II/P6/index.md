@@ -608,7 +608,7 @@ mosquitto_sub -d -h "demo.thingsboard.io" -t "v1/devices/me/attributes" -u "$ACC
 ```
 
 !!! danger "Tarea entregable"
-    En un escenario de monitorización de edificios en la UCM, aprovecha el concepto de atributo para reemplazar la jerarquía de topics que diseñaste en una práctica anterior. Busca en tu diseño utilizar atributos de los tres tipos mencionados anteriormente, descríbelos en la memoria e interactúa con ellos desde el *firmware* y usando APIs externas (para ello, deberás consultar la documentación de Thingsboard.
+    En un escenario de monitorización de edificios en la UCM, aprovecha el concepto de atributo para reemplazar la jerarquía de topics que diseñaste en una práctica anterior. Busca en tu diseño utilizar atributos de los tres tipos mencionados anteriormente, descríbelos en la memoria e interactúa con ellos desde el *firmware* y usando APIs externas (para ello, deberás consultar la documentación de Thingsboard).
 
 !!! danger "Tarea entregable"
     Mediante el uso de atributos, gestiona la activación/desactivación del envío de cada sensor, así como el intervalo entre envíos para un dispositivo. Deberías poder gestionar dichos valores desde la interfaz de Thingsboard.
