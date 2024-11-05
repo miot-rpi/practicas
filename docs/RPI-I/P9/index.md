@@ -25,8 +25,15 @@ hacerla interactuar con una segunda red externa real utilizando la herramienta
 	desarrollo y los resultados obeservados, así como tus observaciones o
 	comentarios personales.
 
-## Instalación de requisitos software
+## Instalación de Cooja 
 
+Damos a los alumnos dos alternativas para instalar el simulador cooja en su
+equipo:
+
+- La instalación con contenedores docker, o 
+- La copia de una máquina virtual de virtualbox creada por el profesor.
+
+### Alternativa 1: Instalación con Docker
 
 A continuación indicamos los pasos a seguir para realizar la instalación del
 software necesario en un sistema GNU/Linux. Los detalles de instalación para
@@ -119,6 +126,24 @@ $ docker commit hardcore_kilby contiker/contiki-ng-cooja
 No te olvides en este caso de actualizar el script contiker para que use la
 nueva imagen, y si quieres puedes borrar la imagen anterior.
 
+### Alternativa 2: Uso de Máquina Virtual
+
+Si no tenemos instalado Virtualbox en nuestro equipo lo primero que haremos
+será instalarlo, descargando el instalable de su página web de [Oracle
+Virtualbox](https://www.virtualbox.org/wiki/Downloads).
+
+A continuación descargaremos la máquina virtual debian con contiki-ng instalado
+de [este enlace de Google
+Drive](https://drive.google.com/file/d/1HpjY9WmlciS46mOyxA6YizqkA1aDBzib/view?usp=drive_link).
+Se trata de un fichero ova, que tendremos que importar en Virtualbox. Para ello
+abrimos la aplicación y seleccionamos File->Import Appliance, y seleccionamos el
+fichero descargado.
+
+Una vez importado podemos arrancar la máquina virtual, el usuario es *user* y la
+contraseña *contiki*. Para arrancar el simulador bastará con abrir un terminal y
+ejecutar el comando *cooja*. El repositorio de contiki-ng está en una directorio
+del mismo nombre dentro del home del usuario *user*.
+
 ## Código Contiki
 
 En el desarrollo de la práctica utilizaremos algunos de los ejemplos de la
@@ -146,6 +171,10 @@ See "man sudo_root" for details.
 
 user@e2d84745c836:~/contiki-ng$ cooja
 ```
+
+Si usamos la máquina virtual sólo tenemos que ejecutar cooja desde un terminal.
+De aquí en adelante se pueden ignorar todos los detalles relativos a Docker si
+hemos optado por utilizar la máquina virtual de Virtualbox.
 
 Dependiendo de si usamos la imagen original del contenedor de contiki-ng o si la
 hemos modificado para almacenar los jar descargados por la ejecución de cooja,
