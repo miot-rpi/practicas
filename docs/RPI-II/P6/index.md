@@ -4,13 +4,13 @@
 
 - Entender los conceptos básicos detrás de la plataforma IoT Thingsboard.
 - Dominar el proceso de provisionamiento automático de dispositivos.
-- Aprender a gestionar datos de telemetrí enviados a la plataforma desde el dispositivo. 
+- Aprender a gestionar datos de telemetría enviados a la plataforma desde el dispositivo. 
 - Aprender a gestionar atributos de dispositivos y diferenciar entre los tres tipos que ofrece Thingsboard.
 - Realizar representaciones sencillas en forma de *dashboard* y gestionar alarmas.
 
-## Introducción a ThingsBoard
+# Introducción a ThingsBoard
 
-# ¿Qué es ThingsBoard?
+## ¿Qué es ThingsBoard?
 
 ThingsBoard es una plataforma de código abierto para la gestión de dispositivos IoT (Internet de las Cosas) que permite a los usuarios conectar, administrar y analizar datos de dispositivos de forma sencilla y eficiente. Algunas de sus características clave incluyen:
 
@@ -28,7 +28,7 @@ ThingsBoard es una plataforma de código abierto para la gestión de dispositivo
 
 En resumen, ThingsBoard es una solución robusta para la gestión y análisis de datos IoT que proporciona a los usuarios las herramientas necesarias para construir y escalar aplicaciones IoT de manera efectiva.
 
-### Instalación y acceso
+## Instalación y acceso
 
 En esta práctica, puedes optar por utilizar la versión de demostración en *cloud* de 
 Thingsboard, o bien instalar tu propia versión de la plataforma en una máquina con
@@ -43,12 +43,36 @@ la imagen `tb-postgres` (instrucciones [aquí](https://hub.docker.com/r/thingsbo
 !!! note "Tarea (opcional)"
     Instala en tu máquina local Thingsboard siguiendo el método de instalación más apropiado a tu caso.
 
+## Prueba básica de conectividad de un dispositivo 
 
-### Conceptos básicos
+Los dispositivos son el tipo de entidad básico en Thingsboard. Un dispositivo en la plataforma no es 
+más que una representación digital de un dispositivo físico, incluyendo sus propiedades, atributos, 
+modos de acceso y datos de telemetría.
 
-### Prueba básica de conectividad de un dispositivo 
+Aunque en esta práctica veremos que los dispositivos pueden crearse en la plataforma de forma automática
+mediante un proceso de provisionamiento, es conveniente realizar una primera prueba de conectividad
+creando manualmente un dispositivo, e interactuando con él vía una API preestablecida (en nuestro caso,
+MQTT).
 
-## Provisionamiento
+En primer lugar, dirígete al menú "Entidades", "Dispositivos". Crea (usando el símbolo `+`) un nuevo
+dispositivo. Añade el nombre que desees (no debe existir) y deja vacíos el resto de campos. Aparecerá una
+ventana en la que se sugieren distintas formas de comprobar la conectividad externa al nuevo dispositivo.
+Entre ellas, escogeremos en este paso MQTT. Selecciona la pestaña correspondiente al protocolo, y a 
+continuación el sistema operativo que estás utilizando. En respuesta, la plataforma sugerirá un comando
+que te permitirá testear la conectividad. Por ejemplo, en el caso de MQTT y Linux, ejecuta:
+
+```sh
+mosquitto_pub -d -q 1 -h URL_THINGSBOARD -p 1883 -t v1/devices/me/telemetry -u "TOKEN" -m "{temperature:25}"
+```
+
+Observa que el nombre de usuario que se utiliza para establecer la conexión con el *broker* es el token 
+asociado al nuevo dispositivo. En este mensaje, se utiliza el topic `v1/devices/me/telemetry`, a través
+del cual se pueden enviar datos de telemetría al dispositivo virtual usando un formato JSON.
+
+!!! note "Tarea"
+    Crea un nuevo dispositivo y comprueba la conectividad hacia el mismo desde línea de comandos (o cualquier herramienta de publicación MQTT).
+
+# Provisionamiento
 
 ### Conceptos generales
 
@@ -59,7 +83,7 @@ o bien solicitar al servidor que le proporcione dichas credenciales.
 
 El funcionamiento es sencillo. El dispositivo envía una petición de provisonamiento
 (*request*) a ThingsBoard. Esta petición debe contener una clave de provisonamiento
-(*provision key*) y un secreto (*secret*). La petición puee incluir, opcionalmente,
+(*provision key*) y un secreto (*secret*). La petición puede incluir, opcionalmente,
 el nombre del dispositivo y las credenciales generadas por el dispositivo. Si dichas
 credenciales no se proporcionan, el servidor generará un *access token* para que sea
 utilizado en el futuro por el dispositivo provisionado. El esquema podría resumirse como:
