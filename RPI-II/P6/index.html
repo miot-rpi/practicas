@@ -194,19 +194,28 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#introduccion-a-thingsboard" class="nav-link">Introducción a ThingsBoard</a>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#introduccion-a-thingsboard" class="nav-link">Introducción a ThingsBoard</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#que-es-thingsboard" class="nav-link">¿Qué es ThingsBoard?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#instalacion-y-acceso" class="nav-link">Instalación y acceso</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#prueba-basica-de-conectividad-de-un-dispositivo" class="nav-link">Prueba básica de conectividad de un dispositivo</a>
               <ul class="nav flex-column">
               </ul>
             </li>
               </ul>
             </li>
             
-            <li class="nav-item" data-bs-level="1"><a href="#que-es-thingsboard" class="nav-link">¿Qué es ThingsBoard?</a>
+            <li class="nav-item" data-bs-level="1"><a href="#provisionamiento" class="nav-link">Provisionamiento</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#provisionamiento" class="nav-link">Provisionamiento</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#gestion-de-telemetria-y-visualizacion" class="nav-link">Gestión de telemetría y visualización</a>
               <ul class="nav flex-column">
               </ul>
@@ -227,12 +236,12 @@
 <ul>
 <li>Entender los conceptos básicos detrás de la plataforma IoT Thingsboard.</li>
 <li>Dominar el proceso de provisionamiento automático de dispositivos.</li>
-<li>Aprender a gestionar datos de telemetrí enviados a la plataforma desde el dispositivo. </li>
+<li>Aprender a gestionar datos de telemetría enviados a la plataforma desde el dispositivo. </li>
 <li>Aprender a gestionar atributos de dispositivos y diferenciar entre los tres tipos que ofrece Thingsboard.</li>
 <li>Realizar representaciones sencillas en forma de <em>dashboard</em> y gestionar alarmas.</li>
 </ul>
-<h2 id="introduccion-a-thingsboard">Introducción a ThingsBoard</h2>
-<h1 id="que-es-thingsboard">¿Qué es ThingsBoard?</h1>
+<h1 id="introduccion-a-thingsboard">Introducción a ThingsBoard</h1>
+<h2 id="que-es-thingsboard">¿Qué es ThingsBoard?</h2>
 <p>ThingsBoard es una plataforma de código abierto para la gestión de dispositivos IoT (Internet de las Cosas) que permite a los usuarios conectar, administrar y analizar datos de dispositivos de forma sencilla y eficiente. Algunas de sus características clave incluyen:</p>
 <ol>
 <li>
@@ -255,7 +264,7 @@
 </li>
 </ol>
 <p>En resumen, ThingsBoard es una solución robusta para la gestión y análisis de datos IoT que proporciona a los usuarios las herramientas necesarias para construir y escalar aplicaciones IoT de manera efectiva.</p>
-<h3 id="instalacion-y-acceso">Instalación y acceso</h3>
+<h2 id="instalacion-y-acceso">Instalación y acceso</h2>
 <p>En esta práctica, puedes optar por utilizar la versión de demostración en <em>cloud</em> de 
 Thingsboard, o bien instalar tu propia versión de la plataforma en una máquina con
 acceso local o remoto. </p>
@@ -267,9 +276,30 @@ la imagen <code>tb-postgres</code> (instrucciones <a href="https://hub.docker.co
 <p class="admonition-title">Tarea (opcional)</p>
 <p>Instala en tu máquina local Thingsboard siguiendo el método de instalación más apropiado a tu caso.</p>
 </div>
-<h3 id="conceptos-basicos">Conceptos básicos</h3>
-<h3 id="prueba-basica-de-conectividad-de-un-dispositivo">Prueba básica de conectividad de un dispositivo</h3>
-<h2 id="provisionamiento">Provisionamiento</h2>
+<h2 id="prueba-basica-de-conectividad-de-un-dispositivo">Prueba básica de conectividad de un dispositivo</h2>
+<p>Los dispositivos son el tipo de entidad básico en Thingsboard. Un dispositivo en la plataforma no es 
+más que una representación digital de un dispositivo físico, incluyendo sus propiedades, atributos, 
+modos de acceso y datos de telemetría.</p>
+<p>Aunque en esta práctica veremos que los dispositivos pueden crearse en la plataforma de forma automática
+mediante un proceso de provisionamiento, es conveniente realizar una primera prueba de conectividad
+creando manualmente un dispositivo, e interactuando con él vía una API preestablecida (en nuestro caso,
+MQTT).</p>
+<p>En primer lugar, dirígete al menú "Entidades", "Dispositivos". Crea (usando el símbolo <code>+</code>) un nuevo
+dispositivo. Añade el nombre que desees (no debe existir) y deja vacíos el resto de campos. Aparecerá una
+ventana en la que se sugieren distintas formas de comprobar la conectividad externa al nuevo dispositivo.
+Entre ellas, escogeremos en este paso MQTT. Selecciona la pestaña correspondiente al protocolo, y a 
+continuación el sistema operativo que estás utilizando. En respuesta, la plataforma sugerirá un comando
+que te permitirá testear la conectividad. Por ejemplo, en el caso de MQTT y Linux, ejecuta:</p>
+<pre><code class="language-sh">mosquitto_pub -d -q 1 -h URL_THINGSBOARD -p 1883 -t v1/devices/me/telemetry -u &quot;TOKEN&quot; -m &quot;{temperature:25}&quot;
+</code></pre>
+<p>Observa que el nombre de usuario que se utiliza para establecer la conexión con el <em>broker</em> es el token 
+asociado al nuevo dispositivo. En este mensaje, se utiliza el topic <code>v1/devices/me/telemetry</code>, a través
+del cual se pueden enviar datos de telemetría al dispositivo virtual usando un formato JSON.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Crea un nuevo dispositivo y comprueba la conectividad hacia el mismo desde línea de comandos (o cualquier herramienta de publicación MQTT).</p>
+</div>
+<h1 id="provisionamiento">Provisionamiento</h1>
 <h3 id="conceptos-generales">Conceptos generales</h3>
 <p>El proceso de provisionamiento en ThingsBoard puede ser automatizado para así partir 
 de un <em>firmware</em> común que no deba personalizarse para cada dispositivo. Durante el
@@ -277,7 +307,7 @@ provisionamiento automático, el dispositivo puede o bien generar credenciales �
 o bien solicitar al servidor que le proporcione dichas credenciales.</p>
 <p>El funcionamiento es sencillo. El dispositivo envía una petición de provisonamiento
 (<em>request</em>) a ThingsBoard. Esta petición debe contener una clave de provisonamiento
-(<em>provision key</em>) y un secreto (<em>secret</em>). La petición puee incluir, opcionalmente,
+(<em>provision key</em>) y un secreto (<em>secret</em>). La petición puede incluir, opcionalmente,
 el nombre del dispositivo y las credenciales generadas por el dispositivo. Si dichas
 credenciales no se proporcionan, el servidor generará un <em>access token</em> para que sea
 utilizado en el futuro por el dispositivo provisionado. El esquema podría resumirse como:</p>
@@ -627,8 +657,8 @@ Los atributos del lado del servidor son aquellos que pueden ser configurados a t
 </div>
 <p>La función de <a href="https://thingsboard.io/docs/user-guide/bulk-provisioning/"><em>bulk provisioning</em></a> te permite crear rápidamente múltiples dispositivos y activos y sus atributos desde un archivo CSV.</p>
 <h4 id="atributos-de-cliente">Atributos de cliente</h4>
-<h3 id="este-tipo-de-atributos-esta-disponible-solo-para-dispositivos">Este tipo de atributos está disponible solo para Dispositivos</h3>
-<p>Se utiliza para reportar varios datos semiestáticos desde el Dispositivo (Cliente) a ThingsBoard (Servidor). Es similar a los atributos compartidos, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede enviar el valor de los atributos desde el dispositivo a la plataforma.</p>
+<p>Este tipo de atributos está disponible solo para Dispositivos.
+Se utiliza para reportar varios datos semiestáticos desde el Dispositivo (Cliente) a ThingsBoard (Servidor). Es similar a los atributos compartidos, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede enviar el valor de los atributos desde el dispositivo a la plataforma.</p>
 <p><img alt="Atributos de cliente" src="img/client-side-attributes.svg" /></p>
 <p>El caso de uso más común de los atributos del cliente es reportar el estado del dispositivo. Supongamos la misma solución de monitoreo de edificios y revisemos algunos ejemplos:</p>
 <ul>
