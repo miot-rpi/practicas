@@ -497,8 +497,7 @@ La función de [*bulk provisioning*](https://thingsboard.io/docs/user-guide/bulk
 
 #### Atributos de cliente 
 
-### Este tipo de atributos está disponible solo para Dispositivos
-
+Este tipo de atributos está disponible solo para Dispositivos.
 Se utiliza para reportar varios datos semiestáticos desde el Dispositivo (Cliente) a ThingsBoard (Servidor). Es similar a los atributos compartidos, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede enviar el valor de los atributos desde el dispositivo a la plataforma.
 
 ![Atributos de cliente](img/client-side-attributes.svg)
