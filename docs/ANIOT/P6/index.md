@@ -98,5 +98,5 @@ Integraremos el control de energía en la aplicación de la práctica 3 (monitor
     
     * Se configure el gestor de energía para que entre automáticamente en *light-sleep* cuando sea posible.
     * Tras 12 horas de funcionamiento, pasará al modo *deep-sleep* durante otras 12 horas (para pruebas, en lugar de 12 horas probadlo con 1 minuto).
-    * Compruebe el motivo por el que se produce cada reinincio y lo anote en NVS.
+    * Compruebe el motivo por el que se produce cada reinicio y lo anote en NVS.
     * Escriba en NVS la última medida del sensor tomada.
