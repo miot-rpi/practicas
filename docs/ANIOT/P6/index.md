@@ -61,6 +61,10 @@ Para utilizar la librería es necesario disponer de una partición de tipo NVS e
 
 En la zona inicial de la flash se ubicará la [tabla de particiones](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html) que indica qué particiones tendremos en nuestro dipositivo y de qué tamaño y tipo son cada una de ellas.
 
+El ejemplo [proporcionado por ESP-IDF](https://github.com/espressif/esp-idf/tree/ce608534/examples/storage/nvs_rw_value) es un buen punto de partida para observar el funcionamiento de la API proporcionada por el *framework* para la gestión de NVS. 
+
+!!! note "Tarea"
+    Compila y ejecuta el ejemplo `nvs_rw_value` proporcionado por ESP-IDF. Observa la salida. Amplíalo para que, además del número de reinicios, se escriba otro par clave-valor en NVS, en este caso almacenando una cadena. Tras cada reinicio, lee el valor de dicha cadena y muéstralo por pantalla. Es recomendable que tengas a mano la [API para la escritura/lectura de pares](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/storage/nvs_flash.html#id4). En esa misma sección encontrarás ejemplos de uso de las funciones que necesitarás para escribir/leer cadenas.
 
 ## Ejercicios básicos
 
