@@ -202,7 +202,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#gestor-automatico-de-consunmo" class="nav-link">Gestor automático de consunmo</a>
+            <li class="nav-item" data-bs-level="2"><a href="#gestor-automatico-de-consumo" class="nav-link">Gestor automático de consumo</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -226,13 +226,14 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="practica-6-modos-de-bajo-consumo">Práctica 6. Modos de bajo consumo</h1>
-<p>Esta práctica se desarrollará el 24 de noviembre.</p>
 <h2 id="objetivos">Objetivos</h2>
 <p>El objetivo de esta práctica es  conocer los diferentes modos de bajo consumo que ofrece el ESP32 y la interfaz que expone ESP-IDF para usarlos.</p>
-<p>Trabajaremos los siguientes aspectos:
-* Paso explícito a <em>light-sleep</em> y a <em>deep-sleep</em>.
-* Probar diferentes mecanismos para volver de modos de bajo consumo.
-* Usar el gestor automático de ahorro energético.</p>
+<p>Trabajaremos los siguientes aspectos:</p>
+<ul>
+<li>Paso explícito a <em>light-sleep</em> y a <em>deep-sleep</em>.</li>
+<li>Probar diferentes mecanismos para volver de modos de bajo consumo.</li>
+<li>Usar el gestor automático de ahorro energético.</li>
+</ul>
 <h2 id="material-de-consulta">Material de consulta</h2>
 <ul>
 <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/sleep_modes.html">Descripción de modos de bajo consumo</a></li>
@@ -250,10 +251,10 @@
 <li>RTC fast memory</li>
 <li>RTC slow memory</li>
 </ul>
-<p>Hay varias fuentes que permiten despertar al sistema cuando se encuentra en <em>deep-sleep</em> o en <em>ligth-sleep</em>. Podemos especificar varias fuentes de manera que el sistema despierte ante cualquier de ellas. Para configurarlas, ESP-IDF proporciona llamadas de la forma <code>esp_sleep_enable_X_wakeup()</code>; para deshabilitarlas, existe <code>esp_sleep_disable_wakeup_source()</code>.</p>
+<p>Hay varias fuentes que permiten despertar al sistema cuando se encuentra en <em>deep-sleep</em> o en <em>light-sleep</em>. Podemos especificar varias fuentes de manera que el sistema despierte ante cualquier de ellas. Para configurarlas, ESP-IDF proporciona llamadas de la forma <code>esp_sleep_enable_X_wakeup()</code>; para deshabilitarlas, existe <code>esp_sleep_disable_wakeup_source()</code>.</p>
 <p>Tras configurar la(s) fuente(s) que nos permitirán salir del modo de bajo consumo, podemos entrar en uno de los dos llamando a <code>esp_light_sleep_start()</code> or <code>esp_deep_sleep_start()</code>. Tanto Wi-Fi como Bluetooth dejarán de funcionar y deberían apagarse antes de entrar en modos de bajo consumo. Si la conexión Wi-Fi debe mantenerse, será necesario utlizar el gestor automático de ahorro energético.</p>
-<h2 id="gestor-automatico-de-consunmo">Gestor automático de consunmo</h2>
-<p>El <em>Power Manager</em> proporcionado por ESP-IDF permite controlar la frecuencia las señales de reloj de la CPU y del bus APB, e incluso pasar a <em>ligth-sleep</em> en períodos de inactividad. Asimismo permite el uso y creación de <em>cerrojos</em> que, en determinadas fases de nuestra aplicación, limitan las acciones del gestor de consumo por determinadas necesidades (mantener una velocidad de APB, mantener interrupciones activas...).</p>
+<h2 id="gestor-automatico-de-consumo">Gestor automático de consumo</h2>
+<p>El <em>Power Manager</em> proporcionado por ESP-IDF permite controlar la frecuencia las señales de reloj de la CPU y del bus APB, e incluso pasar a <em>light-sleep</em> en períodos de inactividad. Asimismo permite el uso y creación de <em>cerrojos</em> que, en determinadas fases de nuestra aplicación, limitan las acciones del gestor de consumo por determinadas necesidades (mantener una velocidad de APB, mantener interrupciones activas...).</p>
 <p>El gestor automático se puede habilitar en tiempo de compilación (a través de <em>menuconfig</em>) usando la opción <code>CONFIG_PM_ENABLE</code>. Habilitar esta opción aumenta la latencia del tratamiento de interrupciones y disminuye la precisión del reloj del sistema (utilizado para mantener la hora, <em>timers</em>...).</p>
 <p>Además de hablitar la opción en tiempo de compilación, es necesario configurar su uso en ejecución llamando a <code>esp_pm_configure()</code> que recibe un argumento de tipo <code>esp_pm_config_esp32_t</code> que tiene tres campos:</p>
 <ul>
@@ -302,7 +303,7 @@
 <div class="admonition danger">
 <p class="admonition-title">Tareas</p>
 <ul>
-<li>Modifica el código anterior para que, tras 5 pasos por <em>ligth-sleep</em>, pasemos a <em>deep-sleep</em>. Incluye código para determinar el motivo por el que hemos despertado de <em>deep-sleep</em> y muéstralo por pantalla.</li>
+<li>Modifica el código anterior para que, tras 5 pasos por <em>light-sleep</em>, pasemos a <em>deep-sleep</em>. Incluye código para determinar el motivo por el que hemos despertado de <em>deep-sleep</em> y muéstralo por pantalla.</li>
 </ul>
 </div>
 <div class="admonition note">
