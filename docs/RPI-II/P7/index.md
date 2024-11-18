@@ -107,7 +107,7 @@ Utilizando el cliente CoAP proporcionado, resulta sencillo realizar consultas pa
 obtener datos desde el servidor. Para ello, utilizaremos el método `GET`,
 seguido del recurso a consultar y, opcionalmente, de una consulta concreta. 
 
-!!! note7.4"
+!!! note "Tarea 7.4"
     Consulta la marca de tiempo
     proporcionada por el servidor en modo legible (por ejemplo, `Dec 13 14:20:43`), y
     también en forma de *ticks* de reloj, utilizando la consulta adecuada. ¿Qué valor 
