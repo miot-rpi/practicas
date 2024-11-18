@@ -32,9 +32,9 @@
 | 5        | 21/10 | [MQTT (I)](RPI-II/P5/index.md)               |
 | 5        | 28/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
 | 6        | 04/11 | [Introducción a Thingsboard](RPI-II/P6/index.md) |
-| 7        | 11/11 | CoAP                                         |
-| 8        | 18/11 | LWM2M                                        |
-| 9        | 25/11 | Otros protocolos (demo)                      |
+| 7        | 11/11 | [CoAP](RPI-II/P7/index.md)                   |
+| 8        | 18/11 | [LWM2M (I)](RPI-II/P8/index.md)              |
+| 9        | 25/11 | LWM2M (II)                                   |
 |          | 02/12 | Proyecto                                     |
 |          | 09/12 | Proyecto                                     |
 
