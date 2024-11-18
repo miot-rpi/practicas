@@ -77,7 +77,7 @@ correspondiente del proyecto (es importante que utilices este
 *commit* específico):
 
 ```sh
-git clone --recurse-submodules https://github.com/eclipse/wakaama.git
+git clone https://github.com/eclipse/wakaama.git
 cd wakaama
 git reset --hard 31d64c0c41fae9653c1fa53ef58d1a44e49017fa
 ```
