@@ -132,7 +132,7 @@ de Leshan (pueden variar en función de tu distribución Linux):
 
 ```sh
 sudo apt-get update
-sudo apt-get install openjdk-14-jdk maven git-core
+sudo apt-get install openjdk-17-jdk maven git-core
 ```
 
 Clona el repositorio oficial de Leshan desde la siguiente dirección:
