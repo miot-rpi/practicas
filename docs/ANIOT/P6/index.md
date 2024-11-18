@@ -1,18 +1,13 @@
 # Práctica 6. Modos de bajo consumo
-Esta práctica se desarrollará el 24 de noviembre.
 
 ## Objetivos
 El objetivo de esta práctica es  conocer los diferentes modos de bajo consumo que ofrece el ESP32 y la interfaz que expone ESP-IDF para usarlos.
 
+Trabajaremos los siguientes aspectos:
 
- Trabajaremos los siguientes aspectos:
 * Paso explícito a *light-sleep* y a *deep-sleep*.
 * Probar diferentes mecanismos para volver de modos de bajo consumo.
 * Usar el gestor automático de ahorro energético.
-
-
-
-
  
 ## Material de consulta
 * [Descripción de modos de bajo consumo](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/sleep_modes.html)
@@ -20,9 +15,8 @@ El objetivo de esta práctica es  conocer los diferentes modos de bajo consumo q
 * [Ejemplo sobre light-sleep](https://github.com/espressif/esp-idf/tree/master/examples/system/light_sleep)
 * [Ejemplo sobre deep-sleep](https://github.com/espressif/esp-idf/tree/master/examples/system/deep_sleep)
 
-
-
 ## Modos de bajos consumo
+
 ESP32 ofrece dos modos de ahorro de consumo energético: *Light-sleep* y *Deep-sleep*.
 
 En el modo *light-sleep* se corta la señal de reloj de los periféricos digitales, la mayor parte de la RAM y la CPU; además, se reduce la tensión de alimentación, pero se mantiene por encima de la necesaria para retener la información. Así, el sistema no puede ejecutar ninguna tarea, pero no perdemos la información almacenada en registros y memoria. Al salir de *light-sleep* los periféricos digitales, RAM y CPU continúan su operación como si nada hubiera pasado.
@@ -34,12 +28,13 @@ En el modo *deep-sleep* la CPU, la mayor parte de la RAM y los periféricos cuyo
 * RTC fast memory
 * RTC slow memory
 
-Hay varias fuentes que permiten despertar al sistema cuando se encuentra en *deep-sleep* o en *ligth-sleep*. Podemos especificar varias fuentes de manera que el sistema despierte ante cualquier de ellas. Para configurarlas, ESP-IDF proporciona llamadas de la forma `esp_sleep_enable_X_wakeup()`; para deshabilitarlas, existe `esp_sleep_disable_wakeup_source()`.
+Hay varias fuentes que permiten despertar al sistema cuando se encuentra en *deep-sleep* o en *light-sleep*. Podemos especificar varias fuentes de manera que el sistema despierte ante cualquier de ellas. Para configurarlas, ESP-IDF proporciona llamadas de la forma `esp_sleep_enable_X_wakeup()`; para deshabilitarlas, existe `esp_sleep_disable_wakeup_source()`.
 
 Tras configurar la(s) fuente(s) que nos permitirán salir del modo de bajo consumo, podemos entrar en uno de los dos llamando a `esp_light_sleep_start()` or `esp_deep_sleep_start()`. Tanto Wi-Fi como Bluetooth dejarán de funcionar y deberían apagarse antes de entrar en modos de bajo consumo. Si la conexión Wi-Fi debe mantenerse, será necesario utlizar el gestor automático de ahorro energético.
 
-## Gestor automático de consunmo
-El *Power Manager* proporcionado por ESP-IDF permite controlar la frecuencia las señales de reloj de la CPU y del bus APB, e incluso pasar a *ligth-sleep* en períodos de inactividad. Asimismo permite el uso y creación de *cerrojos* que, en determinadas fases de nuestra aplicación, limitan las acciones del gestor de consumo por determinadas necesidades (mantener una velocidad de APB, mantener interrupciones activas...).
+## Gestor automático de consumo
+
+El *Power Manager* proporcionado por ESP-IDF permite controlar la frecuencia las señales de reloj de la CPU y del bus APB, e incluso pasar a *light-sleep* en períodos de inactividad. Asimismo permite el uso y creación de *cerrojos* que, en determinadas fases de nuestra aplicación, limitan las acciones del gestor de consumo por determinadas necesidades (mantener una velocidad de APB, mantener interrupciones activas...).
 
 El gestor automático se puede habilitar en tiempo de compilación (a través de *menuconfig*) usando la opción `CONFIG_PM_ENABLE`. Habilitar esta opción aumenta la latencia del tratamiento de interrupciones y disminuye la precisión del reloj del sistema (utilizado para mantener la hora, *timers*...).
 
@@ -66,6 +61,10 @@ Para utilizar la librería es necesario disponer de una partición de tipo NVS e
 
 En la zona inicial de la flash se ubicará la [tabla de particiones](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html) que indica qué particiones tendremos en nuestro dipositivo y de qué tamaño y tipo son cada una de ellas.
 
+El ejemplo [proporcionado por ESP-IDF](https://github.com/espressif/esp-idf/tree/ce608534/examples/storage/nvs_rw_value) es un buen punto de partida para observar el funcionamiento de la API proporcionada por el *framework* para la gestión de NVS. 
+
+!!! danger "Tarea"
+    Compila y ejecuta el ejemplo `nvs_rw_value` proporcionado por ESP-IDF. Observa la salida. Amplíalo para que, además del número de reinicios, se escriba otro par clave-valor en NVS, en este caso almacenando una cadena. Tras cada reinicio, lee el valor de dicha cadena y muéstralo por pantalla. Es recomendable que tengas a mano la [API para la escritura/lectura de pares](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/storage/nvs_flash.html#id4). En esa misma sección encontrarás ejemplos de uso de las funciones que necesitarás para escribir/leer cadenas.
 
 ## Ejercicios básicos
 
@@ -88,7 +87,7 @@ Vamos a partir  [del ejemplo que entra manualmente en *light-sleep*](https://git
     * ¿Qué observas en la ejecución de los *timer*?¿Se ejecutan en el instante adecuado? ¿Se pierde alguno?
 
 !!! danger "Tareas"
-    * Modifica el código anterior para que, tras 5 pasos por *ligth-sleep*, pasemos a *deep-sleep*. Incluye código para determinar el motivo por el que hemos despertado de *deep-sleep* y muéstralo por pantalla.
+    * Modifica el código anterior para que, tras 5 pasos por *light-sleep*, pasemos a *deep-sleep*. Incluye código para determinar el motivo por el que hemos despertado de *deep-sleep* y muéstralo por pantalla.
 
 !!! note "Cuestión"
     * ¿Qué diferencia se observa al volver de *deep-sleep* respecto a volver de *light-sleep*?
@@ -103,6 +102,5 @@ Integraremos el control de energía en la aplicación de la práctica 3 (monitor
     
     * Se configure el gestor de energía para que entre automáticamente en *light-sleep* cuando sea posible.
     * Tras 12 horas de funcionamiento, pasará al modo *deep-sleep* durante otras 12 horas (para pruebas, en lugar de 12 horas probadlo con 1 minuto).
-    * Compruebe el motivo por el que se produce cada reinincio y lo anote en NVS.
+    * Compruebe el motivo por el que se produce cada reinicio y lo anote en NVS.
     * Escriba en NVS la última medida del sensor tomada.
-   
