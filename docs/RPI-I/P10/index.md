@@ -149,16 +149,17 @@ modelos de *breakout boards* que nos permiten adaptar este transceptor a una
 *breadboard* y así poder usar cables estándar para conectar el transceptor a
 nuestro nodo esp32.
 
-La siguiente figura muestra el esquema de una de estas placas de *breakout*:
+La siguiente figura muestra el esquema de una de estas placas de *breakout*,
+fabricada por adafruit:
 
-![](img/hoperf-rfm95-breakout.webp)
+![](img/adafruit_products_3070_kit_ORIG.jpg)
 
 Para conectar este transceptor al esp32 dev kit rust, debemos poner ambos sobre
 una breadboard. Debido a la anchura del transceptor no tendremos acceso a los
 pines por los dos lados, por lo que deberemos utilizar cable de puente (*jumper
-wire*) para sacar las conexiones de uno de los lados. Lo más sencillo es sacar
-uno de los pines de tierra (GND) y el de alimentación (3.3 V) dejando accesible
-el otro lado para conexiones directas.
+wire*) para sacar las conexiones de uno de los lados, dejando el otro accesible
+para conexiones directas. Lo más sencillo es sacar el pin G1, ya que es el único
+pin que necesitamos de ese lado.
 
 El pinout del dev kit rust es el siguiente:
 
@@ -167,22 +168,22 @@ El pinout del dev kit rust es el siguiente:
 Una posible conexión entre el transceptor y la esp32 dev kit rust sería la
 siguiente:
 
-| HopeRF breakout | esp32 dev kit rust |  Función   |
+| Adafruit 3070   | esp32 dev kit rust |  Función   |
 |-----------------|:------------------:|:----------:|
-| SCK             |      4             | SPI CLK    |
+| RST             |      5             | Reset      |
+| CS              |      6             | SPI SS     |
 | MOSI            |      2             | SPI MOSI   |
 | MISO            |      3             | SPI MISO   |
-| NSS             |      6             | SPI SS     |
-| RST             |      5             | Reset      |
-| DIO0            |      0             | DIO0       |
-| DIO1            |      1             | DIO1       |
-| 3.3 V           |     3.3 V          | 3.3 V      |
+| SCK             |      4             | SPI CLK    |
+| G0              |      0             | DIO0       |
 | GND             |     GND            | GND        |
+| Vin             |     3.3 V          | 3.3 V      |
+| G1              |      1             | DIO1       |
 
 La siguiente figura muestra como las dos placas conectadas con las conexiones
 indicadas en la tabla anterior:
 
-![](img/esp32-and-rfm95.jpeg)
+![](img/esp32-and-rfm95_adafruit.jpeg)
 
 ### Codigo del nodo: librería ttn-esp32
 
