@@ -143,7 +143,7 @@ Integraremos OTA en la aplicación que hemos ido desarrollando a lo largo de est
 !!! danger "Tareas"
     La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del sensor de temperatura. Se añadirá la siguiente funcionalidad: 
     
-    * Cuando se reciba un evento externo (la pulsación de un botón o la lectura del sensor de infrarrojos de una distancia menor que un umbral), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). 
+    * Cuando se reciba un evento externo (la pulsación de un botón, la lectura del sensor de infrarrojos de una distancia menor que un umbral o la recepción de un mensaje MQTT), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). 
     * Se desarrollará una función de auto-diagnóstico (*self-test*) que permita decidir si la nueva imagen se comporta de forma correcta.
     * Se utilizará la opción de *rollback* para indicar si la nueva imagen se elige para futuros arranques o se marca como inválida.
 
