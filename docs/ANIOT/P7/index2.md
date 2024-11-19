@@ -251,3 +251,24 @@ Observa, por último, que el script Python crea un hilo que simplemente espera d
     Tras estudiar y experimentar con el script Python, desarrolla una versión equivalente que gestione el proceso de actualización de firmware en un ESP32 usando Thingsboard. Para ello, opera en dos fases. En primer lugar, implementa la lógica de comunicación con la plataforma a través de la API MQTT, pero no realices el proceso de flasheo en el ESP32 (simúlalo como hace el script). Una vez comprobado el correcto funcionamiento de la lógica implementada (similar al del script), procede a la integración del proceso de actualización OTA utilizando la API de ESP-IDF. 
 
 **NOTA IMPORTANTE: el desarrollo de esta tarea es complejo y no se espera su entrega como una práctica "normal". Sin embargo, se solicitará esta funcionalidad (aunque de forma opcional) en el trabajo de integración, por lo que se sugiere comenzar a trabajar en la tarea antes del inicio del proyecto.**
+
+## Panel de control de monitorización OTA
+
+Thingsboard proporciona un panel de control con el resumen de procesos de actualización de firmware, que permite 
+monitorizar el progreso de cada actualización en cada dispositivo (qué dispositivos están ahora mismo en actualización, errores en los procesos de actualización, procesos completados con éxito, ...)
+
+El panel de control se crea automáticamente con cada nuevo usuario tenant del sistema, mostrando una lista de dispositivos con información completa sobre su firmware:
+
+![](img/fw-dashboard-ce.png)
+
+![](img/fw-dashboard-2-ce.png)
+
+Así como un historial (pulsando el botón tras el nombre del dispositivo) que permite ver el histórico de actualizaciones del sistema:
+
+![](img/fw-status-ce.png)
+
+![](img/fw-status-1-ce.png)
+
+!!! note "Tarea"
+    Utiliza el panel de control para monitorizar el proceso de actualización tanto del dispositivo emulado vía Python como de tu ESP32 (en el caso de haber resuelto ya la tarea anterior).
+
