@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Práctica 7 (adicional). OTA en Thingsboard - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P1_III/" class="dropdown-item">Práctica 1 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P5/" class="dropdown-item">Práctica 5 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P5_II/" class="dropdown-item">Práctica 5 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../../RPI-II/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../" class="dropdown-item">Práctica 7</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#practica-7-adicional-ota-en-thingsboard" class="nav-link">Práctica 7 (adicional). OTA en Thingsboard</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#material-de-consulta" class="nav-link">Material de consulta</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#over-the-air-update-ota-en-thingsboard" class="nav-link">Over-The-Air Update (OTA) en Thingsboard</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#gestion-del-repositorio-de-imagenes" class="nav-link">Gestión del repositorio de imágenes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#asignacion-de-paquetes-ota-a-perfiles-de-dispositivo" class="nav-link">Asignación de paquetes OTA a perfiles de dispositivo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#asignacion-de-paquetes-ota-a-dispositivos" class="nav-link">Asignación de paquetes OTA a dispositivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#proceso-de-actualizacion" class="nav-link">Proceso de actualización</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api-mqtt-de-gestion-de-otafirmware" class="nav-link">API MQTT de gestión de OTA/firmware</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#simulacion-de-una-actualizacion-ota-desde-python-usando-la-api-mqtt" class="nav-link">Simulación de una actualización OTA desde Python usando la API MQTT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#analisis-del-proceso-de-actualizacion" class="nav-link">Análisis del proceso de actualización</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="practica-7-adicional-ota-en-thingsboard">Práctica 7 (adicional). OTA en Thingsboard</h1>
+<h2 id="objetivos">Objetivos</h2>
+<p>El objetivo de esta práctica es familiarizarse con el proceso de OTA en la plataforma Thingsboard, para realizar actualizaciones
+de fimware/software de forma remota. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Esta parte de la práctica se considera opcional y no entregable. Sin embargo, se solicitará la integración del proceso de OTA desde Thingsboard en el trabajo final de integración del Módulo Tecnología, por lo que se sugiere al menos completar las partes esenciales del boletín.</p>
+</div>
+<p>Trabajaremos los siguientes aspectos:</p>
+<ul>
+<li>Actualización de <em>firmware</em> mendiante MQTT en Thingsboard.</li>
+<li>Interacción a través de la plataforma para la actualización de firmware.</li>
+<li>Desarrollo de un panel de control para monitorización de actualizaciones.</li>
+</ul>
+<h2 id="material-de-consulta">Material de consulta</h2>
+<ul>
+<li><a href="https://thingsboard.io/docs/user-guide/ota-updates/">Documentación sobre el mecanismo de OTA en Thingsboard</a></li>
+</ul>
+<h2 id="over-the-air-update-ota-en-thingsboard">Over-The-Air Update (OTA) en Thingsboard</h2>
+<p>En versiones modernas de la plataforma (desde su versión 3.3), Thingsboard permite procesar y distribuir
+actualizaciones OTA a dispositivos. Los tenants de la plataforma pueen subir a un repositorio de OTAs (bien
+gráficamente, o bien mediante una API) imágenes que pueden a continuación asignarse a dispositivos individuales
+o perfiles de dispositivo. Thingsboard se encarga, a partir de ese unto, de notificar al dispositivo sobre la
+disponibilidad de una nueva versión, y proporciona una API específica (usando LWM2M, HTTP(s), MQTT(s) o CoAP)
+para llevar a cabo la descarga. Además, la plataforma monitoriza el proceso de actualización y mantiene un historial
+de las actualizaciones llevadas a cabo en cada dispositivo:</p>
+<p><img alt="" src="../img/firmware-anim3.svg" /></p>
+<h2 id="gestion-del-repositorio-de-imagenes">Gestión del repositorio de imágenes</h2>
+<p>Navegando hasta la entrada del menú principal titulada "OTA Updates" (Actualizaciones OTA), podemos encontrar la lista 
+paquetes de actualización disponibles. Cada paquete viene descrito por:</p>
+<ul>
+<li><strong>Título</strong>. Nombre del paquete.</li>
+<li><strong>Versión</strong>. Versión del paquete. La combinación de título y versión debe ser única para cada tenant de la plataforma.</li>
+<li><strong>Perfil de dispositivo</strong>. Cada paquete es compatible con un perfil de dispositivo. </li>
+<li><strong>Tipo</strong>. Puede ser firmware (FOTA) o software (SOTA). Nosotros utilizaremos la primera opción.</li>
+<li><strong>Algoritmo de checksum</strong>. Parámetro opcional, con el nombre del algoritmo de checksum a usar.</li>
+<li><strong>Checksum</strong>. Parámetro opcional que contiene el valor del checksum calculado para el fichero correspondiente. Si no se indica lo contrario, la plataforma utilizará SHA256 como algoritmo de cálculo de checksum.</li>
+<li><strong>Descripción</strong>. Texto opcional y libre que describe al firmware.</li>
+</ul>
+<p><img alt="" src="../img/add-firmware-ce.png" /></p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Crea en el repositorio de imágenes tantos paquetes como desees. Puedes subir imágenes ESP32 (ficheros .bin) creadas, o en general, cualquier tipo de fichero.</p>
+</div>
+<h2 id="asignacion-de-paquetes-ota-a-perfiles-de-dispositivo">Asignación de paquetes OTA a perfiles de dispositivo</h2>
+<p>Podemos asignar paquetes de firmware a perfiles de dispositivo para distribuir automáticamente el paquete a todos los dispositivos que compartan dicho perfil:</p>
+<p><img alt="" src="../img/fw-deviceprofile-ce.png" />
+<img alt="" src="../img/fw-deviceprofile-1-ce.png" />
+<img alt="" src="../img/fw-deviceprofile-2-ce.png" /></p>
+<p>El perfil de dispositivo permite que si asignamos un paquete de firmware al perfil, se lance un proceso de actualización en todos los dispositivos que pertenecen a dicho perfil, ahorrando tiempo.</p>
+<h2 id="asignacion-de-paquetes-ota-a-dispositivos">Asignación de paquetes OTA a dispositivos</h2>
+<p>Es posible asignar imágenes de firmware/software a dispositivos específicos. Observa los pasos en las siguientes capturas:</p>
+<p><img alt="" src="../img/device-firmware-ce.png" />
+<img alt="" src="../img/device-firmware-1-ce3.png" />
+<img alt="" src="../img/device-firmware-2-ce.png" />
+<img alt="" src="../img/device-firmware-3-ce.png" /></p>
+<p>La versión de firmware asignada a un dispositivo sobreescribirá la versión del firmware que se ha asignado al perfil de dispositivo. Por ejemplo, asumamos que disponemos de los dispositivos D1 y D2 con perfil P1:</p>
+<ul>
+<li>Si asignamos el paquete F1 al perfil P1 (a través de la UI de gestión del perfil vista en el punto anterior), los dispositivos D1 y D2 se actualizarán a F1.</li>
+<li>Si asignamos el paquete F2 al dispositivo D1 (a través de la UI de gestión del dispositivo), solo D1 se actualizará a F2.</li>
+<li>si asignamos el paquete F3 al perfil P1 solo afectará a D2, porque no tiene versión específica de firmware asignada a nivel de dispositivo individual. </li>
+</ul>
+<h2 id="proceso-de-actualizacion">Proceso de actualización</h2>
+<p>La asignación de firmware/software a un dispositivo o perfil de dispositivo desencadena automáticamente un proceso de actualicación. Thingsboard mantiene monitorizado el proceso de actualización a través de los atributos del dispositivo.</p>
+<p>El proceso de actualización puede residir en un instante determinado en uno de los siguientes estados. Dicho estado se almacena com oun atributo de dispositivo y se usa para visualizar el proceso en un dashboard.</p>
+<h3 id="estado-queued">Estado QUEUED</h3>
+<p>Es el primer estado de la actualización, marcado por el servidor. Significa que l anotificación sobre nuevo firmware disponible está encolada pero todavía no se ha llevado al dispositivo. Thingsboard encola las notificaciones para evitar picos de peticiones en el tiempo, ya que la cola se procesa ritmo constante, independientemente del número de peticiones (por defecto, se sirven 100 peticiones por minuto).</p>
+<h3 id="estado-initiated">Estado INITIATED</h3>
+<p>Significa que la notificación se ha enviado al dispositivo tras extraerla de la cola. Por debajo, Thingsboard convierte la notificación en una actualización de los siguientes <em>atributos compartidos</em> (visibles por tanto para el dispositivo):</p>
+<ul>
+<li><em>fw_title</em>. Nombre del firmware.</li>
+<li><em>fw_version</em>. Versión del firmware.</li>
+<li><em>fw_size</em>. Tamaño del firmware en bytes.</li>
+<li><em>fw_checksum</em>. Suma de verificación del paquete recibido.</li>
+<li><em>fw_checksum_algorithm</em>. Algoritmo que se usará para verificar la integridad del paquete recibido.</li>
+</ul>
+<p><img alt="" src="../img/fw-attributes-ce.png" /></p>
+<p>El resto de estados se reportan por el dispositivo que está procesando la actualización, y no por el servidor:</p>
+<h3 id="estado-downloading">Estado DOWNLOADING</h3>
+<p>El paquete está siendo descargado tras la recepción de la notificación de nuevo firmware/software.</p>
+<h3 id="estado-downloaded">Estado DOWNLOADED</h3>
+<p>El paquete ha sido descargado.</p>
+<h3 id="estado-verified">Estado VERIFIED</h3>
+<p>El dispositivo ha verificado con éxito el checksum.</p>
+<h3 id="estado-updating">Estado UPDATING</h3>
+<p>El dispositivo ha comenzado la actualización. Típicamente se envía ants del reinicio del dispositivo (en el caso de FOTA) o servicio (para SOTA).</p>
+<h3 id="estado-updated">Estado UPDATED</h3>
+<p>El firmware fue correctamente actualizado a la nueva versión.</p>
+<h3 id="estado-failed">Estado FAILED</h3>
+<p>El checksum no fue verificado, o el dispositivo fallo en el proceso de actualización.</p>
+<p>Una vez el firmware se ha actualizado con éxito, Thingsboard espera que el usuario envíe la siguiente telemetría:</p>
+<pre><code class="language-json">{&quot;current_fw_title&quot;: &quot;myFirmware&quot;, &quot;current_fw_version&quot;: &quot;1.2.3&quot;, &quot;fw_state&quot;: &quot;UPDATED&quot;}
+</code></pre>
+<p>En caso de error, la plataforma espera la recepción de la siguiente telemetría:</p>
+<pre><code class="language-json">{&quot;fw_state&quot;: &quot;FAILED&quot;, &quot;fw_error&quot;:  &quot;causa del error (legible)&quot;}
+</code></pre>
+<h2 id="api-mqtt-de-gestion-de-otafirmware">API MQTT de gestión de OTA/firmware</h2>
+<p>Cuando Thingsboard inicia un proceso de actualización de firmware vía MQTT, establece los atributos compartidos
+<code>fw_title</code>,
+<code>fw_version</code>,
+<code>fw_checksum</code> y
+<code>fw_checksum_algorithm</code>, como se ha dicho anteriormente. Para recibir actualizaciones de estos atributos compartidos, el 
+dispositivo debe suscribirse a:</p>
+<pre><code class="language-sh">v1/devices/me/attributes/response/+
+</code></pre>
+<p>Cuando el dispositivo recibe actualizaciones para <code>fw_title</code> y <code>fw_version</code>, éste debe publicar vía MQTT un mensaje bajo el topic:</p>
+<pre><code class="language-sh">v2/fw/request/${requestId}/chunk/${chunkIndex}
+</code></pre>
+<p>donde:</p>
+<ul>
+<li><code>${requestId}</code> es un número correspondiente al número de acuatlizaciones firmware desarrolladas por el dispositivo, que debe ser único y diferente para cada actualización de firmware.</li>
+<li><code>${chunkIndex}</code> es un número correspondiente al índice de los fragmentos (chunks) de firmware recibidos; comienzan a contar en 0. El dispositivo debe incrementar el índice para cada petición, hasta que el chunk recibido sea 0. El payload debe ser el tamaño del chunk en bytes.</li>
+</ul>
+<p>Para cada actualización, debe modificarse el ID de la petición y suscribirse a:</p>
+<pre><code class="language-sh">v2/fw/response/+/chunk/+
+</code></pre>
+<h2 id="simulacion-de-una-actualizacion-ota-desde-python-usando-la-api-mqtt">Simulación de una actualización OTA desde Python usando la API MQTT</h2>
+<p>A continuación, se propone el uso de un script Python sencillo que gestiona la actualización OTA simulando un dispositivo cliente. El objetivo es que este script sirva de base para implementar los componentes necesario en ESP-IDF que permitan la actualización remota de nuestros dispositivos.</p>
+<p>Al igual que en la práctica sobre provisionamiento, crea un entorno virtual e instala los paquetes necearios para la ejecución del script:</p>
+<pre><code class="language-sh">python3 -m venv entorno
+source entorno/bin/activate
+pip3 install paho-mqtt mmh3 --user
+</code></pre>
+<p>A continuación, descarga el script Python desde <a href="https://thingsboard.io/docs/user-guide/resources/firmware/mqtt_firmware_client.py">este enlace</a>. En la documentación de la plataforma tienes scripts equivalentes para HTTP y CoAP.</p>
+<p>Ejecuta el script:</p>
+<pre><code class="language-sh">python3 mqtt_firmware_client.py
+</code></pre>
+<p>El script solicitará ciertos valores para configurar el cliente, incluyendo la URL y puerto de la instalación de ThingsBoard que estés usando, el token del dispositivo y el tamaño de cada fragmento de fichero descargado (si se desea fragmentar la recepción).</p>
+<p>Si todo es correcto, el dispositivo emulará la actualización del software, simplemente descargando y almacenando en disco el fichero correspondiente:</p>
+<p><img alt="" src="../img/fw-mqtt-updated.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Ejecuta el cliente para un dispositivo existente en Thingsboard. Prepara un paquete de actualización y lanza el proceso. Observa lo que ocurre en el cliente. Comprueba que efectivamente el fichero recibido es el que subiste a la plataforma (visualmente, o calculando su checksum).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Repite el proceso con múltiples clientes conectados bajo un mismo perfil, y gestiona la actualización con un único paquete para todos los dispositivos. Comprueba que la lógica de versiones para dispositivos individuales anteriormente explicada se cumple.</p>
+</div>
+<h2 id="analisis-del-proceso-de-actualizacion">Análisis del proceso de actualización</h2>
+<p>Tras recoger los datos proporcionados por el usuario, el cliente instancia un cliente PAHO MQTT, y conecta al broker proporcionado.</p>
+<div class="admonition note">
+<p class="admonition-title">Pregunta</p>
+<p>¿Qué credenciales se utilizan en el proceso de conexión?</p>
+</div>
+<h3 id="metodo-__on_connect">Método <code>__on_connect</code></h3>
+<p>La función <code>__on_connect</code> se procesa si la conexión al broker ha tenido éxito.</p>
+<div class="admonition note">
+<p class="admonition-title">Pregunta</p>
+<p>¿A qué topics se suscribe el cliente tras conectar con el broker? ¿Qué datos de telemetría envía?</p>
+</div>
+<p>Por último, el cliente invoca a la función <code>request_firware_info</code>. </p>
+<div class="admonition note">
+<p class="admonition-title">Pregunta</p>
+<p>¿Qué datos y bajo qué topic envía el cliente en este punto?</p>
+</div>
+<h3 id="metodo-__on_message">Método <code>__on_message</code></h3>
+<p>La función <code>__on_message</code> se procesa si la conexión al broker ha tenido éxito. Esta función es más compleja, ya 
+que debe procesar la recepción de distintos tipos de mensajes por parte de Thingsboard. En ella reside la mayor
+parte de la lógica de recepción del firmware.</p>
+<div class="admonition note">
+<p class="admonition-title">Pregunta</p>
+<p>¿Qué casos se procesan analizando la estructura de los topics asociados al mensaje recibido? ¿Qué ocurre si la versión recibida es la misma que la instalada? ¿Y si es diferente? ¿Cómo se procesa el mensaje de respuesta por parte de Thingsboard que incluye el firmware (o parte del mismo)? ¿Cómo se gestiona la recepción en múltiples fragmentos (<em>chunks</em>)? ¿Se envían datos de telemetría modificando el estado de la actualización (DOWNLOADING)?</p>
+</div>
+<h3 id="funcion-get_firmware">Función <code>get_firmware</code></h3>
+<p>La función se invoca periódicamente en el proceso de recepción del firmware.  </p>
+<div class="admonition note">
+<p class="admonition-title">Pregunta</p>
+<p>¿En qué estado se encuentra en esta fase el proceso de actualización? ¿Qué datos de telemetría se envían?</p>
+</div>
+<h3 id="funcion-process_firmware">Función <code>process_firmware</code></h3>
+<p>Esta función se invoca cuando se ha recibido la totalidad del firmware en el cliente. Observa que se envían datos de telemetría indicando el paso por los estados DOWNLOADED, VERIFIED o FAILED.</p>
+<div class="admonition note">
+<p class="admonition-title">Pregunta</p>
+<p>¿Qué tarea principal realiza la función <code>process_firmware</code>? ¿Cómo lo hace?</p>
+</div>
+<h3 id="logica-de-actualizacion">Lógica de actualización</h3>
+<p>Observa, por último, que el script Python crea un hilo que simplemente espera de forma activa (función punto de entrada <code>__update_thread</code> a la recepción del firmware completo, pasando por los estados UPDATING y UPDATED. La función <code>dummy_upgrade</code> simplemente introduce esperas artificiales para simular el proceso de actualización dilatado en el tiempo. Observa también que el firmware recibido se escribe en un fichero en esta función.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable (opcional)</p>
+<p>Tras estudiar y experimentar con el script Python, desarrolla una versión equivalente que gestione el proceso de actualización de firmware en un ESP32 usando Thingsboard. Para ello, opera en dos fases. En primer lugar, implementa la lógica de comunicación con la plataforma a través de la API MQTT, pero no realices el proceso de flasheo en el ESP32 (simúlalo como hace el script). Una vez comprobado el correcto funcionamiento de la lógica implementada (similar al del script), procede a la integración del proceso de actualización OTA utilizando la API de ESP-IDF. </p>
+</div>
+<p><strong>NOTA IMPORTANTE: el desarrollo de esta tarea es complejo y no se espera su entrega como una práctica "normal". Sin embargo, se solicitará esta funcionalidad (aunque de forma opcional) en el trabajo de integración, por lo que se sugiere comenzar a trabajar en la tarea antes del inicio del proyecto.</strong></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
