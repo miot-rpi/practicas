@@ -54,7 +54,7 @@
 | 4        | 29/10 | [I2C](ANIOT/P4/index.md)                         |
 | 5        | 05/11 | [ADC](ANIOT/P5/index.md)                          |
 | 6        | 12/11 | [Modos de consumo](ANIOT/P6/index.md)                          |
-| 7        | 19/11 | [OTA](ANIOT/P7/index.md)                                   |
+| 7        | 19/11 | [OTA](ANIOT/P7/index.md). [Parte adicional (OTA en Thingsboard)](ANIOT/P7/index2.md)  |
 | 8        | 26/11 | QEMU - CI/CD - github                                           |
 |          | 03/12 | Proyecto                                                        |
 |          | 10/12 | Proyecto                                                        |

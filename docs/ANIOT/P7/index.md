@@ -2,6 +2,7 @@
 
 
 ## Objetivos
+
 El objetivo de esta práctica es familiarizarse con el concepto de OTA, la actualización del *firmware* de forma remota. Específicamente, usaremos el interfaz simplificado que ofrece ESP-IDF para realizar la actualización de aplicaciones.
 
  Trabajaremos los siguientes aspectos:
@@ -9,7 +10,6 @@ El objetivo de esta práctica es familiarizarse con el concepto de OTA, la actua
 * Actualización de *firmware* mendiante HTTPS.
 * Incorporación de certificados en nuestra aplicación.
 * Firmado de binarios.
-
 
  
 ## Material de consulta
@@ -116,7 +116,7 @@ Hay varios aspectos que debemos considerar en la seguridad de la operación OTA:
     * Revisad las [opciones de compilación para saber cómo podemos incrustar el certificado en nuestro binario](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#embedding-binary-data)
 * La imagen recibida es de confianza. Parte de este aspecto queda cubierto por la garantía de *integridad* de TLS, pero podemos ir un paso más allá: podemos requerir que la imagen recibida esté firmada. Nuevamente, exigirá la generación de un par de claves para la firma del binario (con la clave privada) y su comprobación (con la clave pública). Puedes [leer acerca de este proceso en la documentación de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/secure-boot-v2.html#signed-app-verification-without-hardware-secure-boot)
 
- **IMPORTANTE**  NO habilitéis nunca el arranque seguro (Secure Boot) en *menuconfig*. Una vez activado, no podemos desactivarlo, y supondría un problema para el hardware del laboratorio. Es posible habilitar únicamente la verficación de la APP sin el arranque segruo completo.
+ **IMPORTANTE**  NO habilitéis nunca el arranque seguro (Secure Boot) en *menuconfig*. Una vez activado, no podemos desactivarlo, y supondría un problema para el hardware del laboratorio. Es posible habilitar únicamente la verificación de la APP sin el arranque segruo completo.
 
 
 
@@ -135,7 +135,7 @@ Vamos a partir  [del ejemplo de OTA básico](https://github.com/espressif/esp-id
 !!! danger "Tareas"
     * Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará [este certificado para la conexión segura por HTTP](file/ca_cert.pem) y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.
     * Alterar un byte del fichero del certificado y probar nuevamente.
-    * [Seguir los pasos del ejemplo]((https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.
+    * [Seguir los pasos del ejemplo](https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.
 
 ## Ejercicio avanzado
 Integraremos OTA en la aplicación que hemos ido desarrollando a lo largo de estas prácticas (lectura periódica del sensor de temperatura).
