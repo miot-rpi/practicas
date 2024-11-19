@@ -133,7 +133,7 @@ Vamos a partir  [del ejemplo de OTA básico](https://github.com/espressif/esp-id
 
 
 !!! danger "Tareas"
-    * Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará [este certificado para la conexión segura por HTTP](file/ca_cert.pem) y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.
+    * Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará el certificado proporcionado en Campus Virtual y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.
     * Alterar un byte del fichero del certificado y probar nuevamente.
     * [Seguir los pasos del ejemplo](https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.
 
