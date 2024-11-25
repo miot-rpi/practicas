@@ -226,6 +226,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#libreria-anjay" class="nav-link">Librería Anjay</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -846,6 +850,21 @@ hipotético sensor IoT. En segundo lugar, se pide que, siguiendo las
 directivas del código analizado, lo implementes en Eclipse Wakaama y seas
 capaz de interactuar con él desde un servidor Leshan y/o Wakaama utilizando
 además un proceso de provisionamiento o <em>bootstrapping</em>.</p>
+</div>
+<h2 id="libreria-anjay">Librería Anjay</h2>
+<p>Anjay es una librería C que implementa el protocolo OMA LwM2M y está especialmente orientada al desarrollo de clientes en nodos IoT. El proyecto fue creado y es mantenido activamente por AVSystem y la documentación puede consultarse en el siguiente <a href="https://avsystem.github.io/Anjay-doc/index.html">enlace</a>.</p>
+<p>Anjay está disponible como <a href="https://github.com/AVSystem/Anjay-esp32-client">componente ESP-IDF</a> y continuación vamos a probar un cliente para la placa ESP32-DevKitC. Para el ello es preciso descargar el código mediante los siguietes comandos:</p>
+<pre><code class="language-sh">git clone https://github.com/AVSystem/Anjay-esp32-client.git
+cd Anjay-esp32-client
+git submodule update --init --recursive
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Abre el proyecto con la extensión ESP-IDF, configúralo para conectarlo al servidor Leshan local (sin seguridad) y prúebalo. Presta especial atención tanto al uso como a la implementación el objeto <em>push button</em>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable (opcional)</p>
+<p>Implementar en Anjay el objeto definido en la sección anterior (no es necesario emplear <em>bootstrapping</em>).</p>
 </div></div>
             </div>
         </div>
