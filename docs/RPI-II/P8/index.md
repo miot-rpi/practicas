@@ -651,3 +651,20 @@ java -jar leshan-demo-server/target/leshan-demo-server-*-SNAPSHOT-jar-with-depen
     además un proceso de provisionamiento o *bootstrapping*.
 
 
+## Librería Anjay
+
+Anjay es una librería C que implementa el protocolo OMA LwM2M y está especialmente orientada al desarrollo de clientes en nodos IoT. El proyecto fue creado y es mantenido activamente por AVSystem y la documentación puede consultarse en el siguiente [enlace](https://avsystem.github.io/Anjay-doc/index.html).
+
+Anjay está disponible como [componente ESP-IDF](https://github.com/AVSystem/Anjay-esp32-client) y continuación vamos a probar un cliente para la placa ESP32-DevKitC. Para el ello es preciso descargar el código mediante los siguietes comandos:
+
+```sh
+git clone https://github.com/AVSystem/Anjay-esp32-client.git
+cd Anjay-esp32-client
+git submodule update --init --recursive
+```
+
+!!! note "Tarea"
+    Abre el proyecto con la extensión ESP-IDF, configúralo para conectarlo al servidor Leshan local (sin seguridad) y prúebalo. Presta especial atención tanto al uso como a la implementación el objeto *push button*.
+
+!!! danger "Tarea entregable (opcional)"
+    Implementar en Anjay el objeto definido en la sección anterior (no es necesario emplear *bootstrapping*).
