@@ -1,6 +1,5 @@
 # Práctica 7 (adicional). OTA en Thingsboard
 
-
 ## Objetivos
 
 El objetivo de esta práctica es familiarizarse con el proceso de OTA en la plataforma Thingsboard, para realizar actualizaciones
