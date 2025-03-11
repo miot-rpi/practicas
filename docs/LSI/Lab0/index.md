@@ -5,7 +5,7 @@
 * Preparar el entorno experimental.
 * Completar la configuración del sistema.
 * Probar el correcto funcionamiento tanto del Software como del Hardware.
-* **TBD** ....
+* Familiarizase con la captura de imágenes mediante OpenCV
 
 ## 1. Introducción
 
@@ -32,7 +32,7 @@ A continuación se proporcionan las instrucciones para configurar y probar el en
 
 Grabar el sistema operativo Raspberry Pi OS (64-bit) en una SD siguiendo las [instrucciones de instalación](https://www.raspberrypi.com/documentation/computers/getting-started.html) de la web oficial de Raspberry Pi.
 
-![Pi-Imager-menu](/Users/luis/Documents/Work/Teaching/MIoT/miot-rpi-practicas/docs/LSI/Lab0/Pi-Imager-menu.png)
+![Pi-Imager-menu](Pi-Imager-menu.png)
 
 ## 3. Conexión, arranque y configuración
 1. Realizar la conexión de los dispositivos
