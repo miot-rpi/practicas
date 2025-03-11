@@ -164,6 +164,15 @@
 </li>
                                 </ul>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">LSI</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../P1/index.md" class="dropdown-item">Práctica 0</a>
+</li>
+                                </ul>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
@@ -196,23 +205,27 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+            <li class="nav-item" data-bs-level="2"><a href="#1-introduccion" class="nav-link">1. Introducción</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#preparacion-sd" class="nav-link">Preparación SD</a>
+            <li class="nav-item" data-bs-level="2"><a href="#2-preparacion-sd" class="nav-link">2. Preparación SD</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#conexion-arranque-y-configuracion" class="nav-link">Conexión, arranque y configuración</a>
+            <li class="nav-item" data-bs-level="2"><a href="#3-conexion-arranque-y-configuracion" class="nav-link">3. Conexión, arranque y configuración</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#demos-basicas" class="nav-link">Demos básicas</a>
+            <li class="nav-item" data-bs-level="2"><a href="#4-comprobaciones-basicas" class="nav-link">4. Comprobaciones básicas</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#demos-avanzadas" class="nav-link">Demos avanzadas</a>
+            <li class="nav-item" data-bs-level="2"><a href="#5-gstreamer" class="nav-link">5. Gstreamer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#6-opencv" class="nav-link">6. OpenCV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -229,9 +242,9 @@
 <li>Preparar el entorno experimental.</li>
 <li>Completar la configuración del sistema.</li>
 <li>Probar el correcto funcionamiento tanto del Software como del Hardware.</li>
-<li>Demostrar la capacidad de procesamiento tanto de la placa Raspberry Pi como del acelerador EdgeTPU de Google.</li>
+<li><strong>TBD</strong> ....</li>
 </ul>
-<h2 id="introduccion">Introducción</h2>
+<h2 id="1-introduccion">1. Introducción</h2>
 <p>El entorno experimental que se va a emplear en esta parte de la asignatura está compuesto de los siguientes elementos:</p>
 <ul>
 <li>Hardware</li>
@@ -247,166 +260,312 @@
 <li>Cámara para Raspberry Pi v2</li>
 </ul>
 </li>
+<li>Lector de tarjetas SD<ul>
+<li>No proporcionado, pero un gran número de portátiles lo llevan integrado.</li>
+</ul>
+</li>
 <li>Software</li>
 <li>Raspberry Pi OS  - Distribución Linux basada en Debian adaptada a la Raspberry Pi en su versión de 64 bits</li>
-<li>OpenCV 4.5.5 - Librería de visión por computador</li>
+<li>OpenCV - Librería de visión por computador</li>
 </ul>
 <p>A continuación se proporcionan las instrucciones para configurar y probar el entorno experimental.</p>
-<h2 id="preparacion-sd">Preparación SD</h2>
-<p>Para simplificar el proceso de instalación se proporciona una imagen comprimida del sistema operativo con el software necesario pre-instalado. No obstante, si alguien desea realizar el proceso de instalación completo por su cuenta, puede seguir las instrucciones de la web de <a href="https://github.com/google-coral/aiy-maker-kit-tools/">Maker Kit</a>, que suelen ser bastante completas y actualizadas.</p>
-<p>A continuación se detallan los pasos a seguir para grabar la imagen de la tarjeta SD que hemos preparado..</p>
+<h2 id="2-preparacion-sd">2. Preparación SD</h2>
+<p>Grabar el sistema operativo Raspberry Pi OS (64-bit) en una SD siguiendo las <a href="https://www.raspberrypi.com/documentation/computers/getting-started.html">instrucciones de instalación</a> de la web oficial de Raspberry Pi.</p>
+<p><img alt="Pi-Imager-menu" src="/Users/luis/Documents/Work/Teaching/MIoT/miot-rpi-practicas/docs/LSI/Lab0/Pi-Imager-menu.png" /></p>
+<h2 id="3-conexion-arranque-y-configuracion">3. Conexión, arranque y configuración</h2>
 <ol>
-<li>Descargar e instalar un programa para <em>flashear</em> tarjetas SD:<ul>
-<li><a href="https://www.raspberrypi.org/software/">Raspberry Pi Imager</a> (recomendado)</li>
-<li><a href="https://www.balena.io/etcher/">BalenaEtcher</a></li>
-</ul>
-</li>
-<li>Descargar la imagen comprimida del siguiente enlace<ul>
-<li><a href="https://github.com/google-coral/aiy-maker-kit-tools/releases/download/v20220518/aiy-maker-kit-2022-05-18.img.xz">Imagen Maker Kit(basado Raspberry Pi OS)</a></li>
-</ul>
-</li>
-<li>Empleado un lector/escritor de tarjetas SD escribir la imagen a disco:
-    <img alt="Raspberry Pi Imager" src="image-20210412232727709.png" /> <ul>
-<li>Seleccionar la tarjeta SD sobre la que se desea escribir (64GB)</li>
-<li>Seleccionar sistema operativo: <em>"Use custom"</em> y localizar el fichero de la imagen comprimida previamente descargada (no es necesario descomprimirla previamente)
-<img alt="Choose OS" src="image-20210412233000832.png" /></li>
-<li>Realizar la escritura (puede tardar bastantes minutos)
-<img alt="Write" src="image-20210412233636340.png" /></li>
-</ul>
-</li>
-</ol>
-<h2 id="conexion-arranque-y-configuracion">Conexión, arranque y configuración</h2>
-<ol>
-<li>Realizar la conexión de los dispositivos<ul>
+<li>Realizar la conexión de los dispositivos</li>
 <li>Conectar el teclado y el ratón a los puertos USB 2.0, dejando al menos uno de los puertos USB 3.0 libre para el acelerador Google Coral (tienen un remate azul)</li>
-<li>Conectar el monitor mediante el cable micro-HDMI a HDMI
-    <img alt="micro HDMI cable" src="https://img.pccomponentes.com/articles/22/221646/k1481-1.jpg" /></li>
-<li>Insertar la tarjeta SD grabada previamente</li>
-<li>Conectar la cámara <em>"Raspberry Pi Camera Module v2"</em> (sensor Sony IMX219, interfaz CSI-2, resolución 3280 x 2464 píxeles, 30fps)
-    <img alt="Pi Camera v2" src="pi-camera.jpg" /></li>
-<li>Para información más precisa de la conexión se puede consultar el siguiente <a href="https://youtu.be/lAbpDRy-gc0">video.</a></li>
-</ul>
-</li>
-<li>Conectar alimentación (cable USB-C), teclado y ratón. Comprobar el correcto arranque del equipo</li>
 <li>
-<p>Configuración primer arranque:</p>
-<ul>
-<li>Seleccionar país de uso/lenguaje/Tiempo horario</li>
-<li>Contraseña del usuario <strong>pi</strong> (por defecto "raspberry")
-<img alt="First Boot" src="firstboot.jpeg" /></li>
-</ul>
+<p>Conectar el monitor mediante el cable micro-HDMI a HDMI</p>
 </li>
 <li>
-<p>Acceder a la Wifi</p>
-<ul>
-<li>SSID="UCM" y con las credenciales UCM propias</li>
-<li>SSID="rpi-miot" con las contraseña "RPI-MIOT_2223"</li>
-</ul>
+<p>Insertar la tarjeta SD grabada previamente</p>
 </li>
-<li>Actualización del sistema <ul>
-<li>Abrir una consola e invocar <code>apt update</code> y <code>apt full-upgrade</code></li>
-</ul>
-</li>
+<li>Conectar la cámara <em>"Raspberry Pi Camera Module v2"</em> (sensor Sony IMX219, interfaz CSI-2, resolución 3280 x 2464 píxeles, 30fps)</li>
 </ol>
-<pre><code class="language-bash">pi@raspberry: $ sudo apt update
-Get:1 http://raspbian.raspberrypi.org/raspbian buster InRelease [15.0 kB]
-...
-pi@raspberrypi:~ $ sudo apt full-upgrade
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-Calculating upgrade... Done
-...
-</code></pre>
+<p><img alt="Pi Camera v2" src="pi-camera.jpg" /></p>
+<ul>
+<li>
+<p>Para información más precisa de la conexión se puede consultar el siguiente <a href="https://youtu.be/lAbpDRy-gc0">video.</a></p>
+</li>
+<li>
+<p>Conectar alimentación (cable USB-C), teclado y ratón. Comprobar el correcto arranque del equipo y proceder a la configuración inicial.</p>
+</li>
+</ul>
+<p><img alt="" src="https://www.raspberrypi.com/documentation/computers/images/initial-setup/start.png" /></p>
 <ol>
-<li>Alguna configuraciones extra (<strong>opcionales</strong>)<ul>
-<li>Opciones del sistema con el comando <em>raspi-config</em>: <code>sudo raspi-config</code>
-    <img alt="Opciones sistema" src="image-20210413000234657.png" /><ul>
-<li>S3- Clave usuario <code>pi</code>
-    <img alt="Nombre usuario" src="image-20210413000356479.png" /></li>
-<li>S4 - Nombre del equipo</li>
+<li>
+<p>Configuración inicial:</p>
+</li>
+<li>
+<p>Seleccionar país, lenguaje y zona horaria.</p>
+</li>
+<li>Configurar usuario, contraseña.</li>
+<li>Configurar la Wifi (<em>rpi-miot</em>).</li>
+<li>Seleccionar navegador (<em>Chromium</em>).</li>
+<li>Actualización del software.</li>
+<li>Reiniciar y comprobar la configuración inicial (en especial la red).</li>
+</ol>
+<p><img alt="rpi-desktop" src="rpi-desktop.png" /></p>
+<ol>
+<li>
+<p>Completar la configuración necesaria:</p>
+</li>
+<li>
+<p>Abrir una ventana de terminal y completar la configuración mediante comando <em>raspi-config</em>: <code>sudo raspi-config</code></p>
+<p><img alt="raspi-config" src="raspi-config.png" /></p>
+</li>
+<li>
+<p>Establecer las opciones de interfaz necesarias:</p>
+<p><img alt="raspi-config-interface" src="raspi-config-interface.png" /></p>
+<ul>
+<li>Activar conexión mediante SSH (mínimo) y recomendable por VNC.</li>
 </ul>
 </li>
-<li>Opciones de interfaz
-    <img alt="Opciones interfaz" src="image-20210413001135185.png" /><ul>
-<li>P1 - Activar cámara</li>
-<li>P2 - Activar SSH para conexión remota</li>
-<li>P3 - Activar VNC (opcional)</li>
-</ul>
-</li>
-<li>Finalizar y reiniciar el equipo</li>
-</ul>
+<li>
+<p>Finalizar y reiniciar el equipo</p>
 </li>
 </ol>
-<h2 id="demos-basicas">Demos básicas</h2>
+<h2 id="4-comprobaciones-basicas">4. Comprobaciones básicas</h2>
+<h3 id="camara">Cámara</h3>
+<p>La cámara ya no se gestiona del mismo modo que en versiones anteriores de Raspberrypi OS, ahora se hace por medio de la libraría  <em>libcamera</em>. Para más información sobre los módulos de cámara de la Raspberry Pi y el software asociado consultar el siguiente <a href="https://www.raspberrypi.com/documentation/accessories/camera.html">enlace</a> (mejor no buscar en Google porque la mayor parte de la información está obsoleta).</p>
 <ul>
-<li>Comprobar la correcta detección de la cámara</li>
+<li>Comprobar la correcta detección de la cámara:</li>
 </ul>
-<pre><code class="language-bash">    $ vcgencmd get_camera
-    supported=1 detected=1
+<pre><code class="language-bash">$ libcamera-hello --list-cameras
 </code></pre>
+<pre><code>Available cameras
+-----------------
+0 : imx219 [3280x2464 10-bit RGGB] (/base/soc/i2c0mux/i2c@1/imx219@10)
+    Modes: 'SRGGB10_CSI2P' : 640x480 [206.65 fps - (1000, 752)/1280x960 crop]
+                             1640x1232 [41.85 fps - (0, 0)/3280x2464 crop]
+                             1920x1080 [47.57 fps - (680, 692)/1920x1080 crop]
+                             3280x2464 [21.19 fps - (0, 0)/3280x2464 crop]
+           'SRGGB8' : 640x480 [206.65 fps - (1000, 752)/1280x960 crop]
+                      1640x1232 [83.70 fps - (0, 0)/3280x2464 crop]
+                      1920x1080 [47.57 fps - (680, 692)/1920x1080 crop]
+                      3280x2464 [21.19 fps - (0, 0)/3280x2464 crop]
+</code></pre>
+<ul>
+<li>Comprobar el  funcionamiento de la cámara:</li>
+</ul>
+<pre><code class="language-sh">$ libcamera-still
+</code></pre>
+<h3 id="alimentacion-y-refrigeracion">Alimentación y refrigeración</h3>
+<p>Es crucial garantizar una buena refrigeración y un voltaje estable en la Raspberry Pi 4 para evitar sobrecalentamiento y fallos del sistema. Un exceso de temperatura reduce el rendimiento, por lo que se recomienda usar disipadores o ventilación activa. Además, un voltaje inadecuado puede causar apagones y corrupción de datos, por lo que es esencial un adaptador de 5V y al menos 3A.</p>
 <ul>
 <li>Comprobar temperatura (opcional)</li>
 </ul>
-<pre><code class="language-bash">    $ vcgencmd measure_temp
-    temp=39.9'C
+<pre><code class="language-bash">$ vcgencmd measure_temp
+temp=39.9'C
 </code></pre>
 <ul>
-<li>Comprobar funcionamiento cámara y acelerador Coral (cámara + OpenCV + TensorFlowLite)</li>
+<li>Comprobar voltage y que no se está produciendo <em>throttling</em>:</li>
 </ul>
-<pre><code class="language-bash">pi@raspberrypi:~ $ cd ~/aiy-maker-kit
-pi@raspberrypi:~/aiy-maker-kit $ python3 ./run_tests.py 
---- Checking display ---
-Found a display.
-
---- Checking required files ---
-Found the required files.
-
---- Testing camera ---
-Press Q to quit
-Camera started successfully.
-Closing video in... 0
-Camera is working.
-
---- Testing USB Accelerator ---
-Loading a model...
-USB Accelerator is working.
-
-Everything look good!
-
+<pre><code class="language-sh">$ vcgencmd get_throttled
+throttled=0x0
 </code></pre>
-<h2 id="demos-avanzadas">Demos avanzadas</h2>
-<p>Vamos a evaluar la ganancia en tiempo de inferencia (ejecución de un modelo) que podemos alcanzar con el uso del acelerador de la <a href="https://coral.ai/products/accelerator/">Coral USB</a>. Para ello vamos a descargar un repositorio donde se encuentran varias ejemplos que capturan el vídeo con la cámara y aplican varios ejemplos de IA empleando modelos que pueden invocarse con la <a href="https://tensorflow.org/lite">API TensorFlow Lite</a>. Para este fin vamos a evaluar la ganancia de emplear el acelerador <a href="https://coral.withgoogle.com/products/accelerator">Coral USB</a>.</p>
-<h3 id="pasos-a-realizar">Pasos a realizar</h3>
-<ol>
-<li>Clonar un repositorio con los ejemplos que se pueden encontrar en la <a href="https://github.com/google-coral/examples-camera">URL</a></li>
-</ol>
-<pre><code class="language-bash">pi@raspberrypi:~ $ mkdir google-coral &amp;&amp; cd google-coral
-pi@raspberrypi:~/google-coral $ git clone https://github.com/google-coral/examples-camera.git --depth 1
+<ul>
+<li>Nota: Si el valor devuelto es distinto de <code>0x0</code> consutar la correspondiente página de manual para identificar el problema (<code>man vcgencmd</code>)</li>
+</ul>
+<h2 id="5-gstreamer">5. Gstreamer</h2>
+<h3 id="que-es">¿Qué es?</h3>
+<p>GStreamer es un framework de código abierto para la creación, manipulación y reproducción de flujos multimedia. </p>
+<h3 id="instalacion-gstreamer">Instalación <em>Gstreamer</em></h3>
+<p>Es preciso instalar los siguientes paquetes (basado este <a href="https://qengineering.eu/install-gstreamer-1.18-on-raspberry-pi-4.html">enlace</a> y actualizado para <em>bookworm</em>)</p>
+<pre><code class="language-shell"># install a missing dependency
+$ sudo apt-get install libx264-dev libjpeg-dev
+# install the remaining plugins
+$ sudo apt-get install libgstreamer1.0-dev \
+     libgstreamer-plugins-base1.0-dev \
+     libgstreamer-plugins-bad1.0-dev \
+     gstreamer1.0-plugins-ugly \
+     gstreamer1.0-tools \
+     gstreamer1.0-gl \
+     gstreamer1.0-gtk3 
+# if you have Qt5 install this plugin
+$ sudo apt-get install gstreamer1.0-qt5
+# install the compatibility package
+$ sudo apt-get install gstreamer1.0-libcamera
+# install if you want to work with audio
+$ sudo apt-get install gstreamer1.0-pulseaudio
 </code></pre>
-<ol>
-<li>Descargar los modelos para poder testear los ejemplo mediante el script <strong>download_models.sh</strong></li>
-</ol>
-<pre><code class="language-bash">pi@raspberrypi:~/google-coral $ cd examples-camera/
-pi@raspberrypi:~/google-coral/examples-camera $ bash download_models.sh 
+<h3 id="prueba-de-un-pipeline-de-video-basico-640x480">Prueba de un pipeline de video básico (640x480)</h3>
+<pre><code class="language-sh">$ gst-launch-1.0 libcamerasrc ! video/x-raw, width=640, height=480, framerate=30/1 ! videoconvert ! videoscale ! clockoverlay time-format=&quot;%D %H:%M:%S&quot; ! autovideosink
 </code></pre>
-<ol>
-<li>Uso de ejemplos. En el directorio <em>gstreamer</em> se encuentran varios ejemplos escritos en python que capturan imágenes con la cámara y ejecutan los modelos en el acelerador Coral USB. Pero antes de nada vamos a instalar los requisitos para poder usar la herramienta <em>gstreamer</em> que va capturando imagen tras imagen para realizar su inferencia invocando el script <strong>install_requirements.sh</strong></li>
-</ol>
-<pre><code class="language-bash">pi@raspberrypi:~/google-coral/examples-camera $ cd gstreamer/
-pi@raspberrypi:~/google-coral/examples-camera/gstreamer $ bash ./install_requirements.sh 
+<h2 id="6-opencv">6. OpenCV</h2>
+<h3 id="que-es_1">¿Qué es?</h3>
+<p>OpenCV es una biblioteca de visión de código abierto que proporciona herramientas para procesar y analizar imágenes y videos. Entre otras cosas proporciona  una interfaz completa  (<a href="https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html">Python</a> y <a href="https://docs.opencv.org/4.6.0/d8/dfe/classcv_1_1VideoCapture.html">C++</a>) para la interacción con cámaras que usaremos a continuación.</p>
+<h3 id="instalacion-de-opencv-46">Instalación de OpenCV (4.6)</h3>
+<p>Por defecto <em>Bookworm</em> incluye la versión 4.6, si se necesita una más reciente es preciso compilarla o buscar un binario pre-compilado.</p>
+<pre><code class="language-sh">$ sudo apt-get install libopencv-dev
+$ sudo apt-get install python3-opencv
 </code></pre>
-<p>Por último lanzaremos el ejemplo de detección de objetos para lo cual emplearemos el ejemplo de python <strong>detect.py</strong>. Podemos conocer las opciones que permite dicho script mediante el flag <code>python3 detect.py -h</code>. Vamos a emplear el modelo de detección de caras <em>mobilenet_ssd_v2_face</em> que se encuentra en el directorio <em>all_models</em>. Para ello ejecutaremos el siguiente comando:</p>
-<pre><code class="language-bash">pi@raspberrypi:~/google-coral/examples-camera/gstreamer $ python3 detect.py --model ../all_models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite
+<h3 id="captura-de-videos-desde-la-camara-python">Captura de vídeos desde la cámara (Python)</h3>
+<p>En primer lugar, realizaremos una captura de flujo de vídeo desde la cámara, utilizando la API de OpenCV en Python, realizando una transformación básica y mostrando el flujo de vídeo transformado. Tomemos el siguiente script como ejemplo de referencia:</p>
+<pre><code class="language-python">import numpy as np
+import cv2
+
+# 0. Configura camara 0.
+cap = cv2.VideoCapture(0)
+
+while(True):
+    # 1. Adquisición de un frame 
+    ret, frame = cap.read()
+
+    # 2. Operaciones sobre el frame
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # 3. Mostrar el frame resultante.
+    cv2.imshow('frame',gray)
+    if cv2.waitKey(1) &amp; 0xFF == ord('q'):
+        break
+
+# 4. Liberar la captura y destruimos ventanas.
+cap.release()
+cv2.destroyAllWindows()
 </code></pre>
-<p>Es importante tener en cuenta que el modelo seleccionado es <strong>mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite</strong> que se ejecutará en el acelerador Coral.</p>
+<p>Para realizar la captura de vídeo, necesitaremos un objeto de tipo<code>VideoCapture</code>; su único argumento suele ser un índice de dispositivo o un fichero de vídeo. Un índice de dispositivo es simplemente un identificador único para cada una de las cámaras conectadas al equipo. El problema es que <code>VideoCapture</code> no es del todo compatible con la librería <code>libcamera</code>  que emplea la Raspberry Pi y es necesario hacer uso de un pipeline <code>GStreamer</code> y substituir la sentencia <code>cap = cv2.VideoCapture(0)</code>por la siguiente secuencia de código:</p>
+<pre><code class="language-python">pipeline = &quot;libcamerasrc ! video/x-raw,  width=(int)640, height=(int)480, framerate=(fraction)15/1 ! videoconvert ! videoscale ! video/x-raw, width=(int)640, height=(int)480 ! appsink&quot;
+
+cap = cv2.VideoCapture(pipeline,cv2.CAP_GSTREAMER)
+</code></pre>
+<p>El resto del código no presenta problema de compatibilidad.</p>
+<p><code>cap.read()</code> devuelve un valor <em>booleano</em> en función de si el <em>frame</em> fue leído correctamente o no. Podemos, por tanto, comprobar la finalización de un flujo de vídeo utilizando dicho valor de retorno.</p>
+<p>Es posible acceder  a algunas de las características del vídeo utilizando el método <code>cap.get(propId)</code>, donde <code>propId</code> es un número entre 0 y 18. Cada número denota una  propiedad del vídeo (si dicha propiedad se puede aplicar al vídeo en cuestión). Para más información, consulta ls <a href="https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939">documentación de OpenCV</a>. Algunos de estos valores pueden ser modificados a través de la función <code>cap.set(propId, value)</code>.</p>
+<p>Por ejemplo, podemos comprobar la anchura y altura de un <em>frame</em> utilizando <code>cap.get(cv.CAP_PROP_FRAME_WIDTH)</code> y <code>cap.get(cv.CAP_PROP_FRAME_HEIGHT)</code>. Podemos, por ejemplo, fijar la resolución de la captura utilizando<code>ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)</code> y <code>ret = cap.set(cv.CAP_PROP_FRAME_HEIGHT,240)</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>¿Cual es el tiempo de inferencia de cada imagen? Presta atención en el modelo elegido  ya tiene que formato TFLite y está optimizado para el acelerador Coral USB (las nomenclatura del modelo <em>edgetpu</em> así lo indica)</p>
+<p>Ejecuta el anterior script (está incluido en el paquete proporcionado) utilizando <code>python3</code>.  Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc.) Para ello, deberás consultar la <a href="https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939">documentación de OpenCV</a>.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>¿Cuál es el tiempo de inferencia si empleásemos el modelo equivalente que no se ejecuta en el Coral USB que lleva el nombre de <strong>mobilenet_ssd_v2_face_quant_postprocess.tflite</strong>?</p>
+<p>Temporiza el tiempo de adquisición (<code>cap.read()</code>) y repórtalo a través de línea de comandos, reportando no sólo el tiempo, sino los fotogramas por segundo (FPS) obtenidos. </p>
+</div>
+<h3 id="captura-de-videos-desde-la-camara-c">Captura de vídeos desde la cámara (C++)</h3>
+<p>Desde C++, la lógica de captura es muy similar, como también lo es la API utilizada:</p>
+<pre><code class="language-cpp">// OpenCV includes.
+#include &lt;opencv2/core.hpp&gt;
+#include &lt;opencv2/videoio.hpp&gt;
+#include &lt;opencv2/highgui.hpp&gt;
+
+// Other includes.
+#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+
+using namespace cv;
+using namespace std;
+
+int main(int, char**)
+{
+    // 0. Declaracion de variables (vease documentacion de Mat).
+    Mat frame;
+    VideoCapture cap;
+
+    // 1. Configuramos camara 0.
+    int deviceID = 0;             // 0 = open default camera
+    int apiID = cv::CAP_ANY;      // 0 = autodetect default API
+
+    cap.open(deviceID, apiID);
+
+    // 2. Check error.
+    if (!cap.isOpened()) {
+        cerr &lt;&lt; &quot;ERROR abriendo camara.\n&quot;;
+        return -1;
+    }
+
+    // 3. Bucle de adquisicion.
+    cout &lt;&lt; &quot;Comenzando adquisicion...&quot; &lt;&lt; endl &lt;&lt; &quot;Presiona cualquier tecla para terminar...&quot; &lt;&lt; endl;
+    for (;;)
+    {
+        // 4. Adquisicion de frame (TODO: temporizar la adquisicion y reportar Frames por Segundo (FPS)). 
+        cap.read(frame);
+
+        // TODO: Investigar transformaciones en C++ (ver documentacion).
+
+        // 5. Check error.
+        if (frame.empty()) {
+            cerr &lt;&lt; &quot;ERROR! blank frame grabbed\n&quot;;
+            break;
+        }
+
+        // 6. Mostramos frame en ventana.
+        imshow(&quot;Stream&quot;, frame);
+        if (waitKey(5) &gt;= 0)
+            break;
+    }
+
+    // 7. La camara se liberara en el destructor.
+    return 0;
+}
+</code></pre>
+<p>Para compilar y enlazar un código como el anterior código, nos ayudaremos de la herramienta <code>pkg-config</code>, que nos ayudará a fijar los flags de compilación y enlazado para programas que utilicen OpenCV:</p>
+<pre><code class="language-sh">g++ programa.cpp -o programa.x `pkg-config --cflags --libs opencv4`
+</code></pre>
+<h4 id="ejemplo-c-con-gstreamer">Ejemplo C++ con GStreamer</h4>
+<p>Como hemos comentado previamente, por motivos de compatibilidad con la <code>libcamera</code> es necesario hacer uso de un pipeline de <em>Gstreamer</em> como el visto anteriormente, para lo que habría que modificar el ejemplo de referencia del siguiente modo:</p>
+<pre><code class="language-c++">std::string gstreamer_pipeline(int capture_width, int capture_height, int framerate, int display_width, int display_height) {
+    return
+            &quot; libcamerasrc ! video/x-raw, &quot;
+            &quot; width=(int)&quot; + std::to_string(capture_width) + &quot;,&quot;
+            &quot; height=(int)&quot; + std::to_string(capture_height) + &quot;,&quot;
+            &quot; framerate=(fraction)&quot; + std::to_string(framerate) +&quot;/1 !&quot;
+            &quot; videoconvert ! videoscale !&quot;
+            &quot; video/x-raw,&quot;
+            &quot; width=(int)&quot; + std::to_string(display_width) + &quot;,&quot;
+            &quot; height=(int)&quot; + std::to_string(display_height) + &quot; ! appsink&quot;;
+}
+</code></pre>
+<pre><code class="language-c++">//pipeline parameters
+int capture_width = 640; //1280 ;
+int capture_height = 480; //720 ;
+int framerate = 15 ;
+int display_width = 640; //1280 ;
+int display_height = 480; //720 ;
+
+// create pipeline string
+std::string pipeline = gstreamer_pipeline(capture_width, capture_height, framerate,
+                                              display_width, display_height);
+// open pipeline
+cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
+</code></pre>
+<p>El siguiente ejemplo más completo está basado en este <a href="https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS">ejemplo</a> para <em>Bulleye</em> pero retocado <em>Bookworm</em> (versión actual de Raspberry Pi OS):</p>
+<pre><code class="language-sh">$ git clone https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS
+$ cd Libcamera-OpenCV-RPi-Bullseye-64OS
+</code></pre>
+<p>Para poder usarlo es necesario modificar el fichero <code>GStreamer_RPi_64_Bullseye.cbp</code> del siguiente modo:</p>
+<pre><code class="language-diff">diff --git a/GStreamer_RPi_64_Bullseye.cbp b/GStreamer_RPi_64_Bullseye.cbp
+index 69b7181..0d27522 100644
+--- a/GStreamer_RPi_64_Bullseye.cbp
++++ b/GStreamer_RPi_64_Bullseye.cbp
+@@ -32,7 +32,7 @@
+                        &lt;Add option=&quot;-Wall&quot; /&gt;
+                        &lt;Add option=&quot;-fexceptions&quot; /&gt;
+                        &lt;Add option=&quot;-pthread&quot; /&gt;
+-                       &lt;Add directory=&quot;/usr/local/include/opencv4&quot; /&gt;
++                       &lt;Add directory=&quot;/usr/include/opencv4&quot; /&gt;
+                        &lt;Add directory=&quot;/usr/include/gstreamer-1.0&quot; /&gt;
+                        &lt;Add directory=&quot;/usr/lib/aarch64-linux-gnu/glib-2.0/include&quot; /&gt;
+                        &lt;Add directory=&quot;/usr/include/glib-2.0&quot; /&gt;
+@@ -43,7 +43,7 @@
+                        &lt;Add option=&quot;-pthread&quot; /&gt;
+                        &lt;Add library=&quot;/usr/lib/aarch64-linux-gnu/libgobject-2.0.so&quot; /&gt;
+                        &lt;Add library=&quot;/usr/lib/aarch64-linux-gnu/libgstreamer-1.0.so&quot; /&gt;
+-                       &lt;Add library=&quot;/usr/lib/aarch64-linux-gnu/libgstapp-1.0.so&quot; /&gt;
++                       &lt;Add library=&quot;/usr/lib/aarch64-linux-gnu/libgstapp-1.0.so.0&quot; /&gt;
+                        &lt;Add directory=&quot;/usr/local/lib/&quot; /&gt;
+                &lt;/Linker&gt;
+                &lt;Unit filename=&quot;main.cpp&quot; /&gt;
+</code></pre>
+<p>Para compilar este ejemplo es necesario instalar CodeBlocks (<code>sudo apt-get install codeblocks</code>), abrir el proyecto (fichero <code>.cbp</code>) y construirlo. Una vez construido se puede ejecutar tanto desde CodeBlocks como desde línea de comando.</p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Compila y ejecuta el anterior programa (está incluido en el paquete proporcionado). Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc). Para ello, deberás consultar la documentación de OpenCV.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Temporiza el tiempo de adquisición (<code>cap.read(frame)</code>) y repórtalo a través de línea de comandos, mostrando no sólo el tiempo, sino los fotogramas por segundo (FPS) obtenidos. Tanto en el caso de C++ como de Python, experimenta con distintas resoluciones de captura. ¿Cuál es la resolución máxima soportada por la cámara que os proporcionamos?</p>
 </div></div>
             </div>
         </div>
