@@ -61,9 +61,9 @@
 
 # LSI
 
-| Lab.     | Día | Título                                                       |
-|----------|-----|--------------------------------------------------------------|
-| TBD      | TBD | TBD                                                          |
+| Lab.     | Día   | Título                                                       |
+|----------|-------|--------------------------------------------------------------|
+| 1        | 11/03 | [Entorno experimental Raspberry Pi](LSI/Lab0/index.md)                            |
 
 <!---
 | 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |

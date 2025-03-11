@@ -4,7 +4,7 @@ Las siguientes instrucciones suponen que se ha instalado Raspberry Pi OS 64-bit 
 
 ![RaspberryPi OS Version](RaspberryPiOS-version.png)
 
-Y que se emplea la siguiente versión del [LSI_Lab1_old.tgz](https://drive.google.com/file/d/1XZENvEQf5Wgfpm-15jswC3BbsylrqZQJ/view?usp=sharing).
+Y que se emplea la siguiente versión del LSI_Lab1_old.tgz.
 
 ## 1. Diferencias en la gestión de la cámara
 

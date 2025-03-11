@@ -13,8 +13,7 @@ Puedes obtener los ficheros necesarios para el desarrollo de la práctica [aquí
 
 Existen múltiples APIs para acceder a la cámara proporcionada junto a la Raspberry Pi en el entorno experimental. 
 [Picamera](https://picamera.readthedocs.io/en/release-1.13/) es una API específica y de código abierto 
-que proporciona una interfaz Python para el módulo de cámara de la Raspberry Pi. El problema radica en su 
-especificidad para este tipo de *hardware*, que limita su aplicación o portabilidad a otros.
+que proporciona una interfaz Python para el módulo de cámara de la Raspberry Pi. El problema radica en su  especificidad para este tipo de *hardware*, que limita su aplicación o portabilidad a otros.
 
 OpenCV proporciona, como parte integral de su API básica (tanto desde 
 [Python](https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html) como desde 
@@ -54,7 +53,7 @@ while(True):
 # 4. Liberamos la captura y destruimos ventanas.
 cap.release()
 cv2.destroyAllWindows()
-``` 
+```
 
 `cap.read()` devuelve un valor *booleano* en función de si el *frame* fue leído correctamente o no. Podemos, 
 por tanto, comprobar la finalización de un flujo de vídeo utilizando dicho valor de retorno.
@@ -611,7 +610,7 @@ la imagen capturada, pixel a pixel:
       input_tensor[3*i + 1] = frame.at<cv::Vec3b>(i)[1];
       input_tensor[3*i + 2] = frame.at<cv::Vec3b>(i)[2];
    }
-``` 
+```
 
 A continuación, invocamos al modelo:
 
