@@ -86,8 +86,7 @@ Esta ejecución, si todo ha ido bien, descargará en el directorio `Modelos` tre
 ### Desarrollo utilizando Python
 
 !!! warning "Aviso"
-
-​    Debian *Bookworm* incluye por defecto Python 3.11 que exige la utilización de entornos virtuales para la gestión de módulos. Por lo tanto antes de ejecutar alguno de los comandos siguientes es preciso crear un entorno virtual, por ejemplo con los siguientes comandos: 
+    Debian *Bookworm* incluye por defecto Python 3.11 que exige la utilización de entornos virtuales para la gestión de módulos. Por lo tanto antes de ejecutar alguno de los comandos siguientes es preciso crear un entorno virtual, por ejemplo con los siguientes comandos: 
 
 ```sh
 $ python3 -m venv LSI_venv --system-site-packages
@@ -95,8 +94,7 @@ $ source LSI_venv/bin/activate
 ```
 
 !!! warning "Aviso"
-
-​    Al trabajar con entornos virtuales es preciso instalar los paquetes Python necesarios dentro del entorno virtual mediante ejecutando el siguiente comando desde el directorio donde se encuentre el fichero correspondiente: 
+    Al trabajar con entornos virtuales es preciso instalar los paquetes Python necesarios dentro del entorno virtual mediante ejecutando el siguiente comando desde el directorio donde se encuentre el fichero correspondiente: 
 
 ```sh
 $ python3 -m pip install -r requirements.txt
@@ -406,8 +404,7 @@ $ sudo udevadm control --reload-rules && sudo udevadm trigger
 ```
 
 !!! warning "Aviso"
-
-​    Es posible que para que el cambio surta efecto sea necesario salir y volver a entrar en la sesión.
+    Es posible que para que el cambio surta efecto sea necesario salir y volver a entrar en la sesión.
 
 !!! danger "Tarea"
     Compara los tiempos de ejecución de la inferencia utilizando el procesdor de propósito general frente al rendimiento utilizando la Google Coral. ¿Qué ganancia de rendimiento observas? Ajusta la configuración de la captura de imagenes para que la comparación sea lo más justa:
