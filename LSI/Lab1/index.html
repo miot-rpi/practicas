@@ -231,7 +231,7 @@
 <li>Desarrollar una aplicación básica de clasificación de imágenes combinando las APIs de OpenCV y TFLite desde Python y desde C++.</li>
 <li>Acelerar el proceso de inferencia utilizando el acelerador Google Coral.</li>
 </ul>
-<p>Puedes obtener los ficheros necesarios para el desarrollo de la práctica <a href="">aquí</a> (<strong>TBD!!!!!</strong>)</p>
+<p>Puedes obtener los ficheros necesarios para el desarrollo de la práctica <a href="https://drive.google.com/file/d/1LS1snQqbnz0sQRNRmD-F0KzEMfBA2zov/view?usp=sharing">aquí</a> .</p>
 <h2 id="1-tensorflow-lite">1. TensorFlow Lite</h2>
 <p>Una vez estudiados de forma básica los códigos que nos permiten realizar capturas e interacción desde la cámara, veremos cómo aplicar un modelo pre-entrenado, que nos permitirá realizar un proceso de clasificación de los objetos en el flujo de vídeo. Nótese que el objetivo de esta práctica no es estudiar en profundidad el proceso en sí de clasificación, sino simplemente servir como una primera toma de contacto con la biblioteca <a href="https://ai.google.dev/edge/litert">TensorFlow Lite</a>, recientemente rebautizada como <a href="https://developers.googleblog.com/es/tensorflow-lite-is-now-litert/">LiteRT</a>. </p>
 <h3 id="que-es-tflitelitert">¿Qué es TFLite/LiteRT?</h3>
@@ -311,15 +311,15 @@ y de baja latencia en inferencia, aplicables a procesos de clasificación, detec
 <h3 id="desarrollo-utilizando-python">Desarrollo utilizando Python</h3>
 <div class="admonition warning">
 <p class="admonition-title">Aviso</p>
+<p>Debian <em>Bookworm</em> incluye por defecto Python 3.11 que exige la utilización de entornos virtuales para la gestión de módulos. Por lo tanto antes de ejecutar alguno de los comandos siguientes es preciso crear un entorno virtual, por ejemplo con los siguientes comandos: </p>
 </div>
-<p>​    Debian <em>Bookworm</em> incluye por defecto Python 3.11 que exige la utilización de entornos virtuales para la gestión de módulos. Por lo tanto antes de ejecutar alguno de los comandos siguientes es preciso crear un entorno virtual, por ejemplo con los siguientes comandos: </p>
 <pre><code class="language-sh">$ python3 -m venv LSI_venv --system-site-packages
 $ source LSI_venv/bin/activate
 </code></pre>
 <div class="admonition warning">
 <p class="admonition-title">Aviso</p>
+<p>Al trabajar con entornos virtuales es preciso instalar los paquetes Python necesarios dentro del entorno virtual mediante ejecutando el siguiente comando desde el directorio donde se encuentre el fichero correspondiente: </p>
 </div>
-<p>​    Al trabajar con entornos virtuales es preciso instalar los paquetes Python necesarios dentro del entorno virtual mediante ejecutando el siguiente comando desde el directorio donde se encuentre el fichero correspondiente: </p>
 <pre><code class="language-sh">$ python3 -m pip install -r requirements.txt
 </code></pre>
 <p>El fichero <code>classify_opencv.py</code> contiene el código necesario para realizar inferencia (clasificación) de imágenes partiendo de capturas de fotogramas desde la cámara de la Raspberry Pi, que revisamos paso a paso a continuación:</p>
@@ -539,8 +539,8 @@ $ sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger
 </code></pre>
 <div class="admonition warning">
 <p class="admonition-title">Aviso</p>
+<p>Es posible que para que el cambio surta efecto sea necesario salir y volver a entrar en la sesión.</p>
 </div>
-<p>​    Es posible que para que el cambio surta efecto sea necesario salir y volver a entrar en la sesión.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Compara los tiempos de ejecución de la inferencia utilizando el procesdor de propósito general frente al rendimiento utilizando la Google Coral. ¿Qué ganancia de rendimiento observas? Ajusta la configuración de la captura de imagenes para que la comparación sea lo más justa:</p>
