@@ -436,7 +436,7 @@ while(True):
 cap.release()
 cv2.destroyAllWindows()
 </code></pre>
-<p>Para realizar la captura de vídeo, necesitaremos un objeto de tipo<code>VideoCapture</code>; su único argumento suele ser un índice de dispositivo o un fichero de vídeo. Un índice de dispositivo es simplemente un identificador único para cada una de las cámaras conectadas al equipo. El problema es que <code>VideoCapture</code> no es del todo compatible con la librería <code>libcamera</code>  que emplea la Raspberry Pi y es necesario hacer uso de un pipeline <code>GStreamer</code> y substituir la sentencia <code>cap = cv2.VideoCapture(0)</code>por la siguiente secuencia de código:</p>
+<p>Para realizar la captura de vídeo, necesitaremos un objeto de tipo<code>VideoCapture</code>; su único argumento suele ser un índice de dispositivo o un fichero de vídeo. Un índice de dispositivo es simplemente un identificador único para cada una de las cámaras conectadas al equipo. El problema es que <code>VideoCapture</code> no es del todo compatible con la librería <code>libcamera</code>  que emplea la Raspberry Pi y es necesario hacer uso de un pipeline <code>GStreamer</code> y substituir la sentencia <code>cap = cv2.VideoCapture(0)</code> por la siguiente secuencia de código:</p>
 <pre><code class="language-python">pipeline = &quot;libcamerasrc ! video/x-raw,  width=(int)640, height=(int)480, framerate=(fraction)15/1 ! videoconvert ! videoscale ! video/x-raw, width=(int)640, height=(int)480 ! appsink&quot;
 
 cap = cv2.VideoCapture(pipeline,cv2.CAP_GSTREAMER)
@@ -447,7 +447,7 @@ cap = cv2.VideoCapture(pipeline,cv2.CAP_GSTREAMER)
 <p>Por ejemplo, podemos comprobar la anchura y altura de un <em>frame</em> utilizando <code>cap.get(cv.CAP_PROP_FRAME_WIDTH)</code> y <code>cap.get(cv.CAP_PROP_FRAME_HEIGHT)</code>. Podemos, por ejemplo, fijar la resolución de la captura utilizando<code>ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)</code> y <code>ret = cap.set(cv.CAP_PROP_FRAME_HEIGHT,240)</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Ejecuta el anterior script (está incluido en el paquete proporcionado) utilizando <code>python3</code>.  Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc.) Para ello, deberás consultar la <a href="https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939">documentación de OpenCV</a>.</p>
+<p>Ejecuta el anterior script utilizando <code>python3</code>.  Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc.) Para ello, deberás consultar la <a href="https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939">documentación de OpenCV</a>.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
@@ -540,7 +540,7 @@ std::string pipeline = gstreamer_pipeline(capture_width, capture_height, framera
 // open pipeline
 cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
 </code></pre>
-<p>El siguiente ejemplo más completo está basado en este <a href="https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS">ejemplo</a> para <em>Bulleye</em> pero retocado <em>Bookworm</em> (versión actual de Raspberry Pi OS):</p>
+<p>El siguiente ejemplo un poco más completo está basado en este <a href="https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS">ejemplo</a> para <em>Bulleye</em> pero retocado <em>Bookworm</em> (versión actual de Raspberry Pi OS):</p>
 <pre><code class="language-sh">$ git clone https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS
 $ cd Libcamera-OpenCV-RPi-Bullseye-64OS
 </code></pre>
@@ -571,7 +571,7 @@ index 69b7181..0d27522 100644
 <p>Para compilar este ejemplo es necesario instalar CodeBlocks (<code>sudo apt-get install codeblocks</code>), abrir el proyecto (fichero <code>.cbp</code>) y construirlo. Una vez construido se puede ejecutar tanto desde CodeBlocks como desde línea de comando.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Compila y ejecuta el anterior programa (está incluido en el paquete proporcionado). Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc). Para ello, deberás consultar la documentación de OpenCV.</p>
+<p>Compila y ejecuta el anterior programa (está incluido en el paquete proporcionado). Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc). Para ello, deberás consultar la <a href="https://docs.opencv.org/4.6.0/d8/dfe/classcv_1_1VideoCapture.html">documentación de OpenCV</a>.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
