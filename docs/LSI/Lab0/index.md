@@ -202,7 +202,7 @@ cap.release()
 cv2.destroyAllWindows()
 ```
 
-Para realizar la captura de vídeo, necesitaremos un objeto de tipo`VideoCapture`; su único argumento suele ser un índice de dispositivo o un fichero de vídeo. Un índice de dispositivo es simplemente un identificador único para cada una de las cámaras conectadas al equipo. El problema es que `VideoCapture` no es del todo compatible con la librería `libcamera`  que emplea la Raspberry Pi y es necesario hacer uso de un pipeline `GStreamer` y substituir la sentencia `cap = cv2.VideoCapture(0)`por la siguiente secuencia de código:
+Para realizar la captura de vídeo, necesitaremos un objeto de tipo`VideoCapture`; su único argumento suele ser un índice de dispositivo o un fichero de vídeo. Un índice de dispositivo es simplemente un identificador único para cada una de las cámaras conectadas al equipo. El problema es que `VideoCapture` no es del todo compatible con la librería `libcamera`  que emplea la Raspberry Pi y es necesario hacer uso de un pipeline `GStreamer` y substituir la sentencia `cap = cv2.VideoCapture(0)` por la siguiente secuencia de código:
 
 ```python
 pipeline = "libcamerasrc ! video/x-raw,  width=(int)640, height=(int)480, framerate=(fraction)15/1 ! videoconvert ! videoscale ! video/x-raw, width=(int)640, height=(int)480 ! appsink"
@@ -219,7 +219,7 @@ Es posible acceder  a algunas de las características del vídeo utilizando el m
 Por ejemplo, podemos comprobar la anchura y altura de un *frame* utilizando `cap.get(cv.CAP_PROP_FRAME_WIDTH)` y `cap.get(cv.CAP_PROP_FRAME_HEIGHT)`. Podemos, por ejemplo, fijar la resolución de la captura utilizando`ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)` y `ret = cap.set(cv.CAP_PROP_FRAME_HEIGHT,240)`.
 
 !!! danger "Tarea"
-    Ejecuta el anterior script (está incluido en el paquete proporcionado) utilizando `python3`.  Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc.) Para ello, deberás consultar la [documentación de OpenCV](https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939).
+    Ejecuta el anterior script utilizando `python3`.  Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc.) Para ello, deberás consultar la [documentación de OpenCV](https://docs.opencv.org/master/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939).
 
 !!! danger "Tarea"
     Temporiza el tiempo de adquisición (`cap.read()`) y repórtalo a través de línea de comandos, reportando no sólo el tiempo, sino los fotogramas por segundo (FPS) obtenidos. 
@@ -324,7 +324,7 @@ std::string pipeline = gstreamer_pipeline(capture_width, capture_height, framera
 cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
 ```
 
-El siguiente ejemplo más completo está basado en este [ejemplo](https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS) para *Bulleye* pero retocado *Bookworm* (versión actual de Raspberry Pi OS):
+El siguiente ejemplo un poco más completo está basado en este [ejemplo](https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS) para *Bulleye* pero retocado *Bookworm* (versión actual de Raspberry Pi OS):
 
 ```sh
 $ git clone https://github.com/Qengineering/Libcamera-OpenCV-RPi-Bullseye-64OS
@@ -361,7 +361,7 @@ index 69b7181..0d27522 100644
 Para compilar este ejemplo es necesario instalar CodeBlocks (`sudo apt-get install codeblocks`), abrir el proyecto (fichero `.cbp`) y construirlo. Una vez construido se puede ejecutar tanto desde CodeBlocks como desde línea de comando.
 
 !!! danger "Tarea"
-    Compila y ejecuta el anterior programa (está incluido en el paquete proporcionado). Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc). Para ello, deberás consultar la documentación de OpenCV.
+    Compila y ejecuta el anterior programa (está incluido en el paquete proporcionado). Estudia el código y modifícalo para introducir nuevas transformaciones en las imágenes capturadas (transformación a otros espacios de color, redimensionado de imágenes, etc). Para ello, deberás consultar la [documentación de OpenCV](https://docs.opencv.org/4.6.0/d8/dfe/classcv_1_1VideoCapture.html).
 
 !!! danger "Tarea"
     Temporiza el tiempo de adquisición (`cap.read(frame)`) y repórtalo a través de línea de comandos, mostrando no sólo el tiempo, sino los fotogramas por segundo (FPS) obtenidos. Tanto en el caso de C++ como de Python, experimenta con distintas resoluciones de captura. ¿Cuál es la resolución máxima soportada por la cámara que os proporcionamos?
