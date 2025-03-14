@@ -6,7 +6,7 @@
 * Desarrollar una aplicación básica de clasificación de imágenes combinando las APIs de OpenCV y TFLite desde Python y desde C++.
 * Acelerar el proceso de inferencia utilizando el acelerador Google Coral.
 
-Puedes obtener los ficheros necesarios para el desarrollo de la práctica [aquí]() (**TBD!!!!!**)
+Puedes obtener los ficheros necesarios para el desarrollo de la práctica [aquí](https://drive.google.com/file/d/1LS1snQqbnz0sQRNRmD-F0KzEMfBA2zov/view?usp=sharing) .
 
 ## 1. TensorFlow Lite
 
