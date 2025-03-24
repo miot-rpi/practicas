@@ -315,8 +315,10 @@
 <p>Verificar el funcionamiento del firmware de referencia siguiendo las instrucciones proporcionadas en la <a href="https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md#17-default-firmware-and-function-test">guía de la ESP32-S3-EYE</a>.</p>
 </div>
 <h4 id="como-recuperar-el-firmware-de-referencia">¿Cómo recuperar el firmware de referencia?</h4>
-<p>En caso de que no esté presente, se puede grabar el firmware de referencia del siguiente modo.
-* Clonar el repositorio de <a href="https://github.com/espressif/esp-who">ESP-WHO</a>:</p>
+<p>En caso de que no esté presente, se puede grabar el firmware de referencia del siguiente modo.</p>
+<ul>
+<li>Clonar el repositorio de <a href="https://github.com/espressif/esp-who">ESP-WHO</a>:</li>
+</ul>
 <pre><code class="language-sh">git clone https://github.com/espressif/esp-who.git
 </code></pre>
 <ul>
@@ -329,9 +331,11 @@ esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmw
 </code></pre>
 <h4 id="problemas-con-el-acceso-al-puerto-serie">¿Problemas con el acceso al puerto serie?</h4>
 <p>La ESP32-S3-EYE no tiene un bridge USB-UART externo, lo que puede causar un problema: si el programa cargado en la placa provoca que el chip se reinicie constantemente, no podrás cargar más programas en la placa.</p>
-<p>En caso de que suceda esto, debes:
-1. Mantener presionado el botón BOOT y pulsar el botón RST.
-2. Soltar primero el botón RST y luego el botón BOOT.</p>
+<p>En caso de que suceda esto, debes:</p>
+<ol>
+<li>Mantener presionado el botón BOOT y pulsar el botón RST.</li>
+<li>Soltar primero el botón RST y luego el botón BOOT.</li>
+</ol>
 <p>De este modo, la placa entra en el modo de descarga de firmware y podrás empezar a cargar el programa. Después de cargarlo, presiona el botón RST para iniciar la ejecución del programa.</p>
 <h3 id="manejo-basico-de-la-camara">Manejo básico de la cámara</h3>
 <p>El componente <a href="https://github.com/espressif/esp32-camera">esp32-camera</a>  proporciona soporte para las cámaras que usan las placas ESP32. Contiene controladores, configuraciones y ejemplos para módulos de cámara como <strong>OV2640</strong>, entre otros. </p>
