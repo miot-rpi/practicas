@@ -1,274 +1,364 @@
-# Laboratorio 2. Entrenamiento e inferencia para clasificación de imágenes sobre Google Coral
+# Laboratorio 2. TensorFlow Lite en ESP32-S3-EYE
 
 ## Objetivos
 
-* Entender, de forma intuitiva, la estructura general de una red neuronal de convolución (CNN)
-para clasificación de imágenes separando sus capas en dos clases: extracción de características y clasificación.
+* Familiarizarse con la placa ESP32-S3-EYE
+* Aprender el manejo básico de su cámara y su *display* LCD
+* Familiarizarse con TensorFlow Lite para Microcontroladores y en especial con la version para ESP32
+* Conocer algún otro framework para ejecución de modelos en SoCs ESP32, como ESP-WH0.
 
-* Entender el proceso y las ventajas de *transfer learning* para obtener una red adaptada a un conjunto de datos de entrada.
 
-* Practicar el proceso de *transfer learning* utilizando TensorFlow.
+## Placa ESP32-S3-EYE
 
-* Exportar los modelos entrenados a formato TFLite.
+![ESP32-S3-EYE](https://github.com/espressif/esp-who/raw/master/docs/_static/get-started/ESP32-S3-EYE-isometric.png)
 
-* Experimentar y evaluar el proceso de cuantización sobre un modelo real.
+### Descripción
 
-* Desplegar un modelo preentrenado mediante *transfer learning* sobre la Raspberry Pi + Edge TPU para una aplicación concreta.
+El **[ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md)** es una placa de desarrollo para AIoT de pequeño tamaño producida por Espressif y está orientada a aplicaciones como timbres inteligentes, sistemas de vigilancia, relojes de control de asistencia con reconocimiento facial, entre otros. Se basa en el **[SoC ESP32-S3](https://www.espressif.com/en/products/socs/esp32-s3)** y en [**ESP-WHO**](https://github.com/espressif/esp-who), el framework de desarrollo de IA de Espressif y sus principales características se recogen en la siguiente tabla.
 
-Gran parte del trabajo de este laboratorio se centra en el uso de Google Colab. Deberás
-crear una copia y trabajar en el siguiente 
-[cuaderno](https://colab.research.google.com/drive/1_4-NucdRp2KuPX9P_1fVzASjK6AZYUXg?usp=sharing).
+| Parámetro      | ESP32-S3-EYE (v2.2)                                          |
+| -------------- | ------------------------------------------------------------ |
+| MCU            | [ESP32-S3](https://www.espressif.com/en/products/socs/esp32-s3) (Dual-core Xtensa LX7 @ 240 MHz) |
+| Módulo         | [ESP32-S3-WROOM-1](https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf) (N8R8) |
+| PSRAM          | 8 MB (Octal SPI) - *¡Cuidado con confundirse con QSPI!*      |
+| Flash          | 8 MB (Quad SPI)                                              |
+| Display LCD    | 1,3" 240x240 pixel  (ST7789)                                 |
+| Cámara         | 2M Pixel, 1600x1200, ([OV2640](https://github.com/espressif/esp32-camera)) |
+| Micrófono      | I2S Digital (MSM261S4030H0)                                  |
+| Conexión       | USB/JTAG y USB/UART                                          |
+| Sensor         | Acelerómetro de 3 ejes (QMA7981)                             |
+| Almacenamiento | MicroSD                                                      |
 
-## Modelos TensorFlow sobre Edge TPU (Google Coral)
+#### Esquema
 
-El dispositivo Google Coral (que equipa un acelerador Edge TPU) es un 
-*hardware* de propósito específico que puede ejecutar redes neuronales
-profundas (esto es, con múltiples capas), y es específicamente eficiente
-ejecutando redes neuronales de convolución (CNN), donde una o más de sus
-capas están formadas por operaciones de convolución sobre imágenes de 
-entrada. Este tipo de redes combina una serie de capas iniciales de
-convolución dedicadas a la extracción de características, y una o más
-capas finalles *fully connected* (totalmente conectadas), cuyo cometido
-es específico del problema que pretenden resolver (por ejemplo, clasificación
-de imágenes).
+![Esquema general ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/_static/get-started/ESP32-S3-EYE_20210913_V03_SystemBlock.png?raw=true)
 
-En problemas de aprendizaje supervisado, 
-el proceso de entrenamiento es un procedimiento iterativo (cuyas bases teóricas
-quedan fuera del alcance de esta asignatura), que persigue fijar, en 
-base a observación de datos de entrada (*datasets*) etiquetados, unos pesos para cada
-una de las neuronas que componen cada capa (bien sea de convolución o bien
-totalmente conectada) que permitan ajustar la salida de la red neuronal, con 
-un determinado grado de error, a la salida esperada.
+#### Aceleración de AI y DSP
 
-Tomemos una red neuronal sencilla de ejemplo como la que se muestra a continuación:
+El **ESP32-S3** incorpora una serie de nuevas instrucciones extendidas (PIE: Processor Instruction Extensions) para mejorar la eficiencia en la ejecución de algoritmos específicos de IA y DSP (Procesamiento Digital de Señales).
 
-![Ejemplo de CNN (Red neuronal de convolución).](img/cnn_example.jpeg)
+Lista de características:
 
-En primer lugar, observa la estructura general de la red:
+* Registros generales de 128 bits
 
-1. Los datos (tensor) proporcionados a la capa de entrada tienen un tamaño fijo, en este caso un único canal de dimensiones `28 x 28` píxeles.
-2. El tensor (capa) de salida contiene 10 neuronas, que finalmente, en este caso, clasificarán la imagen de entrada como perteneciente a una de 10 clases posibles (una por dígito).
-3. A grandes rasgos, la estructura de la red se divide en dos partes (esta simplificación nos servirá en el resto del laboratorio):
-    * Un conjunto de capas de convolución y otras operaciones, englobadas en lo que llamaremos **extractor de características**.
-    * Un conjunto de capas donde todas las neuronas están conectadas entre sí, que llamaremos **clasificador**.
+* Operaciones vectoriales de 128 bits, como multiplicación compleja, suma, resta, multiplicación, desplazamiento, comparación, etc.
 
-### Estructura de capas
+* Instrucciones de manejo de datos combinadas con instrucciones de carga/almacenamiento
+* Soporte para datos vectoriales de 128 bits no alineados
+* Operaciones con saturación
 
-Las capas de convolución son el principal elemento que permite extraer características de una
-imagen. En última instancia, se basan en la aplicación de un conjunto de filtros a cada píxel de
-la imagen de entrada a la capa correspondiente, cuyos valores son realmente los pesos entrenables
-de la red neuronal. Las capas de convolució son configurables (en el momento de diseñar la red); 
-algunas de estas características se listan a continuación.
+Las librerías [ESP-DSP](https://docs.espressif.com/projects/esp-dsp/en/) y [ESP-NN](https://github.com/espressif/esp-nn) se apoyan estas extensiones para acelerar el procesamiento de algoritmos de procesado digital de señal y de redes neuronales.
 
-!!! note "Nota"
-    La siguiente explicación pretende ser intuitiva más que científica, por lo 
-    que se emplaza al estudiante a los conocimientos adquiridos en otras asignaturas
-    para una descripción más detallada del funcionamiento de cada uno de los elementos
-    que componen una CNN.
+### Firmware de referencia y test funcional
 
-#### *Convolución*
+La placa **ESP32-S3-EYE** viene con un firmware preinstalado por defecto basado en **ESP-WHO** que permite probar sus funciones, incluyendo:
 
-La aplicación de un filtro de convolución toma como entrada una imagen o fragmento
-de la misma (en nuestro caso, un fragmento de dimensiones `5 x 5`), y aplica en ella,
-de forma ordenada, un conjunto de **pesos** en forma de filtro o *kernel*. El resultado final de
-la operación se llama **característica** y comprende, para cada píxel de la característica,
-una suma ponderada a través del filtro de cada uno de los elementos de la vecindad de la imagen anterior
-para el píxel correspondiente:
+* Activación por voz
+* Reconocimiento de comandos de voz
+* Detección y reconocimiento facial
 
-![Convolución.](img/conv.png)
+!!! Danger "Tarea"
+    Verificar el funcionamiento del firmware de referencia siguiendo las instrucciones proporcionadas en la [guía de la ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md#17-default-firmware-and-function-test).
 
-#### *Padding*
+#### ¿Cómo recuperar el firmware de referencia?
 
-Al aplicar convoluciones, las dimensiones de la característica de salida no coinciden con las de la entrada,
-por lo que es posible "perder" cierta información. Para ello, los bordes de la imagen de entrada suelen 
-rellenarse con un valor (en el ejemplo siguiente, con ceros), mediante la operación llamada *padding*:
+En caso de que no esté presente, se puede grabar el firmware de referencia del siguiente modo.
 
-![Padding.](img/pad.gif)
+* Clonar el repositorio de [ESP-WHO](https://github.com/espressif/esp-who):
 
-#### *Striding*
+  ```sh
+  git clone https://github.com/espressif/esp-who.git
+  ```
 
-En ocasiones, no es deseable aplicar un filtro de convolución a todos los píxeles de entrada. En esos casos,
-la capa de convolución puede configurarse para que "salte" algunos de los píxeles (en el ejemplo siguiente, 
-esta separación o *stride* es de dos unidades):
+* Abrir desde la carpeta en VSCode.
 
-![Striding.](img/stride.gif)
+* Configurar puerto serie (ej. `/dev/ttyUSB1`) y target (`esp32s3`) mediante la extensión ESP-IDF.
 
-#### *Pooling*
+* En un ESP-IDF terminal ejecutar:
 
-La operación de *pooling* persigue resumir la información en una determinada imagen o característica, agrupando
-los valores de la vecindad mediante una operación de tipo `max` o `avg`. Por ejemplo, podemos obtener únicamente 
-el valor máximo de una vecindad de `2 x 2` píxeles:
+  ```sh
+  esptool.py erase_flash
+  esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmware-v0.2.0-cn.bin
+  ```
 
-![Pooling.](img/polling.png)
+#### ¿Problemas con el acceso al puerto serie?
 
-#### *Función de activación*
+La ESP32-S3-EYE no tiene un bridge USB-UART externo, lo que puede causar un problema: si el programa cargado en la placa provoca que el chip se reinicie constantemente, no podrás cargar más programas en la placa.
 
-Una función de activación es un nodo situado a la salida de una determinada neurona, que permite determinar
-si dicha neurona se activará o no, por ejemplo:
+En caso de que suceda esto, debes:
 
-![ReLU.](img/relu.png)
-
-La función ReLU (*rectified linear unit*) se utiliza típicamente en redes neuronales por su carácter no lineal: simplemente
-devuelve 0 si el valor de entrada es negativo, y dicho valor en caso contrario.
-
-#### *Capas fully-connected*
-
-Finalmente, las últimas capas (de clasificación) de la anterior red pasan por dos
-capas cuyas neuronas simplemente realizan una combinación lineal de sus entradas, ponderadas
-con unos pesos que también se fijarán en el proceso de entrenamiento y que, en última instancia,
-determinarán la clase a la que pertenece cada estímulo de entrada tras extraer las correspondientes
-características.
-
-Un ejemplo de las tres últimas capas *fully-connected* podría ser, por ejemplo:
-
-![FC1](img/fc1.png)
-
-![FC2](img/fc2.png)
-
-donde en última instancia, la capa de salida es un tensor unidimensional de 10 elementos al que 
-están conectadas cada una de las neuronas de la capa anterior (lo mismo ocurre con la penúltima
-capa).
-
-## Flujo de trabajo típoco para el desarrollo de un modelo TensorFlow Lite para Edge TPU
-
-Como se vio en el anterior laboratorio, TensorFlow Lite es una versión 
-reducida del *framework* Tensorflow diseñada específicamente para
-dispositivos móviles y sistemas empotrados. Su objetivo es proporcionar
-alto rendimiento (básicamente, baja latencia o tiempo de respuesta) en
-procesos de inferencia o aplicación de una red neuronal a unos datos de
-entrada. Los modelos TensorFlow Lite pueden, además, reducir todavía
-más su tamaño (y por tanto aumentar su eficiencia) a través de un proceso
-llamado cuantización, que convierte los pesos (y otros parámetros) del 
-modelo, típicamente representados mediante números en punto flotante
-de 32 bits, en una representación entera de 8 bits. Aunque en ocasiones este
-proceso simplemente persigue mayor eficiencia, en el caso del acelerador
-Edge TPU es obligatorio, ya que éste sólo soporta modelos Tensorflow Lite
-cuantizados (y, como veremos, compilados de forma específica para el
-dispositivo).
-
-El proceso de entrenamiento no se realiza directamente con TensorFlow Lite, 
-sino utilizando TensorFlow y a continuación convirtiendo el modelo entrenado
-resultante (en formato `.pb`) en un modelo TFLite (con extensión `.tflite`).
-El proceso general de transformación de un modelo TensorFlow en un modelo
-compatible con el dispositivo Edge TPU se muestra a continuación:
-
-![Flujo de trabajo típico para crear un modelo compatible con Edge TPU.](img/compile-workflow.png)
-
-Sin embargo, no es estrictamente necesario seguir de forma completa este
-flujo de trabajo para obtener un buen modelo compatible con la Edge TPU. Una
-alternativa reside en aprovechar modelos TensorFlow ya entrenados mediante
-un proceso de reentrenamiento en base a tus propios *datasets* de entrada.
-
-## *Transfer learning*
-
-Como hemos mencionado anteriormente, en lugar de construir un modelo propio
-y realizar un proceso de entrenamiento del mismo desde cero, es posible
-reentrenar un modelo ya compatible con el dispositivo Edge TPU, usando una
-técnica denominada *transfer learning* (o *fine tuning*). 
-
-Esta técnica permite comenzar con un modelo entrenado para una tarea similar
-a la que deseamos resolver, enseñando de nuevo al modelo a, por ejemplo, 
-clasificar otro tipo de objetos mediante un proceso de entrenamiento utilizando
-un *dataset* de menores dimensiones. En este punto, existen dos mecanismos
-distintos para realizar el reentrenamiento:
-
-1. Reentrenar el modelo completo, ajustando los pesos de toda la red neuronal.
-2. Eliminando la(s) capa(s) final(es) de la red, típicamente dedicada, por 
-ejemplo, al proceso de clasificación, y entrenando una nueva capa que 
-reconozca las nuevas clases objetivo.
-
-En cualquier caso, si se parte de un modelo compatible con la Edge TPU, cualquiera
-de las dos estrategias ofrecerá buenos resultados (siendo la segunda mucho más
-eficiente desde el punto de vista del tiempo de entrenamiento). El fabricante
-proporciona un conjunto de [modelos base preentrenados](https://coral.ai/models/)
-que puedes utilizar para crear modelos personalizados.
-
-## Requisitos de los modelos
-
-Para explotar al máximo las capacidades del Edge TPU, es necesario que el
-modelo desarrollado cumpla con ciertas características:
-
-1. Los tensores que se utilicen están cuantizados (usando punto fijo de 8 bits: `int8` o `uint8`).
-2. Las dimensiones de los tensores son constantes (no dinámicas).
-3. Los tensores son 1-D, 2-D o 3-D. 
-4. El modelo sólo usa operaciones soportadas por la Edge TPU (véase siguiente sección).
-
-### Operaciones soportadas
-
-Al construir un modelo propio, es necesario tener en mente que sólo ciertas
-operaciones serán soportadas de forma nativa por la Edge TPU. Si el modelo
-está formado por alguna operación no compatible, sólo se ejecutará en la TPU
-una porción del mismo (véase sección *Compilación*). La documentación de
-Google Coral y de TensorFlow contienen listas detalladas de las operaciones
-compatibles en ambos casos.
-
-### Cuantización
-
-Cuantizar un modelo significa convertir todos los valores que éste almacena
-(por ejemplo, pesos y salidas de funciones de activación) desde valores
-en punto flotante de 32 bits a sus representaciones en punto fijo de 8 bits
-más cercanas. Esto, obviamente, hace que el modelo sea más pequeño en tamaño,
-y más rápido en respuesta. Además, aunque las representaciones en 8 bits son
-menos precisas, su precisión en el proceso de inferencia no se ve significativamente
-afectado.
-
-Existen dos mecanismos principales para llevar a cabo la cuantización:
-
-* **Entrenamiento consciente de la cuantización** (*Quantization-aware training*). Esta
-técnica inserta nodos (neuronas) artificiales en la red para simular el efecto
-de usar valores de 8 bits en el entrenamiento. Por tanto, requiere modificar la
-red antes de comenzar con el entrenamiento inicial. Normalmente, esto repercute
-en un modelo con mayor precisión (comparado con la segunda técnica), porque
-los pesos de 8 bits se aprenden en el propio proceso de entrenamiento.
-
-* **Cuantización post-entrenamiento** (*Full integer post-training quantization*). No 
-requiere ninguna modificación en la red, por lo que puede tomar como entrada
-una red ya entrenada para convertirla en un modelo cuantizado. Sin embargo, el 
-proceso de cuantización requiere que se proporcione un conjunto de datos de entrada
-representativo (formateado de la misma manera que el conjunto de datos original).
-Este conjunto representativo permite que el proceso de cuantización determine el 
-rango dinámico de las entradas, pesos y activaciones, factor crítico a la hora de encontrar
-una representación en 8 bits de cada peso y valor de activación.
-
-### Compilación
-
-Tras entrenar y convertir el modelo a TFlite (con cuantización), el paso final es
-compilarlo utilizando el compilador de Edge TPU. El proceso de compilación puede
-completarse incluso si el modelo del que se parte no es 100% compatible con el
-dispositivo, pero en este caso, sólo una porción del modelo se ejecutará
-en el Edge TPU. En el primer punto en el que el grafo resultante incluya una
-operación no soportada, éste se dividirá en dos partes: la primera contendrá sólo 
-las opreraciones soportadas por la Edge TPU, y la segunda, con las operaciones no
-soportadas, será ejecutada exclusivamente en la CPU, con la penalización
-de rendimiento que ello conlleva:
-
-![](img/compile-tflite-to-edgetpu.png)
-
-# Tareas a desarrollar
-
-!!! danger "Tarea"
-    El siguiente [cuaderno](https://colab.research.google.com/drive/1_4-NucdRp2KuPX9P_1fVzASjK6AZYUXg?usp=sharing) 
-    permite la creación de un modelo TFlite a partir
-    de un modelo preexistente, usando la técnica de cuantización post-entrenamiento.
-    Complétalo y obtén un modelo TFLite listo para ejecutar en 
-    la Edge TPU. 
-
-    A continuación, utilízalo en los códigos que desarrollaste (para clasificación) en el anterior laboratorio y 
-    comprueba su correcto funcionamiento tanto desde el punto de vista del rendimiento comparado con la CPU, como
-    de la precisión observada.
-
-!!! danger "Tarea"
-    Utilizando la misma filosofía que la seguida en el anterior cuaderno, se pide desarrollar
-    una aplicación que realice la clasificación de imágenes de entrada en tiempo real, tomadas desde la cámara
-    de la Raspberry Pi,
-    utilizando un modelo preentrenado con conjuntos de datos de imágenes etiquetadas que representen
-    **caras portando o no mascarilla**. 
-
-    Para resolver el laboratorio, se pide diseñar y seguir el flujo
-    completo de trabajo propuesto, basándose en el mismo modelo base (*Mobilenetv2*), pero reentrenándolo
-    con conjuntos de datos apropiados (puedes buscarlos por internet) y usando la Edge TPU como plataforma
-    aceleradora.
-
-    Se entregará una memoria del trabajo desarrollado, junto con los códigos y modelos obtenidos, así como una breve demostración de funcionamiento de la solución.
+1. Mantener presionado el botón BOOT y pulsar el botón RST.
+2. Soltar primero el botón RST y luego el botón BOOT.
 
+De este modo, la placa entra en el modo de descarga de firmware y podrás empezar a cargar el programa. Después de cargarlo, presiona el botón RST para iniciar la ejecución del programa.
+
+### Manejo básico de la cámara
+
+El componente [esp32-camera](https://github.com/espressif/esp32-camera)  proporciona soporte para las cámaras que usan las placas ESP32. Contiene controladores, configuraciones y ejemplos para módulos de cámara como **OV2640**, entre otros. 
+
+#### Ejemplo de referencia: esp32-camera
+
+El componente proporciona un ejemplo de referencia (`espressif/esp32-camera`) que toma una foto cada 5 segundos y muestra su tamaño en el monitor serie. A continuación vamos a probar este ejemplo  siguiendo el procedimiento habitual, empleando la siguiente configuración:
+
+* **Tamaño de Flash :** `8MB`
+* **Modo SPI RAM:** `Octal Mode PSRAM`
+* **Frecuencia PRSAM:** `80 MHz`
+
+Además es preciso descomentar la siguiente línea del fichero `main/take_picture.c`:
+
+```c
+// 1. Board setup (Uncomment):
+// #define BOARD_WROVER_KIT
+// #define BOARD_ESP32CAM_AITHINKER
+#define BOARD_ESP32S3_WROOM
+```
+
+!!! Danger "Tarea"
+     Probar el ejemplo, variando algunos de los parámetros de la inicialización de la cámara (tamaño frame, formato, compresión JPEG, etc.).
+
+### ESP-BSP
+
+[ESP-BSP](https://github.com/espressif/esp-bsp) es una colección de paquetes de soporte de placa (*Board Support Packages*) que facilita el desarrollo de proyectos para placas específicas sin necesidad de buscar manualmente controladores y otros detalles. Al usar ESP-BSP, puedes:
+
+​	•	**Simplificar la Integración de Hardware**: Facilita el código y reduce la complejidad.
+
+​	•	**Acelerar el Desarrollo**: Configura rápidamente tu entorno y empieza a trabajar en tus proyectos.
+
+​	•	**Acceder a APIs Estandarizadas**: Asegura consistencia entre tus proyectos.
+
+Entre las placas soportas se encuentra la [ESP32-S3-EYE](https://github.com/espressif/esp-bsp/blob/master/bsp/esp32_s3_eye) y su BSP especifs facilita el uso de sus distintos componentes: display LCD, cámara, uSD, micrófono y acelerómetro.
+
+### Manejo básico del display LCD
+
+El repositorio [ESP-BSP](https://github.com/espressif/esp-bsp) incluye componentes para [diversos displays LCD](https://github.com/espressif/esp-bsp/blob/master/LCD.md), incluido el de la ESP32-S3-EYE (de 1,3 pulgadas y basado en el controlador ST7789) que es el mismo que incorpora la placa [ESP32-S3-USB-OTG](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/user_guide.html).
+
+La manera más efectiva de familiarizarse con la gestión de LCDs mediante ESP-BSP es explorar sus [ejemplos](https://github.com/espressif/esp-bsp/blob/master/examples).
+
+#### Ejemplo de referencia: display-camera
+
+El ejemplo  `display-camera` captura imágenes de la cámara y las muestra en el display LCD.  Este ejemplo ademas ilustra el uso de [LVGL](https://docs.lvgl.io/master/index.html) (Light and Versatile Graphics Library), una librería gráfica de código abierto que proporciona todo lo necesario para crear una interfaz gráfica de usuario (GUI) con muy bajo consumo de memoria, muy adecuada para pequeños sistemas embebidos.
+
+A continuación vamos a probar este ejemplo  siguiendo el procedimiento habitual, empleando la siguiente configuración.
+
+* **Modificación componentes necesarios:** El ejemplo está configurado por defecto para otra placa por lo que lo primero que hay que hacer es modificar el fichero de dependencias de componentes `idf_component.yml`:
+
+  ```yaml
+  description: BSP Display and camera example
+  
+  dependencies:
+    esp32_s3_eye:
+      version: "*"
+      override_path: "../../../bsp/esp32_s3_eye"
+  ```
+
+* **Configuración:** Una vez modificado este fichero se puede proceder a la configuración del proyecto como de costumbre:
+
+  * **Tamaño de Flash :** `8MB`
+  * **Modo SPI RAM:** `Octal Mode PSRAM`
+  * **Frecuencia PRSAM:** `80 MHz`
+  * **Seleccionar dispositivo LCD:** `Use ST7789 LCD driver`
+
+!!! Danger "Tarea"
+     Probar el ejemplo, jugando con los parámetros de configuración de LVGL para la visualización de rendimiento (ej `LV_USE_PERF_MONITOR`)
+
+## TensorFlow Lite para Microcontroladores (TFLM)
+
+### ¿Qué es?
+
+**TensorFlow Lite para microcontroladores** (TFLM) es una versión ultra ligera de TensorFlow diseñada específicamente para ejecutar modelos en microcontroladores con escasos recursos de cómputo. Está optimizado para funcionar sin sistema operativo, con poca memoria (típicamente menos de 256 KB de RAM), y sin requerir operaciones en coma flotante si el hardware no lo permite. TFLM permite ejecutar modelos previamente entrenados en TensorFlow Lite, adaptándolos a plataformas embebidas mediante cuantización (reducción de precisión numérica) y operadores simplificados.
+
+### Limitaciones
+
+Las siguientes limitaciones deben tenerse en cuenta:
+
+* Soporte para un subconjunto limitado de operaciones de TensorFlow
+* Soporte para un conjunto limitado de dispositivos
+* API de bajo nivel en C++, que requiere gestión manual de memoria
+* El entrenamiento en el dispositivo no está soportado
+
+### TFLM para ESP32
+
+Para mejorar el rendimiento en microcontroladores como el ESP32-S3, TFLM aprovecha las instrucciones vectoriales (PIE en este caso)  para acelerar operaciones de inferencia. Para ello se basa en la librería [ESP-NN](https://github.com/espressif/esp-nn) que está diseñada específicamente para este propósito.
+
+#### ¿Cómo se integra TFLM y ESP-NN?
+
+Durante la inicialización del modelo, TFLM registra operadores que apuntan a las funciones de **ESP-NN** en lugar de las implementaciones genéricas de TFLM. Esto permite que las operaciones más costosas, como convoluciones 2D o capas fully connected, sean ejecutadas por el código optimizado.
+
+**Condiciones para aprovecharlo**::
+
+* El modelo debe estar **cuantizado (int8)** para beneficiarse de **ESP-NN**.
+* Solo ciertos operadores están acelerados; los demás siguen usando las versiones de referencia de TFLM.
+* Emplear un SoC **ESP32-S3** (otros chips ESP32 no tienen PIE).
+
+### Componente esp-flite-micro
+
+El componente [**esp-flite-micro**](https://github.com/espressif/esp-tflite-micro)  proporciona la integración de **TFLM** y **ESP-NN** necesaria para ejecutar de forma eficiente los modelos en SoCs ESP32, como el **ESP32-S3**, que cuentan con soporte para instrucciones de aceleración de IA (extensiones PIE). El componente proporciona versiones pata  tres ejemplos de referencia de TFLM: **Hello World**, **Micro Speech** y **Person Detection**. A continuación probaremos los dos primeros
+
+### Ejemplos ESP-TLFM
+
+#### Hello-World
+
+Este ejemplo [**Hello World**](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world) de TLFM está diseñado para demostrar los conceptos más básicos del uso de TensorFlow Lite para Microcontroladores. Incluye todo el flujo de trabajo de principio a fin, desde el entrenamiento de un modelo hasta su conversión para ser utilizado con TFLM y la ejecución en un microcontrolador.
+
+##### Modelo
+
+El modelo empleado es una red neuronal secuencial (feed-forward) simple con las siguientes cracterísticas:
+
+* **Entrada**: Escalar (x)
+* **Capa 1**: 16 neuronas, activación ReLU
+* **Capa 2**: 16 neuronas, activación ReLU (permite aprender relaciones más complejas)
+* **Capa 3 (salida)**: 1 neurona, salida continua (regresión)
+
+A continuación lo mostramos gráficamente mediante la aplicación **Netron**:
+
+![hello_world_int8](img/hello_world_int8.png)
+
+El modelo se entrena para replicar una función seno y genera un patrón de datos que puede utilizarse para hacer parpadear LEDs o controlar una animación, dependiendo de las capacidades del dispositivo. 
+
+En esta práctica obviaremos el entrenamiento y conversión del modelos y partiremos siempre de modelos `.tflie` ya cuantizados a `int8`, por ejemplo [hello_world_int8.tflite](https://github.com/tensorflow/tflite-micro/blob/main/tensorflow/lite/micro/examples/hello_world/models/hello_world_int8.tflite) en este caso.
+
+!!! Danger "Tarea"
+    Instanciar el ejemplo [`hello_world`](https://components.espressif.com/components/espressif/esp-tflite-micro/versions/1.3.3~1/examples/hello_world?language=en) del componente **esp-flite-micro** para poderlo estudiar.
+
+##### Almacenamiento del modelo
+
+Muchos microcontroladores no tdisponen de sistema ficheros por lo que habitualmente es necesario enlazar directamente el modelo en el binario.  Por ejemplo, en el ejemplo con el que estamos trabajando se emplea  el fichero `model.cc` cuyo contenido hexadecimal se genera mediante el siguiente comando Unix (Linux/MacOS/WSL):
+
+```sh
+xxd -i model.tflite > model.cc
+```
+
+##### Análisis del código, uso de la API
+
+Las principales funciones están en el fichero `main_functions.cc`, `setup()`y `loop()`.
+
+**`setup()`**
+
+Esta función es la responsable de la inicialización y lleva a cabo las siguientes acciones:
+
+* **Cargar del modelo: el modelo:** el modelo que está almacenado en  `const unsigned char g_model[];`se instancia en una estructura `tflite::Model` y se verifica que sea compatible con la versión del esquema que está usando.
+
+  ```c++
+    // Map the model into a usable data structure. This doesn't involve any
+    // copying or parsing, it's a very lightweight operation.
+    model = tflite::GetModel(g_model);
+    if (model->version() != TFLITE_SCHEMA_VERSION) {
+      MicroPrintf("Model provided is schema version %d not equal to supported "
+                  "version %d.", model->version(), TFLITE_SCHEMA_VERSION);
+      return;
+    }
+  ```
+
+* **Instanciar el resolvedor de operaciones: **Se declara una instancia de `MicroMutableOpResolver`que será utilizada por el intérprete para registrar y acceder a los operadores que utiliza el modelo, y se registran los operadores necesarios.
+
+  ```c++
+    // Pull in only the operation implementations we need.
+    static tflite::MicroMutableOpResolver<1> resolver;
+    if (resolver.AddFullyConnected() != kTfLiteOk) {
+      return;
+    }
+  ```
+
+* **Asignar memoria: **Necesitamos preasignar una cierta cantidad de memoria para los arrays de entrada, salida e intermedios.
+
+  ```c++
+    // Allocate memory from the tensor_arena for the model's tensors.
+    TfLiteStatus allocate_status = interpreter->AllocateTensors();
+    if (allocate_status != kTfLiteOk) {
+      MicroPrintf("AllocateTensors() failed");
+      return;
+    }
+  ```
+
+* **Creación del intérprete**:  Se declara un interprete y se le asignan los tensores de entrada y salida:
+
+  ```c++
+    // Build an interpreter to run the model with.
+    static tflite::MicroInterpreter static_interpreter(
+        model, resolver, tensor_arena, kTensorArenaSize);
+    interpreter = &static_interpreter;
+  
+    // Obtain pointers to the model's input and output tensors.
+    input = interpreter->input(0);
+    output = interpreter->output(0);
+  ```
+
+**`loop()`**
+
+Es función proporciona el tensor de entrada al modelo (valor de `x` cuantizado), ejecuta el modelo (inferencia), y procesa el tensor de salida (valor de `y`cuantizado).
+
+* **Inferencia**: Para ejecutar el modelo se invoca el interprete creado previamente.
+
+  ```c++
+  // Run inference, and report any error
+    TfLiteStatus invoke_status = interpreter->Invoke();
+    if (invoke_status != kTfLiteOk) {
+      MicroPrintf("Invoke failed on x: %f\n",
+                           static_cast<double>(x));
+      return;
+    }
+  ```
+
+!!! Danger "Tarea"
+    Estudiar el ejemplo de referencia y probarlo en la placa ESP32-S3-EYE.
+
+!!! Danger "Tarea"
+    Convertir el modelo de referencia ([hello_world_int8.tflite](https://github.com/tensorflow/tflite-micro/blob/main/tensorflow/lite/micro/examples/hello_world/models/hello_world_int8.tflite)) a hexadecimal y comprobar su correcta ejecución.
+
+
+#### Person Detection
+
+El ejemplo [Person Detection](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/person_detection) de TFLM ilustra un caso de clasificación binaria de images, es decir si una imagen dada pertenece o no a una categoría, en este caso que aparezca o no una persona en ella.
+
+##### Modelo
+
+El modelo empleado es un `mobilenet_v1_025`  de la familia de modelos [MobileNets](https://arxiv.org/abs/1704.04861) orientados a dispositivos Edge.
+
+La MobileNet V1 es una familia de redes neuronales ligeras que utilizan convoluciones separables en profundidad (*depthwise separable convolutions*). En este enfoque, primero se aplica una convolución para filtrar cada canal de la imagen por separado (depthwise), y luego se emplea una convolución punto a punto (pointwise) para combinar los resultados. Esto reduce significativamente la cantidad de parámetros y cálculos, manteniendo un alto nivel de precisión en la clasificación de imágenes.
+
+A continuación se muestran las primeras y las últimas capas del modelo empleado en el ejemplo (`mobilenet_v1_025`). 
+
+![Mobilenet_v1_025 (1)](img/mobilenet_v1_025_1st.png)
+
+![Mobilenet_v1_025 (1)](img/mobilenet_v1_025_last.png)
+
+##### *Dataset* y entrenamiento
+
+El *dataset* empleado, [Visual Wake Words Dataset](https://arxiv.org/abs/1906.05721), está especialmente orientado a crear modelos de pequeño *footprint* (~250KB). 
+
+El proceso llevado a cabo para entrenar el modelo y convertirlo a TensorFlow Lite  está descrito en el [repositorio de GitHub de TFLM](https://github.com/tensorflow/tflite-micro/blob/main/tensorflow/lite/micro/examples/person_detection/training_a_model.md), aunque de momento no nos detendremos en su análisis pormenorizado. 
+
+El modelo resultante puede descargarse en formato [`.tflite`](https://github.com/tensorflow/tflite-micro/blob/main/tensorflow/lite/micro/models/person_detect.tflite) o en formato C ([`person_detect_model_data.cc`](https://storage.googleapis.com/download.tensorflow.org/data/tf_lite_micro_person_data_int8_grayscale_2020_01_13.zip)) en los enlaces proporcionados.
+
+##### Código
+
+El código sigue un esquema análogo al del ejemplo anterior.
+
+!!! Danger "Tarea"
+    Instanciar el ejemplo [`person_detection`](https://components.espressif.com/components/espressif/esp-tflite-micro/versions/1.3.3~1/examples/person_detection?language=en) del componente **esp-flite-micro** para poderlo estudiar. Responder a las siguientes preguntas: ¿Qué operadores se  registran? ¿Qué tamaño tiene el modelo? ¿Cómo se ha convertido?
+
+!!! Danger "Tarea"
+    Probar el ejemplo y determinar el tiempo de requerido para cada inferencia. 
+
+!!! Danger "Tarea"
+    Modificarlo para crear una sencilla aplicación que avise cuando detecta una persona y muestre el intervalo de tiempo que ha permanecido en cámara.
+
+## ESP-WHO
+
+### ¿Qué es?
+
+[**ESP-WHO**](https://github.com/espressif/esp-who) es un framework de código abierto, diseñado por Espressif para la detección y el reconocimiento facial en dispositivos basados en ESP32 (como ESP32-CAM, ESP-EYE, ESP32-S3-EYE, entre otros). Incluye funciones y ejemplos para tareas como detección, alineación y reconocimiento de rostros, facilitando la implementación de aplicaciones de visión artificial.
+
+### Ejemplos
+
+**ESP-WHO** proporciona los siguientes ejemplos, todos ellos preparados para poderse emplear en la ESP32-S3-EYE:
+
+* `human_face_detect`: detección de rostro
+* `human_face_detect_lvgl`: mismo ejemplo pero haciendo uso de la libraría LVGL 
+* `human_face_recognition`: reconocimiento facial
+* `pedestrian_detect`: detección de peatones.
+* `pedestrian_detect_lvgl`:  mismo ejemplo pero haciendo uso de la libraría LVGL
+
+!!! Danger "Tarea"
+    Estudiar y probar el ejemplo `human_face_detect`. Comprar el tiempo de inovación 
 
