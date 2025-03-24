@@ -363,7 +363,7 @@ esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmw
 <li><strong>Acelerar el Desarrollo</strong>: Configura rápidamente tu entorno y empieza a trabajar en tus proyectos.</li>
 <li><strong>Acceder a APIs Estandarizadas</strong>: Asegura consistencia entre tus proyectos.</li>
 </ul>
-<p>Entre las placas soportas se encuentra la <a href="https://github.com/espressif/esp-bsp/blob/master/bsp/esp32_s3_eye">ESP32-S3-EYE</a> y su BSP especifo facilita el uso de sus distintos componentes: display LCD, cámara, uSD, micrófono y acelerómetro.</p>
+<p>Entre las placas soportas se encuentra la <a href="https://github.com/espressif/esp-bsp/blob/master/bsp/esp32_s3_eye">ESP32-S3-EYE</a> y su BSP especifico facilita el uso de sus distintos componentes: display LCD, cámara, uSD, micrófono y acelerómetro.</p>
 <h3 id="manejo-basico-del-display-lcd">Manejo básico del display LCD</h3>
 <p>El repositorio <a href="https://github.com/espressif/esp-bsp">ESP-BSP</a> incluye componentes para <a href="https://github.com/espressif/esp-bsp/blob/master/LCD.md">diversos displays LCD</a>, incluido el de la ESP32-S3-EYE (de 1,3 pulgadas y basado en el controlador ST7789) que es el mismo que incorpora la placa <a href="https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/user_guide.html">ESP32-S3-USB-OTG</a>.</p>
 <p>La manera más efectiva de familiarizarse con la gestión de LCDs mediante ESP-BSP es explorar sus <a href="https://github.com/espressif/esp-bsp/blob/master/examples">ejemplos</a>.</p>
@@ -393,7 +393,7 @@ dependencies:
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Probar el ejemplo, jugando con los parámetros de configuración de LVGL para la visualización de rendimiento (ej <code>LV_USE_PERF_MONITOR</code>)</p>
+<p>Probar el ejemplo, jugando con los parámetros de configuración de LVGL para la visualización de rendimiento (por ejemplo <code>LV_USE_PERF_MONITOR</code>)</p>
 </div>
 <h2 id="tensorflow-lite-para-microcontroladores-tflm">TensorFlow Lite para Microcontroladores (TFLM)</h2>
 <h3 id="que-es">¿Qué es?</h3>
@@ -410,19 +410,19 @@ dependencies:
 <p>Para mejorar el rendimiento en microcontroladores como el ESP32-S3, TFLM aprovecha las instrucciones vectoriales (PIE en este caso)  para acelerar operaciones de inferencia. Para ello se basa en la librería <a href="https://github.com/espressif/esp-nn">ESP-NN</a> que está diseñada específicamente para este propósito.</p>
 <h4 id="como-se-integra-tflm-y-esp-nn">¿Cómo se integra TFLM y ESP-NN?</h4>
 <p>Durante la inicialización del modelo, TFLM registra operadores que apuntan a las funciones de <strong>ESP-NN</strong> en lugar de las implementaciones genéricas de TFLM. Esto permite que las operaciones más costosas, como convoluciones 2D o capas fully connected, sean ejecutadas por el código optimizado.</p>
-<p><strong>Condiciones para aprovecharlo</strong>::</p>
+<p><strong>Condiciones para aprovecharlo</strong>:</p>
 <ul>
 <li>El modelo debe estar <strong>cuantizado (int8)</strong> para beneficiarse de <strong>ESP-NN</strong>.</li>
 <li>Solo ciertos operadores están acelerados; los demás siguen usando las versiones de referencia de TFLM.</li>
 <li>Emplear un SoC <strong>ESP32-S3</strong> (otros chips ESP32 no tienen PIE).</li>
 </ul>
 <h3 id="componente-esp-flite-micro">Componente esp-flite-micro</h3>
-<p>El componente <a href="https://github.com/espressif/esp-tflite-micro"><strong>esp-flite-micro</strong></a>  proporciona la integración de <strong>TFLM</strong> y <strong>ESP-NN</strong> necesaria para ejecutar de forma eficiente los modelos en SoCs ESP32, como el <strong>ESP32-S3</strong>, que cuentan con soporte para instrucciones de aceleración de IA (extensiones PIE). El componente proporciona versiones pata  tres ejemplos de referencia de TFLM: <strong>Hello World</strong>, <strong>Micro Speech</strong> y <strong>Person Detection</strong>. A continuación probaremos los dos primeros</p>
+<p>El componente <a href="https://github.com/espressif/esp-tflite-micro"><strong>esp-flite-micro</strong></a>  proporciona la integración de <strong>TFLM</strong> y <strong>ESP-NN</strong> necesaria para ejecutar de forma eficiente los modelos en SoCs ESP32, como el <strong>ESP32-S3</strong>, que cuentan con soporte para instrucciones de aceleración de IA (extensiones PIE). El componente proporciona versiones para  tres ejemplos de referencia de TFLM: <strong>Hello World</strong>, <strong>Micro Speech</strong> y <strong>Person Detection</strong>. A continuación probaremos los dos primeros.</p>
 <h3 id="ejemplos-esp-tlfm">Ejemplos ESP-TLFM</h3>
 <h4 id="hello-world">Hello-World</h4>
 <p>Este ejemplo <a href="https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world"><strong>Hello World</strong></a> de TLFM está diseñado para demostrar los conceptos más básicos del uso de TensorFlow Lite para Microcontroladores. Incluye todo el flujo de trabajo de principio a fin, desde el entrenamiento de un modelo hasta su conversión para ser utilizado con TFLM y la ejecución en un microcontrolador.</p>
 <h5 id="modelo">Modelo</h5>
-<p>El modelo empleado es una red neuronal secuencial (feed-forward) simple con las siguientes cracterísticas:</p>
+<p>El modelo empleado es una red neuronal secuencial (<em>feed-forward</em>) simple con las siguientes características:</p>
 <ul>
 <li><strong>Entrada</strong>: Escalar (x)</li>
 <li><strong>Capa 1</strong>: 16 neuronas, activación ReLU</li>
@@ -448,17 +448,17 @@ dependencies:
 <ul>
 <li><strong>Cargar del modelo: el modelo:</strong> el modelo que está almacenado en  <code>const unsigned char g_model[];</code>se instancia en una estructura <code>tflite::Model</code> y se verifica que sea compatible con la versión del esquema que está usando.</li>
 </ul>
-<p><code>c++
-    // Map the model into a usable data structure. This doesn't involve any
-    // copying or parsing, it's a very lightweight operation.
-    model = tflite::GetModel(g_model);
-    if (model-&gt;version() != TFLITE_SCHEMA_VERSION) {
-      MicroPrintf("Model provided is schema version %d not equal to supported "
-                  "version %d.", model-&gt;version(), TFLITE_SCHEMA_VERSION);
-      return;
-    }</code></p>
+<pre><code class="language-c++">  // Map the model into a usable data structure. This doesn't involve any
+  // copying or parsing, it's a very lightweight operation.
+  model = tflite::GetModel(g_model);
+  if (model-&gt;version() != TFLITE_SCHEMA_VERSION) {
+    MicroPrintf(&quot;Model provided is schema version %d not equal to supported &quot;
+                &quot;version %d.&quot;, model-&gt;version(), TFLITE_SCHEMA_VERSION);
+    return;
+  }
+</code></pre>
 <ul>
-<li><strong>Instanciar el resolvedor de operaciones: </strong>Se declara una instancia de <code>MicroMutableOpResolver</code>que será utilizada por el intérprete para registrar y acceder a los operadores que utiliza el modelo, y se registran los operadores necesarios.</li>
+<li><strong>Instanciar el resolvedor de operaciones: </strong>Se declara una instancia de <code>MicroMutableOpResolver</code> que será utilizada por el intérprete para registrar y acceder a los operadores que utiliza el modelo, y se registran los operadores necesarios.</li>
 </ul>
 <p><code>c++
     // Pull in only the operation implementations we need.
@@ -490,7 +490,7 @@ output = interpreter-&gt;output(0);
 </code></pre>
 <p>```</p>
 <p><strong><code>loop()</code></strong></p>
-<p>Es función proporciona el tensor de entrada al modelo (valor de <code>x</code> cuantizado), ejecuta el modelo (inferencia), y procesa el tensor de salida (valor de <code>y</code>cuantizado).</p>
+<p>Es función proporciona el tensor de entrada al modelo (valor de <code>x</code> cuantizado), ejecuta el modelo (inferencia), y procesa el tensor de salida (valor de <code>y</code> cuantizado).</p>
 <ul>
 <li><strong>Inferencia</strong>: Para ejecutar el modelo se invoca el interprete creado previamente.</li>
 </ul>
@@ -550,7 +550,7 @@ output = interpreter-&gt;output(0);
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Estudiar y probar el ejemplo <code>human_face_detect</code>. Comprar el tiempo de inovación </p>
+<p>Estudiar y probar el ejemplo <code>human_face_detect</code>. Evaluar el tiempo de invocación.</p>
 </div></div>
             </div>
         </div>
