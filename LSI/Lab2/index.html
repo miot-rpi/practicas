@@ -296,15 +296,9 @@
 <p>El <strong>ESP32-S3</strong> incorpora una serie de nuevas instrucciones extendidas (PIE: Processor Instruction Extensions) para mejorar la eficiencia en la ejecución de algoritmos específicos de IA y DSP (Procesamiento Digital de Señales).</p>
 <p>Lista de características:</p>
 <ul>
-<li>
-<p>Registros generales de 128 bits</p>
-</li>
-<li>
-<p>Operaciones vectoriales de 128 bits, como multiplicación compleja, suma, resta, multiplicación, desplazamiento, comparación, etc.</p>
-</li>
-<li>
-<p>Instrucciones de manejo de datos combinadas con instrucciones de carga/almacenamiento</p>
-</li>
+<li>Registros generales de 128 bits</li>
+<li>Operaciones vectoriales de 128 bits, como multiplicación compleja, suma, resta, multiplicación, desplazamiento, comparación, etc.</li>
+<li>Instrucciones de manejo de datos combinadas con instrucciones de carga/almacenamiento</li>
 <li>Soporte para datos vectoriales de 128 bits no alineados</li>
 <li>Operaciones con saturación</li>
 </ul>
@@ -323,24 +317,16 @@
 <h4 id="como-recuperar-el-firmware-de-referencia">¿Cómo recuperar el firmware de referencia?</h4>
 <p>En caso de que no esté presente, se puede grabar el firmware de referencia del siguiente modo.</p>
 <ul>
-<li>Clonar el repositorio de <a href="https://github.com/espressif/esp-who">ESP-WHO</a>:</li>
-</ul>
-<p><code>sh
-  git clone https://github.com/espressif/esp-who.git</code></p>
-<ul>
-<li>
-<p>Abrir desde la carpeta en VSCode.</p>
-</li>
-<li>
-<p>Configurar puerto serie (ej. <code>/dev/ttyUSB1</code>) y target (<code>esp32s3</code>) mediante la extensión ESP-IDF.</p>
-</li>
-<li>
-<p>En un ESP-IDF terminal ejecutar:</p>
-</li>
-</ul>
-<p><code>sh
+<li>Clonar el repositorio de <a href="https://github.com/espressif/esp-who">ESP-WHO</a>:
+  <code>sh
+  git clone https://github.com/espressif/esp-who.git</code></li>
+<li>Abrir desde la carpeta en VSCode.</li>
+<li>Configurar puerto serie (ej. <code>/dev/ttyUSB1</code>) y target (<code>esp32s3</code>) mediante la extensión ESP-IDF.</li>
+<li>En un ESP-IDF terminal ejecutar:
+  <code>sh
   esptool.py erase_flash
-  esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmware-v0.2.0-cn.bin</code></p>
+  esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmware-v0.2.0-cn.bin</code></li>
+</ul>
 <h4 id="problemas-con-el-acceso-al-puerto-serie">¿Problemas con el acceso al puerto serie?</h4>
 <p>La ESP32-S3-EYE no tiene un bridge USB-UART externo, lo que puede causar un problema: si el programa cargado en la placa provoca que el chip se reinicie constantemente, no podrás cargar más programas en la placa.</p>
 <p>En caso de que suceda esto, debes:</p>
