@@ -7,7 +7,6 @@
 * Familiarizarse con TensorFlow Lite para Microcontroladores y en especial con la version para ESP32
 * Conocer algún otro framework para ejecución de modelos en SoCs ESP32, como ESP-WH0.
 
-
 ## Placa ESP32-S3-EYE
 
 ![ESP32-S3-EYE](https://github.com/espressif/esp-who/raw/master/docs/_static/get-started/ESP32-S3-EYE-isometric.png)
@@ -40,9 +39,7 @@ El **ESP32-S3** incorpora una serie de nuevas instrucciones extendidas (PIE: Pro
 Lista de características:
 
 * Registros generales de 128 bits
-
 * Operaciones vectoriales de 128 bits, como multiplicación compleja, suma, resta, multiplicación, desplazamiento, comparación, etc.
-
 * Instrucciones de manejo de datos combinadas con instrucciones de carga/almacenamiento
 * Soporte para datos vectoriales de 128 bits no alineados
 * Operaciones con saturación
@@ -65,21 +62,16 @@ La placa **ESP32-S3-EYE** viene con un firmware preinstalado por defecto basado 
 En caso de que no esté presente, se puede grabar el firmware de referencia del siguiente modo.
 
 * Clonar el repositorio de [ESP-WHO](https://github.com/espressif/esp-who):
-
-  ```sh
-  git clone https://github.com/espressif/esp-who.git
-  ```
-
+```sh
+git clone https://github.com/espressif/esp-who.git
+```
 * Abrir desde la carpeta en VSCode.
-
 * Configurar puerto serie (ej. `/dev/ttyUSB1`) y target (`esp32s3`) mediante la extensión ESP-IDF.
-
 * En un ESP-IDF terminal ejecutar:
-
-  ```sh
-  esptool.py erase_flash
-  esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmware-v0.2.0-cn.bin
-  ```
+```sh
+esptool.py erase_flash
+esptool.py write_flash 0x0 default_bin/esp32-s3-eye/v2.2/esp32-s3-eye-v2.2-firmware-v0.2.0-cn.bin
+```
 
 #### ¿Problemas con el acceso al puerto serie?
 
@@ -96,7 +88,7 @@ De este modo, la placa entra en el modo de descarga de firmware y podrás empeza
 
 El componente [esp32-camera](https://github.com/espressif/esp32-camera)  proporciona soporte para las cámaras que usan las placas ESP32. Contiene controladores, configuraciones y ejemplos para módulos de cámara como **OV2640**, entre otros. 
 
-#### Ejemplo de referencia: esp32-camera
+#### Ejemplo de referencia: `esp32-camera`
 
 El componente proporciona un ejemplo de referencia (`espressif/esp32-camera`) que toma una foto cada 5 segundos y muestra su tamaño en el monitor serie. A continuación vamos a probar este ejemplo  siguiendo el procedimiento habitual, empleando la siguiente configuración:
 
@@ -120,13 +112,11 @@ Además es preciso descomentar la siguiente línea del fichero `main/take_pictur
 
 [ESP-BSP](https://github.com/espressif/esp-bsp) es una colección de paquetes de soporte de placa (*Board Support Packages*) que facilita el desarrollo de proyectos para placas específicas sin necesidad de buscar manualmente controladores y otros detalles. Al usar ESP-BSP, puedes:
 
-​	•	**Simplificar la Integración de Hardware**: Facilita el código y reduce la complejidad.
+*	**Simplificar la Integración de Hardware**: Facilita el código y reduce la complejidad.
+*	**Acelerar el Desarrollo**: Configura rápidamente tu entorno y empieza a trabajar en tus proyectos.
+*	**Acceder a APIs Estandarizadas**: Asegura consistencia entre tus proyectos.
 
-​	•	**Acelerar el Desarrollo**: Configura rápidamente tu entorno y empieza a trabajar en tus proyectos.
-
-​	•	**Acceder a APIs Estandarizadas**: Asegura consistencia entre tus proyectos.
-
-Entre las placas soportas se encuentra la [ESP32-S3-EYE](https://github.com/espressif/esp-bsp/blob/master/bsp/esp32_s3_eye) y su BSP especifs facilita el uso de sus distintos componentes: display LCD, cámara, uSD, micrófono y acelerómetro.
+Entre las placas soportas se encuentra la [ESP32-S3-EYE](https://github.com/espressif/esp-bsp/blob/master/bsp/esp32_s3_eye) y su BSP especifico facilita el uso de sus distintos componentes: display LCD, cámara, uSD, micrófono y acelerómetro.
 
 ### Manejo básico del display LCD
 
@@ -134,32 +124,30 @@ El repositorio [ESP-BSP](https://github.com/espressif/esp-bsp) incluye component
 
 La manera más efectiva de familiarizarse con la gestión de LCDs mediante ESP-BSP es explorar sus [ejemplos](https://github.com/espressif/esp-bsp/blob/master/examples).
 
-#### Ejemplo de referencia: display-camera
+#### Ejemplo de referencia: `display-camera`
 
 El ejemplo  `display-camera` captura imágenes de la cámara y las muestra en el display LCD.  Este ejemplo ademas ilustra el uso de [LVGL](https://docs.lvgl.io/master/index.html) (Light and Versatile Graphics Library), una librería gráfica de código abierto que proporciona todo lo necesario para crear una interfaz gráfica de usuario (GUI) con muy bajo consumo de memoria, muy adecuada para pequeños sistemas embebidos.
 
 A continuación vamos a probar este ejemplo  siguiendo el procedimiento habitual, empleando la siguiente configuración.
 
 * **Modificación componentes necesarios:** El ejemplo está configurado por defecto para otra placa por lo que lo primero que hay que hacer es modificar el fichero de dependencias de componentes `idf_component.yml`:
+```yaml
+description: BSP Display and camera example
 
-  ```yaml
-  description: BSP Display and camera example
-  
-  dependencies:
-    esp32_s3_eye:
-      version: "*"
-      override_path: "../../../bsp/esp32_s3_eye"
-  ```
+dependencies:
+  esp32_s3_eye:
+    version: "*"
+    override_path: "../../../bsp/esp32_s3_eye"
+```
+* **Configuración:** Una vez modificado este fichero se puede proceder como de costumbre a la configuración del proyecto:
 
-* **Configuración:** Una vez modificado este fichero se puede proceder a la configuración del proyecto como de costumbre:
-
-  * **Tamaño de Flash :** `8MB`
-  * **Modo SPI RAM:** `Octal Mode PSRAM`
-  * **Frecuencia PRSAM:** `80 MHz`
-  * **Seleccionar dispositivo LCD:** `Use ST7789 LCD driver`
+   * **Tamaño de Flash :** `8MB`
+   * **Modo SPI RAM:** `Octal Mode PSRAM`
+   * **Frecuencia PRSAM:** `80 MHz`
+   * **Seleccionar dispositivo LCD:** `Use ST7789 LCD driver`
 
 !!! Danger "Tarea"
-     Probar el ejemplo, jugando con los parámetros de configuración de LVGL para la visualización de rendimiento (ej `LV_USE_PERF_MONITOR`)
+     Probar el ejemplo, jugando con los parámetros de configuración de LVGL para la visualización de rendimiento (por ejemplo `LV_USE_PERF_MONITOR`)
 
 ## TensorFlow Lite para Microcontroladores (TFLM)
 
@@ -184,7 +172,7 @@ Para mejorar el rendimiento en microcontroladores como el ESP32-S3, TFLM aprovec
 
 Durante la inicialización del modelo, TFLM registra operadores que apuntan a las funciones de **ESP-NN** en lugar de las implementaciones genéricas de TFLM. Esto permite que las operaciones más costosas, como convoluciones 2D o capas fully connected, sean ejecutadas por el código optimizado.
 
-**Condiciones para aprovecharlo**::
+**Condiciones para aprovecharlo**:
 
 * El modelo debe estar **cuantizado (int8)** para beneficiarse de **ESP-NN**.
 * Solo ciertos operadores están acelerados; los demás siguen usando las versiones de referencia de TFLM.
@@ -192,7 +180,7 @@ Durante la inicialización del modelo, TFLM registra operadores que apuntan a la
 
 ### Componente esp-flite-micro
 
-El componente [**esp-flite-micro**](https://github.com/espressif/esp-tflite-micro)  proporciona la integración de **TFLM** y **ESP-NN** necesaria para ejecutar de forma eficiente los modelos en SoCs ESP32, como el **ESP32-S3**, que cuentan con soporte para instrucciones de aceleración de IA (extensiones PIE). El componente proporciona versiones pata  tres ejemplos de referencia de TFLM: **Hello World**, **Micro Speech** y **Person Detection**. A continuación probaremos los dos primeros
+El componente [**esp-flite-micro**](https://github.com/espressif/esp-tflite-micro)  proporciona la integración de **TFLM** y **ESP-NN** necesaria para ejecutar de forma eficiente los modelos en SoCs ESP32, como el **ESP32-S3**, que cuentan con soporte para instrucciones de aceleración de IA (extensiones PIE). El componente proporciona versiones para  tres ejemplos de referencia de TFLM: **Hello World**, **Micro Speech** y **Person Detection**. A continuación probaremos los dos primeros.
 
 ### Ejemplos ESP-TLFM
 
@@ -202,7 +190,7 @@ Este ejemplo [**Hello World**](https://github.com/tensorflow/tflite-micro/tree/m
 
 ##### Modelo
 
-El modelo empleado es una red neuronal secuencial (feed-forward) simple con las siguientes cracterísticas:
+El modelo empleado es una red neuronal secuencial (*feed-forward*) simple con las siguientes características:
 
 * **Entrada**: Escalar (x)
 * **Capa 1**: 16 neuronas, activación ReLU
@@ -238,66 +226,66 @@ Esta función es la responsable de la inicialización y lleva a cabo las siguien
 
 * **Cargar del modelo: el modelo:** el modelo que está almacenado en  `const unsigned char g_model[];`se instancia en una estructura `tflite::Model` y se verifica que sea compatible con la versión del esquema que está usando.
 
-  ```c++
-    // Map the model into a usable data structure. This doesn't involve any
-    // copying or parsing, it's a very lightweight operation.
-    model = tflite::GetModel(g_model);
-    if (model->version() != TFLITE_SCHEMA_VERSION) {
-      MicroPrintf("Model provided is schema version %d not equal to supported "
-                  "version %d.", model->version(), TFLITE_SCHEMA_VERSION);
-      return;
-    }
-  ```
+```c++
+  // Map the model into a usable data structure. This doesn't involve any
+  // copying or parsing, it's a very lightweight operation.
+  model = tflite::GetModel(g_model);
+  if (model->version() != TFLITE_SCHEMA_VERSION) {
+    MicroPrintf("Model provided is schema version %d not equal to supported "
+                "version %d.", model->version(), TFLITE_SCHEMA_VERSION);
+    return;
+  }
+```
 
-* **Instanciar el resolvedor de operaciones: **Se declara una instancia de `MicroMutableOpResolver`que será utilizada por el intérprete para registrar y acceder a los operadores que utiliza el modelo, y se registran los operadores necesarios.
+* **Instanciar el resolvedor de operaciones: **Se declara una instancia de `MicroMutableOpResolver` que será utilizada por el intérprete para registrar y acceder a los operadores que utiliza el modelo, y se registran los operadores necesarios.
 
-  ```c++
-    // Pull in only the operation implementations we need.
-    static tflite::MicroMutableOpResolver<1> resolver;
-    if (resolver.AddFullyConnected() != kTfLiteOk) {
-      return;
-    }
-  ```
+```c++
+  // Pull in only the operation implementations we need.
+  static tflite::MicroMutableOpResolver<1> resolver;
+  if (resolver.AddFullyConnected() != kTfLiteOk) {
+    return;
+  }
+```
 
 * **Asignar memoria: **Necesitamos preasignar una cierta cantidad de memoria para los arrays de entrada, salida e intermedios.
 
-  ```c++
-    // Allocate memory from the tensor_arena for the model's tensors.
-    TfLiteStatus allocate_status = interpreter->AllocateTensors();
-    if (allocate_status != kTfLiteOk) {
-      MicroPrintf("AllocateTensors() failed");
-      return;
-    }
-  ```
+```c++
+  // Allocate memory from the tensor_arena for the model's tensors.
+  TfLiteStatus allocate_status = interpreter->AllocateTensors();
+  if (allocate_status != kTfLiteOk) {
+    MicroPrintf("AllocateTensors() failed");
+    return;
+  }
+```
 
 * **Creación del intérprete**:  Se declara un interprete y se le asignan los tensores de entrada y salida:
 
-  ```c++
-    // Build an interpreter to run the model with.
-    static tflite::MicroInterpreter static_interpreter(
-        model, resolver, tensor_arena, kTensorArenaSize);
-    interpreter = &static_interpreter;
+```c++
+  // Build an interpreter to run the model with.
+  static tflite::MicroInterpreter static_interpreter(
+      model, resolver, tensor_arena, kTensorArenaSize);
+  interpreter = &static_interpreter;
   
-    // Obtain pointers to the model's input and output tensors.
-    input = interpreter->input(0);
-    output = interpreter->output(0);
-  ```
+  // Obtain pointers to the model's input and output tensors.
+  input = interpreter->input(0);
+  output = interpreter->output(0);
+```
 
 **`loop()`**
 
-Es función proporciona el tensor de entrada al modelo (valor de `x` cuantizado), ejecuta el modelo (inferencia), y procesa el tensor de salida (valor de `y`cuantizado).
+Es función proporciona el tensor de entrada al modelo (valor de `x` cuantizado), ejecuta el modelo (inferencia), y procesa el tensor de salida (valor de `y` cuantizado).
 
 * **Inferencia**: Para ejecutar el modelo se invoca el interprete creado previamente.
 
-  ```c++
-  // Run inference, and report any error
-    TfLiteStatus invoke_status = interpreter->Invoke();
-    if (invoke_status != kTfLiteOk) {
-      MicroPrintf("Invoke failed on x: %f\n",
-                           static_cast<double>(x));
-      return;
-    }
-  ```
+```c++
+// Run inference, and report any error
+  TfLiteStatus invoke_status = interpreter->Invoke();
+  if (invoke_status != kTfLiteOk) {
+    MicroPrintf("Invoke failed on x: %f\n",
+                         static_cast<double>(x));
+    return;
+  }
+```
 
 !!! Danger "Tarea"
     Estudiar el ejemplo de referencia y probarlo en la placa ESP32-S3-EYE.
@@ -360,5 +348,5 @@ El código sigue un esquema análogo al del ejemplo anterior.
 * `pedestrian_detect_lvgl`:  mismo ejemplo pero haciendo uso de la libraría LVGL
 
 !!! Danger "Tarea"
-    Estudiar y probar el ejemplo `human_face_detect`. Comprar el tiempo de inovación 
+    Estudiar y probar el ejemplo `human_face_detect`. Evaluar el tiempo de invocación.
 
