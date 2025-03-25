@@ -581,7 +581,7 @@ $ sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger
 <p>Por lo demás el código es esencialmente el mismo que anteriormente.</p>
 <h4 id="compilacion">Compilación</h4>
 <p>Para poder compilar el código es preciso enlazar con la libraría <code>libedgetpu</code>:</p>
-<pre><code class="language-c++">g++ classification.cpp -o classification.x `pkg-config --cflags --libs opencv4` -ltensorflow-lite -lpthread -ldl
+<pre><code class="language-c++">g++ classification.cpp -o classification.x `pkg-config --cflags --libs opencv4` -ltensorflow-lite -ledgetpu -lpthread -ldl
 </code></pre>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
