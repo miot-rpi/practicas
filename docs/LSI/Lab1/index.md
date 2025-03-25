@@ -445,7 +445,7 @@ Por lo demás el código es esencialmente el mismo que anteriormente.
 Para poder compilar el código es preciso enlazar con la libraría `libedgetpu`:
 
 ````c++
-g++ classification.cpp -o classification.x `pkg-config --cflags --libs opencv4` -ltensorflow-lite -lpthread -ldl
+g++ classification.cpp -o classification.x `pkg-config --cflags --libs opencv4` -ltensorflow-lite -ledgetpu -lpthread -ldl
 ````
 
 !!! danger "Tarea"
