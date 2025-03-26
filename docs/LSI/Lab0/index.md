@@ -79,7 +79,7 @@ Grabar el sistema operativo Raspberry Pi OS (64-bit) en una SD siguiendo las [in
 ## 4. Comprobaciones básicas
 ### Cámara
 
-La cámara ya no se gestiona del mismo modo que en versiones anteriores de Raspberrypi OS, ahora se hace por medio de la libraría  *libcamera*. Para más información sobre los módulos de cámara de la Raspberry Pi y el software asociado consultar el siguiente [enlace](https://www.raspberrypi.com/documentation/accessories/camera.html) (mejor no buscar en Google porque la mayor parte de la información está obsoleta).
+La cámara ya no se gestiona del mismo modo que en versiones anteriores de Raspberrypi OS, ahora se hace por medio de la librería  *libcamera*. Para más información sobre los módulos de cámara de la Raspberry Pi y el software asociado consultar el siguiente [enlace](https://www.raspberrypi.com/documentation/accessories/camera.html) (mejor no buscar en Google porque la mayor parte de la información está obsoleta).
 
 * Comprobar la correcta detección de la cámara:
 
