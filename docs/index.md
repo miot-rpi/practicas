@@ -66,6 +66,7 @@
 | 0        | 11/03 | [Entorno experimental Raspberry Pi](LSI/Lab0/index.md)                            |
 | 1        | 18/03 | [Introducción a TFLite sobre la Raspberry Pi](LSI/Lab1/index.md)                            |
 | 2        | 25/03 | [TensorFlow Lite en ESP32-S3-EYE](LSI/Lab2/index.md)                            |
+| 3        | 01/04 | [Clasificación de imágenes con Google Coral](LSI/Lab3/index.md)                            |
 
 <!---
 | 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
