@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Detección de objetos - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P1_III/" class="dropdown-item">Práctica 1 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 5 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P5_II/" class="dropdown-item">Práctica 5 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P7/index2/" class="dropdown-item">Práctica 7 (adicional)</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">LSI</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Lab0/" class="dropdown-item">Práctica 0</a>
+</li>
+                                    
+<li>
+    <a href="../Lab1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../Lab2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../Lab3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#deteccion-de-objetos" class="nav-link">Detección de objetos</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#codigo-necesario" class="nav-link">Código necesario</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#deteccion-basica-de-objetos-mobilenets-y-ssd" class="nav-link">Detección básica de objetos. Mobilenets y SSD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#deteccion-de-objetos-en-tflite" class="nav-link">Detección de objetos en TFLite</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tracking-de-objetos-en-tflite" class="nav-link">Tracking de objetos en TFLite</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="deteccion-de-objetos">Detección de objetos</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Entender el funcionamiento básico de los extractores de características MobileNet y de los detectores de objetos SSD.</li>
+<li>Integrar un detector de objetos con funcionalidades de <em>tracking</em> en un entorno de monitorización IoT.</li>
+</ul>
+<h2 id="codigo-necesario">Código necesario</h2>
+<p>El código necesario para el desarrollo de la práctica puede obtenerse descargando el código de la <a href="https://drive.google.com/file/d/1765YtV6_UgCSNukjGf5bs2_iW28PDABT/view?usp=sharing">URL</a>.</p>
+<h2 id="deteccion-basica-de-objetos-mobilenets-y-ssd">Detección básica de objetos. Mobilenets y SSD</h2>
+<p>La detección de objetos es a día de hoy uno de los campos más importantes dentro de la visión 
+por computador. Se trata de una extensión de la clasificación de imágenes, donde el objetivo
+es identificar una o más clases de objetos en una imagen y localizar su presencia mediante
+cajas (en adelante, <em>bounding boxes</em>) que la delimitan. La detección de objetos juega un papel 
+fundamental en campos como la videovigilancia, por ejemplo. </p>
+<p>Al igual que en los problemas de clasificación de objetos, algunas de las soluciones más eficientes
+para la detección de objetos se basan en dos fases:</p>
+<ol>
+<li>Fase de extracción de características, en base a una red neuronal genérica (por ejemplo, MobileNet).</li>
+<li>Fase de detección de objetos, en base a una segunda red neuronal específica (por ejemplo, SSD).</li>
+</ol>
+<h3 id="extraccion-de-caracteristicas-mobilenet-v1">Extracción de características. Mobilenet v1</h3>
+<p>La idea principal tras MobileNet se basa en el uso intensivo de las llamadas
+<em>depthwise separable convolutions</em>, o DWCs, para construir redes neuronales 
+profundas muy ligeras desde el punto de vista computacional. </p>
+<p>Una capa de convolución convencional típica aplica un kernel de convolución (o "filtro") a cada
+uno de los canales de la imagen de entrada. Este kernel se desplaza a través de la imagen y 
+en cada paso lleva a cabo una suma ponderada de los píxeles de entrada "cubiertos" por el kernel, 
+para todos los canales de dicha imagen de entrada.</p>
+<p>La idea a destacar aquí es que esta operación de convolución <em>combina</em> los valores de todos
+los canales de entrada. Si la imagen tiene 3 canales, la aplicación de un único kernel de 
+convolución sobre la imagen resulta en una imagen de salida de un único canal:</p>
+<p><img alt="" src="img/RegularConvolution.png" /></p>
+<p>En MobileNet v1 también se usa, aunque muy puntualmente, este tipo de convolución: únicamente en su
+primera capa. El resto de capas usan la llamada convolución <em>depthwise separable</em> (DWC). Realmente, esta
+es una combinación de dos operacioens de convolución: una <em>depthwise</em> y otra <em>pointwise</em>. </p>
+<p>Una convolución <em>depthwise</em> opera de la siguiente manera:</p>
+<p><img alt="" src="img/DepthwiseConvolution.png" /></p>
+<p>Como puedes ver, no combina los canales de entrada, sino que realiza una convolución para cada canal de
+forma separada. Así, para una imagen de tres canales, crea una imagen de salida de 3 canales. </p>
+<p>El objetivo de este tipo de convolución es filtrar los canales de entrada.</p>
+<p>En MobileNet v1, la convolución <em>depthwise</em> siempre va seguida de una convolución <em>pointwise</em>.
+Una convolución <em>pointwise</em> es realmente una convolución "tradicional", pero con un kernel 1x1:</p>
+<p><img alt="" src="img/PointwiseConvolution.png" /></p>
+<p>Como puedes observar, simplemente <em>combina</em> los canales de salida de una convolución <em>depthwise</em> para
+crear nuevas características.</p>
+<p>Poniendo ambas cosas juntas (<em>depthwise</em> + <em>pointwise</em>), se consigue el mismo efecto que con una convolución
+tradicional, que realiza ambas operaciones en una sola pasada.</p>
+<p>¿Por qué realizar esta separación? Desde el punto de vista computacional, una convolución tradicional realiza
+más operaciones aritméticas y necesita entrenar mayor cantidad de pesos (el artículo original de presentación
+de Mobilenet v1 cifra esta mejora en 9x para convoluciones 3x3).</p>
+<p>Así, el bloque básico de MobileNet v1 sería:</p>
+<p><img alt="" src="img/DepthwiseSeparableConvolution.png" /></p>
+<p>Existen en total 13 de estos bloques, precedidos por una primera capa de convolución tradicional 3x3. No existen
+capas de <em>pooling</em>, pero algunas de las capas <em>depthwise</em> presentan un <em>stride</em> 2 para reducir la dimensionalidad; en 
+estos casos, la correspondiente capa <em>pointwise</em> dobla el número de canales: si la imagen de entrada es 224x224x3, la salida
+de la red es 7x7x1024.</p>
+<p>Mobilenet v1 usa una función de activación ReLU6 a la salida de cada bloque, que previene activaciones demasiado grandes:</p>
+<p><code>y = min(max(0, x), 6)</code></p>
+<p><img alt="" src="img/ReLU6.png" /></p>
+<p>Si trabajamos con un clasificador basado en MobileNet, todas estas capas desembocan en una capa de <em>pooling average</em>, seguida
+de una capa totalmente conectada (<em>fully connected</em>), y una capa final de clasificación <em>softmax</em> obteniendo un valor de probabilidad
+por clase.</p>
+<h3 id="capas-totalmente-conectadas">Capas totalmente conectadas</h3>
+<p>A modo de recordatorio, recuerda que una capa totalmente conectada (FC, de <em>fully connected</em>) tomaría la siguiente forma:</p>
+<p><img alt="" src="img/FCLayer.png" /></p>
+<p>La entrada a esta capa es un vector de números. Cada entrada está conectada a cada una de las salidas (de ahí su nombre). Estas conexiones
+poseen pesos asociados que determinan cuan importantes son. La salida es también un vector de números.</p>
+<p>Cada capa transorma los datos. En el caso de FC, para cada elemento de salida, tomamos una suma ponderada de todos los 
+elementos de entrada, añadiendo una desviación o <em>bias</em>:</p>
+<p><code>in1*w1 + in2*w2 + in3*w3 + ... + in7*w7 + b1</code></p>
+<p>En otras palabras, lo que calculamos es una función lineal sobre las entradas, en múltiples dimensiones. Además, aplicamos una
+función de activación a la suma ponderada:</p>
+<p><code>out1 = f(in1*w1 + in2*w2 + in3*w3 + ... + in7*w7 + b1)</code></p>
+<p>Representando los pesos en forma de matriz, y las entradas y desviaciones como vectores, podemos computar la salida de una
+capa FC como:</p>
+<p><img alt="" src="img/MatrixMultiplication.png" /></p>
+<p>Observa que esto es en realidad un producto matriz-vector. Si el número de entradas crece por encima de 1 (es decir, tenemos
+un grupo o <em>batch</em> de entradas), esta operación se convierte en un producto de matrices, para la cual muchas arquitecturas,
+incluyendo nuestra Google Coral, están ampliamente optimizadas.</p>
+<p>Observa también que la matriz de pesos es un producto del proceso de aprendizaje o entrenamiento, y que esta matriz puede contener
+miles (o millones) de elementos a entrenar en redes típicas.</p>
+<h3 id="hiperparametros">Hiperparámetros</h3>
+<p>MobileNet fue diseñada no para ser una red neuronal concreta, sino una familia de redes neuronales, simplemente variando un conjunto
+de parámetros (llamados hiperparámetros). El más importante de estos hiperparámetros es el llamado <em>depth multiplier</em>; este hiperparámetro
+modifica la cantidad de canales por capa. Así, un valor de 0.5 reducirá a la mitad el número de canales usados en cada 
+capa, reduciendo el número de operacioens en un factor 4 y el número de parámetros entrenables en un factor 3. Así, el modelo es más liviano,
+pero menos predciso. </p>
+<h3 id="mobilenet-v2">Mobilenet v2</h3>
+<p><a href="https://arxiv.org/abs/1801.04381">MobileNet v2</a>, al igual que su versión anterior, utiliza
+DWCs, pero su bloque de trabajo principal se ha visto modificado:</p>
+<p><img alt="" src="img/block_mobilenetv2.png" /></p>
+<p>En este caso, por cada bloque existen tres capas convolucionales. Las dos últimas son las ya
+conocidas: DWCs que filtran las entradas, seguidas por una capa <em>pointwise</em> 1x1. En este caso,
+sin embargo, esta última capa tiene otro cometido. En la versión 1 del modelo, la capa <em>pointwise</em>
+mantenía el número de canales o lo doblaba. En la versión 2, en cambio, su cometido es exclusivamente
+<em>reducir</em> el número de canales. Es por esto que, normalmente, a esta capa se le conoce como
+<em>projection layer</em> o capa de proyección: proyecta datos con un número elevado de dimensiones (canales) en
+un tensor con mucho menor número de dimensiones. Por ejemplo, esta capa podría trabajar con un tensor 
+con 144 canales, reduciéndolo a sólo 24 canales. En ocasiones, a este tipo de capa se le conoce como
+"cuello de botella" (<em>bottleneck</em>"), ya que reduce la cantidad de datos que "fluyen" por la red.</p>
+<p>En cuanto a la primera capa, también es una convolución 1x1. Su objetivo es expandir el número de canales
+antes de la DWC. Así, esta <em>capa de expansión</em> siempre presenta más canales de salida que de entrada, al
+contrario que en la capa de proyección. La cantidad exacta de expansión viene dada por el llamado <em>factor de expansión</em>,
+uno de los hiperparámetros (parámetros personalizables de la red) típicos en Mobilenet v2 (por defecto, el 
+valor de este factor es 6): </p>
+<p><img alt="" src="img/connections_mobilenetv2.png" /></p>
+<p>Por ejemplo, si se proporciona un tensor de 24 canales a un bloque, la primera capa lo convierte a un nuevo
+tensor de 144 canales (por defecto), sobre el que se aplica la capa DWC. Finalmente, la capa de proyección
+proyecta estos canales a un número menor, véase 24 (por ejemplo). El resultado es que la entrada y salida a un bloque son
+tensores de dimensión reducida, mientras que el filtrado intermedio ocurre sobre un tensor de dimensionalidad alta.</p>
+<p>Como puedes observar en la anterior imagen, otra novedad en Mobilenet v2 es la denominada <em>residual connection</em>, que 
+conecta la entrada y la salida de un bloque (siempre que estos mantengan su dimensionalidad).</p>
+<p>La arquitectura Mobilenet v2 consta de 17 de estos bloques conectados uno tras otro, seguidos de una única convolución
+estándar 1x1, y una capa de clasificación (si lo que se desea es utilizarla para tareas de clasificación). </p>
+<p>Si observamos los datos que fluyen por la red, veremos como el número de canales se mantiene relativamente reducido:</p>
+<p><img alt="" src="img/LowDims.png" /></p>
+<p>Como es normal en este tipo de modelos, el número de canaes se incrementa a medida que avanzamos en la red (mientras
+la dimensión espacial disminuye). Sin embargo, en general, los tensores se mantienen relativamente pequeños, gracias a 
+las capas <em>bottleneck</em> entre bloques (en la v1, los tensores llegan a ser hasta 7x7x1024, por ejemplo).</p>
+<p>El uso de tensores de baja dimensionalidad es clave para reducir el número de operaciones aritméticas, y por tanto 
+aumenta la adecuación de este tipo de modelos para trabajar sobre dispositivos móviles.</p>
+<p>Sin embargo, trabajar sólo con tensores de baja dimensionalidad no permite, tras aplicar una capa de convolución sobre
+ellos, extraer demasiada información. Así, el filtrado debería trabajar sobre datos de alta dimensionalidad. Mobilenet v2,
+por tanto, une lo mejor de ambos mundos:</p>
+<p><img alt="" src="img/Compression.png" /></p>
+<h3 id="deteccion-de-objetos-ssd-single-shot-multi-box-detector">Detección de objetos. SSD (<em>Single Shot Multi-Box Detector</em>)</h3>
+<p>El <em>framework</em> SSD (<em>Single Shot MultiBox Detector</em>) es uno de los principales mecanismos para 
+llevar a cabo tareas de detección de objetos. Tradicionalmente, estas tareas se realizaban con
+costosos métodos de ventana deslizante (detectando potenciales imágenes en múltiples ventanas
+de tamaños variables que se desplazaban por la imagen). Este enfoque de fuerza bruta fue
+mejorado por las llamadas R-CNN (<em>Region-CNN</em>), que se basaban en la extracción previa de
+<em>Region Proposal</em> (propuestas de regiones de la imagen en las que potencialmente podían 
+existir objetos), para después extraer características de cada una de ellas a través de
+redes de convolución y realizar una tarea de clasificación de dichas características y extracción
+de las <em>bounding boxes</em> correspondientes. Las R-CNN adolecen de ciertos defectos que las hacen
+ineficientes (a día de hoy) en la vida real, véase:</p>
+<ul>
+<li>El proceso de entrenamiento de las redes es largo.</li>
+<li>El proceso de entrenamiento se desarrolla en múltiples etapas (por ejemplo, para proponer regiones o 
+para clasificar).</li>
+<li>La red es lenta en la fase de inferencia.</li>
+</ul>
+<p>En respuesta a esta ineficiencia, se han propuesto múltiples soluciones en los últimos años; las más populares
+son <a href="https://arxiv.org/abs/1506.02640">YOLO</a> (<em>You Only Look Once</em>) y <a href="https://arxiv.org/abs/1512.02325">SSD MultiBox</a> 
+(<em>Single Shot Detector</em>).</p>
+<p>SSD rebaja el coste computacional de las R-CNN sin necesidad de propuestas de regiones,
+operando en dos grandes fases:</p>
+<ul>
+<li>Extracción de mapas de características.</li>
+<li>Aplicación de filtros de convolución para detectar objetos.</li>
+</ul>
+<p>La primera fase (extracción de características), se lleva a cabo mediante una red neuronal específica,
+llamada genéricamente <em>backbone network</em>. En el diseño inicial de SSD, esta red fue la red VGG16, aunque
+en esta práctica trabajarás con una implementación en la que se usa Mobilenet v1 y v2 (anteriormente
+descritas) para mejorar la eficiencia del proceso de detección.</p>
+<p>El análisis del propio nombre proporciona información sobre las ventajas y modo de operación de SSD MultiBox:</p>
+<ul>
+<li><em>Single Shot</em>: Las tareas de localización de objetos y clasificación se realizan en una única pasada (ejecución) de la red.</li>
+<li><em>MultiBox</em>: Técnica de regresión para <em>bounding boxes</em> desarrollada por los autores.</li>
+<li><em>Detector</em>: La red es un detector de objetos que además los clasifica.</li>
+</ul>
+<h3 id="extraccion-de-caracteristicas">Extracción de características</h3>
+<p>Por defecto, SSD utiliza la red neuronal de convolución VGG16 para extraer mapas de características. A continuación, detecta
+objetos utilizando una de sus capas de convolución (concretamente, la capa <code>Conv4_3</code>). Suponiendo que esta capa es de dimension
+espacial <code>8x8</code> (realmente, es <code>38x38</code>), para cada celda, se realizan 4 predicciones de objeto:</p>
+<p><img alt="" src="img/predictions.jpeg" /></p>
+<p>Cada predicción está compuesta por una <em>boundary box</em> y una puntuación o <em>score</em> para cada clase disponible (más una clase extra
+si no se detecta objeto); para cada objeto detectado, se escoge la clase con mayor puntuación. Así, la capa de convolución <code>Conv4_3</code>
+realiza realmente 38x38x4 predicciones:</p>
+<p><img alt="" src="img/predictions_all.png" /></p>
+<h3 id="predictores-convolucionales">Predictores convolucionales</h3>
+<p>SSD utiliza pequeños filtros de convolución de dimensión 3x3 para predecir la localización y puntuación asociada a cada objeto
+a detectar. Así por ejemplo, en un escenario con 20 clases, cada filtro de convolución devolverá 25 canales: 21 para cada clase más
+la información asociada a una <em>bounding box</em>:</p>
+<p><img alt="" src="img/return_conv_ssd.png" /></p>
+<h3 id="mapas-de-caracteristicas-multi-escala">Mapas de características multi-escala</h3>
+<p>Aunque se ha descrito el trabajo de SSD con una única capa de la red neuronal de extracción de características, realmente 
+SSD utiliza múltiples capas para detectar objetos de forma independiente. SSD usa las capas de menor resolución para detectar 
+objetos de mayor tamaño, y las capas de mayor resolución para detectar objetos de menor tamaño. Por ejemplo, los mapas de 
+características de dimensión 4x4 se usarían para detectar objetos mayores que aquellos de dimensión 8x8:</p>
+<p><img alt="" src="img/lower_resolution.jpeg" /></p>
+<h3 id="prediccion-de-bounding-boxes">Predicción de <em>bounding boxes</em></h3>
+<p>Como en cualquier otra red neuronal de convolución, la predicción de <em>bounding boxes</em> comienza con predicciones aleatorias
+que se refinan durante la fase de entrenamiento vía descenso de gradiente. Sin embargo, estos valores iniciales pueden
+ser conflictivos si no son suficientemente diversos desde el comienzo, principalmente en imágenes con distintos tipos de
+objetos:</p>
+<p><img alt="" src="img/nodiverse_predictions.jpeg" /></p>
+<p>Si las predicciones iniciales cubren más variedad de formas, el modelo podrá detectar más objetos:</p>
+<p><img alt="" src="img/diverse_predictions.jpeg" /></p>
+<p>En la vida real, las <em>boundary boxes</em> no presentan formas y tamaños arbitrarios, sino que, por ejemplo, presentan dimensiones o
+proporciones similares que pueden ser tomadas como base para el entrenamiento del modelo SSD. Normalmente, para un determinado
+objeto y conjunto de entrenamiento, se consideran todas las <em>bounding boxes</em> en el conjunto, y se toma como representativa el
+centroide del cluster que representaría a todas ellas.</p>
+<p>Así, para cada mapa de características extraídas por la red <em>backbone</em>, se utiliza un conjunto único de <em>bounding boxes</em> por
+defecto centradas en la celda correspondiente, por ejemplo:</p>
+<p><img alt="" src="img/default_bbs.jpeg" /></p>
+<h3 id="estimacion-de-similitud">Estimación de similitud</h3>
+<p>Las predicciones de SSD se clasifican como positivas o negativas. Esta evaluación se basa en la métrica IoU (<em>Intersection over Union</em>):</p>
+<p><img alt="" src="img/iou.png" /></p>
+<p>Realmente, las estimaciones iniciales de <em>bounding boxes</em> se escogen para que presenten un valor de IoU mayor a 0.5. Esta es una 
+mala predicción todavía, pero una buena base para comenzar con el proceso de regresión (refinamiento) hacia las <em>bounding boxes</em>
+definitivas.</p>
+<h3 id="data-augmentation"><em>Data augmentation</em></h3>
+<p>Para mejorar la precisión del modelo, se utiliza la técnica de aumento de datos o <em>data augmentation</em>. El objetivo de esta
+técnica es exponer nuevas "variantes" de la imagen original para enriquecer la información almacenada. Estas transformaciones
+incluyen recortes (<em>cropping</em>), modificación de orientación (<em>flipping</em>) y distorsiones de color. Por ejemplo:</p>
+<p><img alt="" src="img/Augmentation.jpeg" /></p>
+<h3 id="conjuntos-de-entrenamiento">Conjuntos de entrenamiento</h3>
+<p>Es necesario un conjuno de entrenamiento y test etiquetado y con <em>bounding boxes</em> reales (en el artículo descriptivo de SSD, se
+les conoce como <em>ground truth</em>), con una etiqueta por <em>bounding box</em>. Por ejemplo:</p>
+<p><img alt="" src="img/pascal_dataset.png" /></p>
+<h2 id="deteccion-de-objetos-en-tflite">Detección de objetos en TFLite</h2>
+<p>En este laboratorio, utilizaremos el código proporcionado como base para desarrollar una aplicación de monitorización de aforo en un 
+recinto (por ejemplo, en un aula). </p>
+<p>En primer lugar, desempaqueta el fichero proporcionado e instala los requisitos necesarios. En primer lugar, descarga los modelos que utilizarás
+para realizar la inferencia, ejecutando el <em>script</em> <code>download_models.sh</code>. Además, descarga también los modelos para Mobilenet SSD disponibles en 
+<a href="https://coral.ai/models/">la web de Google Coral</a> (concretamente, los modelos <em>MobileNet SSD v1 y v2 (COCO)</em>). </p>
+<p>A continuación, en el directorio <code>gstreamer</code>, ejecuta el <em>script</em> <code>install_requirements.sh</code> para instalar los requisitos necesarios para el desarrollo
+del laboratorio. </p>
+<p>Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, mediante la orden:</p>
+<pre><code class="language-sh">python3 tracking.py
+</code></pre>
+<p>Observa que la salida, en forma de ventana de vídeo, mostrará una <em>bounding box</em> y clase asociada para cada objeto detectado en la escena. Por defecto,
+el modelo que se toma es <em>Mobilenet v2 SSD</em>. </p>
+<p>Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a <code>detect_objects</code> y se analizan los resultados obtenidos (objetos detectados) en <code>tracker_annotate</code> dibujando las cajas en <code>draw_objects_tracked</code>. </p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la <a href="https://coral.ai/models/all/">página de modelos de Google Coral</a>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable <code>tracks</code>, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada <em>box</em> y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`</p>
+</div>
+<h2 id="tracking-de-objetos-en-tflite"><em>Tracking</em> de objetos en TFLite</h2>
+<p>El código proporcionado integra un <em>tracker</em> o seguidor de objetos, que no solo detecta objetos en un fotograma determinado, sino que los 
+identifica y sigue mientras aparezcan en pantalla. Esta implementación está basada en el <em>motpy</em> (<a href="https://pypi.org/project/motpy/">enlace</a>).</p>
+<p>Para instalar el tracker es necesario instalar el paquete <em>motpy</em>:</p>
+<pre><code class="language-sh">pip3 install motpy
+</code></pre>
+<p>Observa que, al ejecutar el <em>script</em>, se asocia no sólo un <em>bounding box</em> y clase a cada objeto, sino también un identificador que (idealmente), debería
+mantenerse mientras el objeto siga en la imagen.</p>
+<p>El <em>tracker</em> <code>Sort</code> devuelve, en su función <code>update</code>, un array Numpy en el que cada fila contiene un <em>bounding box</em> válido, y un identificador de objeto único en su última columna. </p>
+<div class="admonition danger">
+<p class="admonition-title">Tarea</p>
+<p>Modifica el código para que se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable (80% de la nota)</p>
+<p>Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en python pueden encontrarse en los ejemplos de <a href="https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py">la implementación de MQTT Paho</a></p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable (20% de la nota)</p>
+<p>Haciendo uso de las capacidades de <em>tracking</em> del script original, se pide diseñar e implementar una solución para monitorizar el paso de personas en sentido entrada y salida en una entrada a un recinto. Así, se supondrá una cámara situada de forma perpendicular a la entrada al recinto, de modo que las personas que accedan al mismo ingresarán en la escena por uno de los extremos y saldrán por el opuesto. Las personas que salgan del recinto discurrirán por la imagen en sentido contrario. Se pide que el sistema almacene el número de personas que han entrado y salido del recinto, así como el momento en el que lo han hecho.</p>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
