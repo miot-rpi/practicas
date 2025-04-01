@@ -1,356 +1,276 @@
-# Detección de objetos
+# Laboratorio 3. Entrenamiento e inferencia para clasificación de imágenes sobre Google Coral
 
 ## Objetivos
-* Entender el funcionamiento básico de los extractores de características MobileNet y de los detectores de objetos SSD.
-* Integrar un detector de objetos con funcionalidades de *tracking* en un entorno de monitorización IoT.
 
-## Código necesario
+* Entender, de forma intuitiva, la estructura general de una red neuronal de convolución (CNN)
+para clasificación de imágenes separando sus capas en dos clases: extracción de características y clasificación.
 
-El código necesario para el desarrollo de la práctica puede obtenerse descargando el código de la [URL](https://drive.google.com/file/d/1765YtV6_UgCSNukjGf5bs2_iW28PDABT/view?usp=sharing).
+* Entender el proceso y las ventajas de *transfer learning* para obtener una red adaptada a un conjunto de datos de entrada.
 
+* Practicar el proceso de *transfer learning* utilizando TensorFlow.
 
-## Detección básica de objetos. Mobilenets y SSD
+* Exportar los modelos entrenados a formato TFLite.
 
-La detección de objetos es a día de hoy uno de los campos más importantes dentro de la visión 
-por computador. Se trata de una extensión de la clasificación de imágenes, donde el objetivo
-es identificar una o más clases de objetos en una imagen y localizar su presencia mediante
-cajas (en adelante, *bounding boxes*) que la delimitan. La detección de objetos juega un papel 
-fundamental en campos como la videovigilancia, por ejemplo. 
+* Experimentar y evaluar el proceso de cuantización sobre un modelo real.
 
-Al igual que en los problemas de clasificación de objetos, algunas de las soluciones más eficientes
-para la detección de objetos se basan en dos fases:
+* Desplegar un modelo preentrenado mediante *transfer learning* sobre la Raspberry Pi + Edge TPU para una aplicación concreta.
 
-1. Fase de extracción de características, en base a una red neuronal genérica (por ejemplo, MobileNet).
-2. Fase de detección de objetos, en base a una segunda red neuronal específica (por ejemplo, SSD).
+Gran parte del trabajo de este laboratorio se centra en el uso de Google Colab. Deberás
+crear una copia y trabajar en el siguiente 
+[cuaderno](https://colab.research.google.com/drive/1aCLiz4zQVFxVztk4r4HIC1gyfLDRLWLy?usp=sharing).
 
-### Extracción de características. Mobilenet v1
+## Modelos TensorFlow sobre Edge TPU (Google Coral)
 
-La idea principal tras MobileNet se basa en el uso intensivo de las llamadas
-*depthwise separable convolutions*, o DWCs, para construir redes neuronales 
-profundas muy ligeras desde el punto de vista computacional. 
+El dispositivo Google Coral (que equipa un acelerador Edge TPU) es un 
+*hardware* de propósito específico que puede ejecutar redes neuronales
+profundas (esto es, con múltiples capas), y es específicamente eficiente
+ejecutando redes neuronales de convolución (CNN), donde una o más de sus
+capas están formadas por operaciones de convolución sobre imágenes de 
+entrada. Este tipo de redes combina una serie de capas iniciales de
+convolución dedicadas a la extracción de características, y una o más
+capas finalles *fully connected* (totalmente conectadas), cuyo cometido
+es específico del problema que pretenden resolver (por ejemplo, clasificación
+de imágenes).
 
-Una capa de convolución convencional típica aplica un kernel de convolución (o "filtro") a cada
-uno de los canales de la imagen de entrada. Este kernel se desplaza a través de la imagen y 
-en cada paso lleva a cabo una suma ponderada de los píxeles de entrada "cubiertos" por el kernel, 
-para todos los canales de dicha imagen de entrada.
+En problemas de aprendizaje supervisado, 
+el proceso de entrenamiento es un procedimiento iterativo (cuyas bases teóricas
+quedan fuera del alcance de esta asignatura), que persigue fijar, en 
+base a observación de datos de entrada (*datasets*) etiquetados, unos pesos para cada
+una de las neuronas que componen cada capa (bien sea de convolución o bien
+totalmente conectada) que permitan ajustar la salida de la red neuronal, con 
+un determinado grado de error, a la salida esperada.
 
-La idea a destacar aquí es que esta operación de convolución *combina* los valores de todos
-los canales de entrada. Si la imagen tiene 3 canales, la aplicación de un único kernel de 
-convolución sobre la imagen resulta en una imagen de salida de un único canal:
+Tomemos una red neuronal sencilla de ejemplo como la que se muestra a continuación:
 
-![](img/RegularConvolution.png)
+![Ejemplo de CNN (Red neuronal de convolución).](img/cnn_example.jpeg)
 
-En MobileNet v1 también se usa, aunque muy puntualmente, este tipo de convolución: únicamente en su
-primera capa. El resto de capas usan la llamada convolución *depthwise separable* (DWC). Realmente, esta
-es una combinación de dos operacioens de convolución: una *depthwise* y otra *pointwise*. 
+En primer lugar, observa la estructura general de la red:
 
-Una convolución *depthwise* opera de la siguiente manera:
+1. Los datos (tensor) proporcionados a la capa de entrada tienen un tamaño fijo, en este caso un único canal de dimensiones `28 x 28` píxeles.
+2. El tensor (capa) de salida contiene 10 neuronas, que finalmente, en este caso, clasificarán la imagen de entrada como perteneciente a una de 10 clases posibles (una por dígito).
+3. A grandes rasgos, la estructura de la red se divide en dos partes (esta simplificación nos servirá en el resto del laboratorio):
+    * Un conjunto de capas de convolución y otras operaciones, englobadas en lo que llamaremos **extractor de características**.
+    * Un conjunto de capas donde todas las neuronas están conectadas entre sí, que llamaremos **clasificador**.
 
-![](img/DepthwiseConvolution.png)
+### Estructura de capas
 
-Como puedes ver, no combina los canales de entrada, sino que realiza una convolución para cada canal de
-forma separada. Así, para una imagen de tres canales, crea una imagen de salida de 3 canales. 
+Las capas de convolución son el principal elemento que permite extraer características de una
+imagen. En última instancia, se basan en la aplicación de un conjunto de filtros a cada píxel de
+la imagen de entrada a la capa correspondiente, cuyos valores son realmente los pesos entrenables
+de la red neuronal. Las capas de convolució son configurables (en el momento de diseñar la red); 
+algunas de estas características se listan a continuación.
 
-El objetivo de este tipo de convolución es filtrar los canales de entrada.
+!!! note "Nota"
+    La siguiente explicación pretende ser intuitiva más que científica, por lo 
+    que se emplaza al estudiante a los conocimientos adquiridos en otras asignaturas
+    para una descripción más detallada del funcionamiento de cada uno de los elementos
+    que componen una CNN.
 
-En MobileNet v1, la convolución *depthwise* siempre va seguida de una convolución *pointwise*.
-Una convolución *pointwise* es realmente una convolución "tradicional", pero con un kernel 1x1:
+#### *Convolución*
 
-![](img/PointwiseConvolution.png)
+La aplicación de un filtro de convolución toma como entrada una imagen o fragmento
+de la misma (en nuestro caso, un fragmento de dimensiones `5 x 5`), y aplica en ella,
+de forma ordenada, un conjunto de **pesos** en forma de filtro o *kernel*. El resultado final de
+la operación se llama **característica** y comprende, para cada píxel de la característica,
+una suma ponderada a través del filtro de cada uno de los elementos de la vecindad de la imagen anterior
+para el píxel correspondiente:
 
-Como puedes observar, simplemente *combina* los canales de salida de una convolución *depthwise* para
-crear nuevas características.
+![Convolución.](img/conv.png)
 
-Poniendo ambas cosas juntas (*depthwise* + *pointwise*), se consigue el mismo efecto que con una convolución
-tradicional, que realiza ambas operaciones en una sola pasada.
+#### *Padding*
 
-¿Por qué realizar esta separación? Desde el punto de vista computacional, una convolución tradicional realiza
-más operaciones aritméticas y necesita entrenar mayor cantidad de pesos (el artículo original de presentación
-de Mobilenet v1 cifra esta mejora en 9x para convoluciones 3x3).
+Al aplicar convoluciones, las dimensiones de la característica de salida no coinciden con las de la entrada,
+por lo que es posible "perder" cierta información. Para ello, los bordes de la imagen de entrada suelen 
+rellenarse con un valor (en el ejemplo siguiente, con ceros), mediante la operación llamada *padding*:
 
-Así, el bloque básico de MobileNet v1 sería:
+![Padding.](img/pad.gif)
 
-![](img/DepthwiseSeparableConvolution.png)
+#### *Striding*
 
-Existen en total 13 de estos bloques, precedidos por una primera capa de convolución tradicional 3x3. No existen
-capas de *pooling*, pero algunas de las capas *depthwise* presentan un *stride* 2 para reducir la dimensionalidad; en 
-estos casos, la correspondiente capa *pointwise* dobla el número de canales: si la imagen de entrada es 224x224x3, la salida
-de la red es 7x7x1024.
+En ocasiones, no es deseable aplicar un filtro de convolución a todos los píxeles de entrada. En esos casos,
+la capa de convolución puede configurarse para que "salte" algunos de los píxeles (en el ejemplo siguiente, 
+esta separación o *stride* es de dos unidades):
 
-Mobilenet v1 usa una función de activación ReLU6 a la salida de cada bloque, que previene activaciones demasiado grandes:
+![Striding.](img/stride.gif)
 
-`y = min(max(0, x), 6)`
+#### *Pooling*
 
-![](img/ReLU6.png)
+La operación de *pooling* persigue resumir la información en una determinada imagen o característica, agrupando
+los valores de la vecindad mediante una operación de tipo `max` o `avg`. Por ejemplo, podemos obtener únicamente 
+el valor máximo de una vecindad de `2 x 2` píxeles:
 
-Si trabajamos con un clasificador basado en MobileNet, todas estas capas desembocan en una capa de *pooling average*, seguida
-de una capa totalmente conectada (*fully connected*), y una capa final de clasificación *softmax* obteniendo un valor de probabilidad
-por clase.
+![Pooling.](img/polling.png)
 
-### Capas totalmente conectadas
+#### *Función de activación*
+
+Una función de activación es un nodo situado a la salida de una determinada neurona, que permite determinar
+si dicha neurona se activará o no, por ejemplo:
 
-A modo de recordatorio, recuerda que una capa totalmente conectada (FC, de *fully connected*) tomaría la siguiente forma:
-
-![](img/FCLayer.png)
-
-La entrada a esta capa es un vector de números. Cada entrada está conectada a cada una de las salidas (de ahí su nombre). Estas conexiones
-poseen pesos asociados que determinan cuan importantes son. La salida es también un vector de números.
-
-Cada capa transorma los datos. En el caso de FC, para cada elemento de salida, tomamos una suma ponderada de todos los 
-elementos de entrada, añadiendo una desviación o *bias*:
-
-`in1*w1 + in2*w2 + in3*w3 + ... + in7*w7 + b1`
-
-En otras palabras, lo que calculamos es una función lineal sobre las entradas, en múltiples dimensiones. Además, aplicamos una
-función de activación a la suma ponderada:
-
-`out1 = f(in1*w1 + in2*w2 + in3*w3 + ... + in7*w7 + b1)`
-
-Representando los pesos en forma de matriz, y las entradas y desviaciones como vectores, podemos computar la salida de una
-capa FC como:
-
-![](img/MatrixMultiplication.png)
-
-Observa que esto es en realidad un producto matriz-vector. Si el número de entradas crece por encima de 1 (es decir, tenemos
-un grupo o *batch* de entradas), esta operación se convierte en un producto de matrices, para la cual muchas arquitecturas,
-incluyendo nuestra Google Coral, están ampliamente optimizadas.
-
-Observa también que la matriz de pesos es un producto del proceso de aprendizaje o entrenamiento, y que esta matriz puede contener
-miles (o millones) de elementos a entrenar en redes típicas.
-
-### Hiperparámetros
-
-MobileNet fue diseñada no para ser una red neuronal concreta, sino una familia de redes neuronales, simplemente variando un conjunto
-de parámetros (llamados hiperparámetros). El más importante de estos hiperparámetros es el llamado *depth multiplier*; este hiperparámetro
-modifica la cantidad de canales por capa. Así, un valor de 0.5 reducirá a la mitad el número de canales usados en cada 
-capa, reduciendo el número de operacioens en un factor 4 y el número de parámetros entrenables en un factor 3. Así, el modelo es más liviano,
-pero menos predciso. 
-
-### Mobilenet v2
-
-[MobileNet v2](https://arxiv.org/abs/1801.04381), al igual que su versión anterior, utiliza
-DWCs, pero su bloque de trabajo principal se ha visto modificado:
-
-![](img/block_mobilenetv2.png)
-
-En este caso, por cada bloque existen tres capas convolucionales. Las dos últimas son las ya
-conocidas: DWCs que filtran las entradas, seguidas por una capa *pointwise* 1x1. En este caso,
-sin embargo, esta última capa tiene otro cometido. En la versión 1 del modelo, la capa *pointwise*
-mantenía el número de canales o lo doblaba. En la versión 2, en cambio, su cometido es exclusivamente
-*reducir* el número de canales. Es por esto que, normalmente, a esta capa se le conoce como
-*projection layer* o capa de proyección: proyecta datos con un número elevado de dimensiones (canales) en
-un tensor con mucho menor número de dimensiones. Por ejemplo, esta capa podría trabajar con un tensor 
-con 144 canales, reduciéndolo a sólo 24 canales. En ocasiones, a este tipo de capa se le conoce como
-"cuello de botella" (*bottleneck*"), ya que reduce la cantidad de datos que "fluyen" por la red.
-
-En cuanto a la primera capa, también es una convolución 1x1. Su objetivo es expandir el número de canales
-antes de la DWC. Así, esta *capa de expansión* siempre presenta más canales de salida que de entrada, al
-contrario que en la capa de proyección. La cantidad exacta de expansión viene dada por el llamado *factor de expansión*,
-uno de los hiperparámetros (parámetros personalizables de la red) típicos en Mobilenet v2 (por defecto, el 
-valor de este factor es 6): 
-
-![](img/connections_mobilenetv2.png)
-
-Por ejemplo, si se proporciona un tensor de 24 canales a un bloque, la primera capa lo convierte a un nuevo
-tensor de 144 canales (por defecto), sobre el que se aplica la capa DWC. Finalmente, la capa de proyección
-proyecta estos canales a un número menor, véase 24 (por ejemplo). El resultado es que la entrada y salida a un bloque son
-tensores de dimensión reducida, mientras que el filtrado intermedio ocurre sobre un tensor de dimensionalidad alta.
-
-Como puedes observar en la anterior imagen, otra novedad en Mobilenet v2 es la denominada *residual connection*, que 
-conecta la entrada y la salida de un bloque (siempre que estos mantengan su dimensionalidad).
-
-La arquitectura Mobilenet v2 consta de 17 de estos bloques conectados uno tras otro, seguidos de una única convolución
-estándar 1x1, y una capa de clasificación (si lo que se desea es utilizarla para tareas de clasificación). 
-
-Si observamos los datos que fluyen por la red, veremos como el número de canales se mantiene relativamente reducido:
-
-![](img/LowDims.png)
-
-Como es normal en este tipo de modelos, el número de canaes se incrementa a medida que avanzamos en la red (mientras
-la dimensión espacial disminuye). Sin embargo, en general, los tensores se mantienen relativamente pequeños, gracias a 
-las capas *bottleneck* entre bloques (en la v1, los tensores llegan a ser hasta 7x7x1024, por ejemplo).
-
-El uso de tensores de baja dimensionalidad es clave para reducir el número de operaciones aritméticas, y por tanto 
-aumenta la adecuación de este tipo de modelos para trabajar sobre dispositivos móviles.
-
-Sin embargo, trabajar sólo con tensores de baja dimensionalidad no permite, tras aplicar una capa de convolución sobre
-ellos, extraer demasiada información. Así, el filtrado debería trabajar sobre datos de alta dimensionalidad. Mobilenet v2,
-por tanto, une lo mejor de ambos mundos:
-
-![](img/Compression.png)
-
-
-### Detección de objetos. SSD (*Single Shot Multi-Box Detector*)
-
-El *framework* SSD (*Single Shot MultiBox Detector*) es uno de los principales mecanismos para 
-llevar a cabo tareas de detección de objetos. Tradicionalmente, estas tareas se realizaban con
-costosos métodos de ventana deslizante (detectando potenciales imágenes en múltiples ventanas
-de tamaños variables que se desplazaban por la imagen). Este enfoque de fuerza bruta fue
-mejorado por las llamadas R-CNN (*Region-CNN*), que se basaban en la extracción previa de
-*Region Proposal* (propuestas de regiones de la imagen en las que potencialmente podían 
-existir objetos), para después extraer características de cada una de ellas a través de
-redes de convolución y realizar una tarea de clasificación de dichas características y extracción
-de las *bounding boxes* correspondientes. Las R-CNN adolecen de ciertos defectos que las hacen
-ineficientes (a día de hoy) en la vida real, véase:
-
-* El proceso de entrenamiento de las redes es largo.
-* El proceso de entrenamiento se desarrolla en múltiples etapas (por ejemplo, para proponer regiones o 
-para clasificar).
-* La red es lenta en la fase de inferencia.
-
-En respuesta a esta ineficiencia, se han propuesto múltiples soluciones en los últimos años; las más populares
-son [YOLO](https://arxiv.org/abs/1506.02640) (*You Only Look Once*) y [SSD MultiBox](https://arxiv.org/abs/1512.02325) 
-(*Single Shot Detector*).
-
-SSD rebaja el coste computacional de las R-CNN sin necesidad de propuestas de regiones,
-operando en dos grandes fases:
-
-* Extracción de mapas de características.
-* Aplicación de filtros de convolución para detectar objetos.
-
-La primera fase (extracción de características), se lleva a cabo mediante una red neuronal específica,
-llamada genéricamente *backbone network*. En el diseño inicial de SSD, esta red fue la red VGG16, aunque
-en esta práctica trabajarás con una implementación en la que se usa Mobilenet v1 y v2 (anteriormente
-descritas) para mejorar la eficiencia del proceso de detección.
-
-El análisis del propio nombre proporciona información sobre las ventajas y modo de operación de SSD MultiBox:
-
-* *Single Shot*: Las tareas de localización de objetos y clasificación se realizan en una única pasada (ejecución) de la red.
-* *MultiBox*: Técnica de regresión para *bounding boxes* desarrollada por los autores.
-* *Detector*: La red es un detector de objetos que además los clasifica.
-
-### Extracción de características
-
-Por defecto, SSD utiliza la red neuronal de convolución VGG16 para extraer mapas de características. A continuación, detecta
-objetos utilizando una de sus capas de convolución (concretamente, la capa `Conv4_3`). Suponiendo que esta capa es de dimension
-espacial `8x8` (realmente, es `38x38`), para cada celda, se realizan 4 predicciones de objeto:
-
-![](img/predictions.jpeg)
-
-Cada predicción está compuesta por una *boundary box* y una puntuación o *score* para cada clase disponible (más una clase extra
-si no se detecta objeto); para cada objeto detectado, se escoge la clase con mayor puntuación. Así, la capa de convolución `Conv4_3`
-realiza realmente 38x38x4 predicciones:
-
-![](img/predictions_all.png)
-
-### Predictores convolucionales
-
-SSD utiliza pequeños filtros de convolución de dimensión 3x3 para predecir la localización y puntuación asociada a cada objeto
-a detectar. Así por ejemplo, en un escenario con 20 clases, cada filtro de convolución devolverá 25 canales: 21 para cada clase más
-la información asociada a una *bounding box*:
-
-![](img/return_conv_ssd.png)
-
-### Mapas de características multi-escala
-
-Aunque se ha descrito el trabajo de SSD con una única capa de la red neuronal de extracción de características, realmente 
-SSD utiliza múltiples capas para detectar objetos de forma independiente. SSD usa las capas de menor resolución para detectar 
-objetos de mayor tamaño, y las capas de mayor resolución para detectar objetos de menor tamaño. Por ejemplo, los mapas de 
-características de dimensión 4x4 se usarían para detectar objetos mayores que aquellos de dimensión 8x8:
-
-![](img/lower_resolution.jpeg)
-
-### Predicción de *bounding boxes*
-
-Como en cualquier otra red neuronal de convolución, la predicción de *bounding boxes* comienza con predicciones aleatorias
-que se refinan durante la fase de entrenamiento vía descenso de gradiente. Sin embargo, estos valores iniciales pueden
-ser conflictivos si no son suficientemente diversos desde el comienzo, principalmente en imágenes con distintos tipos de
-objetos:
-
-![](img/nodiverse_predictions.jpeg)
-
-Si las predicciones iniciales cubren más variedad de formas, el modelo podrá detectar más objetos:
-
-![](img/diverse_predictions.jpeg)
-
-En la vida real, las *boundary boxes* no presentan formas y tamaños arbitrarios, sino que, por ejemplo, presentan dimensiones o
-proporciones similares que pueden ser tomadas como base para el entrenamiento del modelo SSD. Normalmente, para un determinado
-objeto y conjunto de entrenamiento, se consideran todas las *bounding boxes* en el conjunto, y se toma como representativa el
-centroide del cluster que representaría a todas ellas.
-
-Así, para cada mapa de características extraídas por la red *backbone*, se utiliza un conjunto único de *bounding boxes* por
-defecto centradas en la celda correspondiente, por ejemplo:
-
-![](img/default_bbs.jpeg)
-
-### Estimación de similitud
-
-Las predicciones de SSD se clasifican como positivas o negativas. Esta evaluación se basa en la métrica IoU (*Intersection over Union*):
-
-![](img/iou.png)
-
-Realmente, las estimaciones iniciales de *bounding boxes* se escogen para que presenten un valor de IoU mayor a 0.5. Esta es una 
-mala predicción todavía, pero una buena base para comenzar con el proceso de regresión (refinamiento) hacia las *bounding boxes*
-definitivas.
-
-### *Data augmentation*
-
-
-Para mejorar la precisión del modelo, se utiliza la técnica de aumento de datos o *data augmentation*. El objetivo de esta
-técnica es exponer nuevas "variantes" de la imagen original para enriquecer la información almacenada. Estas transformaciones
-incluyen recortes (*cropping*), modificación de orientación (*flipping*) y distorsiones de color. Por ejemplo:
-
-![](img/Augmentation.jpeg)
-
-### Conjuntos de entrenamiento
-
-Es necesario un conjuno de entrenamiento y test etiquetado y con *bounding boxes* reales (en el artículo descriptivo de SSD, se
-les conoce como *ground truth*), con una etiqueta por *bounding box*. Por ejemplo:
-
-![](img/pascal_dataset.png)
-
-## Detección de objetos en TFLite
-
-En este laboratorio, utilizaremos el código proporcionado como base para desarrollar una aplicación de monitorización de aforo en un 
-recinto (por ejemplo, en un aula). 
-
-En primer lugar, desempaqueta el fichero proporcionado e instala los requisitos necesarios. En primer lugar, descarga los modelos que utilizarás
-para realizar la inferencia, ejecutando el *script* `download_models.sh`. Además, descarga también los modelos para Mobilenet SSD disponibles en 
-[la web de Google Coral](https://coral.ai/models/) (concretamente, los modelos *MobileNet SSD v1 y v2 (COCO)*). 
-
-A continuación, en el directorio `gstreamer`, ejecuta el *script* `install_requirements.sh` para instalar los requisitos necesarios para el desarrollo
-del laboratorio. 
-
-Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, mediante la orden:
-
-```sh
-python3 tracking.py
-```
-
-Observa que la salida, en forma de ventana de vídeo, mostrará una *bounding box* y clase asociada para cada objeto detectado en la escena. Por defecto,
-el modelo que se toma es *Mobilenet v2 SSD*. 
-
-
-Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a `detect_objects` y se analizan los resultados obtenidos (objetos detectados) en `tracker_annotate` dibujando las cajas en `draw_objects_tracked`. 
+![ReLU.](img/relu.png)
+
+La función ReLU (*rectified linear unit*) se utiliza típicamente en redes neuronales por su carácter no lineal: simplemente
+devuelve 0 si el valor de entrada es negativo, y dicho valor en caso contrario.
+
+#### *Capas fully-connected*
+
+Finalmente, las últimas capas (de clasificación) de la anterior red pasan por dos
+capas cuyas neuronas simplemente realizan una combinación lineal de sus entradas, ponderadas
+con unos pesos que también se fijarán en el proceso de entrenamiento y que, en última instancia,
+determinarán la clase a la que pertenece cada estímulo de entrada tras extraer las correspondientes
+características.
+
+Un ejemplo de las tres últimas capas *fully-connected* podría ser, por ejemplo:
+
+![FC1](img/fc1.png)
+
+![FC2](img/fc2.png)
+
+donde en última instancia, la capa de salida es un tensor unidimensional de 10 elementos al que 
+están conectadas cada una de las neuronas de la capa anterior (lo mismo ocurre con la penúltima
+capa).
+
+## Flujo de trabajo típoco para el desarrollo de un modelo TensorFlow Lite para Edge TPU
+
+Como se vio en el anterior laboratorio, TensorFlow Lite es una versión 
+reducida del *framework* Tensorflow diseñada específicamente para
+dispositivos móviles y sistemas empotrados. Su objetivo es proporcionar
+alto rendimiento (básicamente, baja latencia o tiempo de respuesta) en
+procesos de inferencia o aplicación de una red neuronal a unos datos de
+entrada. Los modelos TensorFlow Lite pueden, además, reducir todavía
+más su tamaño (y por tanto aumentar su eficiencia) a través de un proceso
+llamado cuantización, que convierte los pesos (y otros parámetros) del 
+modelo, típicamente representados mediante números en punto flotante
+de 32 bits, en una representación entera de 8 bits. Aunque en ocasiones este
+proceso simplemente persigue mayor eficiencia, en el caso del acelerador
+Edge TPU es obligatorio, ya que éste sólo soporta modelos Tensorflow Lite
+cuantizados (y, como veremos, compilados de forma específica para el
+dispositivo).
+
+El proceso de entrenamiento no se realiza directamente con TensorFlow Lite, 
+sino utilizando TensorFlow y a continuación convirtiendo el modelo entrenado
+resultante (en formato `.pb`) en un modelo TFLite (con extensión `.tflite`).
+El proceso general de transformación de un modelo TensorFlow en un modelo
+compatible con el dispositivo Edge TPU se muestra a continuación:
+
+![Flujo de trabajo típico para crear un modelo compatible con Edge TPU.](img/compile-workflow.png)
+
+Sin embargo, no es estrictamente necesario seguir de forma completa este
+flujo de trabajo para obtener un buen modelo compatible con la Edge TPU. Una
+alternativa reside en aprovechar modelos TensorFlow ya entrenados mediante
+un proceso de reentrenamiento en base a tus propios *datasets* de entrada.
+
+## *Transfer learning*
+
+Como hemos mencionado anteriormente, en lugar de construir un modelo propio
+y realizar un proceso de entrenamiento del mismo desde cero, es posible
+reentrenar un modelo ya compatible con el dispositivo Edge TPU, usando una
+técnica denominada *transfer learning* (o *fine tuning*). 
+
+Esta técnica permite comenzar con un modelo entrenado para una tarea similar
+a la que deseamos resolver, enseñando de nuevo al modelo a, por ejemplo, 
+clasificar otro tipo de objetos mediante un proceso de entrenamiento utilizando
+un *dataset* de menores dimensiones. En este punto, existen dos mecanismos
+distintos para realizar el reentrenamiento:
+
+1. Reentrenar el modelo completo, ajustando los pesos de toda la red neuronal.
+2. Eliminando la(s) capa(s) final(es) de la red, típicamente dedicada, por 
+ejemplo, al proceso de clasificación, y entrenando una nueva capa que 
+reconozca las nuevas clases objetivo.
+
+En cualquier caso, si se parte de un modelo compatible con la Edge TPU, cualquiera
+de las dos estrategias ofrecerá buenos resultados (siendo la segunda mucho más
+eficiente desde el punto de vista del tiempo de entrenamiento). El fabricante
+proporciona un conjunto de [modelos base preentrenados](https://coral.ai/models/)
+que puedes utilizar para crear modelos personalizados.
+
+## Requisitos de los modelos
+
+Para explotar al máximo las capacidades del Edge TPU, es necesario que el
+modelo desarrollado cumpla con ciertas características:
+
+1. Los tensores que se utilicen están cuantizados (usando punto fijo de 8 bits: `int8` o `uint8`).
+2. Las dimensiones de los tensores son constantes (no dinámicas).
+3. Los tensores son 1-D, 2-D o 3-D. 
+4. El modelo sólo usa operaciones soportadas por la Edge TPU (véase siguiente sección).
+
+### Operaciones soportadas
+
+Al construir un modelo propio, es necesario tener en mente que sólo ciertas
+operaciones serán soportadas de forma nativa por la Edge TPU. Si el modelo
+está formado por alguna operación no compatible, sólo se ejecutará en la TPU
+una porción del mismo (véase sección *Compilación*). La documentación de
+Google Coral y de TensorFlow contienen listas detalladas de las operaciones
+compatibles en ambos casos.
+
+### Cuantización
+
+Cuantizar un modelo significa convertir todos los valores que éste almacena
+(por ejemplo, pesos y salidas de funciones de activación) desde valores
+en punto flotante de 32 bits a sus representaciones en punto fijo de 8 bits
+más cercanas. Esto, obviamente, hace que el modelo sea más pequeño en tamaño,
+y más rápido en respuesta. Además, aunque las representaciones en 8 bits son
+menos precisas, su precisión en el proceso de inferencia no se ve significativamente
+afectado.
+
+Existen dos mecanismos principales para llevar a cabo la cuantización:
+
+* **Entrenamiento consciente de la cuantización** (*Quantization-aware training*). Esta
+técnica inserta nodos (neuronas) artificiales en la red para simular el efecto
+de usar valores de 8 bits en el entrenamiento. Por tanto, requiere modificar la
+red antes de comenzar con el entrenamiento inicial. Normalmente, esto repercute
+en un modelo con mayor precisión (comparado con la segunda técnica), porque
+los pesos de 8 bits se aprenden en el propio proceso de entrenamiento.
+
+* **Cuantización post-entrenamiento** (*Full integer post-training quantization*). No 
+requiere ninguna modificación en la red, por lo que puede tomar como entrada
+una red ya entrenada para convertirla en un modelo cuantizado. Sin embargo, el 
+proceso de cuantización requiere que se proporcione un conjunto de datos de entrada
+representativo (formateado de la misma manera que el conjunto de datos original).
+Este conjunto representativo permite que el proceso de cuantización determine el 
+rango dinámico de las entradas, pesos y activaciones, factor crítico a la hora de encontrar
+una representación en 8 bits de cada peso y valor de activación.
+
+### Compilación
+
+Tras entrenar y convertir el modelo a TFlite (con cuantización), el paso final es
+compilarlo utilizando el compilador de Edge TPU. El proceso de compilación puede
+completarse incluso si el modelo del que se parte no es 100% compatible con el
+dispositivo, pero en este caso, sólo una porción del modelo se ejecutará
+en el Edge TPU. En el primer punto en el que el grafo resultante incluya una
+operación no soportada, éste se dividirá en dos partes: la primera contendrá sólo 
+las opreraciones soportadas por la Edge TPU, y la segunda, con las operaciones no
+soportadas, será ejecutada exclusivamente en la CPU, con la penalización
+de rendimiento que ello conlleva:
+
+![](img/compile-tflite-to-edgetpu.png)
+
+# Tareas a desarrollar
 
 !!! danger "Tarea"
-    Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la [página de modelos de Google Coral](https://coral.ai/models/all/).
-    
-!!! danger "Tarea"
-    Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable `tracks`, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada *box* y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`
+    El siguiente [cuaderno](https://colab.research.google.com/drive/1aCLiz4zQVFxVztk4r4HIC1gyfLDRLWLy?usp=sharing) 
+    permite la creación de un modelo TFlite a partir
+    de un modelo preexistente, usando la técnica de cuantización post-entrenamiento.
+    Complétalo y obtén un modelo TFLite listo para ejecutar en 
+    la Edge TPU. 
 
-## *Tracking* de objetos en TFLite
-
-El código proporcionado integra un *tracker* o seguidor de objetos, que no solo detecta objetos en un fotograma determinado, sino que los 
-identifica y sigue mientras aparezcan en pantalla. Esta implementación está basada en el *motpy* ([enlace](https://pypi.org/project/motpy/)).
-
-Para instalar el tracker es necesario instalar el paquete *motpy*:
-
-```sh
-pip3 install motpy
-```
-
-Observa que, al ejecutar el *script*, se asocia no sólo un *bounding box* y clase a cada objeto, sino también un identificador que (idealmente), debería
-mantenerse mientras el objeto siga en la imagen.
-
-El *tracker* `Sort` devuelve, en su función `update`, un array Numpy en el que cada fila contiene un *bounding box* válido, y un identificador de objeto único en su última columna. 
-
+    A continuación, utilízalo en los códigos que desarrollaste (para clasificación) en el anterior laboratorio y 
+    comprueba su correcto funcionamiento tanto desde el punto de vista del rendimiento comparado con la CPU, como
+    de la precisión observada.
 
 !!! danger "Tarea"
-    Modifica el código para que se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.
+    Utilizando la misma filosofía que la seguida en el anterior cuaderno, se pide desarrollar
+    una aplicación que realice la clasificación de imágenes de entrada en tiempo real, tomadas desde la cámara
+    de la Raspberry Pi,
+    utilizando un modelo preentrenado con conjuntos de datos de imágenes etiquetadas que representen
+    cierta característica o rasgo físico. Por ejemplo, es posible desarrollar un sistema que discrimine
+    **caras portando o no mascarilla**, **personas llevando o no gafas**, **pelo largo o corto**, etc.
+    Es posible proponer un escenario alternativo previo visto bueno del profesor.
 
-!!! danger "Tarea entregable (80% de la nota)"
-    Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en python pueden encontrarse en los ejemplos de [la implementación de MQTT Paho](https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py)
+    Para resolver el laboratorio, se pide diseñar y seguir el flujo
+    completo de trabajo propuesto, basándose en el mismo modelo base (*Mobilenetv2*), pero reentrenándolo
+    con conjuntos de datos apropiados (puedes buscarlos por internet) y usando la Edge TPU como plataforma
+    aceleradora.
 
-!!! danger "Tarea entregable (20% de la nota)"
-    Haciendo uso de las capacidades de *tracking* del script original, se pide diseñar e implementar una solución para monitorizar el paso de personas en sentido entrada y salida en una entrada a un recinto. Así, se supondrá una cámara situada de forma perpendicular a la entrada al recinto, de modo que las personas que accedan al mismo ingresarán en la escena por uno de los extremos y saldrán por el opuesto. Las personas que salgan del recinto discurrirán por la imagen en sentido contrario. Se pide que el sistema almacene el número de personas que han entrado y salido del recinto, así como el momento en el que lo han hecho.
+    Se entregará una memoria del trabajo desarrollado, junto con los códigos y modelos obtenidos, así como una breve demostración de funcionamiento de la solución (a modo de vídeo, por ejemplo). Es deseable incluir algún tipo de análisis de tiempos de ejecución utilizando y sin utilizar el acelerador Google Coral.
+
+
