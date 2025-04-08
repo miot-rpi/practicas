@@ -346,8 +346,8 @@ El *tracker* `Sort` devuelve, en su función `update`, un array Numpy en el que 
 !!! danger "Tarea"
     Modifica el código para que se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.
 
-!!! danger "Tarea entregable (80% de la nota)"
+!!! danger "Tarea entregable (70% de la nota)"
     Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en Python pueden encontrarse en los ejemplos de [la implementación de MQTT Paho](https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py)
 
-!!! danger "Tarea entregable (20% de la nota)"
+!!! danger "Tarea entregable (30% de la nota)"
     Haciendo uso de las capacidades de *tracking* del script original, se pide diseñar e implementar una solución para monitorizar el paso de personas en sentido entrada y salida en una entrada a un recinto. Así, se supondrá una cámara situada de forma perpendicular a la entrada al recinto, de modo que las personas que accedan al mismo ingresarán en la escena por uno de los extremos y saldrán por el opuesto. Las personas que salgan del recinto discurrirán por la imagen en sentido contrario. Se pide que el sistema almacene el número de personas que han entrado y salido del recinto, así como el momento en el que lo han hecho.
