@@ -1,13 +1,13 @@
 # Laboratorio 4. Detección de objetos con Google Coral
 
 ## Objetivos
+
 * Entender el funcionamiento básico de los extractores de características MobileNet y de los detectores de objetos SSD.
 * Integrar un detector de objetos con funcionalidades de *tracking* en un entorno de monitorización IoT.
 
 ## Código necesario
 
 El código necesario para el desarrollo de la práctica puede obtenerse descargando el código de la [URL](https://drive.google.com/file/d/1765YtV6_UgCSNukjGf5bs2_iW28PDABT/view?usp=sharing).
-
 
 ## Detección básica de objetos. Mobilenets y SSD
 
@@ -304,12 +304,9 @@ les conoce como *ground truth*), con una etiqueta por *bounding box*. Por ejempl
 En este laboratorio, utilizaremos el código proporcionado como base para desarrollar una aplicación de monitorización de aforo en un 
 recinto (por ejemplo, en un aula). 
 
-En primer lugar, desempaqueta el fichero proporcionado e instala los requisitos necesarios. En primer lugar, descarga los modelos que utilizarás
-para realizar la inferencia, ejecutando el *script* `download_models.sh`. Además, descarga también los modelos para Mobilenet SSD disponibles en 
-[la web de Google Coral](https://coral.ai/models/) (concretamente, los modelos *MobileNet SSD v1 y v2 (COCO)*). 
-
-A continuación, en el directorio `gstreamer`, ejecuta el *script* `install_requirements.sh` para instalar los requisitos necesarios para el desarrollo
-del laboratorio. 
+En primer lugar, desempaqueta el fichero proporcionado e instala los requisitos necesarios. Los modelos necesarios residen ya en el directorio
+`Models`, junto al fichero de etiquetas (*labels*) utilizado. 
+Puedes descargar otros modelos desde [la web de Google Coral](https://coral.ai/models/) (concretamente, los modelos *MobileNet SSD v1 y v2 (COCO)*). 
 
 Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, mediante la orden:
 
@@ -317,9 +314,9 @@ Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, m
 python3 tracking.py
 ```
 
-Observa que la salida, en forma de ventana de vídeo, mostrará una *bounding box* y clase asociada para cada objeto detectado en la escena. Por defecto,
-el modelo que se toma es *Mobilenet v2 SSD*. 
+Estudia los argumentos requeridos para comenzar una sesión de detección de objetos usando el modelo disponible.
 
+Observa que la salida, en forma de ventana de vídeo, mostrará una *bounding box* y un identificador único para cada objeto detectado en la escena. 
 
 Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a `detect_objects` y se analizan los resultados obtenidos (objetos detectados) en `tracker_annotate` dibujando las cajas en `draw_objects_tracked`. 
 
@@ -327,7 +324,7 @@ Desde el punto de vista del código, la estructura es muy similar a la vista par
     Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la [página de modelos de Google Coral](https://coral.ai/models/all/).
     
 !!! danger "Tarea"
-    Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable `tracks`, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada *box* y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`
+    Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable `tracks`, así como la posición y clase a la que pertenecen. Añade la clase (concretamente, su etiquea de texto) a la caja que se dibuja en pantalla. Intenta determinar qué significa cada uno de los campos asociados a cada *box* y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`
 
 ## *Tracking* de objetos en TFLite
 
@@ -350,7 +347,7 @@ El *tracker* `Sort` devuelve, en su función `update`, un array Numpy en el que 
     Modifica el código para que se muestre para cada fotograma los bounding boxes e identificadores únicos asociados a cada objeto.
 
 !!! danger "Tarea entregable (80% de la nota)"
-    Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en python pueden encontrarse en los ejemplos de [la implementación de MQTT Paho](https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py)
+    Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en Python pueden encontrarse en los ejemplos de [la implementación de MQTT Paho](https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py)
 
 !!! danger "Tarea entregable (20% de la nota)"
     Haciendo uso de las capacidades de *tracking* del script original, se pide diseñar e implementar una solución para monitorizar el paso de personas en sentido entrada y salida en una entrada a un recinto. Así, se supondrá una cámara situada de forma perpendicular a la entrada al recinto, de modo que las personas que accedan al mismo ingresarán en la escena por uno de los extremos y saldrán por el opuesto. Las personas que salgan del recinto discurrirán por la imagen en sentido contrario. Se pide que el sistema almacene el número de personas que han entrado y salido del recinto, así como el momento en el que lo han hecho.
