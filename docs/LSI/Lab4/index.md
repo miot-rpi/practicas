@@ -321,7 +321,7 @@ Observa que la salida, en forma de ventana de vídeo, mostrará una *bounding bo
 Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a `detect_objects` y se analizan los resultados obtenidos (objetos detectados) en `tracker_annotate` dibujando las cajas en `draw_objects_tracked`. 
 
 !!! danger "Tarea"
-    Temporiza el tiempo de respuesta (inferencia) para la red por defecto y para cada una de las dos redes descargadas desde la [página de modelos de Google Coral](https://coral.ai/models/all/).
+    Temporiza el tiempo de respuesta (inferencia) para la red por defecto (usando y sin usar la TPU) y (de forma opcional) para otros modelos descargados desde la [página de modelos de Google Coral](https://coral.ai/models/all/).
     
 !!! danger "Tarea"
     Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable `tracks`, así como la posición y clase a la que pertenecen. Añade la clase (concretamente, su etiquea de texto) a la caja que se dibuja en pantalla. Intenta determinar qué significa cada uno de los campos asociados a cada *box* y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`
