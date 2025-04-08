@@ -468,16 +468,14 @@ les conoce como <em>ground truth</em>), con una etiqueta por <em>bounding box</e
 <h2 id="deteccion-de-objetos-en-tflite">Detección de objetos en TFLite</h2>
 <p>En este laboratorio, utilizaremos el código proporcionado como base para desarrollar una aplicación de monitorización de aforo en un 
 recinto (por ejemplo, en un aula). </p>
-<p>En primer lugar, desempaqueta el fichero proporcionado e instala los requisitos necesarios. En primer lugar, descarga los modelos que utilizarás
-para realizar la inferencia, ejecutando el <em>script</em> <code>download_models.sh</code>. Además, descarga también los modelos para Mobilenet SSD disponibles en 
-<a href="https://coral.ai/models/">la web de Google Coral</a> (concretamente, los modelos <em>MobileNet SSD v1 y v2 (COCO)</em>). </p>
-<p>A continuación, en el directorio <code>gstreamer</code>, ejecuta el <em>script</em> <code>install_requirements.sh</code> para instalar los requisitos necesarios para el desarrollo
-del laboratorio. </p>
+<p>En primer lugar, desempaqueta el fichero proporcionado e instala los requisitos necesarios. Los modelos necesarios residen ya en el directorio
+<code>Models</code>, junto al fichero de etiquetas (<em>labels</em>) utilizado. 
+Puedes descargar otros modelos desde <a href="https://coral.ai/models/">la web de Google Coral</a> (concretamente, los modelos <em>MobileNet SSD v1 y v2 (COCO)</em>). </p>
 <p>Si todo ha ido bien, podrás ejecutar el código, que es totalmente funcional, mediante la orden:</p>
 <pre><code class="language-sh">python3 tracking.py
 </code></pre>
-<p>Observa que la salida, en forma de ventana de vídeo, mostrará una <em>bounding box</em> y clase asociada para cada objeto detectado en la escena. Por defecto,
-el modelo que se toma es <em>Mobilenet v2 SSD</em>. </p>
+<p>Estudia los argumentos requeridos para comenzar una sesión de detección de objetos usando el modelo disponible.</p>
+<p>Observa que la salida, en forma de ventana de vídeo, mostrará una <em>bounding box</em> y un identificador único para cada objeto detectado en la escena. </p>
 <p>Desde el punto de vista del código, la estructura es muy similar a la vista para la clasificación de objetos. Observa que, se realiza la inferencia mediante la invocación a <code>detect_objects</code> y se analizan los resultados obtenidos (objetos detectados) en <code>tracker_annotate</code> dibujando las cajas en <code>draw_objects_tracked</code>. </p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
@@ -485,7 +483,7 @@ el modelo que se toma es <em>Mobilenet v2 SSD</em>. </p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
-<p>Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable <code>tracks</code>, así como la posición y clase a la que pertenecen. Intenta determinar qué significa cada uno de los campos asociados a cada <em>box</em> y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`</p>
+<p>Modifica el código para mostrar por pantalla (por la terminal) el número de objetos detectado en cada frame en la variable <code>tracks</code>, así como la posición y clase a la que pertenecen. Añade la clase (concretamente, su etiquea de texto) a la caja que se dibuja en pantalla. Intenta determinar qué significa cada uno de los campos asociados a cada <em>box</em> y cómo estos valores varían al mover un objeto por la pantalla, tal y como hace la función logger.debug(f'trackes: {tracks}')`</p>
 </div>
 <h2 id="tracking-de-objetos-en-tflite"><em>Tracking</em> de objetos en TFLite</h2>
 <p>El código proporcionado integra un <em>tracker</em> o seguidor de objetos, que no solo detecta objetos en un fotograma determinado, sino que los 
@@ -502,7 +500,7 @@ mantenerse mientras el objeto siga en la imagen.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable (80% de la nota)</p>
-<p>Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en python pueden encontrarse en los ejemplos de <a href="https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py">la implementación de MQTT Paho</a></p>
+<p>Se pide modificar el script inicial para que, periódicamente, se realice un conteo del número de personas detectadas en una determinada escena. Este valor (número de personas) será exportado a un panel de control (bajo tu elección) utilizando algún protocolo de entre los vistos en la asignatura RPI-II (por ejemplo, MQTT). El protocolo y el panel de control a utilizar queda bajo elección del alumno/a. Se establecerá un umbral de alarma en forma de aforo máximo autorizado, al cual se reaccionará enviando una señal de aviso al usuario desde el panel de control. Toda la infraestructura necesaria se puede implementar en la Raspberry Pi o en un servicio externo, pero en cualquier caso, la inferencia se realizará siempre en la Raspberry Pi, y se acelerará mediante el uso del dispositivo Google Coral. Ejemplos relacionados sobre el uso de MQTT para la creación de un "publicador" en Python pueden encontrarse en los ejemplos de <a href="https://github.com/eclipse/paho.mqtt.python/blob/master/examples/client_pub-wait.py">la implementación de MQTT Paho</a></p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable (20% de la nota)</p>
