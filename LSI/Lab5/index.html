@@ -317,12 +317,12 @@ El gestor de memoria de ESP-DL asigna un único bloque de memoria para las entra
 <p>Los modelos cuantizados a 8 bits y 16 bits aceptan entradas de tipo <code>int8_t</code> y <code>int16_t</code> respectivamente.<br />
 Las entradas en coma flotante (<code>float</code>) deben cuantizarse en uno de esos tipos según el <code>exponent</code> antes de pasarlas al modelo.</p>
 <h4 id="formula-de-cuantizacion">Fórmula de cuantización</h4>
-<pre><code class="language-math">Q =     ext{Clip}\left( ext{Round}\left(rac{R}{ ext{Scale}}
-ight),  ext{MIN},   ext{MAX}
-ight)
-</code></pre>
-<pre><code class="language-math">    ext{Scale} = 2^{    ext{Exp}}
-</code></pre>
+<div class="arithmatex">\[
+Q = \text{Clip} \left( \text{Round} \left( \frac{R}{\text{Scale}} \right), \text{MIN}, \text{MAX} \right)
+\]</div>
+<div class="arithmatex">\[
+\text{Scale} = 2^{\text{Exp}}
+\]</div>
 <p>Donde:</p>
 <ul>
 <li><code>R</code> es el número en punto flotante a cuantizar.  </li>
@@ -345,10 +345,12 @@ model_input-&gt;assign(input_tensor);
 <p>Los modelos cuantizados a 8 o 16 bits devuelven valores de tipo <code>int8_t</code> o <code>int16_t</code>, respectivamente.<br />
 Estos valores deben ser descuantizados según el <code>exponent</code> para obtener los resultados en punto flotante.</p>
 <h4 id="formula-de-descuantizacion">Fórmula de descuantización</h4>
-<pre><code class="language-math">R' = Q  imes    ext{Scale}
-</code></pre>
-<pre><code class="language-math">    ext{Scale} = 2^{    ext{Exp}}
-</code></pre>
+<div class="arithmatex">\[
+R' = Q \times \text{Scale}
+\]</div>
+<div class="arithmatex">\[
+\text{Scale} = 2^{\text{Exp}}
+\]</div>
 <p>Donde:</p>
 <ul>
 <li><code>R'</code> es el valor en punto flotante aproximado tras la descuantización.  </li>
@@ -365,9 +367,9 @@ output_tensor-&gt;assign(model_output);
 </code></pre>
 <hr />
 <h4 id="inferencia-del-modelo">Inferencia del modelo</h4>
-<p>Consulta:</p>
+<p>Consulta el ejemplo de proyecto <code>examples/tutorial/how_to_run_model</code>,
+específicamente, la API para la ejecución del modelo:</p>
 <ul>
-<li><a href="examples/tutorial/how_to_run_model">Ejemplo del proyecto</a></li>
 <li><code>void dl::Model::run(runtime_mode_t mode)</code></li>
 <li><code>void dl::Model::run(TensorBase *input, runtime_mode_t mode)</code></li>
 <li><code>void dl::Model::run(std::map&lt;std::string, TensorBase*&gt; &amp;user_inputs, runtime_mode_t mode, std::map&lt;std::string, TensorBase*&gt; user_outputs)</code></li>
@@ -520,6 +522,8 @@ extern &quot;C&quot; void app_main(void)
         <script src="../../js/base.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../../js/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
