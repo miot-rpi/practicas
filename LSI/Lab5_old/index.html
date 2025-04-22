@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Laboratorio 4. Segmentación de imágenes - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <title>Laboratorio 5. Comandos por voz - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -219,21 +219,29 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#laboratorio-4-segmentacion-de-imagenes" class="nav-link">Laboratorio 4. Segmentación de imágenes</a>
+            <li class="nav-item" data-bs-level="1"><a href="#laboratorio-5-comandos-por-voz" class="nav-link">Laboratorio 5. Comandos por voz</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#bodypix-estructura-y-funcionamiento" class="nav-link">Bodypix. Estructura y funcionamiento</a>
+            <li class="nav-item" data-bs-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#segmentacion-de-personas" class="nav-link">Segmentación de personas</a>
+            <li class="nav-item" data-bs-level="2"><a href="#espectrogramas-y-mfccs" class="nav-link">Espectrogramas y MFCCs</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#segmentacion-de-partes-corporales" class="nav-link">Segmentación de partes corporales</a>
+            <li class="nav-item" data-bs-level="2"><a href="#reconocimiento-de-palabras-clave-y-redes-neuronales" class="nav-link">Reconocimiento de palabras clave y redes neuronales</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#algunas-herramientas" class="nav-link">Algunas herramientas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#algunas-referencias" class="nav-link">Algunas referencias</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -244,65 +252,102 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="laboratorio-4-segmentacion-de-imagenes">Laboratorio 4. Segmentación de imágenes</h1>
+<h1 id="laboratorio-5-comandos-por-voz">Laboratorio 5. Comandos por voz</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
-<li>Conocer una herramienta de segmentación de personas y partes corporales, así como su funcionamiento básico.</li>
-<li>Evaluar el rendimiento de la herramienta utilizando modelos acelerados, y observar tanto su rendimiento como precisión obtenida.</li>
-<li>Modificar la solución propuesta para integrarla en un entorno IoT para la gestión de un escenario real (calidad postural en conducción).</li>
+<li>Familiarizarse con el procesamiento de voz en nodos AI-IoT</li>
+<li>Configurar un interfaz por voz offline/on-device para detección de comandos de voz</li>
+<li>Usar el acelerador Coral USB para dicho procesamiento</li>
+<li>Integrar procesamiento con voz en una solución IoT genérica</li>
 </ul>
-<h2 id="bodypix-estructura-y-funcionamiento">Bodypix. Estructura y funcionamiento</h2>
-<p><a href="https://github.com/tensorflow/tfjs-models/tree/master/body-pix">Bodypix</a> es una infraestructura de código abierto (realmente, un conjunto de modelos) basada en redes neuronales de convolución y enfocada en dos tareas básicas: <strong>segmentación de personas y partes corporales</strong>, y <strong>extracción de posicionamiento de partes corporales</strong>. Bodypix está específicamente diseñado para obtener buenos rendimientos en plataformas de bajo rendimiento, y ser altamente parametrizable para adaptarse tanto a otro tipo de plataformas como a distintos niveles de precisión y rendimiento.</p>
-<p>En este laboratorio utilizaremos los modelos de Bodypix, partiendo de la librería <a href="https://pypi.org/project/tf-bodypix/">tf-bodypix</a>.</p>
+<h2 id="introduccion">Introducción</h2>
+<h3 id="procesamiento-de-voz">Procesamiento de voz</h3>
+<p>Hoy en día el procesamiento digital de la voz es empleado en múltiples ámbitos, siendo tal vez uno de los más extendidos el de los asistentes de voz virtuales  (Amazon Alexa, Google Assitant, Apple Siri, ...).</p>
+<p><img alt="Spoken Dialog System" src="https://d3i71xaburhd42.cloudfront.net/7a3c58ef132157da8e8de0f2ca2ca4c4fffdb9ef/8-Figure2.1-1.png" /></p>
+<p>En su mayoría estos sistemas combinan diversas técnicas de inteligencia artificial para proporcionar un dialogo hablado con el usuario (ver esquema). La complejidad computacional y el tamaño de los modelos empleados por estos algoritmos son elevados, por lo que en su mayoría se ejecutan (<em>online</em>) en servidores <em>Cloud</em>. No obstante, debido a razones de eficiencia energética, ancho de banda, latencia y privacidad se está tendiendo actualmente a trasladar parte de este procesamiento a los propios nodos. </p>
+<h3 id="wake-up-word-wuw"><em>Wake-Up Word (WUW)</em></h3>
+<p>Por ejemplo, para llevar a cabo el reconocimiento de habla, los asistentes virtuales utilizan, en su mayoría, algoritmos de detección de palabras clave <em>despertador</em> (Wake-Up Word) para detectar el comienzo de un enunciado por parte del usuario. Estos algoritmos, de menor complejidad que otros, se ejecutan <em>offline</em> en el propio dispositivo (<em>smartphone</em>, altavoz inteligente, etc.) lo que permite una mayor eficiencia y privacidad, ya que no es necesario transferir todo el audio al <em>Cloud</em>. </p>
+<p>Es preciso señalar que, puesto que se están ejecutando constantemente, la complejidad computacional y la energía requeridas por estos algoritmos debe ser las menores posibles. Esto se consigue limitando su capacidad de identificación a una sola palabra o como máximo una única frase, generalmente corta.</p>
+<h3 id="reconocimiento-del-habla-asrstt">Reconocimiento del habla (ASR/STT)</h3>
+<p>El reconocimiento del habla, también denominado reconocimiento automático de voz, o en inglés <em>Automatic <a href="https://en.wikipedia.org/wiki/Speech_recognition">Speech Recognition</a></em> (<em>ASR</em>) o también <em>Speech To Text</em> (<em>STT</em>) consiste en, dado un enunciado delimitado por <em>WUW</em> o por otro evento (como la pulsación de un botón en el caso de <em>push to talk</em>), transcribirlo a texto para su posterior procesamiento (transcripción, traducción, sistemas de respuesta automática, etc.). La complejidad computacional y el tamaño de los modelos empleados suponen un obstáculo para su procesamiento <em>offline</em> en la mayor parte de nodos IoT, exceptuando <em>smartphones</em> o dispositivos de similares prestaciones aparte para los que existen algunas implementaciones viables.</p>
+<h3 id="wordspotting"><em>Wordspotting</em></h3>
+<p>En determinados contextos, como los dispositivos controlados por comandos de voz (<em>voice command device</em>, VCD) no es necesario llevar a cabo un reconocimiento completo del habla y tan sólo es necesario identificar un pequeño conjunto de palabras clave (comandos), lo que se conoce con el término genérico de <em>wordspotting</em> o <em><a href="https://en.wikipedia.org/wiki/Keyword_spotting">keyword spotting</a></em>. Este tipo algoritmos, aunque más complejos que la detección de <em>WUW</em>, son mucho más sencillos que los <em>ASR</em>/<em>STT</em> y con frecuencia pueden ejecutarse <em>offline</em> incluso en pequeños microcontroladores.</p>
+<h2 id="espectrogramas-y-mfccs">Espectrogramas y MFCCs</h2>
+<p>Todos los algoritmos de procesamiento de voz se basan en el uso de <a href="https://en.wikipedia.org/wiki/Spectrogram">espectrogramas</a> que son una representación gráfica (3D) del contenido frecuencial de una señal a lo largo del tiempo.</p>
+<p><img alt="Espetrograma de las palabras &quot;nineteenth century&quot; " src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Spectrogram-19thC.png" /></p>
+<p>El proceso de obtención de un <em>espectrograma</em> adecuado para el procesamiento de voz sería el siguiente:</p>
+<ol>
+<li><em>Pre-emphasis</em>: pre-amplificación (opcional) de las componentes de alta frecuencia de la señal de audio.
+<img alt="" src="https://miro.medium.com/max/1400/1*tZPMsFLe3xfaWxa8RKXi5w.png" /></li>
+<li><em>Framing</em>: división de la señal en un cierto número (<em>nFrames</em>) de ventanas temporales, habitualmente de entre 20 y 40 ms de duración.
+<img alt="" src="https://miro.medium.com/max/1400/1*E0MiQ74KhklGuwE1PMfLNw.jpeg" /></li>
+<li><em>Windowing</em>: consiste en la aplicación de una <em>función ventana</em> a cada <em>frame</em>.
+<img alt="" src="https://miro.medium.com/max/864/1*O1XY3EEyFZAGHPrfDbrgGw.png" /></li>
+<li><em>Transformación y cálculo de la densidad espectral</em>: consiste en el cálculo de la <em>Transformada de Fourier de Tiempo Reducido</em> (<em>Short-Time Fourier-Transform</em> o <em>STFT</em>) para cada <em>frame</em>.
+<img alt="" src="https://miro.medium.com/max/1400/1*mjrMIkJuU3YcEdDuJAdvUw.jpeg" /></li>
+<li><em>MEL scale mapping</em>: aplicación de un banco de filtros (<em>nFilters</em>) correspondientes a la <em><a href="https://en.wikipedia.org/wiki/Mel_scale">Escala de Mel</a></em> al <em>espectro</em> obtenido en el paso anterior.</li>
+<li><em>Normalización</em>: aplicación de la <em>Transformada Discreta de Coseno</em> (<em>DCT</em>) y normalización mediante la resta de la media. </li>
+</ol>
+<p>El <em>espectrograma</em> resultante es lo que se conoce como <em>Coeﬁcientes Cepstrales en las Frecuencias de Mel</em> o <strong><em>MFCCs</em></strong> (Mel Frequency Cepstral Coeﬃcients) y es la entrada que suelen emplear los algoritmos de procesamiento de voz. </p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Instalar la librería y probar los ejemplos básicos para familiarizarse con la API.</p>
+<p class="admonition-title">Nota</p>
+<p>Cabe mencionar que dependiendo de algoritmo empleado es posible usar directamente el <em>espectrograma</em> resultante del paso 5. </p>
 </div>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Adaptar alguno de los ejemplos para eliminar el fondo de una imagen capturada por la cámara en tiempo real.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Para entender este proceso seguir el ejemplo del artículo <a href="https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html">"Speech Processing for Machine Learning: Filter banks, Mel-Frequency Cepstral Coefficients (MFCCs) and What's In-Between" de Haytham M. Fayek</a></p>
 </div>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Probar a usar un modelo <code>.tflite</code>.</p>
+<p><img alt="" src="https://miro.medium.com/max/1400/1*Lhx1J0G2CbixMIvQUX3Otw.png" /></p>
+<h2 id="reconocimiento-de-palabras-clave-y-redes-neuronales">Reconocimiento de palabras clave y redes neuronales</h2>
+<p>Como hemos visto previamente los <em>espectrogramas</em> proporcionan una representación gráfica 3D a partir de una señal de audio, lo que ofrece la posibilidad de llevar a cabo el reconocimiento de palabras clave mediante CNNs similares a las empleadas en el reconocimiento de imágenes.</p>
+<h3 id="ejemplo-sencillo-de-cnn-para-el-reconocimiento-de-palabras-clave">Ejemplo sencillo de CNN para el reconocimiento de palabras clave</h3>
+<p>El siguiente <a href="https://www.tensorflow.org/tutorials/audio/simple_audio">tutorial</a> ilustra el proceso construcción de una CNN sencilla para el reconocimiento de 10 palabras, empleando para el entrenamiento un subconjunto de la base de datos <a href="https://www.tensorflow.org/datasets/catalog/speech_commands"><em>"Speech Commands: A Dataset for Limited-Vocabulary Speech Recognition"</em></a> y empleado las utilidades propias de Tensorflow para la decodificación de los ficheros audio y la generación de los espectrogramas.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Seguir el tutorial.</p>
 </div>
-<h3 id="informacion-complementaria">Información complementaria</h3>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Convertir el modelo entrenado a TFLite, cuantizarlo y ejecutarlo en el acelerador Coral USB.</p>
+</div>
+<h3 id="coral-kws">Coral KWS</h3>
+<p>El proyecto <em><a href="https://github.com/google-coral/project-keyword-spotter">Coral Keyword Spotter (KWS)</a></em> proporciona un modelo pre-entrenado de un reconocedor de 140 palabras clave listo para su uso con Edge TPU así como scripts que ilustran su uso.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Siguiendo la documentación del proyecto probar el modelo y medir los tiempo de inferencia.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Adaptar los scripts de Coral KWS para enviar los comandos a un broker MQTT y posteriormente visualizarlos en un <em>dashboard</em> (por ejemplo, hacer subir o bajar un curva, cambiar iluminación, girar las manecillas de un reloj, etc. todo controlado por voz a distancia).</p>
+</div>
+<h2 id="algunas-herramientas">Algunas herramientas</h2>
+<p>A continuación se enumeran algunas de las principales opciones para procesamiento de voz offline.</p>
 <ul>
-<li><a href="https://blog.tensorflow.org/2019/11/updated-bodypix-2.html">Blog Tensorflow</a></li>
-<li>Código original bodypix (<a href="https://github.com/tensorflow/tfjs-models/blob/master/body-pix/README-v1.md">readme</a> y <a href="https://github.com/tensorflow/tfjs-models/tree/master/body-pix">repositorio</a>).</li>
-<li><a href="https://github.com/google-coral/project-bodypix">Coral bodypix</a> (<a href="https://github.com/google-coral/project-bodypix/tree/master/models">modelos TFLite y EdgeTPU</a>)</li>
+<li>Keyword spotting / Wake-Up-Word<ul>
+<li><a href="https://cmusphinx.github.io/wiki/tutorialpocketsphinx/">Pocketsphinx</a></li>
+<li><a href="https://github.com/Picovoice/porcupine">Porcupine</a></li>
+<li><a href="https://github.com/Kitt-AI/snowboy">Snowboy</a></li>
+<li><a href="https://github.com/MycroftAI/mycroft-precise">Mycroft Precise</a></li>
 </ul>
-<h2 id="segmentacion-de-personas">Segmentación de personas</h2>
-<p>A un nivel básico, la segmentación de personas consiste en realizar una segmentación de una o más imágenes de entrada en píxeles que son parte de una persona, y píxeles que no lo son. En Bodypix, tras proporcionar una imagen al modelo para inferencia, ésta se devuelve comen forma de matriz bidimensional con valores flotantes entre 0 y 1 para cada posición (pixel), indicando la probabilidad de que una persona ocupe dicho píxel. Un valor típicamente denominado <em>umbral de segmentación</em> decidirá en último término el valor mínimo de probabilidad para que dicho píxel se considere como parte de una persona. Este valor puede utilizarse, por ejemplo, para eliminar el fondo de una imagen (o sustituirlo por otro):</p>
-<p><img alt="" src="img/2a_example.png" /></p>
-<p>El proceso de segmentación de personas procede mediante una decisión <em>binaria</em> para cada pixel de la imagen de entrada, estimando, para dicho píxel, si éste pertenece o no a una persona:</p>
-<p><img alt="" src="img/2b_example.png" /></p>
-<p>En cualquier caso, se proporciona una imagen de dimensiones determinadas a la red neuronal extractora de características (MobileNet o ResNet), y se utiliza una función de activación <em>sigmoide</em> para transformar su salida en un valor entre 0 y 1, que puede ser interpretado como la probabilidad de pertenencia a una persona o no para cada uno de los píxeles de la imagen. Normalmente, se utiliza un valor umbral (por ejemplo, 0.5) para convertir dicha segmentación en una decisión binaria. </p>
-<p><img alt="" src="img/2c_example.jpeg" /></p>
-<h2 id="segmentacion-de-partes-corporales">Segmentación de partes corporales</h2>
-<p>Para estimar una correcta segmentación de partes individuales del cuerpo, se utiliza la misma red extractora de características, pero en este caso se repite el proceso de inferencia anterior prediciendo adicionalmente 24 canales extra a través de un tensor de salida adicional (siendo 24 el número de partes del cuerpo distintas que se desean predecir, valor por defecto en el código proporcionado). Cada uno de estos canales codifica la probabilidad de pertenencia de un pixel a una parte concreta del cuerpo. Por ejemplo, la siguiente imagen mostraría el contenido de dos canales: uno para la detección de la parte derecha de la cara, y otro para la detección de la parte izquierda:</p>
-<p><img alt="" src="img/2d_example.png" /></p>
-<p>La siguiente imagen muestra el proceso esquemático de procesamiento de una imagen de entrada en una salida multi-dimensional para la detección de partes corporales usando el extractor MobileNet:</p>
-<p><img alt="" src="img/2e_mobilenet.png" /></p>
-<p>Como para cada posición de la imagen disponemos de 24 canales en el tensor de salida <code>P</code>, es necesario encontrar la parte del cuerpo <em>óptima</em> de entre dichos 24 canales. Tras la inferencia, se realiza un proceso de post-procesado para realizar dicha detección, siguiendo la expresión:</p>
-<p><img alt="" src="img/expresion.png" /></p>
-<p>Esto redunda en una única imagen bidimensional (del mismo tamaño que la imagen original), en la que cada pixel contiene un entero indicando a qué parte del cuerpo pertenece (asignando un valor especial, por ejemplo <code>-1</code> si el pixel correspondiente no corresponde a ninguna parte corporal, es decir, no se ha detectado persona en él:</p>
-<p><img alt="" src="img/2f_final.jpeg" /></p>
-<p>Una posible combinación y representación final de la imagen con información detallada de segmentación podría ser:</p>
-<p><img alt="" src="img/2g_final.png" /></p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
-<p>Se pide que, basándote en el código de esta librería, desarrollar una aplicación que, utilizando la Raspberry Pi y mediante el uso del acelerador Google Coral, implemente un sistema que evalúe la <strong>calidad postural</strong> de un conductor. Para ello, supondremos que el conductor de un vehículo dispone de una cámara frontal en la que visualiza la parte superior de su cuerpo (incluido el torso) mientras conduce. Así, el sistema desarrollado deberá, en tiempo real, enviar vía MQTT (o cualquier otro protocolo) los siguientes parámetros a un panel de control:</p>
+</li>
+<li>Speech to text<ul>
+<li><a href="https://cmusphinx.github.io/wiki/tutorialpocketsphinx/">Pocketsphinx</a></li>
+<li><a href="https://kaldi-asr.org">Kaldi</a></li>
+<li><a href="https://deepspeech.readthedocs.io/en/r0.9/">DeepSpeech</a></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Probar algunas de estas herramientas en la Raspberry Pi 4.</p>
+</div>
+<h2 id="algunas-referencias">Algunas referencias</h2>
 <ul>
-<li>Porcentaje de píxeles detectados para la parte izquierda y derecha de la cara en la imagen. Este parámetro indicará que el conductor está mirando al frente, y debería desvirtuarse si éste gira su cabeza a izquierda o derecha.</li>
-<li>Porcentaje de píxeles detectados como cara no superior ni inferior a un umbral, lo que indicará que la cabeza se encuentra a una profundidad adecuada.</li>
-<li>Porcentaje de píxeles detectados como manos aproximadamente similar y no superior ni inferior a un umbral, lo que indicará que ambas manos están a la misma profundidad.</li>
-<li>Posición de las manos a la misma altura, y siempre por debajo de la cabeza. Este valor indicará que las manos están situadas en posición correcta en el volante.</li>
-<li>Posición de los ojos aproximadamente a la misma altura, lo que indicará una posición correcta de la cabeza. </li>
-<li>Hombros a la misma altura.</li>
-</ul>
-<p>El panel de control combinará (en el porcentaje que desees) dichas métricas, para obtener un valor de calidad unificado. Si se supera por debajo el valor de calidad considerado umbral, se emitirá una alarma utilizando el mecanismo de aviso que consideres adecuado. (<strong>Nota: puedes proponer escenarios distintos al propuesto si son de tu interés, siempre que la dificultad sea similar a la propuesta, y que se utilice el mismo tipo de información</strong>).</p>
-</div></div>
+<li>Santosh Singh, <a href="https://internetofthingswiki.com/how-speech-to-text-voice-recognition-is-making-an-impact-on-iot-development/1269/">"How speech-to-text/voice recognition is making an impact on IoT development"</a>, Featured, Internet Of Things, 2018.</li>
+<li>Yuan Shangguan, Jian Li, Qiao Liang, Raziel Alvarez, Ian McGraw, <a href="https://arxiv.org/abs/1909.12408">"Optimizing Speech Recognition For The Edge"</a>, https://arxiv.org/abs/1909.12408</li>
+<li>Thibault Gisselbrecht, Joseph Dureau, <a href="https://medium.com/snips-ai/machine-learning-on-voice-a-gentle-introduction-with-snips-personal-wake-word-detector-133bd6fb568e">"Machine Learning on Voice: a gentle introduction with Snips Personal Wake Word Detector"</a>, Snips Blog, May 2 2018.</li>
+<li>Haytham M. Fayek, <a href="https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html">"Speech Processing for Machine Learning: Filter banks, Mel-Frequency Cepstral Coefficients (MFCCs) and What's In-Between"</a>, 2016.</li>
+</ul></div>
             </div>
         </div>
 
