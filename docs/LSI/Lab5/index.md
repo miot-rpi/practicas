@@ -91,15 +91,14 @@ Las entradas en coma flotante (`float`) deben cuantizarse en uno de esos tipos s
 
 #### Fórmula de cuantización
 
-```math
-Q = 	ext{Clip}\left(	ext{Round}\left(rac{R}{	ext{Scale}}
-ight), 	ext{MIN}, 	ext{MAX}
-ight)
-```
+$$
+Q = \text{Clip} \left( \text{Round} \left( \frac{R}{\text{Scale}} \right), \text{MIN}, \text{MAX} \right)
+$$
 
-```math
-	ext{Scale} = 2^{	ext{Exp}}
-```
+$$
+\text{Scale} = 2^{\text{Exp}}
+$$
+
 
 Donde:
 
@@ -133,13 +132,13 @@ Estos valores deben ser descuantizados según el `exponent` para obtener los res
 
 #### Fórmula de descuantización
 
-```math
-R' = Q 	imes 	ext{Scale}
-```
+$$
+R' = Q \times \text{Scale}
+$$
 
-```math
-	ext{Scale} = 2^{	ext{Exp}}
-```
+$$
+\text{Scale} = 2^{\text{Exp}}
+$$
 
 Donde:
 
@@ -165,9 +164,9 @@ output_tensor->assign(model_output);
 
 #### Inferencia del modelo
 
-Consulta:
+Consulta el ejemplo de proyecto `examples/tutorial/how_to_run_model`,
+específicamente, la API para la ejecución del modelo:
 
-- [Ejemplo del proyecto](examples/tutorial/how_to_run_model)
 - `void dl::Model::run(runtime_mode_t mode)`
 - `void dl::Model::run(TensorBase *input, runtime_mode_t mode)`
 - `void dl::Model::run(std::map<std::string, TensorBase*> &user_inputs, runtime_mode_t mode, std::map<std::string, TensorBase*> user_outputs)`
