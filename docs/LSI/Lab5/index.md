@@ -1,109 +1,315 @@
-# Laboratorio 5. Comandos por voz
+# Laboratorio 5. Clasificación de imágenes y detección de objetos con el ESP32
 
 ## Objetivos
 
-* Familiarizarse con el procesamiento de voz en nodos AI-IoT
-* Configurar un interfaz por voz offline/on-device para detección de comandos de voz
-* Usar el acelerador Coral USB para dicho procesamiento
-* Integrar procesamiento con voz en una solución IoT genérica
+* Entender la estructura y utilidad general del *framework* ESP-DL.
+* Experimentar con dos ejemplos básicos de clasificación de imágenes (Mobilenet) y detección de objetos (Yolo).
+* Comprender y evaluar el rendimiento (en términos de tiempo y precisión) de distintas variantes del modelo Yolo para detección de objetos.
+* Integrar el proceso de inferencia para detección de objetos en un sistema IoT para emular un entorno de detección de peatones para asistencia a conducción.
 
-## Introducción
+## ESP-DL
 
-### Procesamiento de voz
+**ESP-DL** es un framework ligero y eficiente para la inferencia de redes neuronales, diseñado específicamente para los chips de la serie **ESP**. Con ESP-DL, puedes desarrollar aplicaciones de inteligencia artificial de forma rápida y sencilla utilizando los **System on Chips (SoCs)** de **Espressif**.
 
-Hoy en día el procesamiento digital de la voz es empleado en múltiples ámbitos, siendo tal vez uno de los más extendidos el de los asistentes de voz virtuales  (Amazon Alexa, Google Assitant, Apple Siri, ...).
+#### Visión general
 
-![Spoken Dialog System](https://d3i71xaburhd42.cloudfront.net/7a3c58ef132157da8e8de0f2ca2ca4c4fffdb9ef/8-Figure2.1-1.png)
+ESP-DL ofrece **APIs** para cargar, depurar y ejecutar modelos de IA. El framework es fácil de usar y se puede integrar sin problemas con otros SDKs de Espressif. **ESP-PPQ** actúa como la herramienta de cuantización para ESP-DL, siendo capaz de cuantizar modelos procedentes de **ONNX**, **Pytorch** y **TensorFlow**, y exportarlos al formato estándar de modelo de ESP-DL.
 
-En su mayoría estos sistemas combinan diversas técnicas de inteligencia artificial para proporcionar un dialogo hablado con el usuario (ver esquema). La complejidad computacional y el tamaño de los modelos empleados por estos algoritmos son elevados, por lo que en su mayoría se ejecutan (*online*) en servidores *Cloud*. No obstante, debido a razones de eficiencia energética, ancho de banda, latencia y privacidad se está tendiendo actualmente a trasladar parte de este procesamiento a los propios nodos. 
+#### Formato de modelo ESP-DL
 
-### *Wake-Up Word (WUW)*
+Este formato es similar a ONNX pero utiliza **FlatBuffers** en lugar de **Protobuf**, lo que lo hace más ligero y permite una deserialización sin copia (**zero-copy**). Su extensión de archivo es `.espdl`.
 
-Por ejemplo, para llevar a cabo el reconocimiento de habla, los asistentes virtuales utilizan, en su mayoría, algoritmos de detección de palabras clave *despertador* (Wake-Up Word) para detectar el comienzo de un enunciado por parte del usuario. Estos algoritmos, de menor complejidad que otros, se ejecutan *offline* en el propio dispositivo (*smartphone*, altavoz inteligente, etc.) lo que permite una mayor eficiencia y privacidad, ya que no es necesario transferir todo el audio al *Cloud*. 
+#### Implementación eficiente de operadores
 
-Es preciso señalar que, puesto que se están ejecutando constantemente, la complejidad computacional y la energía requeridas por estos algoritmos debe ser las menores posibles. Esto se consigue limitando su capacidad de identificación a una sola palabra o como máximo una única frase, generalmente corta.
+ESP-DL implementa de forma eficiente operadores comunes de IA como `Conv`, `Gemm`, `Add` y `Mul`.  
 
-### Reconocimiento del habla (ASR/STT)
+#### Planificador de memoria estático
 
-El reconocimiento del habla, también denominado reconocimiento automático de voz, o en inglés *Automatic [Speech Recognition](https://en.wikipedia.org/wiki/Speech_recognition)* (*ASR*) o también *Speech To Text* (*STT*) consiste en, dado un enunciado delimitado por *WUW* o por otro evento (como la pulsación de un botón en el caso de *push to talk*), transcribirlo a texto para su posterior procesamiento (transcripción, traducción, sistemas de respuesta automática, etc.). La complejidad computacional y el tamaño de los modelos empleados suponen un obstáculo para su procesamiento *offline* en la mayor parte de nodos IoT, exceptuando *smartphones* o dispositivos de similares prestaciones aparte para los que existen algunas implementaciones viables.
+Este planificador asigna automáticamente las distintas capas a la ubicación de memoria óptima en función del tamaño de RAM interna especificado por el usuario, garantizando una alta velocidad de ejecución general y un uso mínimo de memoria.
 
-### *Wordspotting*
+#### Planificación de doble núcleo
 
-En determinados contextos, como los dispositivos controlados por comandos de voz (*voice command device*, VCD) no es necesario llevar a cabo un reconocimiento completo del habla y tan sólo es necesario identificar un pequeño conjunto de palabras clave (comandos), lo que se conoce con el término genérico de *wordspotting* o *[keyword spotting](https://en.wikipedia.org/wiki/Keyword_spotting)*. Este tipo algoritmos, aunque más complejos que la detección de *WUW*, son mucho más sencillos que los *ASR*/*STT* y con frecuencia pueden ejecutarse *offline* incluso en pequeños microcontroladores.
+La planificación automática en doble núcleo permite que los operadores de mayor carga computacional aprovechen al máximo la capacidad de cómputo de los dos núcleos. Actualmente, `Conv2D` y `DepthwiseConv2D` son compatibles con esta planificación.
 
-## Espectrogramas y MFCCs
+#### Activación con LUT de 8 bits
 
-Todos los algoritmos de procesamiento de voz se basan en el uso de [espectrogramas](https://en.wikipedia.org/wiki/Spectrogram) que son una representación gráfica (3D) del contenido frecuencial de una señal a lo largo del tiempo.
+Todas las funciones de activación, excepto `ReLU` y `PReLU`, se implementan en ESP-DL mediante una **tabla de búsqueda (LUT)** de 8 bits para acelerar la inferencia. Puedes utilizar cualquier función de activación sin que aumente la complejidad computacional.
 
-![Espetrograma de las palabras "nineteenth century" ](https://upload.wikimedia.org/wikipedia/commons/c/c5/Spectrogram-19thC.png)
+---
 
-El proceso de obtención de un *espectrograma* adecuado para el procesamiento de voz sería el siguiente:
+La figura que se muestra a continuación ilustra la arquitectura general de ESP-DL.
 
-1. *Pre-emphasis*: pre-amplificación (opcional) de las componentes de alta frecuencia de la señal de audio.
-![](https://miro.medium.com/max/1400/1*tZPMsFLe3xfaWxa8RKXi5w.png)
-2. *Framing*: división de la señal en un cierto número (*nFrames*) de ventanas temporales, habitualmente de entre 20 y 40 ms de duración.
-![](https://miro.medium.com/max/1400/1*E0MiQ74KhklGuwE1PMfLNw.jpeg)
-3. *Windowing*: consiste en la aplicación de una *función ventana* a cada *frame*.
-![](https://miro.medium.com/max/864/1*O1XY3EEyFZAGHPrfDbrgGw.png)
-4. *Transformación y cálculo de la densidad espectral*: consiste en el cálculo de la *Transformada de Fourier de Tiempo Reducido* (*Short-Time Fourier-Transform* o *STFT*) para cada *frame*.
-![](https://miro.medium.com/max/1400/1*mjrMIkJuU3YcEdDuJAdvUw.jpeg)
-5. *MEL scale mapping*: aplicación de un banco de filtros (*nFilters*) correspondientes a la *[Escala de Mel](https://en.wikipedia.org/wiki/Mel_scale)* al *espectro* obtenido en el paso anterior.
-6. *Normalización*: aplicación de la *Transformada Discreta de Coseno* (*DCT*) y normalización mediante la resta de la media. 
+![ESP-DL architecture](./img/espdl_arch.svg)
 
-El *espectrograma* resultante es lo que se conoce como *Coeﬁcientes Cepstrales en las Frecuencias de Mel* o ***MFCCs*** (Mel Frequency Cepstral Coeﬃcients) y es la entrada que suelen emplear los algoritmos de procesamiento de voz. 
+#### Preparación del modelo
 
-!!!danger "Nota" 
-    Cabe mencionar que dependiendo de algoritmo empleado es posible usar directamente el *espectrograma* resultante del paso 5. 
+Consulta el [documento de soporte de operadores](https://github.com/espressif/esp-dl/blob/12397f3/operator_support_state.md) para asegurarte de que los operadores en un nuevo modelo son compatibles.
 
-!!! note "Tarea (opcional)"
-    Para entender este proceso seguir el ejemplo del artículo ["Speech Processing for Machine Learning: Filter banks, Mel-Frequency Cepstral Coefficients (MFCCs) and What's In-Between" de Haytham M. Fayek](https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html)
+ESP-DL requiere el uso de un **formato propietario** para el despliegue de modelos. Los modelos de deep learning deben ser **cuantizados y convertidos** a este formato antes de poder ser utilizados. **ESP-PPQ** (la herramienta de soporte para cuantización) proporciona dos interfaces, `espdl_quantize_onnx` y `espdl_quantize_torch`, para admitir la exportación de modelos ONNX y PyTorch, respectivamente.
 
-![](https://miro.medium.com/max/1400/1*Lhx1J0G2CbixMIvQUX3Otw.png)
+Otros frameworks de deep learning, como **TensorFlow**, **PaddlePaddle**, etc., deben convertir primero el modelo a **ONNX**. Por lo tanto, asegúrate de que el modelo puede convertirse a formato ONNX.
 
-## Reconocimiento de palabras clave y redes neuronales
+Para más detalles, consulta:  
 
-Como hemos visto previamente los *espectrogramas* proporcionan una representación gráfica 3D a partir de una señal de audio, lo que ofrece la posibilidad de llevar a cabo el reconocimiento de palabras clave mediante CNNs similares a las empleadas en el reconocimiento de imágenes.
+- [Cómo cuantizar un modelo](https://docs.espressif.com/projects/esp-dl/en/latest/tutorials/how_to_quantize_model.html).
 
-### Ejemplo sencillo de CNN para el reconocimiento de palabras clave
+#### Despliegue del modelo
 
-El siguiente [tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio) ilustra el proceso construcción de una CNN sencilla para el reconocimiento de 10 palabras, empleando para el entrenamiento un subconjunto de la base de datos [*"Speech Commands: A Dataset for Limited-Vocabulary Speech Recognition"*](https://www.tensorflow.org/datasets/catalog/speech_commands) y empleado las utilidades propias de Tensorflow para la decodificación de los ficheros audio y la generación de los espectrogramas.
+ESP-DL proporciona una serie de **APIs** para cargar y ejecutar modelos de forma rápida. Para más detalles, consulta:
 
-!!! note "Tarea (opcional)"
-    Seguir el tutorial.
+- [Cómo cargar, probar y perfilar un modelo](https://docs.espressif.com/projects/esp-dl/en/latest/tutorials/how_to_load_test_profile_model.html).
+- [Cómo ejecutar un modelo](https://docs.espressif.com/projects/esp-dl/en/latest/tutorials/how_to_run_model.html).
 
-!!! note "Tarea (opcional)"
-    Convertir el modelo entrenado a TFLite, cuantizarlo y ejecutarlo en el acelerador Coral USB.
+En las siguientes secciones, partiremos siempre de modelos ya preparados y ejemplos totalmente funcionales, que deberás adaptar para completar las tareas indicadas en el boletín.
 
-### Coral KWS
+## Ejecución básica de un modelo
 
-El proyecto *[Coral Keyword Spotter (KWS)](https://github.com/google-coral/project-keyword-spotter)* proporciona un modelo pre-entrenado de un reconocedor de 140 palabras clave listo para su uso con Edge TPU así como scripts que ilustran su uso.
+En primer lugar, clona el proyecto de ESP-DL que puedes encontrar en el [siguiente repositorio](https://github.com/espressif/esp-dl.git). En este primer ejemplo, trabajaremos sobre el directorio `examples/tutorial/how_to_run_model`, por lo que puedes abrirlo en Visual Studio (utiliza al menos la versión 5.4.1 de ESP-IDF).
 
-!!! note "Tarea"
-    Siguiendo la documentación del proyecto probar el modelo y medir los tiempo de inferencia.
 
-!!! note "Tarea"
-    Adaptar los scripts de Coral KWS para enviar los comandos a un broker MQTT y posteriormente visualizarlos en un *dashboard* (por ejemplo, hacer subir o bajar un curva, cambiar iluminación, girar las manecillas de un reloj, etc. todo controlado por voz a distancia).
+#### Obtener entradas y salidas del modelo
 
-## Algunas herramientas
+```cpp
+std::map<std::string, dl::TensorBase *> model_inputs = model->get_inputs();
+dl::TensorBase *model_input = model_inputs.begin()->second;
+std::map<std::string, dl::TensorBase *> model_outputs = model->get_outputs();
+dl::TensorBase *model_output = model_outputs.begin()->second;
+```
 
-A continuación se enumeran algunas de las principales opciones para procesamiento de voz offline.
+Puedes obtener los nombres de entrada/salida y sus respectivos objetos `dl::TensorBase` usando las APIs `get_inputs()` y `get_outputs()`.  
+Para más información, consulta la [documentación de dl::TensorBase](../api_reference/tensor_api).
 
-* Keyword spotting / Wake-Up-Word
-	- [Pocketsphinx](https://cmusphinx.github.io/wiki/tutorialpocketsphinx/)
-	- [Porcupine](https://github.com/Picovoice/porcupine)
-	- [Snowboy](https://github.com/Kitt-AI/snowboy)
-	- [Mycroft Precise](https://github.com/MycroftAI/mycroft-precise)
-* Speech to text
-	- [Pocketsphinx](https://cmusphinx.github.io/wiki/tutorialpocketsphinx/)
-	- [Kaldi](https://kaldi-asr.org)
-	- [DeepSpeech](https://deepspeech.readthedocs.io/en/r0.9/)
+> **Nota:**  
+> El gestor de memoria de ESP-DL asigna un único bloque de memoria para las entradas, resultados intermedios y salidas del modelo. Como se comparte esta memoria, durante la inferencia, los resultados posteriores sobrescriben a los anteriores. Es decir, los datos de `model_input` pueden ser sobrescritos por `model_output` u otros resultados intermedios una vez finalizada la inferencia.
 
-!!! note "Tarea (opcional)"
-    Probar algunas de estas herramientas en la Raspberry Pi 4.
+---
 
-## Algunas referencias
+#### Cuantizar la entrada
 
-* Santosh Singh, ["How speech-to-text/voice recognition is making an impact on IoT development"](https://internetofthingswiki.com/how-speech-to-text-voice-recognition-is-making-an-impact-on-iot-development/1269/), Featured, Internet Of Things, 2018.
-* Yuan Shangguan, Jian Li, Qiao Liang, Raziel Alvarez, Ian McGraw, ["Optimizing Speech Recognition For The Edge"](https://arxiv.org/abs/1909.12408), https://arxiv.org/abs/1909.12408
-* Thibault Gisselbrecht, Joseph Dureau, ["Machine Learning on Voice: a gentle introduction with Snips Personal Wake Word Detector"](https://medium.com/snips-ai/machine-learning-on-voice-a-gentle-introduction-with-snips-personal-wake-word-detector-133bd6fb568e), Snips Blog, May 2 2018.
-* Haytham M. Fayek, ["Speech Processing for Machine Learning: Filter banks, Mel-Frequency Cepstral Coefficients (MFCCs) and What's In-Between"](https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html), 2016.
+Los modelos cuantizados a 8 bits y 16 bits aceptan entradas de tipo `int8_t` y `int16_t` respectivamente.  
+Las entradas en coma flotante (`float`) deben cuantizarse en uno de esos tipos según el `exponent` antes de pasarlas al modelo.
+
+#### Fórmula de cuantización
+
+```math
+Q = 	ext{Clip}\left(	ext{Round}\left(rac{R}{	ext{Scale}}
+ight), 	ext{MIN}, 	ext{MAX}
+ight)
+```
+
+```math
+	ext{Scale} = 2^{	ext{Exp}}
+```
+
+Donde:
+
+- `R` es el número en punto flotante a cuantizar.  
+- `Q` es el valor entero tras cuantización, recortado al rango [MIN, MAX].  
+- `MIN`: -128 (8 bits), -32768 (16 bits).  
+- `MAX`: 127 (8 bits), 32767 (16 bits).
+
+### Cuantizar un solo valor
+
+```cpp
+float input_v = VALUE;
+// dl::quantize usa el inverso del scale como segundo argumento, por eso usamos DL_RESCALE.
+int8_t quant_input_v = dl::quantize<int8_t>(input_v, DL_RESCALE(model_input->exponent));
+```
+
+#### Cuantizar un `dl::TensorBase`
+
+```cpp
+// Se asume que input_tensor ya contiene los datos en float.
+dl::TensorBase *input_tensor;
+model_input->assign(input_tensor);
+```
+
+---
+
+#### Descuantizar la salida
+
+Los modelos cuantizados a 8 o 16 bits devuelven valores de tipo `int8_t` o `int16_t`, respectivamente.  
+Estos valores deben ser descuantizados según el `exponent` para obtener los resultados en punto flotante.
+
+#### Fórmula de descuantización
+
+```math
+R' = Q 	imes 	ext{Scale}
+```
+
+```math
+	ext{Scale} = 2^{	ext{Exp}}
+```
+
+Donde:
+
+- `R'` es el valor en punto flotante aproximado tras la descuantización.  
+- `Q` es el valor entero resultante de la cuantización.
+
+#### Descuantizar un solo valor
+
+```cpp
+int8_t quant_output_v = VALUE;
+float output_v = dl::dequantize(quant_output_v, DL_SCALE(model_output->exponent));
+```
+
+#### Descuantizar un `dl::TensorBase`
+
+```cpp
+// Crear un TensorBase de tipo float con forma [1, 1]
+dl::TensorBase *output_tensor = new dl::TensorBase({1, 1}, nullptr, 0, dl::DATA_TYPE_FLOAT);
+output_tensor->assign(model_output);
+```
+
+---
+
+#### Inferencia del modelo
+
+Consulta:
+
+- [Ejemplo del proyecto](examples/tutorial/how_to_run_model)
+- `void dl::Model::run(runtime_mode_t mode)`
+- `void dl::Model::run(TensorBase *input, runtime_mode_t mode)`
+- `void dl::Model::run(std::map<std::string, TensorBase*> &user_inputs, runtime_mode_t mode, std::map<std::string, TensorBase*> user_outputs)`
+
+!!! danger "Tarea"
+    Estudia la API que se utiliza en el ejemplo para realizar inferencia con ESP-DL. Observa los tres métodos distintos para cuantizar/descuantizar las entradas y salidas del modelo. En el primer método, descomenta las líneas que proporcionan información sobre entrada y salida del modelo, para que se muestren por pantalla. Opcionalmente, temporiza los procesos de inferencia.
+
+## Clasificación de imágenes con ESP-DL
+
+En este segundo ejemplo, estudiaremos (sin modificar de momento) un código básico de inferencia sobre un modelo 
+de clasificación de imágenes (MobilenetV2), similar al que utilizaste en prácticas anteriores sobre el acelerador
+Google Coral. Específicamente, abre en Visual Studio Code el ejemplo `examples/mobilenetv2_cls`, constrúyelo para la placa
+ESP-EYE (esp32-s3) y monitoriza la salida. Verás la clasificación de la imagen `cat.jpg` como perteneciente a una de las
+cinco clases de gatos que para las que ha sido entrenado el modelo. 
+
+Observa el código del ejemplo:
+```cpp
+#include "esp_log.h"
+#include "imagenet_cls.hpp"
+#include "bsp/esp-bsp.h"
+
+extern const uint8_t cat_jpg_start[] asm("_binary_cat_jpg_start");
+extern const uint8_t cat_jpg_end[] asm("_binary_cat_jpg_end");
+const char *TAG = "mobilenetv2_cls";
+
+extern "C" void app_main(void)
+{
+#if CONFIG_IMAGENET_CLS_MODEL_IN_SDCARD
+    ESP_ERROR_CHECK(bsp_sdcard_mount());
+#endif
+
+    dl::image::jpeg_img_t jpeg_img = {
+        .data = (uint8_t *)cat_jpg_start,
+        .width = 300,
+        .height = 300,
+        .data_size = (uint32_t)(cat_jpg_end - cat_jpg_start),
+    };
+    dl::image::img_t img;
+    img.pix_type = dl::image::DL_IMAGE_PIX_TYPE_RGB888;
+    sw_decode_jpeg(jpeg_img, img, true);
+
+    ImageNetCls *cls = new ImageNetCls();
+
+    auto &results = cls->run(img);
+    for (const auto &res : results) {
+        ESP_LOGI(TAG, "category: %s, score: %f", res.cat_name, res.score);
+    }
+    delete cls;
+    heap_caps_free(img.data);
+
+#if CONFIG_IMAGENET_CLS_MODEL_IN_SDCARD
+    ESP_ERROR_CHECK(bsp_sdcard_unmount());
+#endif
+}
+```
+
+Observa que la complejidad del tratamiento de las entradas y salidas del modelo se encapsula en una clase `ImageNetCls`. Su ejecución sigue la misma lógica que la que vimos anteriormente pare el ejemplo básico:
+
+```cpp
+dl::image::img_t img = {.data=DATA, .width=WIDTH, .height=HEIGHT, .pix_type=PIX_TYPE};
+std::vector<dl::cls::result_t> &res = detect->run(img);
+```
+
+!!! danger "Tarea"
+    Descarga más imágenes similares y observa la salida del modelo. Si te es posible, temporiza la ejecución del mismo y la fase de preparación de la imagen de entrada.
+
+!!! danger "Tarea (opcional)"
+    Modifica el código para que las imágenes se tomen directamente desde la cámara del ESP-EYE.
+
+## Detección de objetos con ESP-DL
+
+En este caso, trabajaremos con el ejemplo `yolo11_detect`, disponible en la distribución de ESP-DL. Ábrelo, compílalo y monitoriza su corrección.
+
+El ejemplo proporciona diversas variantes de modelos (en función del tipo de datos que utilizan), que devolverán disintos niveles de precisión/calidad a cambio de mayor o menor tiempo de ejecución. Estas variantes puede configurarse a través de *menuconfig* (sección *models: coco_detect*). 
+En todo caso, la salida de un proceso de inferencia deberá ser algo similar a:
+
+```sh
+I (28477) yolo11n: [category: 0, score: 0.817575, x1: 24, y1: 196, x2: 111, y2: 453]
+I (28477) yolo11n: [category: 5, score: 0.731059, x1: 81, y1: 115, x2: 400, y2: 372]
+I (28477) yolo11n: [category: 0, score: 0.731059, x1: 112, y1: 203, x2: 171, y2: 429]
+I (28487) yolo11n: [category: 0, score: 0.731059, x1: 336, y1: 196, x2: 404, y2: 436]
+I (28497) yolo11n: [category: 0, score: 0.320821, x1: 0, y1: 276, x2: 29, y2: 434]
+```
+
+Esta salida muestra la categoría de cada objeto detectado, su probabilidad de pertenencia a la clase, y la posición del *bounding box* que lo contiene.
+
+!!! danger "Tarea"
+    Modifica el proyecto para utilizar las distintas variantes del modelo proporcionado, y anota la calidad del proceso de inferencia en términos de precisión y, a ser posible, de tiempo de ejecución.
+
+Observa que la forma de preparar la entrada y reportar la salida de la ejecución del modelo es también sencilla:
+
+```cpp
+#include "coco_detect.hpp"
+#include "esp_log.h"
+#include "bsp/esp-bsp.h"
+
+extern const uint8_t bus_jpg_start[] asm("_binary_bus_jpg_start");
+extern const uint8_t bus_jpg_end[] asm("_binary_bus_jpg_end");
+const char *TAG = "yolo11n";
+
+extern "C" void app_main(void)
+{
+#if CONFIG_COCO_DETECT_MODEL_IN_SDCARD
+    ESP_ERROR_CHECK(bsp_sdcard_mount());
+#endif
+
+    dl::image::jpeg_img_t jpeg_img = {
+        .data = (uint8_t *)bus_jpg_start,
+        .width = 405,
+        .height = 540,
+        .data_size = (uint32_t)(bus_jpg_end - bus_jpg_start),
+    };
+    dl::image::img_t img;
+    img.pix_type = dl::image::DL_IMAGE_PIX_TYPE_RGB888;
+    sw_decode_jpeg(jpeg_img, img, true);
+
+    COCODetect *detect = new COCODetect();
+    auto &detect_results = detect->run(img);
+    for (const auto &res : detect_results) {
+        ESP_LOGI(TAG,
+                 "[category: %d, score: %f, x1: %d, y1: %d, x2: %d, y2: %d]",
+                 res.category,
+                 res.score,
+                 res.box[0],
+                 res.box[1],
+                 res.box[2],
+                 res.box[3]);
+    }
+    delete detect;
+    heap_caps_free(img.data);
+
+#if CONFIG_COCO_DETECT_MODEL_IN_SDCARD
+    ESP_ERROR_CHECK(bsp_sdcard_unmount());
+#endif
+}
+```
+
+!!! danger "Tarea entregable (70% de la nota)"
+    Partiendo del proyecto original, y probando con varias imágenes de entrada, vas a emular un sistema de ayuda a la conducción que envíe una alarma al usuario si detecta un peatón en la imagen. Para ello, utilizando MQTT y alguno de los modelos de detección probados, se enviará un mensaje vía MQTT a un broker en la red, cuando se cumplan ciertas condiciones de detección (por ejemplo, un peatón detectado en el centro de la imagen, con una precisión de clasificación superior a un umbral. Esta alarma será recogida por un suscriptor MQTT y reportada al usuario. 
+
+!!! danger "Tarea entregable (15% de la nota)"
+    Usando Node-Red o cualquier otro entorno, investiga la posibilidad de enviar un mensaje mediante algún sistema de mensajería (por ejemplo, Telegram) cuando se reciba un aviso de alerta.
+
+!!! danger "Tarea entregable (15% de la nota)"
+    Modifica el código para que las imágenes se capten periódicamente desde la cámara de tu ESP-EYE. Además de la alerta vía MQTT, se mostrará en el display del ESP-EYE algún tipo de señal de alerta que permita, sin necesidad de uso de MQTT ni de un agente externo, avisar del peligro al conductor.

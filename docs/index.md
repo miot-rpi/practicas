@@ -68,6 +68,7 @@
 | 2        | 25/03 | [TensorFlow Lite en ESP32-S3-EYE](LSI/Lab2/index.md)                            |
 | 3        | 01/04 | [Clasificación de imágenes con Google Coral](LSI/Lab3/index.md)                            |
 | 4        | 08/04 | [Detección de objetos con Google Coral](LSI/Lab4/index.md)                            |
+| 5        | 22/04 y 29/04 | [Detección de objetos con ESP32-S3-EYE](LSI/Lab5/index.md)                            |
 
 <!---
 | 1 (L)    |19/03|[Introducción a TFLite en la Raspberry Pi](LSI/Lab1/index.md) |
