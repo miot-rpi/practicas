@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Laboratorio 5. Comandos por voz - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <title>Práctica 6 - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -165,7 +165,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">LSI</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">LSI</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -191,6 +191,10 @@
 <li>
     <a href="../Lab5/" class="dropdown-item">Práctica 5</a>
 </li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Práctica 6</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -201,6 +205,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../Lab5/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -219,7 +233,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#laboratorio-5-comandos-por-voz" class="nav-link">Laboratorio 5. Comandos por voz</a>
+            <li class="nav-item" data-bs-level="1"><a href="#laboratorio-6-comandos-por-voz" class="nav-link">Laboratorio 6. Comandos por voz</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -237,7 +251,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#algunas-herramientas" class="nav-link">Algunas herramientas</a>
+            <li class="nav-item" data-bs-level="2"><a href="#micro-speech-example" class="nav-link">Micro Speech Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#algunas-herramientas-adicionales" class="nav-link">Algunas herramientas adicionales</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -252,12 +270,11 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="laboratorio-5-comandos-por-voz">Laboratorio 5. Comandos por voz</h1>
+<h1 id="laboratorio-6-comandos-por-voz">Laboratorio 6. Comandos por voz</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Familiarizarse con el procesamiento de voz en nodos AI-IoT</li>
 <li>Configurar un interfaz por voz offline/on-device para detección de comandos de voz</li>
-<li>Usar el acelerador Coral USB para dicho procesamiento</li>
 <li>Integrar procesamiento con voz en una solución IoT genérica</li>
 </ul>
 <h2 id="introduccion">Introducción</h2>
@@ -269,7 +286,7 @@
 <p>Por ejemplo, para llevar a cabo el reconocimiento de habla, los asistentes virtuales utilizan, en su mayoría, algoritmos de detección de palabras clave <em>despertador</em> (Wake-Up Word) para detectar el comienzo de un enunciado por parte del usuario. Estos algoritmos, de menor complejidad que otros, se ejecutan <em>offline</em> en el propio dispositivo (<em>smartphone</em>, altavoz inteligente, etc.) lo que permite una mayor eficiencia y privacidad, ya que no es necesario transferir todo el audio al <em>Cloud</em>. </p>
 <p>Es preciso señalar que, puesto que se están ejecutando constantemente, la complejidad computacional y la energía requeridas por estos algoritmos debe ser las menores posibles. Esto se consigue limitando su capacidad de identificación a una sola palabra o como máximo una única frase, generalmente corta.</p>
 <h3 id="reconocimiento-del-habla-asrstt">Reconocimiento del habla (ASR/STT)</h3>
-<p>El reconocimiento del habla, también denominado reconocimiento automático de voz, o en inglés <em>Automatic <a href="https://en.wikipedia.org/wiki/Speech_recognition">Speech Recognition</a></em> (<em>ASR</em>) o también <em>Speech To Text</em> (<em>STT</em>) consiste en, dado un enunciado delimitado por <em>WUW</em> o por otro evento (como la pulsación de un botón en el caso de <em>push to talk</em>), transcribirlo a texto para su posterior procesamiento (transcripción, traducción, sistemas de respuesta automática, etc.). La complejidad computacional y el tamaño de los modelos empleados suponen un obstáculo para su procesamiento <em>offline</em> en la mayor parte de nodos IoT, exceptuando <em>smartphones</em> o dispositivos de similares prestaciones aparte para los que existen algunas implementaciones viables.</p>
+<p>El reconocimiento del habla, también denominado reconocimiento automático de voz, o en inglés <em>Automatic <a href="https://en.wikipedia.org/wiki/Speech_recognition">Speech Recognition</a></em> (<em>ASR</em>) o también <em>Speech To Text</em> (<em>STT</em>) consiste en, dado un enunciado delimitado por <em>WUW</em> o por otro evento (como la pulsación de un botón en el caso de <em>push to talk</em>), transcribirlo a texto para su posterior procesamiento (transcripción, traducción, sistemas de respuesta automática, etc.). La complejidad computacional y el tamaño de los modelos empleados suponen un obstáculo para su procesamiento <em>offline</em> en la mayor parte de nodos IoT, exceptuando <em>smartphones</em> o dispositivos de similares prestaciones, para los que existen algunas implementaciones viables.</p>
 <h3 id="wordspotting"><em>Wordspotting</em></h3>
 <p>En determinados contextos, como los dispositivos controlados por comandos de voz (<em>voice command device</em>, VCD) no es necesario llevar a cabo un reconocimiento completo del habla y tan sólo es necesario identificar un pequeño conjunto de palabras clave (comandos), lo que se conoce con el término genérico de <em>wordspotting</em> o <em><a href="https://en.wikipedia.org/wiki/Keyword_spotting">keyword spotting</a></em>. Este tipo algoritmos, aunque más complejos que la detección de <em>WUW</em>, son mucho más sencillos que los <em>ASR</em>/<em>STT</em> y con frecuencia pueden ejecutarse <em>offline</em> incluso en pequeños microcontroladores.</p>
 <h2 id="espectrogramas-y-mfccs">Espectrogramas y MFCCs</h2>
@@ -291,7 +308,7 @@
 <p>El <em>espectrograma</em> resultante es lo que se conoce como <em>Coeﬁcientes Cepstrales en las Frecuencias de Mel</em> o <strong><em>MFCCs</em></strong> (Mel Frequency Cepstral Coeﬃcients) y es la entrada que suelen emplear los algoritmos de procesamiento de voz. </p>
 <div class="admonition danger">
 <p class="admonition-title">Nota</p>
-<p>Cabe mencionar que dependiendo de algoritmo empleado es posible usar directamente el <em>espectrograma</em> resultante del paso 5. </p>
+<p>Cabe mencionar que dependiendo de algoritmo empleado es posible usar directamente el <em>espectrograma</em> sin aplicar el <em>escalado de Mel</em>. </p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Tarea (opcional)</p>
@@ -310,17 +327,20 @@
 <p class="admonition-title">Tarea (opcional)</p>
 <p>Convertir el modelo entrenado a TFLite, cuantizarlo y ejecutarlo en el acelerador Coral USB.</p>
 </div>
-<h3 id="coral-kws">Coral KWS</h3>
-<p>El proyecto <em><a href="https://github.com/google-coral/project-keyword-spotter">Coral Keyword Spotter (KWS)</a></em> proporciona un modelo pre-entrenado de un reconocedor de 140 palabras clave listo para su uso con Edge TPU así como scripts que ilustran su uso.</p>
+<h2 id="micro-speech-example">Micro Speech Example</h2>
+<p>El ejemplo “<a href="https://github.com/tensorflow/tflite-micro/blob/main/tensorflow/lite/micro/examples/micro_speech/README.md">Micro Speech</a>” de TFLM demuestra cómo implementar un sistema básico de reconocimiento de palabras clave en dispositivos con recursos limitados. Este ejemplo utiliza un modelo de red neuronal pequeño, entrenado para reconocer palabras cortas como “yes” y “no” a partir de audio en tiempo real capturado por un micrófono. </p>
+<p>El flujo completo incluye la captura de audio, la extracción de características (específicamente espectrogramas de MFCC), la inferencia del modelo y la interpretación de los resultados, todo corriendo directamente en el microcontrolador sin necesidad de conexión a la nube. Es una referencia clave para desarrolladores que buscan añadir capacidades de reconocimiento de voz local en sistemas embebidos.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
-<p>Siguiendo la documentación del proyecto probar el modelo y medir los tiempo de inferencia.</p>
+<p>Siguiendo la documentación del proyecto estudiar el modelo.</p>
 </div>
+<h3 id="version-para-esp32">Version para ESP32</h3>
+<p>El componente <code>esp-tflite-micro</code> incluye una versión de este ejemplo adaptada para su uso en las placas de Espressif: <a href="https://github.com/espressif/esp-tflite-micro/tree/master/examples/micro_speech"><code>examples\micro_speech</code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
-<p>Adaptar los scripts de Coral KWS para enviar los comandos a un broker MQTT y posteriormente visualizarlos en un <em>dashboard</em> (por ejemplo, hacer subir o bajar un curva, cambiar iluminación, girar las manecillas de un reloj, etc. todo controlado por voz a distancia).</p>
+<p>Probar el ejemplo siguiendo las instrucciones del repositorio.</p>
 </div>
-<h2 id="algunas-herramientas">Algunas herramientas</h2>
+<h2 id="algunas-herramientas-adicionales">Algunas herramientas adicionales</h2>
 <p>A continuación se enumeran algunas de las principales opciones para procesamiento de voz offline.</p>
 <ul>
 <li>Keyword spotting / Wake-Up-Word<ul>
