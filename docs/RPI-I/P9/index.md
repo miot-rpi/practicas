@@ -1,4 +1,4 @@
-# Práctica 9. 6LowPAN con simulador Cooja
+# LAB9. 6LoWPAN y simulador Cooja
 
 ## Introducción y objetivos
 
@@ -7,7 +7,7 @@ red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.
 
 En esta práctica, usaremos el simulador Cooja, del proyecto Contiki-ng, para
-construir una red de nodos que se comuniquen por 6LowPAN, usando RPL como
+construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL como
 algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-ng.
 Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
 red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
@@ -330,7 +330,7 @@ En el simulador cooja, dentro del menú tools, podemos abrir la ventana de `Radi
 Messages`. Esta ventana nos permite capturar todos los paquetes de la simulación
 y generar un fichero `pcap` para su posterior análisis con wireshark. Para ello
 seleccionamos en el menú `Analyzer` de la ventana de `Radio Messages` la opción
-`6LowPAN Analyzer with PCAP`.
+`6LoWPAN Analyzer with PCAP`.
 
 Reiniciamos la simulación anterior pulsando en el botón `Reload` en la ventana
 de Cooja. Esto habrá cortado la comunicación con el host, por lo que debemos

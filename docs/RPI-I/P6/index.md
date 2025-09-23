@@ -1,4 +1,4 @@
-# Práctica 6. Bluetooth Low Energy (BLE). Cliente
+# LAB6. BLE: cliente GATT
 
 # Objetivos
 

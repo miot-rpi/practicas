@@ -1,4 +1,4 @@
-# Práctica 10. LoRa y LoRaWAN
+# LAB10. LoRa y LoRaWan
 
 ## Introducción y objetivos
 

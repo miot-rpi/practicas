@@ -1,4 +1,4 @@
-# Práctica 3. WiFi. Provisionamiento y ahorro de energía.
+# LAB3. WiFi: provisionamiento y ahorro de energía
 
 ## Objetivos
 

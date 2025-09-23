@@ -1,4 +1,4 @@
-# Práctica 1. Introducción al entorno de desarrollo ESP-IDF
+# LAB1. Introducción al entorno de desarrollo ESP-IDF
 
 ## Objetivos
 

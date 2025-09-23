@@ -1,4 +1,4 @@
-site_name: Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)
+site_name: Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)
 extra_javascript:
   - https://code.jquery.com/jquery-3.7.1.min.js
   - https://code.jquery.com/jquery-3.6.0.min.js
@@ -12,15 +12,16 @@ markdown_extensions:
 nav:
     - Calendario: index.md
     - RPI-I: 
-      - Práctica 1: RPI-I/P1/index.md
-      - Práctica 1 (segunda parte): RPI-I/P1b/index.md
-      - Práctica 2: RPI-I/P2/index.md
-      - Práctica 3: RPI-I/P3/index.md
-      - Práctica 4: RPI-I/P4/index.md
-      - Práctica 5: RPI-I/P5/index.md
-      - Práctica 6: RPI-I/P6/index.md
-      - Práctica 7: RPI-I/P7/index.md
-      - Práctica 8: RPI-I/P8/index.md
+      - LAB1. Introducción al entorno de desarrollo ESP-IDF: RPI-I/P1/index.md
+      - LAB2. WiFi en el ESP32: RPI-I/P2/index.md
+      - 'LAB3. WiFi: provisionamiento y ahorro de energía': RPI-I/P3/index.md
+      - LAB4. ESP WiFi Mesh: RPI-I/P4/index.md
+      - 'LAB5. BLE: servidor GATT': RPI-I/P5/index.md
+      - 'LAB6. BLE: cliente GATT': RPI-I/P6/index.md
+      - LAB7. BLE Mesh: RPI-I/P7/index.md
+      - LAB8. 802.15.4 y Thread: RPI-I/P8/index.md
+      - LAB9. 6LoWPAN y simulador Cooja: RPI-I/P9/index.md
+      - LAB10. LoRa y LoRaWan: RPI-I/P10/index.md
     - RPI-II: 
       - Práctica 1 (I): RPI-II/P1_I/index.md
       - Práctica 1 (II): RPI-II/P1_III/index.md

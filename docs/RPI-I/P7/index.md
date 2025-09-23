@@ -1,4 +1,4 @@
-# Práctica 7. BLE Mesh
+# LAB7. BLE Mesh
 
 ## Objetivos
 

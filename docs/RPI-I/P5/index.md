@@ -1,4 +1,4 @@
-# Práctica 5. Bluetooth Low Energy (BLE). Servidor
+# LAB5. BLE: servidor GATT
 
 # Objetivos
 
