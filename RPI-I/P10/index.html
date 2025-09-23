@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 10. LoRa y LoRaWAN - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <title>LAB10. LoRa y LoRaWan - Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -38,43 +38,47 @@
                                 <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../P1/" class="dropdown-item">Práctica 1</a>
+    <a href="../P1/" class="dropdown-item">LAB1. Introducción al entorno de desarrollo ESP-IDF</a>
 </li>
                                     
 <li>
-    <a href="../P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+    <a href="../P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P2/" class="dropdown-item">Práctica 2</a>
+    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">Práctica 3</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+    <a href="../P5/" class="dropdown-item">LAB5. BLE: servidor GATT</a>
 </li>
                                     
 <li>
-    <a href="../P5/" class="dropdown-item">Práctica 5</a>
+    <a href="../P6/" class="dropdown-item">LAB6. BLE: cliente GATT</a>
 </li>
                                     
 <li>
-    <a href="../P6/" class="dropdown-item">Práctica 6</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+    <a href="../P8/" class="dropdown-item">LAB8. 802.15.4 y Thread</a>
 </li>
                                     
 <li>
-    <a href="../P8/" class="dropdown-item">Práctica 8</a>
+    <a href="../P9/" class="dropdown-item">LAB9. 6LoWPAN y simulador Cooja</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">LAB10. LoRa y LoRaWan</a>
 </li>
                                 </ul>
                             </li>
@@ -209,6 +213,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P9/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../RPI-II/P1_I/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -227,7 +241,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-10-lora-y-lorawan" class="nav-link">Práctica 10. LoRa y LoRaWAN</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lab10-lora-y-lorawan" class="nav-link">LAB10. LoRa y LoRaWan</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
               <ul class="nav flex-column">
@@ -248,7 +262,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-10-lora-y-lorawan">Práctica 10. LoRa y LoRaWAN</h1>
+<h1 id="lab10-lora-y-lorawan">LAB10. LoRa y LoRaWan</h1>
 <h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
 <p>En esta práctica vamos a utilizar la tecnología LoRa para comunicar nuestros
 nodos esp32 entre ellos, así como con el Router de Red LoRaWAN y los servicios
