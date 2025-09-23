@@ -288,17 +288,19 @@ descrito el proceso de instalación de las herramientas nativas en línea de com
 la extensión oficial de Espressif de VSCode.</p>
 <p>La primera parte de esta sesión consistirá en la instalación de dicha extensión y su configuración
 para volcar un ejemplo en nuestra placa ESP32. La documentación proporcionada por
-Espressif se encuentra en <a href="https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md">su repositorio de GitHub</a>.
+Espressif se encuentra en <a href="https://docs.espressif.com/projects/vscode-esp-idf-extension/en/latest/">su página web</a>.
 A partir de ahí, es posible encontrar enlaces a diferentes tutoriales que explican
 con detalle el proceso de instalación, configuración, desarrollo...</p>
 <ul>
 <li>
-<p>En primer lugar, sigue los pasos indicados en su <a href="https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md">guía de instalación</a> para instalar
+<p>En primer lugar, sigue los pasos indicados en su <a href="https://docs.espressif.com/projects/vscode-esp-idf-extension/en/latest/">guía de instalación</a> para instalar
 de la extensión en VSCode. <strong>Realiza este paso antes de venir al laboratorio</strong>, pues la instalación tardará varios minutos. Podéis saltar el paso 6 (OPCIONAL) y basta con elegir la opción <em>EXPRESS</em></p>
 </li>
 <li>
-<p>A continuación, sigue los pasos del <a href="https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/basic_use.md">ejemplo básico</a> para volcar en la placa el código del
-ejemplo <em>Blink</em>. Recuerda esocger <em>esp32-ESP32 Chip (Via USB-Bridge)</em> como  <em>Device Target</em>. Por ahora, salta los pasos 5 y 6 (configuración) y procede directamente a la compilación y descarga en la placa.</p>
+<p>Conecta la placa ESP32-Rust (ESP32-C3) y comprueba el nombre del dispositivo generado (en Linux y Mac, habrá aparecido un fichero nuevo en <code>/dev</code>)</p>
+</li>
+<li>
+<p>A continuación, sigue los pasos del <a href="https://docs.espressif.com/projects/vscode-esp-idf-extension/en/latest/startproject.html">para crear un proyecto nuevo a partir de un template</a> para volcar en la placa el código del ejemplo <em>Blink</em>. Recuerda esocger <em>esp32-c3</em> como chip y <em>esp32-c3 Chip (Via builting USB-JTAG)</em> como  <em>Device Target</em> (si quieres usar la otra placa, deberías escoger  <em>esp32-ESP32 Chip (Via USB-Bridge)</em> como <em>Device Target</em>) Por ahora, salta los pasos 5 y 6 (configuración) y procede directamente a la compilación y descarga en la placa.</p>
 </li>
 <li>
 <p>El nombre asociado al puerto serie al que se conecta la placa dependerá del sistema
@@ -310,16 +312,15 @@ operativo usado. En Linux será algo similar  <em>/dev/ttyUSB0</em>. <strong>IMP
 <ul>
 <li>¿Qué versión es la actualmente estable de ESP-IDF?</li>
 <li>¿Cuál es la salida estándar por defecto de nuestro proyecto?</li>
-<li>¿En qué unidades debemos expresar el argumento de <code>vTaskDelay()</code>? Investiga</li>
+<li>¿En qué unidades debemos expresar el argumento de <code>vTaskDelay()</code>? Investiga la macro pdTICKS_TO_MS. ¿Cómo se reescribiría esa línea usando dicha</li>
 </ul>
 </div>
-<p>la macro pdTICKS_TO_MS. ¿Cómo se reescribiría esa línea usando dicha
-macro?</p>
+<p>macro?</p>
 <h2 id="configuracion-de-un-proyecto">Configuración de un proyecto</h2>
 <p>ESP-IDF, en su porting de FreeRTOS, ofrece un mecanismo de configuración del proyecto,
 que permite especificar qué servicios de ESP-IDF necesitaremos usar y establecer parámetros de
 dichos servicios. Asimismo, permite definir nuestros propios parámetros de configuración mediante
-el lenguaje [KConfig]https://github.com/torvalds/linux/blob/master/Documentation/kbuild/kconfig-language.rst).</p>
+el lenguaje <a href="https://github.com/torvalds/linux/blob/master/Documentation/kbuild/kconfig-language.rst">KConfig</a>.</p>
 <p>Para realizar dicha configuración, debemos ejecutar el comando <code>menuconfig</code> de la paleta
 de comandos proporcionadas por la extensión de ESP-IDF (paso 5 del tutorial usado en el paso anterior). En la nueva ventanda podremos activar/desactivar módulos del sistema operativo y configurar valores de dichos módulos.</p>
 <p>Como se puede ver en la siguiente figura, el proyecto <em>Blink</em> incorpora algunas opciones propias: <em>BLINK LED Type</em>, <em>Blink GPIO number</em> y  <em>Blink period</em>.</p>
@@ -414,9 +415,9 @@ void app_main(void)
 <div class="admonition note">
 <p class="admonition-title">Cuestiones</p>
 <ul>
-<li>¿Por qué no parpadea el LED de la placa? ¿Dónde está conectado ese LED? (compruébalo en <a href="https://dl.espressif.com/dl/schematics/esp32_devkitc_v4-sch.pdf">los esquemáticos placa DevKitC-v4</a>)</li>
+<li>Usando la placa DevKitC-v4, ¿por qué no parpadea el LED de la placa? ¿Dónde está conectado ese LED? (compruébalo en <a href="https://dl.espressif.com/dl/schematics/esp32_devkitc_v4-sch.pdf">los esquemáticos placa DevKitC-v4</a>)</li>
+<li>Usa la placa ESP-Rust. ¿Qué GPIO debes indicar en <code>menuconfig</code> para que se produzca el parpadeo?</li>
 <li>Cambia la frecuencia de parpadeo usando <code>menuconfig</code>. Compila de nuevo y comprueba que el cambio ha surtido efecto</li>
-<li>Conecta la placa con el ESP32 a un LED del entrenador del laboratorio. ¿Puedes usar cualquier pin de la placa? </li>
 </ul>
 </div></div>
             </div>

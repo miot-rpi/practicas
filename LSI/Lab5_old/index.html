@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Laboratorio 5. Comandos por voz - Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (24/25)</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Calendario</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-I/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P1b/index.md" class="dropdown-item">Práctica 1 (segunda parte)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../RPI-II/P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P1_III/" class="dropdown-item">Práctica 1 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P5/" class="dropdown-item">Práctica 5 (I)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P5_II/" class="dropdown-item">Práctica 5 (II)</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../RPI-II/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">ANIOT</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../ANIOT/P1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P7/" class="dropdown-item">Práctica 7</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P7/index2/" class="dropdown-item">Práctica 7 (adicional)</a>
+</li>
+                                    
+<li>
+    <a href="../../ANIOT/P8/" class="dropdown-item">Práctica 8</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">LSI</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Lab0/" class="dropdown-item">Práctica 0</a>
+</li>
+                                    
+<li>
+    <a href="../Lab1/" class="dropdown-item">Práctica 1</a>
+</li>
+                                    
+<li>
+    <a href="../Lab2/" class="dropdown-item">Práctica 2</a>
+</li>
+                                    
+<li>
+    <a href="../Lab3/" class="dropdown-item">Práctica 3</a>
+</li>
+                                    
+<li>
+    <a href="../Lab4/" class="dropdown-item">Práctica 4</a>
+</li>
+                                    
+<li>
+    <a href="../Lab5/" class="dropdown-item">Práctica 5</a>
+</li>
+                                    
+<li>
+    <a href="../Lab6/" class="dropdown-item">Práctica 6</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#laboratorio-5-comandos-por-voz" class="nav-link">Laboratorio 5. Comandos por voz</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#introduccion" class="nav-link">Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#espectrogramas-y-mfccs" class="nav-link">Espectrogramas y MFCCs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#reconocimiento-de-palabras-clave-y-redes-neuronales" class="nav-link">Reconocimiento de palabras clave y redes neuronales</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#algunas-herramientas" class="nav-link">Algunas herramientas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#algunas-referencias" class="nav-link">Algunas referencias</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="laboratorio-5-comandos-por-voz">Laboratorio 5. Comandos por voz</h1>
+<h2 id="objetivos">Objetivos</h2>
+<ul>
+<li>Familiarizarse con el procesamiento de voz en nodos AI-IoT</li>
+<li>Configurar un interfaz por voz offline/on-device para detección de comandos de voz</li>
+<li>Usar el acelerador Coral USB para dicho procesamiento</li>
+<li>Integrar procesamiento con voz en una solución IoT genérica</li>
+</ul>
+<h2 id="introduccion">Introducción</h2>
+<h3 id="procesamiento-de-voz">Procesamiento de voz</h3>
+<p>Hoy en día el procesamiento digital de la voz es empleado en múltiples ámbitos, siendo tal vez uno de los más extendidos el de los asistentes de voz virtuales  (Amazon Alexa, Google Assitant, Apple Siri, ...).</p>
+<p><img alt="Spoken Dialog System" src="https://d3i71xaburhd42.cloudfront.net/7a3c58ef132157da8e8de0f2ca2ca4c4fffdb9ef/8-Figure2.1-1.png" /></p>
+<p>En su mayoría estos sistemas combinan diversas técnicas de inteligencia artificial para proporcionar un dialogo hablado con el usuario (ver esquema). La complejidad computacional y el tamaño de los modelos empleados por estos algoritmos son elevados, por lo que en su mayoría se ejecutan (<em>online</em>) en servidores <em>Cloud</em>. No obstante, debido a razones de eficiencia energética, ancho de banda, latencia y privacidad se está tendiendo actualmente a trasladar parte de este procesamiento a los propios nodos. </p>
+<h3 id="wake-up-word-wuw"><em>Wake-Up Word (WUW)</em></h3>
+<p>Por ejemplo, para llevar a cabo el reconocimiento de habla, los asistentes virtuales utilizan, en su mayoría, algoritmos de detección de palabras clave <em>despertador</em> (Wake-Up Word) para detectar el comienzo de un enunciado por parte del usuario. Estos algoritmos, de menor complejidad que otros, se ejecutan <em>offline</em> en el propio dispositivo (<em>smartphone</em>, altavoz inteligente, etc.) lo que permite una mayor eficiencia y privacidad, ya que no es necesario transferir todo el audio al <em>Cloud</em>. </p>
+<p>Es preciso señalar que, puesto que se están ejecutando constantemente, la complejidad computacional y la energía requeridas por estos algoritmos debe ser las menores posibles. Esto se consigue limitando su capacidad de identificación a una sola palabra o como máximo una única frase, generalmente corta.</p>
+<h3 id="reconocimiento-del-habla-asrstt">Reconocimiento del habla (ASR/STT)</h3>
+<p>El reconocimiento del habla, también denominado reconocimiento automático de voz, o en inglés <em>Automatic <a href="https://en.wikipedia.org/wiki/Speech_recognition">Speech Recognition</a></em> (<em>ASR</em>) o también <em>Speech To Text</em> (<em>STT</em>) consiste en, dado un enunciado delimitado por <em>WUW</em> o por otro evento (como la pulsación de un botón en el caso de <em>push to talk</em>), transcribirlo a texto para su posterior procesamiento (transcripción, traducción, sistemas de respuesta automática, etc.). La complejidad computacional y el tamaño de los modelos empleados suponen un obstáculo para su procesamiento <em>offline</em> en la mayor parte de nodos IoT, exceptuando <em>smartphones</em> o dispositivos de similares prestaciones aparte para los que existen algunas implementaciones viables.</p>
+<h3 id="wordspotting"><em>Wordspotting</em></h3>
+<p>En determinados contextos, como los dispositivos controlados por comandos de voz (<em>voice command device</em>, VCD) no es necesario llevar a cabo un reconocimiento completo del habla y tan sólo es necesario identificar un pequeño conjunto de palabras clave (comandos), lo que se conoce con el término genérico de <em>wordspotting</em> o <em><a href="https://en.wikipedia.org/wiki/Keyword_spotting">keyword spotting</a></em>. Este tipo algoritmos, aunque más complejos que la detección de <em>WUW</em>, son mucho más sencillos que los <em>ASR</em>/<em>STT</em> y con frecuencia pueden ejecutarse <em>offline</em> incluso en pequeños microcontroladores.</p>
+<h2 id="espectrogramas-y-mfccs">Espectrogramas y MFCCs</h2>
+<p>Todos los algoritmos de procesamiento de voz se basan en el uso de <a href="https://en.wikipedia.org/wiki/Spectrogram">espectrogramas</a> que son una representación gráfica (3D) del contenido frecuencial de una señal a lo largo del tiempo.</p>
+<p><img alt="Espetrograma de las palabras &quot;nineteenth century&quot; " src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Spectrogram-19thC.png" /></p>
+<p>El proceso de obtención de un <em>espectrograma</em> adecuado para el procesamiento de voz sería el siguiente:</p>
+<ol>
+<li><em>Pre-emphasis</em>: pre-amplificación (opcional) de las componentes de alta frecuencia de la señal de audio.
+<img alt="" src="https://miro.medium.com/max/1400/1*tZPMsFLe3xfaWxa8RKXi5w.png" /></li>
+<li><em>Framing</em>: división de la señal en un cierto número (<em>nFrames</em>) de ventanas temporales, habitualmente de entre 20 y 40 ms de duración.
+<img alt="" src="https://miro.medium.com/max/1400/1*E0MiQ74KhklGuwE1PMfLNw.jpeg" /></li>
+<li><em>Windowing</em>: consiste en la aplicación de una <em>función ventana</em> a cada <em>frame</em>.
+<img alt="" src="https://miro.medium.com/max/864/1*O1XY3EEyFZAGHPrfDbrgGw.png" /></li>
+<li><em>Transformación y cálculo de la densidad espectral</em>: consiste en el cálculo de la <em>Transformada de Fourier de Tiempo Reducido</em> (<em>Short-Time Fourier-Transform</em> o <em>STFT</em>) para cada <em>frame</em>.
+<img alt="" src="https://miro.medium.com/max/1400/1*mjrMIkJuU3YcEdDuJAdvUw.jpeg" /></li>
+<li><em>MEL scale mapping</em>: aplicación de un banco de filtros (<em>nFilters</em>) correspondientes a la <em><a href="https://en.wikipedia.org/wiki/Mel_scale">Escala de Mel</a></em> al <em>espectro</em> obtenido en el paso anterior.</li>
+<li><em>Normalización</em>: aplicación de la <em>Transformada Discreta de Coseno</em> (<em>DCT</em>) y normalización mediante la resta de la media. </li>
+</ol>
+<p>El <em>espectrograma</em> resultante es lo que se conoce como <em>Coeﬁcientes Cepstrales en las Frecuencias de Mel</em> o <strong><em>MFCCs</em></strong> (Mel Frequency Cepstral Coeﬃcients) y es la entrada que suelen emplear los algoritmos de procesamiento de voz. </p>
+<div class="admonition danger">
+<p class="admonition-title">Nota</p>
+<p>Cabe mencionar que dependiendo de algoritmo empleado es posible usar directamente el <em>espectrograma</em> resultante del paso 5. </p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Para entender este proceso seguir el ejemplo del artículo <a href="https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html">"Speech Processing for Machine Learning: Filter banks, Mel-Frequency Cepstral Coefficients (MFCCs) and What's In-Between" de Haytham M. Fayek</a></p>
+</div>
+<p><img alt="" src="https://miro.medium.com/max/1400/1*Lhx1J0G2CbixMIvQUX3Otw.png" /></p>
+<h2 id="reconocimiento-de-palabras-clave-y-redes-neuronales">Reconocimiento de palabras clave y redes neuronales</h2>
+<p>Como hemos visto previamente los <em>espectrogramas</em> proporcionan una representación gráfica 3D a partir de una señal de audio, lo que ofrece la posibilidad de llevar a cabo el reconocimiento de palabras clave mediante CNNs similares a las empleadas en el reconocimiento de imágenes.</p>
+<h3 id="ejemplo-sencillo-de-cnn-para-el-reconocimiento-de-palabras-clave">Ejemplo sencillo de CNN para el reconocimiento de palabras clave</h3>
+<p>El siguiente <a href="https://www.tensorflow.org/tutorials/audio/simple_audio">tutorial</a> ilustra el proceso construcción de una CNN sencilla para el reconocimiento de 10 palabras, empleando para el entrenamiento un subconjunto de la base de datos <a href="https://www.tensorflow.org/datasets/catalog/speech_commands"><em>"Speech Commands: A Dataset for Limited-Vocabulary Speech Recognition"</em></a> y empleado las utilidades propias de Tensorflow para la decodificación de los ficheros audio y la generación de los espectrogramas.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Seguir el tutorial.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Convertir el modelo entrenado a TFLite, cuantizarlo y ejecutarlo en el acelerador Coral USB.</p>
+</div>
+<h3 id="coral-kws">Coral KWS</h3>
+<p>El proyecto <em><a href="https://github.com/google-coral/project-keyword-spotter">Coral Keyword Spotter (KWS)</a></em> proporciona un modelo pre-entrenado de un reconocedor de 140 palabras clave listo para su uso con Edge TPU así como scripts que ilustran su uso.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Siguiendo la documentación del proyecto probar el modelo y medir los tiempo de inferencia.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Adaptar los scripts de Coral KWS para enviar los comandos a un broker MQTT y posteriormente visualizarlos en un <em>dashboard</em> (por ejemplo, hacer subir o bajar un curva, cambiar iluminación, girar las manecillas de un reloj, etc. todo controlado por voz a distancia).</p>
+</div>
+<h2 id="algunas-herramientas">Algunas herramientas</h2>
+<p>A continuación se enumeran algunas de las principales opciones para procesamiento de voz offline.</p>
+<ul>
+<li>Keyword spotting / Wake-Up-Word<ul>
+<li><a href="https://cmusphinx.github.io/wiki/tutorialpocketsphinx/">Pocketsphinx</a></li>
+<li><a href="https://github.com/Picovoice/porcupine">Porcupine</a></li>
+<li><a href="https://github.com/Kitt-AI/snowboy">Snowboy</a></li>
+<li><a href="https://github.com/MycroftAI/mycroft-precise">Mycroft Precise</a></li>
+</ul>
+</li>
+<li>Speech to text<ul>
+<li><a href="https://cmusphinx.github.io/wiki/tutorialpocketsphinx/">Pocketsphinx</a></li>
+<li><a href="https://kaldi-asr.org">Kaldi</a></li>
+<li><a href="https://deepspeech.readthedocs.io/en/r0.9/">DeepSpeech</a></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Tarea (opcional)</p>
+<p>Probar algunas de estas herramientas en la Raspberry Pi 4.</p>
+</div>
+<h2 id="algunas-referencias">Algunas referencias</h2>
+<ul>
+<li>Santosh Singh, <a href="https://internetofthingswiki.com/how-speech-to-text-voice-recognition-is-making-an-impact-on-iot-development/1269/">"How speech-to-text/voice recognition is making an impact on IoT development"</a>, Featured, Internet Of Things, 2018.</li>
+<li>Yuan Shangguan, Jian Li, Qiao Liang, Raziel Alvarez, Ian McGraw, <a href="https://arxiv.org/abs/1909.12408">"Optimizing Speech Recognition For The Edge"</a>, https://arxiv.org/abs/1909.12408</li>
+<li>Thibault Gisselbrecht, Joseph Dureau, <a href="https://medium.com/snips-ai/machine-learning-on-voice-a-gentle-introduction-with-snips-personal-wake-word-detector-133bd6fb568e">"Machine Learning on Voice: a gentle introduction with Snips Personal Wake Word Detector"</a>, Snips Blog, May 2 2018.</li>
+<li>Haytham M. Fayek, <a href="https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html">"Speech Processing for Machine Learning: Filter banks, Mel-Frequency Cepstral Coefficients (MFCCs) and What's In-Between"</a>, 2016.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../../js/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
