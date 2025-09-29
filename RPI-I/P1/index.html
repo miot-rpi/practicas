@@ -522,7 +522,7 @@ anteriormente, podría reestrcturarse en base a una única tarea, cuya función 
     printf(&quot;Hello world!\n&quot;);
     for (int i = 10; i &gt;= 0; i--) {
         printf(&quot;Restarting in %d seconds...\n&quot;, i);
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
     printf(&quot;Restarting now.\n&quot;);
     fflush(stdout);
@@ -532,7 +532,6 @@ anteriormente, podría reestrcturarse en base a una única tarea, cuya función 
 <p>La función <em>app_main</em> se limitaría entonces a crear la tarea:</p>
 <pre><code class="language-c">void app_main()
 {
-    nvs_flash_init();
     xTaskCreate( &amp;hello_task, &quot;hello_task&quot;, 2048, NULL, 5, NULL );
 }
 </code></pre>
@@ -617,7 +616,7 @@ gestionar la respuestas a eventos de red, como por ejemplo la obtención de
 dirección IP o la conexión exitosa a un punto de acceso.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Crea un proyecto a partir del ejempl <code>station</code> situado en el directorio
+<p>Crea un proyecto a partir del ejemplo <code>station</code> situado en el directorio
 <code>examples/wifi/getting_started</code>. Compilalo, flashealo y monitoriza su salida estándar. Acuerdate de modificar el SSID de la red al que conectará, así como la contraseña elegida a través del sistema de menús de configuración.</p>
 </div>
 <p>Observa su funcionamiento. El <em>firmware</em> simplemente inicializa el dispositivo
@@ -648,7 +647,7 @@ estás estudiando?</p>
   funciones y toma nota de aquellos aspectos que consideres más relevantes.</li>
 </ul>
 <div class="admonition danger">
-<p class="admonition-title">Ejercicio 7</p>
+<p class="admonition-title">Ejercicio 5</p>
 <p>Modifica el <em>firmware</em> para que el <em>handler</em> de tratamiento de la obtención
 de una dirección IP sea independiente del tratamiento del resto de eventos
 del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
