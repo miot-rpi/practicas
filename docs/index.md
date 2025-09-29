@@ -19,20 +19,16 @@
 
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
-| -        | 09/09 | Clase de teoría (intro)                      |
-| 1        | 16/09 | [TCP/UDP (Host)](RPI-II/P1_I/index.md)       |
-| 1        | 23/09 | [TCP/UDP (ESP32)](RPI-II/P1_III/index.md). [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md)  [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md)   |
-| 2        | 30/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
-| 3        | 07/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
-| 4        | 14/10 | [Websockets](RPI-II/P4/index.md)             |
-| 5        | 21/10 | [MQTT (I)](RPI-II/P5/index.md)               |
-| 5        | 28/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
-| 6        | 04/11 | [Introducción a Thingsboard](RPI-II/P6/index.md) |
-| 7        | 11/11 | [CoAP](RPI-II/P7/index.md)                   |
-| 8        | 18/11 | [LWM2M (I)](RPI-II/P8/index.md)              |
-| 9        | 25/11 | LWM2M (II)                                   |
-|          | 02/12 | Proyecto                                     |
-|          | 09/12 | Proyecto                                     |
+| -        | 22/09 | Clase de teoría (intro)                      |
+| 1        | 29/09 | [TCP/UDP (Parte 1. Host)](RPI-II/P1_I/index.md).   [TCP/UDP (Parte 2. ESP32)](RPI-II/P1_III/index.md). [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md)  [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md)   |
+| 2        | 06/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
+| 3        | 13/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
+| 4        | 20/10 | [MQTT (I)](RPI-II/P5/index.md)               |
+| 4        | 27/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
+| 5        | 03/11 | [CoAP](RPI-II/P7/index.md)                   |
+| 6        | 17/11 | [LWM2M (I)](RPI-II/P8/index.md)              |
+| 7        | 01/12 | [Introducción a Thingsboard](RPI-II/P6/index.md) |
+|          | 15/12 | Proyecto                                     |
 
 
 

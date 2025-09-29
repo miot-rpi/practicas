@@ -156,10 +156,10 @@ servidores TCP Python que puedes también utilizar.
 
 !!! note "Tarea 1.5 (entregable)"
     En este punto, deberías disponer de un conjunto de códigos que implementan
-    sistemas cliente/servidor tanto en un host (utilizando C, y en Node-RED, así como
-    en Python si has seguido el anexo opcional a la práctica) como en
-    la placa ESP32 (utilizando C y ESP-IDF), y deberías haber comprobado su
-    correcto funcionamiento.
+    sistemas cliente/servidor tanto en un host (utilizando C) 
+    como en la placa ESP32 (utilizando C y ESP-IDF), y deberías haber comprobado 
+    su correcto funcionamiento. Opcionalmente, puedes haber utilizado Node-RED o Python
+    para el desarrollo de los códigos si has seguido los anexos.
 
     Específicamente, dispondrás de:
 
