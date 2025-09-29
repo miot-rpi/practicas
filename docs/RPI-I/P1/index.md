@@ -301,7 +301,7 @@ void hello_task(void *pvParameter)
     printf("Hello world!\n");
     for (int i = 10; i >= 0; i--) {
         printf("Restarting in %d seconds...\n", i);
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
     printf("Restarting now.\n");
     fflush(stdout);
@@ -314,7 +314,6 @@ La función *app_main* se limitaría entonces a crear la tarea:
 ```c
 void app_main()
 {
-    nvs_flash_init();
     xTaskCreate( &hello_task, "hello_task", 2048, NULL, 5, NULL );
 }
 ```
@@ -406,7 +405,7 @@ gestionar la respuestas a eventos de red, como por ejemplo la obtención de
 dirección IP o la conexión exitosa a un punto de acceso.
 
 !!! Note "Nota"
-    Crea un proyecto a partir del ejempl `station` situado en el directorio
+    Crea un proyecto a partir del ejemplo `station` situado en el directorio
     `examples/wifi/getting_started`. Compilalo, flashealo y monitoriza su salida estándar. Acuerdate de modificar el SSID de la red al que conectará, así como la contraseña elegida a través del sistema de menús de configuración.
 
 Observa su funcionamiento. El *firmware* simplemente inicializa el dispositivo
@@ -435,7 +434,7 @@ la tarea principal, se divide básicamente en dos partes:
   través de `esp_wifi_start()`. Consulta la documentación relativa a dichas
   funciones y toma nota de aquellos aspectos que consideres más relevantes.
 
-!!! danger "Ejercicio 7"
+!!! danger "Ejercicio 5"
     Modifica el *firmware* para que el *handler* de tratamiento de la obtención
     de una dirección IP sea independiente del tratamiento del resto de eventos
     del sistema WiFi que ya se están considerando. Comprueba que, efectivamente
