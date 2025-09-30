@@ -423,6 +423,11 @@ void app_main(void)
 <div class="admonition note">
 <p class="admonition-title">Cuestiones</p>
 <ul>
+<li>Es posible que no consigas comunicarte con la placa DevKitC-v4 a través de UART. Para saber por qué, investiga:<ul>
+<li>¿Qué chip usa esa placa para pasar de niveles USB a UART? Las opciones son: un chip de FTDI (como el FT2233) o uno de Silicon Labs (como el CP2120)</li>
+<li>¿Tienes instalados en tu PC (Windows) los drivers para ese chip? Puedes <a href="https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads">descargarlos en  esta web</a></li>
+</ul>
+</li>
 <li>Usando la placa DevKitC-v4, ¿por qué no parpadea el LED de la placa? ¿Dónde está conectado ese LED? (compruébalo en <a href="https://dl.espressif.com/dl/schematics/esp32_devkitc_v4-sch.pdf">los esquemáticos placa DevKitC-v4</a>)</li>
 <li>Usa la placa ESP-Rust. ¿Qué GPIO debes indicar en <code>menuconfig</code> para que se produzca el parpadeo?</li>
 <li>Cambia la frecuencia de parpadeo usando <code>menuconfig</code>. Compila de nuevo y comprueba que el cambio ha surtido efecto</li>
