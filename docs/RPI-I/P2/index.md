@@ -95,7 +95,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
     Ante la recepción de este evento, no se lanza ningún proceso específico como
     respuesta. La aplicación necesitará invocar normalmente a 
     `esp_wifi_scan_get_ap_num()` y a `esp_wifi_scan_get_ap_records()` 
-    para recoger la lista de APs escaneados y  liberar los recursos  (memoria)
+    para recoger la lista de APs escaneados y liberar los recursos  (memoria)
     que se aloja en el proceso de escaneado.
 
 * `WIFI_EVENT_STA_START`
@@ -409,15 +409,14 @@ de configuración (`esp_wifi_set_config`) con cada una de dichas estructuras
 `netif` tanto en modo *station* --`esp_netif_create_default_wifi_sta()`--
 como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
 
-### Ejercicio: desarrollo de un nodo mixto *station/AP*
-
 !!! danger "Entregable 3"
     Modifica el ejemplo `station` para que el ESP32 se comporte a la vez 
     como estación y como punto de acceso. Añade las opciones de configuración
     necesarias para que todos los parámetros se puedan modificar vía 
     `menuconfig`. Comprueba que el ESP32 efectivamente se conecta al punto
     de acceso y que a la vez es posible conectar otro dispositivo al mismo
-    (por ejemplo, tu teléfono móvil). Entrega el código.
+    (por ejemplo, tu teléfono móvil). Conecta tu PC al ESP32 y comprueba la
+    conexión con el comando ping. Entrega el código.
 
 ## Escaneado de redes WiFi
 
@@ -433,12 +432,12 @@ escaneado de redes, véase:
 * **Escaneado pasivo:** El escaneado se desarrolla simplemente escuchando en 
 cada canal y esperando el envío por parte de los APs de paquetes baliza
 (*beacons*). El modo activo o pasivo puede configurarse desde la aplicación, 
-mediante el campo `scan_type` de la estrcutura `wifi_scan_config_t` (lo verás
+mediante el campo `scan_type` de la estructura `wifi_scan_config_t` (lo verás
 en el siguiente ejemplo).
-* **Escaneado en primer plano:**: Se utiliza cuando no hay conexión WiFi activa
-en el momento del escaneado. No es, por tanto, directamente configurable.
+* **Escaneado en primer plano:** Se utiliza cuando no hay conexión WiFi activa
+en el momento del escaneado.
 * **Escaneado en segundo plano:** Se utiliza cuando hay conexión WiFi activa
-en el momento del escaneado. No es, por tanto, directamente configurable.
+en el momento del escaneado.
 * **Escaneado de todos los canales:** Escanea SSIDs en todos los canales. 
 La forma de activarlo es mediante el valor `0` en el campo correspondiente
 de `wifi_scan_config_t`.
@@ -472,7 +471,7 @@ se consideran SSIDs normales, y por tanto se muestran.
 activo. En cualquier otro caso, el escaneado es pasivo.
 * `scan_time`: Especifica el tiempo de escaneado por canal.
 
-### Escaneado de todos los canales en primer plano. Ejemplo de flujo
+### Ejemplo de flujo: escaneado de todos los canales en primer plano
 
 El siguiente escenario describe un escaneado básico sobre todos los canales en 
 primer plano (recuerda que únicamente puede ocurrir en modo *station* si 
@@ -482,8 +481,8 @@ todavía no hay conexión a un AP).
 
 **Fase 1: Configuración del escaneado**
 
-  1. Se invoca a la rutina `esp_wifi_set_country()` para establecer el país
-donde se está desarrollando el escaneado (opcional).
+  1. Se invoca a la rutina `esp_wifi_set_country_code()` para establecer el país
+donde se está desarrollando el escaneado (opcional pero recomendado).
 
   2. Se invoca a `esp_wifi_scan_start()` para configurar el escaneado. Para
 ello, se utilizan los parámetros por defecto o se configuran tal y como
@@ -507,11 +506,10 @@ país en el que se lleva a cabo el análisis.
   1. Cuando todos los canales se han escaneado, se emite un evento de tipo
      `WIFI_EVENT_SCAN_DONE`.
 
-  2. La aplicación, a través del *callback* correspondiente, recibe y procesa
-     los resultados. Se invoca a `esp_wifi_scan_get_ap_num()` para obtener el
-     número de APs que se han encontrado. A continuación, reserva memoria para
+  2. La aplicación recibe y procesa los resultados. Se invoca a `esp_wifi_scan_get_ap_num()`
+     para obtener el número de APs que se han encontrado. A continuación, reserva memoria para
      este número de entradas e invoca a `esp_wifi_scan_get_ap_records()` para
-     obtener la información de cada AP. 
+     obtener la información de cada AP.
 
 ### Análisis de un ejemplo (`wifi/scan`)
 
@@ -519,15 +517,14 @@ Analiza el ejemplo de escaneado *wifi/scan*, e intenta observar el flujo de
 trabajo detallado anteriormente.
 
 !!! note "Tarea"
-    Compila, flashea y ejecuta el ejemplo de escaneado. Observa si los resultados
-    son los esperados en el laboratorio o en un entorno doméstico. Modifica el 
+    Compila, flashea y ejecuta el ejemplo de escaneado. Modifica el 
     código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
     de que si fijas un canal específico en el que tu punto de acceso está trabajando,
-    éste es detectado corretamente. Estudia y modifica los tiempos de espera en el 
-    escaneado y observa su efecto en el tiempo total de escaneado.
+    éste es detectado corretamente. Estudia y modifica los tiempos de espera y
+    observa su efecto en el tiempo total de escaneado.
 
 !!! danger "Entregable 4"
-    Diseña un firmware de nodo que realice un escaneado de las redes
+    Implementa un firmware que realice un escaneado de las redes
     disponibles. Si el nodo detecta la presencia de una o más de las *redes
     conocidas*, se conectará en modo STA a la red de mayor prioridad entre las
     conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
@@ -550,7 +547,7 @@ pasos:
 
 1. Descarga el certificado de la CA de la UCM desde 
 [este enlace](https://ssii.ucm.es/file/eduroam). Copia el fichero descargado, 
-con nombre `eduroam.crt` al directorio `main`, y asígnale el nombre `wpa2_ca.pem`.
+con nombre `eduroam.crt` al directorio `main`, y asígnale el nombre `ca.pem`.
 
 2. Configura el proyecto a través de `idf.py menuconfig` con los siguientes
 parámetros:
@@ -563,8 +560,7 @@ parámetros:
     * EAP PASSWORD: (tu contraseña UCM)
 
 !!! danger "Entregable 6"
-    Configura el ejemplo de autenticación para WPA2 Enterprise con tus
-    credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
+    Configura el ejemplo de autenticación para WPA2 Enterprise (ejemplo `wifi_enterprise`)
+    con tus credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
     adjunta una captura de pantalla que demuestre la correcta conexión del nodo
     a *eduroam*.
-
