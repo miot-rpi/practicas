@@ -374,7 +374,7 @@ a <code>esp_wifi_connect()</code>.</p>
 <p>Ante la recepción de este evento, no se lanza ningún proceso específico como
 respuesta. La aplicación necesitará invocar normalmente a 
 <code>esp_wifi_scan_get_ap_num()</code> y a <code>esp_wifi_scan_get_ap_records()</code> 
-para recoger la lista de APs escaneados y  liberar los recursos  (memoria)
+para recoger la lista de APs escaneados y liberar los recursos  (memoria)
 que se aloja en el proceso de escaneado.</p>
 </li>
 <li>
@@ -664,7 +664,6 @@ de configuración (<code>esp_wifi_set_config</code>) con cada una de dichas estr
 (por último, también es necesario invocar a la inicialización de
 <code>netif</code> tanto en modo <em>station</em> --<code>esp_netif_create_default_wifi_sta()</code>--
 como en modo <em>AP</em> --<code>esp_netif_create_default_wifi_ap()</code>).</p>
-<h3 id="ejercicio-desarrollo-de-un-nodo-mixto-stationap">Ejercicio: desarrollo de un nodo mixto <em>station/AP</em></h3>
 <div class="admonition danger">
 <p class="admonition-title">Entregable 3</p>
 <p>Modifica el ejemplo <code>station</code> para que el ESP32 se comporte a la vez 
@@ -672,7 +671,8 @@ como estación y como punto de acceso. Añade las opciones de configuración
 necesarias para que todos los parámetros se puedan modificar vía 
 <code>menuconfig</code>. Comprueba que el ESP32 efectivamente se conecta al punto
 de acceso y que a la vez es posible conectar otro dispositivo al mismo
-(por ejemplo, tu teléfono móvil). Entrega el código.</p>
+(por ejemplo, tu teléfono móvil). Conecta tu PC al ESP32 y comprueba la
+conexión con el comando ping. Entrega el código.</p>
 </div>
 <h2 id="escaneado-de-redes-wifi">Escaneado de redes WiFi</h2>
 <h3 id="modos-de-escaneado-de-redes-wifi">Modos de escaneado de redes WiFi</h3>
@@ -686,12 +686,12 @@ escaneado de redes, véase:</p>
 <li><strong>Escaneado pasivo:</strong> El escaneado se desarrolla simplemente escuchando en 
 cada canal y esperando el envío por parte de los APs de paquetes baliza
 (<em>beacons</em>). El modo activo o pasivo puede configurarse desde la aplicación, 
-mediante el campo <code>scan_type</code> de la estrcutura <code>wifi_scan_config_t</code> (lo verás
+mediante el campo <code>scan_type</code> de la estructura <code>wifi_scan_config_t</code> (lo verás
 en el siguiente ejemplo).</li>
-<li><strong>Escaneado en primer plano:</strong>: Se utiliza cuando no hay conexión WiFi activa
-en el momento del escaneado. No es, por tanto, directamente configurable.</li>
+<li><strong>Escaneado en primer plano:</strong> Se utiliza cuando no hay conexión WiFi activa
+en el momento del escaneado.</li>
 <li><strong>Escaneado en segundo plano:</strong> Se utiliza cuando hay conexión WiFi activa
-en el momento del escaneado. No es, por tanto, directamente configurable.</li>
+en el momento del escaneado.</li>
 <li><strong>Escaneado de todos los canales:</strong> Escanea SSIDs en todos los canales. 
 La forma de activarlo es mediante el valor <code>0</code> en el campo correspondiente
 de <code>wifi_scan_config_t</code>.</li>
@@ -724,7 +724,7 @@ se consideran SSIDs normales, y por tanto se muestran.</li>
 activo. En cualquier otro caso, el escaneado es pasivo.</li>
 <li><code>scan_time</code>: Especifica el tiempo de escaneado por canal.</li>
 </ul>
-<h3 id="escaneado-de-todos-los-canales-en-primer-plano-ejemplo-de-flujo">Escaneado de todos los canales en primer plano. Ejemplo de flujo</h3>
+<h3 id="ejemplo-de-flujo-escaneado-de-todos-los-canales-en-primer-plano">Ejemplo de flujo: escaneado de todos los canales en primer plano</h3>
 <p>El siguiente escenario describe un escaneado básico sobre todos los canales en 
 primer plano (recuerda que únicamente puede ocurrir en modo <em>station</em> si 
 todavía no hay conexión a un AP).</p>
@@ -732,8 +732,8 @@ todavía no hay conexión a un AP).</p>
 <p><strong>Fase 1: Configuración del escaneado</strong></p>
 <ol>
 <li>
-<p>Se invoca a la rutina <code>esp_wifi_set_country()</code> para establecer el país
-donde se está desarrollando el escaneado (opcional).</p>
+<p>Se invoca a la rutina <code>esp_wifi_set_country_code()</code> para establecer el país
+donde se está desarrollando el escaneado (opcional pero recomendado).</p>
 </li>
 <li>
 <p>Se invoca a <code>esp_wifi_scan_start()</code> para configurar el escaneado. Para
@@ -765,11 +765,10 @@ país en el que se lleva a cabo el análisis.</p>
      <code>WIFI_EVENT_SCAN_DONE</code>.</p>
 </li>
 <li>
-<p>La aplicación, a través del <em>callback</em> correspondiente, recibe y procesa
-     los resultados. Se invoca a <code>esp_wifi_scan_get_ap_num()</code> para obtener el
-     número de APs que se han encontrado. A continuación, reserva memoria para
+<p>La aplicación recibe y procesa los resultados. Se invoca a <code>esp_wifi_scan_get_ap_num()</code>
+     para obtener el número de APs que se han encontrado. A continuación, reserva memoria para
      este número de entradas e invoca a <code>esp_wifi_scan_get_ap_records()</code> para
-     obtener la información de cada AP. </p>
+     obtener la información de cada AP.</p>
 </li>
 </ol>
 <h3 id="analisis-de-un-ejemplo-wifiscan">Análisis de un ejemplo (<code>wifi/scan</code>)</h3>
@@ -777,16 +776,15 @@ país en el que se lleva a cabo el análisis.</p>
 trabajo detallado anteriormente.</p>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
-<p>Compila, flashea y ejecuta el ejemplo de escaneado. Observa si los resultados
-son los esperados en el laboratorio o en un entorno doméstico. Modifica el 
+<p>Compila, flashea y ejecuta el ejemplo de escaneado. Modifica el 
 código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
 de que si fijas un canal específico en el que tu punto de acceso está trabajando,
-éste es detectado corretamente. Estudia y modifica los tiempos de espera en el 
-escaneado y observa su efecto en el tiempo total de escaneado.</p>
+éste es detectado corretamente. Estudia y modifica los tiempos de espera y
+observa su efecto en el tiempo total de escaneado.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Entregable 4</p>
-<p>Diseña un firmware de nodo que realice un escaneado de las redes
+<p>Implementa un firmware que realice un escaneado de las redes
 disponibles. Si el nodo detecta la presencia de una o más de las <em>redes
 conocidas</em>, se conectará en modo STA a la red de mayor prioridad entre las
 conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
@@ -809,7 +807,7 @@ pasos:</p>
 <li>
 <p>Descarga el certificado de la CA de la UCM desde 
 <a href="https://ssii.ucm.es/file/eduroam">este enlace</a>. Copia el fichero descargado, 
-con nombre <code>eduroam.crt</code> al directorio <code>main</code>, y asígnale el nombre <code>wpa2_ca.pem</code>.</p>
+con nombre <code>eduroam.crt</code> al directorio <code>main</code>, y asígnale el nombre <code>ca.pem</code>.</p>
 </li>
 <li>
 <p>Configura el proyecto a través de <code>idf.py menuconfig</code> con los siguientes
@@ -827,8 +825,8 @@ parámetros:</p>
 </ol>
 <div class="admonition danger">
 <p class="admonition-title">Entregable 6</p>
-<p>Configura el ejemplo de autenticación para WPA2 Enterprise con tus
-credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
+<p>Configura el ejemplo de autenticación para WPA2 Enterprise (ejemplo <code>wifi_enterprise</code>)
+con tus credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
 adjunta una captura de pantalla que demuestre la correcta conexión del nodo
 a <em>eduroam</em>.</p>
 </div></div>
