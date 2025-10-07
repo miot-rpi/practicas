@@ -8,14 +8,13 @@
 
 ## Material de consulta
 
-Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes
-enlaces:
-* [Documentación de OpenOCD](https://openocd.org/pages/documentation.html)
-* [Git and github essentials](https://docs.github.com/en)
-* [Git cheatsheet](https://training.github.com/downloads/es_ES/github-git-cheat-sheet.pdf)
-* [Github Actions](https://docs.github.com/en/actions)
-* [Heap memory allocation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/mem_alloc.html)
-* [Performance monitoring](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/perfmon.html)
+Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:
+   * [Documentación de OpenOCD](https://openocd.org/pages/documentation.html)
+   * [Git and github essentials](https://docs.github.com/en)
+   * [Git cheatsheet](https://training.github.com/downloads/es_ES/github-git-cheat-sheet.pdf)
+   * [Github Actions](https://docs.github.com/en/actions)
+   * [Heap memory allocation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/mem_alloc.html)
+   * [Performance monitoring](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/perfmon.html)
 
 ## Depuración
 La herramienta de depuración de código abierto [OpenOCD](https://openocd.org/) proporciona un entorno de depuración (*debugging*), programación en sistema (*in-system programming*) y pruebas de *boundary-scan* para dispositivos *embedded*.
