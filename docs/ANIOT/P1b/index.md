@@ -2,20 +2,87 @@
 
 ## Objetivos
 
-- Aprender a utilizar Github Actions para compilar un proyecto ESP-IDF de forma remota.
+- Introducir los conceptos básicos de depuración en el microcontrolador
 - Introducir los conceptos básicos de depuración a nivel de gestión de memoria (heap).
-- Aprender la API básica de monitorización de rendimiento en ESP-IDF.
+- Aprender a utilizar Github Actions para compilar un proyecto ESP-IDF de forma remota.
 
 ## Material de consulta
 
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes
 enlaces:
-
+* [Documentación de OpenOCD](https://openocd.org/pages/documentation.html)
 * [Git and github essentials](https://docs.github.com/en)
 * [Git cheatsheet](https://training.github.com/downloads/es_ES/github-git-cheat-sheet.pdf)
 * [Github Actions](https://docs.github.com/en/actions)
 * [Heap memory allocation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/mem_alloc.html)
 * [Performance monitoring](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/perfmon.html)
+
+## Depuración
+La herramienta de depuración de código abierto [OpenOCD](https://openocd.org/) proporciona un entorno de depuración (*debugging*), programación en sistema (*in-system programming*) y pruebas de *boundary-scan* para dispositivos *embedded*.
+OpenOCD requiere un adaptador de depuración (dongle) para funcionar.
+   * **Función**: Proporciona la señalización eléctrica correcta para comunicarse con el dispositivo de destino (target).
+   * **Protocolos Soportados**: OpenOCD se enfoca principalmente en JTAG (IEEE 1149.1), pero también soporta SWD (Serial Wire Debug) y otros protocolos.
+
+![Esquema de depuración JTAG-OpenOCD](img/OpenOCD_JTAG.jpg)
+
+### Configuración y ejecución
+OpenOCD se ejecuta como un servidor que espera conexiones de clientes (GDB, Telnet o RPC).
+
+Archivos de Configuración (.cfg): Utiliza comandos basados en el lenguaje de scripting Jim Tcl.
+   * `interface/*.cfg`: Define el adaptador de depuración (dongle).
+   * `board/*.cfg`: Define la placa y la inicialización de hardware externo (ej. SDRAM, Flash).
+   * `target/*.cfg`: Define los Test Access Ports (TAP) y las CPUs.
+
+Uso Básico: `openocd -f interface/ADAPTER.cfg -f board/MYBOARD.cfg`
+
+### Columna de depuración
+OpenOCD actúa como un servidor gdbserver remoto.
+   * Protocolo: Cumple con el protocolo GDB remoto.
+   * Conexión: GDB se conecta a OpenOCD a través de un socket TCP/IP (típicamente localhost:3333) usando target extended-remote.
+   * Soporte RTOS: Puede configurarse para detectar y trabajar con estructuras de datos de RTOS conocidos como FreeRTOS, eCos, ThreadX y Linux.
+
+```console 
+user@host:~$ openocd -f board/esp32c3-builtin.cfg
+Open On-Chip Debugger v0.12.0-esp32-20250707 (2025-07-06-17:37)
+Licensed under GNU GPL v2
+For bug reports, read
+http://openocd.org/doc/doxygen/bugs.html
+Info : esp_usb_jtag: VID set to 0x303a and PID to 0x1001
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
+....
+```
+
+Haciendo uso del comando `telnet` al puerto 4444 se permite interacturar empleando los comando TCL
+   * `targets`: muestra los targets (cores) detectados
+   * `reset`: reiniciia el ESP32 y los detiene (halt)
+   * `resume`: reanuda la ejecución
+
+```console
+user@host:~$ telnet localhost 4444
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Open On-Chip Debugger
+
+targets
+    TargetName         Type       Endian TapName            State       
+--  ------------------ ---------- ------ ------------------ ------------
+ 0* esp32c3            esp32c3    little esp32c3.tap0       running
+....
+```
+
+Por último para integrarlo en el entorno de desarrollo de [MS-Visual Code](https://code.visualstudio.com/) se recomiendo seguir los siguiente pasos:
+1. Seleccionar en el entorno MS-Vcode el método de flaseo de **JTAG**
+2. Lanzar OpenOCD: `openocd -f board/esp32c3-builtin.cfg`
+3. En el entorno de MS-Vcode clicar en el icono **Debug** o en su defecto pulsar el atajo **F5**
+4. Una vez configurado, ya es posible monitorizar variables, colocar breakpoints, o consultar variables
+
+![Figura del entorno MS-Vcode en depuración](img/VScode.png)
+
+
+!!! note "Tarea"
+	* Configura el entorno MS-Vcode para poder depurar el ejemplo **blinking** desarrollado en la Práctica 1 (Recuerda que la función de depuración se realizar con el seleccionando el mecanismo de flaseo en **JTAG**)
 
 ## Github Actions
 
@@ -73,7 +140,123 @@ Por ejemplo, puedes configurar tu flujo de trabajo para que se ejecute cuando se
 
 Los flujos de trabajo se definen mediante YAML. Para obtener la referencia completa de la sintaxis de YAML para crear flujos de trabajo, consulta ["Sintaxis del flujo de trabajo para Acciones de GitHub"](https://docs.github.com/es/actions/writing-workflows/workflow-syntax-for-github-actions#about-yaml-syntax-for-workflows).
 
+### Ejemplo ilustrativo de compilación de un ejemplo C++ nativo (x86) en la nube
+Esta sección presenta un ejemplo simplificado de cómo utilizar GitHub Actions para compilar un proyecto de C++ estándar, demostrando el proceso de CI/CD para una arquitectura nativa (x86-64) antes de abordar la compilación cruzada de ESP-IDF.
+
+El flujo de trabajo automatizará la compilación del popular ejemplo "Hello World" utilizando CMake como sistema de construcción.
+
+La estructura del repositorio tendrá la siguiente estructura de ficheros:
+nombre_proyecto/
+├── .github/
+│   └── workflows/
+│       └── build_x86.yml
+└── src_example_x86/
+    ├── CMakeLists.txt
+    └── main_example_x86.cpp
+
+El archivo `main_example_x86.cpp` contiene el código de C++ que se compilará con CMake:
+```cpp
+// src_example_x86/main_example_x86.cpp
+
+#include <iostream>
+
+int main() {
+    std::cout << "¡Hola Mundo x86-64 desde GitHub Actions!" << std::endl;
+    return 0;
+}
+```
+
+El archivo de `CMakeLists.txt` define la forma de construir el ejecutable. Es importante la opción `-static`, que garantiza que el binario se enlace de forma estática con las librerías estándar de C++, facilitando su ejecución independiente en el runner de GitHub Actions.
+```cmake
+# CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.10)
+project(HelloWorldX86 CXX)
+
+# Añade el ejecutable, indicando que las fuentes están en la carpeta src
+add_executable(hello_world_x86 main_example_x86.cpp)
+
+# 1. Indicamos al enlazador que use versiones estáticas de las librerías estándar
+target_link_options(hello_world_x86 PRIVATE
+    -static
+)
+```
+
+y el fichero YAML `build_x86.yml` que define el proceso de compilación en la nube:
+```yaml
+# .github/workflows/build_x86.yml
+
+name: Build x86 Project
+
+# 1. Trigger: Se ejecuta en cada 'push' a la rama 'main' o manualmente
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# 2. Jobs: El job de compilación
+jobs:
+  build:
+    # Compilará el ejecutable en un runner de Ubuntu (x86-64)
+    runs-on: ubuntu-latest
+    
+    # Pasos del job
+    steps:
+    - name: Checkout Repository
+      # Descarga el código del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configure CMake
+      # Crea el directorio de compilación y configura CMake
+      run: |
+        mkdir build_example_x86
+        cd build_example_x86
+        cmake ../src_example_x86/
+
+    - name: Build Project
+      # Compila el proyecto usando el sistema de compilación generado por CMake
+      run: |
+        cd build_example_x86
+        cmake --build . --config Release
+
+    - name: Test Executable (Optional)
+      # Verifica que el programa se ejecute correctamente en el runner
+      run: |
+        echo "Ejecutando el binario compilado..."
+        ./build_example_x86/hello_world_x86
+
+    - name: Upload Executable Artifact
+      # Sube el binario compilado como un artefacto
+      uses: actions/upload-artifact@v4
+      with:
+        name: x86-64-executable
+        # La ruta al ejecutable compilado por CMake
+        path: build_example_x86/hello_world_x86
+```
+
+que consta de los siguiente elementos:
+1. Nombre y Eventos (`on`)
+2. Job de compilación (`build`):
+   * Ejecutor (`runs-on: ubuntu-latest`) que especifica que el código se ejecutará en una máquina virtual de Ubuntu, cuya arquitectura es x86-64, ideal para compilar ejecutables nativos.
+3. Pasos (`steps`)
+   * **Checkout Repository**: Descarga el código del repositorio al runner.
+   * **Configure CMake**: Crea un directorio de construcción fuera del código fuente (`build_example_x86`) y ejecuta cmake para generar los makefiles o archivos de construcción.
+   * **Build Project**: Ejecuta `cmake --build .` para invocar al compilador (GCC/G++) y generar el ejecutable (`hello_world_x86`).
+   * **Test Executable (Optional)**: Ejecuta el binario compilado. Esto confirma que la compilación fue exitosa y que el ejecutable es funcional en el entorno de GitHub Actions, imprimiendo el mensaje esperado.
+   * **Upload Executable Artifact**: Al finalizar el job, el binario compilado se empaqueta y se sube como un artefacto para que el usuario pueda descargarlo. El nombre del artefacto es `x86-64-executable`.
+
+
+!!! note "Tarea"
+1.  Creación del Repositorio y añade la estructura de carpetas: `src_example_x86` y `.github/workflows/`
+2.  Archivos del Proyecto: Copia los contenidos de `main_example_x86.cpp`, `CMakeLists.txt` y `build_x86.yml` en sus respectivas ubicaciones.
+3.  Primer Push y Verificación en la Nube: Sube los archivos al repositorio (git push).
+    * Verifica en la pestaña **Actions de GitHub** que el flujo de trabajo se ejecuta con éxito.
+4.  Descarga del Artefacto: Una vez finalizada la acción, descarga el artefacto llamado `x86-64-executable` desde la página de resumen del job.
+5.  Ejecución Local: Descomprime el artefacto y, en tu máquina local (si es compatible con x86-64 y ejecuta el binario descargado (`./hello_world_x86`).
+
+
 ### Un ejemplo: creación de un flujo de trabajo para compilación de un proyecto ESP-IDF
+El proyecto se organiza con el código fuente en un subdirectorio, y los archivos de GitHub Actions en el directorio .github/workflows:
 
 Imagina que dispones de un `fork` de ESP-IDF en forma de un repositorio propio asociado a tu usuario. 
 
@@ -84,7 +267,7 @@ por la distribución estándar de ESP_IDF:
 name: "Espressif IoT Development Framework (ESP-IDF) on push"
 on:
   push:
-    branches: master
+    branches: [main]
 
     inputs:
       path:
@@ -118,7 +301,7 @@ jobs:
     - name: esp-idf build
       uses: espressif/esp-idf-ci-action@v1
       with:
-        esp_idf_version: v5.3
+        esp_idf_version: v5.1
         target: esp32c3
         path: 'examples/get-started/hello_world'
     - name: Download built firmware
@@ -132,7 +315,7 @@ jobs:
 Observa sus partes principales: 
 
 1. **Nombre**: nombre del flujo de trabajo.
-2. **Eventos sobre los que se activará**. En este caso, lo hará ante la acción de `push` sobre la rama `master` del repositorio.Además, el flujo de trabajo recibe ciertos argumentos obligatorios como entradas, requeridos por la acción específica de construcción (esp-idf-ci-action) proporcionada por Espressif. Estas entradas incluyen la ruta al ejemplo dentro del repositorio, la versión de ESP-IDF a utilizar, la variante de ESP32 a usar y el comando específico que se ejecutará. Todos estos inputs son configurables.
+2. **Eventos sobre los que se activará**. En este caso, lo hará ante la acción de `push` sobre la rama `main` del repositorio.Además, el flujo de trabajo recibe ciertos argumentos obligatorios como entradas, requeridos por la acción específica de construcción (esp-idf-ci-action) proporcionada por Espressif. Estas entradas incluyen la ruta al ejemplo dentro del repositorio, la versión de ESP-IDF a utilizar, la variante de ESP32 a usar y el comando específico que se ejecutará. Todos estos inputs son configurables.
 3. **Tareas/trabajos a ejecutar**. En esta sección, incluimos una tarea de construcción, a ejecutar sobre una distribución Ubuntu, compuesta por una serie de pasos consecutivos. Estos pasos incluyen el *checkout* de nuestro repositorio en la máquina destino, la construcción (usando una acción específica proporcionada por ESP-IDF), y por último la publicación de un *artifact* (resultado de la compilación) como resultado de la ejecución del flujo de trabajo.
 
 Alternativamente, es posible controlar de forma manual la ejecución de la acción. Simplemente, utiliza un workflow como el siguiente (podrás a continuación lanzar el proceso de compilación desde la propia pestaña de Github Actions en el repositorio):
@@ -172,7 +355,7 @@ jobs:
     - name: esp-idf build
       uses: espressif/esp-idf-ci-action@v1
       with:
-        esp_idf_version: v5.3
+        esp_idf_version: v5.1
         target: esp32c3
         path: 'examples/get-started/hello_world'
     - name: Download built firmware
