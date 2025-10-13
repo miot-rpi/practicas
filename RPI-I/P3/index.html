@@ -247,7 +247,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#parte-1provisionamiento-de-credenciales-wifi" class="nav-link">Parte 1.Provisionamiento de credenciales WiFi</a>
+            <li class="nav-item" data-bs-level="2"><a href="#parte-1-provisionamiento-de-credenciales-wifi" class="nav-link">Parte 1. Provisionamiento de credenciales WiFi</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -265,10 +265,10 @@
 <h1 id="lab3-wifi-provisionamiento-y-ahorro-de-energia">LAB3. WiFi: provisionamiento y ahorro de energía</h1>
 <h2 id="objetivos">Objetivos</h2>
 <p>La presente práctica se divide en dos partes en las que se estudiarán dos
-aspectos avanzados de wifi. Los objetivos de cada parte son:</p>
+aspectos avanzados de WiFi. Los objetivos de cada parte son:</p>
 <ul>
 <li>
-<p>Provisionamiento de credenciales wifi</p>
+<p>Provisionamiento de credenciales WiFi:</p>
 <ul>
 <li>Entender y experimentar con distintos modos de provisionamiento de 
 credenciales WiFi, vía <code>BLE</code> y vía <code>softAP</code>.</li>
@@ -278,7 +278,7 @@ del envío cifrado de credenciales.</li>
 </ul>
 </li>
 <li>
-<p>Modos de ahorro de energía</p>
+<p>Modos de ahorro de energía:</p>
 <ul>
 <li>Entender los tres modos de funcionamiento del ESP32 a nivel de ahorro
 energético en conexiones WiFi.</li>
@@ -292,16 +292,16 @@ del modo aplicado.</li>
 <p>Para esta práctica los alumnos harán un breve informe documentando las 
 tareas realizadas y los resultados obtenidos.</p>
 </div>
-<h2 id="parte-1provisionamiento-de-credenciales-wifi">Parte 1.Provisionamiento de credenciales WiFi</h2>
+<h2 id="parte-1-provisionamiento-de-credenciales-wifi">Parte 1. Provisionamiento de credenciales WiFi</h2>
 <p>Entendemos por provisionamiento WiFi el mecanismo o mecanismos mediante los
 cuales es posible proporcionar a un dispositivo, de forma externa y segura, el
 conjunto de credenciales necesario para conectarse a una red WiFi. Es decir, si
-nuestro código en el ESP32 está preparado para conectarse a una wifi por WPA2
+nuestro código en el ESP32 está preparado para conectarse a una WiFi por WPA2
 personal, en lugar de configurar una red fija o una serie de redes válidas,
 añadimos a nuestro código un componente de provisionamiento, que permitirá al
-usuario conectarse de algún modo al ESP32 para indicarle el nombre de la Wifi a
+usuario conectarse de algún modo al ESP32 para indicarle el nombre de la WiFi a
 la que conectarse (la SSID) y la contraseña que debe utilizar. El
-provisionamiento por tanto suele hacerse la primera vez que se usa el
+provisionamiento, por tanto, suele hacerse la primera vez que se usa el
 dispositivo y no suele ser necesario repetirlo.</p>
 <p>ESP-IDF proporciona un componente que ofrece un servicio de provisionamiento
 WiFi por dos mecanismos: Bluetooth Low Energy (modo <em>BLE</em>) o a través de un
@@ -309,10 +309,10 @@ punto de acceso WiFi temporal (modo <em>SoftAP</em>). ESP-IDF proporciona una se
 APIs (con prototipos <code>wifi_prov_mgr_*</code>) para implementar de forma sencilla ambos
 modos de provisionamiento.</p>
 <p>Para completar esta parte de la práctica deberás trabajar
-con el ejemplo <code>examples/provisioning/wifi-prov-mgr</code>.</p>
+con el ejemplo <code>examples/provisioning/wifi-prov-mgr</code></p>
 <h3 id="inicializacion-del-servicio-de-provisionamiento">Inicialización del servicio de provisionamiento</h3>
 <p>La rutina <code>wifi_prov_mgr_init()</code> se utiliza para configurar e inicializar
-el componente de provisionamiento, y debe invocarse antes de cualquier
+el componente de provisionamiento y debe invocarse antes de cualquier
 otra invocación a rutinas de tipo <code>wifi_prov_mgr*</code>. Además, es necesario
 destacar que el componente de provisionamiento confía en las funcionalidades
 de otros componentes (básicamente NVS, TCP/IP, <em>Event loop</em> y mDNS), por lo 
@@ -331,7 +331,7 @@ ESP_ERR_CHECK( wifi_prov_mgr_init(config) );
 campos que permiten especificar el comportamiento del componente. El campo
 <code>scheme</code> especifica el esquema (o tipo) de provisionamiento que vamos a usar,
 mientras que el campo <code>scheme_event_handler</code> indica la función callback que
-tratará los eventos correspondientes al componente de provisionameinto.</p>
+tratará los eventos correspondientes al componente de provisionamiento.</p>
 <p>Disponemos de tres esquemas:</p>
 <ul>
 <li><code>wifi_prov_scheme_softap</code>: se crea un punto de acceso temporal desde el nodo a
@@ -340,8 +340,8 @@ tratará los eventos correspondientes al componente de provisionameinto.</p>
   componente de provisionamiento.</li>
 <li><code>wifi_prov_scheme_ble</code>: el nodo crea un servidor GATT al que se puede conectar
   el provisionador utilizando Bluetooth Low Energy (BLE), que usará la tabla
-  GATT para comunicar las credenciales Wifi. </li>
-<li><code>wifi_prov_scheme_console</code>: transporta la información vía puerto serie </li>
+  GATT para comunicar las credenciales WiFi. </li>
+<li><code>wifi_prov_scheme_console</code>: transporta la información vía puerto serie.</li>
 </ul>
 <p>Una vez provisionado el nodo, las credenciales se almacenan en la flash (NVS),
 quedando disponibles para el siguiente reinicio del nodo.</p>
@@ -352,7 +352,7 @@ credenciales de conexión WiFi están almacenadas en la memoria no volátil (NVS
 <p>Aunque existen distintos métodos para eliminar la información de provisionamento
 almacenada en la NVS, utilizaremos el mecanismo proporcionado por <code>idf.py</code> para
 eliminar su contenido. Para ello, ejecutaremos:</p>
-<pre><code class="language-sh">idf.py erase_flash
+<pre><code class="language-sh">idf.py erase-flash
 </code></pre>
 <h3 id="parametros-de-inicializacion-del-servicio-de-provisionamiento-wifi">Parámetros de inicialización del servicio de provisionamiento WiFi</h3>
 <p>Al inicializar el componente de provisionamiento, es necesario especificar
@@ -444,29 +444,29 @@ wifi_prov_mgr_deinit();
 <h3 id="herramientas-de-provisionamiento-para-dispositivos-moviles">Herramientas de provisionamiento para dispositivos móviles</h3>
 <p>Existen aplicaciones para móviles preparadas por Espressif para llevar a cabo el
 proceso de provisionamiento sobre ESP32. Estas aplicaciones están disponibles
-tanto para dispositivos Android como IOS, en las versiones con transporte BLE o
+tanto para dispositivos Android como iOS, en las versiones con transporte BLE o
 SoftAP:</p>
 <ul>
 <li>
 <p>Android:</p>
 <ul>
-<li><a href="https://play.google.com/store/apps/details?id=com.espressif.provble">Provisionamiento BLE</a>.</li>
-<li><a href="https://play.google.com/store/apps/details?id=com.espressif.provsoftap">Provisionamiento SoftAP</a>.</li>
+<li><a href="https://play.google.com/store/apps/details?id=com.espressif.provble">Provisionamiento BLE</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.espressif.provsoftap">Provisionamiento SoftAP</a></li>
 </ul>
 </li>
 <li>
-<p>IOS:</p>
+<p>iOS:</p>
 <ul>
-<li><a href="https://apps.apple.com/in/app/esp-ble-provisioning/id1473590141">Provisionamiento BLE</a>.</li>
-<li><a href="https://apps.apple.com/in/app/esp-softap-provisioning/id1474040630">Provisionamiento SoftAP</a>.</li>
+<li><a href="https://apps.apple.com/in/app/esp-ble-provisioning/id1473590141">Provisionamiento BLE</a></li>
+<li><a href="https://apps.apple.com/in/app/esp-softap-provisioning/id1474040630">Provisionamiento SoftAP</a></li>
 </ul>
 </li>
 </ul>
 <p>Estas aplicaciones funcionan mediante una comunicación muy sencilla con el
 ESP32 no provisionado, cuyos mecanismos dependen del transporte utilizado;
 en el caso de BLE, se crea una tabla GATT con distintas características que
-serán utilizadas para escribir (enviar) datos en el dispositivo. Veremos 
-qué es una tabla GATT en próximas prácticas.</p>
+serán utilizadas para escribir datos en el dispositivo. Veremos 
+qué es una tabla GATT en las próximas prácticas.</p>
 <p>En el caso de <code>softAP</code>, se crean una serie de <em>endpoints</em> (URIs HTTP) que
 permiten, de forma sencilla, leer y escribir aquellos datos que deseamos
 comunicar al otro extremo de la comunicación.</p>
@@ -505,11 +505,11 @@ adaptados en función de la información adicional que deseemos intercambiar):</
 </tbody>
 </table>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Ejercicio 1</p>
 <p>Utilizando las aplicaciones correspondientes a tu dispositivo móvil, 
 tanto para el uso de BLE como de SoftAP, provisiona tu ESP32 utilizando
 las credenciales que correspondan a tu red WiFi. Recuerda, antes de cada
-  repetición del experimento, utilizar la orden <code>idf.py erase_flash</code> para
+  repetición del experimento, utilizar la orden <code>idf.py erase-flash</code> para
   eliminar información de provisionamiento de sesiones anteriores. Comprueba
   el funcionamiento de los distintos niveles de seguridad.</p>
 <p>Añade a tu informe las capturas de pantalla correspondientes a la salida 
@@ -519,29 +519,28 @@ correctamente.</p>
 <p>Los detalles de este tipo de protocolo de provisionamiento quedan como ejercicio
 adicional al alumno, y van más allá del objetivo de la práctica. No obstante, es
 conveniente disponer de algún mecanismo que permita inspeccionar lo que hacen,
-para determinar por ejemplo si el intercambio de credenciales se realiza como
+para determinar, por ejemplo, si el intercambio de credenciales se realiza como
 texto plano (en claro) o cifrado. Para ello podemos utilizar una herramienta de
 línea de comandos proporcionada con el SDK de Espressif (ESP-IDF), llamada
 <code>esp_prov.py</code>, que se encuentra en el directorio <code>tools/esp_prov</code> de la instalación.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Antes de utilizar el programa, debes instalar las dependencias respectivas
-ejecutando los siguientes comandos desde el directorio de instalación del
-esp-idf:
-En linux
-<code>bash install.sh --enable-pytest</code>
-    En windows
+ejecutando los siguientes comandos desde el directorio de instalación de ESP-IDF:
+En Linux:
+<code>./install.sh --enable-pytest</code>
+    , en Windows:
 <code>install.bat --enable-pytest</code></p>
 </div>
 <p>Esta herramienta, permite hacer el provisionamiento de los dispositivos desde
-nuestro portátil y ofrece además la posibilidad de usar un end-point adicional
+nuestro portátil y ofrece además la posibilidad de usar un endpoint adicional
 (custom-data) para pasar información adicional de provisonamiento, como el
 nombre del dispositivo, alguna credencial que se necesite para un servidor
 externo, etc.</p>
 <p>Su uso es sencillo, y puede consultarse ejecutando <code>python esp_prov.py -h</code>.
 Básicamente, se trata de usar esta herramienta como provisionador para un
 dispositivo, usando tanto <code>ble</code> como <code>softAP</code>.</p>
-<p>En el caso de usar <code>softAP</code> el ordenador debe conectarse a la wifi temporal
+<p>En el caso de usar <code>softAP</code> el ordenador debe conectarse a la WiFi temporal
 generada por el nodo a provisionar. El componente de provisionamiento estará
 escuchando en el puerto 80 del nodo (192.168.4.1), la aplicación se conectará a
 dicho servidor y realizará el provisionamiento, pasando las credenciales
@@ -549,7 +548,7 @@ indicadas en la línea de comandos:</p>
 <pre><code class="language-sh">python esp_prov.py --transport softap --service_name &quot;192.168.4.1:80&quot; --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
 </code></pre>
 <p>Podemos monitorizar los paquetes enviados utilizando cualquier sniffer de red,
-como por ejemplo WireShark. Esto nos permitirá ver el contenido de los paquetes
+como por ejemplo Wireshark. Esto nos permitirá ver el contenido de los paquetes
 enviados por la red y determinar si la contraseña se envía en claro o si por el
 contrario está cifrada.</p>
 <p>Podemos usar también <code>ble</code> y versiones de seguridad más avanzadas:</p>
@@ -559,7 +558,7 @@ contrario está cifrada.</p>
 de la línea de comandos, el programa nos irá preguntando los datos de forma
 interactiva.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Ejercicio 2</p>
 <p>Realiza el proceso de provisionamiento con softAP desde línea de comandos
 siguiendo el procedimiento explicado arriba. Captura el tráfico de red con
 Wireshark y comprueba que la contraseña se envía en claro (sin cifrar). A
@@ -567,7 +566,7 @@ continuación, pasa a un modo seguro (opción <code>--sec_ver 2</code>) y observ
 las claves se intercambian cifradas.</p>
 </div>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Ejercicio 3</p>
 <p>Realiza el proceso de provisionamiento (con ble o softAP) y usa el parámetro
 --custom_data para pasar el nombre de dispositivo a usar. Modifica el
 programa para que en el bucle principal se muestre "Hello world from ..."
@@ -627,19 +626,19 @@ estacioens. Así, con el modo de ahorro activo, las estaciones podrían perder
 paquetes <em>multicast</em>.</p>
 <p>El ejemplo <code>examples/wifi/power_save</code> ilustra mediante un código sencillo
 la configuración de una estación en los dos modos de ahorro energético. 
-Estos modos pueden configurarse a través del menú de configuración; además,
+Estos modos pueden configurarse a través del menú de configuración. Además,
 se ofrece una opción para modificar el tiempo de escucha en el caso del modo
 de ahorro <em>máximo</em>.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea</p>
+<p class="admonition-title">Ejercicio 4</p>
 <p>Compila, flashea y ejecuta el código de ejemplo utilizando los tres modos
 disponibles (sin ahorro, con ahorro mínimo y con ahorro máximo). En todos 
 los casos, conecta tu ESP32 a un punto de acceso y, desde un portátil 
-conectado al mismo AP, ejecuta una serie de <code>pings</code> hacia el nodo y observa
+conectado al mismo AP, ejecuta una serie de pings hacia el nodo y observa
 como cambia el tiempo de respuesta de los pings. En el caso del ahorro máximo, 
 varía el tiempo de escucha y mira si afecta al tiempo de recepción de los pings.</p>
 <p>Para cada modo, representa gráficamente el tiempo de respuesta de la
-estación en una gráfica para cada petición <code>ping</code>, relacionando su
+estación en una gráfica para cada petición ping, relacionando su
 comportamiento con los tiempos <em>DTIM</em> y de escucha. Añade a tu informe de la
 práctica una descripción del ejercicio. Comenta y discute los resultados que
 observes.</p>
