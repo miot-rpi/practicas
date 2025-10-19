@@ -10,15 +10,14 @@
   autoconfiguración.
 
 !!! danger "Entregable"
-
-    Para esta práctica los alumnos harán un breve informe documentando las 
+    Para esta práctica los estudiantes harán un breve informe documentando las 
     tareas realizadas y los resultados obtenidos.
 
 ## ESP WiFi Mesh
 
 El *stack* ESP-MESH está construido por encima del *driver* WiFi
-(es decir, obviamente hace uso de sus servicios), y en algunos
-casos también haciendo uso de servicios de la pila IP (*lwIP*), por ejemplo
+(es decir, hace uso de sus servicios), y en algunos
+casos también hace uso de servicios de la pila IP (*lwIP*), por ejemplo
 en el nodo raíz, que es el único con comunicación IP contra un router
 de borde. El siguiente diagrama muestra la situación de la pila Mesh
 en ESP-IDF:
@@ -40,7 +39,7 @@ el funcionamiento de la red, es necesario registrarlos vía
 Algunos usos típicos de los eventos  incluyen, por ejemplo, la situación de
 conexión de un nodo padre (`MESH_EVENT_PARENT_CONNECTED`) o de un hijo
 (`MESH_EVENT_CHILD_CONNECTED`), indicando, respectivamente, que un nodo puede
-comenzar a emitir hacia arriba en el grafo, o hacia abajo. Del mismo modo, en un
+comenzar a emitir hacia arriba en el grafo o hacia abajo. Del mismo modo, en un
 nodo raíz, la recepción de los eventos `IP_EVENT_STA_GOT_IP` y
 `IP_EVENT_STA_LOST_IP` se pueden aprovechar para indicar que dicho nodo raíz
 puede o no enviar datos a la red IP externa.
@@ -112,10 +111,8 @@ paso es innecesario si se utilizan configuraciones IP estáticas.
 
 ### Estructura básica de una aplicación ESP-MESH
 
-Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y Wi-Fi,
-El siguiente fragmento de código demuestra los pasos necesarios requisito previo
-antes de ESP-WIFI-MESH en sí se puede inicializar.
-
+Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y Wi-Fi.
+El siguiente fragmento de código muestra los pasos necesarios antes de que ESP-WIFI-MESH en sí se pueda inicializar:
 
 ```c
 ESP_ERROR_CHECK(esp_netif_init());
@@ -126,6 +123,7 @@ ESP_ERROR_CHECK(esp_event_loop_create_default());
 /*  Wi-Fi initialization */
 wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
 ESP_ERROR_CHECK(esp_wifi_init(&config));
+
 /*  register IP events handler */
 ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &ip_event_handler, NULL));
 ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
@@ -135,9 +133,9 @@ ESP_ERROR_CHECK(esp_wifi_start());
 Tras inicializar LwIP y Wi-Fi, el proceso para poner en marcha una red
 ESP-WIFI-MESH puede resumirse en los tres pasos siguientes:
 
-1. Inicializar ESP-MESH
-2. Configurar una red ESP-WIFI-MESH
-3. Iniciar Mesh
+1. Inicializar ESP-MESH.
+2. Configurar una red ESP-WIFI-MESH.
+3. Iniciar Mesh.
 
 
 ### Paso 1. Inicializar ESP-MESH
@@ -153,7 +151,7 @@ ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_e
 
 ### Paso 2. Configurar una red ESP-WIFI-MESH
 
-ESP-WIFI-MESH se configura a través de `esp_mesh_set_config()` que recibe sus
+ESP-WIFI-MESH se configura a través de `esp_mesh_set_config()`, que recibe sus
 argumentos usando la estructura `mesh_cfg_t`. La estructura contiene los
 siguientes parámetros utilizados para configurar ESP-WIFI-MESH:
 
@@ -163,7 +161,7 @@ siguientes parámetros utilizados para configurar ESP-WIFI-MESH:
 | *Mesh ID*           | Identificación de la red MESH (6 bytes) |
 | *Router*            | SSID y contraseña de conexión al router de salida        |
 | *Mesh AP*           | Configuración específica del AP generado por cada nodo |
-| Crypto Functions  | Funciones criptográficas para Mesh IE |
+| Crypto functions  | Funciones criptográficas para Mesh IE (para el intercambio de información de control)|
 
 Un ejemplo de configuración podría ser:
 
@@ -177,12 +175,10 @@ cfg.channel = CONFIG_MESH_CHANNEL;
 /* router */
 cfg.router.ssid_len = strlen(CONFIG_MESH_ROUTER_SSID);
 memcpy((uint8_t *) &cfg.router.ssid, CONFIG_MESH_ROUTER_SSID, cfg.router.ssid_len);
-memcpy((uint8_t *) &cfg.router.password, CONFIG_MESH_ROUTER_PASSWD,
-       strlen(CONFIG_MESH_ROUTER_PASSWD));
+memcpy((uint8_t *) &cfg.router.password, CONFIG_MESH_ROUTER_PASSWD, strlen(CONFIG_MESH_ROUTER_PASSWD));
 /* mesh softAP */
 cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
-memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD,
-       strlen(CONFIG_MESH_AP_PASSWD));
+memcpy((uint8_t *) &cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
 ESP_ERROR_CHECK(esp_mesh_set_config(&cfg));
 ```
 
@@ -231,34 +227,29 @@ en formato `layer:XX` en los envíos y recepciones de datos).
 3. En caso de haber sido elegido nodo raíz, anota también esta circunstancia
 y la IP asignada por el *router* (observa la respuesta al evento correspondiente).
 
-Apunta toda esta información en el [siguiente documento
-google](https://docs.google.com/spreadsheets/d/13xWFNzazypz7vrbK65Y-3QT6KJL4L3u1KegS_Xb7EAw/edit?usp=sharing)
-accesible a todos los alumnos. Además, anota la ID de la red Mesh que se ha
-utilizado para conectar. Antes de rellenar la información, espera que el
+Apunta toda esta información en la [siguiente hoja de Google](https://docs.google.com/spreadsheets/d/1nkcB_KkNYBX2A5M0GL5qHcZmMSBSI_vR7Hnfy87FBeI/edit?usp=sharing)
+accesible por todos los estudiantes. Además, anota el ID de la red Mesh que se ha
+utilizado para conectar. Antes de rellenar la capa y la MAC del padre, espera a que el
 profesor te indique que la topología ha convergido, y que por tanto no habrá
-ningún cambio más en ella (siempre que ningun nodo deje de formar parte de la
+ningún cambio más en ella (siempre que ningún nodo deje de formar parte de la
 misma).
 
-!!! danger "Tarea"
-    Captura el estado de la red cuando todos tus compañeros hayan llegado al
-    punto de convergencia, e intenta determinar, en forma de grafo, 
-    la topología de la misma.
+!!! danger "Ejercicio 1"
+    Captura el estado de la red cuando todos/as tus compañeros/as hayan llegado al
+    estado de convergencia. Determina en forma de grafo la topología de la red.
 
 A continuación, apagaremos el nodo raíz y esperaremos a la vuelta a la 
 convergencia de la red.
 
-!!! danger "Tarea"
-    Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
-    llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
-    la topología de la misma.
-    Documentan el proceso en tu informe de la práctica, así como los 
-    resultados observados.
+!!! danger "Ejercicio 2"
+    Captura de nuevo el estado de la red cuando todos/as tus compañeros/as hayan llegado al
+    estado de convergencia. Determina en forma de grafo la nueva topología.
+    Documenta el proceso en tu informe, así como los resultados observados.
 
-## Despliegue conjunto de una red WiFi Mesh de menores dimensiones
+## Despliegue conjunto de redes WiFi Mesh de menores dimensiones
 
 Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
-en el que estés sentado. Observa los colores asignados a cada grupo de puestos
-en la [siguiente hoja](https://docs.google.com/spreadsheets/d/14inzpio9ijOM9VhkMrrYAMVQ9iPW6ctlQB6dWIqypDI/edit?usp=drive_link).
+en el que estés sentado. Observa los colores asignados a cada puesto del laboratorio en la hoja de Google.
 
 Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
@@ -269,14 +260,13 @@ Una vez hecho esto, reconstruid la información de las tablas para reflejar
 las nuevas topologías. Podéis hacer pruebas posteriores apagando el 
 nodo raíz y observando la convergencia de la red.
 
-!!! danger "Tarea"
-    Captura de nuevo el estado de la red cuando todos tus compañeros hayan 
-    llegado al punto de convergencia, e intenta determinar, en forma de grafo, 
-    la topología de la misma. Documenta esta actividad en tu informe.
+!!! danger "Ejercicio 3"
+    Captura el estado de la red cuando todos/as tus compañeros/as hayan llegado al
+    estado de convergencia. Determina en forma de grafo la topología de la red.
+    Documenta esta actividad en tu informe.
 
-!!! danger "Tarea"
+!!! danger "Ejercicio 4"
     Analiza el código del ejemplo. Observa el tratamiento de eventos y la fase
     de configuración de la red. Intenta entender el funcionamiento del código
-    (envíos y recepciones, destinatarios de los mismos, etc.). Explica en tu
-    informe lo que hace esta aplicación wifi mesh.
-
+    (envíos y recepciones, destinatarios de los mismos, etc). Explica en tu
+    informe lo que hace esta aplicación WiFi Mesh.
