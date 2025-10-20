@@ -209,7 +209,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("mqtt.eclipse.org", 1883, 60)
+client.connect("test.mosquitto.org", 1883, 60)
 
 # Llamada bloqueante que procesa el tráfico de red, invoca callbacks
 # y maneja la reconexión al broker. 
