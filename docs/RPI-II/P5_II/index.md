@@ -103,10 +103,10 @@ Parámetros de interés:
 
 !!! note "Tarea 7"
     Analiza el ejemplo `examples/protocols/mqtt/tcp`, y configuralo para que 
-    utilice como *broker* el que desplegaste en la máquina virtual (asegúrate
-    de que tanto máquina virtual como ESP32 pertenecen a la misma red).
+    utilice como *broker* el que desplegaste en tu máquina física o virtual (asegúrate
+    de que tanto máquina virtual como ESP32 pertenecen a la misma red en el caso de estar utilizando una máquina virtual).
     
-    Realiza procesos de publicación y suscripción en la máquina virtual que 
+    Realiza procesos de publicación y suscripción en tu máquina que 
     permitan visualizar los mensajes publicados por el ESP32 en tu terminal
     Linux, y los mensajes publicados desde el terminal Linux en la salida
     de monitorización del ESP32.
