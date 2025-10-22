@@ -15,6 +15,7 @@ Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura
 
 * [API de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos_idf.html)
 * [Documentación oficial de FreeRTOS](https://www.freertos.org/Documentation/00-Overview)
+* [Documentación del componente console](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html)
 
 
 ## Introducción
@@ -82,7 +83,7 @@ Queremos montar un sistema monitorice la temperatura y humedad con un cierto per
 
 La funcionalidad del sistema será la siguiente:
 
-* El sistema tendrá dos modos de funcionamiento: `monitorización`  o `consola`. En el primero, se monitorizará y enviará la temperatura y humedad. En el segundo se permitirá el uso de una consola de comandos. 
+* El sistema tendrá dos modos de funcionamiento: `monitorización`  o `consola`. En el primero, se monitorizará y enviará la temperatura y humedad. En el segundo se permitirá el uso de una consola de comandos (puedes ver la   [documentación de este componente en este enlace](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html))
 
 * Monitorizará la temperatura y la humedad cada `n` segundos, siendo éste un parámetro seleccionable por `menuconfig`. La lectura de cada medida se *comunicará mediante eventos*. Todo el código relacionado con las lecturas del sensor estará en un componente separado. Se valorará la modularización del código (uso de más componentes) para el resto de funcionalidad de este punto.
 
