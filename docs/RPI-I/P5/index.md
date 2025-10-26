@@ -875,7 +875,7 @@ modo, cada vez que el valor cambie, el servidor enviará automáticamente el nue
 Para ello, necesitamos modificar algunas partes del código.
 Específicamente, necesitaremos:
 
-1. Crear una nueva tarea que, periódicamente, modifique el valor de
+1) Crear una nueva tarea que, periódicamente, modifique el valor de
    monitorización del ritmo cardíaco (leyéndolo desde un sensor si está
    disponible, o, en nuestro caso, generando un valor aleatorio). Dicha tarea
    consistirá en un bucle infinito que, en cualquier caso, sólo enviará datos al
@@ -887,12 +887,11 @@ static void publish_data_task(void *pvParameters)
     while (1) {
         ESP_LOGI("APP", "Sending data..."); 
 
-        // Paso 1: Actualizo valor...
+        // Paso 1: actualizo valor...
 
-        // Paso 2: Si las notificaciones están activas envío datos...
+        // Paso 2: si las notificaciones están activas envío datos...
 
-        // Paso 3: Duermo un segundo...
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        // Paso 3: duermo un segundo...
     }
 }
 ```
@@ -904,15 +903,15 @@ cliente (`ESP_GATTS_CONNECT_EVT`), utilizando, por ejemplo, la invocación a:
 xTaskCreate(&publish_data_task, "publish_data_task", 4096, NULL, 5, NULL);
 ```
 
-2. La actualización del valor, realizada periódicamente y de forma aleatoria,
+2) La actualización del valor, realizada periódicamente y de forma aleatoria,
    modificará el segundo byte de la variable `char_value`, tomando un valor aleatorio
    entre 0 y 255.
 
-3. La comprobación de la activación o no de la notificación se puede realizar
+3) La comprobación de la activación o no de la notificación se puede realizar
    especificando una nueva variable global que mantenga si se han activado
    las notificaciones (estudiar el manejo del evento `ESP_GATTS_WRITE_EVT`).
 
-4. Para enviar la notificación, utilizaremos la siguiente función:
+4) Para enviar la notificación, utilizaremos la siguiente función:
 
 ```c
 esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if, 
@@ -927,7 +926,7 @@ Tras modificar el código, recompilar y flashear, recuerda volver a activar las 
 	Modifica el firmware original para que, periódicamente (cada segundo)
 	notifique el valor de ritmo cardíaco a los clientes conectados.
 
-	Entrega el código modificado e incluye en tu informe evidencias (capturas de
-	pantalla) que demuestren que un cliente `gatttool` suscrito a notificaciones
-	recibe cada segundo la actualización de ritmo cardíaco por parte del
+	Entrega el código modificado e incluye en tu informe capturas de
+	pantalla que demuestren que un cliente `gatttool` suscrito a notificaciones
+	recibe cada segundo la actualización del ritmo cardíaco por parte del
 	sensor.
