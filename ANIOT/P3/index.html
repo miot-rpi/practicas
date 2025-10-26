@@ -284,7 +284,6 @@ que ofrece FreeRTOS, concretamente en su porting  ESP-IDF.</p>
 <ul>
 <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos_idf.html">API de ESP-IDF</a></li>
 <li><a href="https://www.freertos.org/Documentation/00-Overview">Documentación oficial de FreeRTOS</a></li>
-<li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html">Documentación del componente console</a></li>
 </ul>
 <h2 id="introduccion">Introducción</h2>
 <p>Al desarrollar código para sistemas empotrados, como nuestro nodo basado en ESP32, es habitual organizar la aplicación en torno a diferentes tareas que se ejecutan de forma concurrente. Habrá tareas dedicadas al muestreo de sensores, tareas dedicadas a la conectividad, tareas de <em>logging</em>... </p>
@@ -341,7 +340,7 @@ que ofrece FreeRTOS, concretamente en su porting  ESP-IDF.</p>
 <p>La funcionalidad del sistema será la siguiente:</p>
 <ul>
 <li>
-<p>El sistema tendrá dos modos de funcionamiento: <code>monitorización</code>  o <code>consola</code>. En el primero, se monitorizará y enviará la temperatura y humedad. En el segundo se permitirá el uso de una consola de comandos (puedes ver la   <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html">documentación de este componente en este enlace</a>)</p>
+<p>El sistema tendrá dos modos de funcionamiento: <code>monitorización</code>  o <code>consola</code>. En el primero, se monitorizará y enviará la temperatura y humedad. En el segundo se permitirá el uso de una consola de comandos. </p>
 </li>
 <li>
 <p>Monitorizará la temperatura y la humedad cada <code>n</code> segundos, siendo éste un parámetro seleccionable por <code>menuconfig</code>. La lectura de cada medida se <em>comunicará mediante eventos</em>. Todo el código relacionado con las lecturas del sensor estará en un componente separado. Se valorará la modularización del código (uso de más componentes) para el resto de funcionalidad de este punto.</p>
