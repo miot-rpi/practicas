@@ -24,14 +24,13 @@ procede, en primer lugar, con un recorrido por la preparación y construcción
 del servidor siguiendo una estructura de tabla que define los servicios y
 características que se implementarán en el mismo. 
 
-El ejemplo implementa el perfile *Heart Rate Profile* definido en la
-[especificación Bluetooth](https://www.bluetooth.com/specifications/profiles-overview),
-y sigue la siguiente estructura:
+El ejemplo implementa el perfil *Heart Rate Profile* definido en la
+[especificación Bluetooth](https://www.bluetooth.com/specifications/profiles-overview), que sigue la siguiente estructura:
 
 <div align="center"><img src="img/Heart_Rate_Service.png" width = "450" alt="Table-like data structure representing the Heart Rate Service" align=center /> </div>
 
 Desplegaremos, por tanto, tres características. De ellas, la más importante
-para nosotros será el valor de medición de ritmo cardiaco, con su valor
+para nosotros será el valor de medición de ritmo cardíaco, con su valor
 (*Heart Rate Measurement Value*) y su configuración de notificaciones
 (*Heart Rate Measurement Notification Configuration*).
 
@@ -185,7 +184,7 @@ siguientes apartados.
 
 ### Inicialización de la flash para almacenamiento no volátil
 
-La función principal procede incializando el almacenamiento no volátil, para 
+La función principal procede inicializando el almacenamiento no volátil, para 
 almacenar los parámetros necesarios en memoria *flash*:
 
 ```c
@@ -196,8 +195,7 @@ ret = nvs_flash_init();
 
 A continuación la función principal inicializa el controlador Bluetooth, creando
 en primer lugar una estructura de configuración para tal fin de tipo
-`esp_bt_controller_config_t` con valores por defecto dictados por la macro
-`BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. 
+`esp_bt_controller_config_t` con valores por defecto dictados por la macro `BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. 
 
 El controlador Bluetooth implementa el *Host Controller Interface* (HCI), la
 capa de enlace y la capa física BLE; es, por tanto, transparente para el
@@ -224,7 +222,7 @@ Existen cuatro modos de funcioinamiento del controlador Bluetooth:
 3. `ESP_BT_MODE_CLASSIC_BT`: Modo BT Clásico
 4. `ESP_BT_MODE_BTDM`: Modo Dual (BLE + BT Clásico)
 
-Tras la incialización del controlador Bluetooth, se inicializa y activa la pila
+Tras la inicialización del controlador Bluetooth, se inicializa y activa la pila
 Bluedroid (que incluye APIs tanto para BLE como para Bluetooth Clásico):
 
 ```c
@@ -235,12 +233,12 @@ ret = esp_bluedroid_enable();
 La pila Bluetooth está, a partir de este punto, lista para funcionar, pero
 todavía no se ha implementado ninguna lógica de aplicación. Dicha funcionalidad
 se define con el clásico mecanismo basado en eventos, que pueden ser emitidos,
-por ejemplo, cuando otro dispositivo intenta leer o escribir parámetros, o
+por ejemplo, cuando otro dispositivo intenta leer o escribir parámetros o
 establecer una conexión. 
 
 Existen dos gestores de eventos para BLE: los manejadores (*handlers*) GAP y
 GATT. La aplicación necesita registrar una función de *callback* para cada uno
-de ellos, que será la encargada de tratar los eventos correspondiente a estos
+de ellos, que será la encargada de tratar los eventos correspondientes a estos
 servicios.
 
 ```c
@@ -250,20 +248,20 @@ esp_ble_gap_register_callback(gap_event_handler);
 
 En la aplicación de ejemplo estos *callbacks* son las funciones
 `gatts_event_handler()` y `gap_event_handler()`, que manejarán los eventos
-emitidos por la pila BLE hacia la plicación.
+emitidos por la pila BLE hacia la aplicación.
 
 ### Perfiles de aplicación (*Application profiles*)
 
-Como se ha dicho, el objetivo es implementar un Perfil de Aplicación 
-para el servicio *Heart Rate*. Un Perfil de Aplicación es un mecanismo que
+Como se ha dicho, el objetivo es implementar un perfil de aplicación 
+para el servicio *Heart Rate*. Un perfil de aplicación es un mecanismo que
 permite agrupar funcionalidad diseñada para ser utilizada por un cliente
 de la aplicación, por ejemplo, una aplicación móvil. Un mismo servidor puede
-implementar uno o más perfiles de aplicación (Aplicaciones en el mundo BLE).
+implementar uno o más perfiles de aplicación (aplicaciones en el mundo BLE).
 
-El Identifificador de Perfil de Aplicación (*Application Profile ID*) es un
+El Identificador de Perfil de Aplicación (*Application Profile ID*) es un
 valor seleccionable por el usuario para identificar cada perfil; su uso se
-recude al registro del perfil en la pila Bluetooth. En el ejemplo, el ID es
-`0x55`.
+reduce al registro del perfil en la pila Bluetooth. En el ejemplo, el ID es
+`0x55`:
 
 ```c
 #define PROFILE_NUM                  1
@@ -276,9 +274,9 @@ Al haber un único perfil en el ejemplo, sólo se almacena un elemento en el
 array, con índice 0 (tal y como se define en ``PROFILE_APP_IDX``). 
 Además, es necesario inicializar la función de *callback* manejadora de los
 eventos del perfil. Cada aplicación en el servidor GATT utiliza una interfaz
-diferenciada, representada por el parámetro `gats_if`. Para la incialización,
+diferenciada, representada por el parámetro `gatts_if`. Para la inicialización,
 este parámetro se iguala a ``ESP_GATT_IF_NONE``; 
-cuando la aplicación se registre, más adelante, el parámetro `gatts_if` se 
+cuando más adelante se registre la aplicación, el parámetro `gatts_if` se 
 actualizará con la interfaz generada automáticamente por la pila Bluetooth.
 
 ```c
@@ -322,9 +320,9 @@ esp_ble_gatts_app_register(ESP_APP_ID);
 
 El evento de registro de aplicación ``ESP_GATTS_REG_EVT`` es el primero que se
 generará en la vida del programa. Este evento es tratado por el callback
-registrado como manejador de eventos del servidor gatt, que en nuestro ejemplo
+registrado como manejador de eventos del servidor GATT, que en nuestro ejemplo
 lo termina delegando en el callback asociado al perfil de aplicación
-(``gatts_profile_event_handler`` en nuestro ejemplo):
+(``gatts_profile_event_handler``):
 
 ```c
 static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
@@ -361,13 +359,13 @@ Los parámetros asociados al evento son:
 
 ```c
 esp_gatt_status_t status;    /* Operation status */
-uint16_t app_id;             /* Application id which input in register API */
-esp_gatt_if_t gatts_if;      /* Interfaz GATTS assignada por la pila BLE */
+uint16_t app_id;             /* Application ID */
+esp_gatt_if_t gatts_if;      /* Interfaz GATTS asignada por la pila BLE */
 ```
 
 A partir de ese momento deberá usarse la interfaz ``gatts_if`` para operar, por
 lo que la función registra esta interfaz en la tabla de descripción del perfil
-de aplicación.
+de aplicación (``heart_rate_profile_tab``).
 
 Finalmente, la función delega el evento en el callback registrado para tratar
 los eventos asociados al perfil (``gatts_profile_event_handler``).
@@ -376,7 +374,7 @@ los eventos asociados al perfil (``gatts_profile_event_handler``).
 
 Como hemos visto arriba, el evento ``ESP_GATTS_REG_EVT`` es delegado en la
 función ``gatss_profile_event_handler`` por el manejador de eventos del servidor
-gatt, para completar su procesamiento:
+GATT para completar su procesamiento:
 
 ```c
 static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
@@ -407,6 +405,7 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
             }
         }
        	    break;
+
 			...
 }
 ```
@@ -435,21 +434,22 @@ los datos de anuncio. Cada dato anunciado se compone de:
 * Campo longitud: indica el número de bytes que ocupa el dato, sin contar el
   campo longitud (es decir, cuantos bytes vienen después del campo longitud)
 * Campo tipo: indica el tipo de dato según el documento [Bluetooth Assigned Numbers
-  Document](https://www.bluetooth.com/wp-content/uploads/2022/11/assigned_numbers_release-1.pdf)
+  Document](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Assigned_Numbers/out/en/Assigned_Numbers.pdf)
 * Campo datos: los bytes del dato anunciado
 
 Podemos ver que en nuestro ejemplo el anuncio envía:
 
 * Flags: LE General Discoverable Mode y BR/EDR not supported
-* Tx Power Level: 1 byte en complemento a 2, en dBm (-127 a 127 dBm). Se puede
+* TX Power Level: 1 byte en complemento a 2, en dBm (-127 a 127 dBm). Se puede
   usar para determinar la potencia perdida en la transmisión, calculando la
   diferencia entre la potencia transmitida anunciada y el RSSI en la recepción.
   En nuestro ejemplo -21 dBm.
+* Complete 16-bit Service UUIDs: lista de UUIDs de 16 bits de los servicios que ofrece el dispositivo.
 * Complete Local Name: el nombre local completo asignado al dispositivo.
 
 La carga total del paquete de anuncio (*payload*) puede ser como máximo de 31
 bytes (en nuestro ejemplo el anuncio ocupa 26 bytes). Para poder enviar
-más datos se puede configurar un *scan response*, lo que hará que los anuncios
+más datos (otros 31 bytes) se puede configurar un *scan response*, lo que hará que los anuncios
 enviados sean de tipo scannable. El scan response se puede configurar usando la
 función ``esp_ble_gap_config_scan_rsp_data_raw()``.
 
@@ -463,9 +463,9 @@ función ``esp_ble_gap_config_scan_rsp_data_raw()``.
 ```
 
 Al final del tratamiento del evento de registro se inicializa la tabla del
-servidor GATT. En nuestro ejemplo los atributos de la tabla se pasan a través
-del array ``gatt_db``, indicándose el número de entradas de este array
-(``HRS_IDX_NB``), el interfaz ble a utilizar (``gatts_if``) y la instancia de
+servidor GATT. En nuestro ejemplo, los atributos de la tabla se pasan a través
+del array ``gatt_db``, indicándose la interfaz BLE a utilizar (``gatts_if``),
+el número de entradas en el array (``HRS_IDX_NB``) y la instancia de
 ese servicio (``SVC_INST_ID``).
 
 ```c
@@ -477,8 +477,8 @@ ese servicio (``SVC_INST_ID``).
 
 ## Estructura de la tabla GATT
 
-Como hemos visto arriba, la tabla GATT se inicializa en el evento de Registro de
-Aplicación, usando la función ``esp_ble_gatts_create_attr_tab()``. Esta función
+Como hemos visto arriba, la tabla GATT se inicializa en el evento de registro de
+aplicación, usando la función ``esp_ble_gatts_create_attr_tab()``. Esta función
 toma como argumento un array de estructuras de tipo ``esp_gatts_attr_db_t``,
 indexable con los valores del enumerado definido en el fichero
 ``gatts_table_creat_demo.h``.
@@ -486,8 +486,8 @@ indexable con los valores del enumerado definido en el fichero
 Las estructuras ``esp_gatts_attr_db_t`` tienen dos miembros:
 
 ```c
-esp_attr_control_t    attr_control;       /* The attribute control type*/
-esp_attr_desc_t       att_desc;           /* The attribute type*/
+esp_attr_control_t    attr_control;       /* The attribute control type */
+esp_attr_desc_t       att_desc;           /* The attribute type */
 ```
 
 * `attr_control` es el parámetro de autorespuesta, típicamente fijado a
@@ -513,30 +513,37 @@ servicio:
 
 ```c
     // Service Declaration
-    [IDX_SVC]        =
-    {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&primary_service_uuid, ESP_GATT_PERM_READ,
-      sizeof(uint16_t), sizeof(GATTS_SERVICE_UUID_TEST), (uint8_t *)&GATTS_SERVICE_UUID_TEST}},
+    [IDX_SVC] = {
+        {ESP_GATT_AUTO_RSP},
+        {
+            ESP_UUID_LEN_16,
+            (uint8_t *)&primary_service_uuid,
+            ESP_GATT_PERM_READ,
+            sizeof(uint16_t),
+            sizeof(GATTS_SERVICE_UUID_TEST),
+            (uint8_t *)&GATTS_SERVICE_UUID_TEST
+        }
+    },
 ```
 
 Los valores de inicialización son:
 
-* ``[IDX_SVC]``: Inicializador en la tabla.
+* ``[IDX_SVC]``: index del atributo dentro de la tabla GATT.
 * ``ESP_GATT_AUTO_RSP``: configuración de respuesta automática, fijada en este
     caso a respuesta automática por parte de la pila BLE.
-* ``ESP_UUID_LEN_16``: longitudo del UUID fijada a 16 bits.
-* ``(uint8_t *)&primary_service_uuid``: UUID para identificar al servicio como
-  primario (0x2800).
-* ``ESP_GATT_PERM_READ``: Permisos de lectura para el servicio.
-* ``sizeof(uint16_t)``: Longitud máxima del UUID del servicio (16 bits).
-* ``sizeof(heart_rate_svc)``: Longitud del servicio, en este caso 16 bits
-  (fijada por el tamaño de la variable *heart_rate_svc*).
-* ``(uint8_t *)&heart_rate_svc``: Valor del atributo servicio fijada a la 
-  variable the variable *heart_rate_svc*, que contiene el UUID del *Heart Rate
-  Service* (0x180D).
+* ``ESP_UUID_LEN_16``: longitud del UUID del tipo de atributo (16 bits).
+* ``(uint8_t *)&primary_service_uuid``: UUID para identificar al atributo como
+  servicio primario (0x2800).
+* ``ESP_GATT_PERM_READ``: permisos del atributo, en este caso de solo lectura.
+* ``sizeof(uint16_t)``: longitud máxima del valor del atributo (16 bits).
+* ``sizeof(GATTS_SERVICE_UUID_TEST)``: longitud del valor del atributo, en este caso 16 bits
+  (fijado por el tamaño de la variable *GATTS_SERVICE_UUID_TEST*).
+* ``(uint8_t *)&GATTS_SERVICE_UUID_TEST``: valor del atributo, en este caso el UUID real del servicio
+  (fijado en *GATTS_SERVICE_UUID_TEST*).
 
-El resto de atributos se inicializan de forma similar. Algunos atributos también
-tienen activa la propiedad *NOTIFY*, que se establece vía 
-``&char_prop_notify``. La tabla completa se inicializa como sigue:
+El resto de atributos se inicializan de forma similar. Algunos atributos también tienen activa
+la propiedad *NOTIFY*, que se establece vía ``&char_prop_read_write_notify``.
+La tabla completa se inicializa como sigue:
 
 ```c
 /* Full Database Description - Used to add attributes into the database */
@@ -593,20 +600,20 @@ perfil.  Este evento tiene los siguientes parámetros asociados:
 
 ```c
 esp_gatt_status_t status;    /* Operation status */
-esp_bt_uuid_t svc_uuid;      /* Service uuid type */
-uint16_t num_handle;         /* The number of the attribute handle to be added to the gatts database */
-uint16_t *handles;           /* The number to the handles */
+esp_bt_uuid_t svc_uuid;      /* Service UUID type */
+uint16_t num_handle;         /* The number of the attribute handles which have been added to the GATT Service table */
+uint16_t *handles;           /* The handles which have been added to the table */
 ```
 
 Nuestro código de ejemplo utiliza este evento para comprobar que el tamaño de la
 tabla creada es igual al número de elementos en la enumeración (``HRS_IDX_NB``).
 Si la tabla se creó correctamente, se copian en la tabla
-``heart_rate_handle_table`` los manejadores (handels) asignados por el servidor
+``heart_rate_handle_table`` los handles (IDs internos) asignados por el servidor
 GATT a los atributos, y finalmente se inicializa el servicio utilizando la
 función ``esp_ble_gatts_start_service()``:
 
 ```c
-case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
+case ESP_GATTS_CREAT_ATTR_TAB_EVT:
 	if (param->add_attr_tab.status != ESP_GATT_OK){
 		ESP_LOGE(GATTS_TABLE_TAG, "create attribute table failed, error code=0x%x", param->add_attr_tab.status);
 	}
@@ -622,20 +629,19 @@ case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
 	break;
 ```
 
-Los manejadores (handles) almacenados son números que identifican cada atributo.
-Estos manejadores pueden usarse en cualquier punto de la aplicación para operar
+Estos handles pueden usarse en cualquier punto de la aplicación para operar
 sobre los atributos.
 
 ## El manejador de eventos GAP
 
-Como hemos visto arriba, en el procesamiento del evento de registro de
+Como hemos visto antes, en el procesamiento del evento de registro de
 aplicación se establecen los datos de anuncio. Cuando se complete esta
 inicialización, la pila BLE emitirá un evento de tipo
 ``ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT``, que será manejado por el callback
 registrado como GAP handler. Si se ha configurado un anuncio scannable y una
 respuesta al escaneado (en nuestro ejemplo se ha configurado), la pila BLE
 emitirá también un evento de tipo
-``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT``.  El manejador del código de
+``ESP_GAP_BLE_SCAN_RSP_DATA_SET_COMPLETE_EVT``. El manejador del código de
 ejemplo espera a que se produzcan estos dos eventos para comenzar con el proceso
 de anuncio, utilizando la función ``esp_ble_gap_start_advertising()``:
 
@@ -666,7 +672,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
 ```
 
 La función de inicio de anuncios toma una estructura de tipo 
-``esp_ble_adv_params_t`` con los parámetros de anuncio requeridos:
+``esp_ble_adv_params_t`` con los parámetros de anuncio requeridos.
 
 ```c
 /// Advertising parameters
@@ -696,8 +702,7 @@ Nótese como ``esp_ble_gap_config_adv_data_raw()`` (en
 *gatts_profile_event_handler*) configura los datos enviados en el anuncio,
 mientras que ``esp_ble_gap_start_advertising()`` pone al dispositivo en modo
 advertising, haciendo que el servidor comience a enviar los anuncios.  Los
-parámetros de anuncio configuran como y cuándo enviarlos. En nuestro ejemplo,
-los parámetros de anuncio se inicializan como sigue:
+parámetros de anuncio configuran cómo y cuándo enviarlos. En nuestro ejemplo:
 
 ```c
 static esp_ble_adv_params_t adv_params = {
@@ -710,10 +715,11 @@ static esp_ble_adv_params_t adv_params = {
 };
 ```
 
-Estos parámetros configuran el intervalo de anuncio entre 20 ms y 40 ms.  El
-anuncio es de tipo `ADV_TYPE_IND` (tipo genérico), destinados a ningún
-dispositivo central en particular, y anuncia que el servidor GATT es conectable.
-El tipo de dirección es público, utiliza todos los canales y permite peticiones
+Estos parámetros configuran el intervalo de anuncio entre 20 ms y 40 ms.
+El anuncio es de tipo `ADV_TYPE_IND` (tipo genérico), destinado a cualquier
+dispositivo central y anuncia que el servidor GATT es conectable.
+A su vez, el tipo de dirección utilizada por el servidor GATT es su MAC Bluetooth pública,
+utiliza todos los canales de anuncio y, finalmente, permite peticiones
 de escaneo y conexión por parte de cualquier dispositivo central.
 
 Si el proceso de anuncio se inició correctamente, se emitirá un evento de tipo
@@ -738,14 +744,13 @@ un mensaje de error:
 
 Existen multitud de herramientas que permiten gestionar la conexión al servidor
 GATT. En Linux, utilizaremos `hcitool` y `gatttool`; en Windows, puedes utilizar
-una herramienta llamada `Bluetooth LE Explorer`, que implementa, aunque de forma
-gráfica, la misma funcionalidad.
+una herramienta llamada `Bluetooth LE Explorer` que implementa, aunque de forma
+gráfica, la misma funcionalidad. De la misma forma, en macOS puedes usar `LightBlue`.
 
-!!! note "Nota"
-    Para desarrollar esta parte de la práctica, deberás hacer visible en la
+!!! note "Nota (en caso de trabajar con máquina virtual)"
+    Para desarrollar la práctica, deberás hacer visible en la
 	máquina virtual el controlador Bluetooth del equipo que la hospeda (tu
 	portátil o el equipo de laboratorio).
-
 
 ## Uso de `hcitool` y `gatttool` en modo cliente
 
@@ -754,47 +759,31 @@ gráfica, la misma funcionalidad.
 `hcitool` es una herramienta de línea de comandos que permite gestionar
 la interfaz Bluetooth del equipo en el que se ejecuta. En nuestro caso, 
 necesitaremos determinar la dirección MAC Bluetooth de nuestro servidor.
-Para ello, en primer lugar, realizaremos un escaneado de los dispsitivos
-BLE disponibles en el entorno utilizando la orden:
+Para ello, en primer lugar, realizaremos un escaneado de los dispositivos
+BLE disponibles en el entorno con:
 
 ```sh
 sudo hcitool lescan
 ```
 
-!!! note "Nota"
-	Este comando no funcionará si no has pasado el control del dispositivo
-	bluetooth a la máquina virtual.
-
 Si todo ha ido bien, se mostrará una línea por dispositivo BLE disponible
 y en fase de anuncio. Entre ellos, deberemos encontrar nuestro dispositivo.
-Apuntaremos su dirección MAC, para poder usarla de aquí en adelante.
+Apuntaremos su dirección MAC para poder usarla de aquí en adelante.
 
-!!! danger "Tarea Básica"
+!!! danger "Ejercicio 1"
     Edita el fichero `main/gatts_table_creat_demo.c` y modifica el nombre
-    de tu dispositivo, que se enviará en cada anuncio emitido en la fase
-    de `advertising`. Para ello, debes modificar el campo correspondiente de la 
-    estructura `raw_adv_data`.
+    de dispositivo que se enviará en cada anuncio emitido en la fase
+    de `advertising`.
     A continuación, compila y flashea el ejemplo, y comienza una sesión de
-    escaneado de dispositivos BLE mediante la orden:
-    ```
-    sudo hcitool lescan
-    ```
-    Deberás observar tu dispositivo en una de las líneas. Anota o recuerda
-    su dirección MAC.
-
-!!! danger "Tarea Adicional"
-	Documenta y explica el ejercicio en tu informe de la práctica.
+    escaneado de dispositivos BLE.
+    Deberás observar tu dispositivo en una de las líneas. Anota su dirección MAC.
 
 ### Interactuando con el servidor GATT: `gatttool`
 
 Una vez obtenida la dirección MAC Bluetooth del dispositivo, deberemos proceder
 en dos fases. La primera de ellas es el emparejado al dispostivo desde tu
 consola. La segunda, la interacción con la tabla GATT. En ambos casos, se
-utilizará la herramienta `gatttool` desde línea de comandos.
-
-!!! danger "Tarea Adicional"
-	Prepara un informe donde documentes y comentes cada uno de los pasos y
-	tareas que realices en esta práctica.
+utilizará la herramienta `gatttool` desde la línea de comandos.
 
 Para comenzar una sesión `gatttool`, invocaremos a la herramienta en modo
 interactivo, utilizando la orden:
@@ -803,13 +792,15 @@ interactivo, utilizando la orden:
 gatttool -b MAC -I
 ```
 
-Esto abrirá una consola interactiva, a la espera de las ordenes correspondientes.
+Esto abrirá una consola interactiva a la espera de las órdenes correspondientes.
 
-Para realizar el emparejamiento, y considerando que la MAC Bluetooth es 
-ya conocida, utilizaremos la orden `connect`. Si todo ha ido bien, deberemos observar
-un cambio en el color del prompt, y un mensaje *Connection successful*. En este punto,
+Para realizar el emparejamiento, y considerando que conocemos la MAC Bluetooth, utilizaremos la orden `connect`. Si todo ha ido bien, deberemos observar
+un cambio en el color del prompt y un mensaje *Connection successful*. En este punto,
 observa como en la salida de depuración del ESP32 se muestran los mensajes
 correspondientes al proceso de emparejamiento.
+
+!!! danger "Ejercicio 2"
+    Documenta el proceso de conexión con `gatttool` en  informe de la práctica.
 
 Desde la terminal de `gatttool`, puedes ejecutar en cualquier momento la 
 orden `help` para obtener ayuda (en forma de lista de comandos disponibles):
@@ -837,82 +828,58 @@ sec-level       [low | medium | high]          Set security level. Default: low
 mtu             <value>                        Exchange MTU for GATT/ATT
 ```
 
-Comenzaremos consultando la lista de características del servidor GATT.
+Continuamos consultando la lista de características del servidor GATT.
 
-!!! danger "Tarea Básica"
-    Mediante el comando correspondiente (`characteristics`), 
-    consulta y anota las características disponibles en tu servidor GATT.
-
-!!! danger "Tarea Adicional"
-	Documenta y explica el ejercicio en tu informe de la práctica.
+!!! danger "Ejercicio 3"
+    Mediante el comando correspondiente, consulta y anota las características
+    disponibles en tu servidor GATT.
 
 Una de estas características será de crucial interés, ya que nos permitirá
-acceder, a través de su UUID, la medición instantánea de ritmo cardíaco, así
-como la configuración de notificaciones sobre dicho valor. Para determinar 
+acceder a la medición del ritmo cardíaco, así
+como a la configuración de notificaciones sobre dicho valor. Para determinar 
 cuál de las líneas es la que nos interesa, observa el valor de UUID devuelto
-para cada una de ellas, y determina, en función de la macro
-`GATTS_CHAR_UUID_TEST_A` de cuál se trata.
+para cada una de ellas y compara con los UUIDs utilizados en el código.
 
-Para interactuar con dicha característica, necesitaremos conocer su manejador 
-(*handler*). Dicho manejador se muestra, para cada línea, tras la cadena
-*char value handle*. 
+Para interactuar con el valor de dicha característica, necesitamos conocer su ID interno 
+(*handle*). Dicho handle se muestra, para cada línea, en el campo *char value handle*.
 
-!!! danger "Tarea Adicional"
-    El manejador que permite leer desde la característica *Heart Rate Value"
-    tiene un manejador de tipo char asociado. Anota su valor.
+!!! danger "Ejercicio 4"
+    Encuentra el handle que nos permitirá leer el *Heart Rate Measurement Value*. ¿Con qué comando podríamos leer su valor? Documenta el proceso en tu informe explicando
+	cómo saber el handle que se debe usar.
 
-Para leer el valor de la característica, podemos utilizar su manejador asociado.
-Así, podemos obtener dicho valor con un comando de lectura, en este caso
-`char-read-hnd manejador`.
-
-!!! danger "Tarea Básica"
+!!! danger "Ejercicio 5"
     Obtén los datos de lectura de la característica de medición del valor
-    de monitorización de ritmo cardíaco. ¿Cuáles son? Deberías observar un 
-    valor de retorno de cuatro bytes con valor 0x00. Estos valores corresponden
-    a los de la variable `char_value` de tu código. Modifícalos, recompila y 
-    vuelve a *flashear* el código. ¿Han variado?
+    de monitorización de ritmo cardíaco. ¿Cuáles son?
+    Modifica el código para almacenar otros datos diferentes, recompila y 
+    vuelve a flashear. ¿Han variado?
 
-!!! danger "Tarea Básica"
-    Intenta ahora escribir en la anterior característica. Para ello, utiliza
-	el comando `char-write-cmd handler valor`, siendo valor, por ejemplo,
-	`11223344`.
-
-!!! danger "Tarea Adicional"
-	Documenta el proceso en tu informe de la práctica explicando
-	cómo saber el handle que se debe usar para poder modificar la
-	característica.
+!!! danger "Ejercicio 6"
+    Escribe ahora en el valor de la característica usando `gatttool`.
+    Documenta el proceso en tu informe y muestra una captura del valor actualizado.
 
 Escribiremos a continuación en la característica de configuración (CCC) del
-servicio de montorización. Para ello, utilizaremos el manejador siguiente al
-utilizado anteriormente. Esto es, si se nos devolvió, por ejemplo, un manejador
+servicio de montorización. Para ello, utilizaremos el handle siguiente al
+utilizado anteriormente. Esto es, si se nos devolvió, por ejemplo,
 `0x0001` para el valor de monitorización, el valor de configuración será
 `0x0002`.
 
-!!! danger "Tarea Básica"
-	Intenta ahora escribir en la característica de configuración. Para ello,
-	utiliza el comando `char-write-cmd handler valor`, siendo valor, por
-	ejemplo, `0100`.
+!!! danger "Ejercicio 7"
+	Intenta ahora escribir en la característica de configuración el valor `0x0100`
+    (valor especial para activar notificaciones). Muestra una captura del valor actualizado.
 
-!!! danger "Tarea Adicional"
-	Documenta el proceso en tu informe de la práctica
-	explicando cómo saber el handle que se debe usar para poder modificar la
-	característica.
-
-Como habrás observado, es posible leer desde el valor de monitorización, y 
+Como habrás observado, es posible leer desde el valor de monitorización y 
 escribir en el valor de configuración. Utilizaremos esta última característica
 para configurar las notificaciones sobre el valor de monitorización. De este
-modo, cada vez que se desee enviar dicho valor a los clientes que tengan 
-activada la notificación, éstos la recibirán sin necesidad de cambio alguno.
+modo, cada vez que el valor cambie, el servidor enviará automáticamente el nuevo valor al cliente.
 
-Para ello, necesitamos modificar algunas partes de nuestro código.
+Para ello, necesitamos modificar algunas partes del código.
 Específicamente, necesitaremos:
 
-1. Crear una nueva tarea que, periódicamente, modifique el valor de
-   monitorización de ritmo cardíaco (leyéndolo desde un sensor, si está
-   disponible, o, en nuestro caso generando un valor aleatorio). Dicha tarea
+1) Crear una nueva tarea que, periódicamente, modifique el valor de
+   monitorización del ritmo cardíaco (leyéndolo desde un sensor si está
+   disponible, o, en nuestro caso, generando un valor aleatorio). Dicha tarea
    consistirá en un bucle infinito que, en cualquier caso, sólo enviará datos al
-   cliente si la notificación está activa, con un intervalo de envío de un
-   segundo:
+   cliente si la notificación está activa, con un intervalo de envío de un segundo:
 
 ```c
 static void publish_data_task(void *pvParameters)
@@ -920,36 +887,31 @@ static void publish_data_task(void *pvParameters)
     while (1) {
         ESP_LOGI("APP", "Sending data..."); 
 
-        // Paso 1: Actualizo valor...
+        // Paso 1: actualizo valor...
 
-        // Paso 2: Si las notificaciones están activas envío datos...
+        // Paso 2: si las notificaciones están activas envío datos...
 
-        // Paso 3: Duermo un segundo...
-        vTaskDelay( 1000. / portTICK_PERIOD_MS);
+        // Paso 3: duermo un segundo...
     }
 }
 ```
 
 Esta rutina deberá crearse en respuesta al evento de conexión por parte de un
-cliente, utilizando, por ejemplo, la invocación a:
+cliente (`ESP_GATTS_CONNECT_EVT`), utilizando, por ejemplo, la invocación a:
 
 ```c
 xTaskCreate(&publish_data_task, "publish_data_task", 4096, NULL, 5, NULL);
 ```
 
-2. La actualización del valor, realizada periódicamente y de forma aleatoria,
-   modificará el byte 1 de la variable `char_value`, tomando un valor aleatorio
-   entre 0 y 255 (como nota adicional, los pulsómetros actuales soportan valores
-   mayores para ritmo cardiaco, aunque la configuración de esta funcionalidad
-   está fuera del alcance de la práctica).
+2) La actualización del valor, realizada periódicamente y de forma aleatoria,
+   modificará el segundo byte de la variable `char_value`, tomando un valor aleatorio
+   entre 0 y 255.
 
-3. La comprobación de la activación o no de la notificación se realiza
-   consultando los dos bytes de la variable `heart_measurement_ccc`. Si dichos
-   valores son `0x01` y `0x00` (posiciones 0 y 1, respectivamente), las
-   notificaciones están activas, y por tanto, se realizará el envío de
-   notificación.
+3) La comprobación de la activación o no de la notificación se puede realizar
+   especificando una nueva variable global que mantenga si se han activado
+   las notificaciones (estudiar el manejo del evento `ESP_GATTS_WRITE_EVT`).
 
-4. Para enviar la notificación, utilizaremos la siguiente función:
+4) Para enviar la notificación, utilizaremos la siguiente función:
 
 ```c
 esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if, 
@@ -958,35 +920,13 @@ esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if,
                                       sizeof(char_value), char_value, false);
 ```
 
-La activación de notificaciones desde `gatttool` se realizará mediante 
-la escritura del valor `0x0100` en la característica de configuración, esto es:
+Tras modificar el código, recompilar y flashear, recuerda volver a activar las notificaciones (ejercicio 7).
 
-```sh
-char-write-cmd HANDLER 0100
-```
-
-Nuestro *firmware* deberá modificarse para que, al recibir dicho valor en 
-la característica, se sobreescriba el contenido de la variable
-`heart_measurement_ccc`. Esta escritura debe realizarse en respuesta al
-evento `ESP_GATTS_WRITE_EVT`.
-
-!!! danger "Tarea Adicional"
+!!! danger "Ejercicio 8"
 	Modifica el firmware original para que, periódicamente (cada segundo)
 	notifique el valor de ritmo cardíaco a los clientes conectados.
 
-	Si además modificas las UUID por las proporcionadas en la especificación
-	Bluetooth para el Servicio *Heart Rate* y todo ha sido configurado
-	correctamente, tu ESP32 debería poder interactuar con cualquier monitor de
-	ritmo cardiaco, por ejemplo, Android. Para ello, utiliza las siguientes
-	UUIDs:
-
-    * static const uint16_t GATTS_SERVICE_UUID_TEST      = 0x180D; //0x00FF;
-    * static const uint16_t GATTS_CHAR_UUID_TEST_A       = 0x2A37; //0xFF01;
-    * static const uint16_t GATTS_CHAR_UUID_TEST_B       = 0x2A38; //0xFF02;
-    * static const uint16_t GATTS_CHAR_UUID_TEST_C       = 0x2A39; //0xFF03;
-
-	Entrega el código modificado e incluye en tu informe evidencias (capturas de
-	pantalla) que demuestren que un cliente `gatttool` suscrito a notificaciones
-	recibe, cada segundo, la actualización de ritmo cardíaco por parte del
+	Entrega el código modificado e incluye en tu informe capturas de
+	pantalla que demuestren que un cliente `gatttool` suscrito a notificaciones
+	recibe cada segundo la actualización del ritmo cardíaco por parte del
 	sensor.
-
