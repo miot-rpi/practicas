@@ -110,12 +110,15 @@ La funcionalidad del sistema será la siguiente:
 
 * La aplicación monitorizará (cada `nbutton` segundos; parametrizable) un pin de GPIO para detectar pulsaciones de un botón. Si se produce una pulsación, pasaremos al modo `consola`. Se escribirá un componente para esta funcionalida. Si se detecta una pulsación,  *se enviará un evento*.
 
-* Cuando estemos en el modo `consola` se utilizará el componente `consola` de ESP-IDF para leer comandos del usuario. En concreto habrá 3 comandos disponibles:
+* Cuando estemos en el modo `consola` se pasará a un modo en el que no se monitorizará el sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link)  y nos desconetaremos de la WiFi. Se mostrará por el terminal el menasje **Entrando en modo consola** y se inciará una cuenta atrás de 10 segundos. Transcurridos los 10 segundos, se volverá al modo de monitorización.
+
+!!! note Opcional
+ Cuando estemos en el modo `consola` se utilizará el [componente `console` de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html)  para leer comandos del usuario. En concreto habrá 3 comandos disponibles:
     * `help` que mostrará los comandos disponibles
     * `monitor` que volverá nuevamente al modo `monitorización`, tratando de conectar a WiFi de nuevo.
     * `quota` que nos informará de cuántos bytes tiene ocupadas la flash simulada (es decir, cuántos no se han leído)
 
-    Durante este modo de funcionamiento, no se monitorizará el sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link)  y nos desconetaremos de la WiFi.
+ 
 
 !!! danger "Tarea" 
     Escribe una aplicación que realice la funcionalidad anterior. Se valorará especialmente la modularidad y estructura del código, de modo que sea extensible y reutilizable.
