@@ -284,6 +284,7 @@ que ofrece FreeRTOS, concretamente en su porting  ESP-IDF.</p>
 <ul>
 <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/freertos_idf.html">API de ESP-IDF</a></li>
 <li><a href="https://www.freertos.org/Documentation/00-Overview">Documentación oficial de FreeRTOS</a></li>
+<li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html">Documentación del componente console</a></li>
 </ul>
 <h2 id="introduccion">Introducción</h2>
 <p>Al desarrollar código para sistemas empotrados, como nuestro nodo basado en ESP32, es habitual organizar la aplicación en torno a diferentes tareas que se ejecutan de forma concurrente. Habrá tareas dedicadas al muestreo de sensores, tareas dedicadas a la conectividad, tareas de <em>logging</em>... </p>
@@ -340,7 +341,7 @@ que ofrece FreeRTOS, concretamente en su porting  ESP-IDF.</p>
 <p>La funcionalidad del sistema será la siguiente:</p>
 <ul>
 <li>
-<p>El sistema tendrá dos modos de funcionamiento: <code>monitorización</code>  o <code>consola</code>. En el primero, se monitorizará y enviará la temperatura y humedad. En el segundo se permitirá el uso de una consola de comandos. </p>
+<p>El sistema tendrá dos modos de funcionamiento: <code>monitorización</code>  o <code>consola</code>. En el primero, se monitorizará y enviará la temperatura y humedad. En el segundo se permitirá el uso de una consola de comandos (puedes ver la   <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html">documentación de este componente en este enlace</a>)</p>
 </li>
 <li>
 <p>Monitorizará la temperatura y la humedad cada <code>n</code> segundos, siendo éste un parámetro seleccionable por <code>menuconfig</code>. La lectura de cada medida se <em>comunicará mediante eventos</em>. Todo el código relacionado con las lecturas del sensor estará en un componente separado. Se valorará la modularización del código (uso de más componentes) para el resto de funcionalidad de este punto.</p>
@@ -374,15 +375,18 @@ que ofrece FreeRTOS, concretamente en su porting  ESP-IDF.</p>
 <p>La aplicación monitorizará (cada <code>nbutton</code> segundos; parametrizable) un pin de GPIO para detectar pulsaciones de un botón. Si se produce una pulsación, pasaremos al modo <code>consola</code>. Se escribirá un componente para esta funcionalida. Si se detecta una pulsación,  <em>se enviará un evento</em>.</p>
 </li>
 <li>
-<p>Cuando estemos en el modo <code>consola</code> se utilizará el componente <code>consola</code> de ESP-IDF para leer comandos del usuario. En concreto habrá 3 comandos disponibles:</p>
+<p>Cuando estemos en el modo <code>consola</code> se pasará a un modo en el que no se monitorizará el sensor <a href="https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link">SHTC3 de Sensirion</a>  y nos desconetaremos de la WiFi. Se mostrará por el terminal el menasje <strong>Entrando en modo consola</strong> y se inciará una cuenta atrás de 10 segundos. Transcurridos los 10 segundos, se volverá al modo de monitorización.</p>
+</li>
+</ul>
+<div class="admonition note opcional">
+<p class="admonition-title">Note</p>
+<p>Cuando estemos en el modo <code>consola</code> se utilizará el <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/console.html">componente <code>console</code> de ESP-IDF</a>  para leer comandos del usuario. En concreto habrá 3 comandos disponibles:</p>
 <ul>
 <li><code>help</code> que mostrará los comandos disponibles</li>
 <li><code>monitor</code> que volverá nuevamente al modo <code>monitorización</code>, tratando de conectar a WiFi de nuevo.</li>
 <li><code>quota</code> que nos informará de cuántos bytes tiene ocupadas la flash simulada (es decir, cuántos no se han leído)</li>
 </ul>
-<p>Durante este modo de funcionamiento, no se monitorizará el sensor <a href="https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link">SHTC3 de Sensirion</a>  y nos desconetaremos de la WiFi.</p>
-</li>
-</ul>
+</div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea</p>
 <p>Escribe una aplicación que realice la funcionalidad anterior. Se valorará especialmente la modularidad y estructura del código, de modo que sea extensible y reutilizable.</p>
