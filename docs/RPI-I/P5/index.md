@@ -97,17 +97,15 @@ Configuration*, o CCC), un descriptor que **describe si la característica tiene
 las notificaciones activas**. Todos estos índices pueden utilizarse para
 identificar a cada elemento a la hora de crear la tabla de atributos:
 
-* ``IDX_SVC``: índice del servicio Heart Rate
-* ``IDX_CHAR_A``: índice de la definición de la característica Heart Rate Measurement
-* ``IDX_CHAR_VAL_A``: índice del valor de la característica Heart Rate Measurement
-* ``IDX_CHAR_CFG_A``: índice del descriptor de característica Client
-  Configuration Characteristic (CCC) de la característica Heart Rate Measurement
-  (permite configurar notificaciones por cambio en el valor de la característica)
-* ``IDX_CHAR_B``: ínidce de la declaración de característica Heart Rate Body Sensor Location
-* ``IDX_CHAR_VAL_B``: índice del valor de la característica Heart Rate Body Sensor Location
-* ``IDX_CHAR_C``: índice de la declaración de característica Heart Rate Control Point
-* ``IDX_CHAR_VAL_C``: índice del valor de la característica Heart Rate Control Point
-* ``IDX_NB``: Número de elementos en la tabla
+* ``IDX_SVC``: índice del servicio Heart Rate.
+* ``IDX_CHAR_A``: índice de la definición de la característica Heart Rate Measurement.
+* ``IDX_CHAR_VAL_A``: índice del valor de la característica Heart Rate Measurement.
+* ``IDX_CHAR_CFG_A``: índice del descriptor de característica Client Configuration Characteristic (CCC) de la característica Heart Rate Measurement (permite configurar notificaciones por cambio en el valor de la característica).
+* ``IDX_CHAR_B``: ínidce de la declaración de característica Heart Rate Body Sensor Location.
+* ``IDX_CHAR_VAL_B``: índice del valor de la característica Heart Rate Body Sensor Location.
+* ``IDX_CHAR_C``: índice de la declaración de característica Heart Rate Control Point.
+* ``IDX_CHAR_VAL_C``: índice del valor de la característica Heart Rate Control Point.
+* ``IDX_NB``: número de elementos en la tabla.
 
 ## Punto de entrada
 
@@ -217,10 +215,10 @@ ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 
 Existen cuatro modos de funcioinamiento del controlador Bluetooth:
 
-1. `ESP_BT_MODE_IDLE`: Bluetooth no funcional
-2. `ESP_BT_MODE_BLE`: Modo BLE
-3. `ESP_BT_MODE_CLASSIC_BT`: Modo BT Clásico
-4. `ESP_BT_MODE_BTDM`: Modo Dual (BLE + BT Clásico)
+1. `ESP_BT_MODE_IDLE`: Bluetooth no funcional.
+2. `ESP_BT_MODE_BLE`: modo BLE.
+3. `ESP_BT_MODE_CLASSIC_BT`: modo BT clásico.
+4. `ESP_BT_MODE_BTDM`: modo dual (BLE + BT clásico).
 
 Tras la inicialización del controlador Bluetooth, se inicializa y activa la pila
 Bluedroid (que incluye APIs tanto para BLE como para Bluetooth Clásico):
