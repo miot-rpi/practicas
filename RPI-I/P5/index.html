@@ -389,17 +389,15 @@ Configuration</em>, o CCC), un descriptor que <strong>describe si la caracterís
 las notificaciones activas</strong>. Todos estos índices pueden utilizarse para
 identificar a cada elemento a la hora de crear la tabla de atributos:</p>
 <ul>
-<li><code>IDX_SVC</code>: índice del servicio Heart Rate</li>
-<li><code>IDX_CHAR_A</code>: índice de la definición de la característica Heart Rate Measurement</li>
-<li><code>IDX_CHAR_VAL_A</code>: índice del valor de la característica Heart Rate Measurement</li>
-<li><code>IDX_CHAR_CFG_A</code>: índice del descriptor de característica Client
-  Configuration Characteristic (CCC) de la característica Heart Rate Measurement
-  (permite configurar notificaciones por cambio en el valor de la característica)</li>
-<li><code>IDX_CHAR_B</code>: ínidce de la declaración de característica Heart Rate Body Sensor Location</li>
-<li><code>IDX_CHAR_VAL_B</code>: índice del valor de la característica Heart Rate Body Sensor Location</li>
-<li><code>IDX_CHAR_C</code>: índice de la declaración de característica Heart Rate Control Point</li>
-<li><code>IDX_CHAR_VAL_C</code>: índice del valor de la característica Heart Rate Control Point</li>
-<li><code>IDX_NB</code>: Número de elementos en la tabla</li>
+<li><code>IDX_SVC</code>: índice del servicio Heart Rate.</li>
+<li><code>IDX_CHAR_A</code>: índice de la definición de la característica Heart Rate Measurement.</li>
+<li><code>IDX_CHAR_VAL_A</code>: índice del valor de la característica Heart Rate Measurement.</li>
+<li><code>IDX_CHAR_CFG_A</code>: índice del descriptor de característica Client Configuration Characteristic (CCC) de la característica Heart Rate Measurement (permite configurar notificaciones por cambio en el valor de la característica).</li>
+<li><code>IDX_CHAR_B</code>: ínidce de la declaración de característica Heart Rate Body Sensor Location.</li>
+<li><code>IDX_CHAR_VAL_B</code>: índice del valor de la característica Heart Rate Body Sensor Location.</li>
+<li><code>IDX_CHAR_C</code>: índice de la declaración de característica Heart Rate Control Point.</li>
+<li><code>IDX_CHAR_VAL_C</code>: índice del valor de la característica Heart Rate Control Point.</li>
+<li><code>IDX_NB</code>: número de elementos en la tabla.</li>
 </ul>
 <h2 id="punto-de-entrada">Punto de entrada</h2>
 <p>El punto de entrada de la aplicación (<code>app_main()</code>) se implementa como 
@@ -492,10 +490,10 @@ ret = esp_bt_controller_init(&amp;bt_cfg);
 </code></pre>
 <p>Existen cuatro modos de funcioinamiento del controlador Bluetooth:</p>
 <ol>
-<li><code>ESP_BT_MODE_IDLE</code>: Bluetooth no funcional</li>
-<li><code>ESP_BT_MODE_BLE</code>: Modo BLE</li>
-<li><code>ESP_BT_MODE_CLASSIC_BT</code>: Modo BT Clásico</li>
-<li><code>ESP_BT_MODE_BTDM</code>: Modo Dual (BLE + BT Clásico)</li>
+<li><code>ESP_BT_MODE_IDLE</code>: Bluetooth no funcional.</li>
+<li><code>ESP_BT_MODE_BLE</code>: modo BLE.</li>
+<li><code>ESP_BT_MODE_CLASSIC_BT</code>: modo BT clásico.</li>
+<li><code>ESP_BT_MODE_BTDM</code>: modo dual (BLE + BT clásico).</li>
 </ol>
 <p>Tras la inicialización del controlador Bluetooth, se inicializa y activa la pila
 Bluedroid (que incluye APIs tanto para BLE como para Bluetooth Clásico):</p>
