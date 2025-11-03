@@ -103,7 +103,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+    <a href="../P4/index.md" class="dropdown-item">Práctica 4</a>
 </li>
                                     
 <li>
@@ -241,7 +241,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-7-el-protocolo-coap" class="nav-link">Práctica 7. El protocolo CoAP</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-5-el-protocolo-coap" class="nav-link">Práctica 5. El protocolo CoAP</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -274,7 +274,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-7-el-protocolo-coap">Práctica 7. El protocolo CoAP</h1>
+<h1 id="practica-5-el-protocolo-coap">Práctica 5. El protocolo CoAP</h1>
 <h2 id="objetivos">Objetivos</h2>
 <p>El objetivo de esta práctica es realizar una introducción al protocolo
 CoAP, uno de los más extendidos a día de hoy para llevar a cabo comunicaciones
@@ -318,7 +318,7 @@ make install
 interés para nosotros la instalación de programas servidor (<em>coap-server</em>)
 y cliente (<em>coap-client</em>) de ejemplo en el directorio <strong>examples</strong>.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.1</p>
+<p class="admonition-title">Tarea 5.1</p>
 <p>Ejecuta los programas servidor y cliente CoAP del directorio <code>examples</code>. 
 Estudia sus opciones y parámetros de configuración. 
 ¿En qué puertos y bajo qué protocolos escucha el servidor CoAP tras su
@@ -340,7 +340,7 @@ conformará el entregable asociado a la práctica.</p>
 cliente y el servidor. Para ello, abriremos dos terminales desde las que ejecutaremos,
 respectivamente, el servidor y el cliente. </p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.2</p>
+<p class="admonition-title">Tarea 5.2</p>
 <p>Investiga las opciones disponibles
 en el cliente y servidor con respecto a la cantidad de mensajes de depuración a mostrar.
 Ejecuta el servidor CoAP con suficiente nivel de detalle en los mensajes de depuración.</p>
@@ -355,7 +355,7 @@ servidor CoAP. Para ello, realizaremos una petición <code>GET</code> sobre el r
 <code>/.well-known/core</code> del servidor. Esta transacción nos devolverá los recursos
 disponibles en el mismo, así como algunas características adicionales.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.3</p>
+<p class="admonition-title">Tarea 5.3</p>
 <p>¿Qué recursos están disponibles
 en el servidor? Estudia el código fuente del mismo para observar la correlación entre
 los recursos descubiertos y los programados en el código. Averigua el significado 
@@ -366,7 +366,7 @@ de los atributos <em>rt</em>, <em>ct</em>, <em>if</em> y *title.</p>
 obtener datos desde el servidor. Para ello, utilizaremos el método <code>GET</code>,
 seguido del recurso a consultar y, opcionalmente, de una consulta concreta. </p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.4</p>
+<p class="admonition-title">Tarea 5.4</p>
 <p>Consulta la marca de tiempo
 proporcionada por el servidor en modo legible (por ejemplo, <code>Dec 13 14:20:43</code>), y
 también en forma de <em>ticks</em> de reloj, utilizando la consulta adecuada. ¿Qué valor 
@@ -377,7 +377,7 @@ de retorno (código) incluye la respuesta CoAP si el proceso ha tenido éxito?</
 utilizando el método PUT. Consulta la ayuda del cliente proporcionado para observar
 algún ejemplo que dé soporte a esta funcionalidad.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.5</p>
+<p class="admonition-title">Tarea 5.5</p>
 <p>Modifica la marca de tiempo que proporciona el servidor CoAP. 
 ¿Qué valor de retorno (código) incluye la respuesta CoAP si el proceso ha tenido éxito?</p>
 </div>
@@ -385,7 +385,7 @@ algún ejemplo que dé soporte a esta funcionalidad.</p>
 <p>Es posible eliminar un determinado recurso (en el ejemplo, el temporizador), utilizando
 el método <code>DELETE</code>. Investiga cómo hacerlo desde el cliente proporcionado.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.6</p>
+<p class="admonition-title">Tarea 5.6</p>
 <p>Elimina el recurso <em>time</em> del servidor y, a continuación, modifica la marca de tiempo mediante una orden
 <code>PUT</code>}. ¿Qué valores de retorno (código) se devuelven en ambos casos?}</p>
 </div>
@@ -393,7 +393,7 @@ el método <code>DELETE</code>. Investiga cómo hacerlo desde el cliente proporc
 <p>Es posible suscribirse a los cambios en el valor de un recurso utilizando la opción
 <code>-s</code> del cliente. </p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.7</p>
+<p class="admonition-title">Tarea 5.7</p>
 <p>Activa la observación sobre el recurso <em>time</em> del servidor y analiza tanto la
 frecuencia de respuesta como el intercambio de mensajes producido (a través
 de <em>Wireshark</em>). ¿Se producen peticiones periódicas usando <code>GET</code>?</p>
@@ -403,13 +403,13 @@ de <em>Wireshark</em>). ¿Se producen peticiones periódicas usando <code>GET</c
 TCP. En este caso, como es lógico, se establecerá una conexión entre cliente y servidor
 previa a cualquier intercambio de datos.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.8</p>
+<p class="admonition-title">Tarea 5.8</p>
 <p>Fuerza el uso de TCP en el cliente mediante la opción correspondiente y estudia las principales diferencias entre
 los mensajes intercambiados con respecto al uso de UDP.
 ¿Cuál es la eficiencia al utilizar UDP y TCP como protocolos de transporte para CoAP?</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.9</p>
+<p class="admonition-title">Tarea 5.9</p>
 <p>Fuerza el uso de TCP en el cliente mediante la opción correspondiente y estudia las principales diferencias entre
 los mensajes intercambiados con respecto al uso de UDP.
 ¿Cuál es la eficiencia al utilizar UDP y TCP como protocolos de transporte para CoAP?</p>
@@ -420,7 +420,7 @@ los mensajes intercambiados con respecto al uso de UDP.
 <pre><code class="language-sh">coap-client -v 6 -m POST -t json -e &quot;{temperature:15}&quot; coap://127.0.0.1:5683/api/v1/&lt;TOKEN&gt;/telemetry
 </code></pre>
 <div class="admonition note">
-<p class="admonition-title">Tarea 7.10 (opcional)</p>
+<p class="admonition-title">Tarea 5.10 (opcional)</p>
 <p>Crea un nuevo dispositvo en la instancia local de Thingsboad y comprueba su conectividad. Analiza mediante <em>Wireshark</em> la comunicación.</p>
 </div>
 <h2 id="tareas-entregables">Tareas entregables</h2>
