@@ -445,7 +445,7 @@ es el mismo que el que observaste en el caso del  cliente web. Observa qué
 ocurre si consultas un <em>endpoint</em> inexistente, o si envías un JSON mal
 formado o con información incorrecta.</p>
 </div>
-<h3 id="interaccion-con-el-dispositivo-via-node-red1">Interacción con el dispositivo vía Node-RED[^1]</h3>
+<h3 id="interaccion-con-el-dispositivo-via-node-red">Interacción con el dispositivo vía Node-RED<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h3>
 <p>Para interactuar con el dispositivo vía Node-RED, simplemente despliega un flujo
 que contenga un nodo de tipo <code>HTTP Request</code>. En su cuadro de diálogo de configuración,
 podrás incluir tanto el método a utilizar (e.g. <code>GET</code> o <code>POST</code>) como el <em>endpoint</em> (URL)
@@ -457,7 +457,6 @@ interacción HTTP es el esperado, y el comportamiento del ESP32 también. En el 
 necesitar enviar un objeto JSON, puedes investigar cómo formarlo con los nodos correspondientes,
 aunque esto lo veremos en las siguientes secciones.</p>
 </div>
-<p>[^1]: Sólo en caso de haber visto previamente Node-Red.</p>
 <h3 id="implementacion-de-un-servidor-http-con-api-rest">Implementación de un servidor HTTP con API REST</h3>
 <p>La implementación de un servidor HTTP en ESP-IDF se delega al componente
 <em>HTTP Server</em>, que implementa toda la funcionalidad necesaria para tal fin
@@ -961,7 +960,16 @@ Al ejecutarlo, observarás el contenido del objeto:
 [{'chip': 'esp32', 'unicore': False, 'ip': [192, 168, 1, 100]}, 3.140000104904175, CBORSimpleValue(value=99), '2019-07-10 09:00:00+0000', undefined]
 </code></pre>
 
---></div>
+-->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Sólo en caso de haber visto previamente Node-Red.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
             </div>
         </div>
 
