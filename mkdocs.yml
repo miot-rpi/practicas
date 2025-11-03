@@ -7,6 +7,7 @@ extra_javascript:
 markdown_extensions:
     - admonition
     - tables
+    - footnotes
     - pymdownx.arithmatex:
         generic: true
 nav:
