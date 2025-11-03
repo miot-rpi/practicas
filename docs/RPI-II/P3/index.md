@@ -170,18 +170,20 @@ solicitada (`POST`). Volveremos a esto en breve.
     ocurre si consultas un *endpoint* inexistente, o si envías un JSON mal
     formado o con información incorrecta.
 
-### Interacción con el dispositivo vía Node-RED
+### Interacción con el dispositivo vía Node-RED[^1]
 
 Para interactuar con el dispositivo vía Node-RED, simplemente despliega un flujo
 que contenga un nodo de tipo `HTTP Request`. En su cuadro de diálogo de configuración,
 podrás incluir tanto el método a utilizar (e.g. `GET` o `POST`) como el *endpoint* (URL)
 destino y, opcionalmente, los datos a enviar si esto es necesario.
 
-!!! note "Tarea 3.3"
+!!! note "Tarea 3.3 (opcional)"
     Comprueba que, efectivamente, el tráfico generado por un flujo que utilice un nodo de 
     interacción HTTP es el esperado, y el comportamiento del ESP32 también. En el caso de 
     necesitar enviar un objeto JSON, puedes investigar cómo formarlo con los nodos correspondientes,
     aunque esto lo veremos en las siguientes secciones.
+
+[^1]: Sólo en caso de haber visto previamente Node-Red.
 
 ### Implementación de un servidor HTTP con API REST
 
