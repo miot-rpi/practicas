@@ -313,7 +313,7 @@ Trabajaremos los siguientes aspectos del API de ESP-IDF:
 <p>El uso de dispositivos I2C con ESP-IDF sigue las siguientes etapas:</p>
 <ul>
 <li>
-<p><strong>Inicialización e instanciación del master bus driver</strong>. Es necesario obtener un <em>handle</em>  del bus I2C qie se vaya a utilizar. En el SoC montado en la placa ESP32 Devkit-c hay 2 controladores I2C, mientras que en el SoC montado en la placa ESP32-C3 Rust Board sólo hay uno. Esta acción debe hacerse una única vez en toda la aplicación.</p>
+<p><strong>Inicialización e instanciación del master bus driver</strong>. Es necesario obtener un <em>handle</em>  del bus I2C que se vaya a utilizar. En el SoC montado en la placa ESP32 Devkit-c hay 2 controladores I2C, mientras que en el SoC montado en la placa ESP32-C3 Rust Board sólo hay uno. Esta acción debe hacerse una única vez en toda la aplicación.</p>
 </li>
 <li>
 <p><strong>Especificar y condigurar el dispositivo al que conectaremos</strong>. Deberemos añadir al bus  cada dispositivo I2C que conectemos a nuestro ESP32, obteniendo así un <em>handle</em> que será el que finalmente utilizaremos en las llamadas de lectura/escritrura.</p>
@@ -369,7 +369,7 @@ esp_err_t i2c_master_transmit_receive(i2c_master_dev_handle_t i2c_dev, const uin
 </code></pre>
 <p>Habitualmente, se enviará primero un comando con la función <strong>i2c_master_transmit()</strong> y posteriormente se recibirá la información con <strong>i2c_master_receive()</strong>.</p>
 <h2 id="interfaz-i2c-en-esp-idf-antiguo-driver">Interfaz I2C en ESP-IDF (antiguo driver)</h2>
-<p>ESP-IDF proporcionaba este API   para el uso de dispositivos I2C. Permite usar el ESP32  tanto como <em>master</em> como en modo <em>slave</em>. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como <em>master</em> y otro como <em>slave</em> (o cualquier otra combinación).</p>
+<p>ESP-IDF proporcionaba este API para el uso de dispositivos I2C. Permite usar el ESP32  tanto como <em>master</em> como en modo <em>slave</em>. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como <em>master</em> y otro como <em>slave</em> (o cualquier otra combinación).</p>
 <p>Los pasos para usar un dispositivo I2C son:</p>
 <ul>
 <li>Configuración de la conexión. Indcaremos qué pines usamos como SDA y como SCL, si queremos  habilitar <em>pull-up</em> (es aconsejable tener uno externo), el modo (<em>master/slave</em>) y la frecuencia de reloj en HZ. Todo ello se escribe en una estructura de tipo <code>i2c_configt_t</code>y se cconfigura mediante la llamada a <code>i2c_param_config()</code>.</li>
@@ -397,13 +397,86 @@ esp_err_t i2c_master_transmit_receive(i2c_master_dev_handle_t i2c_dev, const uin
 <p>Dependiendo de la versión del PCB que haya en el maletín, puede que únicamente haya pines expuestos (<em>Vin</em>, <em>3Vo</em>, <em>GND</em>, <em>SCL</em> y <em>SDA</em>) o conectores <em>STEMMA QT</em>, compatible con los conectores <a href="https://www.sparkfun.com/qwiic"><em>Qwiic</em> de Sparkfun</a> (Sparkfun es otra compañía tan interesante como <em>Adafruit</em>). Lamentablemente, nuestra placa ESP32 DevKit-C no tiene conectores de ese tipo, por lo que necesitaremos conectar directamente los 4 cables: alimentación, tierra, SCL y SDA.</p>
 <p>De acuerdo a las <a href="https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf">especificaciones del sensor Si7021</a>, el voltaje de entrada no debe superar los 3.6V. La placa de <em>Adafruit</em> proporcionada tiene un regulador de voltaje que nos permite conectar tanto 3.3V como 5V. </p>
 <p>La sección de la <a href="https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf">hoja de especificaciones del sensor Si7021</a> informa acerca del interfaz I2C que ofrece el sensor. Nos indica los 7 bits de dirección del sensor, así como de los comandos disponibles (la mayoría de ellos de 1 byte). </p>
-<p>La sección 5.1.2 del documento explica cómo obtener una medida de temperatura tras haber realizado una medidad de humedad. Para ello usa el comando 0xE0. En nuestro caso deberemos usar 0xE3 o 0xF3.</p>
+<p>La sección 5.1.2 del documento explica cómo obtener una medida de temperatura tras haber realizado una medidad de humedad. Para ello usa el <strong>comando 0xE0</strong>. En nuestro caso <strong>deberemos usar 0xE3 o 0xF3</strong> para la lectura de la temperatura. Una vez leiodos los dos bytes, se puede calcular la temperatura de acuerdo a la fórmula descrita en el datasheet:</p>
+<div class="arithmatex">\[\begin{equation}
+\text{Temperature (°C)} = \frac{175.72 *\text{Raw_Temp}}{65536.0f} - 46.85
+\end{equation}\]</div>
 <div class="admonition danger">
 <p class="admonition-title">i2ctools (opcional)</p>
 <p>Compila y prueba el ejemplo <em>i2c_tools</em> de la carpeta de ejemplos (<em>examples/peripherals/i2c/i2c_tools</em>). Conecta el sensor a los pines indicados por defecto (también a Vcc y a tierra) y ejecuta al comando <code>i2cdetect</code>. Prueba a los distintos comandos disponibles para tratar de leer información del sensor.</p>
 </div>
 <h2 id="ejercicios-obligatorios">Ejercicios obligatorios</h2>
-<h3 id="usar-componente-icm-42670-p-con-nuevo-driver">Usar componente ICM-42670-P con  nuevo driver</h3>
+<h3 id="usar-sensor-si7021-en-esp32-devkit-c">Usar sensor Si7021 en ESP32 devkit-c</h3>
+<p>Escribe un código que monitorice la temperatura leyendo el sensor Si7021 conectado al ESP32 devkit-c v4 (placa antigua).  Utiliza el nuevo driver para realizar la implementación. Para ello puedes seguir el siguiente template:</p>
+<pre><code class="language-c">#define I2C_SDA_PIN     ...
+#define I2C_SCL_PIN     ...
+#define I2C_FREQ_HZ      100000
+#define I2C_DEV_ADDR     0x40    // Dirección I2C del Si7021
+
+static const char *TAG = &quot;si7021&quot;;
+
+static float si7021_read_temperature(i2c_master_dev_handle_t dev)
+{
+    ...
+    uint16_t raw = ...;
+    float temp_c = ((175.72f * raw) / 65536.0f) - 46.85f;
+    return temp_c;
+}
+
+static float si7021_read_humidity(i2c_master_dev_handle_t dev)
+{
+
+    uint16_t raw = ...;
+    float rh = ((125.0f * raw) / 65536.0f) - 6.0f;
+    if (rh &gt; 100.0f) rh = 100.0f;
+    if (rh &lt; 0.0f) rh = 0.0f;
+    return rh;
+}
+
+void app_main(void)
+{
+    // Configurar el bus I2C
+    i2c_master_bus_config_t bus_config = {
+        .i2c_port = I2C_NUM_0,
+        .sda_io_num = I2C_SDA_PIN,
+        .scl_io_num = I2C_SCL_PIN,
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .glitch_ignore_cnt = 7,
+        .flags.enable_internal_pullup = true,
+    };
+
+    i2c_master_bus_handle_t bus_handle;
+    ESP_ERROR_CHECK(i2c_new_master_bus(&amp;bus_config, &amp;bus_handle));
+
+    // Añadir el dispositivo Si7021
+    i2c_device_config_t dev_config = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address = I2C_DEV_ADDR,
+        .scl_speed_hz = I2C_FREQ_HZ,
+    };
+
+    i2c_master_dev_handle_t si7021;
+    ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &amp;dev_config, &amp;si7021));
+
+    // Bucle principal: alternar lecturas cada segundo
+    while (1) {
+        float temp = si7021_read_temperature(si7021);
+        if (temp &gt; -100.0f)
+            ESP_LOGI(TAG, &quot; Temperatura: %.2f °C&quot;, temp);
+        vTaskDelay(pdMS_TO_TICKS(1000));  // Esperar 1 segundo
+
+        float hum = si7021_read_humidity(si7021);
+        if (hum &gt;= 0.0f)
+            ESP_LOGI(TAG, &quot; Humedad: %.2f %%&quot;, hum);
+        vTaskDelay(pdMS_TO_TICKS(1000));  // Esperar 1 segundo antes del siguiente ciclo
+    }
+
+    // Limpieza
+    ESP_ERROR_CHECK(i2c_master_bus_rm_device(si7021));
+    ESP_ERROR_CHECK(i2c_del_master_bus(bus_handle));
+}
+</code></pre>
+<h3 id="usar-componente-icm-42670-p-con-nuevo-driver">Usar componente ICM-42670-P con nuevo driver</h3>
 <p>El <a href="https://components.espressif.com/">registro de componentes de IDF</a> incluye un componente para utilizar la IMU incluida en la placa ESP-RUST-BOARD (con el SoC ESP32-C3):<a href="https://components.espressif.com/components/espressif/icm42670/versions/2.0.0">ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)</a>.</p>
 <p>Crea una aplicación que monitorice el estado del acelerómetro y determine si la placa está boca arriba o boca abajo. El LED RGB cambiará de color en función de la orientación, y se imprimirá por terminal el estado actual.</p>
 <p>Recuerda que, antes de poder usar cualquier dispositivo I2C, es necesario instanciar el controlador de bus I2C que vayamos a utilizar (en este caso, el úinico disponible en esta placa).</p>
@@ -411,8 +484,6 @@ esp_err_t i2c_master_transmit_receive(i2c_master_dev_handle_t i2c_dev, const uin
 static i2c_master_bus_handle_t i2c_handle;
 static void i2c_bus_init(void)
 {
-
-
     i2c_master_bus_config_t bus_config = {
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .i2c_port = I2C_NUM_0,
@@ -438,7 +509,7 @@ static void i2c_bus_init(void)
    ret = icm42670_config(icm42670, &amp;imu_cfg);
 
 </code></pre>
-<p>Es muy recomendable consultar la carepta <em>test_apps</em> incluida en el propio componente para aprender a utilizarlo.</p>
+<p>Es muy recomendable consultar la carpeta <em>test_apps</em> incluida en el propio componente para aprender a utilizarlo. </p>
 <div class="admonition note">
 <p class="admonition-title">Cuestiones</p>
 <ul>
@@ -450,8 +521,6 @@ static void i2c_bus_init(void)
 </ul>
 </div>
 <h2 id="ejercicios-opcionales">Ejercicios opcionales</h2>
-<h3 id="usar-sensor-si7021-en-esp32-devkit-c">Usar sensor Si7021 en ESP32 devkit-c</h3>
-<p>Escribe un código que monitorice la temperatura leyendo el sensor Si7021 conectado al ESP32 devkit-c v4 (placa antigua).  Utiliza el nuevo driver para realizar la implementación.</p>
 <h3 id="uso-de-crc-en-sensor">Uso de CRC en sensor</h3>
 <p>El sensor Si7021 permite el cálculo de un byte de <em>checksum</em> (CRC) para comprobar que no ha habido errores en el envío. Completa el código del componente para leer dicho byte y comprobar que no ha habido errores. Conviene leer la sección 5.1 y una <a href="https://barrgroup.com/tech-talks/checksums-and-crcs">librería para el cálculo de CRC como la ofrecida por BARR</a>.</p></div>
             </div>
