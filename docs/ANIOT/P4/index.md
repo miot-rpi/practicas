@@ -39,7 +39,7 @@ Consulta la [documentación de  ESP-IDF sobre I2C](https://docs.espressif.com/pr
 
 El uso de dispositivos I2C con ESP-IDF sigue las siguientes etapas:
 
-* **Inicialización e instanciación del master bus driver**. Es necesario obtener un *handle*  del bus I2C qie se vaya a utilizar. En el SoC montado en la placa ESP32 Devkit-c hay 2 controladores I2C, mientras que en el SoC montado en la placa ESP32-C3 Rust Board sólo hay uno. Esta acción debe hacerse una única vez en toda la aplicación.
+* **Inicialización e instanciación del master bus driver**. Es necesario obtener un *handle*  del bus I2C que se vaya a utilizar. En el SoC montado en la placa ESP32 Devkit-c hay 2 controladores I2C, mientras que en el SoC montado en la placa ESP32-C3 Rust Board sólo hay uno. Esta acción debe hacerse una única vez en toda la aplicación.
 
 * **Especificar y condigurar el dispositivo al que conectaremos**. Deberemos añadir al bus  cada dispositivo I2C que conectemos a nuestro ESP32, obteniendo así un *handle* que será el que finalmente utilizaremos en las llamadas de lectura/escritrura.
 
@@ -105,7 +105,7 @@ Habitualmente, se enviará primero un comando con la función **i2c_master_trans
 
 ## Interfaz I2C en ESP-IDF (antiguo driver)
 
-ESP-IDF proporcionaba este API   para el uso de dispositivos I2C. Permite usar el ESP32  tanto como *master* como en modo *slave*. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como *master* y otro como *slave* (o cualquier otra combinación).
+ESP-IDF proporcionaba este API para el uso de dispositivos I2C. Permite usar el ESP32  tanto como *master* como en modo *slave*. Nuestro SoC ESP2 dispone de dos controladores, por lo que podríamos configurar uno como *master* y otro como *slave* (o cualquier otra combinación).
 
 Los pasos para usar un dispositivo I2C son:
 
@@ -153,8 +153,11 @@ De acuerdo a las [especificaciones del sensor Si7021](https://www.silabs.com/doc
 La sección de la [hoja de especificaciones del sensor Si7021](https://www.silabs.com/documents/public/data-sheets/Si7021-A20.pdf) informa acerca del interfaz I2C que ofrece el sensor. Nos indica los 7 bits de dirección del sensor, así como de los comandos disponibles (la mayoría de ellos de 1 byte). 
 
 
-La sección 5.1.2 del documento explica cómo obtener una medida de temperatura tras haber realizado una medidad de humedad. Para ello usa el comando 0xE0. En nuestro caso deberemos usar 0xE3 o 0xF3.
+La sección 5.1.2 del documento explica cómo obtener una medida de temperatura tras haber realizado una medidad de humedad. Para ello usa el **comando 0xE0**. En nuestro caso **deberemos usar 0xE3 o 0xF3** para la lectura de la temperatura. Una vez leiodos los dos bytes, se puede calcular la temperatura de acuerdo a la fórmula descrita en el datasheet:
 
+\begin{equation}
+\text{Temperature (°C)} = \frac{175.72 *\text{Raw_Temp}}{65536.0f} - 46.85
+\end{equation}
 
 
 !!! danger "i2ctools (opcional)" 
@@ -163,7 +166,81 @@ La sección 5.1.2 del documento explica cómo obtener una medida de temperatura 
 
 ## Ejercicios obligatorios
 
-### Usar componente ICM-42670-P con  nuevo driver
+### Usar sensor Si7021 en ESP32 devkit-c 
+
+Escribe un código que monitorice la temperatura leyendo el sensor Si7021 conectado al ESP32 devkit-c v4 (placa antigua).  Utiliza el nuevo driver para realizar la implementación. Para ello puedes seguir el siguiente template:
+
+```c
+#define I2C_SDA_PIN     ...
+#define I2C_SCL_PIN     ...
+#define I2C_FREQ_HZ      100000
+#define I2C_DEV_ADDR     0x40    // Dirección I2C del Si7021
+
+static const char *TAG = "si7021";
+
+static float si7021_read_temperature(i2c_master_dev_handle_t dev)
+{
+    ...
+    uint16_t raw = ...;
+    float temp_c = ((175.72f * raw) / 65536.0f) - 46.85f;
+    return temp_c;
+}
+
+static float si7021_read_humidity(i2c_master_dev_handle_t dev)
+{
+
+    uint16_t raw = ...;
+    float rh = ((125.0f * raw) / 65536.0f) - 6.0f;
+    if (rh > 100.0f) rh = 100.0f;
+    if (rh < 0.0f) rh = 0.0f;
+    return rh;
+}
+
+void app_main(void)
+{
+    // Configurar el bus I2C
+    i2c_master_bus_config_t bus_config = {
+        .i2c_port = I2C_NUM_0,
+        .sda_io_num = I2C_SDA_PIN,
+        .scl_io_num = I2C_SCL_PIN,
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .glitch_ignore_cnt = 7,
+        .flags.enable_internal_pullup = true,
+    };
+
+    i2c_master_bus_handle_t bus_handle;
+    ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, &bus_handle));
+
+    // Añadir el dispositivo Si7021
+    i2c_device_config_t dev_config = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address = I2C_DEV_ADDR,
+        .scl_speed_hz = I2C_FREQ_HZ,
+    };
+
+    i2c_master_dev_handle_t si7021;
+    ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_config, &si7021));
+
+    // Bucle principal: alternar lecturas cada segundo
+    while (1) {
+        float temp = si7021_read_temperature(si7021);
+        if (temp > -100.0f)
+            ESP_LOGI(TAG, " Temperatura: %.2f °C", temp);
+        vTaskDelay(pdMS_TO_TICKS(1000));  // Esperar 1 segundo
+
+        float hum = si7021_read_humidity(si7021);
+        if (hum >= 0.0f)
+            ESP_LOGI(TAG, " Humedad: %.2f %%", hum);
+        vTaskDelay(pdMS_TO_TICKS(1000));  // Esperar 1 segundo antes del siguiente ciclo
+    }
+
+    // Limpieza
+    ESP_ERROR_CHECK(i2c_master_bus_rm_device(si7021));
+    ESP_ERROR_CHECK(i2c_del_master_bus(bus_handle));
+}
+```
+
+### Usar componente ICM-42670-P con nuevo driver
 El [registro de componentes de IDF](https://components.espressif.com/) incluye un componente para utilizar la IMU incluida en la placa ESP-RUST-BOARD (con el SoC ESP32-C3):[ICM42607/ICM42670 6-Axis MotionTracking (Accelerometer and Gyroscope)](https://components.espressif.com/components/espressif/icm42670/versions/2.0.0).
 
 Crea una aplicación que monitorice el estado del acelerómetro y determine si la placa está boca arriba o boca abajo. El LED RGB cambiará de color en función de la orientación, y se imprimirá por terminal el estado actual.
@@ -175,8 +252,6 @@ Recuerda que, antes de poder usar cualquier dispositivo I2C, es necesario instan
 static i2c_master_bus_handle_t i2c_handle;
 static void i2c_bus_init(void)
 {
-
-
     i2c_master_bus_config_t bus_config = {
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .i2c_port = I2C_NUM_0,
@@ -206,7 +281,7 @@ Asimismo, tras crear el *handle* del dispositivo, es necesario configurarlo. El 
 
 ```
 
-Es muy recomendable consultar la carepta *test_apps* incluida en el propio componente para aprender a utilizarlo.
+Es muy recomendable consultar la carpeta *test_apps* incluida en el propio componente para aprender a utilizarlo. 
 
 
 !!! note "Cuestiones"
@@ -217,11 +292,6 @@ Es muy recomendable consultar la carepta *test_apps* incluida en el propio compo
      * ¿Cuántos bytes se leen tras enviar el comando de lectura de acelerómetro *raw*? ¿A qué se corresponde cada byte?
 
 ## Ejercicios opcionales
-
-### Usar sensor Si7021 en ESP32 devkit-c 
-
-Escribe un código que monitorice la temperatura leyendo el sensor Si7021 conectado al ESP32 devkit-c v4 (placa antigua).  Utiliza el nuevo driver para realizar la implementación.
-
 
 ###  Uso de CRC en sensor
 El sensor Si7021 permite el cálculo de un byte de *checksum* (CRC) para comprobar que no ha habido errores en el envío. Completa el código del componente para leer dicho byte y comprobar que no ha habido errores. Conviene leer la sección 5.1 y una [librería para el cálculo de CRC como la ofrecida por BARR](https://barrgroup.com/tech-talks/checksums-and-crcs).
