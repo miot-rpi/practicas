@@ -40,7 +40,7 @@ sudo apt update
 sudo apt install pkg-config libssl-dev libtool 
 ```
 
-Procedemos ahora con la instalación de `libcoap. Para ello, descarga la última
+Procedemos ahora con la instalación de *libcoap*. Para ello, descarga la última
 versión de la biblioteca desde la página web del proyecto, descomprímelo y pasa a la
 fase de compilación e instalación:
 
@@ -99,7 +99,7 @@ disponibles en el mismo, así como algunas características adicionales.
     ¿Qué recursos están disponibles
     en el servidor? Estudia el código fuente del mismo para observar la correlación entre
     los recursos descubiertos y los programados en el código. Averigua el significado 
-    de los atributos *rt*, *ct*, *if* y *title.
+    de los atributos *rt*, *ct*, *if* y *title*.
 
 ### Obtención de información desde recursos
 
