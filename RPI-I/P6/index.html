@@ -679,8 +679,8 @@ break;
     ESP_LOGI(GATTC_TAG, &quot;MTU exchange, status %d, MTU %d&quot;, param-&gt;cfg_mtu.status, param-&gt;cfg_mtu.mtu);
     break;
 </code></pre>
-<p>El evento <code>ESP_GATTC_CONNECT_EVT</code> también se utiliza como punto de partida para descubrir los servicios disponibles en el servidor al que se ha conectado el cliente: el stack BLE inicia internamente un descubrimiento de servicios inicial, generando el evento <code>ESP_GATTC_DIS_SRVC_CMPL_EVT</code>.
-Una vez en este evento, para descubrir nuestro servicio se utiliza la función <code>esp_ble_gattc_search_service()</code>. Los parámetros de la función son la interfaz GATT, el ID de conexión y el UUID del servicio que interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:</p>
+<p>El evento <code>ESP_GATTC_CONNECT_EVT</code> también se utiliza como punto de partida para descubrir los servicios disponibles en el servidor al que se ha conectado el cliente: el stack BLE ejecuta internamente un descubrimiento de servicios inicial, generando el evento <code>ESP_GATTC_DIS_SRVC_CMPL_EVT</code>.
+Una vez en este evento, para descubrir un servicio concreto se utiliza la función <code>esp_ble_gattc_search_service()</code>. Los parámetros de la función son la interfaz GATT, el ID de conexión y el UUID del servicio que le interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:</p>
 <pre><code class="language-c">static esp_bt_uuid_t remote_filter_service_uuid = {
     .len = ESP_UUID_LEN_16,
     .uuid = {
