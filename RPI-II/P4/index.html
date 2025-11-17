@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 2. El protocolo MQTT (I). Despliegue de clientes y servidores/brokers. Análisis de tráfico - Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)</title>
+        <title>Práctica 4 - Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -83,7 +83,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-II</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -103,7 +103,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">Práctica 4</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Práctica 4</a>
 </li>
                                     
 <li>
@@ -213,6 +213,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P3/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../P5/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -231,7 +241,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-2-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico" class="nav-link">Práctica 2. El protocolo MQTT (I). Despliegue de clientes y servidores/brokers. Análisis de tráfico</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-4-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico" class="nav-link">Práctica 4. El protocolo MQTT (I). Despliegue de clientes y servidores/brokers. Análisis de tráfico</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -249,11 +259,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#desarrollo-de-un-clientes-locales-opcion-1-node-red" class="nav-link">Desarrollo de un clientes locales. Opción 1: Node-RED</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#desarrollo-de-un-clientes-locales-opcion-2-eclipse-paho" class="nav-link">Desarrollo de un clientes locales. Opción 2: Eclipse Paho</a>
+            <li class="nav-item" data-bs-level="2"><a href="#desarrollo-de-un-clientes-locales-eclipse-paho" class="nav-link">Desarrollo de un clientes locales. Eclipse Paho</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -264,7 +270,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-2-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico">Práctica 2. El protocolo MQTT (I). Despliegue de clientes y servidores/<em>brokers</em>. Análisis de tráfico</h1>
+<h1 id="practica-4-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico">Práctica 4. El protocolo MQTT (I). Despliegue de clientes y servidores/<em>brokers</em>. Análisis de tráfico</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>
@@ -314,7 +320,7 @@ sudo apt-get install mosquitto mosquitto-clients mosquitto-dev libmosquitto*
 utilizando un <em>broker</em>.</li>
 </ul>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.1</p>
+<p class="admonition-title">Tarea 1</p>
 <p>Observa la ayuda de ambas ordenes, utilizando el argumento <code>--help</code>. Identifica
 los parámetros que te permitirán especificar el <em>broker</em> destino, el <em>topic</em>
 a utilizar y, en el caso de la publicación, el <em>mensaje</em> a enviar. </p>
@@ -323,7 +329,7 @@ a utilizar y, en el caso de la publicación, el <em>mensaje</em> a enviar. </p>
 <pre><code class="language-sh">mosquitto_sub -h test.mosquitto.org  -t &quot;#&quot;
 </code></pre>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.2</p>
+<p class="admonition-title">Tarea 2</p>
 <p>Pausa la salida en cuanto puedas. ¿A qué corresponden los mensajes que estás</p>
 </div>
 <p>obteniendo?</p>
@@ -333,7 +339,7 @@ bajo dicho <em>topic</em>:</p>
 <pre><code class="language-sh">mosquitto_pub -h test.mosquitto.org -t &quot;/MIOT/tunombre&quot; -m &quot;Hola, soy tunombre&quot;
 </code></pre>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.3</p>
+<p class="admonition-title">Tarea 3</p>
 <p>Suscríbete al topic <code>/MIOT/tunombre</code> y observa si recibes los resultados 
 tras la publicación correspondiente. ¿Cómo podrías suscribirte a todos
 los mensajes publicados por compañeros?</p>
@@ -366,7 +372,7 @@ de funcionamiento del <em>broker</em>, basta con ejecutar:</p>
 <code>restart</code>, <code>start</code> o <code>stop</code> te permitirán controlar el estado del <em>broker</em> en
 todo momento.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.4</p>
+<p class="admonition-title">Tarea 4</p>
 <p>Comprueba que, con el <em>broker</em> arrancado, puedes realizar un proceso de
 suscripción/publicación contra el mismo.</p>
 </div>
@@ -376,7 +382,7 @@ periódicamente o bien cuando sucede un evento de interés, la información
 de estado del <em>broker</em>. Puedes consultar más detalles en la página de manual
 de <em>mosquitto</em> (comando <code>man mosquitto</code>), en el epígrafe <em>BROKER STATUS</em>.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.5</p>
+<p class="admonition-title">Tarea 5</p>
 <p>Comprueba el estado del <em>broker</em> mientras realizas procesos de suscripción/publicación
 reportando bytes recibidos/enviados, número de conexiones activas e inactivas, 
 y número de mensajes enviados/recibidos por el <em>broker</em>.</p>
@@ -412,26 +418,12 @@ corresponderán con éxito:</p>
 <li><code>+/b/c/#</code></li>
 </ul>
 <div class="admonition note">
-<p class="admonition-title">Tarea 2.6</p>
+<p class="admonition-title">Tarea 6</p>
 <p>Experimenta con el uso de <em>wildcards</em> desde múltiples clientes suscriptores. Resultará de especial
 interés observar (por ejemplo, con capturas de tráfico) el ahorro de mensajes asociado al uso de
 <em>wildcards</em> que restrinjan qué mensajes son recibidos y por qué clientes.</p>
 </div>
-<h2 id="desarrollo-de-un-clientes-locales-opcion-1-node-red">Desarrollo de un clientes locales. Opción 1: Node-RED</h2>
-<p>El despliegue de un cliente MQTT (ya sea suscriptor o publicador) utilizando Node-RED
-resulta muy sencillo. Por defecto, Node-RED incorpora dos tipos de nodos que nos serán de
-utilidad para nuestros despliegues:</p>
-<ul>
-<li>Nodo <em>MQTT-in</em>. Recibe datos desde un <em>broker</em> MQTT, y es por tanto el mecanismo recomendado para suscribirse a un determinado <em>topic</em>. El <em>topic</em> al que se suscribe uno de estos nodos es por defecto fijo, aunque puede ser configurado, en versiones modernas del nodo, como dinámico (campo <em>Action -&gt; Dynamic subscription</em>) del menú de configuración. </li>
-<li>Nodo <em>MQTT-out</em>. Envía datos hacia un <em>broker</em> MQTT, y es por tanto el mecanismo recomendado para publicar un mensaje sobre un determinado <em>topic</em>. El topic bajo el que se publica un determinado dato puede ser fijo (configurado vía cuadro de diálogo de configuración) o variable (configurado como el contenido del campo <code>msg.topic</code> del mensaje recibido por el nodo <em>MQTT-out</em>).</li>
-</ul>
-<p>Ambos requerirán, desde su menú de configuración (accesible vía doble click en el nodo), de la configuración previa de un <em>broker</em> MQTT (llamado <em>server</em> en el cuadro de diálogo de configuración del nodo). En el caso de una instalación local, bastará con indicar <code>localhost</code> como localización de dicho servidor.</p>
-<div class="admonition note">
-<p class="admonition-title">Tarea 2.7</p>
-<p>Experimenta con el uso de los nodos <em>MQTT-in</em> y <em>MQTT-out</em> enviando y recibiendo mensajes desde un broker local o remoto. Específicamente, asegúrate de saber cómo personalizar tanto el topic como el mensaje a publicar en un nodo de publicación, o el topic al que se 
-suscribirá un nodo de suscripción.</p>
-</div>
-<h2 id="desarrollo-de-un-clientes-locales-opcion-2-eclipse-paho">Desarrollo de un clientes locales. Opción 2: Eclipse Paho</h2>
+<h2 id="desarrollo-de-un-clientes-locales-eclipse-paho">Desarrollo de un clientes locales. Eclipse Paho</h2>
 <p>Los clientes <code>mosquitto_pub</code> y <code>mosquitto_sub</code> son básicamente herramientas de
 desarrollo y pruebas, pero resulta interesante conocer bibliotecas que permitan
 la integración de MQTT en programas existentes. Una de ellas es 
@@ -466,7 +458,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect(&quot;mqtt.eclipse.org&quot;, 1883, 60)
+client.connect(&quot;test.mosquitto.org&quot;, 1883, 60)
 
 # Llamada bloqueante que procesa el tráfico de red, invoca callbacks
 # y maneja la reconexión al broker. 
@@ -537,13 +529,12 @@ edificio constará de:</p>
 </ul>
 <p>Se pide, en primer lugar, diseñar la jerarquía de <em>topics</em> que permita una correcta 
 monitorización de los edificios.</p>
-<p>En segundo lugar, se desarrollará un programa Python cliente o un flujo Node-RED que publique, periódicamente
+<p>En segundo lugar, se desarrollará un programa Python cliente que publique, periódicamente
 y de forma aleatoria, objetos JSON 
-(opcionalmente puedes utilizar CBOR) que incluyan el valor de temperatura, humedad, luminosidad o
+(opcionalmente puedes utilizar CBOR, usando los módulos correspondientes) que incluyan el valor de temperatura, humedad, luminosidad o
 vibración para una determinada sala del edificio, elegida también aleatoriamente, a través
 del <em>topic</em> correspondiente. Estos mensajes 
-estarán espaciados en el tiempo un número aleatorio de segundos (en el caso de Node-RED, se sugiere buscar nodos
-que permitan generar números aleatorios para dar soporte a la tarea).</p>
+estarán espaciados en el tiempo un número aleatorio de segundos.</p>
 <p>En tercer lugar, se piden las <em>wildcards</em> que permitan consultar distintos tipos de información
 jerárquica. Por ejemplo:</p>
 <ul>
@@ -552,13 +543,13 @@ jerárquica. Por ejemplo:</p>
 <li>Todos los mensajes de sensorización de la sala 4 del ala Sur de la planta 7 del edificio.</li>
 <li>...</li>
 </ul>
-<p>En último lugar, se pide desarrollar un programa Python o un flujo Node-RED que actúe a modo de
+<p>En último lugar, se pide desarrollar un programa Python que actúe a modo de
 alarma, y que muestre mensajes sólo si algún valor recibido para los 
 datos sensorizados supera un umbral preestablecido. En dicho caso, el programa
 mostrará el edificio, planta, ala, sala y sensor que ha producido la alarma, 
 junto con su valor numérico.</p>
 <p>Puedes utilizar el <a href="https://docs.python.org/3/library/json.html">módulo JSON</a>
-para parsear los objetos recibidos en Python, o los nodos correspondientes en Node-RED.</p>
+para parsear los objetos recibidos en Python.</p>
 </div></div>
             </div>
         </div>

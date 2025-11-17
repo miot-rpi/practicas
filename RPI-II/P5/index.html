@@ -103,7 +103,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/index.md" class="dropdown-item">Práctica 4</a>
+    <a href="../P4/" class="dropdown-item">Práctica 4</a>
 </li>
                                     
 <li>
@@ -111,7 +111,7 @@
 </li>
                                     
 <li>
-    <a href="../P5_II/" class="dropdown-item">Práctica 5 (II)</a>
+    <a href="../P5_II/index.md" class="dropdown-item">Práctica 5 (II)</a>
 </li>
                                     
 <li>
@@ -119,11 +119,11 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">Práctica 7</a>
+    <a href="../P7/index.md" class="dropdown-item">Práctica 7</a>
 </li>
                                     
 <li>
-    <a href="../P8/" class="dropdown-item">Práctica 8</a>
+    <a href="../P8/index.md" class="dropdown-item">Práctica 8</a>
 </li>
                                 </ul>
                             </li>
@@ -214,12 +214,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../P3/" class="nav-link">
+                                <a rel="prev" href="../P4/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../P5_II/" class="nav-link">
+                                <a rel="next" href="../P6/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -241,25 +241,29 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-4-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico" class="nav-link">Práctica 4. El protocolo MQTT (I). Despliegue de clientes y servidores/brokers. Análisis de tráfico</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-5-el-protocolo-coap" class="nav-link">Práctica 5. El protocolo CoAP</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#publicacionsuscripcion-contra-un-broker-en-la-nube" class="nav-link">Publicación/suscripción contra un broker en la nube</a>
+            <li class="nav-item" data-bs-level="2"><a href="#instalacion-y-requisitos-previos" class="nav-link">Instalación y requisitos previos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#despliegue-de-un-broker-local-usando-eclipse-mosquitto" class="nav-link">Despliegue de un broker local usando Eclipse Mosquitto</a>
+            <li class="nav-item" data-bs-level="2"><a href="#intercambio-de-mensajes-coap" class="nav-link">Intercambio de mensajes CoAP</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#wildcards" class="nav-link">Wildcards</a>
+            <li class="nav-item" data-bs-level="2"><a href="#coap-sobre-tcp" class="nav-link">CoAP sobre TCP</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#desarrollo-de-un-clientes-locales-eclipse-paho" class="nav-link">Desarrollo de un clientes locales. Eclipse Paho</a>
+            <li class="nav-item" data-bs-level="2"><a href="#coap-con-thingsboard" class="nav-link">CoAP con Thingsboard</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tareas-entregables" class="nav-link">Tareas entregables</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -270,286 +274,182 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-4-el-protocolo-mqtt-i-despliegue-de-clientes-y-servidoresbrokers-analisis-de-trafico">Práctica 4. El protocolo MQTT (I). Despliegue de clientes y servidores/<em>brokers</em>. Análisis de tráfico</h1>
+<h1 id="practica-5-el-protocolo-coap">Práctica 5. El protocolo CoAP</h1>
 <h2 id="objetivos">Objetivos</h2>
+<p>El objetivo de esta práctica es realizar una introducción al protocolo
+CoAP, uno de los más extendidos a día de hoy para llevar a cabo comunicaciones
+M2M. Los objetivos didácticos de la práctica son:</p>
 <ul>
-<li>
-<p>Familiarizarse con el uso de <em>brokers</em> y clientes de suscripción/publicación
-utilizando MQTT.</p>
-</li>
-<li>
-<p>Desplegar un sistema basado en MQTT local, incluyendo <em>broker</em> y clientes.</p>
-</li>
-<li>
-<p>Utilizar Eclipse Paho para integrar funcionalidad MQTT en programas Python.</p>
-</li>
-<li>
-<p>Familiarizarse con el uso de <em>wildcards</em> MQTT.</p>
-</li>
+<li>Entender la estructura cliente-servidor del protocolo CoAP.</li>
+<li>Comprender los mensajes utilizados para establecer una comunicación CoAP, 
+tanto a nivel de sintaxis como de semántica.</li>
+<li>Modificar una aplicación cliente/servidor ejemplo basada en <code>libcoap</code> que realice una comunicación 
+sencilla a través del protocolo CoAP en un entorno Linux.</li>
+<li>Estudiar el componente <code>libcoap</code> en ESP-IDF para reproducir el comportamiento
+del servidor CoAP para ofrecer su fucionalidad desde un ESP32. </li>
 </ul>
-<h2 id="publicacionsuscripcion-contra-un-broker-en-la-nube">Publicación/suscripción contra un <em>broker</em> en la nube</h2>
-<p>En la primera parte de la práctica, utilizaremos un servidor/<em>broker</em> disponible 
-en la nube para su uso libre por parte de los usuarios (<em>test.mosquitto.org</em>). 
-Este servidor suele utilizarse con fines de pruebas básicas y depuración, y hay
-que ser consciente de que toda la información que en él se publica puede ser
-leída por cualquier suscriptor. Debe tenerse este dato en cuenta a la hora
-de publicar información sensible a través de MQTT cuando se use el servidor de
-pruebas.</p>
-<p>El servidor escucha en los siguientes puertos:</p>
-<ul>
-<li><strong>1883</strong>: MQTT, sin encriptación.</li>
-<li><strong>8883</strong>: MQTT, con encriptación.</li>
-<li><strong>8884</strong>: MQTT, con encriptación, certificado de cliente requerido.</li>
-<li><strong>8080</strong>: MQTT sobre WebSockets, sin encriptación.</li>
-<li><strong>8081</strong>: MQTT sobre WebSockets, con encriptación.</li>
-</ul>
-<p>Para realizar publicaciones/suscripciones contra el <em>broker</em> utilizaremos
-la distribución <a href="https://mosquitto.org"><em>mosquitto</em></a> del proyecto Eclipse IoT.
-Aunque <em>mosquitto</em> es principalmente una implementación de <em>broker</em> MQTT, nosotros
-la utilizaremos en este paso a modo de cliente, lo que nos permitirá suscribirnos
-o publicar sobre cualquier <em>topic</em> MQTT.</p>
-<p>En primer lugar, instala <em>mosquitto</em>:</p>
-<pre><code class="language-sh">sudo apt-get update
-sudo apt-get install mosquitto mosquitto-clients mosquitto-dev libmosquitto*
+<h2 id="instalacion-y-requisitos-previos">Instalación y requisitos previos</h2>
+<p>En esta práctica realizaremos un estudio del protocolo CoAP utilizando una 
+implementación ya desarrollada para un sistema cliente/servidor que hace uso
+del protocolo CoAP, distribuida a través de la biblioteca <a href="https://libcoap.net"><em>libcoap</em></a>. 
+Nótese que se trata de una práctica introductoria, ya que el protocolo CoAP se utilizará, 
+en sucesivas prácticas, para dar soporte a protocolos de más alto nivel (principalmente LWM2M).</p>
+<p>El objetivo principal de la práctica es, pues, introducir a alto nivel las 
+características de CoAP como protocolo de capa de aplicación, así como ser
+capaces de interactuar con un servidor existente a través de herramientas
+ya desarrolladas. De forma adicional, se estudiará la posibilidad de 
+implementar un servidor CoAP en el ESP32.</p>
+<h3 id="instalacion-de-requisitos-adicionales-y-libcoap">Instalación de requisitos adicionales y <em>libcoap</em></h3>
+<p>En primer lugar, instalemos los prerequisitos necesarios para hacer funcionar
+<code>libcoap</code>. Para ello, en la máquina virtual, ejecutaremos las siguientes
+órdenes:</p>
+<pre><code class="language-sh">sudo apt update
+sudo apt install pkg-config libssl-dev libtool 
 </code></pre>
-<p>Si todo ha ido bien, deberías disponer de dos binarios listos para ejecución:</p>
-<ul>
-<li><code>mosquitto_sub</code>: permite suscribirse a un determinado <em>topic</em> utilizando un 
-<em>broker</em>.</li>
-<li><code>mosquitto_pub</code>: permite publicar un mensaje asociado a un determinado <em>topic</em>
-utilizando un <em>broker</em>.</li>
-</ul>
+<p>Procedemos ahora con la instalación de <em>libcoap</em>. Para ello, descarga la última
+versión de la biblioteca desde la página web del proyecto, descomprímelo y pasa a la
+fase de compilación e instalación:</p>
+<pre><code class="language-sh">sh autogen.sh
+./configure --enable-examples --enable-dtls --with-openssl --disable-documentation
+make
+make install
+</code></pre>
+<p>Si no hay ningún error, <em>libcoap</em> se habrá instalado con éxito. Será de especial
+interés para nosotros la instalación de programas servidor (<em>coap-server</em>)
+y cliente (<em>coap-client</em>) de ejemplo en el directorio <strong>examples</strong>.</p>
 <div class="admonition note">
-<p class="admonition-title">Tarea 1</p>
-<p>Observa la ayuda de ambas ordenes, utilizando el argumento <code>--help</code>. Identifica
-los parámetros que te permitirán especificar el <em>broker</em> destino, el <em>topic</em>
-a utilizar y, en el caso de la publicación, el <em>mensaje</em> a enviar. </p>
+<p class="admonition-title">Tarea 5.1</p>
+<p>Ejecuta los programas servidor y cliente CoAP del directorio <code>examples</code>. 
+Estudia sus opciones y parámetros de configuración. 
+¿En qué puertos y bajo qué protocolos escucha el servidor CoAP tras su
+arranque?</p>
 </div>
-<p>Suscribámonos al <em>topic</em> <code>#</code> en el <em>broker</em>, utilizando para ello la orden:</p>
-<pre><code class="language-sh">mosquitto_sub -h test.mosquitto.org  -t &quot;#&quot;
-</code></pre>
-<div class="admonition note">
-<p class="admonition-title">Tarea 2</p>
-<p>Pausa la salida en cuanto puedas. ¿A qué corresponden los mensajes que estás</p>
+<h2 id="intercambio-de-mensajes-coap">Intercambio de mensajes CoAP</h2>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>En la presente sección se proponen
+distintos intercambios de mensajes CoAP entre el cliente y el servidor de ejemplo
+proporcionados como parte de la instalación de <em>libcoap</em>. Para cada uno de ellos,
+se pide un estudio básico de los paquetes intercambiados, haciendo especial hincapié
+en la pila de protocolos utilizados, contenido de los paquetes y número de paquetes
+intercambiados. Este estudio, incluyendo capturas y comentarios adicionales, 
+conformará el entregable asociado a la práctica.</p>
 </div>
-<p>obteniendo?</p>
-<p>A continuación, vamos a realizar un proceso de publicación/suscripcion con un 
-<em>topic</em> conocido (por ejemplo, <code>/MIOT/tunombre/</code>). Para publicar un mensaje
-bajo dicho <em>topic</em>:</p>
-<pre><code class="language-sh">mosquitto_pub -h test.mosquitto.org -t &quot;/MIOT/tunombre&quot; -m &quot;Hola, soy tunombre&quot;
+<h3 id="arranque-del-servidor-coap">Arranque del servidor CoAP</h3>
+<p>En primer lugar, realizaremos un intercambio básico de mensajes CoAP entre el
+cliente y el servidor. Para ello, abriremos dos terminales desde las que ejecutaremos,
+respectivamente, el servidor y el cliente. </p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.2</p>
+<p>Investiga las opciones disponibles
+en el cliente y servidor con respecto a la cantidad de mensajes de depuración a mostrar.
+Ejecuta el servidor CoAP con suficiente nivel de detalle en los mensajes de depuración.</p>
+</div>
+<p>Una vez arrancado el servidor, ejecuta la orden correspondiente desde línea de 
+órdenes para averiguar qué puertos ha abierto, y por tanto cómo nos podemos comunicar
+con él. Averigua si estos puertos son bien conocidos <em>well-known</em> (valor menor a 1024) y, en su caso,
+cómo pueden modificarse.</p>
+<h3 id="obtencion-de-informacion-del-servidor-resource-discovery">Obtención de información del servidor (<em>Resource Discovery</em>)</h3>
+<p>En primer lugar, obtendremos la información sobre los recursos disponibles en el
+servidor CoAP. Para ello, realizaremos una petición <code>GET</code> sobre el recurso
+<code>/.well-known/core</code> del servidor. Esta transacción nos devolverá los recursos
+disponibles en el mismo, así como algunas características adicionales.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.3</p>
+<p>¿Qué recursos están disponibles
+en el servidor? Estudia el código fuente del mismo para observar la correlación entre
+los recursos descubiertos y los programados en el código. Averigua el significado 
+de los atributos <em>rt</em>, <em>ct</em>, <em>if</em> y <em>title</em>.</p>
+</div>
+<h3 id="obtencion-de-informacion-desde-recursos">Obtención de información desde recursos</h3>
+<p>Utilizando el cliente CoAP proporcionado, resulta sencillo realizar consultas para 
+obtener datos desde el servidor. Para ello, utilizaremos el método <code>GET</code>,
+seguido del recurso a consultar y, opcionalmente, de una consulta concreta. </p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.4</p>
+<p>Consulta la marca de tiempo
+proporcionada por el servidor en modo legible (por ejemplo, <code>Dec 13 14:20:43</code>), y
+también en forma de <em>ticks</em> de reloj, utilizando la consulta adecuada. ¿Qué valor 
+de retorno (código) incluye la respuesta CoAP si el proceso ha tenido éxito?</p>
+</div>
+<h3 id="modificacion-de-recursos">Modificación de recursos</h3>
+<p>Al igual que con el método GET, es posible realizar modificaciones en el servidor 
+utilizando el método PUT. Consulta la ayuda del cliente proporcionado para observar
+algún ejemplo que dé soporte a esta funcionalidad.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.5</p>
+<p>Modifica la marca de tiempo que proporciona el servidor CoAP. 
+¿Qué valor de retorno (código) incluye la respuesta CoAP si el proceso ha tenido éxito?</p>
+</div>
+<h3 id="eliminacion-y-creacion-de-recursos">Eliminación y creación de recursos</h3>
+<p>Es posible eliminar un determinado recurso (en el ejemplo, el temporizador), utilizando
+el método <code>DELETE</code>. Investiga cómo hacerlo desde el cliente proporcionado.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.6</p>
+<p>Elimina el recurso <em>time</em> del servidor y, a continuación, modifica la marca de tiempo mediante una orden
+<code>PUT</code>}. ¿Qué valores de retorno (código) se devuelven en ambos casos?}</p>
+</div>
+<h3 id="suscripcion-observacion-de-recursos">Suscripción (observación) de recursos</h3>
+<p>Es posible suscribirse a los cambios en el valor de un recurso utilizando la opción
+<code>-s</code> del cliente. </p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.7</p>
+<p>Activa la observación sobre el recurso <em>time</em> del servidor y analiza tanto la
+frecuencia de respuesta como el intercambio de mensajes producido (a través
+de <em>Wireshark</em>). ¿Se producen peticiones periódicas usando <code>GET</code>?</p>
+</div>
+<h2 id="coap-sobre-tcp">CoAP sobre TCP</h2>
+<p>Alternativamente, CoAP puede funcionar utilizando el protocolo de capa de transporte
+TCP. En este caso, como es lógico, se establecerá una conexión entre cliente y servidor
+previa a cualquier intercambio de datos.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.8</p>
+<p>Fuerza el uso de TCP en el cliente mediante la opción correspondiente y estudia las principales diferencias entre
+los mensajes intercambiados con respecto al uso de UDP.
+¿Cuál es la eficiencia al utilizar UDP y TCP como protocolos de transporte para CoAP?</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea 5.9</p>
+<p>Fuerza el uso de TCP en el cliente mediante la opción correspondiente y estudia las principales diferencias entre
+los mensajes intercambiados con respecto al uso de UDP.
+¿Cuál es la eficiencia al utilizar UDP y TCP como protocolos de transporte para CoAP?</p>
+</div>
+<h2 id="coap-con-thingsboard">CoAP con Thingsboard</h2>
+<p>Como se mencionó en la práctica anterior, Thingsboard permite por defecto la comunicación mediante CoAP con los dispositivos. </p>
+<p>Suponiendo una instancia local de Thingsboard es fácil comprobar la conectividad mediante CoAP empleando el siguiente comando, dónde <em><TOKEN></em>, como es obvio, se debe sustituir por el del dispositivo:</p>
+<pre><code class="language-sh">coap-client -v 6 -m POST -t json -e &quot;{temperature:15}&quot; coap://127.0.0.1:5683/api/v1/&lt;TOKEN&gt;/telemetry
 </code></pre>
 <div class="admonition note">
-<p class="admonition-title">Tarea 3</p>
-<p>Suscríbete al topic <code>/MIOT/tunombre</code> y observa si recibes los resultados 
-tras la publicación correspondiente. ¿Cómo podrías suscribirte a todos
-los mensajes publicados por compañeros?</p>
+<p class="admonition-title">Tarea 5.10 (opcional)</p>
+<p>Crea un nuevo dispositvo en la instancia local de Thingsboad y comprueba su conectividad. Analiza mediante <em>Wireshark</em> la comunicación.</p>
+</div>
+<h2 id="tareas-entregables">Tareas entregables</h2>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable</p>
+<p>Deberás entregar una memoria en la que
+se incida en detalles observados y aprendidos acerca del protocolo CoAP, con
+especial atención a las capturas obtenidas a través de Wireshark.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
-<p>Realiza un análisis del intercambio de mensajes necesario para un proceso
-de publicación/suscripción contra el <em>broker</em> de test. Incide en el tipo 
-de protocolo de capa de transporte que utiliza MQTT, mensajes de datos
-y control, sobrecarga del protocolo de capa de aplicación, y en general, 
-cualquier aspecto que consideres de interés, incluyendo el uso de opciones
-relativas a QoS.</p>
+<p>Estudia el código del servidor proporcionado, especialmente de la función
+<code>init_resources</code>, y añade un nuevo recurso llamado <em>temperature</em>. 
+Este recurso aceptará dos consultas distintas: <em>?celsius</em> (consulta por defecto)
+devolverá el valor de temperatura expresado en grados centígrados, mientras que
+<em>?fahrenheit</em> devolverá la temperatura en grados Fahrenheit. En este caso, el valor
+de temperatura se obtendrá directamente a través de un número aleatorio, pero se
+valorará su obtención a partir de un sensor real.</p>
 </div>
-<h2 id="despliegue-de-un-broker-local-usando-eclipse-mosquitto">Despliegue de un broker local usando Eclipse Mosquitto</h2>
-<p>El uso de un servidor remoto presenta ventajas (facilidad de uso), pero una gran
-cantidad de inconvenientes (seguridad, imposibilidad de configuración avanzada, 
-...)</p>
-<p>En esta sección, configuraremos un broker <em>mosquitto</em> para el despliegue de una
-infraestructura MQTT local o remota bajo nuestro control.</p>
-<p>El arranque de un <em>broker</em> (servidor) <em>mosquitto</em> se realiza mediante el propio
-comando <code>mosquitto</code>:</p>
-<pre><code class="language-sh">mosquitto [-c config file] [ -d | --daemon ] [-p port number] [-v]
-</code></pre>
-<p>Sin embargo, en la mayoría de distribuciones Linux, el <em>broker</em> arranca por
-defecto y se ejecuta constantemente en segundo plano. Para comprobar el estado
-de funcionamiento del <em>broker</em>, basta con ejecutar:</p>
-<pre><code class="language-sh">sudo service mosquitto status
-</code></pre>
-<p>Observarás un mensaje que indica que el servicio está activo. Las opciones
-<code>restart</code>, <code>start</code> o <code>stop</code> te permitirán controlar el estado del <em>broker</em> en
-todo momento.</p>
-<div class="admonition note">
-<p class="admonition-title">Tarea 4</p>
-<p>Comprueba que, con el <em>broker</em> arrancado, puedes realizar un proceso de
-suscripción/publicación contra el mismo.</p>
-</div>
-<p>El <em>broker</em> <em>mosquitto</em> permite monitorizar sus propias estadísticas e información
-de estado utilizando el protocolo MQTT. Así, los <em>topics</em> <code>$SYS</code> retornan, bien
-periódicamente o bien cuando sucede un evento de interés, la información
-de estado del <em>broker</em>. Puedes consultar más detalles en la página de manual
-de <em>mosquitto</em> (comando <code>man mosquitto</code>), en el epígrafe <em>BROKER STATUS</em>.</p>
-<div class="admonition note">
-<p class="admonition-title">Tarea 5</p>
-<p>Comprueba el estado del <em>broker</em> mientras realizas procesos de suscripción/publicación
-reportando bytes recibidos/enviados, número de conexiones activas e inactivas, 
-y número de mensajes enviados/recibidos por el <em>broker</em>.</p>
-</div>
-<h2 id="wildcards">Wildcards</h2>
-<p>Además de permitir el uso de <em>topics</em> completos para el proceso de suscripción,
-los topics pueden incluir <em>wildcards</em> o comodines en su estructura. <code>+</code> es la
-<em>wildcard</em> utilizada para obtener correspondencias con un único nivel de la 
-jerarquía. Así, para un <em>topic</em> <code>a/b/c/d</code>, las siguientes suscripciones 
-corresponderán con éxito:</p>
-<ul>
-<li><code>a/b/c/d</code></li>
-<li><code>+/b/c/d</code></li>
-<li><code>a/+/c/d</code></li>
-<li><code>a/+/+/d</code></li>
-<li><code>+/+/+/+</code></li>
-</ul>
-<p>Pero no las siguientes:</p>
-<ul>
-<li><code>a/b/c</code></li>
-<li><code>b/+/c/d</code></li>
-<li><code>+/+/+</code></li>
-</ul>
-<p>La segunda <em>wildcard</em> soportada es <code>#</code>, y permite corresponencias con cualquier
-nivel sucesivo de la jerarquía.  Así, para un <em>topic</em> <code>a/b/c/d</code>, las siguientes suscripciones 
-corresponderán con éxito:</p>
-<ul>
-<li><code>a/b/c/d</code></li>
-<li><code>#</code></li>
-<li><code>a/#</code></li>
-<li><code>a/b/#</code></li>
-<li><code>a/b/c/#</code></li>
-<li><code>+/b/c/#</code></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Tarea 6</p>
-<p>Experimenta con el uso de <em>wildcards</em> desde múltiples clientes suscriptores. Resultará de especial
-interés observar (por ejemplo, con capturas de tráfico) el ahorro de mensajes asociado al uso de
-<em>wildcards</em> que restrinjan qué mensajes son recibidos y por qué clientes.</p>
-</div>
-<h2 id="desarrollo-de-un-clientes-locales-eclipse-paho">Desarrollo de un clientes locales. Eclipse Paho</h2>
-<p>Los clientes <code>mosquitto_pub</code> y <code>mosquitto_sub</code> son básicamente herramientas de
-desarrollo y pruebas, pero resulta interesante conocer bibliotecas que permitan
-la integración de MQTT en programas existentes. Una de ellas es 
-<a href="https://www.eclipse.org/paho">Eclipse Paho</a>. Paho es una infraestructura
-desarrollada en el proyecto Eclipse IoT para dar soporte a implementaciones
-de protocolos de mensajería M2M e IoT, aunque, en este momento, su uso principal
-se centra exclusivamente en MQTT.</p>
-<p>En nuestro caso, utilizaremos la versión Python de la biblioteca, instalable
-vía:</p>
-<pre><code class="language-sh">pip install paho-mqtt
-</code></pre>
-<p>Dispones de la documentación del módulo a través de <a href="https://pypi.org/project/paho-mqtt/#usage-and-api">este enlace</a>.</p>
-<p>El despliegue de un ejemplo sencillo para un cliente que se conecta a un <em>broker</em>
-y se suscribe al tópico <code>$SYS</code>, imprimiendo los mensajes recibidos, resultaría,
-utilizando Paho, en el siguiente código Python:</p>
-<pre><code class="language-python">import paho.mqtt.client as mqtt
-
-# Funcion callback invocada cuandl el cliente recibe un CONNACK desde el broker.
-def on_connect(client, userdata, flags, rc):
-    print(&quot;Connected with result code &quot;+str(rc))
-
-    # Suscribirse en on_connect() asegura que si se pierde la conexión y 
-    # se reestablece, las suscripciones se renovarán.
-    client.subscribe(&quot;$SYS/#&quot;)
-
-# Funcion callback al recibir un mensaje de publicacion (PUBLISH) desde el 
-# broker.
-def on_message(client, userdata, msg):
-    print(msg.topic+&quot; &quot;+str(msg.payload))
-
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-
-client.connect(&quot;test.mosquitto.org&quot;, 1883, 60)
-
-# Llamada bloqueante que procesa el tráfico de red, invoca callbacks
-# y maneja la reconexión al broker. 
-client.loop_forever()
-</code></pre>
-<p>La clase cliente puede utilizarse para:</p>
-<ul>
-<li>Crear una instancia de cliente MQTT.</li>
-<li>Conectar a un <em>broker</em> usando las funciones de la familia <code>connect*()</code>.</li>
-<li>Invocar a funciones de la familia <code>loop*()</code> para mantener el tráfico de datos con el servidor.</li>
-<li>Utilizar <code>subscribe()</code> para suscribirse a un <em>topic</em> y recibir mensajes.</li>
-<li>Utilizar <code>publish()</code> publicar mensajes en el <em>broker</em>.</li>
-<li>Utilizar <code>disconnect()</code> para desconectar del <em>broker</em>.</li>
-</ul>
-<p>Los <em>callbacks</em> se invocarán automáticamente para permitir el procesamiento
-de eventos. De entre los más utilizados, destacan:</p>
-<ul>
-<li><code>ON_CONNECT</code>: invocado cuando el <em>broker</em> responde a nuestra petición de conexión.
-Ejemplo:</li>
-</ul>
-<pre><code class="language-python">def on_connect(client, userdata, flags, rc):
-    print(&quot;Connection returned result: &quot;+connack_string(rc))
-</code></pre>
-<ul>
-<li><code>ON_DISCONNECT</code>: invocado cuando el cliente se desconecta del <em>broker</em>.
-Ejemplo:</li>
-</ul>
-<pre><code class="language-python">def on_disconnect(client, userdata, rc):
-    if rc != 0:
-        print(&quot;Unexpected disconnection.&quot;)
-</code></pre>
-<ul>
-<li><code>ON_MESSAGE</code>: invocado cuando se recibe un mensaje en un <em>topic</em> al que </li>
-<li>el cliente está suscrito. 
-Ejemplo:</li>
-</ul>
-<pre><code class="language-python">def on_message(client, userdata, message):
-    print(&quot;Received message '&quot; + str(message.payload) + &quot;' on topic '&quot;
-        + message.topic + &quot;' with QoS &quot; + str(message.qos))
-</code></pre>
-<p>Para publicar de forma puntual sobre un <em>broker</em> (sin mantener
-una conexión establecida), es posible utilizar la siguiente secuencia de
-ordenes:</p>
-<pre><code class="language-python">import paho.mqtt.publish as publish
-
-publish.single(&quot;paho/test/single&quot;, &quot;payload&quot;, hostname=&quot;mqtt.eclipse.org&quot;)
-</code></pre>
-<p>Del mismo modo, podemos suscribirnos de forma puntual mediante una llamada
-bloqueante a:</p>
-<pre><code class="language-python">import paho.mqtt.subscribe as subscribe
-
-msg = subscribe.simple(&quot;paho/test/simple&quot;, hostname=&quot;mqtt.eclipse.org&quot;)
-print(&quot;%s %s&quot; % (msg.topic, msg.payload))
-</code></pre>
-<p>Toda la información y documentación asociada al módulo puede consultarse
-<a href="https://pypi.org/project/paho-mqtt/">aquí</a>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
-<p>Cada alumno propondrá una solución para monitorizar un edificio inteligente a
-través de un sistema de mensajería MQTT. Para ello, cabe destacar que el
-edificio constará de:</p>
-<ul>
-<li>Un identificador del tipo EDIFICIO_TUPUESTODELABORATORIO.</li>
-<li>Un conjunto de plantas, identificadas por la cadena "P_NUMPLANTA".</li>
-<li>En cada planta, cuatro alas (norte -N-, sur -S-, este -E-, oeste -O-)</li>
-<li>En cada ala, un conjunto de salas, identificadas por un valor numérico.</li>
-<li>En cada sala, cuatro sensores: TEMP (temperatura), HUM (humedad), LUX (luminosidad), VIBR (vibración).</li>
-</ul>
-<p>Se pide, en primer lugar, diseñar la jerarquía de <em>topics</em> que permita una correcta 
-monitorización de los edificios.</p>
-<p>En segundo lugar, se desarrollará un programa Python cliente que publique, periódicamente
-y de forma aleatoria, objetos JSON 
-(opcionalmente puedes utilizar CBOR, usando los módulos correspondientes) que incluyan el valor de temperatura, humedad, luminosidad o
-vibración para una determinada sala del edificio, elegida también aleatoriamente, a través
-del <em>topic</em> correspondiente. Estos mensajes 
-estarán espaciados en el tiempo un número aleatorio de segundos.</p>
-<p>En tercer lugar, se piden las <em>wildcards</em> que permitan consultar distintos tipos de información
-jerárquica. Por ejemplo:</p>
-<ul>
-<li>Todos los mensajes de temperatura para el edificio.</li>
-<li>Todos los mensajes de vibración del ala oeste de la planta 2 del edificio.</li>
-<li>Todos los mensajes de sensorización de la sala 4 del ala Sur de la planta 7 del edificio.</li>
-<li>...</li>
-</ul>
-<p>En último lugar, se pide desarrollar un programa Python que actúe a modo de
-alarma, y que muestre mensajes sólo si algún valor recibido para los 
-datos sensorizados supera un umbral preestablecido. En dicho caso, el programa
-mostrará el edificio, planta, ala, sala y sensor que ha producido la alarma, 
-junto con su valor numérico.</p>
-<p>Puedes utilizar el <a href="https://docs.python.org/3/library/json.html">módulo JSON</a>
-para parsear los objetos recibidos en Python.</p>
+<p>ESP-IDF incluye un port de <em>libcoap</em> como componente del <em>ESP Registry</em> (<code>espressif/coap</code>). 
+El ejemplo  <code>coap_server</code> implementa un servidor CoAP básico, con 
+un sólo recurso (puedes consultarlo tú mismo/a obteniendo la información
+del recurso <code>/well-known/core</code>). Analiza el código y observa que la 
+biblioteca <em>libcoap</em> se utiliza de forma exacta a como has estudiado
+en el código del servidor de ejemplo. Se pide modificar el <em>firmware</em>
+para dar soporte al recurso <em>time</em> de forma idéntica (con la misma 
+semántica) que la utilizada en el <em>host</em>.</p>
 </div></div>
             </div>
         </div>
