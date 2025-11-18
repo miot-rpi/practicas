@@ -70,6 +70,10 @@
 </li>
                                     
 <li>
+    <a href="../../RPI-I/P8/" class="dropdown-item">LAB8. 802.15.4 y Thread</a>
+</li>
+                                    
+<li>
     <a href="../../RPI-I/P9/" class="dropdown-item">LAB9. 6LoWPAN y simulador Cooja</a>
 </li>
                                     
@@ -380,14 +384,15 @@ de trabajo.</p>
 <h3 id="ejemplo-ilustrativo-de-compilacion-de-un-ejemplo-c-nativo-x86-en-la-nube">Ejemplo ilustrativo de compilación de un ejemplo C++ nativo (x86) en la nube</h3>
 <p>Esta sección presenta un ejemplo simplificado de cómo utilizar GitHub Actions para compilar un proyecto de C++ estándar, demostrando el proceso de CI/CD para una arquitectura nativa (x86-64) antes de abordar la compilación cruzada de ESP-IDF.</p>
 <p>El flujo de trabajo automatizará la compilación del popular ejemplo "Hello World" utilizando CMake como sistema de construcción.</p>
-<p>La estructura del repositorio tendrá la siguiente estructura de ficheros:
-nombre_proyecto/
+<p>La estructura del repositorio tendrá la siguiente estructura de ficheros:</p>
+<pre><code>nombre_proyecto/
 ├── .github/
 │   └── workflows/
 │       └── build_x86.yml
 └── src_example_x86/
     ├── CMakeLists.txt
-    └── main_example_x86.cpp</p>
+    └── main_example_x86.cpp
+</code></pre>
 <p>El archivo <code>main_example_x86.cpp</code> contiene el código de C++ que se compilará con CMake:</p>
 <pre><code class="language-cpp">// src_example_x86/main_example_x86.cpp
 
