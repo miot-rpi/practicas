@@ -33,10 +33,10 @@ Otro factor relevante a la hora de escoger un ADC es su *frecuencia de muestreo*
 * *x(t)* debe ser una señal limitada en banda de ancho de banda *fN*.
 * La frecuencia de muestreo *fs* debe ser al menos el doble de la máxima frecuencia de la señal analógica *x(t)*.
 
- ### ADCs en nuestro ESP32
- El ESP32 dispone de 2 ADCs tipo SAR (*Succesive Aproximation-Register*) de 12 bit (es configurable entre 9 y 12 bits). El voltaje de referencia es 1100mV, por lo que deberíamos adaptar la señal de entrada a ese rango para obtener la mayor precisión. 
+### ADCs en nuestro ESP32
+El ESP32 dispone de 2 ADCs tipo SAR (*Succesive Aproximation-Register*) de 12 bit (es configurable entre 9 y 12 bits). El voltaje de referencia es 1100mV, por lo que deberíamos adaptar la señal de entrada a ese rango para obtener la mayor precisión. 
 
-Hay 2 ADCs disponibles que ofrecen un total de 18 canales: 8 en el *ADC1* (GPIO32 - GPIO39) y 10 más  en el *ADC2* (GPIO0, GPIO2, GPIO4, GPIO12 - GPIO15, GOIO25 - GPIO27. **Es mejor evitar el uso de GPIO2, GPIO2 y GPIO15** como canal de ADC. [Consultad la documentación para más detalles](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/adc.html)). Es decir, podríamos muestrear hasta 18 señales analógicas diferentes, conectando cada una a un pin GPIO diferente. Es importante recordar que no podemos usar un mismo GPIO para varios propósitos simultáneamente (por ejemplo, como entrada digital y como ADC).
+Hay 2 ADCs disponibles que ofrecen un total de 18 canales: 8 en el *ADC1* (GPIO32 - GPIO39) y 10 más  en el *ADC2* (GPIO0, GPIO2, GPIO4, GPIO12 - GPIO15, GOIO25 - GPIO27. **Es mejor evitar el uso de GPIO0, GPIO2 y GPIO15** como canal de ADC. [Consultad la documentación para más detalles](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/adc.html)). Es decir, podríamos muestrear hasta 18 señales analógicas diferentes, conectando cada una a un pin GPIO diferente. Es importante recordar que no podemos usar un mismo GPIO para varios propósitos simultáneamente (por ejemplo, como entrada digital y como ADC).
 
 !!! note "ADC2 y WiFI"
     Recuerda que la radio WiFi usa el  ADC2. Por tanto, tu aplicación no debe usar ningún canal del ADC2 si está utilizando la radio WiFi.
@@ -53,20 +53,19 @@ El ESP32 permite atenuar  la señal de entrada para adaptarla al rango de refere
 | `ADC_ATTEN_DB_0` | 100 mV ~ 950 mV   |
 | `ADC_ATTEN_DB_2_5` | 100 mV ~ 1250 mV |
 | `ADC_ATTEN_DB_6`  |   150 mV ~ 1750 mV |
-| `ADC_ATTEN_DB_11` |  150 mV ~ 2450 mV |
+| `ADC_ATTEN_DB_12` |  150 mV ~ 2450 mV |
 
 
 #### Lectura del  ADC
-Consulta las transparencias de la asignatura y la [documentación del API de ESP-IDF del  modo one-shot](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_oneshot.html) así como la de la [calibración de ADC en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_calibration.html).
+Consulta las transparencias de la asignatura y la [documentación del API de ESP-IDF del modo one-shot](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_oneshot.html) así como la de la [calibración de ADC en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc_calibration.html).
 
 Asimismo, es muy recomendable revisar [el ejemplo disponible en la distribución de esp-idf](https://github.com/espressif/esp-idf/tree/8fc8f3f47997aadba21facabc66004c1d22de181/examples/peripherals/adc/oneshot_read).
 
 ### Lectura del sensor de infrarrojos
 
-El sensor GP2Y0A41SK0F de Sharp permite medir distancias de entre 4 y 30cm usando infrarrojos. Combina un PSD (*Position Sensitive Detector*) y IR-LED (*infrared
-emitting diode*) de manera que puede emitir luz infrarroja y determinar cuándo ha vuelto al sensor tras reflejarse en un obstáculo cercano. Ese tiempo de vuelo se utiliza para determinar la distancia al objeto.
+El sensor GP2Y0A41SK0F de Sharp permite medir distancias de entre 4 y 30cm usando infrarrojos. Combina un PSD (*Position Sensitive Detector*) y IR-LED (*infrared emitting diode*) de manera que puede emitir luz infrarroja y determinar cuándo ha vuelto al sensor tras reflejarse en un obstáculo cercano. Ese tiempo de vuelo se utiliza para determinar la distancia al objeto.
 
-De acuerdo a la hoja de especificaciones que se puede encontrar en el Campus Virtual, este sensor proporciona una tensión en función de la distancia al obejto más cercano. La siguiente figura muestra esa relación (figura extraída de la hoja de especificaciones del sensor):
+De acuerdo a la hoja de especificaciones que se puede encontrar en el Campus Virtual, este sensor proporciona una tensión en función de la distancia al objeto más cercano. La siguiente figura muestra esa relación (figura extraída de la hoja de especificaciones del sensor):
 
 ![distToVolt](img/Sharp-curve.png)
 
@@ -86,9 +85,9 @@ En la página 3 de la hoja de especificaciones del GP2Y0A41SK0F se nos indica qu
     
 ## Ejercicio: lectura de distancias
 
-USaremos el sensor de distancia GP2Y0A41SK0F de Sharp conectado al ADC de  ESP32. Deberás conectar la alimentación del senor al pin de 5V del ESP32, las tierras en común y el cable de medida a un pin GPIO del ESP32 que configurarás para usar un canal de ADC.
+Usaremos el sensor de distancia GP2Y0A41SK0F de Sharp conectado al ADC de ESP32. Deberás conectar la alimentación del sensor al pin de 5V del ESP32, las tierras en común y el cable de medida a un pin GPIO del ESP32 que configurarás para usar un canal de ADC.
 
-* Muestrear el ADC correspondiente cada segundo, haciendo la media de  `N` lecturas en cada muestreo (siendo `N` una constante que se puede modificar via *menuconfig*). Usad un *timer* para el muestreo. Se notificará mediante *un evento^, la disponibilidad de un nuevo dato. El código relativo al acceso al sensor estará en un componente separado con  llamadas para la configuración, arranque/parada de las medidas, y obtener el último valor de distancia medido. 
-* El programa principal registará un *handle* del evento correspondiente. En dicho  *handle* se invocará a la función del módulo anterior para conseguir el valor de la última distancia medida, y se mostrará por pantalla.
+* Muestrear el ADC correspondiente cada segundo, haciendo la media de `N` lecturas en cada muestreo (siendo `N` una constante que se puede modificar vía *menuconfig*). Usad un *timer* para el muestreo. Se notificará mediante *un evento*, la disponibilidad de un nuevo dato. El código relativo al acceso al sensor estará en un componente separado con llamadas para la configuración, arranque/parada de las medidas, y obtener el último valor de distancia medido. 
+* El programa principal registrará un *handle* del evento correspondiente. En dicho  *handle* se invocará a la función del módulo anterior para conseguir el valor de la última distancia medida, y se mostrará por pantalla.
 * Se deberá comprobar la salida de las funciones invocadas, e informar en caso de error. Utiliza las [funciones proporcionadas por ESP-IDF documentadas en su web](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/error-handling.html)
 
