@@ -1,640 +1,670 @@
-# Práctica 6. Introducción a ThingsBoard
+# Práctica 6. El protocolo LWM2M
 
 ## Objetivos
 
-- Entender los conceptos básicos detrás de la plataforma IoT Thingsboard.
-- Dominar el proceso de provisionamiento automático de dispositivos.
-- Aprender a gestionar datos de telemetría enviados a la plataforma desde el dispositivo. 
-- Aprender a gestionar atributos de dispositivos y diferenciar entre los tres tipos que ofrece Thingsboard.
-- Realizar representaciones sencillas en forma de *dashboard* y gestionar alarmas.
+* Familiarizarse con el protocolo LWM2M, tanto en la interacción con servidores
+como en la generación y definición de objetos y recursos.
+* Familiarizarse con el protocolo de *bootstrapping* LWM2M y entender su
+importancia en entornos reales.
+* Conocer dos herramientas para el desarrollo de sistemas basados en LWM2M:
+Wakaama y Leshan.
+* Experimentar con el proceso de definición de objetos en Wakaama.
+* Observar y poner en marcha un proceso de provisionamiento (*bootstrapping*)
+usando Wakaama.
+* Desplegar servidores locales LWM2M usando tanto Wakaama como Leshan.
 
-# Introducción a ThingsBoard
+## El protocolo LWM2M
 
-## ¿Qué es ThingsBoard?
+OMA Lightweight M2M (LWM2M) es un protocolo impulsado por la Open Mobile
+Alliance para la comunicación M2M entre dispositivos y su gestión en entornos
+IoT. LWM2M se construye por defecto sobre el protocolo CoAP, y soporta, a nivel de 
+transporte, el protocolo UDP (en versiones recientes soporta también otros protocolos de transporte). 
+Entre las funcionalidades básicas de LWM2M destacan la existencia de servidores
+LWM2M, *bootstrapping*, control de acceso, gestión de dispositivos, 
+actualizaciones de *firmware*, localización o estadísticas de conectividad. 
+Además, soporta seguridad a través de DTLS.
 
-ThingsBoard es una plataforma de código abierto para la gestión de dispositivos IoT (Internet de las Cosas) que permite a los usuarios conectar, administrar y analizar datos de dispositivos de forma sencilla y eficiente. Algunas de sus características clave incluyen:
+Concretamente, la primera especificación de LWM2M (versión 1.0) introdujo las
+siguientes características básicas:
 
-1. **Gestión de Dispositivos**: ThingsBoard permite a los usuarios registrar y administrar dispositivos IoT, así como definir atributos y telemetría que pueden ser enviados desde los dispositivos a la plataforma.
+- Definición de un modelo simple para la definición de recursos, basado en objetos.
+- Definición de operaciones de creación, consulta, modificación, borrado y 
+  configuración de recursos.
+- Observación/notificación sobre recursos.
+- Soporte para formato de datos JSON, texto plano y TLV.
+- Colas de mensajes para soportar modos de bajo consumo en dispositivos.
+- Soporte para múltiples servidores LWM2M.
+- Objetos básicos LWM2M: Seguridad, Servidor, Control de Acceso, Dispositivo,
+Conectividad, Actualización de Firmware, Localización, Estadísticas de 
+Conectividad. Para más información sobre los objetos predefinidos, 
+consulta el [siguiente enlace](http://www.openmobilealliance.org/wp/omna/lwm2m/lwm2mregistry.html).
 
-2. **Visualización de Datos**: La plataforma proporciona herramientas para crear dashboards personalizables, donde los usuarios pueden visualizar datos en tiempo real mediante gráficos, mapas y otros widgets.
+Versiones subsiguientes del protocolo (1.1 y 1.2) introdujeron características
+adicionales, como por ejemplo:
 
-3. **Integración de Protocolos**: ThingsBoard admite múltiples protocolos de comunicación, como MQTT, HTTP y CoAP, lo que facilita la conexión de dispositivos IoT de diferentes fabricantes.
+- Mejora del proceso de *bootstrapping*.
+- Mejora del soporte para PKI.
+- Soporte para TCP/TLS.
+- Soporte para CBOR.
+- Soporte para MQTT y HTTP como protocolos subyacentes.
 
-4. **Reglas y Alarmas**: Los usuarios pueden configurar reglas y alertas para gestionar eventos en tiempo real, lo que permite automatizar acciones basadas en condiciones específicas.
+## Implementaciones LWM2M
 
-5. **Escalabilidad**: Es adecuada para aplicaciones desde pequeñas hasta grandes, lo que la hace versátil para diferentes tipos de proyectos IoT.
+En la presente práctica, utilizaremos dos paquetes de *software* pertenecientes
+al proyecto Eclipse IoT, ambos con soporte completo para LWM2M. Cada uno de
+ellos presenta ventajas e inconvenientes que es necesario conocer. 
 
-6. **API y Extensibilidad**: ThingsBoard ofrece API REST y MQTT que permiten a los desarrolladores integrar la plataforma con otros sistemas y servicios.
+### Eclipse Wakaama
 
-En resumen, ThingsBoard es una solución robusta para la gestión y análisis de datos IoT que proporciona a los usuarios las herramientas necesarias para construir y escalar aplicaciones IoT de manera efectiva.
+Eclipse Wakaama es un conjunto de ficheros fuente escritos en C que permiten ser integrados
+en cualquier proyecto para proporcionar funcionalidad de *cliente*, *servidor*
+y *servidor de bootstrap* LWM2M hasta su versión 1.1. 
+En el lado cliente, Wakaama permite la 
+definición de objetos conforme al estándar, así como la recepción de comandos
+desde servidores y su enrutado hacia el objeto u objetos correspondientes. Desde
+el punto de vista servidor, Wakaama proporciona APIs para enviar comandos a 
+clientes LWM2M registrados. 
 
-## Instalación y acceso
+Todo el proyecto es compatible con POSIX, y en esta práctica experimentaremos 
+con su funcionalidad trabajando desde Linux (modo cliente, servidor y 
+servidor de *bootstrap*) y desde el ESP32 (modo cliente).
 
-En esta práctica, puedes optar por utilizar la versión de demostración en *cloud* de 
-Thingsboard, o bien instalar tu propia versión de la plataforma en una máquina con
-acceso local o remoto. 
+#### Instalación
 
-Dispones de toda la información sobre instalación en distintas plataformas en
-[la página de ThingsBoard](https://thingsboard.io/docs/user-guide/install/installation-options/).
-
-En un entorno Docker ya preparado, la forma más sencilla de proceder es mediante la instalación de
-la imagen `tb-postgres` (instrucciones [aquí](https://hub.docker.com/r/thingsboard/tb-postgres/).
-
-!!! note "Tarea (opcional)"
-    Instala en tu máquina local Thingsboard siguiendo el método de instalación más apropiado a tu caso.
-
-## Prueba básica de conectividad de un dispositivo 
-
-Los dispositivos son el tipo de entidad básico en Thingsboard. Un dispositivo en la plataforma no es 
-más que una representación digital de un dispositivo físico, incluyendo sus propiedades, atributos, 
-modos de acceso y datos de telemetría.
-
-Aunque en esta práctica veremos que los dispositivos pueden crearse en la plataforma de forma automática
-mediante un proceso de provisionamiento, es conveniente realizar una primera prueba de conectividad
-creando manualmente un dispositivo, e interactuando con él vía una API preestablecida (en nuestro caso,
-MQTT).
-
-En primer lugar, dirígete al menú "Entidades", "Dispositivos". Crea (usando el símbolo `+`) un nuevo
-dispositivo. Añade el nombre que desees (no debe existir) y deja vacíos el resto de campos. Aparecerá una
-ventana en la que se sugieren distintas formas de comprobar la conectividad externa al nuevo dispositivo.
-Entre ellas, escogeremos en este paso MQTT. Selecciona la pestaña correspondiente al protocolo, y a 
-continuación el sistema operativo que estás utilizando. En respuesta, la plataforma sugerirá un comando
-que te permitirá testear la conectividad. Por ejemplo, en el caso de MQTT y Linux, ejecuta:
-
-```sh
-mosquitto_pub -d -q 1 -h URL_THINGSBOARD -p 1883 -t v1/devices/me/telemetry -u "TOKEN" -m "{temperature:25}"
-```
-
-Observa que el nombre de usuario que se utiliza para establecer la conexión con el *broker* es el token 
-asociado al nuevo dispositivo. En este mensaje, se utiliza el topic `v1/devices/me/telemetry`, a través
-del cual se pueden enviar datos de telemetría al dispositivo virtual usando un formato JSON.
-
-!!! note "Tarea"
-    Crea un nuevo dispositivo y comprueba la conectividad hacia el mismo desde línea de comandos (o cualquier herramienta de publicación MQTT).
-
-# Provisionamiento
-
-### Conceptos generales
-
-El proceso de provisionamiento en ThingsBoard puede ser automatizado para así partir 
-de un *firmware* común que no deba personalizarse para cada dispositivo. Durante el
-provisionamiento automático, el dispositivo puede o bien generar credenciales únicas,
-o bien solicitar al servidor que le proporcione dichas credenciales.
-
-El funcionamiento es sencillo. El dispositivo envía una petición de provisonamiento
-(*request*) a ThingsBoard. Esta petición debe contener una clave de provisonamiento
-(*provision key*) y un secreto (*secret*). La petición puede incluir, opcionalmente,
-el nombre del dispositivo y las credenciales generadas por el dispositivo. Si dichas
-credenciales no se proporcionan, el servidor generará un *access token* para que sea
-utilizado en el futuro por el dispositivo provisionado. El esquema podría resumirse como:
-
-![Provisioning schema](img/prov1.png)
-
-Siendo un ejemplo de petición de provisionamiento:
-
-```json
-{
-  "deviceName": "DEVICE_NAME",
-  "provisionDeviceKey": "YOUR_PROVISION_KEY_HERE",
-  "provisionDeviceSecret": "YOUR_PROVISION_SECRET_HERE"
-}
-```
-
-ThingsBoard validará la petición y responderá con la respuesta (*response*) de provisionamiento
-correspondiente. Una respuesta exitosa contendrá el identificador del dispositivo, tipo de credenciales,
-y el cuerpo de la respuesta (habitualmente, un *token*). Si la respuesta no fue exitosa, 
-típicamente únicamente contendrá el estado.
-
-Ejemplo de respuesta de provisionamiento:
-
-```json
-{
-  "provisionDeviceStatus":"SUCCESS",
-  "credentialsType":"ACCESS_TOKEN",
-  "accessToken":"sLzc0gDAZPkGMzFVTyUY"
-}
-```
-
-Durante la validación de la petición, ThingsBoard comprobará la información proporcionada
-(*provisionDeviceKey* y *provisionDeviceSecret*) para encontrar el 
-[Perfil de Dispositivo](https://thingsboard.io/docs/user-guide/device-profiles/) correspondiente.
-Cuando se encuentre, la plataforma utilizará la correspondiente estrategia de provisionamiento para
-validar el nombre del dispositivo.
-
-Existen dos tipos de estrategias de provisionamiento:
-
-- **Permitir crear nuevos dispositivos**. Se comprueba que ningún dispositivo con el mismo nombre está ya provisonado en ThingsBoard. Esta estrategia es útil si no se dispone de una lista de nombres de dispositivo única (e.g. direcciones MAC) durante la fabricación de los dispositivos pero el dispositivo sí dispone de acceso a dicha información en el *firmware*. Es más sencilla de implementar, pero menos segura que la segunda estrategia.
-
-- **Comprobar dispositivos pre-provisionados**. Comprueba que el dispositivo con el mismo nombre ya ha sido creado en ThingsBoard, pero todavía no ha sido provisionado. Esta estrategia es útil cuando se desea provisionar sólo una lista preconfeccionada de dispositivos. Asumamos que se ha obtenido una lista de identificadores (e.g. MACs) durante la fabricación. Sería posible utilizar [*bulk provisioning*](https://thingsboard.io/docs/user-guide/device-profiles/) para subir dicha lista a ThingsBoard; así, los dispositivos de la lista pueden solicitar peticiones de provisionamiento, y ningún otro dispositivo podría hacerlo.
-
-Cuando el provisionamiento ha finalizado, ThingsBoard actualizará el atributo del servidor *provisionState* asociado al dispositivo (más sobre atributos más adelante en esta misma práctica), asignándole el valor *provisioned*.
-
-### Configuración del perfil de dispositivo
-
-Es necesario configurar un perfil de dispositivo para habilitar la funcionalidad de provisionamiento. Concretamente, es necesario seguir los siguientes pasos:
-
-1. Crear un nuevo perfil de dispositivo, o editar uno existente. 
-2. Asignarle un nombre, un tipo de transporte (e.g. MQTT), reglas de alarma para los dispositivos que se adhieran al perfil, y por último una estrategia de provisionamiento.
-3. En el paso 4 (Estrategia de Provisionamiento), seleccionar *Permitir crear nuevos dispositivos*, y anotar (o recordar clave y secreto de provisonamiento.
-
-Dispones de toda la información en la [documentación](https://thingsboard.io/docs/user-guide/device-profiles/) de ThingsBoard.
-
-!!! note "Tarea"
-    Crea dos perfiles de dispositivo con capacidades de provisionamiento. Investiga la definición de alarmas para un campo de telemetría llamado "temperature", que active una alarma siempre que un dispositivo bajo dicho perfil emita un valor superior al umbral fijado. Fija el transporte en MQTT y recuerda los datos de credenciales para los nuevos perfiles.
-
-### APIs para provisonamiento
-
-En esta práctica, utilizaremos MQTT como API para forzar un proceso de provisionamiento automático desde el dispositivo. Existen alternativas utilizando HTTP y CoAP, que puedes consultar en la documentación de ThingsBoard.
-
-La API MQTT es sencilla. En esta práctica usaremos credenciales generadas por el servidor ThingsBoard, pero puedes encontrar fácilmente la correspondiente API para credenciales generadas por el dispositivo en la documentación de la plataforma. 
-
-Mediante MQTT, el *firmware* de dispositivo puede solicitar un proceso de provisionamiento de forma sencilla. Sin embargo, veremos un ejemplo Python que nos servirá de inspiración para la tarea entregable, que se basará en un proceso equivalente utilizando ESP-IDF. Si no lo hiciste en la anterior práctica, instala *paho* en un entorno virtual:
-
+Utilizaremos una versión específica que permitirá ser ejecutada tanto en 
+Linux como en el ESP32. Para ello, clonamos en primer lugar la versión 
+correspondiente del proyecto (es importante que utilices este
+*commit* específico):
 
 ```sh
-python -m venv .venv
-source .venv/bin/activate
-pip install paho-mqtt
+git clone https://github.com/eclipse/wakaama.git
+cd wakaama
+git reset --hard 31d64c0c41fae9653c1fa53ef58d1a44e49017fa
 ```
 
-Observa el siguiente código; ejecútalo desde cualquier máquina con una instalación de *paho-mqtt* `python3 test.py`:
+El proyecto Wakaama proporciona cuatro componentes que utilizaremos durante
+la práctica, todos dentro del directorio `examples`:
 
-```py
-from paho.mqtt.client import Client
-from json import dumps, loads
+* `bootstrap_server`: implementa un servidor de *bootstrap* con línea de 
+  comandos propia.
+* `client`: implementa un cliente complejo, con definición de nueve objetos
+  que siguen las especificaciones de la OMA más uno propio, 
+  y soporte para *bootstrapping*.
+* `lightclient`: implementa un cliente sencillo, con definición de tres objetos
+  según especificaciones OMA y un cuarto objeto propio.
+* `server`: implementa un servidor LWM2M que ofrece línea de comandos para
+  la interacción con clientes registrados.
 
-RESULT_CODES = {
-    1: "incorrect protocol version",
-    2: "invalid client identifier",
-    3: "server unavailable",
-    4: "bad username or password",
-    5: "not authorised",
+El modo de compilar cada uno de los ejemplos es exactamente el mismo:
+
+1. Dirígete al directorio del ejemplo.
+2. Crea un directorio `build` y accede a él.
+3. Configura el proyecto con la orden `cmake ..`.
+4. Compila el ejemplo con la orden `make`.
+
+Si todo ha ido bien, deberías tener un binario distinto en el directorio
+`build` correspondiente, con los que trabajarás el resto de la práctica.
+
+!!! note "Tarea"
+    Compila cada uno de los ejemplos anteriormente mencionados en tu máquina
+    virtual, utilizando los parámetros por defecto para cada uno de ellos.
+
+### Eclipse Leshan
+
+Eclipse Leshan es un proyecto alternativo que proporciona implementaciones en
+Java de clientes, servidores y servidores de *bootstrap* LWM2M, y está especialmente
+diseñado para ser adaptable y extensible, permitiendo a los desarrolladores 
+implementar sus propias versiones de cada uno de los tres anteriores elmentos
+adaptados a sus necesidades específicas. Al igual que Wakaama, Leshan proporciona
+la definición e interacción con objetos IPSO, construcción sobre DTLS y
+utilización de CoAP como protocolo subyacente.
+
+Además, el proyecto proporciona dos servidores de test que resultan muy útiles
+ a la hora de desarrollar, véase:
+
+- Servidor LWM2M en [leshan.eclipseprojects.io](https://leshan.eclipseprojects.io/), disponible en *coap://leshan.eclipseprojects.io:5683 y coaps://leshan.eclipseprojects.io:5684*.
+- Servidor de *bootstrap* en [leshan.eclipseprojects.io/bs](https://leshan.eclipseprojects.io/bs/), disponible en *coap://leshan.eclipseprojects.io:5783 y coaps://leshan.eclipseprojects.io:5784*.
+
+#### Instalación
+
+Instala en primer lugar los prerequisitos necesarios para la correcta instalación
+de Leshan (pueden variar en función de tu distribución Linux):
+
+```sh
+sudo apt-get update
+sudo apt-get install openjdk-17-jdk maven git-core
+```
+
+Clona el repositorio oficial de Leshan desde la siguiente dirección:
+
+```sh
+git clone https://github.com/eclipse/leshan.git
+```
+
+Por último, compila el proyecto:
+
+```sh
+cd leshan
+mvn clean install
+```
+
+Tras la fase de instalación, podrás lanzar tanto el servidor LWM2M:
+
+```sh
+java -jar leshan-demo-server/target/leshan-demo-server-*-SNAPSHOT-jar-with-dependencies.jar 
+```
+
+La opción `-h` te permitirá observar la ayuda del servidor.
+
+Como el servidor de *bootstrapping*:
+
+```sh
+java -jar leshan-demo-bsserver/target/leshan-demo-bsserver-*-SNAPSHOT-jar-with-dependencies.jar
+```
+
+La opción `-h` te permitirá observar la ayuda del servidor.
+
+En ambos casos, la salida asociada a la ejecución de los servidores nos 
+indicarán la URL que podremos consultar desde cualquier navegador para 
+obtener información del mismo, así como la URL y puerto de escucha de cada
+uno, que deberemos indicar en los clientes correspondientes.
+
+!!! note "Tarea"
+    Instala Eclipse Leshan y arranca el servidor LWM2M. Accede a la página
+    web de gestión y comprueba que efectivamente funciona. A continucación,
+    detenlo y haz lo propio con el servidor de *bootstrapping*.
+
+## Eclipse Wakaama. Cliente y servidor LWM2M
+
+El objetivo principal de esta parte de la práctica será disponer de un sistema
+completo LWM2M basado en un cliente y dos servidores (uno LWM2M, otro de
+*bootstrapping*), todos funcionando bajo Eclipse Wakaama.
+
+Para ello, en primer lugar, arrancaremos el servidor Wakaama en una de las
+terminales. Observa que el servidor, tras arrancar, expone una sencilla
+línea de comandos que podemos aprovechar para interactuar con él:
+
+```sh
+./lwm2mserver 
+
+> help
+help	Type 'help [COMMAND]' for more details on a command.
+list	List registered clients.
+read	Read from a client.
+disc	Discover resources of a client.
+write	Write to a client.
+time	Write time-related attributes to a client.
+attr	Write value-related attributes to a client.
+clear	Clear attributes of a client.
+exec	Execute a client resource.
+del	Delete a client Object instance.
+create	Create an Object instance.
+observe	Observe from a client.
+cancel	Cancel an observe.
+q	Quit the server.
+
+```
+
+La orden `help` muestra la ayuda global, pudiéndose especializar para cada
+comando concreto:
+
+```sh
+> help read
+ read CLIENT# URI
+   CLIENT#: client number as returned by command 'list'
+   URI: uri to read such as /3, /3/0/2, /1024/11, /1024/0/1
+Result will be displayed asynchronously.
+```
+
+Si en este instante listamos un los clientes registrados, veremos que no
+hay ninguno:
+
+```sh
+> list
+No client.
+```
+
+En segundo lugar, vamos a arrancar el cliente Wakaama. Por defecto, este cliente
+intentará conectar con un servidor LWM2M existente en `localhost`, puerto 
+5683. En cualquier caso, estos valores pueden modificarse en la propia 
+invocación (consulta la opción `-h` para más información sobre parámetros
+disponibles):
+
+```sh
+./lwm2mclient
+Trying to bind LWM2M Client to port 56830
+LWM2M Client "testlwm2mclient" started on port 56830
+> Opening connection to server at ::1:5683
+ -> State: STATE_REGISTERING
+13 bytes received from [::1]:5683
+64 41 69 06  06 69 E8 86  82 72 64 01  30  dAi..i...rd.0
+ -> State: STATE_READY
+
+
+> help
+help	Type 'help [COMMAND]' for more details on a command.
+list	List known servers.
+change	Change the value of resource.
+update	Trigger a registration update
+bootstrap	Initiate a DI bootstrap process
+dispb	Display current backup of objects/instances/resources
+	    (only security and server objects are backupped)
+ls	List Objects and Instances
+disp	Display current objects/instances/resources
+dump	Dump an Object
+add	Add support of object 31024
+rm	Remove support of object 31024
+quit	Quit the client gracefully.
+^C	Quit the client abruptly (without sending a de-register message).
+
+>  -> State: STATE_READY
+```
+
+Al igual que el servidor, el cliente soporta la introducción de comandos
+por parte del usuario.  Observa que hemos ejecutado el comando `help`
+para mostrar los comandos disponibles. 
+
+Además, el cliente ha pasado desde un estado `STATE_REGISTERING` a un estado
+`STATE_READY`, lo que significa que se ha registrado correctamente en el 
+servidor con el nombre `testlwm2mclient`.
+
+Observa ahora la salida del servidor, y verás que éste ha realizado un 
+proceso de descubrimiento de recursos en el cliente conectado. Concretamente,
+el servidor reporta la información relativa al nuevo cliente conectado:
+
+```sh
+New client #0 registered.
+Client #0:
+	name: "testlwm2mclient"
+	version: "1.1"
+	binding: "UDP"
+	lifetime: 300 sec
+	objects: /1/0, /2/0, /3/0, /4/0, /5/0, /6/0, /7/0, /31024/10, /31024/11, /31024/12, 
+```
+Concretamente, el número asociado al cliente es el `0`. Podemos recuperar
+esta información en todo momento con el comando `list` en el servidor.
+
+En el cliente, puedes seleccionar el nombre que se utilizará en el proceso
+de registro con la opción `-n`.
+
+!!! danger "Tarea entregable"
+    Observa, utilizando Wireshark, el proceso de registro de un cliente en un
+    servidor, y analiza el contenido del mensaje o mensajes intercambiados entre
+    ambos. ¿Qué protocolos se utilizan?
+
+El cliente con el que estamos trabajando es suficientemente complejo en su
+funcionamiento, y permite observar cómo se implementa el soporte tanto para
+objetos predefinidos por la OMA como para objetos propios. Concretamente,
+el cliente implementa nueve objetos distintos:
+
+* *Security Object* (`id=0`).
+* *Server Object* (`id=1`).
+* *Access Control Object* (`id=2`), como un simple esqueleto, sin funcionalidad asociada.
+* *Device Object* (`id=3`), que contiene (y devuelve) valores específicos 
+codificados en base al apéndice E de la especificación técnica de LWM2M.
+* *Connectivity Monitoring Object* (`id=4`), como un simple esqueleto, sin funcionalidad.
+* *Firmware Update Object* (`id=5`), como un simple esqueleto, sin funcionalidad.
+* *Location Object* (`id=6`), como un simple esqueleto, sin funcionalidad.
+* *Connectivity Statistics Object* (`id=7`), como un simple esqueleto, sin funcionalidad.
+* *Test Object* (`id=31024`), con la siguiente descripción:
+
+Objetos:
+
+|Objeto |  ID   | Multiples Instancias| Obligatorio |
+|-------|-------|--------------------|-----------|
+|Test   | 31024 |    Sí              |    No     |
+
+Recurso:
+
+| Nombre | ID | Operaciones| Múltiples Instancias | Obligatorio |  Tipo   | Rango |
+|------|----|------------|-----------|-----------|---------|-------|
+| test |  1 |    R/W     |    No     |    Yes    | Integer | 0-255 |
+| exec |  2 |     E      |    No     |    Yes    |         |       |
+| dec  |  3 |    R/W     |    No     |    Yes    |  Float  |       |
+
+En el cliente, el comando `dump` nos permitirá observar el contenido de una 
+instancia determinada de un objeto, o de todas ellas. En el servidor, el
+comando `read` nos permitirá hacer lo propio.
+
+!!! danger "Tarea entregable"
+    Analiza el valor actual de los objetos `/3` y el objeto de test, tanto desde
+    el cliente (comando `dump`) como desde el servidor (comando `read`). En 
+    último caso, realiza una captura de tráfico vía Wireshark y analiza los 
+    mensajes intercambiados entre ambos extremos.
+
+Para escribir en un determinado recurso desde el servidor, podemos hacer
+uso del comando `write` de la siguiente forma:
+
+```sh
+write 0 /31024/10/1 91
+```
+
+Así, estaríamos escribiendo en el recurso `1` de la instancia `10` del objeto
+`31024` el valor entero 91.
+
+!!! danger "Tarea entregable"
+    Realiza escrituras en objetos del cliente y analiza el nuevo valor, comprobando
+    que efectivamente se han llevado a cabo. 
+    Realiza una captura de tráfico vía Wireshark y analiza los 
+    mensajes intercambiados entre ambos extremos en el caso de una escritura.
+    Observa también que el servidor permite la observación de recursos específicos
+    (comando `observe`).
+    Experimenta con esta opción y observa el tráfico generado (puedes modificar
+    el valor de un recurso desde el propio cliente y ver qué ocurre en el servidor).
+
+Por último, con la orden `quit` desconectamos del servidor. Observa también
+los mensajes CoAP que se generan en este caso.
+
+## Definición de un objeto en Eclipse Wakaama
+
+Como has podido observar, el ejemplo de cliente define una serie de objetos,
+algunos especificados por la OMA, y otros personalizados. En este último
+caso, al que nos referiremos como `test_object`, se utilizan e ilustran 
+algunas de las funcionalidades básicas de Wakaama como infraestructura
+para el desarrollo de Smart Objects vía LWM2M.
+
+Observa tanto el código del cliente LWM2M (fichero fuente `lwm2mclient.c` del
+ejemplo `client`) como la definición del objeto de test (fichero fuente
+`test_object.c`). 
+
+El primer fichero implementa la lógica principal del cliente, 
+incluyendo gestión de la conexión, lógica de análisis de comandos introducidos
+por el usuario, gestión de *bootstrapping*, etc. Concretamente, nos interesa
+analizar las líneas relativas a la invocación de la función `get_test_object`,
+en cuyo interior se definen tanto los recursos como el comportamiento de 
+nuestro cliente ante distintos tipos de operaciones sobre ellos. Observa que,
+al igual que para nuestro objeto de test, existen funciones similares 
+para el resto de objetos definidos (obviamente podrían existir más), con un
+fichero fuente donde se define el comportamiento de cada uno de ellos.
+
+Uno de estos objetos es `test_object.c`. La principal función de entrada
+a este módulo es precisamente `get_test_object()`. Observa que, en ella, 
+se define el identificador del objeto, así como cada uno de los recursos que
+expone (en este caso, tres), sus valores iniciales, 
+y las funciones que se utilizarán como *callbacks* asociados a cada posible operación:
+
+```c
+  lwm2m_object_t * testObj;
+
+    testObj = (lwm2m_object_t *)lwm2m_malloc(sizeof(lwm2m_object_t));
+
+    if (NULL != testObj)
+    {
+        int i; 
+        prv_instance_t * targetP;
+
+        memset(testObj, 0, sizeof(lwm2m_object_t));
+
+        testObj->objID = TEST_OBJECT_ID;
+        for (i=0 ; i < 3 ; i++)
+        {
+            targetP = (prv_instance_t *)lwm2m_malloc(sizeof(prv_instance_t));
+            if (NULL == targetP) return NULL;
+            memset(targetP, 0, sizeof(prv_instance_t));
+            targetP->shortID = 10 + i;
+            targetP->test    = 20 + i;
+            targetP->dec     = -30 + i + (double)i/100.0;
+            testObj->instanceList = LWM2M_LIST_ADD(testObj->instanceList, targetP);
+        }
+        /*
+         * From a single instance object, two more functions are available.
+         * - The first one (createFunc) create a new instance and filled it with the provided informations. If an ID is
+         *   provided a check is done for verifying his disponibility, or a new one is generated.
+         * - The other one (deleteFunc) delete an instance by removing it from the instance list (and freeing the memory
+         *   allocated to it)
+         */
+        testObj->readFunc = prv_read;
+        testObj->discoverFunc = prv_discover;
+        testObj->writeFunc = prv_write;
+        testObj->executeFunc = prv_exec;
+        testObj->createFunc = prv_create;
+        testObj->deleteFunc = prv_delete;
     }
 
-
-def collect_required_data():
-    config = {}
-    print("\n\n", "="*80, sep="")
-    print(" "*10, "\033[1m\033[94mThingsBoard device provisioning with basic authorization example script.\033[0m", sep="")
-    print("="*80, "\n\n", sep="")
-    host = input("Please write your ThingsBoard \033[93mhost\033[0m or leave it blank to use default (thingsboard.cloud): ")
-    config["host"] = host if host else "demo.thingsboard.io"
-    port = input("Please write your ThingsBoard \033[93mport\033[0m or leave it blank to use default (1883): ")
-    config["port"] = int(port) if port else 1883
-    config["provision_device_key"] = input("Please write \033[93mprovision device key\033[0m: ")
-    config["provision_device_secret"] = input("Please write \033[93mprovision device secret\033[0m: ")
-    device_name = input("Please write \033[93mdevice name\033[0m or leave it blank to generate: ")
-    if device_name:
-        config["device_name"] = device_name
-    print("\n", "="*80, "\n", sep="")
-    return config
-
-
-class ProvisionClient(Client):
-    PROVISION_REQUEST_TOPIC = "/provision/request"
-    PROVISION_RESPONSE_TOPIC = "/provision/response"
-
-    def __init__(self, host, port, provision_request):
-        super().__init__()
-        self._host = host
-        self._port = port
-        self._username = "provision"
-        self.on_connect = self.__on_connect
-        self.on_message = self.__on_message
-        self.__provision_request = provision_request
-
-    def __on_connect(self, client, userdata, flags, rc):  # Callback for connect
-        if rc == 0:
-            print("[Provisioning client] Connected to ThingsBoard ")
-            client.subscribe(self.PROVISION_RESPONSE_TOPIC)  # Subscribe to provisioning response topic
-            provision_request = dumps(self.__provision_request)
-            print("[Provisioning client] Sending provisioning request %s" % provision_request)
-            client.publish(self.PROVISION_REQUEST_TOPIC, provision_request)  # Publishing provisioning request topic
-        else:
-            print("[Provisioning client] Cannot connect to ThingsBoard!, result: %s" % RESULT_CODES[rc])
-
-    def __on_message(self, client, userdata, msg):
-        decoded_payload = msg.payload.decode("UTF-8")
-        print("[Provisioning client] Received data from ThingsBoard: %s" % decoded_payload)
-        decoded_message = loads(decoded_payload)
-        provision_device_status = decoded_message.get("status")
-        if provision_device_status == "SUCCESS":
-            self.__save_credentials(decoded_message["credentialsValue"])
-        else:
-            print("[Provisioning client] Provisioning was unsuccessful with status %s and message: %s" % (provision_device_status, decoded_message["errorMsg"]))
-        self.disconnect()
-
-    def provision(self):
-        print("[Provisioning client] Connecting to ThingsBoard (provisioning client)")
-        self.__clean_credentials()
-        self.connect(self._host, self._port, 60)
-        self.loop_forever()
-
-    def get_new_client(self):
-        client_credentials = self.__get_credentials()
-        new_client = None
-        if client_credentials:
-            new_client = Client()
-            new_client.username_pw_set(client_credentials)
-            print("[Provisioning client] Read credentials from file.")
-        else:
-            print("[Provisioning client] Cannot read credentials from file!")
-        return new_client
-
-    @staticmethod
-    def __get_credentials():
-        new_credentials = None
-        try:
-            with open("credentials", "r") as credentials_file:
-                new_credentials = credentials_file.read()
-        except Exception as e:
-            print(e)
-        return new_credentials
-
-    @staticmethod
-    def __save_credentials(credentials):
-        with open("credentials", "w") as credentials_file:
-            credentials_file.write(credentials)
-
-    @staticmethod
-    def __clean_credentials():
-        open("credentials", "w").close()
-
-
-def on_tb_connected(client, userdata, flags, rc):  # Callback for connect with received credentials
-    if rc == 0:
-        print("[ThingsBoard client] Connected to ThingsBoard with credentials: %s" % client._username.decode())
-    else:
-        print("[ThingsBoard client] Cannot connect to ThingsBoard!, result: %s" % RESULT_CODES[rc])
-
-
-if __name__ == '__main__':
-
-    config = collect_required_data()
-
-    THINGSBOARD_HOST = config["host"]  # ThingsBoard instance host
-    THINGSBOARD_PORT = config["port"]  # ThingsBoard instance MQTT port
-
-    PROVISION_REQUEST = {"provisionDeviceKey": config["provision_device_key"],  # Provision device key, replace this value with your value from device profile.
-                         "provisionDeviceSecret": config["provision_device_secret"],  # Provision device secret, replace this value with your value from device profile.
-                         }
-    if config.get("device_name") is not None:
-        PROVISION_REQUEST["deviceName"] = config["device_name"]
-    provision_client = ProvisionClient(THINGSBOARD_HOST, THINGSBOARD_PORT, PROVISION_REQUEST)
-    provision_client.provision()  # Request provisioned data
-    tb_client = provision_client.get_new_client()  # Getting client with provisioned data
-    if tb_client:
-        tb_client.on_connect = on_tb_connected  # Setting callback for connect
-        tb_client.connect(THINGSBOARD_HOST, THINGSBOARD_PORT, 60)
-        tb_client.loop_forever()  # Starting infinity loop
-    else:
-        print("Client was not created!")
+    return testObj;
 ```
 
-!!! note "Tarea"
-    Contesta a las siguientes cuestiones:
-    - ¿Qué nombre de usuario es necesario usar para la autenticación en el *broker* MQTT?
-    - ¿Qué *topics* se utilizan para publicar la información de petición de provisionamiento y recibir la respuesta correspondiente?
+Estas funciones de *callback* están definidas en el propio fichero, y su 
+contenido es personalizable en función del diseño del objeto. Observemos, 
+por ejemplo, el contenido de la función asociada a la lectura, `prv_read`:
 
-
-!!! danger "Tarea entregable"
-    Crea un *firmware* con ESP-IDF que proceda de forma similar al anterior ejemplo, de modo que provisione automáticamente (con nombre generado por el servidor) a un dispositivo ESP32 en ThingsBoard.
-
-## Gestión de telemetría y visualización
-
-ThingsBoard proporciona un conjunto de características que permite trabajar con datos en forma de series temporales, permitiendo:
-
-- **Recolectar** datos de dispositivos usando distintos [protocolos e integracioens](https://thingsboard.io/docs/getting-started-guides/connectivity/).
-- **Almacenar** series temporales en forma de base de datos SQL (PostgreSQL) o NoSQL (Cassandra o Timescale).
-- **Consultar** los últimos valores de telemetría obtenidos o todos los datos en rango de tiempo determinado.
-- **Suscribirse**  a actualizaciones de datos usando [Websockets](https://thingsboard.io/docs/user-guide/telemetry/#websocket-api) para visualización en tiempo real y analítica.
-- **Visualizar** las series temporales usando [*dashboards* configurables](https://thingsboard.io/docs/user-guide/dashboards/).
-- **Filtrar y analizar** datos usando [cadenas de reglas](https://thingsboard.io/docs/user-guide/rule-engine-2-0/re-getting-started/).
-- **Generar** [**alarmas**](https://thingsboard.io/docs/user-guide/alarms/) basadas en datos recolectados.
-- **Reenviar datos** a servicios externos usando [reglas](https://thingsboard.io/docs/user-guide/rule-engine-2-0/external-nodes/) (por ejemplo, a Kafka o RabbitMQ).
-
-### Puntos de datos
-
-ThingsBoard trata internamente los datos de series temporales como pares clave-valor con marca de tiempo. Llamamos punto de datos a un único par clave-valor con marca de tiempo. La flexibilidad y simplicidad del formato clave-valor permite una integración fácil y sin problemas con casi cualquier dispositivo IoT del mercado. La clave siempre es una cadena de texto y, básicamente, es el nombre de la clave del punto de datos, mientras que el valor puede ser una cadena, un valor booleano, un doble, un entero o un JSON.
-
-Los ejemplos a continuación usan el formato de datos interno. El propio dispositivo puede cargar datos utilizando varios protocolos y formatos de datos. Consulta la [API de carga de datos](https://thingsboard.io/docs/user-guide/telemetry/#time-series-data-upload-api) para más información.
-
-El siguiente JSON contiene 5 puntos de datos: temperatura (double), humedad (integer), hvacEnabled (boolean), hvacState (string) y configuración (JSON):
-
-```json
+```c
+static uint8_t prv_read(uint16_t instanceId,
+                        int * numDataP,
+                        lwm2m_data_t ** dataArrayP,
+                        lwm2m_object_t * objectP)
 {
-  "temperature": 42.2, 
-  "humidity": 70,
-  "hvacEnabled": true,
-  "hvacState": "IDLE",
-  "configuration": {
-    "someNumber": 42,
-    "someArray": [1, 2, 3],
-    "someNestedObject": {"key": "value"}
-  }
-}
-```
+    prv_instance_t * targetP;
+    int i;
 
-Observa que el JSON listado arriba no contiene información de marca de tiempo. En tal caso, ThingsBoard utiliza la marca de tiempo actual del servidor. Sin embargo, puedes incluir información de marca de tiempo en el mensaje. Consulta el ejemplo a continuación:
+    targetP = (prv_instance_t *)lwm2m_list_find(objectP->instanceList, instanceId);
+    if (NULL == targetP) return COAP_404_NOT_FOUND;
 
-```json
-{
-  "ts": 1527863043000,
-  "values": {
-    "temperature": 42.2,
-    "humidity": 70
-  }
-}
-```
-
-### API MQTT
-
-Para publicar datos de telemetría al servidor ThingsBoard desde cualquier dispositivo, es suficiente con publicar
-un mensaje MQTT bajo el siguiente topic:
-
-```sh
-v1/devices/me/telemetry`
-```
-
-El formato de datos más simple soportado es:
-
-```json
-{"key1":"value1", "key2":"value2"}
-```
-
-o
-
-```json
-[{"key1":"value1"}, {"key2":"value2"}]
-```
-
-(en este caso, la marca de tiempo será asignada por el servidor).
-
-Si se desea que el cliente fije la marca de tiempo, es posible usar el formato:
-
-```json
-{"ts":1451649600512, "values":{"key1":"value1", "key2":"value2"}}
-```
-
-Donde 1451649600512 es una marca de tiempo Unix con precisión de milisegundos.
-
-Usando las herramientas de la suite *mosquitto*, podríamos enviar un dato como:
-
-```sh
-mosquitto_pub -d -q 1 -h "demo.thingsboard.io" -t "v1/devices/me/telemetry" -u "$ACCESS_TOKEN" -m "{"temperature":42}"
-```
-
-Para enviar un objeto JSON sin datos de marca de tiempo:
-
-```sh
-mosquitto_pub -d -q 1 -h "demo.thingsboard.io" -t "v1/devices/me/telemetry" -u "$ACCESS_TOKEN" -f "telemetry-data-as-object.json"
-```
-
-Siendo el contenido del fichero JSON:
-
-```json
-{
-  "stringKey": "value1",
-  "booleanKey": true,
-  "doubleKey": 42.0,
-  "longKey": 73,
-  "jsonKey": {
-    "someNumber": 42,
-    "someArray": [1,2,3],
-    "someNestedObject": {"key": "value"}
-  }
-}
-```
-
-Para publicar, por ejemplo, un objeto con marca de tiempo, usando datos más complejos, podríamos construir el siguiente JSON:
-
-```json
-{
-  "ts": 1451649600512,
-  "values": {
-    "stringKey": "value1",
-    "booleanKey": true,
-    "doubleKey": 42.0,
-    "longKey": 73,
-    "jsonKey": {
-      "someNumber": 42,
-      "someArray": [1, 2, 3],
-      "someNestedObject": {
-        "key": "value"
-      }
+    if (*numDataP == 0)
+    {
+        *dataArrayP = lwm2m_data_new(2);
+        if (*dataArrayP == NULL) return COAP_500_INTERNAL_SERVER_ERROR;
+        *numDataP = 2;
+        (*dataArrayP)[0].id = 1;
+        (*dataArrayP)[1].id = 3;
     }
-  }
+
+    for (i = 0 ; i < *numDataP ; i++)
+    {
+        switch ((*dataArrayP)[i].id)
+        {
+        case 1:
+            lwm2m_data_encode_int(targetP->test, *dataArrayP + i);
+            break;
+        case 2:
+            return COAP_405_METHOD_NOT_ALLOWED;
+        case 3:
+            lwm2m_data_encode_float(targetP->dec, *dataArrayP + i);
+            break;
+        default:
+            return COAP_404_NOT_FOUND;
+        }
+    }
+
+    return COAP_205_CONTENT;
 }
 ```
 
-!!! danger "Tarea entregable"
-    Modifica el anterior firmware para que, desde una tarea y periódicamente, se envíe a Thingsboard datos de telemetría. Estos datos pueden tener un valor aleatorio, pero sería muy conveniente (aunque no evaluable para la práctica) que se tomasen desde sensores reales. El formato del mensaje es libre, pero intenta obtener uno que aune realismo y cierta complejidad en el uso de tipos de datos.
+Observa que en primer lugar se busca la instancia del objeto solicitada, 
+devolviéndose el error correspondiente en caso de no existir (puedes 
+comprobar esta funcionalidad solicitando desde el servidor la lectura de 
+una instancia inexistente).
 
-## Gestión de atributos
+El parámetro `numDataP` nos indica el recurso concreto que se desea leer, o
+todos si dicho valor es 0.
 
-ThingsBoard proporciona la capacidad de asignar atributos personalizados a las entidades (por ejemplo, a los dispositivos) y gestionar estos atributos. Estos atributos se almacenan en la base de datos y pueden ser utilizados para la visualización y el procesamiento de datos.
-
-Los atributos se tratan como pares clave-valor. La flexibilidad y simplicidad del formato clave-valor permiten una integración fácil y sin problemas con casi cualquier dispositivo IoT del mercado. La clave siempre es una cadena de texto y, básicamente, es el nombre del atributo, mientras que el valor del atributo puede ser una cadena, un valor booleano, un doble, un entero o un JSON. Por ejemplo:
-
-```json
-{
- "firmwareVersion":"v2.3.1", 
- "booleanParameter":true, 
- "doubleParameter":42.0, 
- "longParameter":73, 
- "configuration": {
-    "someNumber": 42,
-    "someArray": [1,2,3],
-    "someNestedObject": {"key": "value"}
- }
-}
-```
-
-El desarrollador es libre para seleccionar cualquier nombre de atributo.
-
-### Tipos de atributos
-
-#### Atributos de servidor
-
-Este tipo de atributo es compatible con casi cualquier entidad de la plataforma, incluyendo dispositivos, bienes, u otras entidades.
-Los atributos del lado del servidor son aquellos que pueden ser configurados a través de la interfaz de administración o la API REST. El firmware del dispositivo no puede acceder al atributo del lado del servidor.
-
-![Atributos de servidor](img/server-side-attributes.svg)
-
-Supongamos que deseas construir una solución de monitorización de edificios y revisemos algunos ejemplos:
-
-- La latitud, longitud y dirección son buenos ejemplos de atributos del lado del servidor que puedes asignar a activos que representen edificios u otros bienes inmuebles. Puedes utilizar estos atributos en el widget de mapa en tu panel para visualizar la ubicación de los edificios.
-- El atributo floorPlanImage puede contener una URL de la imagen. Puedes usar este atributo para visualizar el plano de planta en el widget de mapa de imagen.
-- Los atributos maxTemperatureThreshold y temperatureAlarmEnabled pueden ser utilizados para configurar y habilitar/deshabilitar alarmas para un dispositivo o activo en particular.
+Tras tomar el valor actual a servir, éste se codifica en función del tipo de
+datos predefinido para el recurso específico solicitado. En caso de no 
+estar soportado el método para un recurso específico, se devuelve el error
+correspondiente (en este caso `405`). En caso de solicitar un recurso inexistente,
+se devuelve el error `404`.
 
 !!! note "Tarea"
-    1. Ve a **Dispositivos**. Haz clic en la fila del dispositivo en particular para abrir los detalles del dispositivo.
-    2. Selecciona la pestaña **Atributos**. Elige el alcance de **Atributos del servidor**. Haz clic en el icono "+".
-    3. Introduce el nombre del nuevo atributo. Selecciona el tipo de valor del atributo e introduce el valor del atributo.
-    4. Ordena usando **Hora de la última actualización** para ubicar rápidamente el atributo recién creado.
+    Comprueba que el comportamiento del objeto de test es el esperado, interactuando
+    con él desde el servidor utilizando todos los métodos disponibles. Puedes modificar
+    su comportamiento, añadir invocaciones a rutinas de *log*, o lo que consideres
+    de utilidad.
 
-En la documentación de ThingsBoard encontrarás la API para gestionar este tipo de atributos programáticamente.
+## Eclipse Wakaama. *Bootstrapping*
 
-#### Atributos compartidos
+En este punto, el cliente Wakaama se conecta directamente con el servidor 
+que hemos lanzado, y cuya dirección IP y puerto son los proporcionados por 
+defecto en el código. Llevado el cliente a un sensor, esto haría que nunca
+pudiese variar, durante el ciclo de vida del mismo, el servidor (o servidores)
+a los que conecta. Esto hace también que un cliente pueda únicamente conectar
+con un servidor LWM2M, cuando en algunas ocasiones es deseable replicar los
+mensajes enviados a múltiples servidores, bien por razones de tolerancia
+a fallos, o bien por necesidades de la aplicación.
 
-Este tipo de atributos está disponible solo para Dispositivos. Es similar a los atributos del lado del servidor, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede solicitar el valor de los atributos compartidos o suscribirse a las actualizaciones de estos atributos. Los dispositivos que se comunican mediante MQTT u otros protocolos de comunicación bidireccional pueden suscribirse a las actualizaciones de atributos y recibir notificaciones en tiempo real. Los dispositivos que se comunican a través de HTTP u otros protocolos de comunicación de solicitud-respuesta pueden solicitar periódicamente el valor de los atributos compartidos.
+Para solucionar este problema, los *firmwares* de fábrica suelen conocer únicamente
+la dirección o direcciones fijas de uno o varios servidores de *bootstrap* que,
+ante peticiones de provisionamiento, proporcionan al cliente las credenciales
+de seguridad y las direcciones de los servidores LWM2M en los que deben 
+registrarse. Así, resulta sencillo manejar dinámicamente ambos aspectos sin necesitar
+*reflashear* el *firmware* del sensor.
 
-![Atributos compartidos](img/shared-attributes.svg)
+En nuestro caso, utilizaremos un sencillo servidor de *bootstrap* proporcionado
+por Wakaama, aunque Leshan ofrece mecanismos mucho más sofisticados para realizar
+este mismo proceso, con su propio esqueleto de servidor *bootstrap* e interfaces
+REST (con monitores web) para gestionar el proceso.
 
-El caso de uso más común de los atributos compartidos es almacenar configuraciones de dispositivos. Supongamos la misma solución de monitoreo de edificios y revisemos algunos ejemplos:
+En primer lugar, dirígete al directorio que contiene el servidor *bootstrap* de
+Wakaama. Allí encontrarás un fichero de configuración 
+(`bootstrap_server.ini`) para el proceso de 
+*bootstrapping*, cuyo contenido es completamente estructurado. El servidor,
+ante una petición de *bootstrapping* por parte de un cliente, responde en 
+función del contenido del fichero, que sigue las siguientes directivas:
 
-- El atributo targetFirmwareVersion puede ser utilizado para almacenar la versión de firmware para un dispositivo en particular.
-- El atributo maxTemperature puede ser utilizado para activar automáticamente el sistema HVAC si hace demasiado calor en la habitación.
-- El usuario puede cambiar el atributo a través de la interfaz de usuario. Un script u otra aplicación del lado del servidor puede cambiar el valor del atributo a través de la API REST.
+Las secciones soportadas son `[Server]` y `[Endpoint]`.
+
+**[Server]** describe una cuenta en un servidor LWM2M:
+
+Las claves soportadas en esta sección son:
+
+  - id: Identificador del servidor. (OBLIGATORIO).
+  - uri: URI del servidor LWM2M (OBLIGATORIO).
+  - bootstrap: YES o NO. Determina si este servidor es un servidor de bootstrap. Su valor por defecto es NO.
+  - lifetime: tiempo de vida del registro (opcional).
+  - security: modo de seguridad. Valores soportados: NoSec, PSK, RPK and
+              Certificate (OBLIGATORIO).
+  - public: clave pública o identidad del cliente, definida por el recurso
+            `/0/x/3`.
+  - server: clave pública del servidor, definida por el recurso `/0/x/4`.
+  - secret: clave privada definida por el recurso `/0/x/5`.
+
+**[Endpoint]** contiene las operaciones de *bootstrapping* Si no se especifica
+un nombre (Name) las operaciones se enviarán a cualquier cliente desconocido
+que solicite *bootstrapping*
+Si se especifica, las operaciones se enviarán sólo al cliente con el correspondiente
+nombre. Las operaciones se envían en el orden definido en el fichero.
+
+Las claves soportadas en esta sección son:
+  - Name: Nombre del cliente (OPCIONAL).
+  - Delete: Debe ser una URI LWM2M válida, incluida `/`. Envía una operación
+delete en la URI indicada.
+  - Server: [Value] es un ID de servidor que debe existir en la sección correspondiente.
+Envía operaciones de escritura sobre el objeto correspondiente del cliente para
+definir el servidor sobre el que debe conectar.
 
 !!! note "Tarea"
-    1. Ve a **Dispositivos**. Haz clic en la fila del dispositivo en particular para abrir los detalles del dispositivo.
-    2. Selecciona la pestaña **Atributos**. Elige el alcance de **Atributos compartidos**. Haz clic en el icono "+".
-    3. Introduce el nombre del nuevo atributo. Selecciona el tipo de valor del atributo e introduce el valor del atributo.
-    4. Observa el nuevo atributo.
+    Analiza e intenta entender el contenido por defecto del fichero de 
+    *bootstrapping* proporcionado. Puedes de momento obviar los parámetros referentes
+    a seguridad.
 
-La función de [*bulk provisioning*](https://thingsboard.io/docs/user-guide/bulk-provisioning/) te permite crear rápidamente múltiples dispositivos y activos y sus atributos desde un archivo CSV.
+!!! note "Tarea entregable"
+    Modifica el fichero de configuración para que, ante la petición de un cliente
+    con nombre determinado, conecte, por este orden, a un servidor LWM2M en la 
+    máquina local, y al servidor de pruebas de Leshan en Internet. Además, elimina
+    cualquier intento de borrado de recursos en la información de *bootstrapping* 
+    para dicho cliente.
 
-#### Atributos de cliente 
-
-Este tipo de atributos está disponible solo para Dispositivos.
-Se utiliza para reportar varios datos semiestáticos desde el Dispositivo (Cliente) a ThingsBoard (Servidor). Es similar a los atributos compartidos, pero tiene una diferencia importante. El firmware/aplicación del dispositivo puede enviar el valor de los atributos desde el dispositivo a la plataforma.
-
-![Atributos de cliente](img/client-side-attributes.svg)
-
-El caso de uso más común de los atributos del cliente es reportar el estado del dispositivo. Supongamos la misma solución de monitoreo de edificios y revisemos algunos ejemplos:
-
-- El atributo `currentFirmwareVersion` puede ser utilizado para reportar la versión del firmware/aplicación instalada para el dispositivo a la plataforma.
-- El atributo `currentConfiguration` puede ser utilizado para reportar la configuración actual del firmware/aplicación a la plataforma.
-- El atributo `currentState` puede ser utilizado para persistir y restaurar el estado actual del firmware/aplicación a través de la red, si el dispositivo no tiene almacenamiento persistente.
-
-Los usuarios y las aplicaciones del lado del servidor pueden explorar los atributos del lado del cliente a través de la interfaz de usuario/API REST, pero no pueden cambiarlos. Básicamente, el valor del atributo del lado del cliente es de solo lectura para la UI/API REST.
-
-
-### API para gestión de atributos
-
-La API de atributos de ThingsBoard permite a los dispositivos:
-
-- Subir atributos del dispositivo del lado del cliente al servidor.
-- Solicitar atributos del dispositivo del lado del cliente y compartidos desde el servidor.
-- Suscribirse a atributos compartidos del dispositivo desde el servidor.
-
-#### Publicar actualización de atributos en el servidor
-
-Para publicar atributos del dispositivo del lado del cliente en el nodo del servidor de ThingsBoard, envía un mensaje **PUBLISH** al siguiente topic:
+Para arrancar el servidor *bootstrap*, basta con ejecutar (puedes utilizar
+otro fichero de configuración):
 
 ```sh
-v1/devices/me/attributes
+./build/bootstrap_server -f bootstrap_server.ini
 ```
 
-A continuación, se muestran ejemplos de cómo publicar atributos de dispositivo del lado del cliente.
+El servidor quedará a la espera de peticiones por parte del cualquier cliente
+en el puerto 5685, tal y como indica su salida. Se puede forzar un proceso
+de *bootstrapping* con el comando `boot`, pero en este punto no es necesario.
 
-No olvides reemplazar `demo.thingsboard.io` con tu host y `$ACCESS_TOKEN` con el token de acceso de tu dispositivo. En este ejemplo, el nombre de host hace referencia al servidor de demostración en vivo.
+A continuación, lanzaremos un cliente indicando que deseamos un proceso de
+*bootstrapping* contra el servidor local. *Asegúrate de dar un nombre a tu
+dispositivo que te permita diferenciarlo de cualquier otro*:
 
-**Ejemplo 1. Publicar actualización de atributos del lado del cliente.**
-
-Datos de telemetría:
-
-```json
-{"attribute1": "value1", "attribute2": true}
-```
-
-Ejecuta el comando:
+!!! danger "Nota importante"
+    Antes de realizar este ejercicio, debes modificar el servidor de prueba por `leshan.eclipseprojects.io`.
 
 ```sh
-mosquitto_pub -d -h "demo.thingsboard.io" -t "v1/devices/me/attributes" -u "$ACCESS_TOKEN" -m "{"attribute1": "value1", "attribute2": true}"
+./lwm2mclient -4 -h localhost -p 5685 -b -c -n midispositivo
+Trying to bind LWM2M Client to port 56830
+LWM2M Client "testlwm2mclient" started on port 56830
+> New Battery Level: 38
+value changed!
+Opening connection to server at localhost:5685
+ -> State: STATE_BOOTSTRAPPING
+ -> State: STATE_BOOTSTRAPPING
+ -> State: STATE_BOOTSTRAPPING
+
 ```
 
-**Ejemplo 2. Publicar actualización de atributos del lado del cliente utilizando datos del archivo `new-attributes-values.json`.**
+Observa que las opciones de invocación han cambiado, y hemos usado `-b` para indicar
+que deseamos un proceso de *bootstrapping* contra el servidor proporcionado. Como
+nota adicional, la opción `-c` simplemente actualiza de forma periódica la lectura
+del nivel de batería (esto no es en absoluto obligatorio, pero así podremos
+observar sus cambios desde el servidor).
 
-Contenido del archivo new-attributes-values.json:
+Si todo ha ido bien, el cliente estará ahora registrado en dos servidores:
+el local Wakaama (observa su salida) y el remoto Leshan, al que puedes acceder
+a través de la dirección [leshan.eclipseprojects.io](https://leshan.eclipseprojects.io).
 
-```json
-{
-  "attribute1": "value1",
-  "attribute2": true,
-  "attribute3": 42.0,
-  "attribute4": 73,
-  "attribute5": {
-    "someNumber": 42,
-    "someArray": [1, 2, 3],
-    "someNestedObject": {"key": "value"}
-  }
-}
-```
+## Eclipse Leshan. Despliegue de un servidor local
 
-#### Solicitar valores de atributos del servidor
+En este punto, tu cliente debería estar conectado tanto a tu servidor LWM2M Wakaama
+local, como a un servidor Leshan en la nube. Aprovecha esta situación para observar
+las funcionalides del servidor Leshan. Deberías, para un dispositivo con nombre
+*"foo"* observar algo como esto:
 
-Para solicitar atributos del dispositivo del lado del cliente o compartidos en el nodo del servidor de ThingsBoard, envía un mensaje **PUBLISH** al siguiente topic:
+![](img/leshan_foo.png)
+
+Observa que todos y cada uno de los objetos de los que hablamos anteriormente
+se muestran ahora en pantalla tras el proceso de registro. Además, para aquellos
+que son bien conocidos (estandarizados por la OMA), se muestran nombres legibles,
+no sólo URIs. 
+
+!!! note "Tarea"
+    Busca y observa el recurso que te indica el nivel de batería del cliente, y 
+    observa cómo se actualiza automáticamente cuando varía en el cliente (verás 
+    a la vez un cambio en el servidor y un mensaje en el cliente). Interactúa
+    con el objeto de *test* que se definió anteriormente. En todos los casos,
+    observa que, efectivamente, el tráfico generado corresponde al esperado.
+
+Para replicar dicha instalación en tu máquina local, rescata la instalación
+de Leshan que realizaste en la primera parte de la práctica, y arranca el 
+servidor LWM2M usando la siguiente orden:
 
 ```sh
-v1/devices/me/attributes/request/$request_id
+java -jar leshan-demo-server/target/leshan-demo-server-*-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-
-donde `$request_id` es tu identificador de solicitud entero. Antes de enviar el mensaje **PUBLISH** con la solicitud, el cliente necesita suscribirse a:
-
-```sh
-v1/devices/me/attributes/response/+
-```
-
-El siguiente ejemplo está escrito en JavaScript. No hay ejemplos en línea de comandos puros disponibles porque la suscripción y publicación deben ocurrir en la misma sesión de MQTT.
-
-Guarda el archivo `mqtt-js-attributes-request.js` en tu PC. No olvides reemplazar el nombre de host `demo.thingsboard.io` con tu host. 
-
-```javascript
-var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://demo.thingsboard.io',{
-    username: process.env.TOKEN
-})
-
-client.on('connect', function () {
-    console.log('connected')
-    client.subscribe('v1/devices/me/attributes/response/+')
-    client.publish('v1/devices/me/attributes/request/1', '{"clientKeys":"attribute1,attribute2", "sharedKeys":"shared1,shared2"}')
-})
-
-client.on('message', function (topic, message) {
-    console.log('response.topic: ' + topic)
-    console.log('response.body: ' + message.toString())
-    client.end()
-})
-```
-
-Puedes ejecutar el comando desde cualquier máquina con `node` instalado:
-
-```sh
-export TOKEN=$ACCESS_TOKEN
-node mqtt-js-attributes-request.js
-```
-
-#### Suscribirse a las actualizaciones de atributos desde el servidor
-
-Para suscribirse a los cambios de atributos compartidos del dispositivo, envía un mensaje **SUBSCRIBE** al siguiente topic:
-
-```sh
-v1/devices/me/attributes
-```
-
-Cuando un atributo compartido es modificado por uno de los componentes del servidor (como la API REST o la Cadena de Reglas), el cliente recibirá la siguiente actualización:
-
-```json
-{"key1":"value1"}
-```
-
-En el siguiente ejemplo, no olvides reemplazar demo.thingsboard.io con tu host y $ACCESS_TOKEN con el token de acceso de tu dispositivo. 
-
-Ejecuta el comando:
-
-```sh
-mosquitto_sub -d -h "demo.thingsboard.io" -t "v1/devices/me/attributes" -u "$ACCESS_TOKEN"
-```
+!!! note "Tarea entregable"
+    Arranca el servidor Leshan para que escuche en un puerto diferente al que 
+    está escuchando ya el servidor Wakaama, para que puedan convivir en la misma 
+    máquina. Modifica tu proceso de provisionamiento para que el cliente o clientes
+    se conecten a ambos servidores.
 
 !!! danger "Tarea entregable"
-    En un escenario de monitorización de edificios en la UCM, aprovecha el concepto de atributo para reemplazar la jerarquía de topics que diseñaste en una práctica anterior. Busca en tu diseño utilizar atributos de los tres tipos mencionados anteriormente, descríbelos en la memoria e interactúa con ellos desde el *firmware* y usando APIs externas (para ello, deberás consultar la documentación de Thingsboard).
+    El principal objetivo de esta parte es que seas capaz de definir un objeto 
+    e instanciarlo, con una cantidad de recursos suficientemente rica como para
+    observar y ejercitar las capacidades de LWM2M en general, y de Eclipse
+    Wakaama en particular. Por ello, se pide que definas, en primer lugar, 
+    uno o múltiples objetos y sus recursos que podrían formar parte de un 
+    hipotético sensor IoT. En segundo lugar, se pide que, siguiendo las 
+    directivas del código analizado, lo implementes en Eclipse Wakaama y seas
+    capaz de interactuar con él desde un servidor Leshan y/o Wakaama utilizando
+    además un proceso de provisionamiento o *bootstrapping*.
 
-!!! danger "Tarea entregable"
-    Mediante el uso de atributos, gestiona la activación/desactivación del envío de cada sensor, así como el intervalo entre envíos para un dispositivo. Deberías poder gestionar dichos valores desde la interfaz de Thingsboard.
 
-!!! danger "Tarea entregable"
-    Investiga en la documentación de Thingsboard sobre el desarrollo de *dashboard* y la gestión de alarmas. Desarrolla un *dashboard* de visualización para tus dispositivos, incluyendo información sobre alarmas recibidas.
+## Librería Anjay
+
+Anjay es una librería C que implementa el protocolo OMA LwM2M y está especialmente orientada al desarrollo de clientes en nodos IoT. El proyecto fue creado y es mantenido activamente por AVSystem y la documentación puede consultarse en el siguiente [enlace](https://avsystem.github.io/Anjay-doc/index.html).
+
+Anjay está disponible como [componente ESP-IDF](https://github.com/AVSystem/Anjay-esp32-client) y continuación vamos a probar un cliente para la placa ESP32-DevKitC. Para el ello es preciso descargar el código mediante los siguietes comandos:
+
+```sh
+git clone https://github.com/AVSystem/Anjay-esp32-client.git
+cd Anjay-esp32-client
+git submodule update --init --recursive
+```
+
+!!! note "Tarea"
+    Abre el proyecto con la extensión ESP-IDF, configúralo para conectarlo al servidor Leshan local (sin seguridad) y prúebalo. Presta especial atención tanto al uso como a la implementación el objeto *push button*.
+
+!!! danger "Tarea entregable (opcional)"
+    Implementar en Anjay el objeto definido en la sección anterior (no es necesario emplear *bootstrapping*).

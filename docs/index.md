@@ -23,11 +23,11 @@
 | 1        | 29/09 | [TCP/UDP (Parte 1. Host)](RPI-II/P1_I/index.md).   [TCP/UDP (Parte 2. ESP32)](RPI-II/P1_III/index.md). [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md)  [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md)   |
 | 2        | 06/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
 | 3        | 13/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
-| 4        | 20/10 | [MQTT (I)](RPI-II/P5/index.md)               |
-| 4        | 27/10 | [MQTT (II)](RPI-II/P5_II/index.md)           |
-| 5        | 03/11 | [CoAP](RPI-II/P7/index.md)                   |
-| 6        | 17/11 | [LWM2M (I)](RPI-II/P8/index.md)              |
-| 7        | 01/12 | [Introducción a Thingsboard](RPI-II/P6/index.md) |
+| 4        | 20/10 | [MQTT (I)](RPI-II/P4/index.md)               |
+| 4        | 27/10 | [MQTT (II)](RPI-II/P4_II/index.md)           |
+| 5        | 03/11 | [CoAP](RPI-II/P5/index.md)                   |
+| 6        | 17/11 | [LWM2M (I)](RPI-II/P6/index.md)              |
+| 7        | 01/12 | Introducción a Thingsboard|
 |          | 15/12 | Proyecto                                     |
 
 
