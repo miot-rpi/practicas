@@ -172,7 +172,7 @@ if (local_mtu_ret){
 }
 ```
 
-Los controladores de eventos GAP y GATT son las funciones utilizadas para capturar los eventos generados por la pila BLE y ejecutar funciones para configurar los parámetros de la aplicación. Además, los controladores de eventos también se utilizan para manejar eventos de lectura y escritura que provienen del dispositivo central. El controlador de eventos GAP se encarga del escaneo y la conexión a servidores, y el controlador GATT administra los eventos que ocurren después de que el cliente se haya conectado a un servidor, como la búsqueda de servicios y la escritura y lectura de datos. Los controladores de eventos GAP y GATT se registran mediante:
+Los controladores de eventos GAP y GATT son las funciones utilizadas para capturar los eventos generados por la pila BLE y ejecutar funciones para configurar los parámetros de la aplicación. Además, los controladores de eventos también se utilizan para manejar eventos de lectura y escritura que provienen del dispositivo central. El controlador de eventos GAP se encarga del escaneo y la conexión a servidores, y el controlador GATT administra los eventos que ocurren después de que el cliente se haya conectado a un servidor, como la búsqueda de servicios y la escritura y lectura de datos.
 
 ## Perfiles de aplicación
 
@@ -468,7 +468,8 @@ case ESP_GATTC_CFG_MTU_EVT:
     break;
 ```
 
-La configuración del MTU se utiliza también para comenzar a descubrir los servicios disponibles en el servidor al que se ha conectado el cliente. Para descubrir los servicios, se utiliza la función `esp_ble_gattc_search_service()`. Los parámetros de la función son la interfaz GATT, el ID de conexión y el UUID del servicio que interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:
+El evento `ESP_GATTC_CONNECT_EVT` también se utiliza como punto de partida para descubrir los servicios disponibles en el servidor al que se ha conectado el cliente: el stack BLE ejecuta internamente un descubrimiento de servicios inicial, generando el evento `ESP_GATTC_DIS_SRVC_CMPL_EVT`.
+Una vez en este evento, para descubrir un servicio concreto se utiliza la función `esp_ble_gattc_search_service()`. Los parámetros de la función son la interfaz GATT, el ID de conexión y el UUID del servicio que le interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:
 
 ```c
 static esp_bt_uuid_t remote_filter_service_uuid = {
@@ -569,7 +570,7 @@ Después, se reserva memoria (variable `char_elem_result`) para guardar la carac
 
 El cliente puede registrarse para recibir notificaciones del servidor cada vez que cambia el valor de la característica. En este ejemplo, queremos registrarnos para recibir notificaciones de la característica identificada con el UUID `0xFF01`.
 
-Después de obtener la característica, verificamos sus propiedades (lectura, escritura, notificaciones...) y utilizamos la función `esp_ble_gattc_register_for_notify()` para registrarnos para recibir notificaciones. Los argumentos de la función son: la interfaz GATT, la dirección del servidor GATT remoto y el handle del que queremos recibir notificaciones.
+Después de obtener la característica, verificamos sus propiedades (lectura, escritura, notificaciones...) y utilizamos la función `esp_ble_gattc_register_for_notify()` para registrarnos localmente y recibir notificaciones. Los argumentos de la función son: la interfaz GATT, la dirección del servidor GATT remoto y el handle del que queremos recibir notificaciones.
 
 ```c
 …

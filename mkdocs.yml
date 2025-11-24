@@ -20,7 +20,6 @@ nav:
       - 'LAB5. BLE: servidor GATT': RPI-I/P5/index.md
       - 'LAB6. BLE: cliente GATT': RPI-I/P6/index.md
       - LAB7. BLE Mesh: RPI-I/P7/index.md
-      - LAB8. 802.15.4 y Thread: RPI-I/P8/index.md
       - LAB9. 6LoWPAN y simulador Cooja: RPI-I/P9/index.md
       - LAB10. LoRa y LoRaWan: RPI-I/P10/index.md
     - RPI-II: 

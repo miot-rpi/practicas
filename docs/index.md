@@ -9,9 +9,8 @@
 | LAB3     | 13/10 | [WiFi: provisionamiento y ahorro de energía](RPI-I/P3/index.md)   |
 | LAB4     | 20/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                                |
 | LAB5     | 27/10 | [BLE: servidor GATT](RPI-I/P5/index.md)                           |
-| LAB6     | 03/11 | [BLE: cliente GATT](RPI-I/P6/index.md)                            |
-| LAB7     | 17/11 | [BLE Mesh](RPI-I/P7/index.md)                                     |
-| LAB8     | 24/11 | [802.15.4 y Thread](RPI-I/P8/index.md)                            |
+| LAB6     | 17/11 | [BLE: cliente GATT](RPI-I/P6/index.md)                            |
+| LAB7     | 24/11 | [BLE Mesh](RPI-I/P7/index.md)                                     |
 | LAB9     | 01/12 | [6LoWPAN y simulador Cooja](RPI-I/P9/index.md)                    |
 | LAB10    | 15/12 | [LoRa y LoRaWan](RPI-I/P10/index.md)                              |
 
