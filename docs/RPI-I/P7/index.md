@@ -334,28 +334,34 @@ interruptor que controlará su estado de encendido/apagado.
 	Documenta la configuración de la red mesh y el proceso de provisionamiento de nodos que vas a realizar a continuación.
 
 * *PASO 1*: en la pestaña *Network* aparecerán los nodos ya provisionados.
-  En nuestro caso, inicialmente ninguno:<br>
+  En nuestro caso, inicialmente ninguno:
+
   ![](img/APP/00_pantalla_inicial.png)
 
 * *PASO 2*: pincharemos sobre *ADD NODE* (o sobre `+` en iOS), y provisionaremos, uno a uno, todos
-  los nodos que queramos que formen parte de nuestra red mesh:<br>
+  los nodos que queramos que formen parte de nuestra red mesh:
+
   ![](img/APP/01_provisionamiento_inicial.png)
 
-* *PASO 3*: antes de provisionar un nodo, lo identificamos presionando en *IDENTIFY*:<br>
+* *PASO 3*: antes de provisionar un nodo, lo identificamos presionando en *IDENTIFY*:
+
   ![](img/APP/02_provisionando_nodo.png)
 
-* *PASO 4*: provisionamos el nodo pulsando en *PROVISION*:<br>
+* *PASO 4*: provisionamos el nodo pulsando en *PROVISION*:
+
   ![](img/APP/03_provisionando_nodo2.png)
 
 * *PASO 5*: si todo ha ido bien, se mostrará un mensaje de éxito similar al
-  siguiente:<br>
+  siguiente:
+
   ![](img/APP/04_nodo_provisionado.png)
 
 * *PASO 6*: tras repetir este paso con todos los nodos del grupo, veremos
   una pantalla como la siguiente.
   Observa y anota las direcciones unicast de cada nodo provisionado.
   El nodo con un elemento es el cliente OnOff, mientras que los nodos con tres
-  elementos son los servidores OnOff:<br>
+  elementos son los servidores OnOff:
+
   ![](img/APP/05_nodos_provisionados.png)
 
 A continuación, generarás un grupo de nodos. Esto permitirá suscribir modelos
@@ -363,7 +369,8 @@ a dicho grupo (no son los elementos los que se suscriben) y publicar mensajes
 que se enviarán a todos los modelos del grupo.
 
 * *PASO 7*: en la pestaña *Groups*, crea un nuevo grupo pulsando `+`. Asigna el nombre y la
-  dirección de grupo de 16 bits que desees, por ejemplo *Sala de Estar* y `0xC000`:<br>
+  dirección de grupo de 16 bits que desees, por ejemplo *Sala de Estar* y `0xC000`:
+
   ![](img/APP/07_anyadiendo_grupo.png)
 
 Si todo ha ido bien, verás que en el nuevo grupo aún no hay ningún dispositivo suscrito/asociado.
@@ -371,14 +378,17 @@ A continuación, suscribiremos cada modelo servidor y cliente (tipos
 *Generic OnOff Server* y *Generic OnOff Client*) de los nodos de la red al grupo creado.
 Esto lo harás nodo a nodo seleccionando cada nodo en la pestaña *Network*,
 después el elemento, y finalmente el modelo:
+
 ![](img/APP/08_generic_onoff_client.png)
 
 Para, a continuación, (1) asociar una clave de aplicación (*BIND KEY*) y (2) suscribir el modelo
 al grupo con *SUBSCRIBE*:
+
 ![](img/APP/09_generic_onoff_client_bindkey.png)
 ![](img/APP/10_suscrito_sala_estar.png)
 
 Si vuelves a la pestaña *Groups* y seleccionas el grupo, verás que aparece una luz por cada servidor/modelo suscrito:
+
 ![](img/APP/11_estado_sala_estar.png)
 
 En este punto, si estás monitorizando la salida de todos los ESP32 de tu red mesh, verás que el
