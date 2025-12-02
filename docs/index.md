@@ -26,7 +26,7 @@
 | 4        | 27/10 | [MQTT (II)](RPI-II/P4_II/index.md)           |
 | 5        | 03/11 | [CoAP](RPI-II/P5/index.md)                   |
 | 6        | 17/11 | [LWM2M (I)](RPI-II/P6/index.md)              |
-| 7        | 01/12 | Introducción a Thingsboard|
+| 7        | 01/12 | [Introducción a Thingsboard](RPI-II/P7/index.md)|
 |          | 15/12 | Proyecto                                     |
 
 
