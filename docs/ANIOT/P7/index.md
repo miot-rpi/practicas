@@ -119,8 +119,6 @@ Hay varios aspectos que debemos considerar en la seguridad de la operación OTA:
  **IMPORTANTE**  NO habilitéis nunca el arranque seguro (Secure Boot) en *menuconfig*. Una vez activado, no podemos desactivarlo, y supondría un problema para el hardware del laboratorio. Es posible habilitar únicamente la verificación de la APP sin el arranque segruo completo.
 
 
-
-
 ## Ejercicios básicos
 
 Vamos a partir  [del ejemplo de OTA básico](https://github.com/espressif/esp-idf/tree/master/examples/system/ota/simple_ota_example). Estudia el código, y responde a las siguientes preguntas:
@@ -133,17 +131,17 @@ Vamos a partir  [del ejemplo de OTA básico](https://github.com/espressif/esp-id
 
 
 !!! danger "Tareas"
-    * Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará el certificado proporcionado en Campus Virtual y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.
+    * Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor o en un servidor montado por vosotros mismos. Se usará el certificado proporcionado en Campus Virtual (o generado por vosotros) y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.
     * Alterar un byte del fichero del certificado y probar nuevamente.
     * [Seguir los pasos del ejemplo](https://github.com/espressif/esp-idf/tree/master/examples/system/ota) para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.
 
-## Ejercicio avanzado
+## Ejercicio entregable
 Integraremos OTA en la aplicación que hemos ido desarrollando a lo largo de estas prácticas (lectura periódica del sensor de temperatura).
 
 !!! danger "Tareas"
     La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del sensor de temperatura. Se añadirá la siguiente funcionalidad: 
     
-    * Cuando se reciba un evento externo (la pulsación de un botón, la lectura del sensor de infrarrojos de una distancia menor que un umbral o la recepción de un mensaje MQTT), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). 
+    * Cuando se reciba un evento externo (la pulsación de un botón) la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen.
     * Se desarrollará una función de auto-diagnóstico (*self-test*) que permita decidir si la nueva imagen se comporta de forma correcta.
     * Se utilizará la opción de *rollback* para indicar si la nueva imagen se elige para futuros arranques o se marca como inválida.
 
