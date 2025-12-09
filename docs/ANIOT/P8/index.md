@@ -145,27 +145,6 @@ idf.py gdb
 !!! note "Tarea (opcional)"
     Depura tu proyecto `blink` estableciendo un *breakpont* en la función `app_main`, y ejecútalo paso a paso observando la salida por pantalla.
 
-#### Emulación de eFuse
-
-QEMU soporta también la emulación de eFuse, clave para el desarrollo de la práctica, ya
-que es una forma muy adecuada de probar aspectos de seguridad como arranque seguro y
-encriptación de flash, sin dejar a las placas físicas en estados irreversibles.
-
-La herramienta `idf.py` es la encargada de programar eFuses. Al ejecutar cualquiera de
-los siguientes comandos, se programan los eFuses del procesador emulado por QEMU a través
-del fichero `qemu_efuse.bin`, que se utiliza como habrás observado como
-argumento en la ejecución. Por ejemplo:
-
-```sh
-idf.py qemu efuse-burn FLASH_CRYPT_CNT 1
-idf.py qemu efuse-burn-key flash_encryption my_flash_encryption_key.bin
-```
-
-Para mostrar un resumen del contenido de los eFuse, ejecuta:
-
-```sh
-idf.py qemu efuse-summary
-```
 
 #### Especificación del fichero de imagen
 
@@ -219,22 +198,27 @@ De forma predeterminada, el modo de descarga de ROM UART se ha mantenido
 habilitado para evitar deshabilitarlo permanentemente en la fase de desarrollo; 
 esta opción es potencialmente insegura. Se recomienda deshabilitar el modo de descarga UART para mayor seguridad.
 
-6. Opcionalmente, puedes aumentar la información mostrada por el *bootloader* aumentando
-el valor de la opción *Bootloader log verbosity* a Info o Verbose. Ten cuidado porque esto
-aumentará el tamaño del bootloader, y probablemente debas aumentar entonces el *offset* 
+6. **Importante**: es probable que el tamaño del bootloader crezca y no quepa en el espacio por defecto. Pobablemente debas aumentar entonces el *offset* 
 de la tabla de particiones a un valor mucho mayor al establecido por defecto (opción
-*Offset of partition table* a 0xe000 como máximo para dar cabida al bootloader.
+*Offset of partition table*).
+
+7. 
+ Opcionalmente, puedes aumentar la información mostrada por el *bootloader* aumentando
+el valor de la opción *Bootloader log verbosity* a Info o Verbose. Ten cuidado porque esto
+aumentará aún más el tamaño del bootloader.
 
 Guarda la configuración (añade si lo deseas más opciones), y abandona la fase de configuración.
 
-La primera vez que ejecute la construcción con `idf.py build`, 
-si no se encuentra la clave de firma, 
-se imprimirá un mensaje de error con un comando para generar una 
-clave de firma a través del comando:
+Antes de realizar la construcción del prouyecto es necesario generar la clave de firma. Puedes usar:
 
 ```sh
-espsecure.py generate_signing_key
+idf.py secure-generate-signing-key <nombre-fichero-firma>
 ```
+
+Si has dejado los valores por defecto, seguramente el nombre del fichero deberá ser `secure_boot_signing_key.pem``
+
+Ahora podemos lanzar la generación del proyecto con `idf.py build.
+
 
 !!! danger "Importante"
     Una clave de firma generada de esta manera utilizará la mejor fuente de 
@@ -249,7 +233,10 @@ espsecure.py generate_signing_key
 
 7. Tras la ejecución de la orden `idf.py build` de forma exitosa, se habrán creado las imágenes para el *bootloader*, tabla de particiones e imagen de aplicación individualmente en el directorio de construcción. Identifícalas.
 
-8. La imagen final a flashear debería generarse fusionando el *bootloader*, la tabla
+En principio, ya sería posible usar qemu para monitorizar el arranque (ìdf.py qemu monitor)
+
+
+8. La imagen final a flashear podria generarse fusionando el *bootloader*, la tabla
 de particiones y la imagen de aplicación. Una forma sencilla, si se ha seguido el paso
 4, es utilizar la herramienta `esptool.py` de la siguiente manera:
 
@@ -257,9 +244,8 @@ de particiones y la imagen de aplicación. Una forma sencilla, si se ha seguido 
 (cd build; esptool.py --chip esp32c3 merge_bin --fill-flash-size 4MB -o flash_image.bin @flash_args)
 ```
 
-9. Como vamos a trabajar con QEMU, tenemos ya lista la imagen que se ejecutará en el emulador. Si trabajasemos con una placa real, pasaríamos en este punto por una fase de flasheado de la imagen.
 
-10. Monitoriza la ejecución en QEMU siguiendo la forma de trabajar de ejemplos anteriores. Documenta lo que ves en la salida (en referencia al arranque seguro).
+Monitoriza la ejecución en QEMU siguiendo la forma de trabajar de ejemplos anteriores. Documenta lo que ves en la salida (en referencia al arranque seguro).
 
 !!! note "Tarea"
     Fíjate en el proceso de verificación de bloques de firmas y de imágenes (incluyendo bootloader e imagen de aplicación). Comprueba que concuerdan con los explicados en clase y en la documentación de ESP-IDF enlazada al inicio de esta memoria. 
@@ -268,6 +254,29 @@ de particiones y la imagen de aplicación. Una forma sencilla, si se ha seguido 
     ¿Qué ocurriría si un compañero te pasa su imagen de aplicación o su *bootloader*, y tú lo integras en la imagen que emulas? ¿Y que ocurriría si usas tus imágenes con el fichero de firma de tu compañero/a? Intenta ver qué ocurre en el proceso de verificación de firmas en esos casos. De la misma forma, intenta ver qué ocurre si modificas un byte en la imagen firmada (no hagas esto con el *bootloader*).
 
 7. Si has seguido el paso 4, Ejecutar para crear un cargador de arranque habilitado para arranque seguro. La salida de la compilación incluirá un mensaje para un comando de actualización, utilizando .idf.py bootloaderesptool.py write_flash
+
+#### Emulación de eFuse
+
+QEMU soporta también la emulación de eFuse, clave para el desarrollo de la práctica, ya
+que es una forma muy adecuada de probar aspectos de seguridad como arranque seguro y
+encriptación de flash, sin dejar a las placas físicas en estados irreversibles.
+
+La herramienta `idf.py` es la encargada de programar eFuses. Al ejecutar cualquiera de
+los siguientes comandos, se programan los eFuses del procesador emulado por QEMU a través
+del fichero `qemu_efuse.bin`, que se utiliza como habrás observado como
+argumento en la ejecución. Por ejemplo:
+
+```sh
+idf.py qemu efuse-burn FLASH_CRYPT_CNT 1
+idf.py qemu efuse-burn-key flash_encryption my_flash_encryption_key.bin
+```
+
+Para mostrar un resumen del contenido de los eFuse, ejecuta:
+
+```sh
+idf.py qemu efuse-summary
+```
+
 
 ## Encriptación de FLASH
 
@@ -311,6 +320,28 @@ En el menú de configuración, simplemente busca y activa la opción *Enable Fla
 
 !!! note "Tarea"
     Tras observar el funcionamiento con el proyecto `blink`, sería conveniente observar el efecto de la encriptación en los datos almacenados en flash. Para ello, usaremos el ejemplo `flash_encryption` de ESP-IDF. Clónalo y chequea si está o no activa la encriptación. A continuación, flashea y ejecuta (en QEMU) el código. Observa la salida. Cambia la funcionalidad de encriptación y vuelve a observarla. ¿Qué ves en pantalla? Estudia el código e intenta entender qué está pasando, y por qué en un caso el contenido de la flash es "entendible", y en otro no. ¿Qué funciones usa el código para realizar la lectura con desencriptación y en crudo?
+
+#### Emulación de eFuse
+
+QEMU soporta también la emulación de eFuse, clave para el desarrollo de la práctica, ya
+que es una forma muy adecuada de probar aspectos de seguridad como arranque seguro y
+encriptación de flash, sin dejar a las placas físicas en estados irreversibles.
+
+La herramienta `idf.py` es la encargada de programar eFuses. Al ejecutar cualquiera de
+los siguientes comandos, se programan los eFuses del procesador emulado por QEMU a través
+del fichero `qemu_efuse.bin`, que se utiliza como habrás observado como
+argumento en la ejecución. Por ejemplo:
+
+```sh
+idf.py qemu efuse-burn FLASH_CRYPT_CNT 1
+idf.py qemu efuse-burn-key flash_encryption my_flash_encryption_key.bin
+```
+
+Para mostrar un resumen del contenido de los eFuse, ejecuta:
+
+```sh
+idf.py qemu efuse-summary
+```
 
 ## Encriptación de NVS
 
