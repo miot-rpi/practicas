@@ -255,7 +255,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#ejercicio-avanzado" class="nav-link">Ejercicio avanzado</a>
+            <li class="nav-item" data-bs-level="2"><a href="#ejercicio-entregable" class="nav-link">Ejercicio entregable</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -375,18 +375,18 @@ if (esp_ota_get_state_partition(running, &amp;ota_state) == ESP_OK) {
 <div class="admonition danger">
 <p class="admonition-title">Tareas</p>
 <ul>
-<li>Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor. Se usará el certificado proporcionado en Campus Virtual y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.</li>
+<li>Hacer funcionar el ejemplo conectando a un servidor que estará ejecutando en el equipo del profesor o en un servidor montado por vosotros mismos. Se usará el certificado proporcionado en Campus Virtual (o generado por vosotros) y la red WiFi creada en el laboratorio. Se proporcionaraán los credenciales de la WiFi y la IP del servidor durante el laboratorio.</li>
 <li>Alterar un byte del fichero del certificado y probar nuevamente.</li>
 <li><a href="https://github.com/espressif/esp-idf/tree/master/examples/system/ota">Seguir los pasos del ejemplo</a> para crear vuestro propio servidor HTTPS y certificado y probad de nuevo.</li>
 </ul>
 </div>
-<h2 id="ejercicio-avanzado">Ejercicio avanzado</h2>
+<h2 id="ejercicio-entregable">Ejercicio entregable</h2>
 <p>Integraremos OTA en la aplicación que hemos ido desarrollando a lo largo de estas prácticas (lectura periódica del sensor de temperatura).</p>
 <div class="admonition danger">
 <p class="admonition-title">Tareas</p>
 <p>La aplicación inicial corresponderá con una aplicación similar a la de prácticas anteriores: una lectura periódica del sensor de temperatura. Se añadirá la siguiente funcionalidad: </p>
 <ul>
-<li>Cuando se reciba un evento externo (la pulsación de un botón, la lectura del sensor de infrarrojos de una distancia menor que un umbral o la recepción de un mensaje MQTT), la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen (si se usa MQTT, la URL del servidor y el nombre de la nueva imagen se pueden comunicar en el mensaje; pero el certificado debería estar preinstalado). </li>
+<li>Cuando se reciba un evento externo (la pulsación de un botón) la aplicación se conectará al servidor HTTPS predefinido y se bajará la nueva imagen.</li>
 <li>Se desarrollará una función de auto-diagnóstico (<em>self-test</em>) que permita decidir si la nueva imagen se comporta de forma correcta.</li>
 <li>Se utilizará la opción de <em>rollback</em> para indicar si la nueva imagen se elige para futuros arranques o se marca como inválida.</li>
 </ul>
