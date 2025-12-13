@@ -229,17 +229,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#lab10-lora-y-lorawan" class="nav-link">LAB10. LoRa y LoRaWan</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lab10-lora-y-lorawan" class="nav-link">LAB10. LoRa y LoRaWAN</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#lorawan-the-things-network" class="nav-link">LoRaWAN. The Things Network</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#comunicacion-lora-raw" class="nav-link">Comunicación LoRa raw</a>
+            <li class="nav-item" data-bs-level="2"><a href="#lorawan-y-the-things-network-ttn" class="nav-link">LoRaWAN y The Things Network (TTN)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -250,135 +246,123 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="lab10-lora-y-lorawan">LAB10. LoRa y LoRaWan</h1>
+<h1 id="lab10-lora-y-lorawan">LAB10. LoRa y LoRaWAN</h1>
 <h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
 <p>En esta práctica vamos a utilizar la tecnología LoRa para comunicar nuestros
-nodos esp32 entre ellos, así como con el Router de Red LoRaWAN y los servicios
-del cloud de The Things Network (TTN).</p>
-<p>El nodo esp32 con el que hemos venido trabajando no dispone de radio LoRa
+nodos ESP32 con el router/gateway LoRaWAN y los servicios del cloud de The Things Network (TTN).</p>
+<p>El nodo ESP32 con el que hemos venido trabajando no dispone de radio LoRa
 incorporada, por lo que deberemos conectar un transceptor externo antes de poder
 utilizar esta tecnología para nuestras comunicaciones. Asimismo, para la
-conexión con los servidores de TTN necesitaremos un gateway LoRa. Por motivos
-prácticos usaremos un único Gateway para toda la clase, que será configurado por
+conexión con los servidores de TTN necesitaremos un gateway LoRaWAN. Por motivos
+prácticos usaremos un único gateway para toda la clase, que será configurado por
 el profesor, aunque la memoria de la práctica detalla los pasos a seguir para su
 configuración y registro en TTN.</p>
-<div class="admonition danger">
-<p class="admonition-title">Tarea</p>
-<p>Escribe un informe en el que describas cada una de las tareas propuestas, su
-desarrollo y los resultados obeservados, así como tus observaciones o
-comentarios personales.</p>
-</div>
-<h2 id="lorawan-the-things-network">LoRaWAN. The Things Network</h2>
-<p>En la arquitectura LoRaWAN los nodos envían mensajes al aire, cualquier gateway
-al alcance recibe el mensaje y lo envía por Internet al servidor de red
-configurado, que elimina los duplicados y reenvía a su vez el mensaje al
-servidor de aplicación configurado.</p>
+<h2 id="lorawan-y-the-things-network-ttn">LoRaWAN y The Things Network (TTN)</h2>
+<p>En la arquitectura LoRaWAN, los nodos envían mensajes por radio. Cualquier gateway
+al alcance puede recibirlos y reenviarlos por Internet al servidor de red (Network Server)
+correspondiente, el cual elimina los mensajes duplicados y los reenvía al
+servidor de aplicaciones (Application Server) configurado.</p>
 <p><a href="https://www.thethingsnetwork.org/">The Things Network (TTN)</a> es una red abierta
-en la que cualquier persona puede crear una cuenta y dar de alta gateways y/o
-nodos. Los paquetes capturados por cualquier gateway de la red TTN son enviados
-a su servidor de red, que los envía a su servidor de aplicación, que ofrece un
-dashboard al usuario donde puede ver los paquetes recibidos.</p>
+en la que cualquier entidad puede crear una cuenta y registrar gateways y/o
+nodos. Los paquetes capturados por cualquier gateway de la red TTN se envían
+a su servidor de red, que a su vez los reenvía al servidor de aplicaciones,
+el cual ofrece un dashboard al usuario para visualizar los datos recibidos.</p>
 <p>Las siguientes subsecciones describen los elementos que necesitamos para montar
-una red LoRaWAN, con nodos esp32, que envíen datos a un gateway LoRa conectado a
+una red LoRaWAN con nodos ESP32 que envíen datos a un gateway LoRaWAN conectado a
 la red TTN.</p>
-<h3 id="registro-de-gateway-en-ttn">Registro de Gateway en TTN</h3>
-<p>Para poder desplegar nuestra red lo primero que debemos hacer es dar de alta un
-gateway en TTN. Esto no podemos hacerlo todos porque no habrá un gateway por
-alumno, pero aquí se documentan los pasos a seguir.</p>
-<p>Primero nos conectamos a TTN, nos registramos si no tenemos cuenta, y entramos
-en el sistema. Una vez conectados, se nos muestra el dashboard:</p>
+<h3 id="registro-de-gateway-en-ttn">Registro de gateway en TTN</h3>
+<p>Para poder desplegar nuestra red, lo primero que debemos hacer es registrar un
+gateway en TTN. Esto no lo puede hacer cada estudiante ya que sólo disponemos
+de un gateway, pero aquí se documentan los pasos a seguir.</p>
+<p>Primero, accedemos a TTN y nos registramos si no tenemos cuenta.
+Una vez conectados, se muestra el dashboard:</p>
 <p><img alt="" src="img/ttn-dashboard.png" /></p>
-<p>En el panel izquierdo pulsamos en Gateways y luego en el botón Create Gateway
-del lado derecho de la ventana. Nos aparecerá una ventana en la que tendremos
-que introducir el identificador universal del gateway (EUI) que vendrá en la
+<p>En el panel izquierdo pulsamos en <em>Gateways</em> y luego en <em>Register gateway</em>
+en el lado derecho de la ventana. Nos aparecerá una nueva ventana en la que tendremos
+que introducir el ID único del gateway (GatewayEUI) que vendrá en la
 pegatina de la tapa inferior del mismo (marcado como M2 EUI):</p>
 <p><img alt="" src="img/ttn-create-gateway.png" /></p>
-<p>Damos entonces a Register Gateway y el quedrá registrado en nuestro dashboard:</p>
+<p>Damos entonces a <em>Register gateway</em> y quedará registrado en nuestro dashboard:</p>
 <p><img alt="" src="img/ttn-create-gateway-done.png" /></p>
-<p>Sólo nos falta crear un API key para permitir la conexión del gateway. Para ello
-seleccionamos API keys en el panel izquierdo del dashboard del gateway que hemos
-creado y pulsamos el botón Add API Key en el lado derecho de la ventana.
-Rellenamos los datos y pulsamos Create API Key:</p>
+<p>Sólo nos falta crear una API key para permitir la conexión del gateway. Para ello,
+seleccionamos <em>API keys</em> en el panel izquierdo del dashboard (bajo el gateway que hemos
+creado) y pulsamos el botón <em>Add API key</em> en el lado derecho de la ventana.
+Rellenamos los datos y pulsamos <em>Create API key</em>:</p>
 <p><img alt="" src="img/ttn-gateway-api-key.png" /></p>
-<p>Se nos abrirá una ventana que nos permitirá copiar el API key generado. Es
-importante hacer la copia y guardarla porque la necesitarmos para configurar
-nuestro el Gateway.</p>
-<h3 id="gateway-laird-sentrinus-rg1xx">Gateway Laird Sentrinus RG1xx</h3>
-<p>Este proceso no podemos hacerlo todos puesto que no disponemos más que de un
-gateway LoRa comercial, concretamente el modelo Sentrinus RG1xx de Laird. A
-continuación se describe el proceso que debemos seguir para configurar dicho
-gateway para trabajar con TTN.</p>
-<p>Empezaremos por conectarnos a la web de configuración del gateway usando su
-interfaz wifi. Para ello pulsaremos el botón de usuario (parte trasera) durante
-unos 10 segundos y luego lo soltamos. Esto configurará un punto de acceso wifi
-con SSID rg1xx294c1f al que nos conectaremos. Una vez conectados abriremos un
-navegador web y nos conectaremos a la dirección 192.168.1.1 e introducimos el
-usuario y contraseña (consultar manual si no se ha cambiado). Entonces
-selecionamos la opción LoRa en el menú superior y se abrirá una página. En el
-panel izquierdo pulsaremos en Forwarder y en el panel central seleccionaremos el
-modo Semtech Basics Stations. Además tendremos que proporcionar la url del
-servidor de red (LNS server), el certificado del servidor y el <em>Key File</em>,
-siguiendo <a href="https://www.thethingsindustries.com/docs/gateways/concepts/lora-basics-station/lns/">las instrucciones de la página de
-TTN</a>
-y usando el API key generado en TTN en el paso anterior para el gateway.</p>
+<p>En este punto, se abrirá una ventana que nos permitirá copiar la API key generada,
+necesaria después para configurar nuestro gateway.</p>
+<h3 id="gateway-laird-sentrius-rg186">Gateway Laird Sentrius RG186</h3>
+<p>El proceso de configuración del gateway tampoco puede hacerlo el estudiante,
+ya que sólo disponemos de un gateway LoRaWAN comercial, concretamente el modelo Sentrius RG186 de Laird.
+De todas maneras, a continuación se describe el procedimiento que deberíamos seguir para configurar dicho
+gateway y conectarlo con TTN.</p>
+<p>Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz Wi-Fi.
+Para ello, pulsaremos el botón de usuario durante unos 10 segundos y luego lo soltamos.
+Esto configurará un punto de acceso Wi-Fi con SSID y contraseña <em>rg1xx294c1f</em>, al cual podremos conectarnos desde nuestro PC.</p>
+<p>Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
+usuario y la contraseña (<code>sentrius</code> y <code>RG1xx</code>).
+Selecionamos la opción LoRa en el menú superior.
+En el panel izquierdo, pulsaremos en <em>Forwarder</em> y, en el panel central, seleccionaremos el
+modo <em>Semtech Basics Station</em>.</p>
+<p>A su vez, tendremos que proporcionar la URL del servidor de red (campo <em>LNS server</em>),
+el certificado del servidor (<em>Server Certificate File</em>) y el <em>Key File</em>,
+siguiendo estas <a href="https://www.thethingsindustries.com/docs/gateways/concepts/lora-basics-station/lns/">instrucciones</a>
+y utilizando la API key generada en TTN para el gateway:</p>
 <p><img alt="" src="img/ttn-rg1xx-gateway-config.png" /></p>
-<p>Podemos entonces conectar el gateway a la red por su interfaz ethernet (que
-podemos configurar previamente) o activar su interfaz wifi para el acceso a
-internet (que debemos configurar en esta misma web). Si todo ha ido bien,
-veremos en el dashboard de TTN que nuestro gateway se ha conectado:</p>
+<p>Ahora ya podemos conectar el gateway a TTN mediante su interfaz Ethernet o
+activar su interfaz Wi-Fi (previamente configurada en el panel web).
+Si todo ha ido correctamente, veremos en el dashboard de TTN que nuestro gateway se ha conectado:</p>
 <p><img alt="" src="img/ttn-rg1xx-gateway-connected.png" /></p>
-<h3 id="registro-de-aplicacion-en-ttn">Registro de Aplicación en TTN</h3>
-<p>Una vez registrado el Gateway debemos registrar una aplicación en TTN a la que
-podremos vincular nodos. Esto podemos hacerlo cada uno por nuestra cuenta. Para
-ello pulsaremos en Applications en el panel izquierdo del dashboard, y acto
-seguido en el botón Add Application de la parte derecha de la ventana, y
-rellenamos los datos para la aplicación:</p>
+<h3 id="registro-de-aplicacion-en-ttn">Registro de aplicación en TTN</h3>
+<p>Una vez registrado el gateway, debemos registrar una aplicación en TTN a la que
+se vincularán nuestros nodos.
+Esta parte ya podéis realizarla los estudiantes con vuestra propia cuenta de TTN.
+Para ello, pulsamos en <em>Applications</em> en el panel izquierdo del dashboard y acto
+seguido en <em>Add application</em> en la parte derecha de la ventana. En este punto,
+rellenamos los datos de la aplicación:</p>
 <p><img alt="" src="img/ttn-add-application.png" /></p>
-<p>Pulsamos a Create Application y nos mostrará el dashboard de la aplicación, que
-nos permitirá añadir nodos a la aplicación, como se indica en la siguiente
-subsección.</p>
-<h3 id="registro-de-end-devices">Registro de End-Devices</h3>
-<p>El dashboard de la aplicación está actualmente vació:</p>
+<p>Finalmente, pulsamos <em>Create application</em> y se mostrará el dashboard de la aplicación,
+el cual nos permitirá añadir nodos como se indica en la siguiente subsección.</p>
+<h3 id="registro-de-end-devices">Registro de end devices</h3>
+<p>Al principio, el dashboard de la aplicación creada aparecerá vacío:</p>
 <p><img alt="" src="img/ttn-add-application-done.png" /></p>
-<p>Para añadir un nodo pulsamos en Register End Device. Como vamos a crear un end
-device a partir de una placa esp32 debemos seleccionar <em>Enter end device
-specifics manually</em>; si tuvieramos un nodo comercial podríamos darlo de alta
-escaneando un QR o seleccionandolo en el menú desplegable. Introducimos los
-datos como muestra la figura siguiente, seleccionando como JoinEUI/AppEUI el
-identificador que queramos:</p>
+<p>Para añadir un nodo pulsamos en <em>Register end device</em>.
+Como vamos a crear un nodo final a partir de un ESP32, debemos seleccionar <em>Enter end device specifics manually</em>.
+Si tuvieramos un nodo comercial podríamos darlo de alta escaneando un QR o seleccionándolo en el menú desplegable.</p>
+<p>A continuación, introducimos los datos tal como se muestra en la figura siguiente,
+seleccionando como JoinEUI/AppEUI el identificador que queramos:</p>
 <p><img alt="" src="img/ttn-add-end-device-esp32.png" /></p>
-<p>Al pulsar en Confirm se nos mostrarán nuevos campos para introducir o generar
-el identificador del dispositivo (devEUI) y la clave de la aplicación (AppKey).
-Pulsaremos el botón generar en ambos casos y copiaremos los valores generados
-porque luego tendremos que usarlos en el firmware del nodo que desarrollemos.
-Finalmente pondremos un nombre a nuestro dispositivo:</p>
+<p>Al pulsar en <em>Confirm</em>, se mostrarán nuevos campos a introducir o generar:
+el ID del dispositivo (DevEUI) y la clave de aplicación (AppKey).
+Pulsaremos <em>Generate</em> en ambos casos y guardaremos los valores generados
+(posteriormente tendremos que configurarlos en el firmware del nodo que desarrollemos).</p>
+<p>Finalmente, asignamos un nombre/ID a nuestro dispositivo y pulsamos <em>Register end device</em>
+para completar el proceso:</p>
 <p><img alt="" src="img/ttn-add-end-device-esp32-filled.png" /></p>
-<p>Pulsaremos Register End Device para completar el proceso.</p>
-<h3 id="transceptor-hoperfm95">Transceptor HopeRFM95</h3>
-<p>El dispositvo <a href="https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&amp;/modules/index.html&amp;gad_source=1&amp;gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB">HopeRFM95</a>
-es un pequeño trasceptor LoRa que puede conectarse por SPI a cualquier
-microcontrolador para dotarle de conectividad LoRa. Han salido al mercado varios
-modelos de <em>breakout boards</em> que nos permiten adaptar este transceptor a una
+<h3 id="transceptor-hoperfm95w">Transceptor HopeRFM95W</h3>
+<p>El dispositvo <a href="https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&amp;/modules/index.html&amp;gad_source=1&amp;gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB">HopeRFM95W</a>
+es un pequeño transceptor LoRa que puede conectarse por SPI a cualquier
+microcontrolador para dotarlo de conectividad LoRa.
+Han salido al mercado varios modelos de <em>breakout boards</em> que permiten adaptar este transceptor a una
 <em>breadboard</em> y así poder usar cables estándar para conectar el transceptor a
-nuestro nodo esp32.</p>
-<p>La siguiente figura muestra el esquema de una de estas placas de <em>breakout</em>,
-fabricada por adafruit:</p>
+nuestro nodo ESP32.</p>
+<p>La siguiente imagen muestra el esquema de una de estas placas de <em>breakout</em>,
+fabricada por Adafruit:</p>
 <p><img alt="" src="img/adafruit_products_3070_kit_ORIG.jpg" /></p>
-<p>Para conectar este transceptor al esp32 dev kit rust, debemos poner ambos sobre
-una breadboard. Debido a la anchura del transceptor no tendremos acceso a los
-pines por los dos lados, por lo que deberemos utilizar cable de puente (<em>jumper
-wire</em>) para sacar las conexiones de uno de los lados, dejando el otro accesible
-para conexiones directas. Lo más sencillo es sacar el pin G1, ya que es el único
-pin que necesitamos de ese lado.</p>
-<p>El pinout del dev kit rust es el siguiente:</p>
+<p>Para conectar el transceptor a la placa de desarrollo ESP32-C3 DevKit Rust, debemos colocar ambos sobre una breadboard.
+Debido a la anchura del transceptor, no tendremos acceso a los pines por los dos lados,
+por lo que será necesario utilizar cables de puente (<em>jumper wires</em>) para sacar
+las conexiones de uno de los lados, dejando el otro accesible para conexiones directas.
+Lo más sencillo es sacar el pin G1 (cable bajo el transceptor), ya que es el único que necesitamos de ese lado.</p>
+<p>El pinout de la ESP32-C3 DevKit Rust es el siguiente:</p>
 <p><img alt="" src="img/dev-kit-rust-pinout.png" /></p>
-<p>Una posible conexión entre el transceptor y la esp32 dev kit rust sería la
+<p>Una posible conexión entre el transceptor y la ESP32-C3 DevKit Rust sería la
 siguiente:</p>
 <table>
 <thead>
 <tr>
 <th>Adafruit 3070</th>
-<th style="text-align: center;">esp32 dev kit rust</th>
+<th style="text-align: center;">ESP32-C3 DevKit Rust</th>
 <th style="text-align: center;">Función</th>
 </tr>
 </thead>
@@ -430,59 +414,54 @@ siguiente:</p>
 </tr>
 </tbody>
 </table>
-<p>La siguiente figura muestra como las dos placas conectadas con las conexiones
+<p>La siguiente figura muestra las dos placas conectadas con las conexiones
 indicadas en la tabla anterior:</p>
-<p><img alt="" src="img/esp32-and-rfm95_adafruit.jpeg" /></p>
-<h3 id="codigo-del-nodo-libreria-ttn-esp32">Codigo del nodo: librería ttn-esp32</h3>
+<p><img alt="" src="img/esp32-and-rfm95_adafruit.HEIC" /></p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio 1</p>
+<p>Conecta el transceptor LoRa al ESP32-C3 DevKit Rust sobre vuestra breadboard siguiendo el pinout indicado anteriormente.
+Incluye en la memoria una o varias fotos como las del ejemplo.</p>
+</div>
+<h3 id="codigo-del-nodo-libreria-ttn-esp32">Código del nodo: librería ttn-esp32</h3>
 <p>La librería <a href="https://github.com/manuelbl/ttn-esp32">ttn-esp32</a> es un componente
-para esp-idf que proporciona comunicación LoRaWAN con The Things Network.
+para ESP-IDF que proporciona comunicación LoRaWAN con TTN.
 Soporta dispositivos conectados a transceptores Semtech SX127x. Esta librería
-soporta las siguientes características de TTN:</p>
+soporta las siguientes características:</p>
 <ul>
-<li>OTAA (activación remota, <em>over the air activation</em>)</li>
-<li>Mensajes uplink y downlink</li>
-<li>Guardado los EUIs y la clave en memoria no volátil</li>
-<li>Deep sleep y apagado sin necesidad de reincorporación</li>
-<li>Comandos AT para el aprovisionamiento de EUIs y clave (de modo que el mismo
-  código puede ser flasheado a varios dispositivos)</li>
-<li>Compatibilidad con las regiones de Europa, América del Norte y del Sur,
-  Australia, Corea, Asia e India</li>
-<li>API en C y C++</li>
+<li>OTAA (activación/configuración remota, <em>Over-The-Air Activation</em>).</li>
+<li>Mensajes uplink y downlink.</li>
+<li>Almacenamiento de EUIs y claves en memoria no volátil.</li>
+<li>Modo de bajo consumo y apagado sin necesidad de volver a unirse a la red.</li>
+<li>Comandos AT para el provisionamiento de EUIs y claves (para que el mismo código pueda flashearse en varios dispositivos).</li>
+<li>Soporte para las regiones de Europa, América del Norte y del Sur, Australia, Corea, Asia e India.</li>
+<li>API en C y C++.</li>
 </ul>
-<p>Este componente usa por debajo la librería LMIC de IBM (específicamente la
-versión mantenida por MCCI) y proporciona una API de alto nivel específicamente
-dirigida a The Things Network.</p>
-<p>Para crear un proyecto que use esta librería lo primero que haremos es clonar el
-repositorio en nuestro equipo o descargar el zip de la rama master:</p>
+<p>Para crear un proyecto que use esta librería, lo primero que haremos es clonar el
+repositorio de GitHub en nuestro equipo o descargar el .zip de la rama master:</p>
 <pre><code class="language-sh">git clone https://github.com/manuelbl/ttn-esp32.git
 </code></pre>
 <p>o</p>
 <pre><code class="language-sh">wget https://github.com/manuelbl/ttn-esp32/archive/master.zip
 unzip master.zip
 </code></pre>
-<p>Después copiaremos el ejemplo que viene con la librería en examples/hello_world
-a un nuevo directorio. Dentro de la copia creamos un directorio <em>components</em> y
-dentro copiaremos toda la librería ttn-esp32. La estructura que tendrá el
-proyecto será:</p>
-<pre><code class="language-sh">hello_world/
+<p>Después, copiaremos el ejemplo <code>examples/hello_world_in_c</code> que viene con la librería en 
+un nuevo directorio. Dentro de la copia creamos un directorio <em>components</em> y
+dentro copiamos toda la librería <em>ttn-esp32</em>. La estructura final del proyecto será:</p>
+<pre><code class="language-sh">hello_world_in_c/
 +- CMakeLists.txt
 +- components/
 |  +- ttn-esp32
 |     +- ...
 +- main/
 |   - CMakeLists.txt
-|   - component.mk
-|   - main.cpp
-+- Makefile
+|   - main.c
 </code></pre>
-<p>Si echamos un vistazo al fichero main.cpp veremos que el programa se conectará a
-TTN, y después el nodo se pondrá a enviar mensajes "hello world" uplink (hacia
-el servidor de aplicación) al ritmo de uno por segundo. El programa debe ser
-configurado definiendo los valores de una serie de macros, que determinan por un
-lado los identificadores del nodo para TTN y por otro lado los pines usados para
-la conexión del esp32 con el transceptor LoRa.</p>
-<p>Para los identificadores del nodo en TTN usaremos los datos obtenidos en el
-registro del end device en TTN:</p>
+<p>Si echamos un vistazo al fichero <em>main.c</em>, veremos que el programa se conectará a
+TTN y después empezará a enviar mensajes <code>Hello, world</code> uplink (hacia
+el servidor de aplicaciones) cada segundo.</p>
+<p>El programa debe configurar los valores de una serie de constantes y macros, que determinan, por un
+lado, los IDs del nodo para TTN y, por otro, los pines utilizados para la conexión del ESP32 con el transceptor LoRa.</p>
+<p>Para los IDs del nodo en TTN, usaremos los datos obtenidos al registar el nodo en TTN:</p>
 <pre><code class="language-c">// AppEUI (sometimes called JoinEUI)
 const char *appEui = &quot;0101010101010101&quot;;
 // DevEUI
@@ -490,8 +469,7 @@ const char *devEui = &quot;70B3D57ED006B7B2&quot;;
 // AppKey
 const char *appKey = &quot;8427407CC943D5B188160CC89F176846&quot;;
 </code></pre>
-<p>Para la conexión entre ambos chips indicada, arriba en la sección del
-transceptor HopeRFM95, la configuración de pines sería como sigue:</p>
+<p>Para la conexión entre el ESP32 y el transceptor (indicada arriba en la tabla), la configuración de pines sería la siguiente:</p>
 <pre><code class="language-c">#define TTN_SPI_HOST      SPI2_HOST
 #define TTN_SPI_DMA_CHAN  SPI_DMA_DISABLED
 #define TTN_PIN_SPI_SCLK  4
@@ -503,40 +481,29 @@ transceptor HopeRFM95, la configuración de pines sería como sigue:</p>
 #define TTN_PIN_DIO0      0
 #define TTN_PIN_DIO1      1
 </code></pre>
-<p>Una vez configurado el fichero fuente main.cpp, haremos un menuconfig para
-configurar la librería ttn-esp32. En la parte final (abajo) del menú principal
-encontraremos la entrada The Things Network, y seleccionaremos en ella las
-entradas como en la figura siguiente:</p>
+<p>Una vez configurado el fichero fuente <em>main.c</em>, ejecutaremos menuconfig para
+configurar la librería <em>ttn-esp32</em>. Al final del menú, 
+encontraremos la entrada <em>The Things Network</em>, que configuraremos tal
+como se muestra en la siguiente captura:</p>
 <p><img alt="" src="img/ttn-esp32-menuconfig.png" /></p>
-<p>Después podemos compilar el proyecto y descargarlo en la placa (flash). Lo
-monitorizaremos, y si todo ha ido bien iremos viendo en el dashboard de nuestra
-aplicación TTN cómo se van recibiendo los mensajes.</p>
-<p>La aplicación envía el mensaje hello world, pero el dashboard nos muestra el
-payload del mensaje en hexadecimal. Podemos usar el servicio de <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">RapidTable</a>
-para traducir el payload hexadecimal a ascii y comprobar así que el payload
-recibido es correcto.</p>
+<p>En este punto, podemos compilar el proyecto y flashearlo en la placa.
+Monitorizamos el dispositivo y, si todo ha ido correctamente, veremos en el dashboard de nuestra
+aplicación TTN cómo se reciben los mensajes.</p>
+<p>La aplicación envía el mensaje <code>Hello, world</code>, pero el dashboard muestra el payload del mensaje en hexadecimal.
+Podemos usar la herramienta web <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">RapidTables</a>
+para convertir rápidamente el payload hexadecimal a ASCII y comprobar que el mensaje recibido es correcto.</p>
 <div class="admonition danger">
-<p class="admonition-title">tarea</p>
-<p>Modificar el código para que se envíen mensajes con payload {0xAA, 0xBB,
-0xCC, 0xDD} y comprobar en el dashboard que se reciben correctamente.
-Incluir en el informe las capturas de pantalla apropiadas.</p>
+<p class="admonition-title">Ejercicio 2</p>
+<p>Crea y configura un proyecto con <em>ttn-esp32</em> siguiendo los pasos anteriores.
+Ejecútalo para que tu ESP32 conectado al transceptor y al gateway
+pueda enviar datos a la aplicación que hayas registrado con tu cuenta en TTN.
+Incluye en la memoria las capturas de pantalla necesarias.</p>
 </div>
-<h2 id="comunicacion-lora-raw">Comunicación LoRa raw</h2>
-<p>Podemos también hacer comunicaciones LoRa diréctamente entre los nodos sin
-necesidad de utilizar la infrastructura de red LoRaWAN. Para ello podemos hacer
-uso de la librería
-<a href="https://github.com/Inteform/esp32-lora-library">esp32-lora-library</a> que es un
-componente de esp-idf que podemos añadir a un proyecto para tener comunicaciones
-LoRa usando transceptores de la familia Semtech SX127x.</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea opcional</p>
-<p>Clonar el repositorio de la librería. Crear un proyecto de esp-idf que use
-esta librería como componente. Programar dos nodos con el código de ejemplo
-que viene en el README.md de la librería, acordándonos de configurar los
-pines usados para la conexión con el transceptor a través del menuconfig.
-Monitorizar ambos nodos y comprobar que los paquetes enviados por uno son
-recibidos por el otro. Añadir a la memoria las capturas de pantalla
-apropiadas que muestren el correcto funcionamiento de los nodos.</p>
+<p class="admonition-title">Ejercicio 3</p>
+<p>Modifica el código para que se envíen mensajes con el payload {0xAA, 0xBB,
+0xCC, 0xDD} y comprueba en el dashboard que se reciben correctamente.
+Incluye en la memoria las capturas de pantalla necesarias.</p>
 </div></div>
             </div>
         </div>
