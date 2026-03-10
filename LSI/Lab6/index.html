@@ -229,7 +229,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#laboratorio-6-comandos-por-voz" class="nav-link">Laboratorio 6. Comandos por voz</a>
+            <li class="nav-item" data-bs-level="1"><a href="#reconocimiento-de-comandos-por-voz" class="nav-link">Reconocimiento de comandos por voz</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -251,10 +251,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#algunas-herramientas-adicionales" class="nav-link">Algunas herramientas adicionales</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#algunas-referencias" class="nav-link">Algunas referencias</a>
               <ul class="nav flex-column">
               </ul>
@@ -266,7 +262,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="laboratorio-6-comandos-por-voz">Laboratorio 6. Comandos por voz</h1>
+<h1 id="reconocimiento-de-comandos-por-voz">Reconocimiento de comandos por voz</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Familiarizarse con el procesamiento de voz en nodos AI-IoT</li>
@@ -321,7 +317,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Tarea (opcional)</p>
-<p>Convertir el modelo entrenado a TFLite, cuantizarlo y ejecutarlo en el acelerador Coral USB.</p>
+<p>Convertir el modelo entrenado a TFLite incluyendo un proceso de cuantización.</p>
 </div>
 <h2 id="micro-speech-example">Micro Speech Example</h2>
 <p>El ejemplo “<a href="https://github.com/tensorflow/tflite-micro/blob/main/tensorflow/lite/micro/examples/micro_speech/README.md">Micro Speech</a>” de TFLM demuestra cómo implementar un sistema básico de reconocimiento de palabras clave en dispositivos con recursos limitados. Este ejemplo utiliza un modelo de red neuronal pequeño, entrenado para reconocer palabras cortas como “yes” y “no” a partir de audio en tiempo real capturado por un micrófono. </p>
@@ -336,26 +332,9 @@
 <p class="admonition-title">Tarea</p>
 <p>Probar el ejemplo siguiendo las instrucciones del repositorio.</p>
 </div>
-<h2 id="algunas-herramientas-adicionales">Algunas herramientas adicionales</h2>
-<p>A continuación se enumeran algunas de las principales opciones para procesamiento de voz offline.</p>
-<ul>
-<li>Keyword spotting / Wake-Up-Word<ul>
-<li><a href="https://cmusphinx.github.io/wiki/tutorialpocketsphinx/">Pocketsphinx</a></li>
-<li><a href="https://github.com/Picovoice/porcupine">Porcupine</a></li>
-<li><a href="https://github.com/Kitt-AI/snowboy">Snowboy</a></li>
-<li><a href="https://github.com/MycroftAI/mycroft-precise">Mycroft Precise</a></li>
-</ul>
-</li>
-<li>Speech to text<ul>
-<li><a href="https://cmusphinx.github.io/wiki/tutorialpocketsphinx/">Pocketsphinx</a></li>
-<li><a href="https://kaldi-asr.org">Kaldi</a></li>
-<li><a href="https://deepspeech.readthedocs.io/en/r0.9/">DeepSpeech</a></li>
-</ul>
-</li>
-</ul>
 <div class="admonition note">
-<p class="admonition-title">Tarea (opcional)</p>
-<p>Probar algunas de estas herramientas en la Raspberry Pi 4.</p>
+<p class="admonition-title">Tarea entregable</p>
+<p>Integrar el proceso de detección de palabras ("Yes/No") en tu proyecto de prácticas anteriores, de modo que, a través de voz, sea posible activar o desactivar el envío de los resultados de la inferencia sobre el modelo entrenado y desplegado en el ESP-EYE a un entorno externo (e.g. broker MQTT, Thingsboard, Telegram, etc.)</p>
 </div>
 <h2 id="algunas-referencias">Algunas referencias</h2>
 <ul>
