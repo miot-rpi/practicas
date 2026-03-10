@@ -1,4 +1,4 @@
-# Laboratorio 6. Comandos por voz
+# Reconocimiento de comandos por voz
 
 ## Objetivos
 
@@ -71,7 +71,7 @@ El siguiente [tutorial](https://www.tensorflow.org/tutorials/audio/simple_audio)
     Seguir el tutorial.
 
 !!! note "Tarea (opcional)"
-    Convertir el modelo entrenado a TFLite, cuantizarlo y ejecutarlo en el acelerador Coral USB.
+    Convertir el modelo entrenado a TFLite incluyendo un proceso de cuantización.
 
 ## Micro Speech Example
 
@@ -89,22 +89,8 @@ El componente `esp-tflite-micro` incluye una versión de este ejemplo adaptada p
 !!! note "Tarea"
     Probar el ejemplo siguiendo las instrucciones del repositorio.
 
-## Algunas herramientas adicionales
-
-A continuación se enumeran algunas de las principales opciones para procesamiento de voz offline.
-
-* Keyword spotting / Wake-Up-Word
-	- [Pocketsphinx](https://cmusphinx.github.io/wiki/tutorialpocketsphinx/)
-	- [Porcupine](https://github.com/Picovoice/porcupine)
-	- [Snowboy](https://github.com/Kitt-AI/snowboy)
-	- [Mycroft Precise](https://github.com/MycroftAI/mycroft-precise)
-* Speech to text
-	- [Pocketsphinx](https://cmusphinx.github.io/wiki/tutorialpocketsphinx/)
-	- [Kaldi](https://kaldi-asr.org)
-	- [DeepSpeech](https://deepspeech.readthedocs.io/en/r0.9/)
-
-!!! note "Tarea (opcional)"
-    Probar algunas de estas herramientas en la Raspberry Pi 4.
+!!! note "Tarea entregable"
+    Integrar el proceso de detección de palabras ("Yes/No") en tu proyecto de prácticas anteriores, de modo que, a través de voz, sea posible activar o desactivar el envío de los resultados de la inferencia sobre el modelo entrenado y desplegado en el ESP-EYE a un entorno externo (e.g. broker MQTT, Thingsboard, Telegram, etc.)
 
 ## Algunas referencias
 
