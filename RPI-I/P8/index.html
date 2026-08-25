@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>LAB8. 802.15.4 y Thread - Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)</title>
+        <title>LAB8. 6LoWPAN y simulador Cooja - Máster IoT UCM - Prácticas (26/27)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../..">Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)</a>
+                <a class="navbar-brand" href="../..">Máster IoT UCM - Prácticas (26/27)</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -38,7 +38,7 @@
                                 <a href="../.." class="nav-link">Calendario</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">RPI-I</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -70,11 +70,11 @@
 </li>
                                     
 <li>
-    <a href="../P9/" class="dropdown-item">LAB9. 6LoWPAN y simulador Cooja</a>
+    <a href="./" class="dropdown-item active" aria-current="page">LAB8. 6LoWPAN y simulador Cooja</a>
 </li>
                                     
 <li>
-    <a href="../P10/" class="dropdown-item">LAB10. LoRa y LoRaWan</a>
+    <a href="../P9/" class="dropdown-item">LAB9. LoRa y LoRaWAN</a>
 </li>
                                 </ul>
                             </li>
@@ -160,39 +160,6 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">LSI</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../../LSI/Lab0/" class="dropdown-item">Práctica 0</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab1/" class="dropdown-item">Práctica 1</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab2/" class="dropdown-item">Práctica 2</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab3/" class="dropdown-item">Práctica 3</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab4/" class="dropdown-item">Práctica 4</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab5/" class="dropdown-item">Práctica 5</a>
-</li>
-                                    
-<li>
-    <a href="../../LSI/Lab6/" class="dropdown-item">Práctica 6</a>
-</li>
-                                </ul>
-                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
@@ -201,6 +168,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../P7/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../P9/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -219,8 +196,36 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#lab8-802154-y-thread" class="nav-link">LAB8. 802.15.4 y Thread</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lab8-6lowpan-y-simulador-cooja" class="nav-link">LAB8. 6LoWPAN y simulador Cooja</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#introduccion-y-objetivos" class="nav-link">Introducción y objetivos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#instalacion-de-cooja" class="nav-link">Instalación de Cooja</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#codigo-contiki-ng" class="nav-link">Código Contiki-NG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#simulacion-en-cooja" class="nav-link">Simulación en Cooja</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#asignando-el-prefijo-de-red" class="nav-link">Asignando el prefijo de red</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#verificacion-de-resultados" class="nav-link">Verificación de resultados</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#captura-de-paquetes-para-analisis" class="nav-link">Captura de paquetes para análisis</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -228,8 +233,265 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="lab8-802154-y-thread">LAB8. 802.15.4 y Thread</h1>
-<p>Demo en clase.</p></div>
+<h1 id="lab8-6lowpan-y-simulador-cooja">LAB8. 6LoWPAN y simulador Cooja</h1>
+<h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
+<p>Los routers de borde son enrutadores que pueden encontrarse en el borde de una
+red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
+función, en definitiva, es conectar una red con otra.</p>
+<p>En esta práctica, usaremos el simulador Cooja, del proyecto Contiki-NG, para
+construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL
+(<em>Routing Protocol for Low-Power and Lossy Networks</em>) como
+algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-NG.
+Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
+red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
+siguiente diagrama:</p>
+<p><img alt="" src="img/diagram.png" /></p>
+<p>El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
+tanto una red RPL con Contiki-NG en el simulador Cooja, así como conseguir
+hacerla interactuar con una segunda red externa real utilizando la herramienta
+<code>tunslip</code>.</p>
+<h2 id="instalacion-de-cooja">Instalación de Cooja</h2>
+<p>Se ofrecen dos alternativas para instalar y usar el simulador Cooja:</p>
+<ul>
+<li>Instalación mediante contenedores Docker.</li>
+<li>Uso de una máquina virtual de VirtualBox proporcionada por el profesor.</li>
+</ul>
+<h3 id="alternativa-1-instalacion-con-docker">Alternativa 1: instalación con Docker</h3>
+<p>A continuación, indicamos los pasos a seguir para realizar la instalación del
+software necesario en un sistema GNU/Linux. Los detalles de instalación para
+Windows y macOS están en la <a href="https://docs.contiki-ng.org/en/develop/doc/getting-started/Docker.html"><em>getting started guide</em> de
+Contiki-NG</a>.</p>
+<p>Comenzaremos por instalar Docker si no lo tenemos instalado ya, haciendo:</p>
+<pre><code class="language-sh">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</code></pre>
+<p>Si nuestro usuario no pertenece al grupo Docker, lo añadimos:</p>
+<pre><code class="language-sh">sudo usermod -aG docker &lt;your-user&gt;
+</code></pre>
+<p>Después, será necesario reiniciar el sistema para completar la instalación
+y actualizar la lista de grupos del usuario.</p>
+<p>A continuación, descargaremos la imagen Docker de Contiki-NG:</p>
+<pre><code class="language-sh">docker pull contiker/contiki-ng
+</code></pre>
+<p>Una vez descargada la imagen, clonaremos el repositorio git de Contiki-NG (por
+ejemplo, en nuestro directorio home):</p>
+<pre><code class="language-sh">git clone https://github.com/contiki-ng/contiki-ng.git
+cd contiki-ng
+git submodule update --init --recursive
+</code></pre>
+<p>A continuación, crearemos el script <code>$HOME/.local/bin/contiker</code> con permisos de ejecución, el cual
+usaremos en el futuro para lanzar el contenedor Docker. El contenido de este script será:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+export CNG_PATH=$HOME/contiki-ng
+xhost +SI:localuser:$(id -un)
+docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 \
+  --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng \
+  -e DISPLAY=$DISPLAY -e LOCAL_UID=$(id -u $USER) -e LOCAL_GID=$(id -g $USER) \
+  -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb \
+  -ti contiker/contiki-ng
+xhost -SI:localuser:$(id -un)
+</code></pre>
+<p>En este momento, si añadimos la ruta <code>$HOME/.local/bin</code> a la variable
+<em>PATH</em>, podemos ejecutar el contenedor de Contiki-NG ejecutando el script
+<code>contiker</code> y, una vez dentro del contenedor, ejecutar el simulador Cooja:</p>
+<pre><code class="language-sh">$ contiker
+localuser:user being added to access control list
+To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.
+See &quot;man sudo_root&quot; for details.
+
+user@e2d84745c836:~/contiki-ng$ cooja
+</code></pre>
+<p>La primera vez que lo ejecutemos tardará un poco porque se descargará una serie
+de archivos Java necesarios para el simulador. Es posible que se produzca un
+error en la resolución de nombres (DNS). En ese caso, debemos configurar el DNS
+de Docker:</p>
+<pre><code class="language-sh">dockerd --dns 8.8.8.8
+</code></pre>
+<h3 id="alternativa-2-uso-de-maquina-virtual">Alternativa 2: uso de máquina virtual</h3>
+<p>Si no tenemos VirtualBox instalado en nuestro equipo, lo primero será instalarlo
+descargando el instalador desde la página oficial de <a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox</a>.</p>
+<p>A continuación, descargaremos la máquina virtual Debian con Contiki-NG instalado
+desde <a href="https://drive.google.com/file/d/1RMv7yfqvhENRwD1GXS_5Qw5suOLt_98c/view?usp=sharing">este enlace de Google
+Drive</a>.
+Se trata de un archivo .ova que tendremos que importar en VirtualBox.</p>
+<p>Una vez importado, podemos arrancar la máquina virtual (el usuario es <em>user</em> y la
+contraseña <em>contiki</em>).
+Para arrancar el simulador, bastará con abrir una terminal y ejecutar el comando <em>cooja</em>.
+El repositorio de Contiki-NG se encuentra en un directorio con el mismo nombre dentro del home del usuario <em>user</em>.</p>
+<h2 id="codigo-contiki-ng">Código Contiki-NG</h2>
+<p>En el desarrollo de la práctica utilizaremos algunos de los ejemplos incluidos en la
+instalación de Contiki-NG (ubicados en el directorio <code>contiki-ng/examples</code>):</p>
+<ul>
+<li><code>rpl-border-router/border_router.c</code>: contiene la lógica de enrutamiento
+  del router de borde, que será la raíz del DODAG (<em>Destination-Oriented Directed Acyclic Graph</em>).</li>
+<li><code>hello-world/hello-world.c</code>: será ejecutado por el resto de nodos de la red RPL.</li>
+</ul>
+<p>Los nodos que ejecuten el código <code>hello-world.c</code> formarán un DAG con el
+router de borde configurado como raíz. Este router recibirá el prefijo de
+red a través de una conexión SLIP (<em>Serial Line Interface Protocol</em>) y lo comunicará al
+resto de nodos de la red RPL para que configuren sus respectivas direcciones IPv6
+globales. Una vez recibido el prefijo, el router de borde se configura como
+raíz del DODAG y envía el prefijo al resto de nodos de la red.</p>
+<h2 id="simulacion-en-cooja">Simulación en Cooja</h2>
+<p>Para crear una simulación completa en Cooja, arrancamos el simulador usando el
+siguiente comando:</p>
+<pre><code class="language-sh">To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.
+See &quot;man sudo_root&quot; for details.
+
+user@e2d84745c836:~/contiki-ng$ cooja
+</code></pre>
+<p>Si estamos utilizando la máquina virtual, basta con ejecutar Cooja desde un terminal.
+De aquí en adelante se pueden ignorar todos los detalles relativos a Docker si
+hemos optado por usar la máquina virtual.</p>
+<p>Si todo ha ido correctamente, debería aparecer la ventana principal del simulador:</p>
+<p><img alt="" src="img/Cooja_Window.png" /></p>
+<p>A partir de ahora, sigue los pasos indicados para crear una simulación en Cooja.</p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio 1</p>
+<p>Documenta con capturas de pantalla tanto la configuración que vas a realizar a continuación
+como el resultado final que muestre el simulador.</p>
+</div>
+<p>Primero, selecciona la opción <code>File -&gt; New simulation</code>.
+Selecciona <code>UDGM</code> como modelo de radio para simular las comunicaciones inalámbricas
+e introduce el nombre de la simulación. Presiona <code>Create</code> y se abrirá la ventana de simulación:</p>
+<p><img alt="" src="img/Cooja_New_Sim.png" /></p>
+<p>En el menú <code>Motes</code> (mote = nodo de sensor simulado), selecciona <code>Add motes -&gt; Create new mote type</code> y seleccona el
+tipo de mota <code>Cooja</code>.
+Luego selecciona como código fuente el archivo del ejemplo para el router de borde: <code>examples/rpl-border-router/rpl-border-router.c</code>:</p>
+<p><img alt="" src="img/Cooja_New_Mote.png" /></p>
+<p>Pulsa en <code>Compile</code>, luego en <code>Create</code> y añade <strong>una única</strong> mota de este tipo.</p>
+<p>Repite los pasos anteriores para crear 4 motas de tipo <code>Cooja</code> que ejecuten el ejemplo <code>hello-world.c</code>.
+Distribúyelas por la simulación, asegurándote de que no todas estén al alcance directo del router de borde
+pero que puedan llegar a este pasando a través de otros nodos que sí estén dentro de su rango:</p>
+<p><img alt="" src="img/RPL_Red_Ejemplo.png" /></p>
+<p>A continuación, crearemos una conexión SLIP entre la red RPL simulada en Cooja y
+una máquina externa (ya sea un contenedor Docker o nuestra máquina virtual). Para ello, pulsa
+en el menú <code>Tools -&gt; Serial Socket (SERVER)</code> y selecciona la mota correspondiente
+al router de borde (identifícala por su número o tipo):</p>
+<p><img alt="" src="img/Cooja_Serial_Socket.png" /></p>
+<p>Aparecerá un mensaje como el de la siguiente figura (observa que indica "<strong>Listen port: 60001</strong>").
+Pulsa <code>Start</code> para activar la conexión SLIP (en este caso, iniciar el socket TCP):</p>
+<p><img alt="" src="img/Cooja_Serial_Listening.png" /></p>
+<p>Finalmente, inicia la simulación pulsando <code>Start/Pause</code> en la ventana principal del simulador.
+Revisa la ventana <code>Network</code> y la salida de las motas en la ventana <code>Mote output</code>.</p>
+<h2 id="asignando-el-prefijo-de-red">Asignando el prefijo de red</h2>
+<p>Como ya se ha comentado, un router de borde actúa como enlace para conectar una red con
+otra. En este ejemplo, el router de borde se utiliza para establecer una ruta de datos
+entre la red RPL y una máquina externa (ya sea un contenedor Docker o nuestra máquina virtual).
+Para ello, utilizaremos la herramienta <em>tunslip6</em> proporcionada por Contiki-NG
+en el directorio <code>tools/serial-io</code>, que se puede compilar de la siguiente forma:</p>
+<pre><code class="language-sh">make tunslip6
+</code></pre>
+<p>Una vez compilado, ejecutamos el binario resultante para establecer una conexión
+entre la red RPL y la máquina externa:</p>
+<pre><code class="language-sh">sudo ./tunslip6 -a 127.0.0.1 -p 60001 aaaa::1/64
+</code></pre>
+<p>Si la ejecución se ha realizado correctamente, aparecerá una salida similar a la siguiente:</p>
+<pre><code class="language-sh">slip connected to ``127.0.0.1:60001''
+opened tun device ``/dev/tun0''
+ifconfig tun0 inet `hostname` mtu 1500 up
+ifconfig tun0 add aaaa::1/64
+ifconfig tun0 add fe80::0:0:0:1/64
+ifconfig tun0
+
+tun0: flags=4305&lt;UP,POINTOPOINT,RUNNING,NOARP,MULTICAST&gt;  mtu 1500
+        inet 127.0.1.1  netmask 255.255.255.255  destination 127.0.1.1
+        inet6 fe80::1  prefixlen 64  scopeid 0x20&lt;link&gt;
+        inet6 aaaa::1  prefixlen 64  scopeid 0x0&lt;global&gt;
+        inet6 fe80::93d:daef:6b56:52a7  prefixlen 64  scopeid 0x20&lt;link&gt;
+        unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 500  (UNSPEC)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+...
+
+*** Address:aaaa::1 =&gt; aaaa:0000:0000:0000
+[INFO: BR        ] Waiting for prefix
+[INFO: BR        ] Server IPv6 addresses:
+[INFO: BR        ]   aaaa::201:1:1:1
+[INFO: BR        ]   fe80::201:1:1:1
+</code></pre>
+<p>La herramienta <em>tunslip6</em> ha creado una interfaz puente <code>tun0</code> con IPv4 127.0.1.1 y ha
+enviado, a través de la conexión serie, un mensaje de configuración al router de borde indicándole el
+prefijo IPv6 deseado para todos los nodos de la red RPL (<code>aaaa::/64</code>).
+Las dos últimas líneas de la salida anterior indican cuáles son las direcciones
+IPv6 del router de borde tras recibir el prefijo.</p>
+<p>Vuelve al simulador Cooja y observa el mensaje que ha aparecido en la ventana <code>Serial Socket (SERVER)</code>
+(apartado <em>status</em>).</p>
+<h2 id="verificacion-de-resultados">Verificación de resultados</h2>
+<p>Es posible verificar la dirección IPv6 del router de borde realizando un ping
+desde tu contenedor o máquina virtual:</p>
+<pre><code class="language-sh">user@e2d84745c836:~/contiki-ng$ ping6 aaaa::201:1:1:1
+PING aaaa::201:1:1:1(aaaa::201:1:1:1) 56 data bytes
+64 bytes from aaaa::201:1:1:1: icmp_seq=1 ttl=64 time=17.7 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=2 ttl=64 time=44.8 ms
+64 bytes from aaaa::201:1:1:1: icmp_seq=3 ttl=64 time=10.4 ms
+^C
+</code></pre>
+<p>Así como la IPv6 de cualquier otro nodo de la red. Por ejemplo, para el nodo 5:</p>
+<pre><code class="language-sh">user@e2d84745c836:~/contiki-ng$ ping6 aaaa::205:5:5:5
+PING aaaa::205:5:5:5(aaaa::205:5:5:5) 56 data bytes
+64 bytes from aaaa::205:5:5:5: icmp_seq=1 ttl=61 time=6.56 ms
+64 bytes from aaaa::205:5:5:5: icmp_seq=2 ttl=61 time=17.2 ms
+64 bytes from aaaa::205:5:5:5: icmp_seq=3 ttl=61 time=6.38 ms
+^C
+</code></pre>
+<p>La dirección IPv6 de cada nodo puede obtenerse filtrando en la ventana <code>Mote output</code>
+según el ID del nodo (mota).</p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio 2</p>
+<p>Mientras haces ping a uno de los nodos, vuelve al simulador Cooja y explica lo que
+  ocurre en la ventana <code>Network</code>. Ajusta la velocidad de simulación a 1X para poder
+  seguir la transmisión en tiempo real.</p>
+</div>
+<h2 id="captura-de-paquetes-para-analisis">Captura de paquetes para análisis</h2>
+<p>En el simulador Cooja, desde el menú <code>Tools</code> podemos abrir la ventana de <code>Radio Messages</code>.
+Esta ventana permite capturar todos los paquetes de la simulación y generar un archivo
+<code>.pcap</code> para su posterior análisis con Wireshark.
+Para ello, en el menú <code>Analyzer</code> de la ventana <code>Radio Messages</code> seleccionamos la opción
+<code>6LoWPAN Analyzer with PCAP</code>.</p>
+<p>A continuación, reiniciamos la simulación anterior pulsando el botón <code>Reload</code> en la ventana
+principal de Cooja. Esto interrumpirá la comunicación con la máquina externa, por lo que
+será necesario volver a ejecutar <em>tunslip6</em>.</p>
+<p>Ahora estamos listos para volver a simular la red capturando todos los paquetes
+enviados entre los nodos.
+Dejamos que la simulación se ejecute durante un tiempo y luego la paramos.
+Cooja habrá generado un archivo <code>radiolog-&lt;n&gt;.pcap</code>, donde <code>&lt;n&gt;</code> será un número aleatorio,
+en el directorio desde el que se haya lanzado Cooja.</p>
+<p>En Wireshark podemos filtrar los paquetes relacionados con el protocolo RPL y
+buscar los mensajes <code>Destination Advertisement Object (DAO)</code> que los nodos
+envían hacia la raíz indicando el nodo que han elegido como padre.
+Por ejemplo, en la siguiente captura podemos observar que el nodo 3 envía su DAO indicando que
+escoge al nodo 4 como padre:</p>
+<p><img alt="" src="img/Wireshark_RPL_DAO.png" /></p>
+<p>Esto es razonable para la topología escogida en la simulación en la que el nodo
+3 no tiene al nodo 1 dentro del alcance de radio, pero sí al nodo 4, que está a un salto
+del nodo raíz:</p>
+<p><img alt="" src="img/RPL_Red_Ejemplo.png" /></p>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio 3</p>
+<p>Crea una red RPL con un router de borde y 10 motas de tipo <code>Cooja</code>.
+  Conéctala a tu red local mediante <em>tunslip6</em>.
+Asegúrate de que no todos los nodos estén al alcance del router de borde (implementa 3 niveles).
+Comprueba la conectividad con todas las motas y documenta el proceso.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio 4</p>
+<p>Con una ejecución de ping activa sobre una mota al alcance directo del
+router de borde, cambia la posición de dicha mota para que necesite al menos un
+salto intermedio para llegar a la raíz.
+Registra el tiempo que tarda RPL en volver a converger el DODAG.
+Documenta el proceso y tus observaciones.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Ejercicio 5</p>
+<p>Captura los mensajes enviados por los nodos de la nueva red en un archivo <code>.pcap</code>.
+Analiza y reporta el tráfico RPL generado durante el proceso de construcción del DAG.
+A partir de esta información, deduce la topología de la red, identificando el padre
+preferente de cada nodo.</p>
+</div></div>
             </div>
         </div>
 
