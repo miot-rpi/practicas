@@ -1,28 +1,28 @@
-site_name: Master IoT UCM - Prácticas RPI/ANIOT/LSI (25/26)
+site_name: Máster IoT UCM - Prácticas (26/27)
 extra_javascript:
   - https://code.jquery.com/jquery-3.7.1.min.js
   - https://code.jquery.com/jquery-3.6.0.min.js
   - js/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 markdown_extensions:
-    - admonition
-    - tables
-    - footnotes
-    - pymdownx.arithmatex:
-        generic: true
+  - admonition
+  - tables
+  - footnotes
+  - pymdownx.arithmatex:
+      generic: true
 nav:
-    - Calendario: index.md
-    - RPI-I: 
+  - Calendario: index.md
+  - RPI-I:
       - LAB1. Introducción al entorno de desarrollo ESP-IDF: RPI-I/P1/index.md
       - LAB2. WiFi en el ESP32: RPI-I/P2/index.md
-      - 'LAB3. WiFi: provisionamiento y ahorro de energía': RPI-I/P3/index.md
+      - "LAB3. WiFi: provisionamiento y ahorro de energía": RPI-I/P3/index.md
       - LAB4. ESP WiFi Mesh: RPI-I/P4/index.md
-      - 'LAB5. BLE: servidor GATT': RPI-I/P5/index.md
-      - 'LAB6. BLE: cliente GATT': RPI-I/P6/index.md
+      - "LAB5. BLE: servidor GATT": RPI-I/P5/index.md
+      - "LAB6. BLE: cliente GATT": RPI-I/P6/index.md
       - LAB7. BLE Mesh: RPI-I/P7/index.md
-      - LAB9. 6LoWPAN y simulador Cooja: RPI-I/P9/index.md
-      - LAB10. LoRa y LoRaWan: RPI-I/P10/index.md
-    - RPI-II: 
+      - LAB8. 6LoWPAN y simulador Cooja: RPI-I/P8/index.md
+      - LAB9. LoRa y LoRaWAN: RPI-I/P9/index.md
+  - RPI-II:
       - Práctica 1 (I): RPI-II/P1_I/index.md
       - Práctica 1 (II): RPI-II/P1_III/index.md
       - Práctica 2: RPI-II/P2/index.md
@@ -31,7 +31,7 @@ nav:
       - Práctica 4 (II): RPI-II/P4_II/index.md
       - Práctica 5: RPI-II/P5/index.md
       - Práctica 6: RPI-II/P6/index.md
-    - ANIOT: 
+  - ANIOT:
       - Práctica 1: ANIOT/P1/index.md
       - Práctica 1b: ANIOT/P1b/index.md
       - Práctica 2: ANIOT/P2/index.md
@@ -42,11 +42,11 @@ nav:
       - Práctica 7: ANIOT/P7/index.md
       - Práctica 7 (adicional): ANIOT/P7/index2.md
       - Práctica 8: ANIOT/P8/index.md
-    - LSI:
-      - Práctica 0: LSI/Lab0/index.md
-      - Práctica 1: LSI/Lab1/index.md
-      - Práctica 2: LSI/Lab2/index.md
-      - Práctica 3: LSI/Lab3/index.md
-      - Práctica 4: LSI/Lab4/index.md
-      - Práctica 5: LSI/Lab5/index.md
-      - Práctica 6: LSI/Lab6/index.md
+  #- LSI:
+  #- Práctica 0: LSI/Lab0/index.md
+  #- Práctica 1: LSI/Lab1/index.md
+  #- Práctica 2: LSI/Lab2/index.md
+  #- Práctica 3: LSI/Lab3/index.md
+  #- Práctica 4: LSI/Lab4/index.md
+  #- Práctica 5: LSI/Lab5/index.md
+  #- Práctica 6: LSI/Lab6/index.md

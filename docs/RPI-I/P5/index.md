@@ -798,7 +798,7 @@ observa como en la salida de depuración del ESP32 se muestran los mensajes
 correspondientes al proceso de emparejamiento.
 
 !!! danger "Ejercicio 2"
-    Documenta el proceso de conexión con `gatttool` en  informe de la práctica.
+    Documenta el proceso de conexión con `gatttool` en el informe de la práctica.
 
 Desde la terminal de `gatttool`, puedes ejecutar en cualquier momento la 
 orden `help` para obtener ayuda (en forma de lista de comandos disponibles):

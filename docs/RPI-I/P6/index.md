@@ -15,14 +15,14 @@ El desarrollo de esta práctica requiere el uso de dos placas: una ejecutando el
 
 # Descripción del código de ejemplo
 
-El ejemplo que seguiremos y adaptaremos se encuentra en la carpeta de ejemplos de ESP-IDF en [bluetooth/bluedroid/ble/gatt_client/main](../main). El archivo [gattc_demo.c](../main/gattc_demo.c) contiene todas las funcionalidades que vamos a revisar. 
+El ejemplo que seguiremos y adaptaremos se encuentra en la carpeta de ejemplos de ESP-IDF en `bluetooth/bluedroid/ble/gatt_client/main`. El archivo `gattc_demo.c` contiene todas las funcionalidades que vamos a revisar. 
 
 !!! note "Nota"
     Antes de comenzar, asegúrate de que la variable `remote_device_name` NO coincide con la de tu servidor GATT.
 
 ## Ficheros de cabecera
 
-Observa los ficheros de cabecera incluidos en [gattc_demo.c](../main/gattc_demo.c) (similares a los de la práctica anterior):
+Observa los ficheros de cabecera incluidos en `gattc_demo.c` (similares a los de la práctica anterior):
 
 ```c
 #include <stdint.h>

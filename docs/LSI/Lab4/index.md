@@ -290,7 +290,7 @@ Para mejorar la precisión del modelo, se utiliza la técnica de aumento de dato
 técnica es exponer nuevas "variantes" de la imagen original para enriquecer la información almacenada. Estas transformaciones
 incluyen recortes (*cropping*), modificación de orientación (*flipping*) y distorsiones de color. Por ejemplo:
 
-![](img/Augmentation.jpeg)
+![](img/augmentation.jpeg)
 
 ### Conjuntos de entrenamiento
 

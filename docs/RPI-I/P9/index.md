@@ -1,338 +1,283 @@
-# LAB9. 6LoWPAN y simulador Cooja
+# LAB9. LoRa y LoRaWAN
 
 ## Introducción y objetivos
 
-Los routers de borde son enrutadores que pueden encontrarse en el borde de una
-red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
-función, en definitiva, es conectar una red con otra.
+En esta práctica vamos a utilizar la tecnología LoRa para comunicar nuestros
+nodos ESP32 con el router/gateway LoRaWAN y los servicios del cloud de The Things Network (TTN).
 
-En esta práctica, usaremos el simulador Cooja, del proyecto Contiki-NG, para
-construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL
-(*Routing Protocol for Low-Power and Lossy Networks*) como
-algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-NG.
-Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
-red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
-siguiente diagrama:
+El nodo ESP32 con el que hemos venido trabajando no dispone de radio LoRa
+incorporada, por lo que deberemos conectar un transceptor externo antes de poder
+utilizar esta tecnología para nuestras comunicaciones. Asimismo, para la
+conexión con los servidores de TTN necesitaremos un gateway LoRaWAN. Por motivos
+prácticos usaremos un único gateway para toda la clase, que será configurado por
+el profesor, aunque la memoria de la práctica detalla los pasos a seguir para su
+configuración y registro en TTN.
 
-![](img/diagram.png)
+## LoRaWAN y The Things Network (TTN)
 
-El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
-tanto una red RPL con Contiki-NG en el simulador Cooja, así como conseguir
-hacerla interactuar con una segunda red externa real utilizando la herramienta
-`tunslip`.
+En la arquitectura LoRaWAN, los nodos envían mensajes por radio. Cualquier gateway
+al alcance puede recibirlos y reenviarlos por Internet al servidor de red (Network Server)
+correspondiente, el cual elimina los mensajes duplicados y los reenvía al
+servidor de aplicaciones (Application Server) configurado.
 
-## Instalación de Cooja 
+[The Things Network (TTN)](https://www.thethingsnetwork.org/) es una red abierta
+en la que cualquier entidad puede crear una cuenta y registrar gateways y/o
+nodos. Los paquetes capturados por cualquier gateway de la red TTN se envían
+a su servidor de red, que a su vez los reenvía al servidor de aplicaciones,
+el cual ofrece un dashboard al usuario para visualizar los datos recibidos.
 
-Se ofrecen dos alternativas para instalar y usar el simulador Cooja:
+Las siguientes subsecciones describen los elementos que necesitamos para montar
+una red LoRaWAN con nodos ESP32 que envíen datos a un gateway LoRaWAN conectado a
+la red TTN.
 
-- Instalación mediante contenedores Docker.
-- Uso de una máquina virtual de VirtualBox proporcionada por el profesor.
+### Registro de gateway en TTN
 
-### Alternativa 1: instalación con Docker
+Para poder desplegar nuestra red, lo primero que debemos hacer es registrar un
+gateway en TTN. Esto no lo puede hacer cada estudiante ya que sólo disponemos
+de un gateway, pero aquí se documentan los pasos a seguir.
 
-A continuación, indicamos los pasos a seguir para realizar la instalación del
-software necesario en un sistema GNU/Linux. Los detalles de instalación para
-Windows y macOS están en la [*getting started guide* de
-Contiki-NG](https://docs.contiki-ng.org/en/develop/doc/getting-started/Docker.html).
+Primero, accedemos a TTN y nos registramos si no tenemos cuenta.
+Una vez conectados, se muestra el dashboard:
 
-Comenzaremos por instalar Docker si no lo tenemos instalado ya, haciendo:
+![](img/ttn-dashboard.png)
 
-```sh
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-```
+En el panel izquierdo pulsamos en *Gateways* y luego en *Register gateway*
+en el lado derecho de la ventana. Nos aparecerá una nueva ventana en la que tendremos
+que introducir el ID único del gateway (GatewayEUI) que vendrá en la
+pegatina de la tapa inferior del mismo (marcado como M2 EUI):
 
-Si nuestro usuario no pertenece al grupo Docker, lo añadimos:
+![](img/ttn-create-gateway.png)
 
-```sh
-sudo usermod -aG docker <your-user>
-```
+Damos entonces a *Register gateway* y quedará registrado en nuestro dashboard:
 
-Después, será necesario reiniciar el sistema para completar la instalación
-y actualizar la lista de grupos del usuario.
+![](img/ttn-create-gateway-done.png)
 
-A continuación, descargaremos la imagen Docker de Contiki-NG:
+Sólo nos falta crear una API key para permitir la conexión del gateway. Para ello,
+seleccionamos *API keys* en el panel izquierdo del dashboard (bajo el gateway que hemos
+creado) y pulsamos el botón *Add API key* en el lado derecho de la ventana.
+Rellenamos los datos y pulsamos *Create API key*:
 
-```sh
-docker pull contiker/contiki-ng
-```
+![](img/ttn-gateway-api-key.png)
 
-Una vez descargada la imagen, clonaremos el repositorio git de Contiki-NG (por
-ejemplo, en nuestro directorio home):
+En este punto, se abrirá una ventana que nos permitirá copiar la API key generada,
+necesaria después para configurar nuestro gateway.
 
-```sh 
-git clone https://github.com/contiki-ng/contiki-ng.git
-cd contiki-ng
-git submodule update --init --recursive
-```
+### Gateway Laird Sentrius RG186
 
-A continuación, crearemos el script `$HOME/.local/bin/contiker` con permisos de ejecución, el cual
-usaremos en el futuro para lanzar el contenedor Docker. El contenido de este script será:
+El proceso de configuración del gateway tampoco puede hacerlo el estudiante,
+ya que sólo disponemos de un gateway LoRaWAN comercial, concretamente el modelo Sentrius RG186 de Laird.
+De todas maneras, a continuación se describe el procedimiento que deberíamos seguir para configurar dicho
+gateway y conectarlo con TTN.
 
-```bash
-#!/bin/bash
+Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz Wi-Fi.
+Para ello, pulsaremos el botón de usuario durante unos 10 segundos y luego lo soltamos.
+Esto configurará un punto de acceso Wi-Fi con SSID y contraseña *rg1xx294c1f*, al cual podremos conectarnos desde nuestro PC.
 
-export CNG_PATH=$HOME/contiki-ng
-xhost +SI:localuser:$(id -un)
-docker run --privileged --sysctl net.ipv6.conf.all.disable_ipv6=0 \
-  --mount type=bind,source=$CNG_PATH,destination=/home/user/contiki-ng \
-  -e DISPLAY=$DISPLAY -e LOCAL_UID=$(id -u $USER) -e LOCAL_GID=$(id -g $USER) \
-  -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/bus/usb:/dev/bus/usb \
-  -ti contiker/contiki-ng
-xhost -SI:localuser:$(id -un)
-```
+Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
+usuario y la contraseña (`sentrius` y `RG1xx`).
+Selecionamos la opción LoRa en el menú superior.
+En el panel izquierdo, pulsaremos en *Forwarder* y, en el panel central, seleccionaremos el
+modo *Semtech Basics Station*.
 
-En este momento, si añadimos la ruta `$HOME/.local/bin` a la variable
-*PATH*, podemos ejecutar el contenedor de Contiki-NG ejecutando el script
-`contiker` y, una vez dentro del contenedor, ejecutar el simulador Cooja:
+A su vez, tendremos que proporcionar la URL del servidor de red (campo *LNS server*),
+el certificado del servidor (*Server Certificate File*) y el *Key File*,
+siguiendo estas [instrucciones](https://www.thethingsindustries.com/docs/gateways/concepts/lora-basics-station/lns/)
+y utilizando la API key generada en TTN para el gateway:
 
-```sh 
-$ contiker
-localuser:user being added to access control list
-To run a command as administrator (user "root"), use "sudo <command>".
-See "man sudo_root" for details.
+![](img/ttn-rg1xx-gateway-config.png)
 
-user@e2d84745c836:~/contiki-ng$ cooja
-```
+Ahora ya podemos conectar el gateway a TTN mediante su interfaz Ethernet o
+activar su interfaz Wi-Fi (previamente configurada en el panel web).
+Si todo ha ido correctamente, veremos en el dashboard de TTN que nuestro gateway se ha conectado:
 
-La primera vez que lo ejecutemos tardará un poco porque se descargará una serie
-de archivos Java necesarios para el simulador. Es posible que se produzca un
-error en la resolución de nombres (DNS). En ese caso, debemos configurar el DNS
-de Docker:
+![](img/ttn-rg1xx-gateway-connected.png)
 
-```sh 
-dockerd --dns 8.8.8.8
-```
+### Registro de aplicación en TTN
 
-### Alternativa 2: uso de máquina virtual
+Una vez registrado el gateway, debemos registrar una aplicación en TTN a la que
+se vincularán nuestros nodos.
+Esta parte ya podéis realizarla los estudiantes con vuestra propia cuenta de TTN.
+Para ello, pulsamos en *Applications* en el panel izquierdo del dashboard y acto
+seguido en *Add application* en la parte derecha de la ventana. En este punto,
+rellenamos los datos de la aplicación:
 
-Si no tenemos VirtualBox instalado en nuestro equipo, lo primero será instalarlo
-descargando el instalador desde la página oficial de [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+![](img/ttn-add-application.png)
 
-A continuación, descargaremos la máquina virtual Debian con Contiki-NG instalado
-desde [este enlace de Google
-Drive](https://drive.google.com/file/d/1RMv7yfqvhENRwD1GXS_5Qw5suOLt_98c/view?usp=sharing).
-Se trata de un archivo .ova que tendremos que importar en VirtualBox.
+Finalmente, pulsamos *Create application* y se mostrará el dashboard de la aplicación,
+el cual nos permitirá añadir nodos como se indica en la siguiente subsección.
 
-Una vez importado, podemos arrancar la máquina virtual (el usuario es *user* y la
-contraseña *contiki*).
-Para arrancar el simulador, bastará con abrir una terminal y ejecutar el comando *cooja*.
-El repositorio de Contiki-NG se encuentra en un directorio con el mismo nombre dentro del home del usuario *user*.
+### Registro de end devices
 
-## Código Contiki-NG
+Al principio, el dashboard de la aplicación creada aparecerá vacío:
 
-En el desarrollo de la práctica utilizaremos algunos de los ejemplos incluidos en la
-instalación de Contiki-NG (ubicados en el directorio `contiki-ng/examples`):
+![](img/ttn-add-application-done.png)
 
-* `rpl-border-router/border_router.c`: contiene la lógica de enrutamiento
-  del router de borde, que será la raíz del DODAG (*Destination-Oriented Directed Acyclic Graph*).
-* `hello-world/hello-world.c`: será ejecutado por el resto de nodos de la red RPL.
+Para añadir un nodo pulsamos en *Register end device*.
+Como vamos a crear un nodo final a partir de un ESP32, debemos seleccionar *Enter end device specifics manually*.
+Si tuvieramos un nodo comercial podríamos darlo de alta escaneando un QR o seleccionándolo en el menú desplegable.
 
-Los nodos que ejecuten el código `hello-world.c` formarán un DAG con el
-router de borde configurado como raíz. Este router recibirá el prefijo de
-red a través de una conexión SLIP (*Serial Line Interface Protocol*) y lo comunicará al
-resto de nodos de la red RPL para que configuren sus respectivas direcciones IPv6
-globales. Una vez recibido el prefijo, el router de borde se configura como
-raíz del DODAG y envía el prefijo al resto de nodos de la red.
+A continuación, introducimos los datos tal como se muestra en la figura siguiente,
+seleccionando como JoinEUI/AppEUI el identificador que queramos:
 
-## Simulación en Cooja
+![](img/ttn-add-end-device-esp32.png)
 
-Para crear una simulación completa en Cooja, arrancamos el simulador usando el
-siguiente comando:
+Al pulsar en *Confirm*, se mostrarán nuevos campos a introducir o generar:
+el ID del dispositivo (DevEUI) y la clave de aplicación (AppKey).
+Pulsaremos *Generate* en ambos casos y guardaremos los valores generados
+(posteriormente tendremos que configurarlos en el firmware del nodo que desarrollemos).
 
-```sh
-To run a command as administrator (user "root"), use "sudo <command>".
-See "man sudo_root" for details.
+Finalmente, asignamos un nombre/ID a nuestro dispositivo y pulsamos *Register end device*
+para completar el proceso:
 
-user@e2d84745c836:~/contiki-ng$ cooja
-```
+![](img/ttn-add-end-device-esp32-filled.png)
 
-Si estamos utilizando la máquina virtual, basta con ejecutar Cooja desde un terminal.
-De aquí en adelante se pueden ignorar todos los detalles relativos a Docker si
-hemos optado por usar la máquina virtual.
+### Transceptor HopeRFM95W
 
-Si todo ha ido correctamente, debería aparecer la ventana principal del simulador:
+El dispositvo [HopeRFM95W](https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&/modules/index.html&gad_source=1&gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB)
+es un pequeño transceptor LoRa que puede conectarse por SPI a cualquier
+microcontrolador para dotarlo de conectividad LoRa.
+Han salido al mercado varios modelos de *breakout boards* que permiten adaptar este transceptor a una
+*breadboard* y así poder usar cables estándar para conectar el transceptor a
+nuestro nodo ESP32.
 
-![](img/Cooja_Window.png)
+La siguiente imagen muestra el esquema de una de estas placas de *breakout*,
+fabricada por Adafruit:
 
-A partir de ahora, sigue los pasos indicados para crear una simulación en Cooja.
+![](img/adafruit_products_3070_kit_ORIG.jpg)
+
+Para conectar el transceptor a la placa de desarrollo ESP32-C3 DevKit Rust, debemos colocar ambos sobre una breadboard.
+Debido a la anchura del transceptor, no tendremos acceso a los pines por los dos lados,
+por lo que será necesario utilizar cables de puente (*jumper wires*) para sacar
+las conexiones de uno de los lados, dejando el otro accesible para conexiones directas.
+Lo más sencillo es sacar el pin G1 (cable bajo el transceptor), ya que es el único que necesitamos de ese lado.
+
+El pinout de la ESP32-C3 DevKit Rust es el siguiente:
+
+![](img/dev-kit-rust-pinout.png)
+
+Una posible conexión entre el transceptor y la ESP32-C3 DevKit Rust sería la
+siguiente:
+
+| Adafruit 3070   | ESP32-C3 DevKit Rust |  Función   |
+|-----------------|:--------------------:|:----------:|
+| RST             |      5               | Reset      |
+| CS              |      6               | SPI SS     |
+| MOSI            |      2               | SPI MOSI   |
+| MISO            |      3               | SPI MISO   |
+| SCK             |      4               | SPI CLK    |
+| G0              |      0               | DIO0       |
+| GND             |     GND              | GND        |
+| Vin             |     3.3 V            | 3.3 V      |
+| G1              |      1               | DIO1       |
+
+La siguiente figura muestra las dos placas conectadas con las conexiones
+indicadas en la tabla anterior:
+
+![](img/esp32-and-rfm95_adafruit.HEIC)
 
 !!! danger "Ejercicio 1"
-    Documenta con capturas de pantalla tanto la configuración que vas a realizar a continuación
-    como el resultado final que muestre el simulador.
+    Conecta el transceptor LoRa al ESP32-C3 DevKit Rust sobre vuestra breadboard siguiendo el pinout indicado anteriormente.
+    Incluye en la memoria una o varias fotos como las del ejemplo.
 
-Primero, selecciona la opción `File -> New simulation`.
-Selecciona `UDGM` como modelo de radio para simular las comunicaciones inalámbricas
-e introduce el nombre de la simulación. Presiona `Create` y se abrirá la ventana de simulación:
+### Código del nodo: librería ttn-esp32
 
-![](img/Cooja_New_Sim.png)
+La librería [ttn-esp32](https://github.com/manuelbl/ttn-esp32) es un componente
+para ESP-IDF que proporciona comunicación LoRaWAN con TTN.
+Soporta dispositivos conectados a transceptores Semtech SX127x. Esta librería
+soporta las siguientes características:
 
-En el menú `Motes` (mote = nodo de sensor simulado), selecciona `Add motes -> Create new mote type` y seleccona el
-tipo de mota `Cooja`.
-Luego selecciona como código fuente el archivo del ejemplo para el router de borde: `examples/rpl-border-router/rpl-border-router.c`:
+- OTAA (activación/configuración remota, *Over-The-Air Activation*).
+- Mensajes uplink y downlink.
+- Almacenamiento de EUIs y claves en memoria no volátil.
+- Modo de bajo consumo y apagado sin necesidad de volver a unirse a la red.
+- Comandos AT para el provisionamiento de EUIs y claves (para que el mismo código pueda flashearse en varios dispositivos).
+- Soporte para las regiones de Europa, América del Norte y del Sur, Australia, Corea, Asia e India.
+- API en C y C++.
 
-![](img/Cooja_New_Mote.png)
+Para crear un proyecto que use esta librería, lo primero que haremos es clonar el
+repositorio de GitHub en nuestro equipo o descargar el .zip de la rama master:
 
-Pulsa en `Compile`, luego en `Create` y añade **una única** mota de este tipo.
-
-Repite los pasos anteriores para crear 4 motas de tipo `Cooja` que ejecuten el ejemplo `hello-world.c`.
-Distribúyelas por la simulación, asegurándote de que no todas estén al alcance directo del router de borde
-pero que puedan llegar a este pasando a través de otros nodos que sí estén dentro de su rango:
-
-![](img/RPL_Red_Ejemplo.png)
-
-A continuación, crearemos una conexión SLIP entre la red RPL simulada en Cooja y
-una máquina externa (ya sea un contenedor Docker o nuestra máquina virtual). Para ello, pulsa
-en el menú `Tools -> Serial Socket (SERVER)` y selecciona la mota correspondiente
-al router de borde (identifícala por su número o tipo):
-
-![](img/Cooja_Serial_Socket.png)
-
-Aparecerá un mensaje como el de la siguiente figura (observa que indica "**Listen port: 60001**").
-Pulsa `Start` para activar la conexión SLIP (en este caso, iniciar el socket TCP):
-
-![](img/Cooja_Serial_Listening.png)
-
-Finalmente, inicia la simulación pulsando `Start/Pause` en la ventana principal del simulador.
-Revisa la ventana `Network` y la salida de las motas en la ventana `Mote output`.
-
-## Asignando el prefijo de red
-
-Como ya se ha comentado, un router de borde actúa como enlace para conectar una red con
-otra. En este ejemplo, el router de borde se utiliza para establecer una ruta de datos
-entre la red RPL y una máquina externa (ya sea un contenedor Docker o nuestra máquina virtual).
-Para ello, utilizaremos la herramienta *tunslip6* proporcionada por Contiki-NG
-en el directorio `tools/serial-io`, que se puede compilar de la siguiente forma:
-
-```sh
-make tunslip6
+```sh 
+git clone https://github.com/manuelbl/ttn-esp32.git
 ```
 
-Una vez compilado, ejecutamos el binario resultante para establecer una conexión
-entre la red RPL y la máquina externa:
+o
 
-```sh
-sudo ./tunslip6 -a 127.0.0.1 -p 60001 aaaa::1/64
+```sh 
+wget https://github.com/manuelbl/ttn-esp32/archive/master.zip
+unzip master.zip
 ```
 
-Si la ejecución se ha realizado correctamente, aparecerá una salida similar a la siguiente:
+Después, copiaremos el ejemplo `examples/hello_world_in_c` que viene con la librería en 
+un nuevo directorio. Dentro de la copia creamos un directorio *components* y
+dentro copiamos toda la librería *ttn-esp32*. La estructura final del proyecto será:
 
 ```sh
-slip connected to ``127.0.0.1:60001''
-opened tun device ``/dev/tun0''
-ifconfig tun0 inet `hostname` mtu 1500 up
-ifconfig tun0 add aaaa::1/64
-ifconfig tun0 add fe80::0:0:0:1/64
-ifconfig tun0
-
-tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
-        inet 127.0.1.1  netmask 255.255.255.255  destination 127.0.1.1
-        inet6 fe80::1  prefixlen 64  scopeid 0x20<link>
-        inet6 aaaa::1  prefixlen 64  scopeid 0x0<global>
-        inet6 fe80::93d:daef:6b56:52a7  prefixlen 64  scopeid 0x20<link>
-        unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 500  (UNSPEC)
-        RX packets 0  bytes 0 (0.0 B)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 0  bytes 0 (0.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-...
-
-*** Address:aaaa::1 => aaaa:0000:0000:0000
-[INFO: BR        ] Waiting for prefix
-[INFO: BR        ] Server IPv6 addresses:
-[INFO: BR        ]   aaaa::201:1:1:1
-[INFO: BR        ]   fe80::201:1:1:1
+hello_world_in_c/
++- CMakeLists.txt
++- components/
+|  +- ttn-esp32
+|     +- ...
++- main/
+|   - CMakeLists.txt
+|   - main.c
 ```
 
-La herramienta *tunslip6* ha creado una interfaz puente `tun0` con IPv4 127.0.1.1 y ha
-enviado, a través de la conexión serie, un mensaje de configuración al router de borde indicándole el
-prefijo IPv6 deseado para todos los nodos de la red RPL (`aaaa::/64`).
-Las dos últimas líneas de la salida anterior indican cuáles son las direcciones
-IPv6 del router de borde tras recibir el prefijo.
+Si echamos un vistazo al fichero *main.c*, veremos que el programa se conectará a
+TTN y después empezará a enviar mensajes `Hello, world` uplink (hacia
+el servidor de aplicaciones) cada segundo.
 
-Vuelve al simulador Cooja y observa el mensaje que ha aparecido en la ventana `Serial Socket (SERVER)`
-(apartado *status*).
+El programa debe configurar los valores de una serie de constantes y macros, que determinan, por un
+lado, los IDs del nodo para TTN y, por otro, los pines utilizados para la conexión del ESP32 con el transceptor LoRa.
 
-## Verificación de resultados
+Para los IDs del nodo en TTN, usaremos los datos obtenidos al registar el nodo en TTN:
 
-Es posible verificar la dirección IPv6 del router de borde realizando un ping
-desde tu contenedor o máquina virtual:
-
-```sh
-user@e2d84745c836:~/contiki-ng$ ping6 aaaa::201:1:1:1
-PING aaaa::201:1:1:1(aaaa::201:1:1:1) 56 data bytes
-64 bytes from aaaa::201:1:1:1: icmp_seq=1 ttl=64 time=17.7 ms
-64 bytes from aaaa::201:1:1:1: icmp_seq=2 ttl=64 time=44.8 ms
-64 bytes from aaaa::201:1:1:1: icmp_seq=3 ttl=64 time=10.4 ms
-^C
+```c 
+// AppEUI (sometimes called JoinEUI)
+const char *appEui = "0101010101010101";
+// DevEUI
+const char *devEui = "70B3D57ED006B7B2";
+// AppKey
+const char *appKey = "8427407CC943D5B188160CC89F176846";
 ```
 
-Así como la IPv6 de cualquier otro nodo de la red. Por ejemplo, para el nodo 5:
+Para la conexión entre el ESP32 y el transceptor (indicada arriba en la tabla), la configuración de pines sería la siguiente:
 
-```sh
-user@e2d84745c836:~/contiki-ng$ ping6 aaaa::205:5:5:5
-PING aaaa::205:5:5:5(aaaa::205:5:5:5) 56 data bytes
-64 bytes from aaaa::205:5:5:5: icmp_seq=1 ttl=61 time=6.56 ms
-64 bytes from aaaa::205:5:5:5: icmp_seq=2 ttl=61 time=17.2 ms
-64 bytes from aaaa::205:5:5:5: icmp_seq=3 ttl=61 time=6.38 ms
-^C
+```c 
+#define TTN_SPI_HOST      SPI2_HOST
+#define TTN_SPI_DMA_CHAN  SPI_DMA_DISABLED
+#define TTN_PIN_SPI_SCLK  4
+#define TTN_PIN_SPI_MOSI  2
+#define TTN_PIN_SPI_MISO  3
+#define TTN_PIN_NSS       6
+#define TTN_PIN_RXTX      TTN_NOT_CONNECTED
+#define TTN_PIN_RST       5
+#define TTN_PIN_DIO0      0
+#define TTN_PIN_DIO1      1
 ```
 
-La dirección IPv6 de cada nodo puede obtenerse filtrando en la ventana `Mote output`
-según el ID del nodo (mota).
+Una vez configurado el fichero fuente *main.c*, ejecutaremos menuconfig para
+configurar la librería *ttn-esp32*. Al final del menú, 
+encontraremos la entrada *The Things Network*, que configuraremos tal
+como se muestra en la siguiente captura:
+
+![](img/ttn-esp32-menuconfig.png)
+
+En este punto, podemos compilar el proyecto y flashearlo en la placa.
+Monitorizamos el dispositivo y, si todo ha ido correctamente, veremos en el dashboard de nuestra
+aplicación TTN cómo se reciben los mensajes.
+
+La aplicación envía el mensaje `Hello, world`, pero el dashboard muestra el payload del mensaje en hexadecimal.
+Podemos usar la herramienta web [RapidTables](https://www.rapidtables.com/convert/number/ascii-to-hex.html)
+para convertir rápidamente el payload hexadecimal a ASCII y comprobar que el mensaje recibido es correcto.
 
 !!! danger "Ejercicio 2"
-	  Mientras haces ping a uno de los nodos, vuelve al simulador Cooja y explica lo que
-	  ocurre en la ventana `Network`. Ajusta la velocidad de simulación a 1X para poder
-	  seguir la transmisión en tiempo real.
-
-## Captura de paquetes para análisis
-
-En el simulador Cooja, desde el menú `Tools` podemos abrir la ventana de `Radio Messages`.
-Esta ventana permite capturar todos los paquetes de la simulación y generar un archivo
-`.pcap` para su posterior análisis con Wireshark.
-Para ello, en el menú `Analyzer` de la ventana `Radio Messages` seleccionamos la opción
-`6LoWPAN Analyzer with PCAP`.
-
-A continuación, reiniciamos la simulación anterior pulsando el botón `Reload` en la ventana
-principal de Cooja. Esto interrumpirá la comunicación con la máquina externa, por lo que
-será necesario volver a ejecutar *tunslip6*.
-
-Ahora estamos listos para volver a simular la red capturando todos los paquetes
-enviados entre los nodos.
-Dejamos que la simulación se ejecute durante un tiempo y luego la paramos.
-Cooja habrá generado un archivo `radiolog-<n>.pcap`, donde `<n>` será un número aleatorio,
-en el directorio desde el que se haya lanzado Cooja.
-
-En Wireshark podemos filtrar los paquetes relacionados con el protocolo RPL y
-buscar los mensajes `Destination Advertisement Object (DAO)` que los nodos
-envían hacia la raíz indicando el nodo que han elegido como padre.
-Por ejemplo, en la siguiente captura podemos observar que el nodo 3 envía su DAO indicando que
-escoge al nodo 4 como padre:
-
-![](img/Wireshark_RPL_DAO.png)
-
-Esto es razonable para la topología escogida en la simulación en la que el nodo
-3 no tiene al nodo 1 dentro del alcance de radio, pero sí al nodo 4, que está a un salto
-del nodo raíz:
-
-![](img/RPL_Red_Ejemplo.png)
+    Crea y configura un proyecto con *ttn-esp32* siguiendo los pasos anteriores.
+    Ejecútalo para que tu ESP32 conectado al transceptor y al gateway
+    pueda enviar datos a la aplicación que hayas registrado con tu cuenta en TTN.
+    Incluye en la memoria las capturas de pantalla necesarias.
 
 !!! danger "Ejercicio 3"
-	  Crea una red RPL con un router de borde y 10 motas de tipo `Cooja`.
-	  Conéctala a tu red local mediante *tunslip6*.
-    Asegúrate de que no todos los nodos estén al alcance del router de borde (implementa 3 niveles).
-    Comprueba la conectividad con todas las motas y documenta el proceso.
-
-!!! danger "Ejercicio 4"
-    Con una ejecución de ping activa sobre una mota al alcance directo del
-    router de borde, cambia la posición de dicha mota para que necesite al menos un
-    salto intermedio para llegar a la raíz.
-    Registra el tiempo que tarda RPL en volver a converger el DODAG.
-    Documenta el proceso y tus observaciones.
-
-!!! danger "Ejercicio 5"
-    Captura los mensajes enviados por los nodos de la nueva red en un archivo `.pcap`.
-    Analiza y reporta el tráfico RPL generado durante el proceso de construcción del DAG.
-    A partir de esta información, deduce la topología de la red, identificando el padre
-    preferente de cada nodo.
+    Modifica el código para que se envíen mensajes con el payload {0xAA, 0xBB,
+    0xCC, 0xDD} y comprueba en el dashboard que se reciben correctamente.
+    Incluye en la memoria las capturas de pantalla necesarias.

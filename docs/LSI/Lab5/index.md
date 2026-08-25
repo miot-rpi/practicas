@@ -77,7 +77,9 @@ dl::TensorBase *model_output = model_outputs.begin()->second;
 ```
 
 Puedes obtener los nombres de entrada/salida y sus respectivos objetos `dl::TensorBase` usando las APIs `get_inputs()` y `get_outputs()`.  
+<!--
 Para más información, consulta la [documentación de dl::TensorBase](../api_reference/tensor_api).
+-->
 
 > **Nota:**  
 > El gestor de memoria de ESP-DL asigna un único bloque de memoria para las entradas, resultados intermedios y salidas del modelo. Como se comparte esta memoria, durante la inferencia, los resultados posteriores sobrescriben a los anteriores. Es decir, los datos de `model_input` pueden ser sobrescritos por `model_output` u otros resultados intermedios una vez finalizada la inferencia.
