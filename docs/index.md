@@ -33,18 +33,18 @@
 
 | Práctica | Día   | Título                                       |
 |----------|-------|-----------------------------------------------------------------|
-|          | 23/09 | Presentación del curso                                                 |
-| 1        | 30/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
-| 1        | 07/10 | [Depuración, loggging y monitorización de rendimiento](ANIOT/P1b/index.md)     |
-| 2        | 14/10 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
-| 3        | 21/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
-| 3        | 28/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
-| 4        | 4/11 |  [I2C](ANIOT/P4/index.md)                         |
-| 4        | 11/11 | [I2C (sesión 2)](ANIOT/P4/index.md)                         |
-| 5        | 18/11 | [ADC](ANIOT/P5/index.md)                          |
-| 6        | 25/11 | [Modos de consumo](ANIOT/P6/index.md)                          |
-| 7        | 2/12 | [OTA](ANIOT/P7/index.md). [Parte adicional (OTA en Thingsboard)](ANIOT/P7/index2.md)  |
-| 8        | 9/12 | [Arranque seguro y encriptación](ANIOT/P8/index.md)             |
+|          | 22/09 | Presentación del curso                                                 |
+| 1        | 29/09 | [Introducción al entorno. GPIO](ANIOT/P1/index.md)     |
+| 1        | 06/10 | [Depuración, loggging y monitorización de rendimiento](ANIOT/P1b/index.md)     |
+| 2        | 13/10 | [Entorno de compilación. Timers](ANIOT/P2/index.md)                           |
+| 3        | 20/10 | [Tarea y  eventos](ANIOT/P3/index.md) |
+| 3        | 27/10 | [Tarea y  eventos (sesión 2)](ANIOT/P3/index.md)                              |
+| 4        | 3/11  |  [I2C](ANIOT/P4/index.md)                         |
+| 4        | 10/11 | [I2C (sesión 2)](ANIOT/P4/index.md)                         |
+| 5        | 17/11 | [ADC](ANIOT/P5/index.md)                          |
+| 6        | 24/11 | [Modos de consumo](ANIOT/P6/index.md)                          |
+| 7        | 1/12  | [OTA](ANIOT/P7/index.md). [Parte adicional (OTA en Thingsboard)](ANIOT/P7/index2.md)  |
+| 8        | 15/12 | [Arranque seguro y encriptación](ANIOT/P8/index.md)             |
 |          | 16/12 | Proyecto                                                        |
 
 <!---
