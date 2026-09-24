@@ -1,4 +1,4 @@
-# Práctica 1 (Apéndice). Programación con sockets en Python
+# Práctica 1 (4). Programación con sockets en Python
 
 ## Objetivos
 

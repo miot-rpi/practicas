@@ -1,4 +1,4 @@
-# Práctica 1 (Parte 3). Programación con sockets en el ESP32
+# Práctica 1 (2). Programación con sockets en el ESP32
 
 ## Objetivos
 

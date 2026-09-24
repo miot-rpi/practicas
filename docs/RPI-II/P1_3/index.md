@@ -1,4 +1,4 @@
-# Práctica 1 (apéndice). Introducción a Node-RED
+# Práctica 1 (3). Introducción a Node-RED
 
 ## Objetivos
 
