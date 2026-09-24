@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 4 (II) - Máster IoT UCM - Prácticas (26/27)</title>
+        <title>Práctica 1 (2) - Máster IoT UCM - Prácticas (26/27)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -83,11 +83,11 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../P1_I/" class="dropdown-item">Práctica 1 (I)</a>
+    <a href="../P1_1/" class="dropdown-item">Práctica 1 (1)</a>
 </li>
                                     
 <li>
-    <a href="../P1_III/" class="dropdown-item">Práctica 1 (II)</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Práctica 1 (2)</a>
 </li>
                                     
 <li>
@@ -99,11 +99,11 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">Práctica 4 (I)</a>
+    <a href="../P4_1/" class="dropdown-item">Práctica 4 (1)</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Práctica 4 (II)</a>
+    <a href="../P4_2/" class="dropdown-item">Práctica 4 (2)</a>
 </li>
                                     
 <li>
@@ -169,12 +169,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../P4/" class="nav-link">
+                                <a rel="prev" href="../P1_1/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../P5/" class="nav-link">
+                                <a rel="next" href="../P2/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -196,13 +196,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-4-el-protocolo-mqtt-ii-despliegue-de-clientes-en-el-esp32" class="nav-link">Práctica 4. El protocolo MQTT (II). Despliegue de clientes en el ESP32</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-1-2-programacion-con-sockets-en-el-esp32" class="nav-link">Práctica 1 (2). Programación con sockets en el ESP32</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#el-componente-mqtt-en-esp-idf" class="nav-link">El componente MQTT en ESP-IDF</a>
+            <li class="nav-item" data-bs-level="2"><a href="#sistemas-clienteservidor-en-el-esp32" class="nav-link">Sistemas cliente/servidor en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clienteservidor-udp-en-el-esp32" class="nav-link">Cliente/servidor UDP en el ESP32</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clienteservidor-tcp-en-el-esp32" class="nav-link">Cliente/servidor TCP en el ESP32</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -213,164 +221,175 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-4-el-protocolo-mqtt-ii-despliegue-de-clientes-en-el-esp32">Práctica 4. El protocolo MQTT (II). Despliegue de clientes en el ESP32</h1>
+<h1 id="practica-1-2-programacion-con-sockets-en-el-esp32">Práctica 1 (2). Programación con sockets en el ESP32</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
+<li>Familiarizarse con la API de <em>sockets</em> en ESP-IDF.</li>
+<li>Desarrollar esquemas básicos de sistemas cliente/servidor TCP y UDP
+  utilizando ESP-IDF.</li>
+<li>Diseñar un protocolo de capa de aplicación para simular una aplicación
+  cliente/servidor utilizando TCP y UDP para interactuar entre un host y 
+  la placa ESP32</li>
+</ul>
+<h2 id="sistemas-clienteservidor-en-el-esp32">Sistemas cliente/servidor en el ESP32</h2>
+<p>La razón por la que hemos ejercitado el uso de la API de sockets desde C
+en Linux es que la implementación de la pila TCP/IP en ESP-IDF 
+(llamada <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/lwip.html">Lightweight TCP/IP (lwIP)</a>) implementa al 100% dicha API. Por tanto, tanto
+la estructura básica de un <em>firmware</em> que implemente un cliente o servidor
+como la API utilizada permanece inalterada. </p>
+<p>En esta última sección, se pide trabajar con dos ejemplos básicos de implementación
+de sistemas cliente/servidor UDP y TCP sobre el ESP32, con el objetivo de estudiar
+su funcionalidad, comprobar su interoperabilidad y realizar modificaciones para
+adaptarlas a una hipotética aplicación IoT.</p>
+<h2 id="clienteservidor-udp-en-el-esp32">Cliente/servidor UDP en el ESP32</h2>
+<p>En esta parte, trabajarás con dos ejemplos proporcionados dentro de la colección
+de ejemplos de ESP-IDF. Por tanto, copia en tu espacio de trabajo (fuera del
+árbol principal de ESP-IDF) los ejemplos:</p>
+<ul>
+<li><strong>Servidor UDP</strong>: <code>examples/protocols/sockets/udp_server/</code></li>
+<li><strong>Cliente UDP</strong>: <code>examples/protocols/sockets/udp_client/</code></li>
+</ul>
+<h3 id="estructura-general">Estructura general</h3>
+<p>Observa sus códigos (<code>udp_server.c</code> para el servidor, y <code>udp_client.c</code> para el
+cliente). Comprueba que, tanto la estructura básica de ambos componentes como
+las invocaciones a la API de sockets concuerdan con las que vimos para el 
+sistema <em>echo</em> programado en C. </p>
+<p>Acerca de la tarea principal (función <code>app_main</code>) observa que realiza 
+una serie de llamadas a APIs de configuración de algunos subsistemas de
+FreeRTOS, principalmente:</p>
+<pre><code class="language-c">// Inicializa la partición NVS (Non-volatile storage) por defecto. 
+ESP_ERROR_CHECK(nvs_flash_init());
+// Inicializa la infraestructura ESP-NETIF.
+ESP_ERROR_CHECK(esp_netif_init());
+// Crea un bucle de eventos por defecto.
+ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+/* Esta función configura WiFi o Ethernet, tal y como seleccionemos via menuconfig.
+*/
+ESP_ERROR_CHECK(example_connect());
+
+xTaskCreate(udp_server_task, &quot;udp_server&quot;, 4096, NULL, 5, NULL);
+</code></pre>
+<ul>
 <li>
-<p>Familiarizarse con el componente MQTT en ESP-IDF.</p>
+<p><code>example_connect()</code>, función que no forma parte de ESP-IDF, establece una 
+conexión WiFi o Ethernet. La función es bloqueante, y retorna cuando se ha
+conseguido establecer una conexión.</p>
 </li>
 <li>
-<p>Desplegar un cliente completo MQTT en el ESP32, incluyendo rutinas de publicación y suscripción.</p>
+<p>Las características de la conexión WiFi (SSID y contraseña) se deben proporcionar
+a través de <code>menuconfig</code>.</p>
 </li>
 <li>
-<p>Implementar QoS y LWT en el ESP32.</p>
-</li>
-</ul>
-<h2 id="el-componente-mqtt-en-esp-idf">El componente MQTT en ESP-IDF</h2>
-<p>El componente ESP-MQTT es una implementación del protocolo MQTT en su parte
-cliente, que permite la implementación completa de clientes MQTT en el ESP32,
-incluyendo rutinas de publicación y suscripción a <em>brokers</em> existentes.</p>
-<p>El componente soporte MQTT sobre TCP por defecto, así como funcionalidades 
-avanzadas como SSL/TLS o MQTT sobre Websockets. Además, permite el despliegue
-de múltiples instancias de cliente MQTT sobre la misma placa; el componente
-implementa también parámetros avanzados soportados por el protocolo MQTT, como
-autenticación (mediante nombre de usuario y contraseña), mensajes <em>last will</em> y
-tres niveles de calidad de servicio (QoS).</p>
-<h3 id="eventos">Eventos</h3>
-<p>Como otros componentes, la interacción entre el cliente MQTT y la aplicación
-se basa en la recepción de eventos, entre los que destacan:</p>
-<ul>
-<li><code>MQTT_EVENT_BEFORE_CONNECT</code>: El cliente se ha inicializado y va a comenzar el
-proceso de conexión con el <em>broker</em>.</li>
-<li><code>MQTT_EVENT_CONNECTED</code>: El cliente ha establecido de forma exitosa una conexión 
-con el <em>broker</em> y está listo para enviar y recibir datos.</li>
-<li><code>MQTT_EVENT_DISCONNECTED</code>: El cliente ha abortado la conexión.</li>
-<li><code>MQTT_EVENT_SUBSCRIBED</code>: El <em>broker</em> ha confirmado la petición de suscripción
-del cliente. Los datos contendrán el ID del mensaje de suscripción.</li>
-<li><code>MQTT_EVENT_UNSUBSCRIBED</code>: El <em>broker</em> confirma la petición de <em>desuscripción</em>
-del cliente. Los datos contendrán el ID del mensaje de <em>desuscripción</em>.</li>
-<li><code>MQTT_EVENT_PUBLISHED</code>: El <em>broker</em> ha acusado la recepción de un mensaje
-previamente publicado por el cliente. Este evento sólo se producirá cuando QoS sea
-1 o 2, ya que el nivel 0 de QoS no utiliza acuses de recibo. Los datos asociados
-al evento contendrán el ID del mensaje publicado.</li>
-<li><code>MQTT_EVENT_DATA</code>: El cliente ha recibido un mensaje publicado en el <em>broker</em>.
-Los datos asociados al evento contienen el ID del mensaje, nombre del <em>topic</em>,
-datos recibidos y su longitud. </li>
-</ul>
-<h3 id="api">API</h3>
-<ul>
-<li><code>esp_mqtt_client_handle_t esp_mqtt_client_init(const esp_mqtt_client_config_t *config)</code></li>
-</ul>
-<p>Rutina de inicialización del cliente MQTT. Devuelve un manejador de la conexión,
-o <code>NULL</code> en caso de error. El parámetro <code>config</code> es una estructura con los 
-parámetros que regirán la conexión, entre los que destacan 
-(véase <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/mqtt.html#_CPPv424esp_mqtt_client_config_t">la documentación del componente</a>
-para parámetros adicionales):</p>
-<ul>
-<li><code>esp_event_loop_handle_t event_loop_handle</code>: manejador para eventos MQTT.</li>
-<li><code>const char *uri</code>: URI del <em>broker</em> MQTT.</li>
-<li><code>uint32_t port</code>: puerto del <em>broker</em> MQTT.</li>
-<li><code>const char *username</code>: nombre de usuario, en caso de estar soportado por el
-  <em>broker</em>.</li>
-<li><code>const char *password</code>: contraseña, en caso de estar soportada por el <em>broker</em>.</li>
-<li><code>const char *lwt_topic</code>: topic del mensaje LWT (<em>Last Will and Testament</em>).</li>
-<li><code>const char *lwt_msg</code>: contenido del mensaje LWT.</li>
-<li><code>int lwt_qos</code>: QoS del mensaje LWT.</li>
-<li><code>int lwt_retain</code>: flag <em>retain</em> para el mensaje LWT.</li>
-<li><code>int lwt_msg_len</code>: longitud del mensaje LWT.</li>
-<li>
-<p><code>int keepalive</code>: valor del temporizador de <em>keepalive</em> (por defecto 120 segundos).</p>
+<p>El objetivo de ESP-NETIF es proporcionar una capa de abstracción por encima de 
+  la pila TCP/IP, de modo que pueda migrarse la pila sin que los códigos del 
+  usuario cambien. Puedes consultar su documentación en la 
+  <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_netif.html">página oficial</a>.</p>
 </li>
 <li>
-<p><code>esp_err_t esp_mqtt_client_start(esp_mqtt_client_handle_t client)</code></p>
+<p>Por último, se crea una tarea que ejecutará la lógica del servidor (lo mismo
+  ocurre en el cliente).</p>
+</li>
+<li>
+<p>Observa que, en todo el código, los mensajes de error se anotan utilizando
+  la macro <code>ESP_LOGE</code> y los informativos con <code>ESP_LOGI</code>; intenta seguir este 
+  convenio en tus códigos.</p>
 </li>
 </ul>
-<p>Rutina de arranque del cliente MQTT. Su único parámetro es el manejador devuelto 
-por la anterior rutina.</p>
+<h3 id="despliegue-opcion-1">Despliegue. Opción 1</h3>
+<p>En este caso, desplegarás el cliente en un ESP32 y el servidor en otro. Si
+no dispones de dos ESP32, puedes trabajar con un compañero.</p>
+<p>En cualquier caso, ambos ESP32 deben pertenecer a la misma red inalámbrica,
+por lo que deberán conectarse a un mismo punto de acceso (el profesor te
+proporcionará los datos, o simplemente puedes utilizar tu punto de acceso
+doméstico). Configura los siguientes puntos de la infraestructura:</p>
 <ul>
-<li><code>int esp_mqtt_client_subscribe(esp_mqtt_client_handle_t client, const char *topic, int qos)</code></li>
+<li>
+<p>Configura el SSID y contraseña del punto de acceso vía <code>menuconfig</code> antes
+de compilar y flashear el código tanto en el cliente como en el servidor. </p>
+</li>
+<li>
+<p>En el servidor, configura vía <code>menuconfig</code> el puerto sobre el que escuchará.</p>
+</li>
+<li>
+<p>Arranca primero el nodo servidor y apunta la IP proporcionada por el punto de 
+ acceso; utilízala en el cliente para
+configurar la IP destino de la comunicación. No olvides configurar también
+el puerto destino de acuerdo al configurado en el servidor vía <code>menuconfig</code>.</p>
+</li>
 </ul>
-<p>Realiza la suscripción del cliente a un topic con el QoS determinado a través de 
-su tercer parámetro. El cliente debe estar conectado al <em>broker</em> para enviar
-el mensaje de suscripción.</p>
-<ul>
-<li><code>int esp_mqtt_client_unsubscribe(esp_mqtt_client_handle_t client, const char *topic)</code></li>
-</ul>
-<p><em>Desuscribe</em> al cliente de un determinado topic. El ciente debe estar conectado
-al <em>broker</em> para poder enviar el mensaje correspondiente.</p>
-<ul>
-<li><code>int esp_mqtt_client_publish(esp_mqtt_client_handle_t client, const char *topic, const char *data, int len, int qos, int retain)</code></li>
-</ul>
-<p>El cliente publica un mensaje en el <em>broker</em>. El cliente no tiene que estar conectado
-al <em>broker</em> para enviar el mensaje de publicación. En dicho caso, si <code>qos=0</code>, los
-mensajes se descartarán, y si <code>qos&gt;=1</code>, los mensajes se encolarán a la espera de 
-ser enviados. Devuelve el identificador del mensaje publicado (si <code>qos=0</code>, el valor
-de retorno siempre será 0), o <code>-1</code> en caso de error.</p>
-<p>Parámetros de interés:</p>
-<ul>
-<li><code>client</code>: manejador del cliente MQTT.</li>
-<li><code>topic</code>: topic (en forma de cadena) bajo el cual se publicará el mensaje.</li>
-<li><code>data</code>: contenido del mensaje a publicar (es posible publicar un mensaje sin
-  contenido, en cuyo caso se proporcionará un valor <code>NULL</code> en este parámetro).</li>
-<li><code>len</code>: longitud de los datos a enviar. Si se proporciona el valor <code>0</code>, se calcula
-  su longitud a partir de la cadena <code>data</code>.</li>
-<li><code>qos</code>: nivel de QoS deseado.</li>
-<li><code>retain</code>: flag <em>Retain</em>.</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Tarea 7</p>
-<p>Analiza el ejemplo <code>examples/protocols/mqtt/tcp</code>, y configuralo para que 
-utilice como <em>broker</em> el que desplegaste en tu máquina física o virtual (asegúrate
-de que tanto máquina virtual como ESP32 pertenecen a la misma red en el caso de estar utilizando una máquina virtual).</p>
-<p>Realiza procesos de publicación y suscripción en tu máquina que 
-permitan visualizar los mensajes publicados por el ESP32 en tu terminal
-Linux, y los mensajes publicados desde el terminal Linux en la salida
-de monitorización del ESP32.</p>
-<p>Modifica el ejemplo y analiza el tráfico generado (a través de Wireshark)
-para los siguientes casos:</p>
-<ol>
-<li>Publicación de mensajes con niveles de QoS 0, 1 y 2.</li>
-<li>Activación o desactivación del flag <em>retain</em> en la publicación desde el
-ESP32.</li>
-<li>Configuración de un mensaje LWT con el topic <em>/disconnected</em>. Para ello,
-reduce el valor de <em>keepalive</em> a 10 segundos, para que la detección de 
-desconexión sea más rápida. Deberás observar el envío del mensaje con 
-dicho <em>topic</em> transcurrido dicho tiempo desde una desconexión forzada del
-ESP32 si estás suscrito al mismo desde tu terminal Linux.</li>
-</ol>
-</div>
+<p>Ên este punto, podrás arrancar el cliente y deberías estar comunicando dos
+nodos ESP32 vía UDP.</p>
+<h3 id="despliegue-opcion-2">Despliegue. Opción 2</h3>
+<p>Si sólo dispones de un nodo, o si simplemente quieres probar otra forma de 
+comunicación en la que uno de los equipos es un PC, puedes utilizar alguna
+de las herramientas del sistema:</p>
 <div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
-<p>Modifica el ejemplo proporcionado para que se integre en tu entorno de 
-monitorización de un edificio. Así, el <em>firmware</em> procederá creando una
-tarea que, periódicamente (cada <em>interval</em> segundos), publique un valor
-aleatorio para los cuatro parámetros monitorizados.</p>
-<p>Además, deberás diseña un sistema basado en MQTT mediante el cual puedas 
-controlar, externamente, el comportamiento del sensor, atendiendo a los
-siguientes criterios:</p>
-<ol>
-<li>El tiempo (<em>interval</em>) mediante que transcurrirá entre publicaciones
-será configurable a través de un proceso de publicación desde tu terminal 
-Linux y suscripción del ESP32 a un topic determinado.</li>
-<li>La sensorización (y publicación de datos) 
-podrá activarse o desactivarse bajo demanda
-a través de la publicación desde tu terminal Linux y suscripción del 
-ESP32 a un topic determinado.</li>
-</ol>
-<p>Por ejemplo, imagina que tu sensor publica mensajes de sensorización
-en el topic <code>/EDIFICIO_3/P_4/N/12/(TEMP|HUM|LUX|VIBR)</code>. Para controlar el 
-intervalo de publicación de datos desde dicho ESP32 y fijarlo a 1 segundo, 
-podríamos publicar un mensaje utilizando la orden:</p>
-<p><code>mosquitto_pub -t /EDIFICIO_3/P_4/N/12/interval</code> -m "1000" -h IP_BROKER</p>
-<p>Para desactivar el sensor, podríamos utilizar:</p>
-<p><code>mosquitto_pub -t /EDIFICIO_3/P_4/N/12/disable</code> -m "" -h IP_BROKER</p>
-<p>Para activar el sensor, podríamos utilizar:</p>
-<p><code>mosquitto_pub -t /EDIFICIO_3/P_4/N/12/enable</code> -m "" -h IP_BROKER</p>
-<ol>
-<li>Opcionalmente, puedes ampliar tu solución para que cada sensor se active
-o desactive individualmente bajo demanda. En este caso, elige y documenta
-el topic utilizado.</li>
-</ol>
+<p class="admonition-title">Nota</p>
+<p>Ten en cuenta que portátil (es decir, máquina virtual) y ESP32 deben
+pertenecerá la misma red. Para conseguirlo, para tu máquina virtual y añade
+una nueva interfaz de red de tipo <em>bridge</em> conectada a la interfaz Wifi
+física de tu PC. Así, tendrás una interfaz con IP en la misma red, otorgada
+directamente por tu punto de acceso.</p>
+</div>
+<ul>
+<li>Para recibir un paquete UDP a través de un puerto (es decir, emular un
+  servidor UDP):</li>
+</ul>
+<pre><code class="language-sh">nc -ul -p 3333
+</code></pre>
+<ul>
+<li>Para enviar un paquete UDP a una IP/puerto remotos (es decir, emular un cliente):</li>
+</ul>
+<pre><code class="language-sh">nc -u IP_REMOTA 3333
+</code></pre>
+<p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
+servidores UDP Python que puedes también utilizar.</p>
+<h2 id="clienteservidor-tcp-en-el-esp32">Cliente/servidor TCP en el ESP32</h2>
+<p>El despliegue de cliente y servidor TCP es equivalente al UDP.</p>
+<ul>
+<li>Para recibir un paquete TCP a través de un puerto (es decir, emular un
+  servidor TCP):</li>
+</ul>
+<pre><code class="language-sh">nc -l IP -p 3333
+</code></pre>
+<ul>
+<li>Para enviar un paquete TCP a una IP/puerto remotos (es decir, emular un cliente):</li>
+</ul>
+<pre><code class="language-sh">nc IP 3333
+</code></pre>
+<p>En el directorio <code>scripts</code> dispones también de pequeños ejemplos de clientes y
+servidores TCP Python que puedes también utilizar.</p>
+<div class="admonition note">
+<p class="admonition-title">Tarea 1.4</p>
+<p>Experimenta con los ejemplos proporcionados en ESP-IDF (cliente/servidor
+TCP y UDP) y consigue ejecutar todos los elementos en la placa. Si sólo
+dispones de una placa, utiliza tu máquina (o una máquina virtual) como cliente/servidor
+para comprobar el correcto funcionamiento de cada código.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tarea 1.5 (entregable)</p>
+<p>En este punto, deberías disponer de un conjunto de códigos que implementan
+sistemas cliente/servidor tanto en un host (utilizando C) 
+como en la placa ESP32 (utilizando C y ESP-IDF), y deberías haber comprobado 
+su correcto funcionamiento. Opcionalmente, puedes haber utilizado Node-RED o Python
+para el desarrollo de los códigos si has seguido los anexos.</p>
+<p>Específicamente, dispondrás de:</p>
+<ul>
+<li>
+<p>Código básico en C para implementación de un servidor/cliente <em>echo</em> 
+programado en C, cuyos códigos se proporcionan en este boletín.</p>
+</li>
+<li>
+<p>Códigos básicos en C/ESP-IDF para implementar servidores/clientes
+<em>echo</em> sobre el ESP32.</p>
+</li>
+</ul>
+<p>Como tarea, se pide que adaptes tu entrega de la tarea 1.3 para
+que tanto cliente como servidor puedan funcionar en el host (bien usando
+tu implementación Node-RED (o Python), o bien utilizando una implementación en 
+C) o en el ESP32. Se entregarán los códigos y una breve memoria con capturas
+de tráfico que demuestren el correcto funcionamiento del sistema.</p>
 </div></div>
             </div>
         </div>

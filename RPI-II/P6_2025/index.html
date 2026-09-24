@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Práctica 7. El protocolo LWM2M - Máster IoT UCM - Prácticas (26/27)</title>
+        <title>Práctica 6. El protocolo LWM2M - Máster IoT UCM - Prácticas (26/27)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -186,7 +186,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#practica-7-el-protocolo-lwm2m" class="nav-link">Práctica 7. El protocolo LWM2M</a>
+            <li class="nav-item" data-bs-level="1"><a href="#practica-6-el-protocolo-lwm2m" class="nav-link">Práctica 6. El protocolo LWM2M</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -216,6 +216,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#libreria-anjay" class="nav-link">Librería Anjay</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -223,7 +227,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="practica-7-el-protocolo-lwm2m">Práctica 7. El protocolo LWM2M</h1>
+<h1 id="practica-6-el-protocolo-lwm2m">Práctica 6. El protocolo LWM2M</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Familiarizarse con el protocolo LWM2M, tanto en la interacción con servidores
@@ -240,8 +244,8 @@ usando Wakaama.</li>
 <h2 id="el-protocolo-lwm2m">El protocolo LWM2M</h2>
 <p>OMA Lightweight M2M (LWM2M) es un protocolo impulsado por la Open Mobile
 Alliance para la comunicación M2M entre dispositivos y su gestión en entornos
-IoT. LWM2M está construido sobre el protocolo CoAP, y soporta, a nivel de 
-transporte, el protocolo UDP (también presenta soporte para SMS). 
+IoT. LWM2M se construye por defecto sobre el protocolo CoAP, y soporta, a nivel de 
+transporte, el protocolo UDP (en versiones recientes soporta también otros protocolos de transporte). 
 Entre las funcionalidades básicas de LWM2M destacan la existencia de servidores
 LWM2M, <em>bootstrapping</em>, control de acceso, gestión de dispositivos, 
 actualizaciones de <em>firmware</em>, localización o estadísticas de conectividad. 
@@ -340,7 +344,7 @@ utilización de CoAP como protocolo subyacente.</p>
 <p>Instala en primer lugar los prerequisitos necesarios para la correcta instalación
 de Leshan (pueden variar en función de tu distribución Linux):</p>
 <pre><code class="language-sh">sudo apt-get update
-sudo apt-get install openjdk-14-jdk maven git-core
+sudo apt-get install openjdk-17-jdk maven git-core
 </code></pre>
 <p>Clona el repositorio oficial de Leshan desde la siguiente dirección:</p>
 <pre><code class="language-sh">git clone https://github.com/eclipse/leshan.git
@@ -350,11 +354,11 @@ sudo apt-get install openjdk-14-jdk maven git-core
 mvn clean install
 </code></pre>
 <p>Tras la fase de instalación, podrás lanzar tanto el servidor LWM2M:</p>
-<pre><code class="language-sh">java -jar leshan-server-demo/target/leshan-server-demo-*-SNAPSHOT-jar-with-dependencies.jar 
+<pre><code class="language-sh">java -jar leshan-demo-server/target/leshan-demo-server-*-SNAPSHOT-jar-with-dependencies.jar 
 </code></pre>
 <p>La opción <code>-h</code> te permitirá observar la ayuda del servidor.</p>
 <p>Como el servidor de <em>bootstrapping</em>:</p>
-<pre><code class="language-sh">java -jar leshan-bsserver-demo/target/leshan-bsserver-demo-*-SNAPSHOT-jar-with-dependencies.jar
+<pre><code class="language-sh">java -jar leshan-demo-bsserver/target/leshan-demo-bsserver-*-SNAPSHOT-jar-with-dependencies.jar
 </code></pre>
 <p>La opción <code>-h</code> te permitirá observar la ayuda del servidor.</p>
 <p>En ambos casos, la salida asociada a la ejecución de los servidores nos 
@@ -752,7 +756,7 @@ definir el servidor sobre el que debe conectar.</p>
 <p class="admonition-title">Tarea</p>
 <p>Analiza e intenta entender el contenido por defecto del fichero de 
 <em>bootstrapping</em> proporcionado. Puedes de momento obviar los parámetros referentes
-a seguridad, ya que los trataremos en la próxima práctica.</p>
+a seguridad.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Tarea entregable</p>
@@ -774,11 +778,9 @@ de <em>bootstrapping</em> con el comando <code>boot</code>, pero en este punto n
 dispositivo que te permita diferenciarlo de cualquier otro</em>:</p>
 <div class="admonition danger">
 <p class="admonition-title">Nota importante</p>
-<p>Antes de realizar este ejercicio, debes modificar una línea del fichero
-<code>lwm2mclient.c</code>, reemplazando la línea que contiene <code>data.addressFamily = AF_INET6;</code>
-por <code>data.addressFamily = AF_INET;</code>.</p>
+<p>Antes de realizar este ejercicio, debes modificar el servidor de prueba por <code>leshan.eclipseprojects.io</code>.</p>
 </div>
-<pre><code class="language-sh">./lwm2mclient -h localhost -p 5685 -b -c -n midispositivo
+<pre><code class="language-sh">./lwm2mclient -4 -h localhost -p 5685 -b -c -n midispositivo
 Trying to bind LWM2M Client to port 56830
 LWM2M Client &quot;testlwm2mclient&quot; started on port 56830
 &gt; New Battery Level: 38
@@ -818,7 +820,7 @@ observa que, efectivamente, el tráfico generado corresponde al esperado.</p>
 <p>Para replicar dicha instalación en tu máquina local, rescata la instalación
 de Leshan que realizaste en la primera parte de la práctica, y arranca el 
 servidor LWM2M usando la siguiente orden:</p>
-<pre><code class="language-sh">java -jar leshan-server-demo/target/leshan-server-demo-*-SNAPSHOT-jar-with-dependencies.jar
+<pre><code class="language-sh">java -jar leshan-demo-server/target/leshan-demo-server-*-SNAPSHOT-jar-with-dependencies.jar
 </code></pre>
 <div class="admonition note">
 <p class="admonition-title">Tarea entregable</p>
@@ -838,6 +840,21 @@ hipotético sensor IoT. En segundo lugar, se pide que, siguiendo las
 directivas del código analizado, lo implementes en Eclipse Wakaama y seas
 capaz de interactuar con él desde un servidor Leshan y/o Wakaama utilizando
 además un proceso de provisionamiento o <em>bootstrapping</em>.</p>
+</div>
+<h2 id="libreria-anjay">Librería Anjay</h2>
+<p>Anjay es una librería C que implementa el protocolo OMA LwM2M y está especialmente orientada al desarrollo de clientes en nodos IoT. El proyecto fue creado y es mantenido activamente por AVSystem y la documentación puede consultarse en el siguiente <a href="https://avsystem.github.io/Anjay-doc/index.html">enlace</a>.</p>
+<p>Anjay está disponible como <a href="https://github.com/AVSystem/Anjay-esp32-client">componente ESP-IDF</a> y continuación vamos a probar un cliente para la placa ESP32-DevKitC. Para el ello es preciso descargar el código mediante los siguietes comandos:</p>
+<pre><code class="language-sh">git clone https://github.com/AVSystem/Anjay-esp32-client.git
+cd Anjay-esp32-client
+git submodule update --init --recursive
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tarea</p>
+<p>Abre el proyecto con la extensión ESP-IDF, configúralo para conectarlo al servidor Leshan local (sin seguridad) y prúebalo. Presta especial atención tanto al uso como a la implementación el objeto <em>push button</em>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Tarea entregable (opcional)</p>
+<p>Implementar en Anjay el objeto definido en la sección anterior (no es necesario emplear <em>bootstrapping</em>).</p>
 </div></div>
             </div>
         </div>
