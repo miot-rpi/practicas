@@ -458,14 +458,17 @@ intento de conexión.</li>
 </ul>
 <h4 id="send"><code>send()</code></h4>
 <ul>
-<li>Prototipo:</li>
+<li>Prototipos:</li>
 </ul>
 <pre><code class="language-c">ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+
+ssize_t sendto(int socket, const void *buffer, size_t length, int flags, 
+               const struct sockaddr *dest_addr, socklen_t dest_len);
 </code></pre>
 <ul>
 <li>
 <p>Descripción: En un <em>socket</em> en estado <em>conectado</em> (con receptor conocido)
-  transmite mensajes a un socket remoto.</p>
+  transmiten mensajes a un socket remoto.</p>
 </li>
 <li>
 <p>Parámetros: </p>
@@ -473,6 +476,8 @@ intento de conexión.</li>
 <li><code>sockfd</code>:  descriptor de <em>socket</em> de envío.</li>
 <li><code>buf</code>:  <em>buffer</em> de envío donde se almacena el mensaje a enviar.</li>
 <li><code>len</code>: número de bytes a enviar.</li>
+<li><code>dest_addr</code>: dirección del extremo remoto del socket (destino de la comunicación).</li>
+<li><code>addrlen</code>: tamaño de la estructura <code>dest_addr</code>.</li>
 </ul>
 </li>
 <li>
@@ -480,7 +485,7 @@ intento de conexión.</li>
                     Devuelve <code>-1</code> si se produce un error.</p>
 </li>
 <li>
-<p>Detalles: consultad la página de manual de <code>send</code> (<code>man send</code>).</p>
+<p>Detalles: consultad las páginas de manual de <code>send</code> y <code>sendto</code> (<code>man send</code> y <code>man sendto</code>).</p>
 </li>
 </ul>
 <h4 id="recvrecvfrom"><code>recv()</code>/<code>recvfrom()</code></h4>
@@ -565,10 +570,16 @@ TCP/IP (como también en otros protocolos). Wireshark implementa un amplio
 abanico de filtros para definir criterios de búsqueda en las capturas de
 tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtros
 específicos.</p>
-<p>Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
-instalación básica Linux), teclea en tu terminal:</p>
+<p>Para arrancar Wireshark en una máquina virtual o en cualquier
+instalación básica Linux, teclea en tu terminal:</p>
 <pre><code class="language-bash">$ sudo wireshark
 </code></pre>
+<p>Si utilizas WSL 1, también puedes capturar directamente con Wireshark en Windows, 
+ya que ambos comparten la pila de red. En WSL 2, el modo mirrored facilita la 
+comunicación con Windows, pero, si ambos procesos se comunican por loopback dentro 
+de Linux, la captura debe realizarse con Wireshark desde el propio WSL; para capturar 
+desde Windows, habría que evitar el loopback y utilizar una interfaz cuyo tráfico 
+sea visible desde Windows.</p>
 <p>Tras el arranque, podemos comenzar una nueva captura de tráfico a través
 del menú <code>Capture</code>, opción <code>Start</code>. La pantalla de selección de interfaz 
 nos permitirá definir en qué interfaz de red se realizará la captura. En 
