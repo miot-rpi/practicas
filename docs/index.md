@@ -19,8 +19,10 @@
 | Práctica | Día   | Título                                       |
 |----------|-------|----------------------------------------------|
 | -        | 21/09 | Clase de teoría (intro)                      |
-| 1        | 28/09 | [TCP/UDP (Parte 1. Host)](RPI-II/P1_I/index.md). |  
-| 1       | 05/10 | [TCP/UDP (Parte 2. ESP32)](RPI-II/P1_III/index.md). [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md)  [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md)   |
+| 1        | 28/09 | [TCP/UDP (Parte 1. Host)](RPI-II/P1_I/index.md) |  
+| 1        | 05/10 | [TCP/UDP (Parte 2. ESP32)](RPI-II/P1_III/index.md)   |
+|          | -      | [Apéndice I. Introducción a Node-RED](RPI-II/P1_II/index.md) |  
+|          | -      | [Apéndice II. Programación de sockets en Python](RPI-II/P1_IV/index.md) |
 | 2        | 19/10 | [TLS/DTLS](RPI-II/P2/index.md)               |
 | 3        | 26/10 | [REST y representación de la información](RPI-II/P3/index.md)      |
 | 4        | 16/11 | [MQTT (I)](RPI-II/P4/index.md)               |
