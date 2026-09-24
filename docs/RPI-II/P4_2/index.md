@@ -1,4 +1,4 @@
-# Práctica 4 (12 - El protocolo MQTT: Despliegue de clientes en el ESP32
+# Práctica 4 (2). El protocolo MQTT: Despliegue de clientes en el ESP32
 
 ## Objetivos
 
