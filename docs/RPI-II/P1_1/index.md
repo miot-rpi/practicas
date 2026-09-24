@@ -223,24 +223,29 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 #### `send()`
 
-* Prototipo:
+* Prototipos:
 
 ```c
 ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+
+ssize_t sendto(int socket, const void *buffer, size_t length, int flags, 
+               const struct sockaddr *dest_addr, socklen_t dest_len);
 ```
 
 * Descripción: En un *socket* en estado *conectado* (con receptor conocido)
-  transmite mensajes a un socket remoto.
+  transmiten mensajes a un socket remoto.
 
 * Parámetros: 
     - `sockfd`:  descriptor de *socket* de envío.
     - `buf`:  *buffer* de envío donde se almacena el mensaje a enviar.
     - `len`: número de bytes a enviar.
+    - `dest_addr`: dirección del extremo remoto del socket (destino de la comunicación).
+    - `addrlen`: tamaño de la estructura `dest_addr`.
 
 * Valor de retorno: Si tiene éxito, devuelve el número de bytes enviados.
                     Devuelve `-1` si se produce un error.
 
-* Detalles: consultad la página de manual de `send` (`man send`).
+* Detalles: consultad las páginas de manual de `send` y `sendto` (`man send` y `man sendto`).
 
 
 #### `recv()`/`recvfrom()`
@@ -320,12 +325,19 @@ abanico de filtros para definir criterios de búsqueda en las capturas de
 tráfico, aunque de momento, en nuestro caso, no será necesario utilizar filtros
 específicos.
 
-Para arrancar Wireshark en la máquina virtual proporcionada (o en cualquier
-instalación básica Linux), teclea en tu terminal:
+Para arrancar Wireshark en una máquina virtual o en cualquier
+instalación básica Linux, teclea en tu terminal:
 
 ```bash
 $ sudo wireshark
 ```
+
+Si utilizas WSL 1, también puedes capturar directamente con Wireshark en Windows, 
+ya que ambos comparten la pila de red. En WSL 2, el modo mirrored facilita la 
+comunicación con Windows, pero, si ambos procesos se comunican por loopback dentro 
+de Linux, la captura debe realizarse con Wireshark desde el propio WSL; para capturar 
+desde Windows, habría que evitar el loopback y utilizar una interfaz cuyo tráfico 
+sea visible desde Windows.
 
 Tras el arranque, podemos comenzar una nueva captura de tráfico a través
 del menú `Capture`, opción `Start`. La pantalla de selección de interfaz 
