@@ -116,7 +116,7 @@ void app_main()
 }
 ```
 
-La función principal comienza inicializando la biblioteca de almacenamiento no volátil. Esta biblioteca permite guardar pares clave-valor en la memoria flash y se utiliza en algunos componentes, como la biblioteca Wi-Fi, para guardar el SSID y la contraseña:
+La función principal comienza inicializando la biblioteca de almacenamiento no volátil. Esta biblioteca permite guardar pares clave-valor en la memoria flash y se utiliza en algunos componentes, como la biblioteca WiFi, para guardar el SSID y la contraseña:
 
 ```c
 esp_err_t ret = nvs_flash_init();
@@ -423,7 +423,7 @@ Para extraer el nombre del dispositivo del paquete publicitario, utilizamos la f
 
 Finalmente, si el nombre del dispositivo remoto es el mismo que hemos definido anteriormente, el dispositivo local detiene el escaneo y trata de abrir una conexión con el dispositivo remoto utilizando la función `esp_ble_gattc_enh_open()`. Esta función toma parámetros como la interfaz GATT del perfil de aplicación y la dirección del servidor remoto, entre otros. Ten en cuenta que el cliente abre una conexión virtual con el servidor y que la conexión virtual devuelve un ID de conexión (`conn_id`). La conexión virtual es la conexión entre el perfil de aplicación y el servidor remoto. Dado que muchos perfiles de aplicación pueden ejecutarse en un ESP32, podría haber muchas conexiones virtuales abiertas al mismo servidor remoto. También está la conexión física, que es el enlace BLE real entre el cliente y el servidor. Por lo tanto, si la conexión física se desconecta con la función `esp_ble_gap_disconnect()`, se cierran todas las demás conexiones virtuales.
 
-En este ejemplo, cada perfil de aplicación crea una conexión virtual al mismo servidor con la función `esp_ble_gattc_enh_open()`, por lo que si se llamase a la función de cierre (`esp_ble_gattc_close()`), sólo se cerraría esa conexión del perfil de aplicación, mientras que si se llamase a la función de desconexión GAP, se cerrarían ambas conexiones. Además, los eventos de conexión se propagan a todos los perfiles porque se relacionan con la conexión física, mientras que los eventos de apertura se propagan sólo al perfil que crea la conexión virtual.
+En este ejemplo, cada perfil de aplicación crea una conexión virtual al mismo servidor con la función `esp_ble_gattc_enh_open()`, por lo que si se llamase a la función de cierre (`esp_ble_gattc_close()`), solo se cerraría esa conexión del perfil de aplicación, mientras que si se llamase a la función de desconexión GAP, se cerrarían ambas conexiones. Además, los eventos de conexión se propagan a todos los perfiles porque se relacionan con la conexión física, mientras que los eventos de apertura se propagan solo al perfil que crea la conexión virtual.
 
 ## Configuración del tamaño de MTU
 
@@ -562,9 +562,9 @@ case ESP_GATTC_SEARCH_CMPL_EVT:
     break;
 ```
 
-`esp_ble_gattc_get_attr_count()` obtiene el número de atributos de tipo característica en un rango concreto. Los parámetros de esta función son: la interfaz GATT, el ID de conexión, el tipo de atributo que se busca (`ESP_GATT_DB_CHARACTERISTIC`), handles de inicio y final, el handle de la característica (este parámetro sólo es válido cuando el tipo se establece en `ESP_GATT_DB_DESCRIPTOR`) y la salida del número de atributos encontrados.
+`esp_ble_gattc_get_attr_count()` obtiene el número de atributos de tipo característica en un rango concreto. Los parámetros de esta función son: la interfaz GATT, el ID de conexión, el tipo de atributo que se busca (`ESP_GATT_DB_CHARACTERISTIC`), handles de inicio y final, el handle de la característica (este parámetro solo es válido cuando el tipo se establece en `ESP_GATT_DB_DESCRIPTOR`) y la salida del número de atributos encontrados.
 
-Después, se reserva memoria (variable `char_elem_result`) para guardar la característica que encuentre después la función `esp_ble_gattc_get_char_by_uuid()`. Esta función busca la característica con el UUID de característica `0xFF01` (usando `remote_filter_char_uuid`). Cabe destacar que en un servidor puede haber más de una característica con el mismo UUID. Sin embargo, en nuestro ejemplo de servidor GATT, cada característica tiene un UUID único y es por eso que sólo usamos la primera característica de `char_elem_result` (index 0).
+Después, se reserva memoria (variable `char_elem_result`) para guardar la característica que encuentre después la función `esp_ble_gattc_get_char_by_uuid()`. Esta función busca la característica con el UUID de característica `0xFF01` (usando `remote_filter_char_uuid`). Cabe destacar que en un servidor puede haber más de una característica con el mismo UUID. Sin embargo, en nuestro ejemplo de servidor GATT, cada característica tiene un UUID único y es por eso que solo usamos la primera característica de `char_elem_result` (index 0).
 
 ## Registro para notificaciones
 

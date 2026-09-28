@@ -268,7 +268,7 @@ reduce al registro del perfil en la pila Bluetooth. En el ejemplo, el ID es
 ```
 
 Los perfiles se almacenan en el array ``heart_rate_profile_tab``. 
-Al haber un único perfil en el ejemplo, sólo se almacena un elemento en el 
+Al haber un único perfil en el ejemplo, solo se almacena un elemento en el 
 array, con índice 0 (tal y como se define en ``PROFILE_APP_IDX``). 
 Además, es necesario inicializar la función de *callback* manejadora de los
 eventos del perfil. Cada aplicación en el servidor GATT utiliza una interfaz
@@ -876,7 +876,7 @@ Específicamente, necesitaremos:
 1) Crear una nueva tarea que, periódicamente, modifique el valor de
    monitorización del ritmo cardíaco (leyéndolo desde un sensor si está
    disponible, o, en nuestro caso, generando un valor aleatorio). Dicha tarea
-   consistirá en un bucle infinito que, en cualquier caso, sólo enviará datos al
+   consistirá en un bucle infinito que, en cualquier caso, solo enviará datos al
    cliente si la notificación está activa, con un intervalo de envío de un segundo:
 
 ```c
@@ -921,7 +921,7 @@ esp_ble_gatts_send_indicate(heart_rate_profile_tab[0].gatts_if,
 Tras modificar el código, recompilar y flashear, recuerda volver a activar las notificaciones (ejercicio 7).
 
 !!! danger "Ejercicio 8"
-	Modifica el firmware original para que, periódicamente (cada segundo)
+	Modifica el *firmware* original para que, periódicamente (cada segundo)
 	notifique el valor de ritmo cardíaco a los clientes conectados.
 
 	Entrega el código modificado e incluye en tu informe capturas de

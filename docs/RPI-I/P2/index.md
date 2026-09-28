@@ -101,7 +101,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
 * `WIFI_EVENT_STA_START`
 
     Este evento se envía cuando, tras la invocación a `esp_wifi_start()`,
-    ésta devuelve `ESP_OK`. Tras la recepción de este evento, se inicializa
+    esta devuelve `ESP_OK`. Tras la recepción de este evento, se inicializa
     la interfaz de red, por lo que normalmente, tras la recepción de este evento
     se está listo para invocar a `esp_wifi_connect()` para comenzar el proceso
     de conexión con un punto de acceso (AP).
@@ -109,7 +109,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
 * `WIFI_EVENT_STA_STOP`
 
     Este evento se envía cuando, tras la invocación a `esp_wifi_stop()`,
-    ésta devuelve `ESP_OK`. Tras la recepción de este evento, se libera la
+    esta devuelve `ESP_OK`. Tras la recepción de este evento, se libera la
     dirección IP, se detiene el cliente DHCP y se liberan las conexiones
     TCP/UDP existentes. Normalmente no se trata desde el punto de vista de la
     aplicación.
@@ -117,13 +117,13 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
 * `WIFI_EVENT_STA_CONNECTED`
 
     Este evento se envía cuando, tras la invocación a `esp_wifi_connect()`,
-    ésta devuelve `ESP_OK`. Tras la recepción de este evento, arranca un 
+    esta devuelve `ESP_OK`. Tras la recepción de este evento, arranca un 
     cliente DHCP para la obtención de una dirección IP. A continuación,
     si todo ha ido bien, el driver WiFi está listo para enviar y recibir
     datos.
 
     Dicho instante es el adecuado para comenzar con la lógica de la aplicación,
-    siempre que ésta no dependa de la correcta obtención de una dirección IP. 
+    siempre que esta no dependa de la correcta obtención de una dirección IP. 
     Si este es el caso, será necesario esperar a la obtención de la misma
     esperando al evento `WIFI_EVENT_STA_GOT_IP`.
 
@@ -138,7 +138,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
     consigue configurar una conexión con el AP debido a cualquier razón
     (por ejemplo, el escaneo no puede encontrar el AP objetivo, el proceso
     de autenticación no tiene éxito, etc). Si hay más de un AP con el mismo
-    SSID, el evento se emite sólo cuando el dispositivo no puede conectar
+    SSID, el evento se emite solo cuando el dispositivo no puede conectar
     a ninguno de los APs encontrados.
     - Cuando la conexión WiFi se interrumpe, por ejemplo porque el dispositivo
     pierde N *beacons* emitidos por el AP, el AP expulsa al dispositivo, el modo
@@ -335,7 +335,7 @@ de sockets) para mantenerse en un estado consistente.
 ### Análisis de un ejemplo (`wifi/getting_started/station`)
 
 !!! note "Tarea"
-    Analiza el ejemplo `station`, compílalo y flashealo. Estudia el tratamiento
+    Analiza el ejemplo ***station***, compílalo y flashealo. Estudia el tratamiento
     de eventos que realiza, y cómo estos son emitidos para casos reales. Para
     ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
     apaga el punto de acceso mientras la IP está concedida, y analiza los
@@ -410,7 +410,7 @@ de configuración (`esp_wifi_set_config`) con cada una de dichas estructuras
 como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
 
 !!! danger "Ejercicio 3"
-    Modifica el ejemplo `station` para que el ESP32 se comporte a la vez 
+    Modifica el ejemplo *station* para que el ESP32 se comporte a la vez 
     como estación y como punto de acceso. Añade las opciones de configuración
     necesarias para que todos los parámetros se puedan modificar vía 
     `menuconfig`. Comprueba que el ESP32 efectivamente se conecta al punto
@@ -423,7 +423,7 @@ como en modo *AP* --`esp_netif_create_default_wifi_ap()`).
 ### Modos de escaneado de redes WiFi
 
 El modo de escaneo de redes WiFi (es decir, la invocación de la rutina
-`esp_wifi_scan_start()`) sólo está soportada en la actualidad en modo
+`esp_wifi_scan_start()`) solo está soportada en la actualidad en modo
 *station* o *station+AP*. En este modo, se da soporte a distintos tipos de
 escaneado de redes, véase:
 
@@ -462,9 +462,9 @@ de la estructura de tipo `wifi_scan_config_t`, proporcionada a la rutina
 `esp_wifi_scan_start()`, que es la encargada de iniciar la sesión. Los campos
 de dicha estructura son:
 
-* `ssid`: Si SSID no es NULL, sólo se escanea en búsqueda de este `ssid`.
+* `ssid`: Si SSID no es NULL, solo se escanea en búsqueda de este `ssid`.
 * `channel`: Si es 0, se realiza un escaneado de todos los canales. En caso 
-contrario, sólo se escanea el canal especificado.
+contrario, solo se escanea el canal especificado.
 * `show_hidden`: Si es 0, se ignoran los AP con SSID oculto. En caso contrario
 se consideran SSIDs normales, y por tanto se muestran.
 * `scan_type`: Si toma el valor `WIFI_SCAN_TYPE_ACTIVE` realiza un escaneado 
@@ -524,7 +524,7 @@ trabajo detallado anteriormente.
     observa su efecto en el tiempo total de escaneado.
 
 !!! danger "Ejercicio 4"
-    Implementa un firmware que realice un escaneado de las redes
+    Implementa un *firmware* que realice un escaneado de las redes
     disponibles. Si el nodo detecta la presencia de una o más de las *redes
     conocidas*, se conectará en modo STA a la red de mayor prioridad entre las
     conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro

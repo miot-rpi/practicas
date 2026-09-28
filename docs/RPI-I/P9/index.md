@@ -33,7 +33,7 @@ la red TTN.
 ### Registro de gateway en TTN
 
 Para poder desplegar nuestra red, lo primero que debemos hacer es registrar un
-gateway en TTN. Esto no lo puede hacer cada estudiante ya que sólo disponemos
+gateway en TTN. Esto no lo puede hacer cada estudiante ya que solo disponemos
 de un gateway, pero aquí se documentan los pasos a seguir.
 
 Primero, accedemos a TTN y nos registramos si no tenemos cuenta.
@@ -65,13 +65,13 @@ necesaria después para configurar nuestro gateway.
 ### Gateway Laird Sentrius RG186
 
 El proceso de configuración del gateway tampoco puede hacerlo el estudiante,
-ya que sólo disponemos de un gateway LoRaWAN comercial, concretamente el modelo Sentrius RG186 de Laird.
+ya que solo disponemos de un gateway LoRaWAN comercial, concretamente el modelo Sentrius RG186 de Laird.
 De todas maneras, a continuación se describe el procedimiento que deberíamos seguir para configurar dicho
 gateway y conectarlo con TTN.
 
-Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz Wi-Fi.
+Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz WiFi.
 Para ello, pulsaremos el botón de usuario durante unos 10 segundos y luego lo soltamos.
-Esto configurará un punto de acceso Wi-Fi con SSID y contraseña *rg1xx294c1f*, al cual podremos conectarnos desde nuestro PC.
+Esto configurará un punto de acceso WiFi con SSID y contraseña *rg1xx294c1f*, al cual podremos conectarnos desde nuestro PC.
 
 Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
 usuario y la contraseña (`sentrius` y `RG1xx`).
@@ -87,7 +87,7 @@ y utilizando la API key generada en TTN para el gateway:
 ![](img/ttn-rg1xx-gateway-config.png)
 
 Ahora ya podemos conectar el gateway a TTN mediante su interfaz Ethernet o
-activar su interfaz Wi-Fi (previamente configurada en el panel web).
+activar su interfaz WiFi (previamente configurada en el panel web).
 Si todo ha ido correctamente, veremos en el dashboard de TTN que nuestro gateway se ha conectado:
 
 ![](img/ttn-rg1xx-gateway-connected.png)
@@ -124,7 +124,7 @@ seleccionando como JoinEUI/AppEUI el identificador que queramos:
 Al pulsar en *Confirm*, se mostrarán nuevos campos a introducir o generar:
 el ID del dispositivo (DevEUI) y la clave de aplicación (AppKey).
 Pulsaremos *Generate* en ambos casos y guardaremos los valores generados
-(posteriormente tendremos que configurarlos en el firmware del nodo que desarrollemos).
+(posteriormente tendremos que configurarlos en el *firmware* del nodo que desarrollemos).
 
 Finalmente, asignamos un nombre/ID a nuestro dispositivo y pulsamos *Register end device*
 para completar el proceso:
@@ -145,20 +145,20 @@ fabricada por Adafruit:
 
 ![](img/adafruit_products_3070_kit_ORIG.jpg)
 
-Para conectar el transceptor a la placa de desarrollo ESP32-C3 DevKit Rust, debemos colocar ambos sobre una breadboard.
+Para conectar el transceptor a la placa de desarrollo ESP32-C3 DevKit RUST, debemos colocar ambos sobre una breadboard.
 Debido a la anchura del transceptor, no tendremos acceso a los pines por los dos lados,
 por lo que será necesario utilizar cables de puente (*jumper wires*) para sacar
 las conexiones de uno de los lados, dejando el otro accesible para conexiones directas.
 Lo más sencillo es sacar el pin G1 (cable bajo el transceptor), ya que es el único que necesitamos de ese lado.
 
-El pinout de la ESP32-C3 DevKit Rust es el siguiente:
+El pinout de la ESP32-C3 DevKit RUST es el siguiente:
 
 ![](img/dev-kit-rust-pinout.png)
 
-Una posible conexión entre el transceptor y la ESP32-C3 DevKit Rust sería la
+Una posible conexión entre el transceptor y la ESP32-C3 DevKit RUST sería la
 siguiente:
 
-| Adafruit 3070   | ESP32-C3 DevKit Rust |  Función   |
+| Adafruit 3070   | ESP32-C3 DevKit RUST |  Función   |
 |-----------------|:--------------------:|:----------:|
 | RST             |      5               | Reset      |
 | CS              |      6               | SPI SS     |
@@ -176,7 +176,7 @@ indicadas en la tabla anterior:
 ![](img/esp32-and-rfm95_adafruit.HEIC)
 
 !!! danger "Ejercicio 1"
-    Conecta el transceptor LoRa al ESP32-C3 DevKit Rust sobre vuestra breadboard siguiendo el pinout indicado anteriormente.
+    Conecta el transceptor LoRa al ESP32-C3 DevKit RUST sobre vuestra breadboard siguiendo el pinout indicado anteriormente.
     Incluye en la memoria una o varias fotos como las del ejemplo.
 
 ### Código del nodo: librería ttn-esp32

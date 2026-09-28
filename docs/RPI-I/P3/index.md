@@ -358,7 +358,7 @@ activado, la recepción de los mensajes se retrasará tanto como el período
 El modo por defecto es `WIFI_PS_MIN_MODEM`.
 
 En modo punto de acceso, ESP-IDF no soporta todos los modos de ahorro dictados
-en la especificación WiFi. Concretamente, un AP programado vía ESP-IDF sólo 
+en la especificación WiFi. Concretamente, un AP programado vía ESP-IDF solo 
 cacheará (almacenará temporalmente) los paquetes de tipo *unicast* para las
 estaciones conectadas a dicho AP, pero no paquetes *multicast* para dichas
 estacioens. Así, con el modo de ahorro activo, las estaciones podrían perder

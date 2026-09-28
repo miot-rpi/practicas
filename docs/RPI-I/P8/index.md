@@ -115,7 +115,7 @@ Se trata de un archivo .ova que tendremos que importar en VirtualBox.
 
 Una vez importado, podemos arrancar la máquina virtual (el usuario es *user* y la
 contraseña *contiki*).
-Para arrancar el simulador, bastará con abrir una terminal y ejecutar el comando *cooja*.
+Para arrancar el simulador, bastará con abrir un terminal y ejecutar el comando *cooja*.
 El repositorio de Contiki-NG se encuentra en un directorio con el mismo nombre dentro del home del usuario *user*.
 
 ## Código Contiki-NG

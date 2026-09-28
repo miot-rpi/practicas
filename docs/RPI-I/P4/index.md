@@ -91,7 +91,7 @@ el canal en el que lo ha conseguido.
 ### Uso de la pila IP (lwIP)
 
 El código de una aplicación que haga uso de ESP-MESH puede  acceder directamente
-a la pila MESH sin pasar por la pila IP. De hecho, la pila IP sólo es
+a la pila MESH sin pasar por la pila IP. De hecho, la pila IP solo es
 estrictamente necesaria por parte del nodo raíz, al ser el único que puede
 recibir o transmitir datos desde o hacia la red IP externa. 
 
@@ -111,7 +111,7 @@ paso es innecesario si se utilizan configuraciones IP estáticas.
 
 ### Estructura básica de una aplicación ESP-MESH
 
-Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y Wi-Fi.
+Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y WiFi.
 El siguiente fragmento de código muestra los pasos necesarios antes de que ESP-WIFI-MESH en sí se pueda inicializar:
 
 ```c
@@ -120,7 +120,7 @@ ESP_ERROR_CHECK(esp_netif_init());
 /*  event initialization */
 ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-/*  Wi-Fi initialization */
+/*  WiFi initialization */
 wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
 ESP_ERROR_CHECK(esp_wifi_init(&config));
 
@@ -130,7 +130,7 @@ ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 ```
 
-Tras inicializar LwIP y Wi-Fi, el proceso para poner en marcha una red
+Tras inicializar LwIP y WiFi, el proceso para poner en marcha una red
 ESP-WIFI-MESH puede resumirse en los tres pasos siguientes:
 
 1. Inicializar ESP-MESH.

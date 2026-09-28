@@ -16,7 +16,7 @@ con provisionamiento desde ESP32.
 
 Esta práctica está dividida en dos partes. En la primera parte trabajaremos un
 ejemplo de modelo genérico OnOff en el que se simulará una red domótica con un interruptor y varias luces conectadas a
-una red BLE Mesh (o un sólo led RGB). Si disponemos de ellos, podemos conectar
+una red BLE Mesh (o un solo led RGB). Si disponemos de ellos, podemos conectar
 leds a los pines GPIO indicados en el fichero board.h para ver físicamente el
 efecto del encendido y apagado de las luces.
 
@@ -418,7 +418,7 @@ para consumir los valores de sensores (*Sensor States*) expuestos por el servido
   prevenir que un sensor de movimiento se disparase ante pequeños movimientos.
 * Estado *Sensor Data*: contiene los valores reales medidos por el sensor. Realmente,
   representa uno o más pares *Property ID*-*Valor*.
-* Estado *Sensor Series Column/Row*: sólo utilizado si se considera cada uno de los
+* Estado *Sensor Series Column/Row*: solo utilizado si se considera cada uno de los
   valores como perteneciente a una serie temporal de datos.
 
 En el ejemplo *sensor_client*, el dispositivo actúa tanto de cliente como de provisionador.
@@ -466,7 +466,7 @@ El funcionamiento general del ejemplo es el siguiente:
 	el valor de *Sensor Data* de uno de ellos, siguiendo el orden de provisionamiento.
 
 !!! danger "Ejercicio 5"
-	Modifica el código para que ahora sólo se provisione automáticamente a aquellos
+	Modifica el código para que ahora solo se provisione automáticamente a aquellos
 	nodos autorizados. Aplica el filtro por UUID.
 
 !!! danger "Ejercicio 6"
