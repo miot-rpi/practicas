@@ -220,7 +220,7 @@ utilizando la función de FreeRTOS [vTaskDelay](https://www.freertos.org/a00127.
 Esta función recibe como parámetro el número de *ticks* de reloj durante los cuales se desea
 suspender la ejecución de la tarea, que pueden calcularse dividiendo el tiempo que
 deseamos suspender la tarea entre la duración de un *tick*.
-FreeRTOS proporciona la constante `portTIC_PERIOD_MS`, que nos da la duración en milisegundos de un *tick*:
+FreeRTOS proporciona la constante `portTICK_PERIOD_MS`, que nos da la duración en milisegundos de un *tick*:
 
 ```c
     for (int i = 10; i >= 0; i--) {
@@ -347,17 +347,11 @@ idf.py menuconfig
 Al ejecutar el comando se nos mostrará un menú por el que podremos navegar
 usando el ratón (o las teclas del cursor si lo ejecutamos desde terminal). El
 menú nos presenta unas opciones de carácter general, que permitirán configurar
-las características específicas del proyecto a compilar (por ejemplo,
-seleccionando los componentes que deseemos habilitar en la construcción del
-mismo).
-
-!!! Note "Tarea"
-    Navega por las opciones que aparecen en los menús de configuración para
-    familiarizarte con la herramienta. Aprende a utilizar el menú de configuración, pues
-    lo utilizarás en esta y en futuras prácticas.
+características específicas del proyecto a compilar.
 
 Observa que una de las secciones de opciones del menú de navegación, llamada *Example configuration*, incluye la opción *Blink GPIO number*.
-Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear. Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada `CONFIG_BLINK_GPIO`, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.
+Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear.
+Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada `CONFIG_BLINK_GPIO`, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.
 
 Esta opción de configuración no forma parte de las opciones por defecto de
 ESP-IDF, sino que ha sido añadida por los desarrolladores del proyecto *blink*.
@@ -369,7 +363,7 @@ a definir.
 !!! danger "Ejercicio 4"
     Modifica el proyecto *hello_world* para que defina dos opciones de
     configuración que permitan definir el tiempo de espera de cada una de las
-    dos tareas que hayas definido en tu anterior solución. Haz uso de ellas en
+    dos tareas que hayas definido en el ejercicio anterior. Haz uso de ellas en
     tu código y comprueba que su modificación a través del sistema
     de menús permite una personalización del comportamiento de tu código.
 
@@ -384,7 +378,7 @@ Para cada red escaneada, se reportarán sus características principales.
 !!! danger "Ejercicio 5"
     Compila, flashea y monitoriza el ejemplo ***scan*** situado en el directorio *wifi*.
     Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración.
-    Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado por el ejemplo.
+    Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado por el ESP32.
 
 Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
