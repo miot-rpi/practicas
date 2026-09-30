@@ -248,9 +248,11 @@
 </ul>
 <h2 id="depuracion">Depuración</h2>
 <p>La herramienta de depuración de código abierto <a href="https://openocd.org/">OpenOCD</a> proporciona un entorno de depuración (<em>debugging</em>), programación en sistema (<em>in-system programming</em>) y pruebas de <em>boundary-scan</em> para dispositivos <em>embedded</em>.
-OpenOCD requiere un adaptador de depuración (dongle) para funcionar.
-   * <strong>Función</strong>: Proporciona la señalización eléctrica correcta para comunicarse con el dispositivo de destino (target).
-   * <strong>Protocolos Soportados</strong>: OpenOCD se enfoca principalmente en JTAG (IEEE 1149.1), pero también soporta SWD (Serial Wire Debug) y otros protocolos.</p>
+OpenOCD requiere un adaptador de depuración (dongle) para funcionar.</p>
+<ul>
+<li><strong>Función</strong>: Proporciona la señalización eléctrica correcta para comunicarse con el dispositivo de destino (target).</li>
+<li><strong>Protocolos Soportados</strong>: OpenOCD se enfoca principalmente en JTAG (IEEE 1149.1), pero también soporta SWD (Serial Wire Debug) y otros protocolos.</li>
+</ul>
 <p><img alt="Esquema de depuración JTAG-OpenOCD" src="img/OpenOCD_JTAG.jpg" /></p>
 <h3 id="configuracion-y-ejecucion">Configuración y ejecución</h3>
 <p>OpenOCD se ejecuta como un servidor que espera conexiones de clientes (GDB, Telnet o RPC).</p>
