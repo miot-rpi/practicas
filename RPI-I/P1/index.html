@@ -521,11 +521,6 @@ características específicas del proyecto a compilar.</p>
 <p>Observa que una de las secciones de opciones del menú de navegación, llamada <em>Example configuration</em>, incluye la opción <em>Blink GPIO number</em>.
 Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear.
 Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada <code>CONFIG_BLINK_GPIO</code>, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.</p>
-<div class="admonition danger">
-<p class="admonition-title">Ejercicio 4</p>
-<p>Prueba a ejecutar el proyecto <em>blink</em> en un ESP32-C3 configurando la opción
-<em>Blink GPIO number</em> para usar el pin GPIO 2. ¿Qué ocurre?</p>
-</div>
 <p>Esta opción de configuración no forma parte de las opciones por defecto de
 ESP-IDF, sino que ha sido añadida por los desarrolladores del proyecto <em>blink</em>.
 Observa y estudia el formato y contenido del fichero <code>main/Kconfig.projbuild</code>
@@ -533,10 +528,10 @@ que se proporciona como parte del fichero. En él, se definen las característic
 (nombre, rango, valor por defecto y descripción) de la opción de configuración
 a definir.</p>
 <div class="admonition danger">
-<p class="admonition-title">Ejercicio 5</p>
+<p class="admonition-title">Ejercicio 4</p>
 <p>Modifica el proyecto <em>hello_world</em> para que defina dos opciones de
 configuración que permitan definir el tiempo de espera de cada una de las
-dos tareas que hayas definido en el ejercicio 3. Haz uso de ellas en
+dos tareas que hayas definido en el ejercicio anterior. Haz uso de ellas en
 tu código y comprueba que su modificación a través del sistema
 de menús permite una personalización del comportamiento de tu código.</p>
 </div>
@@ -547,7 +542,7 @@ en futuras prácticas, vamos a analizar un ejemplo concreto de
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa).
 Para cada red escaneada, se reportarán sus características principales.</p>
 <div class="admonition danger">
-<p class="admonition-title">Ejercicio 6</p>
+<p class="admonition-title">Ejercicio 5</p>
 <p>Compila, flashea y monitoriza el ejemplo <strong><em>scan</em></strong> situado en el directorio <em>wifi</em>.
 Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración.
 Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado por el ESP32.</p>
@@ -556,7 +551,7 @@ Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado 
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).</p>
 <div class="admonition danger">
-<p class="admonition-title">Ejercicio 7</p>
+<p class="admonition-title">Ejercicio 6</p>
 <p>Analiza por encima el código de la función <code>wifi_scan</code> (tarea principal).
 Céntrate especialmente en las líneas que permiten activar y configurar el
 escaneado de redes. Intenta comprender el funcionamiento general del programa,
@@ -570,7 +565,7 @@ rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite
 gestionar la respuestas a eventos de red, como por ejemplo la obtención de
 dirección IP o la conexión exitosa a un punto de acceso.</p>
 <div class="admonition danger">
-<p class="admonition-title">Ejercicio 8</p>
+<p class="admonition-title">Ejercicio 7</p>
 <p>Crea un proyecto a partir del ejemplo <strong><em>station</em></strong> situado en el directorio <em>wifi/getting_started</em>.
 Compílalo, flaséalo y monitoriza su salida estándar.
 Acuérdate de modificar el SSID de la red a la que se conectará, así como la contraseña elegida a través del sistema de menús de configuración.</p>
@@ -594,7 +589,7 @@ la tarea principal, se divide básicamente en dos partes:</p>
   través de <code>esp_wifi_start()</code>.</li>
 </ul>
 <div class="admonition danger">
-<p class="admonition-title">Ejercicio 9</p>
+<p class="admonition-title">Ejercicio 8</p>
 <p>Modifica el <em>firmware</em> para que el <em>handler</em> (función <code>event_handler</code>) encargado del tratamiento de la obtención
 de una dirección IP sea independiente del tratamiento del resto de eventos del sistema WiFi.
 Comprueba que, efectivamente sigue observándose la salida asociada a dicho evento, aun cuando ambas
