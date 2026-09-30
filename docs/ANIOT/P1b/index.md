@@ -9,6 +9,7 @@
 ## Material de consulta
 
 Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:
+
    * [Documentación de OpenOCD](https://openocd.org/pages/documentation.html)
    * [Git and github essentials](https://docs.github.com/en)
    * [Git cheatsheet](https://training.github.com/downloads/es_ES/github-git-cheat-sheet.pdf)
@@ -28,6 +29,7 @@ OpenOCD requiere un adaptador de depuración (dongle) para funcionar.
 OpenOCD se ejecuta como un servidor que espera conexiones de clientes (GDB, Telnet o RPC).
 
 Archivos de Configuración (.cfg): Utiliza comandos basados en el lenguaje de scripting Jim Tcl.
+
    * `interface/*.cfg`: Define el adaptador de depuración (dongle).
    * `board/*.cfg`: Define la placa y la inicialización de hardware externo (ej. SDRAM, Flash).
    * `target/*.cfg`: Define los Test Access Ports (TAP) y las CPUs.
@@ -53,6 +55,7 @@ Info : Listening on port 4444 for telnet connections
 ```
 
 Haciendo uso del comando `telnet` al puerto 4444 se permite interacturar empleando los comando TCL
+
    * `targets`: muestra los targets (cores) detectados
    * `reset`: reiniciia el ESP32 y los detiene (halt)
    * `resume`: reanuda la ejecución
@@ -145,6 +148,8 @@ Esta sección presenta un ejemplo simplificado de cómo utilizar GitHub Actions 
 El flujo de trabajo automatizará la compilación del popular ejemplo "Hello World" utilizando CMake como sistema de construcción.
 
 La estructura del repositorio tendrá la siguiente estructura de ficheros:
+
+```
 nombre_proyecto/
 ├── .github/
 │   └── workflows/
@@ -152,6 +157,7 @@ nombre_proyecto/
 └── src_example_x86/
     ├── CMakeLists.txt
     └── main_example_x86.cpp
+```
 
 El archivo `main_example_x86.cpp` contiene el código de C++ que se compilará con CMake:
 ```cpp
@@ -234,6 +240,7 @@ jobs:
 ```
 
 que consta de los siguiente elementos:
+
 1. Nombre y Eventos (`on`)
 2. Job de compilación (`build`):
    * Ejecutor (`runs-on: ubuntu-latest`) que especifica que el código se ejecutará en una máquina virtual de Ubuntu, cuya arquitectura es x86-64, ideal para compilar ejecutables nativos.
@@ -246,12 +253,12 @@ que consta de los siguiente elementos:
 
 
 !!! note "Tarea"
-1.  Creación del Repositorio y añade la estructura de carpetas: `src_example_x86` y `.github/workflows/`
-2.  Archivos del Proyecto: Copia los contenidos de `main_example_x86.cpp`, `CMakeLists.txt` y `build_x86.yml` en sus respectivas ubicaciones.
-3.  Primer Push y Verificación en la Nube: Sube los archivos al repositorio (git push).
-    * Verifica en la pestaña **Actions de GitHub** que el flujo de trabajo se ejecuta con éxito.
-4.  Descarga del Artefacto: Una vez finalizada la acción, descarga el artefacto llamado `x86-64-executable` desde la página de resumen del job.
-5.  Ejecución Local: Descomprime el artefacto y, en tu máquina local (si es compatible con x86-64 y ejecuta el binario descargado (`./hello_world_x86`).
+	1. Creación del Repositorio y añade la estructura de carpetas: `src_example_x86` y `.github/workflows/`
+    2. Archivos del Proyecto: Copia los contenidos de `main_example_x86.cpp`, `CMakeLists.txt` y `build_x86.yml` en sus respectivas ubicaciones.
+    3. Primer Push y Verificación en la Nube: Sube los archivos al repositorio (git push).
+        * Verifica en la pestaña **Actions de GitHub** que el flujo de trabajo se ejecuta con éxito.
+    4. Descarga del Artefacto: Una vez finalizada la acción, descarga el artefacto llamado `x86-64-executable` desde la página de resumen del job.
+    5. Ejecución Local: Descomprime el artefacto y, en tu máquina local (si es compatible con x86-64 y ejecuta el binario descargado (`./hello_world_x86`).
 
 
 ### Un ejemplo: creación de un flujo de trabajo para compilación de un proyecto ESP-IDF
@@ -385,8 +392,7 @@ ESP-IDF integra herramientas para solicitar información sobre el heap, para det
 en el heap y para tracear el estado del heap periódicamente. 
 
 ### Obtención de información sobre el *heap*
-
-To obtain information about the state of the heap, call the following functions:
+Para obtener la información del estado de la pila, se pueden emplear las siguientes funciones:
 
 - `heap_caps_get_free_size()` se puede utilizar para devolver la memoria libre actual para diferentes tipos de memoria.
 
