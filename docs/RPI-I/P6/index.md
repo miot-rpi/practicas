@@ -1,6 +1,6 @@
 # LAB6. BLE: cliente GATT
 
-# Objetivos
+## Objetivos
 
 * Diseccionar en detalle un *firmware* de un cliente GATT utilizando la API de ESP-IDF.
 * Aprender a realizar un escaneo de dispositivos BLE.
@@ -13,7 +13,7 @@ En esta práctica se revisa el código de ejemplo para la construcción de un cl
 
 El desarrollo de esta práctica requiere el uso de dos placas: una ejecutando el servidor GATT básico (o modificado) que usaste en la práctica anterior, y otra ejecutando el código cliente.
 
-# Descripción del código de ejemplo
+## Descripción del código de ejemplo
 
 El ejemplo que seguiremos y adaptaremos se encuentra en la carpeta de ejemplos de ESP-IDF en `bluetooth/bluedroid/ble/gatt_client/main`. El archivo `gattc_demo.c` contiene todas las funcionalidades que vamos a revisar. 
 
@@ -314,7 +314,7 @@ case ESP_GATTC_REG_EVT:
 ```
 
 !!! danger "Ejercicio 1"
-    Configura los parámetros de escaneo para que éste se produzca con menos frecuencia (cada segundo).
+    Configura los parámetros de escaneo para que este se produzca con menos frecuencia (cada segundo).
 
 Una vez que se establecen los parámetros de escaneo, se desencadena un evento `ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT`, que es manejado por el manejador de eventos GAP `esp_gap_cb()`. Este evento se utiliza para iniciar el escaneo de los servidores GATT cercanos:
 

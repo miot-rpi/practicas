@@ -52,7 +52,7 @@ Damos entonces a *Register gateway* y quedará registrado en nuestro dashboard:
 
 ![](img/ttn-create-gateway-done.png)
 
-Sólo nos falta crear una API key para permitir la conexión del gateway. Para ello,
+Solo nos falta crear una API key para permitir la conexión del gateway. Para ello,
 seleccionamos *API keys* en el panel izquierdo del dashboard (bajo el gateway que hemos
 creado) y pulsamos el botón *Add API key* en el lado derecho de la ventana.
 Rellenamos los datos y pulsamos *Create API key*:
@@ -75,7 +75,7 @@ Esto configurará un punto de acceso WiFi con SSID y contraseña *rg1xx294c1f*, 
 
 Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
 usuario y la contraseña (`sentrius` y `RG1xx`).
-Selecionamos la opción LoRa en el menú superior.
+Seleccionamos la opción LoRa en el menú superior.
 En el panel izquierdo, pulsaremos en *Forwarder* y, en el panel central, seleccionaremos el
 modo *Semtech Basics Station*.
 
@@ -114,7 +114,7 @@ Al principio, el dashboard de la aplicación creada aparecerá vacío:
 
 Para añadir un nodo pulsamos en *Register end device*.
 Como vamos a crear un nodo final a partir de un ESP32, debemos seleccionar *Enter end device specifics manually*.
-Si tuvieramos un nodo comercial podríamos darlo de alta escaneando un QR o seleccionándolo en el menú desplegable.
+Si tuviéramos un nodo comercial podríamos darlo de alta escaneando un QR o seleccionándolo en el menú desplegable.
 
 A continuación, introducimos los datos tal como se muestra en la figura siguiente,
 seleccionando como JoinEUI/AppEUI el identificador que queramos:
@@ -133,7 +133,7 @@ para completar el proceso:
 
 ### Transceptor HopeRFM95W
 
-El dispositvo [HopeRFM95W](https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&/modules/index.html&gad_source=1&gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB)
+El dispositivo [HopeRFM95W](https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&/modules/index.html&gad_source=1&gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB)
 es un pequeño transceptor LoRa que puede conectarse por SPI a cualquier
 microcontrolador para dotarlo de conectividad LoRa.
 Han salido al mercado varios modelos de *breakout boards* que permiten adaptar este transceptor a una
@@ -158,17 +158,17 @@ El pinout de la ESP32-C3 DevKit RUST es el siguiente:
 Una posible conexión entre el transceptor y la ESP32-C3 DevKit RUST sería la
 siguiente:
 
-| Adafruit 3070   | ESP32-C3 DevKit RUST |  Función   |
-|-----------------|:--------------------:|:----------:|
-| RST             |      5               | Reset      |
-| CS              |      6               | SPI SS     |
-| MOSI            |      2               | SPI MOSI   |
-| MISO            |      3               | SPI MISO   |
-| SCK             |      4               | SPI CLK    |
-| G0              |      0               | DIO0       |
-| GND             |     GND              | GND        |
-| Vin             |     3.3 V            | 3.3 V      |
-| G1              |      1               | DIO1       |
+| Adafruit 3070 | ESP32-C3 DevKit RUST | Función  |
+| ------------- | :------------------: | :------: |
+| RST           |          5           |  Reset   |
+| CS            |          6           |  SPI SS  |
+| MOSI          |          2           | SPI MOSI |
+| MISO          |          3           | SPI MISO |
+| SCK           |          4           | SPI CLK  |
+| G0            |          0           |   DIO0   |
+| GND           |         GND          |   GND    |
+| Vin           |        3.3 V         |  3.3 V   |
+| G1            |          1           |   DIO1   |
 
 La siguiente figura muestra las dos placas conectadas con las conexiones
 indicadas en la tabla anterior:
@@ -190,7 +190,7 @@ soporta las siguientes características:
 - Mensajes uplink y downlink.
 - Almacenamiento de EUIs y claves en memoria no volátil.
 - Modo de bajo consumo y apagado sin necesidad de volver a unirse a la red.
-- Comandos AT para el provisionamiento de EUIs y claves (para que el mismo código pueda flashearse en varios dispositivos).
+- Comandos AT para el aprovisionamiento de EUIs y claves (para que el mismo código pueda flashearse en varios dispositivos).
 - Soporte para las regiones de Europa, América del Norte y del Sur, Australia, Corea, Asia e India.
 - API en C y C++.
 
@@ -230,7 +230,7 @@ el servidor de aplicaciones) cada segundo.
 El programa debe configurar los valores de una serie de constantes y macros, que determinan, por un
 lado, los IDs del nodo para TTN y, por otro, los pines utilizados para la conexión del ESP32 con el transceptor LoRa.
 
-Para los IDs del nodo en TTN, usaremos los datos obtenidos al registar el nodo en TTN:
+Para los IDs del nodo en TTN, usaremos los datos obtenidos al registrar el nodo en TTN:
 
 ```c 
 // AppEUI (sometimes called JoinEUI)

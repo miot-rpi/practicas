@@ -26,11 +26,11 @@ soporte incluye configuraciones para:
   acceso (AP) y cliente WiFi conectado a otro punto de acceso (STA).
 
 * Varios modos de seguridad tanto en modo cliente como en modo AP (WPA,
-  WPA2, WEP, etc.)
+  WPA2, WEP, etc).
 
 * Escaneado de puntos de acceso (activo y pasivo).
 
-* Provisionamiento de claves y modo WPS.
+* Aprovisionamiento de claves y modo WPS.
 
 * Modo promiscuo para monitorización de paquetes IEEE 802.11.
 
@@ -95,7 +95,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
     Ante la recepción de este evento, no se lanza ningún proceso específico como
     respuesta. La aplicación necesitará invocar normalmente a 
     `esp_wifi_scan_get_ap_num()` y a `esp_wifi_scan_get_ap_records()` 
-    para recoger la lista de APs escaneados y liberar los recursos  (memoria)
+    para recoger la lista de APs escaneados y liberar los recursos (memoria)
     que se aloja en el proceso de escaneado.
 
 * `WIFI_EVENT_STA_START`
@@ -145,7 +145,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
     de autenticación cambia, etc.
 
     Resulta común que la rutina de tratamiento del evento trate de invocar de
-    nuevo a la función `esp_wifi_connect()` para reintentar la conexión.  
+    nuevo a la función `esp_wifi_connect()` para reintentar la conexión.
 
 * `WIFI_EVENT_STA_GOT_IP`
 
@@ -174,7 +174,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
     inválida. El evento no se emite inmediatamente tras la desconexión
     WiFi, sino que inicializa un temporizador de tipo *address lost*. Si se
     obtiene una IP antes de su expiración, el evento no se emite. En otro
-    caso, se emite justo en el instante de expirción del temporizador.
+    caso, se emite justo en el instante de expiración del temporizador.
 
     Normalmente, las aplicaciones no deben tratar este evento (suele usarse
     en tareas de depuración).
@@ -185,7 +185,7 @@ de conexiones WiFi, que utilizaremos en los ejemplos posteriores.
 
 * `WIFI_EVENT_AP_STACONNECTED`
 
-    Cuando un dispositivo (*station*) se conecta a un AP, éste emite el event
+    Cuando un dispositivo (*station*) se conecta a un AP, este emite el event
     `WIFI_EVENT_AP_STACONNECTED`. Es posible ignorarlo, o aprovecharlo para
     obtener información sobre la estación conectada, por ejemplo.
 
@@ -244,7 +244,7 @@ modo combinado *station/AP*, consulta el siguiente
 
 Generalmente, es necesario configurar el driver WiFi antes de establecer
 una conexión, pero no es obligatorio: es posible reconfigurarlo en cualquier
-momento, siempre que el driver esté correctamente incializado. En cualquier
+momento, siempre que el driver esté correctamente inicializado. En cualquier
 caso, si la configuración no tiene que modificarse tras la conexión, es mejor
 realizarla en este punto, porque algunos de los parámetros que pueden variar
 forzarán una reconexión WiFi, aspecto que es mejor evitar.
@@ -265,8 +265,8 @@ de la conexión WiFi. Por ejemplo, el código:
             },
         },
     };
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
-    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) );
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
 ```
 
 Realiza una configuración básica WiFi proporcionando SSID, contraseña y 
@@ -275,16 +275,16 @@ modo de autenticación antes de configurar la conexión.
 **Fase 3: inicio WiFi**
 
   1. Invocación a `esp_wifi_start()` para iniciar el driver WiFi.
-  2. El driver WiFi envia un evento `WIFI_EVENT_STA_START`, que será tratado
+  2. El driver WiFi envía un evento `WIFI_EVENT_STA_START`, que será tratado
 por la tarea de gestión de eventos por defecto para realizar las tareas
-necesarias e invocará a la runtina de tratamiento del evento a nivel de 
+necesarias e invocará a la rutina de tratamiento del evento a nivel de 
 aplicación.
   3. La aplicación deberá tratar el evento `WIFI_EVENT_STA_START`, invocando
 (se recomienda) a `esp_wifi_connect()`. 
 
 **Fase 4: conexión WiFi**
 
-  1. Una vez invocada `esp_wifi_connect()`, el dirver WiFi comienza un proceso
+  1. Una vez invocada `esp_wifi_connect()`, el driver WiFi comienza un proceso
 interno de escaneado/conexión.
   2. Si dicho proceso tiene éxito, se genera un evento `WIFI_EVENT_STA_CONNECTED`.
 Automáticamente se invoca al cliente DHCP y comienza el proceso de obtención de 
@@ -310,7 +310,7 @@ En el paso 6 se trata este aspecto.
 
 **Fase 6: desconexión WiFi**
 
-  1.  Cuando finaliza de forma abrupta una conexión WiFi, por ejemplo al apagar
+  1. Cuando finaliza de forma abrupta una conexión WiFi, por ejemplo al apagar
 el punto de acceso (AP), si la calidad de recepción (RSSI) es baja, etc. 
 se emite un evento `WIFI_EVENT_STA_DISCONNECTED`.
   2. La tarea de aplicación debería tratar este evento para, típicamente, 
@@ -335,13 +335,13 @@ de sockets) para mantenerse en un estado consistente.
 ### Análisis de un ejemplo (`wifi/getting_started/station`)
 
 !!! note "Tarea"
-    Analiza el ejemplo ***station***, compílalo y flashealo. Estudia el tratamiento
+    Analiza el ejemplo ***station***, compílalo y flaséalo. Estudia el tratamiento
     de eventos que realiza, y cómo estos son emitidos para casos reales. Para
     ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
     apaga el punto de acceso mientras la IP está concedida, y analiza los
     eventos generados y su respuesta. 
 
-!!! danger "Ejercicio 1"    
+!!! danger "Ejercicio 1"
     Revisa el tratamiento de eventos del código anterior, añade el tratamiento
     de los eventos que falten por tratar. Entrega tu código con comentarios
     explicando el código añadido.
@@ -383,7 +383,7 @@ de acceso, consulta este
 ### Análisis de un ejemplo (`wifi/getting_started/softAP`)
 
 !!! note "Tarea"
-    Analiza el ejemplo `softAP`, compílalo y flashealo. Estudia el tratamiento
+    Analiza el ejemplo `softAP`, compílalo y flaséalo. Estudia el tratamiento
     de eventos que realiza, y cómo estos son emitidos para casos reales. Para
     ello, conecta distintos clientes (*stations*), bien sean ESP32 o cualquier
     otro dispositivo, y analiza los eventos generados y su respuesta.
@@ -494,7 +494,7 @@ se ha especificado en la sección anterior.
 en modo *broadcast* un paquete de tipo *probe request*. En caso de escaneado
 pasivo, seguirá escuchando en el canal 1 durante un tiempo determinado a la
 espera de *beacons*. En cualquier caso, el valor por defecto de espera es de
-120 milisengundos.
+120 milisegundos.
 
   2. El driver cambia al canal 2 y repite el proceso. 
 
@@ -520,18 +520,18 @@ trabajo detallado anteriormente.
     Compila, flashea y ejecuta el ejemplo de escaneado. Modifica el 
     código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
     de que si fijas un canal específico en el que tu punto de acceso está trabajando,
-    éste es detectado corretamente. Estudia y modifica los tiempos de espera y
+    este es detectado correctamente. Estudia y modifica los tiempos de espera y
     observa su efecto en el tiempo total de escaneado.
 
 !!! danger "Ejercicio 4"
     Implementa un *firmware* que realice un escaneado de las redes
     disponibles. Si el nodo detecta la presencia de una o más de las *redes
     conocidas*, se conectará en modo STA a la red de mayor prioridad entre las
-    conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
-    móvil y vuestro domicilio.
+    conocidas. Pruébalo usando como redes conocidas la del laboratorio, tu
+    móvil y tu domicilio.
   
 !!! danger "Ejercicio 5"
-    Codificar el código de la tarea anterior para que la lista de *redes
+    Modificar el código de la tarea anterior para que la lista de *redes
     conocidas* y la prioridad relativa se puedan configurar con menuconfig.
 
 ## Conexión a una red WPA2 Enterprise (*eduroam*)
@@ -561,6 +561,6 @@ parámetros:
 
 !!! danger "Ejercicio 6"
     Configura el ejemplo de autenticación para WPA2 Enterprise (ejemplo `wifi_enterprise`)
-    con tus credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
+    con tus credenciales de *eduroam*. Compila y ejecuta el ejemplo de autenticación y
     adjunta una captura de pantalla que demuestre la correcta conexión del nodo
     a *eduroam*.

@@ -182,15 +182,15 @@ void app_main(void)
 }
 ```
 
-A alto nivel, la función `app_main` es el punto de entrada a todo programa
+A alto nivel, la función `app_main()` es el punto de entrada a todo programa
 desarrollado usando ESP-IDF. De modo más específico, tras la carga del
 sistema, la *tarea principal* (*main task*) ejecuta el código proporcionado por
-el usuario e implementado en la función `app_main`. Tanto el tamaño de pila
+el usuario e implementado en la función `app_main()`. Tanto el tamaño de pila
 asignado como la prioridad de esta tarea puede ser configuradas por el
 desarrollador a través del sistema de configuración de ESP-IDF (lo veremos más
 adelante). Normalmente, esta función se utiliza para llevar a cabo tareas
 iniciales de configuración o para crear y lanzar a ejecución otras tareas.
-Se puede implementar cualquier funcionalidad dentro de la función `app_main`
+Se puede implementar cualquier funcionalidad dentro de la función `app_main()`
 o invocar a otras funciones que la implementen.
 
 En este ejemplo, se muestra en primer lugar información genérica sobre el SoC
@@ -254,7 +254,7 @@ que ejecute la lógica del programa. Para ello, es necesario introducir
 brevemente la API básica para la gestión de tareas (en nuestro caso solo necesitamos crear una tarea).
 Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que aquí no veremos más detalles de los estrictamente necesarios.
 
-La función `xTaskCreate` (incluida en `task.h`) permite la creación de nuevas
+La función `xTaskCreate()` (incluida en `task.h`) permite la creación de nuevas
 tareas:
 
 ```c
@@ -270,7 +270,7 @@ Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
 
 * `pvTaskCode`: La dirección de la función de entrada para la tarea. Las tareas suelen
   implementarse como un bucle infinito. No deben retornar de la función de entrada
-  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
+  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete()` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
 
 ```c
  void vATaskFunction(void *pvParameters)
@@ -315,7 +315,7 @@ void hello_task(void *pvParameter)
 
 Cabe destacar que, al reiniciar el sistema, no es necesario terminar correctamente la tarea mediante la ejecución de `vTaskDelete`.
 
-La función `app_main` se limitaría entonces a crear la tarea:
+La función `app_main()` se limitaría entonces a crear la tarea:
 
 ```c
 void app_main()
@@ -389,7 +389,7 @@ las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).
 
 !!! danger "Ejercicio 7"
-    Analiza por encima el código de la función `wifi_scan` (tarea principal).
+    Analiza por encima el código de la función `wifi_scan()` (tarea principal).
     Céntrate especialmente en las líneas que permiten activar y configurar el
     escaneado de redes. Intenta comprender el funcionamiento general del programa,
     prestando especial atención a las funciones con prefijo `esp_wifi_*`.
@@ -413,12 +413,12 @@ en modo *station* (en contraposición al modo *Access Point*, que veremos en
 el próximo laboratorio), realizando una conexión al punto de acceso preconfigurado
 a través del menú de configuración.
 
-Analiza el código de la función `wifi_init_sta`. Esta función, que implementa
+Analiza el código de la función `wifi_init_sta()`. Esta función, que implementa
 la tarea principal, se divide básicamente en dos partes:
 
 * **Gestión de eventos**: observa el mecanismo mediante el cual se registra
   y se asocia la recepción de un evento a la ejecución de un manejador o función
-  determinada (pista: función `esp_event_handler_instance_register`).
+  determinada (pista: función `esp_event_handler_instance_register()`).
 * **Configuración de la conexión a un punto de acceso**: la configuración de la
   conexión se realiza a través de los campos correspondientes de una estructura
   de tipo `wifi_config_t`. Observa los campos básicos que necesita, cómo fuerza
@@ -428,7 +428,7 @@ la tarea principal, se divide básicamente en dos partes:
   través de `esp_wifi_start()`.
 
 !!! danger "Ejercicio 9"
-    Modifica el *firmware* para que el *handler* (función `event_handler`) encargado del tratamiento de la obtención
+    Modifica el *firmware* para que el *handler* (función `event_handler()`) encargado del tratamiento de la obtención
     de una dirección IP sea independiente del tratamiento del resto de eventos del sistema WiFi.
     Comprueba que, efectivamente sigue observándose la salida asociada a dicho evento, aun cuando ambas
     funciones sean independientes.
