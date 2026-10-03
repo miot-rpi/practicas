@@ -251,7 +251,7 @@ pegatina de la tapa inferior del mismo (marcado como M2 EUI):</p>
 <p><img alt="" src="img/ttn-create-gateway.png" /></p>
 <p>Damos entonces a <em>Register gateway</em> y quedará registrado en nuestro dashboard:</p>
 <p><img alt="" src="img/ttn-create-gateway-done.png" /></p>
-<p>Sólo nos falta crear una API key para permitir la conexión del gateway. Para ello,
+<p>Solo nos falta crear una API key para permitir la conexión del gateway. Para ello,
 seleccionamos <em>API keys</em> en el panel izquierdo del dashboard (bajo el gateway que hemos
 creado) y pulsamos el botón <em>Add API key</em> en el lado derecho de la ventana.
 Rellenamos los datos y pulsamos <em>Create API key</em>:</p>
@@ -268,7 +268,7 @@ Para ello, pulsaremos el botón de usuario durante unos 10 segundos y luego lo s
 Esto configurará un punto de acceso WiFi con SSID y contraseña <em>rg1xx294c1f</em>, al cual podremos conectarnos desde nuestro PC.</p>
 <p>Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
 usuario y la contraseña (<code>sentrius</code> y <code>RG1xx</code>).
-Selecionamos la opción LoRa en el menú superior.
+Seleccionamos la opción LoRa en el menú superior.
 En el panel izquierdo, pulsaremos en <em>Forwarder</em> y, en el panel central, seleccionaremos el
 modo <em>Semtech Basics Station</em>.</p>
 <p>A su vez, tendremos que proporcionar la URL del servidor de red (campo <em>LNS server</em>),
@@ -295,7 +295,7 @@ el cual nos permitirá añadir nodos como se indica en la siguiente subsección.
 <p><img alt="" src="img/ttn-add-application-done.png" /></p>
 <p>Para añadir un nodo pulsamos en <em>Register end device</em>.
 Como vamos a crear un nodo final a partir de un ESP32, debemos seleccionar <em>Enter end device specifics manually</em>.
-Si tuvieramos un nodo comercial podríamos darlo de alta escaneando un QR o seleccionándolo en el menú desplegable.</p>
+Si tuviéramos un nodo comercial podríamos darlo de alta escaneando un QR o seleccionándolo en el menú desplegable.</p>
 <p>A continuación, introducimos los datos tal como se muestra en la figura siguiente,
 seleccionando como JoinEUI/AppEUI el identificador que queramos:</p>
 <p><img alt="" src="img/ttn-add-end-device-esp32.png" /></p>
@@ -307,7 +307,7 @@ Pulsaremos <em>Generate</em> en ambos casos y guardaremos los valores generados
 para completar el proceso:</p>
 <p><img alt="" src="img/ttn-add-end-device-esp32-filled.png" /></p>
 <h3 id="transceptor-hoperfm95w">Transceptor HopeRFM95W</h3>
-<p>El dispositvo <a href="https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&amp;/modules/index.html&amp;gad_source=1&amp;gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB">HopeRFM95W</a>
+<p>El dispositivo <a href="https://www.hoperf.com/modules/lora/RFM95W.html?ref=halle1wh.de&amp;/modules/index.html&amp;gad_source=1&amp;gclid=Cj0KCQjw7Py4BhCbARIsAMMx-_KBeOI3-6XQhq7MNRCsB8IjwhyyCOZXpjxvjlvnDkuDDoE9-TqUB9saAg9hEALw_wcB">HopeRFM95W</a>
 es un pequeño transceptor LoRa que puede conectarse por SPI a cualquier
 microcontrolador para dotarlo de conectividad LoRa.
 Han salido al mercado varios modelos de <em>breakout boards</em> que permiten adaptar este transceptor a una
@@ -399,7 +399,7 @@ soporta las siguientes características:</p>
 <li>Mensajes uplink y downlink.</li>
 <li>Almacenamiento de EUIs y claves en memoria no volátil.</li>
 <li>Modo de bajo consumo y apagado sin necesidad de volver a unirse a la red.</li>
-<li>Comandos AT para el provisionamiento de EUIs y claves (para que el mismo código pueda flashearse en varios dispositivos).</li>
+<li>Comandos AT para el aprovisionamiento de EUIs y claves (para que el mismo código pueda flashearse en varios dispositivos).</li>
 <li>Soporte para las regiones de Europa, América del Norte y del Sur, Australia, Corea, Asia e India.</li>
 <li>API en C y C++.</li>
 </ul>
@@ -428,7 +428,7 @@ TTN y después empezará a enviar mensajes <code>Hello, world</code> uplink (hac
 el servidor de aplicaciones) cada segundo.</p>
 <p>El programa debe configurar los valores de una serie de constantes y macros, que determinan, por un
 lado, los IDs del nodo para TTN y, por otro, los pines utilizados para la conexión del ESP32 con el transceptor LoRa.</p>
-<p>Para los IDs del nodo en TTN, usaremos los datos obtenidos al registar el nodo en TTN:</p>
+<p>Para los IDs del nodo en TTN, usaremos los datos obtenidos al registrar el nodo en TTN:</p>
 <pre><code class="language-c">// AppEUI (sometimes called JoinEUI)
 const char *appEui = &quot;0101010101010101&quot;;
 // DevEUI

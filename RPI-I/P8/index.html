@@ -233,12 +233,12 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="lab8-6lowpan-y-simulador-cooja">LAB8. 6LoWPAN y simulador Cooja</h1>
+<h1 id="lab8-6lowpan-y-simulador-cooja">LAB8. 6LoWPAN y simulador <em>Cooja</em></h1>
 <h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
 <p>Los routers de borde son enrutadores que pueden encontrarse en el borde de una
 red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.</p>
-<p>En esta práctica, usaremos el simulador Cooja, del proyecto Contiki-NG, para
+<p>En esta práctica, usaremos el simulador <em>Cooja</em>, del proyecto Contiki-NG, para
 construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL
 (<em>Routing Protocol for Low-Power and Lossy Networks</em>) como
 algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-NG.
@@ -247,11 +247,11 @@ red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
 siguiente diagrama:</p>
 <p><img alt="" src="img/diagram.png" /></p>
 <p>El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
-tanto una red RPL con Contiki-NG en el simulador Cooja, así como conseguir
+tanto una red RPL con Contiki-NG en el simulador <em>Cooja</em>, así como conseguir
 hacerla interactuar con una segunda red externa real utilizando la herramienta
 <code>tunslip</code>.</p>
-<h2 id="instalacion-de-cooja">Instalación de Cooja</h2>
-<p>Se ofrecen dos alternativas para instalar y usar el simulador Cooja:</p>
+<h2 id="instalacion-de-cooja">Instalación de <em>Cooja</em></h2>
+<p>Se ofrecen dos alternativas para instalar y usar el simulador <em>Cooja</em>:</p>
 <ul>
 <li>Instalación mediante contenedores Docker.</li>
 <li>Uso de una máquina virtual de VirtualBox proporcionada por el profesor.</li>
@@ -293,7 +293,7 @@ xhost -SI:localuser:$(id -un)
 </code></pre>
 <p>En este momento, si añadimos la ruta <code>$HOME/.local/bin</code> a la variable
 <em>PATH</em>, podemos ejecutar el contenedor de Contiki-NG ejecutando el script
-<code>contiker</code> y, una vez dentro del contenedor, ejecutar el simulador Cooja:</p>
+<code>contiker</code> y, una vez dentro del contenedor, ejecutar el simulador <em>Cooja</em>:</p>
 <pre><code class="language-sh">$ contiker
 localuser:user being added to access control list
 To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.
@@ -316,7 +316,7 @@ Drive</a>.
 Se trata de un archivo .ova que tendremos que importar en VirtualBox.</p>
 <p>Una vez importado, podemos arrancar la máquina virtual (el usuario es <em>user</em> y la
 contraseña <em>contiki</em>).
-Para arrancar el simulador, bastará con abrir un terminal y ejecutar el comando <em>cooja</em>.
+Para arrancar el simulador, bastará con abrir un terminal y ejecutar el comando <code>cooja</code>.
 El repositorio de Contiki-NG se encuentra en un directorio con el mismo nombre dentro del home del usuario <em>user</em>.</p>
 <h2 id="codigo-contiki-ng">Código Contiki-NG</h2>
 <p>En el desarrollo de la práctica utilizaremos algunos de los ejemplos incluidos en la
@@ -332,20 +332,20 @@ red a través de una conexión SLIP (<em>Serial Line Interface Protocol</em>) y 
 resto de nodos de la red RPL para que configuren sus respectivas direcciones IPv6
 globales. Una vez recibido el prefijo, el router de borde se configura como
 raíz del DODAG y envía el prefijo al resto de nodos de la red.</p>
-<h2 id="simulacion-en-cooja">Simulación en Cooja</h2>
-<p>Para crear una simulación completa en Cooja, arrancamos el simulador usando el
+<h2 id="simulacion-en-cooja">Simulación en <em>Cooja</em></h2>
+<p>Para crear una simulación completa en <em>Cooja</em>, arrancamos el simulador usando el
 siguiente comando:</p>
 <pre><code class="language-sh">To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.
 See &quot;man sudo_root&quot; for details.
 
 user@e2d84745c836:~/contiki-ng$ cooja
 </code></pre>
-<p>Si estamos utilizando la máquina virtual, basta con ejecutar Cooja desde un terminal.
+<p>Si estamos utilizando la máquina virtual, basta con ejecutar <em>Cooja</em> desde un terminal.
 De aquí en adelante se pueden ignorar todos los detalles relativos a Docker si
 hemos optado por usar la máquina virtual.</p>
 <p>Si todo ha ido correctamente, debería aparecer la ventana principal del simulador:</p>
 <p><img alt="" src="img/Cooja_Window.png" /></p>
-<p>A partir de ahora, sigue los pasos indicados para crear una simulación en Cooja.</p>
+<p>A partir de ahora, sigue los pasos indicados para crear una simulación en <em>Cooja</em>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 1</p>
 <p>Documenta con capturas de pantalla tanto la configuración que vas a realizar a continuación
@@ -355,7 +355,7 @@ como el resultado final que muestre el simulador.</p>
 Selecciona <code>UDGM</code> como modelo de radio para simular las comunicaciones inalámbricas
 e introduce el nombre de la simulación. Presiona <code>Create</code> y se abrirá la ventana de simulación:</p>
 <p><img alt="" src="img/Cooja_New_Sim.png" /></p>
-<p>En el menú <code>Motes</code> (mote = nodo de sensor simulado), selecciona <code>Add motes -&gt; Create new mote type</code> y seleccona el
+<p>En el menú <code>Motes</code> (mote = nodo de sensor simulado), selecciona <code>Add motes -&gt; Create new mote type</code> y elige el
 tipo de mota <code>Cooja</code>.
 Luego selecciona como código fuente el archivo del ejemplo para el router de borde: <code>examples/rpl-border-router/rpl-border-router.c</code>:</p>
 <p><img alt="" src="img/Cooja_New_Mote.png" /></p>
@@ -364,7 +364,7 @@ Luego selecciona como código fuente el archivo del ejemplo para el router de bo
 Distribúyelas por la simulación, asegurándote de que no todas estén al alcance directo del router de borde
 pero que puedan llegar a este pasando a través de otros nodos que sí estén dentro de su rango:</p>
 <p><img alt="" src="img/RPL_Red_Ejemplo.png" /></p>
-<p>A continuación, crearemos una conexión SLIP entre la red RPL simulada en Cooja y
+<p>A continuación, crearemos una conexión SLIP entre la red RPL simulada en <em>Cooja</em> y
 una máquina externa (ya sea un contenedor Docker o nuestra máquina virtual). Para ello, pulsa
 en el menú <code>Tools -&gt; Serial Socket (SERVER)</code> y selecciona la mota correspondiente
 al router de borde (identifícala por su número o tipo):</p>
@@ -418,7 +418,7 @@ enviado, a través de la conexión serie, un mensaje de configuración al router
 prefijo IPv6 deseado para todos los nodos de la red RPL (<code>aaaa::/64</code>).
 Las dos últimas líneas de la salida anterior indican cuáles son las direcciones
 IPv6 del router de borde tras recibir el prefijo.</p>
-<p>Vuelve al simulador Cooja y observa el mensaje que ha aparecido en la ventana <code>Serial Socket (SERVER)</code>
+<p>Vuelve al simulador <em>Cooja</em> y observa el mensaje que ha aparecido en la ventana <code>Serial Socket (SERVER)</code>
 (apartado <em>status</em>).</p>
 <h2 id="verificacion-de-resultados">Verificación de resultados</h2>
 <p>Es posible verificar la dirección IPv6 del router de borde realizando un ping
@@ -442,24 +442,24 @@ PING aaaa::205:5:5:5(aaaa::205:5:5:5) 56 data bytes
 según el ID del nodo (mota).</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 2</p>
-<p>Mientras haces ping a uno de los nodos, vuelve al simulador Cooja y explica lo que
+<p>Mientras haces ping a uno de los nodos, vuelve al simulador <em>Cooja</em> y explica lo que
   ocurre en la ventana <code>Network</code>. Ajusta la velocidad de simulación a 1X para poder
   seguir la transmisión en tiempo real.</p>
 </div>
 <h2 id="captura-de-paquetes-para-analisis">Captura de paquetes para análisis</h2>
-<p>En el simulador Cooja, desde el menú <code>Tools</code> podemos abrir la ventana de <code>Radio Messages</code>.
+<p>En el simulador <em>Cooja</em>, desde el menú <code>Tools</code> podemos abrir la ventana de <code>Radio Messages</code>.
 Esta ventana permite capturar todos los paquetes de la simulación y generar un archivo
 <code>.pcap</code> para su posterior análisis con Wireshark.
 Para ello, en el menú <code>Analyzer</code> de la ventana <code>Radio Messages</code> seleccionamos la opción
 <code>6LoWPAN Analyzer with PCAP</code>.</p>
 <p>A continuación, reiniciamos la simulación anterior pulsando el botón <code>Reload</code> en la ventana
-principal de Cooja. Esto interrumpirá la comunicación con la máquina externa, por lo que
+principal de <em>Cooja</em>. Esto interrumpirá la comunicación con la máquina externa, por lo que
 será necesario volver a ejecutar <em>tunslip6</em>.</p>
 <p>Ahora estamos listos para volver a simular la red capturando todos los paquetes
 enviados entre los nodos.
 Dejamos que la simulación se ejecute durante un tiempo y luego la paramos.
-Cooja habrá generado un archivo <code>radiolog-&lt;n&gt;.pcap</code>, donde <code>&lt;n&gt;</code> será un número aleatorio,
-en el directorio desde el que se haya lanzado Cooja.</p>
+<em>Cooja</em> habrá generado un archivo <code>radiolog-&lt;n&gt;.pcap</code>, donde <code>&lt;n&gt;</code> será un número aleatorio,
+en el directorio desde el que se haya lanzado <em>Cooja</em>.</p>
 <p>En Wireshark podemos filtrar los paquetes relacionados con el protocolo RPL y
 buscar los mensajes <code>Destination Advertisement Object (DAO)</code> que los nodos
 envían hacia la raíz indicando el nodo que han elegido como padre.

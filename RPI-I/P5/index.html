@@ -198,11 +198,10 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#lab5-ble-servidor-gatt" class="nav-link">LAB5. BLE: servidor GATT</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
               </ul>
             </li>
             
@@ -261,7 +260,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="lab5-ble-servidor-gatt">LAB5. BLE: servidor GATT</h1>
-<h1 id="objetivos">Objetivos</h1>
+<h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Diseccionar en detalle un <em>firmware</em> de construcción de tabla GATT (servidor
 GATT) utilizando la API de ESP-IDF.</li>
@@ -306,9 +305,8 @@ BLE a nuestro <em>firmware</em>:</p>
 #include &quot;esp_gatt_common_api.h&quot;
 </code></pre>
 <p>Estos encabezados son necesarios para un correcto funcionamiento de <em>FreeRTOS</em>
-y de sus componentes, incluyendo funcionalidad relativa a <em>logging</em> y 
-almacenamiento no volátil. 
-Son especialmente interesantes los ficheros <code>esp_bt.h</code>, <code>esp_bt_main.h</code>, 
+y de sus componentes, incluyendo funcionalidad relativa a <em>logging</em> y almacenamiento no volátil. 
+Son especialmente interesantes los ficheros <code>esp_bt.h</code>, <code>esp_bt_main.h</code>,
 <code>esp_gap_ble_api.h</code> y <code>esp_gatts_api.h</code>, ya que exponen la API BLE necesaria
 para la implementación del <em>firmware</em>:</p>
 <ul>
@@ -318,7 +316,7 @@ para la implementación del <em>firmware</em>:</p>
 <li><code>esp_gatts_api.h</code>: implementa la configuración del servidor GATT (por ejemplo, la creación de servicios y características).</li>
 </ul>
 <h2 id="la-tabla-de-servicios">La tabla de servicios</h2>
-<p>El fichero de cabecera <a href="main/gatts_table_creat_demo.h">gatts_table_creat_demo.h</a> 
+<p>El fichero de cabecera <a href="main/gatts_table_creat_demo.h">gatts_table_creat_demo.h</a>
 contiene una enumeración de los servicios y características deseadas:</p>
 <pre><code class="language-c">enum
 {
@@ -348,7 +346,7 @@ identificar a cada elemento a la hora de crear la tabla de atributos:</p>
 <li><code>IDX_CHAR_A</code>: índice de la definición de la característica Heart Rate Measurement.</li>
 <li><code>IDX_CHAR_VAL_A</code>: índice del valor de la característica Heart Rate Measurement.</li>
 <li><code>IDX_CHAR_CFG_A</code>: índice del descriptor de característica Client Configuration Characteristic (CCC) de la característica Heart Rate Measurement (permite configurar notificaciones por cambio en el valor de la característica).</li>
-<li><code>IDX_CHAR_B</code>: ínidce de la declaración de característica Heart Rate Body Sensor Location.</li>
+<li><code>IDX_CHAR_B</code>: índice de la declaración de característica Heart Rate Body Sensor Location.</li>
 <li><code>IDX_CHAR_VAL_B</code>: índice del valor de la característica Heart Rate Body Sensor Location.</li>
 <li><code>IDX_CHAR_C</code>: índice de la declaración de característica Heart Rate Control Point.</li>
 <li><code>IDX_CHAR_VAL_C</code>: índice del valor de la característica Heart Rate Control Point.</li>
@@ -416,7 +414,7 @@ sigue:</p>
 
     esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
     if (local_mtu_ret){
-        ESP_LOGE(GATTS_TABLE_TAG, &quot;set local  MTU failed, error code = %x&quot;, local_mtu_ret);
+        ESP_LOGE(GATTS_TABLE_TAG, &quot;set local MTU failed, error code = %x&quot;, local_mtu_ret);
     }
 }
 </code></pre>
@@ -433,7 +431,7 @@ en primer lugar una estructura de configuración para tal fin de tipo
 <code>esp_bt_controller_config_t</code> con valores por defecto dictados por la macro <code>BT_CONTROLLER_INIT_CONFIG_DEFAULT()</code>. </p>
 <p>El controlador Bluetooth implementa el <em>Host Controller Interface</em> (HCI), la
 capa de enlace y la capa física BLE; es, por tanto, transparente para el
-programador.  La configuración incluye el tamaño de pila reservado al
+programador. La configuración incluye el tamaño de pila reservado al
 controlador, prioridad y baudios para la transmisión. Con estas configuraciones,
 el controlador puede ser inicializado y activado con la función
 <code>esp_bt_controller_init()</code>:</p>
@@ -443,7 +441,7 @@ ret = esp_bt_controller_init(&amp;bt_cfg);
 <p>Una vez inicializado el controlador se activa el modo BLE:</p>
 <pre><code class="language-c">ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 </code></pre>
-<p>Existen cuatro modos de funcioinamiento del controlador Bluetooth:</p>
+<p>Existen cuatro modos de funcionamiento del controlador Bluetooth:</p>
 <ol>
 <li><code>ESP_BT_MODE_IDLE</code>: Bluetooth no funcional.</li>
 <li><code>ESP_BT_MODE_BLE</code>: modo BLE.</li>
@@ -484,13 +482,13 @@ reduce al registro del perfil en la pila Bluetooth. En el ejemplo, el ID es
 #define PROFILE_APP_IDX              0
 #define ESP_APP_ID                   0x55
 </code></pre>
-<p>Los perfiles se almacenan en el array <code>heart_rate_profile_tab</code>. 
+<p>Los perfiles se almacenan en el array <code>heart_rate_profile_tab</code>.
 Al haber un único perfil en el ejemplo, solo se almacena un elemento en el 
-array, con índice 0 (tal y como se define en <code>PROFILE_APP_IDX</code>). 
+array, con índice 0 (tal y como se define en <code>PROFILE_APP_IDX</code>).
 Además, es necesario inicializar la función de <em>callback</em> manejadora de los
 eventos del perfil. Cada aplicación en el servidor GATT utiliza una interfaz
 diferenciada, representada por el parámetro <code>gatts_if</code>. Para la inicialización,
-este parámetro se iguala a <code>ESP_GATT_IF_NONE</code>; 
+este parámetro se iguala a <code>ESP_GATT_IF_NONE</code>;
 cuando más adelante se registre la aplicación, el parámetro <code>gatts_if</code> se 
 actualizará con la interfaz generada automáticamente por la pila Bluetooth.</p>
 <pre><code class="language-c">/* One gatt-based profile one app_id and one gatts_if, this array will store the gatts_if returned by ESP_GATTS_REG_EVT */
@@ -569,7 +567,7 @@ de aplicación (<code>heart_rate_profile_tab</code>).</p>
 los eventos asociados al perfil (<code>gatts_profile_event_handler</code>).</p>
 <h2 id="parametros-gap">Parámetros GAP</h2>
 <p>Como hemos visto arriba, el evento <code>ESP_GATTS_REG_EVT</code> es delegado en la
-función <code>gatss_profile_event_handler</code> por el manejador de eventos del servidor
+función <code>gatts_profile_event_handler()</code> por el manejador de eventos del servidor
 GATT para completar su procesamiento:</p>
 <pre><code class="language-c">static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
@@ -672,8 +670,8 @@ esp_attr_desc_t       att_desc;           /* The attribute type */
 <ul>
 <li>
 <p><code>attr_control</code> es el parámetro de autorespuesta, típicamente fijado a
-  <code>ESP_GATT_AUTO_RSP</code> para permitir que la pila BLE reponda automáticamente a
-  los mensajes de lectura o escritura cuando dichos eventos son recibidos.  Una
+  <code>ESP_GATT_AUTO_RSP</code> para permitir que la pila BLE responda automáticamente a
+  los mensajes de lectura o escritura cuando dichos eventos son recibidos. Una
   opción alternativa es <code>ESP_GATT_RSP_BY_APP</code> que permite respuestas manuales
   utilizando la función <code>esp_ble_gatts_send_response()</code>.</p>
 </li>
@@ -770,7 +768,7 @@ static const esp_gatts_attr_db_t gatt_db[HRS_IDX_NB] =
 <h2 id="inicializacion-del-servicio">Inicialización del servicio</h2>
 <p>Cuando la tabla se crea, se emite un evento de tipo
 <code>ESP_GATTS_CREAT_ATTR_TAB_EVT</code>, tratado por el manejador de eventos del
-perfil.  Este evento tiene los siguientes parámetros asociados:</p>
+perfil. Este evento tiene los siguientes parámetros asociados:</p>
 <pre><code class="language-c">esp_gatt_status_t status;    /* Operation status */
 esp_bt_uuid_t svc_uuid;      /* Service UUID type */
 uint16_t num_handle;         /* The number of the attribute handles which have been added to the GATT Service table */
@@ -861,7 +859,7 @@ typedef struct {
 <p>Nótese como <code>esp_ble_gap_config_adv_data_raw()</code> (en
 <em>gatts_profile_event_handler</em>) configura los datos enviados en el anuncio,
 mientras que <code>esp_ble_gap_start_advertising()</code> pone al dispositivo en modo
-advertising, haciendo que el servidor comience a enviar los anuncios.  Los
+advertising, haciendo que el servidor comience a enviar los anuncios. Los
 parámetros de anuncio configuran cómo y cuándo enviarlos. En nuestro ejemplo:</p>
 <pre><code class="language-c">static esp_ble_adv_params_t adv_params = {
     .adv_int_min         = 0x20,
@@ -884,7 +882,7 @@ comprobar si el estado es realmente <em>anunciando</em> u otro, en cuyo caso se 
 un mensaje de error:</p>
 <pre><code class="language-c">...
     case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
-        /* advertising start complete event to indicate advertising start successfully or failed */
+        /* Advertising start complete event to indicate advertising start successfully or failed */
         if (param-&gt;adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
             ESP_LOGE(GATTS_TABLE_TAG, &quot;advertising start failed&quot;);
         }else{
@@ -927,7 +925,7 @@ Deberás observar tu dispositivo en una de las líneas. Anota su dirección MAC.
 </div>
 <h3 id="interactuando-con-el-servidor-gatt-gatttool">Interactuando con el servidor GATT: <code>gatttool</code></h3>
 <p>Una vez obtenida la dirección MAC Bluetooth del dispositivo, deberemos proceder
-en dos fases. La primera de ellas es el emparejado al dispostivo desde tu
+en dos fases. La primera de ellas es el emparejado con el dispositivo desde tu
 consola. La segunda, la interacción con la tabla GATT. En ambos casos, se
 utilizará la herramienta <code>gatttool</code> desde la línea de comandos.</p>
 <p>Para comenzar una sesión <code>gatttool</code>, invocaremos a la herramienta en modo
@@ -997,7 +995,7 @@ vuelve a flashear. ¿Han variado?</p>
 Documenta el proceso en tu informe y muestra una captura del valor actualizado.</p>
 </div>
 <p>Escribiremos a continuación en la característica de configuración (CCC) del
-servicio de montorización. Para ello, utilizaremos el handle siguiente al
+servicio de monitorización. Para ello, utilizaremos el handle siguiente al
 utilizado anteriormente. Esto es, si se nos devolvió, por ejemplo,
 <code>0x0001</code> para el valor de monitorización, el valor de configuración será
 <code>0x0002</code>.</p>

@@ -377,15 +377,15 @@ void app_main(void)
     esp_restart();
 }
 </code></pre>
-<p>A alto nivel, la función <code>app_main</code> es el punto de entrada a todo programa
+<p>A alto nivel, la función <code>app_main()</code> es el punto de entrada a todo programa
 desarrollado usando ESP-IDF. De modo más específico, tras la carga del
 sistema, la <em>tarea principal</em> (<em>main task</em>) ejecuta el código proporcionado por
-el usuario e implementado en la función <code>app_main</code>. Tanto el tamaño de pila
+el usuario e implementado en la función <code>app_main()</code>. Tanto el tamaño de pila
 asignado como la prioridad de esta tarea puede ser configuradas por el
 desarrollador a través del sistema de configuración de ESP-IDF (lo veremos más
 adelante). Normalmente, esta función se utiliza para llevar a cabo tareas
 iniciales de configuración o para crear y lanzar a ejecución otras tareas.
-Se puede implementar cualquier funcionalidad dentro de la función <code>app_main</code>
+Se puede implementar cualquier funcionalidad dentro de la función <code>app_main()</code>
 o invocar a otras funciones que la implementen.</p>
 <p>En este ejemplo, se muestra en primer lugar información genérica sobre el SoC
 que está ejecutando el <em>firmware</em>:</p>
@@ -439,7 +439,7 @@ Prueba a ejecutar el programa en los dos tipos de ESP32 de los que disponemos: E
 que ejecute la lógica del programa. Para ello, es necesario introducir
 brevemente la API básica para la gestión de tareas (en nuestro caso solo necesitamos crear una tarea).
 Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que aquí no veremos más detalles de los estrictamente necesarios.</p>
-<p>La función <code>xTaskCreate</code> (incluida en <code>task.h</code>) permite la creación de nuevas
+<p>La función <code>xTaskCreate()</code> (incluida en <code>task.h</code>) permite la creación de nuevas
 tareas:</p>
 <pre><code class="language-c"> BaseType_t xTaskCreate(TaskFunction_t pvTaskCode,
                         const char * const pcName,
@@ -452,7 +452,7 @@ tareas:</p>
 <ul>
 <li><code>pvTaskCode</code>: La dirección de la función de entrada para la tarea. Las tareas suelen
   implementarse como un bucle infinito. No deben retornar de la función de entrada
-  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función <code>vTaskDelete</code> con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a <code>vTaskDelete</code> la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:</li>
+  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función <code>vTaskDelete()</code> con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a <code>vTaskDelete</code> la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:</li>
 </ul>
 <pre><code class="language-c"> void vATaskFunction(void *pvParameters)
     {
@@ -492,7 +492,7 @@ anteriormente podría reestructurarse en base a una única tarea, cuya función 
 }
 </code></pre>
 <p>Cabe destacar que, al reiniciar el sistema, no es necesario terminar correctamente la tarea mediante la ejecución de <code>vTaskDelete</code>.</p>
-<p>La función <code>app_main</code> se limitaría entonces a crear la tarea:</p>
+<p>La función <code>app_main()</code> se limitaría entonces a crear la tarea:</p>
 <pre><code class="language-c">void app_main()
 {
     xTaskCreate(hello_task, &quot;hello_task&quot;, 2048, NULL, 5, NULL);
@@ -557,7 +557,7 @@ las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 7</p>
-<p>Analiza por encima el código de la función <code>wifi_scan</code> (tarea principal).
+<p>Analiza por encima el código de la función <code>wifi_scan()</code> (tarea principal).
 Céntrate especialmente en las líneas que permiten activar y configurar el
 escaneado de redes. Intenta comprender el funcionamiento general del programa,
 prestando especial atención a las funciones con prefijo <code>esp_wifi_*</code>.
@@ -579,12 +579,12 @@ Acuérdate de modificar el SSID de la red a la que se conectará, así como la c
 en modo <em>station</em> (en contraposición al modo <em>Access Point</em>, que veremos en
 el próximo laboratorio), realizando una conexión al punto de acceso preconfigurado
 a través del menú de configuración.</p>
-<p>Analiza el código de la función <code>wifi_init_sta</code>. Esta función, que implementa
+<p>Analiza el código de la función <code>wifi_init_sta()</code>. Esta función, que implementa
 la tarea principal, se divide básicamente en dos partes:</p>
 <ul>
 <li><strong>Gestión de eventos</strong>: observa el mecanismo mediante el cual se registra
   y se asocia la recepción de un evento a la ejecución de un manejador o función
-  determinada (pista: función <code>esp_event_handler_instance_register</code>).</li>
+  determinada (pista: función <code>esp_event_handler_instance_register()</code>).</li>
 <li><strong>Configuración de la conexión a un punto de acceso</strong>: la configuración de la
   conexión se realiza a través de los campos correspondientes de una estructura
   de tipo <code>wifi_config_t</code>. Observa los campos básicos que necesita, cómo fuerza
@@ -595,7 +595,7 @@ la tarea principal, se divide básicamente en dos partes:</p>
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 9</p>
-<p>Modifica el <em>firmware</em> para que el <em>handler</em> (función <code>event_handler</code>) encargado del tratamiento de la obtención
+<p>Modifica el <em>firmware</em> para que el <em>handler</em> (función <code>event_handler()</code>) encargado del tratamiento de la obtención
 de una dirección IP sea independiente del tratamiento del resto de eventos del sistema WiFi.
 Comprueba que, efectivamente sigue observándose la salida asociada a dicho evento, aun cuando ambas
 funciones sean independientes.</p>

@@ -263,13 +263,13 @@ soporte incluye configuraciones para:</p>
 </li>
 <li>
 <p>Varios modos de seguridad tanto en modo cliente como en modo AP (WPA,
-  WPA2, WEP, etc.)</p>
+  WPA2, WEP, etc).</p>
 </li>
 <li>
 <p>Escaneado de puntos de acceso (activo y pasivo).</p>
 </li>
 <li>
-<p>Provisionamiento de claves y modo WPS.</p>
+<p>Aprovisionamiento de claves y modo WPS.</p>
 </li>
 <li>
 <p>Modo promiscuo para monitorización de paquetes IEEE 802.11.</p>
@@ -329,7 +329,7 @@ a <code>esp_wifi_connect()</code>.</p>
 <p>Ante la recepción de este evento, no se lanza ningún proceso específico como
 respuesta. La aplicación necesitará invocar normalmente a 
 <code>esp_wifi_scan_get_ap_num()</code> y a <code>esp_wifi_scan_get_ap_records()</code> 
-para recoger la lista de APs escaneados y liberar los recursos  (memoria)
+para recoger la lista de APs escaneados y liberar los recursos (memoria)
 que se aloja en el proceso de escaneado.</p>
 </li>
 <li>
@@ -378,7 +378,7 @@ pierde N <em>beacons</em> emitidos por el AP, el AP expulsa al dispositivo, el m
 de autenticación cambia, etc.</li>
 </ul>
 <p>Resulta común que la rutina de tratamiento del evento trate de invocar de
-nuevo a la función <code>esp_wifi_connect()</code> para reintentar la conexión.  </p>
+nuevo a la función <code>esp_wifi_connect()</code> para reintentar la conexión.</p>
 </li>
 <li>
 <p><code>WIFI_EVENT_STA_GOT_IP</code></p>
@@ -406,7 +406,7 @@ sockets abiertos.</p>
 inválida. El evento no se emite inmediatamente tras la desconexión
 WiFi, sino que inicializa un temporizador de tipo <em>address lost</em>. Si se
 obtiene una IP antes de su expiración, el evento no se emite. En otro
-caso, se emite justo en el instante de expirción del temporizador.</p>
+caso, se emite justo en el instante de expiración del temporizador.</p>
 <p>Normalmente, las aplicaciones no deben tratar este evento (suele usarse
 en tareas de depuración).</p>
 </li>
@@ -416,7 +416,7 @@ en tareas de depuración).</p>
 </li>
 <li>
 <p><code>WIFI_EVENT_AP_STACONNECTED</code></p>
-<p>Cuando un dispositivo (<em>station</em>) se conecta a un AP, éste emite el event
+<p>Cuando un dispositivo (<em>station</em>) se conecta a un AP, este emite el event
 <code>WIFI_EVENT_AP_STACONNECTED</code>. Es posible ignorarlo, o aprovecharlo para
 obtener información sobre la estación conectada, por ejemplo.</p>
 </li>
@@ -469,7 +469,7 @@ modo combinado <em>station/AP</em>, consulta el siguiente
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html#wi-fi-mode">enlace</a>).</p>
 <p>Generalmente, es necesario configurar el driver WiFi antes de establecer
 una conexión, pero no es obligatorio: es posible reconfigurarlo en cualquier
-momento, siempre que el driver esté correctamente incializado. En cualquier
+momento, siempre que el driver esté correctamente inicializado. En cualquier
 caso, si la configuración no tiene que modificarse tras la conexión, es mejor
 realizarla en este punto, porque algunos de los parámetros que pueden variar
 forzarán una reconexión WiFi, aspecto que es mejor evitar.</p>
@@ -487,24 +487,24 @@ de la conexión WiFi. Por ejemplo, el código:</p>
             },
         },
     };
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
-    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &amp;wifi_config) );
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &amp;wifi_config));
 </code></pre>
 <p>Realiza una configuración básica WiFi proporcionando SSID, contraseña y 
 modo de autenticación antes de configurar la conexión.</p>
 <p><strong>Fase 3: inicio WiFi</strong></p>
 <ol>
 <li>Invocación a <code>esp_wifi_start()</code> para iniciar el driver WiFi.</li>
-<li>El driver WiFi envia un evento <code>WIFI_EVENT_STA_START</code>, que será tratado
+<li>El driver WiFi envía un evento <code>WIFI_EVENT_STA_START</code>, que será tratado
 por la tarea de gestión de eventos por defecto para realizar las tareas
-necesarias e invocará a la runtina de tratamiento del evento a nivel de 
+necesarias e invocará a la rutina de tratamiento del evento a nivel de 
 aplicación.</li>
 <li>La aplicación deberá tratar el evento <code>WIFI_EVENT_STA_START</code>, invocando
 (se recomienda) a <code>esp_wifi_connect()</code>. </li>
 </ol>
 <p><strong>Fase 4: conexión WiFi</strong></p>
 <ol>
-<li>Una vez invocada <code>esp_wifi_connect()</code>, el dirver WiFi comienza un proceso
+<li>Una vez invocada <code>esp_wifi_connect()</code>, el driver WiFi comienza un proceso
 interno de escaneado/conexión.</li>
 <li>Si dicho proceso tiene éxito, se genera un evento <code>WIFI_EVENT_STA_CONNECTED</code>.
 Automáticamente se invoca al cliente DHCP y comienza el proceso de obtención de 
@@ -553,7 +553,7 @@ de sockets) para mantenerse en un estado consistente.</li>
 <h3 id="analisis-de-un-ejemplo-wifigetting_startedstation">Análisis de un ejemplo (<code>wifi/getting_started/station</code>)</h3>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
-<p>Analiza el ejemplo <strong><em>station</em></strong>, compílalo y flashealo. Estudia el tratamiento
+<p>Analiza el ejemplo <strong><em>station</em></strong>, compílalo y flaséalo. Estudia el tratamiento
 de eventos que realiza, y cómo estos son emitidos para casos reales. Para
 ello, conecta tu ESP32 con un punto de acceso existente, otro inexistente,
 apaga el punto de acceso mientras la IP está concedida, y analiza los
@@ -595,7 +595,7 @@ de acceso, consulta este
 <h3 id="analisis-de-un-ejemplo-wifigetting_startedsoftap">Análisis de un ejemplo (<code>wifi/getting_started/softAP</code>)</h3>
 <div class="admonition note">
 <p class="admonition-title">Tarea</p>
-<p>Analiza el ejemplo <code>softAP</code>, compílalo y flashealo. Estudia el tratamiento
+<p>Analiza el ejemplo <code>softAP</code>, compílalo y flaséalo. Estudia el tratamiento
 de eventos que realiza, y cómo estos son emitidos para casos reales. Para
 ello, conecta distintos clientes (<em>stations</em>), bien sean ESP32 o cualquier
 otro dispositivo, y analiza los eventos generados y su respuesta.</p>
@@ -703,7 +703,7 @@ se ha especificado en la sección anterior.</p>
 en modo <em>broadcast</em> un paquete de tipo <em>probe request</em>. En caso de escaneado
 pasivo, seguirá escuchando en el canal 1 durante un tiempo determinado a la
 espera de <em>beacons</em>. En cualquier caso, el valor por defecto de espera es de
-120 milisengundos.</p>
+120 milisegundos.</p>
 </li>
 <li>
 <p>El driver cambia al canal 2 y repite el proceso. </p>
@@ -734,7 +734,7 @@ trabajo detallado anteriormente.</p>
 <p>Compila, flashea y ejecuta el ejemplo de escaneado. Modifica el 
 código para conseguir distintos tipos de escaneado, asegurándote, por ejemplo,
 de que si fijas un canal específico en el que tu punto de acceso está trabajando,
-éste es detectado corretamente. Estudia y modifica los tiempos de espera y
+este es detectado correctamente. Estudia y modifica los tiempos de espera y
 observa su efecto en el tiempo total de escaneado.</p>
 </div>
 <div class="admonition danger">
@@ -742,12 +742,12 @@ observa su efecto en el tiempo total de escaneado.</p>
 <p>Implementa un <em>firmware</em> que realice un escaneado de las redes
 disponibles. Si el nodo detecta la presencia de una o más de las <em>redes
 conocidas</em>, se conectará en modo STA a la red de mayor prioridad entre las
-conocidas. Probadlo usando como redes conocidas la del laboratorio, vuestro
-móvil y vuestro domicilio.</p>
+conocidas. Pruébalo usando como redes conocidas la del laboratorio, tu
+móvil y tu domicilio.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 5</p>
-<p>Codificar el código de la tarea anterior para que la lista de <em>redes
+<p>Modificar el código de la tarea anterior para que la lista de <em>redes
 conocidas</em> y la prioridad relativa se puedan configurar con menuconfig.</p>
 </div>
 <h2 id="conexion-a-una-red-wpa2-enterprise-eduroam">Conexión a una red WPA2 Enterprise (<em>eduroam</em>)</h2>
@@ -781,7 +781,7 @@ parámetros:</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 6</p>
 <p>Configura el ejemplo de autenticación para WPA2 Enterprise (ejemplo <code>wifi_enterprise</code>)
-con tus credenciales de eduroam. Compila y ejecuta el ejemplo de autenticación y
+con tus credenciales de <em>eduroam</em>. Compila y ejecuta el ejemplo de autenticación y
 adjunta una captura de pantalla que demuestre la correcta conexión del nodo
 a <em>eduroam</em>.</p>
 </div></div>

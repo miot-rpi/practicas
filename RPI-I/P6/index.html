@@ -198,21 +198,19 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#lab6-ble-cliente-gatt" class="nav-link">LAB6. BLE: cliente GATT</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#objetivos" class="nav-link">Objetivos</a>
-              <ul class="nav flex-column">
               </ul>
             </li>
             
             <li class="nav-item" data-bs-level="1"><a href="#implementacion-de-un-cliente-gatt-para-escaneo-y-conexion-a-servidor" class="nav-link">Implementación de un cliente GATT para escaneo y conexión a servidor</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#descripcion-del-codigo-de-ejemplo" class="nav-link">Descripción del código de ejemplo</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#descripcion-del-codigo-de-ejemplo" class="nav-link">Descripción del código de ejemplo</a>
-              <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#ficheros-de-cabecera" class="nav-link">Ficheros de cabecera</a>
               <ul class="nav flex-column">
               </ul>
@@ -253,7 +251,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="lab6-ble-cliente-gatt">LAB6. BLE: cliente GATT</h1>
-<h1 id="objetivos">Objetivos</h1>
+<h2 id="objetivos">Objetivos</h2>
 <ul>
 <li>Diseccionar en detalle un <em>firmware</em> de un cliente GATT utilizando la API de ESP-IDF.</li>
 <li>Aprender a realizar un escaneo de dispositivos BLE.</li>
@@ -263,7 +261,7 @@
 <h1 id="implementacion-de-un-cliente-gatt-para-escaneo-y-conexion-a-servidor">Implementación de un cliente GATT para escaneo y conexión a servidor</h1>
 <p>En esta práctica se revisa el código de ejemplo para la construcción de un cliente GATT para el ESP32 utilizando ESP-IDF. El código implementa un cliente GATT que escanea servidores periféricos cercanos y se conecta a un servicio predefinido. El cliente busca características disponibles y se suscribe a una característica conocida para recibir indicaciones o notificaciones. El ejemplo puede registrar un perfil de aplicación e inicializa una secuencia de eventos que se pueden utilizar para configurar parámetros GAP y para manejar eventos como el escaneo, la conexión a periféricos y la lectura y escritura de características.</p>
 <p>El desarrollo de esta práctica requiere el uso de dos placas: una ejecutando el servidor GATT básico (o modificado) que usaste en la práctica anterior, y otra ejecutando el código cliente.</p>
-<h1 id="descripcion-del-codigo-de-ejemplo">Descripción del código de ejemplo</h1>
+<h2 id="descripcion-del-codigo-de-ejemplo">Descripción del código de ejemplo</h2>
 <p>El ejemplo que seguiremos y adaptaremos se encuentra en la carpeta de ejemplos de ESP-IDF en <code>bluetooth/bluedroid/ble/gatt_client/main</code>. El archivo <code>gattc_demo.c</code> contiene todas las funcionalidades que vamos a revisar. </p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
@@ -512,7 +510,7 @@ typedef struct {
 </code></pre>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 1</p>
-<p>Configura los parámetros de escaneo para que éste se produzca con menos frecuencia (cada segundo).</p>
+<p>Configura los parámetros de escaneo para que este se produzca con menos frecuencia (cada segundo).</p>
 </div>
 <p>Una vez que se establecen los parámetros de escaneo, se desencadena un evento <code>ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT</code>, que es manejado por el manejador de eventos GAP <code>esp_gap_cb()</code>. Este evento se utiliza para iniciar el escaneo de los servidores GATT cercanos:</p>
 <pre><code class="language-c">case ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT: {

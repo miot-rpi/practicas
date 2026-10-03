@@ -230,21 +230,21 @@
 <ul>
 <li>
 <p>Poner en práctica los conceptos vistos en teoría en relación a BLE Mesh,
-específicamente provisionamiento y modelos cliente/servidor.</p>
+específicamente aprovisionamiento y modelos cliente/servidor.</p>
 </li>
 <li>
-<p>Desplegar una infraestructura de provisionamiento de un modelo <em>Generic OnOff Server</em>
-con provisionamiento desde aplicación móvil para el control remoto de 
+<p>Desplegar una infraestructura de aprovisionamiento de un modelo <em>Generic OnOff Server</em>
+con aprovisionamiento desde aplicación móvil para el control remoto de 
 encendido/apagado de un LED.</p>
 </li>
 <li>
-<p>Desplegar una infraestructura de provisionamiento de un modelo <em>Generic Sensor</em>
-con provisionamiento desde ESP32.</p>
+<p>Desplegar una infraestructura de aprovisionamiento de un modelo <em>Generic Sensor</em>
+con aprovisionamiento desde ESP32.</p>
 </li>
 </ul>
 <h2 id="estructura-de-la-practica">Estructura de la práctica</h2>
 <p>Esta práctica está dividida en dos partes. En la primera parte trabajaremos un
-ejemplo de modelo genérico OnOff en el que se simulará una red domótica con un interruptor y varias luces conectadas a
+ejemplo de modelo genérico <em>OnOff</em> en el que se simulará una red domótica con un interruptor y varias luces conectadas a
 una red BLE Mesh (o un solo led RGB). Si disponemos de ellos, podemos conectar
 leds a los pines GPIO indicados en el fichero board.h para ver físicamente el
 efecto del encendido y apagado de las luces.</p>
@@ -257,8 +257,8 @@ virtual (simulado con números aleatorios) a los clientes conectados en la red B
 <code>examples/bluetooth/esp_ble_mesh/sensor_models</code> en el caso del modelo sensor (segunda parte de
 la práctica).</p>
 <p>Por otro lado, descarga e instala la aplicación <em>nRF Mesh</em> en tu móvil (disponible para Android e iOS).</p>
-<h2 id="modelo-generico-onoff">Modelo genérico OnOff</h2>
-<h3 id="el-servidor-onoff">El servidor OnOff</h3>
+<h2 id="modelo-generico-onoff">Modelo genérico <em>OnOff</em></h2>
+<h3 id="el-servidor-onoff">El servidor <em>OnOff</em></h3>
 <p>El servidor implementa un único elemento en el cual se integran dos modelos
 distintos:</p>
 <ol>
@@ -271,7 +271,7 @@ que podemos resumir en:</p>
 <ul>
 <li>Inicialización de la pila BLE (<em>bluedroid</em>).</li>
 <li>Inicialización de la pila BLE Mesh.</li>
-<li>Registro de las funciones de <em>callback</em> para el proceso de provisionamiento y
+<li>Registro de las funciones de <em>callback</em> para el proceso de aprovisionamiento y
   del modelo/modelos implementados.</li>
 <li>Implementación e inicialización del elemento BLE Mesh.</li>
 <li>Implementación e inicialización del modelo <em>Configuration Server</em> y <em>Generic OnOff Server</em>.</li>
@@ -350,14 +350,14 @@ La inicialización de la pila BLE Mesh requiere alguna explicación adicional:</
 <ul>
 <li><code>ESP_BLE_MESH_PROV_REGISTER_COMP_EVT</code> y <code>ESP_BLE_MESH_NODE_PROV_ENABLE_COMP_EVT</code>:
 generados cuando se completa la inicialización de la pila BLE Mesh.
-En este punto, el nodo está listo para ser descubierto por un provisionador.</li>
+En este punto, el nodo está listo para ser descubierto por un aprovisionador.</li>
 <li><code>ESP_BLE_MESH_NODE_PROV_ENABLE_COMP_EVT</code>: generado cuando </li>
-<li><code>ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT</code>: generado cuando un provisionador y
+<li><code>ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT</code>: generado cuando un aprovisionador y
   un dispositivo no provisionado establecen un enlace.</li>
 <li><code>ESP_BLE_MESH_NODE_PROV_LINK_CLOSE_EVT</code>: generado para notificar a la
   aplicación que se ha roto un enlace con un dispositivo asociado.</li>
 <li><code>ESP_BLE_MESH_NODE_PROV_COMPLETE_EVT</code>: recibido por la aplicación cuando
-  el proceso de provisionamiento se completa.<br><br></li>
+  el proceso de aprovisionamiento se completa.<br><br></li>
 </ul>
 </li>
 <li>
@@ -378,7 +378,7 @@ estado del modelo (ya sea por recibir un mensaje <em>Set</em> o por un cambio in
 <li>
 <p><code>esp_ble_mesh_node_prov_enable((esp_ble_mesh_prov_bearer_t)(ESP_BLE_MESH_PROV_ADV | ESP_BLE_MESH_PROV_GATT))</code>:
   activa el proceso de Anuncio y Escaneo, haciendo visible al dispositivo
-  para potenciales provisionadores que estén a la escucha.</p>
+  para potenciales aprovisionadores que estén a la escucha.</p>
 </li>
 <li>
 <p><code>board_led_operation(LED_G, LED_ON)</code>: inicializa un hipotético LED RGB, que se
@@ -386,14 +386,14 @@ estado del modelo (ya sea por recibir un mensaje <em>Set</em> o por un cambio in
 </li>
 </ul>
 <p>En este punto, la inicialización de la pila BLE Mesh se ha completado, por
-lo que un provisionador podría identificar dispositivos para provisionamiento de
+lo que un aprovisionador podría identificar dispositivos para aprovisionamiento de
 parámetros de red y transmisión de datos.</p>
 <h4 id="implementacion-de-la-estructura-ble-mesh-element">Implementación de la estructura BLE Mesh Element</h4>
 <p>A continuación, se detallan los pasos necesarios para, en el servidor:</p>
 <ul>
 <li>Completar la inicialización del sistema.</li>
 <li>Añadir un elemento y un modelo.</li>
-<li>Elegir distintas implementaciones de encriptación.</li>
+<li>Elegir distintas implementaciones de cifrado.</li>
 <li>Declarar las características de <em>Proxy</em>, <em>Relay</em>, <em>Low Power</em> y <em>Friend</em> del
   nodo.</li>
 </ul>
@@ -455,10 +455,10 @@ identificar los modelos implementados por el elemento, como por ejemplo el array
 <p>Distintos modelos requieren diferentes macros. En nuestro caso, ya que vamos a
 implementar un modelo <em>Generic OnOff Server</em>, hemos utilizado
 <code>ESP_BLE_MESH_MODEL_GEN_ONOFF_SRV</code>.</p>
-<h3 id="el-cliente-onoff">El cliente OnOff</h3>
+<h3 id="el-cliente-onoff">El cliente <em>OnOff</em></h3>
 <p>El cliente resulta mucho más sencillo en su funcionamiento. De forma general,
 simplemente define un modelo <em>Client OnOff</em> y espera a ser provisionado.
-Una vez completado el proceso de provisionamento,
+Una vez completado el proceso de aprovisionamiento,
 espera a la pulsación de uno de los botones en la placa (<em>BOOT</em>)
 para enviar a todos los nodos de la red mesh una solicitud de cambio
 en el estado de encendido de las luces.</p>
@@ -519,9 +519,9 @@ miembros de la red mesh:</p>
     mesh_example_info_store(); /* Store proper mesh example info */
 }
 </code></pre>
-<h3 id="provisionamiento-y-control-desde-una-aplicacion-movil">Provisionamiento y control desde una aplicación móvil</h3>
+<h3 id="aprovisionamiento-y-control-desde-una-aplicacion-movil">Aprovisionamiento y control desde una aplicación móvil</h3>
 <p>En primer lugar, nos dividiremos en grupos de 3-5 personas. Uno de los integrantes del grupo,
-utilizando la aplicación móvil <em>nRF Mesh</em>, actuará como provisionador de la red,
+utilizando la aplicación móvil <em>nRF Mesh</em>, actuará como aprovisionador de la red,
 proporcionando las claves de red y aplicación (<em>NetKey</em> y <em>AppKey</em>), así como información básica de red
 (por ejemplo, las direcciones unicast). Además, podrá crear grupos de nodos y
 suscribir/desuscribir modelos a dichos grupos.</p>
@@ -530,15 +530,15 @@ como servidores. De este modo, emularemos una sala por grupo con múltiples luce
 interruptor que controlará su estado de encendido/apagado.</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 1</p>
-<p>Documenta la configuración de la red mesh y el proceso de provisionamiento de nodos que vas a realizar a continuación.</p>
+<p>Documenta la configuración de la red mesh y el proceso de aprovisionamiento de nodos que vas a realizar a continuación.</p>
 </div>
 <ul>
-<li><em>PASO 1</em>: en la pestaña <em>Network</em> aparecerán los nodos ya provisionados.
+<li><em>PASO 1</em>: en la pestaña <em>Network</em> aparecerán los nodos ya aprovisionados.
   En nuestro caso, inicialmente ninguno:</li>
 </ul>
 <p><img alt="" src="img/APP/00_pantalla_inicial.png" /></p>
 <ul>
-<li><em>PASO 2</em>: pincharemos sobre <em>ADD NODE</em> (o sobre <code>+</code> en iOS), y provisionaremos, uno a uno, todos
+<li><em>PASO 2</em>: pincharemos sobre <em>ADD NODE</em> (o sobre <code>+</code> en iOS), y aprovisionaremos, uno a uno, todos
   los nodos que queramos que formen parte de nuestra red mesh:</li>
 </ul>
 <p><img alt="" src="img/APP/01_provisionamiento_inicial.png" /></p>
@@ -547,7 +547,7 @@ interruptor que controlará su estado de encendido/apagado.</p>
 </ul>
 <p><img alt="" src="img/APP/02_provisionando_nodo.png" /></p>
 <ul>
-<li><em>PASO 4</em>: provisionamos el nodo pulsando en <em>PROVISION</em>:</li>
+<li><em>PASO 4</em>: aprovisionamos el nodo pulsando en <em>PROVISION</em>:</li>
 </ul>
 <p><img alt="" src="img/APP/03_provisionando_nodo2.png" /></p>
 <ul>
@@ -559,8 +559,8 @@ interruptor que controlará su estado de encendido/apagado.</p>
 <li><em>PASO 6</em>: tras repetir este paso con todos los nodos del grupo, veremos
   una pantalla como la siguiente.
   Observa y anota las direcciones unicast de cada nodo provisionado.
-  El nodo con un elemento es el cliente OnOff, mientras que los nodos con tres
-  elementos son los servidores OnOff:</li>
+  El nodo con un elemento es el cliente <em>OnOff</em>, mientras que los nodos con tres
+  elementos son los servidores <em>OnOff</em>:</li>
 </ul>
 <p><img alt="" src="img/APP/05_nodos_provisionados.png" /></p>
 <p>A continuación, generarás un grupo de nodos. Esto permitirá suscribir modelos
@@ -597,7 +597,7 @@ desuscritos.</p>
 </div>
 <h2 id="modelo-sensor">Modelo sensor</h2>
 <p>En este ejemplo (<code>examples/bluetooth/esp_ble_mesh/sensor_models</code>), se implementa tanto un cliente
-de modelo sensor (que además es provisionador) como un servidor de modelo sensor configurable.</p>
+de modelo sensor (que además es aprovisionador) como un servidor de modelo sensor configurable.</p>
 <p>El modelo <em>Sensor Server</em> permite exponer datos de sensores. El modelo <em>Sensor Client</em> se utiliza
 para consumir los valores de sensores (<em>Sensor States</em>) expuestos por el servidor:</p>
 <ul>
@@ -611,26 +611,26 @@ para consumir los valores de sensores (<em>Sensor States</em>) expuestos por el 
 <li>Estado <em>Sensor Series Column/Row</em>: solo utilizado si se considera cada uno de los
   valores como perteneciente a una serie temporal de datos.</li>
 </ul>
-<p>En el ejemplo <em>sensor_client</em>, el dispositivo actúa tanto de cliente como de provisionador.
+<p>En el ejemplo <em>sensor_client</em>, el dispositivo actúa tanto de cliente como de aprovisionador.
 Una vez que el dispositivo servidor es provisionado y configurado, los
 usuarios pueden presionar el botón <em>BOOT</em> de la placa para enviar una petición al servidor,
 el cual responderá con los distintos estados del sensor en orden (<em>Descriptor</em>, <em>Setting</em>, <em>Cadence</em>...).</p>
-<p>En el ejemplo <em>sensor_server</em>, el dispositivo no provisonado implementa un modelo
+<p>En el ejemplo <em>sensor_server</em>, el dispositivo no aprovisionado implementa un modelo
 <em>Sensor Server</em>. El servidor soporta dos instancias de estados: la primera
 (<em>Property ID 0x0056</em>) representaría la temperatura <em>Indoor</em>; la segunda
 (<em>Property ID 0x005B</em>) representaría la temperatura <em>Outdoor</em>. Todos los datos
 en estos ejemplos están preinicializados.</p>
 <h3 id="puesta-en-marcha">Puesta en marcha</h3>
-<p>En primer lugar, arranca un nodo cliente/provisionador y monitoriza
+<p>En primer lugar, arranca un nodo cliente/aprovisionador y monitoriza
 su salida. Cuando un/a compañero/a arranque un nodo servidor, verás que es
 provisionado por tu cliente, otorgándole una dirección unicast. Anótala.</p>
 <p>El funcionamiento general del ejemplo es el siguiente:</p>
 <ol>
-<li>El dispositivo A ejecuta el ejemplo <em>sensor_client</em>, mientras que el dispositivo B ejecuta el
+<li>El dispositivo <em>A</em> ejecuta el ejemplo <em>sensor_client</em>, mientras que el dispositivo <em>B</em> ejecuta el
   ejemplo <em>sensor_server</em>.</li>
-<li>A actúa como provisionador. Cuando detecta el dispositivo no provisionado B,
-  inicia el proceso de provisionamiento y le asigna una dirección unicast.</li>
-<li>En A, cada pulsación del botón <em>BOOT</em> supondrá una petición al nodo B.</li>
+<li><em>A</em> actúa como aprovisionador. Cuando detecta el dispositivo no provisionado <em>B</em>,
+  inicia el proceso de aprovisionamiento y le asigna una dirección unicast.</li>
+<li>En <em>A</em>, cada pulsación del botón <em>BOOT</em> supondrá una petición al nodo <em>B</em>.</li>
 <li>Estas peticiones serán, sucesivamente y en este orden:<ul>
 <li><em>Sensor Descriptor</em>.</li>
 <li><em>Sensor Cadence</em>.</li>
@@ -650,14 +650,14 @@ pulsación de botón <em>BOOT</em> y qué datos devuelve el servidor en cada cas
 <p class="admonition-title">Ejercicio 4</p>
 <p>Modifica el código para que los valores consultados
 en cada pulsación del botón <em>BOOT</em> no sean únicamente los del modelo
-del último nodo provisonado, sino que se consulten de forma secuencial 
-los valores <em>Sensor Data</em> de todos los nodos provisionados.
-Así, si hay tres nodos provisionados, cada pulsación devolverá
-el valor de <em>Sensor Data</em> de uno de ellos, siguiendo el orden de provisionamiento.</p>
+del último nodo aprovisionado, sino que se consulten de forma secuencial 
+los valores <em>Sensor Data</em> de todos los nodos aprovisionados.
+Así, si hay tres nodos aprovisionados, cada pulsación devolverá
+el valor de <em>Sensor Data</em> de uno de ellos, siguiendo el orden de aprovisionamiento.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 5</p>
-<p>Modifica el código para que ahora solo se provisione automáticamente a aquellos
+<p>Modifica el código para que ahora solo se aprovisione automáticamente a aquellos
 nodos autorizados. Aplica el filtro por UUID.</p>
 </div>
 <div class="admonition danger">

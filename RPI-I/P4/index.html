@@ -253,7 +253,7 @@ nodo determinado, conexión o desconexión de su nodo padre, o de uno de sus
 nodos hijo). Antes de utilizar los eventos ESP-MESH para gestionar u observar
 el funcionamiento de la red, es necesario registrarlos vía
 <code>esp_event_handler_register()</code>. </p>
-<p>Algunos usos típicos de los eventos  incluyen, por ejemplo, la situación de
+<p>Algunos usos típicos de los eventos incluyen, por ejemplo, la situación de
 conexión de un nodo padre (<code>MESH_EVENT_PARENT_CONNECTED</code>) o de un hijo
 (<code>MESH_EVENT_CHILD_CONNECTED</code>), indicando, respectivamente, que un nodo puede
 comenzar a emitir hacia arriba en el grafo o hacia abajo. Del mismo modo, en un
@@ -302,7 +302,7 @@ puede o no enviar datos a la red IP externa.</p>
 <p><code>MESH_EVENT_VOTE_STARTED</code>: el proceso de voto de un nuevo nodo raíz ha comenzado.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_VOTE_STOPPED</code>: el proceo de voto de un nuevo nodo raíz ha finalizado.</p>
+<p><code>MESH_EVENT_VOTE_STOPPED</code>: el proceso de voto de un nuevo nodo raíz ha finalizado.</p>
 </li>
 <li>
 <p><code>MESH_EVENT_ROOT_ADDRESS</code>: se ha obtenido la dirección del nodo raíz.</p>
@@ -326,7 +326,7 @@ el canal en el que lo ha conseguido.</p>
 </li>
 </ul>
 <h3 id="uso-de-la-pila-ip-lwip">Uso de la pila IP (lwIP)</h3>
-<p>El código de una aplicación que haga uso de ESP-MESH puede  acceder directamente
+<p>El código de una aplicación que haga uso de ESP-MESH puede acceder directamente
 a la pila MESH sin pasar por la pila IP. De hecho, la pila IP solo es
 estrictamente necesaria por parte del nodo raíz, al ser el único que puede
 recibir o transmitir datos desde o hacia la red IP externa. </p>
@@ -484,7 +484,7 @@ Documenta el proceso en tu informe, así como los resultados observados.</p>
 en el que estés sentado. Observa los colores asignados a cada puesto del laboratorio en la hoja de Google.</p>
 <p>Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
-configuracion del ejemplo (<em>channel</em>) y el identificador modificando
+configuración del ejemplo (<em>channel</em>) y el identificador modificando
 la variable correspondiente en el fichero <code>mesh_main.c</code>.</p>
 <p>Una vez hecho esto, reconstruid la información de las tablas para reflejar
 las nuevas topologías. Podéis hacer pruebas posteriores apagando el 
