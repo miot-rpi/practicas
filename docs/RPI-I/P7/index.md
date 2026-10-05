@@ -225,7 +225,7 @@ de la estructura `esp_ble_mesh_elem_t`:
 Los campos incluidos en las estructuras anteriores son:
 
   - `element_addr`: almacena la dirección de 16 bits del elemento (asignada durante el provisionado).
-  - `location`: descriptor de localización (p.e. interruptor izquierdo o derecho). En este ejemplo se establece a `0`.
+  - `location`: descriptor de localización (p.e. interruptor izquierdo o derecho). En este ejemplo se establece a 0.
   - `sig_model_count`: número de modelos SIG estándar contenidos en este elemento.
   - `vnd_model_count`: número de modelos de fabricante contenidos en este elemento (no estándar).
   - `sig_models`: puntero al array de modelos SIG ya definidos.
