@@ -86,6 +86,7 @@ En ocasiones, encontraremos códigos no incluidos en el registro oficial de Espr
     * Crea un nuevo proyecto a partir del template más sencillo que encentres.
     * A partir del código disponible en [este repositorio de Github https://github.com/mauriciobarroso/shtc3 ](https://github.com/mauriciobarroso/shtc3)  crea un componente llamado `shtc3` para poder utilizar el sensor sin necesidad de consultar el *datasheet*.  Los ficheros del repositorio ya están preparados para usarse como un componente en ESP-IDF v6 Sólo debes ubicarlos en la carpeta correcta. 
     * En el fichero principal de tu aplicación, deberás inicializar el driver del bus I2C y el propio sensor. Puedes usar el código que se proporciona a continuación.
+    * EL CMakeLists.txt dentro de la carpeta del componente debería de incluir como requerimientos a parte del `driver`, `esp_driver_i2c`, `esp_timer`: **`REQUIRES driver esp_driver_i2c esp_timer`**
 
 
 ```c
