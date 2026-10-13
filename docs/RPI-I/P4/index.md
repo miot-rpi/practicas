@@ -17,7 +17,7 @@
 
 El *stack* ESP-MESH está construido por encima del *driver* WiFi
 (es decir, hace uso de sus servicios), y en algunos
-casos también hace uso de servicios de la pila IP (*lwIP*), por ejemplo
+casos también hace uso de servicios de la pila TCP/IP (*lwIP*), por ejemplo
 en el nodo raíz, que es el único con comunicación IP contra un router
 de borde. El siguiente diagrama muestra la situación de la pila Mesh
 en ESP-IDF:
@@ -36,7 +36,7 @@ nodos hijo). Antes de utilizar los eventos ESP-MESH para gestionar u observar
 el funcionamiento de la red, es necesario registrarlos vía
 `esp_event_handler_register()`. 
 
-Algunos usos típicos de los eventos  incluyen, por ejemplo, la situación de
+Algunos usos típicos de los eventos incluyen, por ejemplo, la situación de
 conexión de un nodo padre (`MESH_EVENT_PARENT_CONNECTED`) o de un hijo
 (`MESH_EVENT_CHILD_CONNECTED`), indicando, respectivamente, que un nodo puede
 comenzar a emitir hacia arriba en el grafo o hacia abajo. Del mismo modo, en un
@@ -72,7 +72,7 @@ puede o no enviar datos a la red IP externa.
 
 * `MESH_EVENT_VOTE_STARTED`: el proceso de voto de un nuevo nodo raíz ha comenzado.
 
-* `MESH_EVENT_VOTE_STOPPED`: el proceo de voto de un nuevo nodo raíz ha finalizado.
+* `MESH_EVENT_VOTE_STOPPED`: el proceso de voto de un nuevo nodo raíz ha finalizado.
 
 * `MESH_EVENT_ROOT_ADDRESS`: se ha obtenido la dirección del nodo raíz.
 
@@ -88,16 +88,16 @@ puede o no enviar datos a la red IP externa.
 todos los canales para encontrar una red mesh a la que conectar, devolviendo
 el canal en el que lo ha conseguido.
 
-### Uso de la pila IP (lwIP)
+### Uso de la pila TCP/IP (lwIP)
 
-El código de una aplicación que haga uso de ESP-MESH puede  acceder directamente
-a la pila MESH sin pasar por la pila IP. De hecho, la pila IP solo es
+El código de una aplicación que haga uso de ESP-MESH puede acceder directamente
+a la pila MESH sin pasar por la pila TCP/IP. De hecho, la pila TCP/IP solo es
 estrictamente necesaria por parte del nodo raíz, al ser el único que puede
 recibir o transmitir datos desde o hacia la red IP externa. 
 
 Sin embargo, como cualquier nodo de la topología puede potencialmente
 convertirse en nodo raíz (ya que su selección es automática), todos los nodos
-deberán inicializar la pila IP. Cada nodo que pueda convertirse en root debe
+deberán inicializar la pila TCP/IP. Cada nodo que pueda convertirse en root debe
 inicializar LwIP llamando a `esp_netif_init()`. Para prevenir el acceso de nodos
 no-root a LwIP, la aplicación no debe crear o registrar ninguna interfaz de red
 usando el API de `esp_netif`.
@@ -137,7 +137,6 @@ ESP-WIFI-MESH puede resumirse en los tres pasos siguientes:
 2. Configurar una red ESP-WIFI-MESH.
 3. Iniciar Mesh.
 
-
 ### Paso 1. Inicializar ESP-MESH
 
 La inicialización de ESP-MESH y el registro de eventos propios es sencilla:
@@ -155,13 +154,13 @@ ESP-WIFI-MESH se configura a través de `esp_mesh_set_config()`, que recibe sus
 argumentos usando la estructura `mesh_cfg_t`. La estructura contiene los
 siguientes parámetros utilizados para configurar ESP-WIFI-MESH:
 
-| Parámetro           | Descripción |
-|---------------------|------------|
-| *Channel*           | Canal (entre 1 y 14)        |
-| *Mesh ID*           | Identificación de la red MESH (6 bytes) |
-| *Router*            | SSID y contraseña de conexión al router de salida        |
-| *Mesh AP*           | Configuración específica del AP generado por cada nodo |
-| Crypto functions  | Funciones criptográficas para Mesh IE (para el intercambio de información de control)|
+| Parámetro        | Descripción                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| *Channel*        | Canal (entre 1 y 14)                                                                  |
+| *Mesh ID*        | Identificación de la red MESH (6 bytes)                                               |
+| *Router*         | SSID y contraseña de conexión al router de salida                                     |
+| *Mesh AP*        | Configuración específica del AP generado por cada nodo                                |
+| Crypto functions | Funciones criptográficas para Mesh IE (para el intercambio de información de control) |
 
 Un ejemplo de configuración podría ser:
 
@@ -253,7 +252,7 @@ en el que estés sentado. Observa los colores asignados a cada puesto del labora
 
 Modifica tu código para que el canal de escucha y el identificador de red
 coincidan con el indicado. Puedes configurar el canal a través del menú de 
-configuracion del ejemplo (*channel*) y el identificador modificando
+configuración del ejemplo (*channel*) y el identificador modificando
 la variable correspondiente en el fichero `mesh_main.c`.
 
 Una vez hecho esto, reconstruid la información de las tablas para reflejar

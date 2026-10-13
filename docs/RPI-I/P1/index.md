@@ -182,15 +182,15 @@ void app_main(void)
 }
 ```
 
-A alto nivel, la función `app_main` es el punto de entrada a todo programa
+A alto nivel, la función `app_main()` es el punto de entrada a todo programa
 desarrollado usando ESP-IDF. De modo más específico, tras la carga del
 sistema, la *tarea principal* (*main task*) ejecuta el código proporcionado por
-el usuario e implementado en la función `app_main`. Tanto el tamaño de pila
+el usuario e implementado en la función `app_main()`. Tanto el tamaño de pila
 asignado como la prioridad de esta tarea puede ser configuradas por el
 desarrollador a través del sistema de configuración de ESP-IDF (lo veremos más
 adelante). Normalmente, esta función se utiliza para llevar a cabo tareas
 iniciales de configuración o para crear y lanzar a ejecución otras tareas.
-Se puede implementar cualquier funcionalidad dentro de la función `app_main`
+Se puede implementar cualquier funcionalidad dentro de la función `app_main()`
 o invocar a otras funciones que la implementen.
 
 En este ejemplo, se muestra en primer lugar información genérica sobre el SoC
@@ -254,7 +254,7 @@ que ejecute la lógica del programa. Para ello, es necesario introducir
 brevemente la API básica para la gestión de tareas (en nuestro caso solo necesitamos crear una tarea).
 Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que aquí no veremos más detalles de los estrictamente necesarios.
 
-La función `xTaskCreate` (incluida en `task.h`) permite la creación de nuevas
+La función `xTaskCreate()` (incluida en `task.h`) permite la creación de nuevas
 tareas:
 
 ```c
@@ -270,7 +270,7 @@ Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
 
 * `pvTaskCode`: La dirección de la función de entrada para la tarea. Las tareas suelen
   implementarse como un bucle infinito. No deben retornar de la función de entrada
-  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
+  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete()` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
 
 ```c
  void vATaskFunction(void *pvParameters)
@@ -315,7 +315,7 @@ void hello_task(void *pvParameter)
 
 Cabe destacar que, al reiniciar el sistema, no es necesario terminar correctamente la tarea mediante la ejecución de `vTaskDelete`.
 
-La función `app_main` se limitaría entonces a crear la tarea:
+La función `app_main()` se limitaría entonces a crear la tarea:
 
 ```c
 void app_main()
@@ -353,6 +353,10 @@ Observa que una de las secciones de opciones del menú de navegación, llamada *
 Esta entrada define el número de pin GPIO al que se conecta el LED que el programa hará parpadear.
 Esta opción de configuración definirá en tiempo de compilación el valor de una constante llamada `CONFIG_BLINK_GPIO`, que podemos utilizar en el código para obtener el valor que le haya asignado el usuario durante la configuración del proyecto.
 
+!!! danger "Ejercicio 4"
+    Prueba a ejecutar el proyecto *blink* en un ESP32-C3 configurando la opción
+    *Blink GPIO number* para usar el pin GPIO 2. ¿Qué ocurre?
+
 Esta opción de configuración no forma parte de las opciones por defecto de
 ESP-IDF, sino que ha sido añadida por los desarrolladores del proyecto *blink*.
 Observa y estudia el formato y contenido del fichero `main/Kconfig.projbuild`
@@ -360,10 +364,10 @@ que se proporciona como parte del fichero. En él, se definen las característic
 (nombre, rango, valor por defecto y descripción) de la opción de configuración
 a definir.
 
-!!! danger "Ejercicio 4"
+!!! danger "Ejercicio 5"
     Modifica el proyecto *hello_world* para que defina dos opciones de
     configuración que permitan definir el tiempo de espera de cada una de las
-    dos tareas que hayas definido en el ejercicio anterior. Haz uso de ellas en
+    dos tareas que hayas definido en el ejercicio 3. Haz uso de ellas en
     tu código y comprueba que su modificación a través del sistema
     de menús permite una personalización del comportamiento de tu código.
 
@@ -375,7 +379,7 @@ en futuras prácticas, vamos a analizar un ejemplo concreto de
 y su reporte a través de su salida estándar (que podremos ver gracias a la facilidad de monitorización del programa).
 Para cada red escaneada, se reportarán sus características principales.
 
-!!! danger "Ejercicio 5"
+!!! danger "Ejercicio 6"
     Compila, flashea y monitoriza el ejemplo ***scan*** situado en el directorio *wifi*.
     Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración.
     Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado por el ESP32.
@@ -384,8 +388,8 @@ Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
 SSID, modo de autenticación o canal primario).
 
-!!! danger "Ejercicio 6"
-    Analiza por encima el código de la función `wifi_scan` (tarea principal).
+!!! danger "Ejercicio 7"
+    Analiza por encima el código de la función `wifi_scan()` (tarea principal).
     Céntrate especialmente en las líneas que permiten activar y configurar el
     escaneado de redes. Intenta comprender el funcionamiento general del programa,
     prestando especial atención a las funciones con prefijo `esp_wifi_*`.
@@ -399,7 +403,7 @@ rasgos, el sistema de gestión de eventos en FreeRTOS/ESP-IDF, que permite
 gestionar la respuestas a eventos de red, como por ejemplo la obtención de
 dirección IP o la conexión exitosa a un punto de acceso.
 
-!!! danger "Ejercicio 7"
+!!! danger "Ejercicio 8"
     Crea un proyecto a partir del ejemplo ***station*** situado en el directorio *wifi/getting_started*.
     Compílalo, flaséalo y monitoriza su salida estándar.
     Acuérdate de modificar el SSID de la red a la que se conectará, así como la contraseña elegida a través del sistema de menús de configuración.
@@ -409,12 +413,12 @@ en modo *station* (en contraposición al modo *Access Point*, que veremos en
 el próximo laboratorio), realizando una conexión al punto de acceso preconfigurado
 a través del menú de configuración.
 
-Analiza el código de la función `wifi_init_sta`. Esta función, que implementa
+Analiza el código de la función `wifi_init_sta()`. Esta función, que implementa
 la tarea principal, se divide básicamente en dos partes:
 
 * **Gestión de eventos**: observa el mecanismo mediante el cual se registra
   y se asocia la recepción de un evento a la ejecución de un manejador o función
-  determinada (pista: función `esp_event_handler_instance_register`).
+  determinada (pista: función `esp_event_handler_instance_register()`).
 * **Configuración de la conexión a un punto de acceso**: la configuración de la
   conexión se realiza a través de los campos correspondientes de una estructura
   de tipo `wifi_config_t`. Observa los campos básicos que necesita, cómo fuerza
@@ -423,8 +427,8 @@ la tarea principal, se divide básicamente en dos partes:
   dichas personalizaciones, inicializa el sistema de comunicación inalámbrica a
   través de `esp_wifi_start()`.
 
-!!! danger "Ejercicio 8"
-    Modifica el *firmware* para que el *handler* (función `event_handler`) encargado del tratamiento de la obtención
+!!! danger "Ejercicio 9"
+    Modifica el *firmware* para que el *handler* (función `event_handler()`) encargado del tratamiento de la obtención
     de una dirección IP sea independiente del tratamiento del resto de eventos del sistema WiFi.
     Comprueba que, efectivamente sigue observándose la salida asociada a dicho evento, aun cuando ambas
     funciones sean independientes.
