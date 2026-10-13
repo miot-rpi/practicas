@@ -298,6 +298,7 @@ REQUIRES driver
 <li>Crea un nuevo proyecto a partir del template más sencillo que encentres.</li>
 <li>A partir del código disponible en <a href="https://github.com/mauriciobarroso/shtc3">este repositorio de Github https://github.com/mauriciobarroso/shtc3 </a>  crea un componente llamado <code>shtc3</code> para poder utilizar el sensor sin necesidad de consultar el <em>datasheet</em>.  Los ficheros del repositorio ya están preparados para usarse como un componente en ESP-IDF v6 Sólo debes ubicarlos en la carpeta correcta. </li>
 <li>En el fichero principal de tu aplicación, deberás inicializar el driver del bus I2C y el propio sensor. Puedes usar el código que se proporciona a continuación.</li>
+<li>EL CMakeLists.txt dentro de la carpeta del componente debería de incluir como requerimientos a parte del <code>driver</code>, <code>esp_driver_i2c</code>, <code>esp_timer</code>: <strong><code>REQUIRES driver esp_driver_i2c esp_timer</code></strong></li>
 </ul>
 </div>
 <pre><code class="language-c">// Handles globales para sensores y temporizador
