@@ -222,7 +222,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#tls-en-el-esp32-el-componente-esp-tls" class="nav-link">TLS en el ESP32. El componente ESP-TLS</a>
+            <li class="nav-item" data-bs-level="2"><a href="#tls-en-el-esp32-el-componente-esp-tls-ampliacion-opcional-esp-idf-61" class="nav-link">TLS en el ESP32. El componente ESP-TLS (ampliación opcional, ESP-IDF 6.1)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -555,203 +555,90 @@ idf.py -p /dev/PUERTO_SERIE flash monitor
 <p class="admonition-title">Tarea entregable</p>
 <p>Adapta el cliente para conectarlo con el servidor TLS desarrollado en las primeras secciones, ejecutado en macOS o Linux. Usa un certificado propio y conserva su verificación. Entrega los cambios, las versiones utilizadas y los registros que acrediten intercambio de mensajes y TLS 1.3. Captura el tráfico en la interfaz LAN del servidor con Wireshark (<code>tcp.port == 11111</code>; si es necesario, «Decode As… → TLS»). Comprueba en ServerHello que Supported Versions selecciona <code>0x0304</code> (TLS 1.3), aunque el campo legacy_version indique <code>0x0303</code>. Explica por qué los mensajes posteriores a ServerHello y los datos de aplicación no aparecen en claro. No entregues claves privadas ni la contraseña WiFi.</p>
 </div>
-<h2 id="tls-en-el-esp32-el-componente-esp-tls">TLS en el ESP32. El componente ESP-TLS</h2>
-<p>ESP-IDF proporciona un componente (ESP-TLS) que ofrece una interfaz (<a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/esp_tls.html">API</a>)
-simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece 
-una funcionalidad suficientemente amplia como para implementar casos de uso
-comunes en entornos IoT. </p>
-<p>La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:</p>
-<h3 id="establecimiento-de-conexion-tls-esp_tls_conn_new_sync">Establecimiento de conexión TLS (<code>esp_tls_conn_new_sync()</code>)</h3>
-<ul>
-<li>Prototipo:</li>
-</ul>
-<pre><code class="language-c">int esp_tls_conn_new_sync(const char *hostname, int hostlen, int port, const esp_tls_cfg_t *cfg, esp_tls_t *tls)
+<h2 id="tls-en-el-esp32-el-componente-esp-tls-ampliacion-opcional-esp-idf-61">TLS en el ESP32. El componente ESP-TLS (ampliación opcional, ESP-IDF 6.1)</h2>
+<p>ESP-TLS sigue disponible en ESP-IDF 6.1. Ofrece una API simplificada para establecer conexiones TLS y verificar certificados, utilizando <strong>MbedTLS por defecto</strong>. También permite registrar una pila TLS personalizada. La aplicación utiliza las funciones <code>esp_tls_*</code>, mientras que la biblioteca subyacente implementa TLS. Consulta la <a href="https://docs.espressif.com/projects/esp-idf/en/v6.1/esp32/api-reference/protocols/esp_tls.html">API de ESP-TLS para ESP-IDF 6.1</a>.</p>
+<p>Esta ampliación sirve para comparar el uso directo de wolfSSL con la interfaz de ESP-IDF. La conexión wolfSSL con el servidor de las primeras secciones sigue siendo la tarea obligatoria; aquí utilizaremos ESP-TLS con su backend MbedTLS predeterminado. La integración de wolfSSL como backend personalizado queda fuera del alcance de esta ampliación.</p>
+<h3 id="api-basica-del-cliente">API básica del cliente</h3>
+<p>Incluye <code>esp_tls.h</code> y declara <code>esp-tls</code> como dependencia del componente de la aplicación cuando corresponda.</p>
+<table>
+<thead>
+<tr>
+<th>Función</th>
+<th>Uso y resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>esp_tls_init()</code></td>
+<td>Crea el manejador; devuelve un <code>esp_tls_t *</code> o <code>NULL</code> si falla.</td>
+</tr>
+<tr>
+<td><code>esp_tls_conn_new_sync(host, hostlen, port, &amp;cfg, tls)</code></td>
+<td>Establece la conexión bloqueante; devuelve <code>1</code> si tiene éxito. Cualquier otro resultado debe tratarse como conexión no establecida.</td>
+</tr>
+<tr>
+<td><code>esp_tls_conn_write(tls, datos, longitud)</code></td>
+<td>Devuelve los bytes escritos; puede escribir menos de los solicitados.</td>
+</tr>
+<tr>
+<td><code>esp_tls_conn_read(tls, buffer, capacidad)</code></td>
+<td>Devuelve los bytes leídos; <code>0</code> indica cierre de la conexión.</td>
+</tr>
+<tr>
+<td><code>esp_tls_conn_destroy(tls)</code></td>
+<td>Cierra y libera la conexión del cliente.</td>
+</tr>
+</tbody>
+</table>
+<p>En lectura y escritura, trata los códigos <code>ESP_TLS_ERR_SSL_WANT_READ</code> y <code>ESP_TLS_ERR_SSL_WANT_WRITE</code> como condiciones de reintento; los demás valores negativos indican error. No supongas que una única llamada transfiere un mensaje completo.</p>
+<p>El manejador se obtiene mediante <code>esp_tls_init()</code>; no se declara <code>struct esp_tls</code> en la pila. Para liberar una conexión de <strong>cliente</strong>, utiliza <code>esp_tls_conn_destroy()</code>, no <code>esp_tls_server_session_delete()</code>.</p>
+<h3 id="prueba-con-el-ejemplo-https">Prueba con el ejemplo HTTPS</h3>
+<p>Copia el ejemplo incluido en <strong>tu instalación de IDF 6.1</strong> a una carpeta nueva, para conservar sus dependencias y configuración:</p>
+<pre><code class="language-sh">idf.py --version
+cp -R &quot;$IDF_PATH/examples/protocols/https_request&quot; ./esp_tls_https
+cd esp_tls_https
+idf.py set-target esp32
+idf.py menuconfig
+idf.py build
+idf.py -p /dev/PUERTO_SERIE flash monitor
 </code></pre>
-<ul>
-<li>
-<p>Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
-  conexión contra un servidor establecido. </p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>hostname</code>: Identificación del host.</li>
-<li><code>hostlen</code>: Longitud del parámetro <code>hostname</code>.</li>
-<li><code>port</code>: Puerto de conexión con el host.</li>
-<li><code>cfg</code>: Configuración de la conexión TLS.</li>
-<li><code>tls</code>: Puntero a <code>esp_tls_t</code> (manejador de la conexión). Devuelve <code>NULL</code> si se produce un error en la conexión.</li>
-</ul>
-</li>
-</ul>
-<h3 id="destruccion-de-conexion-tls-esp_tls_conn_delete">Destrucción de conexión TLS (<code>esp_tls_conn_delete()</code>)</h3>
-<pre><code class="language-c"> void esp_tls_server_session_delete(esp_tls_t *tls)
+<p>Configura SSID y contraseña en <code>Example Connection Configuration</code> y sustituye el puerto serie por el real. Conserva inicialmente el destino HTTPS y el mecanismo de confianza del ejemplo. Comprueba la respuesta HTTP y estudia dónde se configuran los certificados y se realizan las llamadas <code>esp_tls_*</code>. El ejemplo incluye sincronización horaria, necesaria para validar las fechas de los certificados. <a href="https://github.com/espressif/esp-idf/blob/v6.1/examples/protocols/https_request/main/https_request_example_main.c">Código del ejemplo HTTPS de IDF 6.1</a>.</p>
+<h3 id="uso-de-la-ca-propia-de-la-practica">Uso de la CA propia de la práctica</h3>
+<p>Para una prueba local, reutiliza los certificados generados en «Uso de un certificado propio». Copia <strong><code>ca-cert.pem</code></strong> a <code>main/ca-cert.pem</code> y añade <code>EMBED_TXTFILES "ca-cert.pem"</code> a la llamada existente a <code>idf_component_register(...)</code> en <code>main/CMakeLists.txt</code>. En el cliente declara:</p>
+<pre><code class="language-c">extern const unsigned char ca_cert_pem_start[] asm(&quot;_binary_ca_cert_pem_start&quot;);
+extern const unsigned char ca_cert_pem_end[]   asm(&quot;_binary_ca_cert_pem_end&quot;);
 </code></pre>
-<ul>
-<li>
-<p>Descripción: Cierra la conexión TLS/SSL. </p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>tls</code>: Manejador de la conexión.</li>
-</ul>
-</li>
-</ul>
-<h3 id="escritura-de-datos-esp_tls_conn_read">Escritura de datos (<code>esp_tls_conn_read()</code>)</h3>
-<pre><code class="language-c">ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
-</code></pre>
-<ul>
-<li>
-<p>Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
-  <code>data</code>.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>tls</code>: Manejador de la conexión. </li>
-<li><code>data</code>: Buffer de envío.</li>
-<li><code>datalen</code>: Longitud del buffer de envío (o número máximo 
-   de bytes a escribir).</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: </p>
-<ul>
-<li><code>&gt;=0</code>: éxito en el envío. Número de bytes efectivamente enviados.</li>
-<li><code>&lt;0</code>: error en el envío.</li>
-</ul>
-</li>
-</ul>
-<h3 id="lectura-de-datos-esp_tls_conn_read">Lectura de datos (<code>esp_tls_conn_read()</code>)</h3>
-<pre><code class="language-c">ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
-</code></pre>
-<ul>
-<li>
-<p>Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer <code>data</code>.</p>
-</li>
-<li>
-<p>Parámetros: </p>
-<ul>
-<li><code>tls</code>: Manejador de la conexión. </li>
-<li><code>data</code>: Buffer de recepción.</li>
-<li><code>datalen</code>: Longitud del buffer de recepción (o número máximo 
-   de bytes a leer).</li>
-</ul>
-</li>
-<li>
-<p>Valor de retorno: </p>
-<ul>
-<li><code>&gt;0</code>: éxito en la recepción. Número de bytes efectivamente leídos.</li>
-<li><code>=0</code>: error en la recepción. La conexión se cerró.</li>
-<li><code>&lt;0</code>: error en la recepción. </li>
-</ul>
-</li>
-</ul>
-<h3 id="estructura-basica-de-un-cliente-tcp-usando-esp-idf">Estructura básica de un cliente TCP usando ESP-IDF</h3>
-<p>Un cliente TCP implementado sobre ESP-IDF para dar soporte TLS, 
-requiere ciertas modificaciones con respecto a la versión sin TLS. 
-De hecho, el uso de ESP-IDF simplifica el código del cliente. La
-estructura básica resultaría:</p>
-<pre><code class="language-c">/// Includes anteriores.
-#include &quot;esp_tls.h&quot;
+<p>Configura la conexión con esa CA y el nombre incluido en el SAN del certificado:</p>
+<pre><code class="language-c">esp_tls_cfg_t cfg = {
+    .cacert_buf = ca_cert_pem_start,
+    .cacert_bytes = ca_cert_pem_end - ca_cert_pem_start,
+    .common_name = &quot;tls-lab.local&quot;,
+    .skip_common_name = false,
+    .timeout_ms = 10000,
+};
 
-// Puede tomarse desde menuconfig.
-#define HOST_IP_ADDR DIRECCION_DE_HOST
-#define PORT PUERTO 
-
-static const char *payload = &quot;Hola, mundo via TLS&quot;;
-
-// ...
-
-static void tls_client_task( void  *pvParameters )
-{
-  // ...
-
-  // Configuración de ESP-TLS (vacío para opciones defecto).
-  esp_tls_cfg_t cfg = { };
-
-  // Creación de conexión.
-  struct esp_tls tls;
-  ret = esp_tls_conn_new_sync( HOST_IP_ADDR, longitud, PORT, &amp;cfg, &amp;tls);
-
-  // Chequeo de errores.
-  // ...
-
-  // Envío de datos.
-  ret = esp_tls_conn_write(tls, payload, strlen(payload));
-
-  // Chequeo de errores.
-  // ...
-
-  // Lectura de datos
-  ret = esp_tls_conn_read(tls, (char *)rx_buffer, 128);
-
-  // Chequeo de errores.
-  // ...
-
-  // Destrucción de la conexión
-  esp_tls_server_session_delete( tls );
-
-  vTaskDelete( NULL );
+esp_tls_t *tls = esp_tls_init();
+if (tls == NULL) {
+    /* Registrar el error y terminar la tarea. */
+    return;
 }
 
-void app_main( void )
-{
-  // ...
+const char *host = &quot;192.168.1.50&quot;; /* IPv4 LAN real del servidor */
+if (esp_tls_conn_new_sync(host, strlen(host), 11111, &amp;cfg, tls) == 1) {
+    /* Intercambiar mensajes mediante esp_tls_conn_write/read.
+       Comprobar resultados, transferencias parciales y reintentos. */
+} else {
+    /* Registrar el fallo de conexión o de validación. */
 }
+esp_tls_conn_destroy(tls);
 </code></pre>
-<div class="admonition danger">
-<p class="admonition-title">Tarea entregable</p>
-<p>Estudia y prueba el ejemplo base <code>examples/protocols/https_request</code>. 
-Opcionalmente, modifica este ejemplo para que interactue con el servidor 
-TLS empleando previamente.</p>
-</div>
-<h4 id="desactivacion-de-la-comprobacion-de-certificado-de-servidor">Desactivación de la comprobación de certificado de servidor</h4>
-<p>Basta con modificar la configuración del proyecto del siguiente modo:</p>
-<pre><code># CONFIG_EXAMPLE_CLIENT_SESSION_TICKETS is not set
-CONFIG_ESP_TLS_INSECURE=y
-CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY=y
-# CONFIG_MBEDTLS_CERTIFICATE_BUNDLE is not set
-</code></pre>
-<p>Y comentar estás líneas del fichero <code>https_request_example_main.c</code> para borrar la configuración de la entidad de certificación (de lo contrario prevalecería sobre la opción <code>CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY</code>):</p>
-<pre><code class="language-c">  esp_tls_cfg_t cfg = {
-  //    .cacert_buf = (const unsigned char *) server_root_cert_pem_start,
-  //    .cacert_bytes = server_root_cert_pem_end - server_root_cert_pem_start,
-  ...
-  };
-</code></pre>
-<h4 id="servidor-web-de-test-con-certificado-autofirmado">Servidor web de test con certificado autofirmado</h4>
-<p>Para comprobar el ejemplo <code>examples/protocols/https_request</code> con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de <code>openssl</code>.</p>
-<ul>
-<li><em>Generación del certificado autofirmado.</em> Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.</li>
-</ul>
-<pre><code class="language-sh">openssl openssl genrsa -out server.key 2048
-</code></pre>
-<pre><code class="language-sh">openssl openssl req -new -x509 -key server.key -out server.crt -days 365
-
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [AU]:ES
-State or Province Name (full name) [Some-State]:Madrid
-Locality Name (eg, city) []:Madrid
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:UCM
-Organizational Unit Name (eg, section) []:FDI
-Common Name (e.g. server FQDN or YOUR name) []:&lt;IP HOST&gt;
-Email Address []:lpinuel@ucm.es
-</code></pre>
-<ul>
-<li><em>Arranque del servidor web</em>.</li>
-</ul>
-<pre><code class="language-sh">openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
-
-Using default temp DH parameters
-ACCEPT
-</code></pre></div>
+<p>Este fragmento ilustra el ciclo de vida de la conexión dentro de una función auxiliar; requiere <code>string.h</code>, red conectada y reloj sincronizado. Si se integra directamente en una tarea FreeRTOS, termina la tarea mediante <code>vTaskDelete(NULL)</code> en lugar de retornar. La dirección IP selecciona el servidor TCP y <code>common_name</code> establece la identidad esperada <code>tls-lab.local</code>.</p>
+<p>En la configuración local, no combines esta CA con <code>.crt_bundle_attach</code> o <code>.use_global_ca_store</code>: selecciona un único mecanismo de confianza. Mantén desactivadas <code>CONFIG_ESP_TLS_INSECURE</code> y <code>CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY</code>. Una configuración vacía de <code>esp_tls_cfg_t</code> no basta para autenticar al servidor y falla por defecto si no se proporciona un mecanismo de verificación.</p>
+<p>Si adaptas <code>https_request</code>, cambia también su destino y petición: el servidor wolfSSL de la práctica intercambia mensajes TLS, por lo que no tiene por qué devolver una respuesta HTTP. Conserva en el host el certificado y la clave privada del servidor; solo el certificado público de la CA se incorpora al firmware. Recompila y recarga tras cambiarlo. Para conectarte al servidor configurado exclusivamente con TLS 1.3, comprueba que MbedTLS tiene habilitado ese protocolo y verifica la versión negociada.</p>
+<div class="admonition note">
+<p class="admonition-title">Actividad opcional</p>
+<p>Ejecuta el ejemplo HTTPS y compara su API con la del cliente wolfSSL. Como ampliación, conéctalo al servidor local con tu CA propia y captura el tráfico. Explica qué tareas realiza ESP-TLS y cuáles siguen siendo responsabilidad de la aplicación: configuración de confianza, identidad del servidor, sincronización horaria y gestión de los mensajes.</p>
+</div></div>
             </div>
         </div>
 
