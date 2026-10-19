@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>LAB2. WiFi en el ESP32 - Máster IoT UCM - Prácticas (26/27)</title>
+        <title>LAB2. Wi-Fi en el ESP32 - Máster IoT UCM - Prácticas (26/27)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">LAB2. WiFi en el ESP32</a>
+    <a href="./" class="dropdown-item active" aria-current="page">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -196,7 +196,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#lab2-wifi-en-el-esp32" class="nav-link">LAB2. WiFi en el ESP32</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lab2-wi-fi-en-el-esp32" class="nav-link">LAB2. Wi-Fi en el ESP32</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
@@ -218,7 +218,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#escaneado-de-redes-wifi" class="nav-link">Escaneado de redes WiFi</a>
+            <li class="nav-item" data-bs-level="2"><a href="#escaneado-de-redes-wi-fi" class="nav-link">Escaneado de redes Wi-Fi</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -233,36 +233,36 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="lab2-wifi-en-el-esp32">LAB2. WiFi en el ESP32</h1>
+<h1 id="lab2-wi-fi-en-el-esp32">LAB2. Wi-Fi en el ESP32</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
-<li>Conocer el flujo de trabajo del driver WiFi en ESP-IDF.</li>
+<li>Conocer el flujo de trabajo del driver Wi-Fi en ESP-IDF.</li>
 <li>Analizar las diferencias entre un <em>firmware</em> desarrollado para trabajar 
 en modo <em>station</em> y en modo <em>AP</em>.</li>
-<li>Desarrollar un <em>firmware</em> combinado para que funcione en modo AP y <em>station</em>
+<li>Desarrollar un <em>firmware</em> combinado para que funcione en modo <em>AP</em> y <em>station</em>
 de forma simultánea.</li>
 <li>Conocer los mecanismos de escaneado de redes en ESP-IDF.</li>
 <li>Conectar a redes vía WPA2 Enterprise desde el ESP32 (<em>eduroam</em>).</li>
 </ul>
 <h2 id="introduccion">Introducción</h2>
-<p>Las bibliotecas y componentes de soporte WiFi en ESP-IDF proporcionan soporte
+<p>Las bibliotecas y componentes de soporte Wi-Fi en ESP-IDF proporcionan soporte
 para configurar y monitorizar la conexión 802.11 sobre placas ESP32. Este 
 soporte incluye configuraciones para:</p>
 <ul>
 <li>
-<p>Modo <code>station</code> (modo cliente WiFi o <em>STA</em>). 
+<p>Modo <em>station</em> (modo cliente Wi-Fi o <em>STA</em>). 
   En este caso, el ESP32 se conecta con un punto de acceso preconfigurado.</p>
 </li>
 <li>
-<p>Modo <code>AP</code> (también denominado <em>softAP</em> o modo <em>Punto de Acceso</em>). En este
+<p>Modo <em>AP</em> (también denominado <em>SoftAP</em> o modo <em>Punto de Acceso</em>). En este
   caso, son las estaciones las que se conectan al ESP32.</p>
 </li>
 <li>
 <p>Modo combinado AP-STA, donde el ESP32 actúa de forma concurrente como punto de
-  acceso (AP) y cliente WiFi conectado a otro punto de acceso (STA).</p>
+  acceso (AP) y cliente Wi-Fi conectado a otro punto de acceso (STA).</p>
 </li>
 <li>
-<p>Varios modos de seguridad tanto en modo cliente como en modo AP (WPA,
+<p>Varios modos de seguridad tanto en modo <em>cliente</em> como en modo <em>AP</em> (WPA,
   WPA2, WEP, etc).</p>
 </li>
 <li>
@@ -276,20 +276,20 @@ soporte incluye configuraciones para:</p>
 </li>
 </ul>
 <p>En la presente práctica, a través de ejemplos básicos, estudiaremos las
-características principales soportadas por el driver WiFi sobre el ESP32.
+características principales soportadas por el driver Wi-Fi sobre el ESP32.
 Todas estas características pueden ser utilizadas a posteriori para el 
 desarrollo de código y proyectos más complejos con mínimas modificaciones.</p>
-<h3 id="modelo-de-programacion-del-driver-wifi-en-esp-idf">Modelo de programación del driver WiFi en ESP-IDF</h3>
-<p>El modelo de programación del driver WiFi en ESP-IDF sigue un
+<h3 id="modelo-de-programacion-del-driver-wi-fi-en-esp-idf">Modelo de programación del driver Wi-Fi en ESP-IDF</h3>
+<p>El modelo de programación del driver Wi-Fi en ESP-IDF sigue un
 esquema sencillo que puede resumirse en la siguiente imagen:</p>
 <p><img alt="" src="img/blockdiag.png" /></p>
-<p>Puede considerarse que el driver WiFi es una caja negra independiente del resto
+<p>Puede considerarse que el driver Wi-Fi es una caja negra independiente del resto
 de la aplicación, como la pila TCP/IP, las tareas de aplicación y los eventos.
-El código de las tareas de aplicación generalmente invoca a la API WiFi para
+El código de las tareas de aplicación generalmente invoca a la API Wi-Fi para
 inicializar el dispositivo inalámbrico y tratar eventos específicos cuando
-resulta necesario. El driver WiFi recibe invocaciones a su API, las procesa y
+resulta necesario. El driver Wi-Fi recibe invocaciones a su API, las procesa y
 emite eventos a la aplicación. </p>
-<p>El tratamiento de eventos WiFi se basa en la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">biblioteca de eventos
+<p>El tratamiento de eventos Wi-Fi se basa en la <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html">biblioteca de eventos
 esp_event</a>;
 los eventos se envían por parte del driver al <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/esp_event.html#esp-event-default-loops">bucle de tratamiento de eventos
 por
@@ -308,9 +308,9 @@ por ejemplo, asignar una dirección IP estáticamente).</p>
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html">aquí</a>.
 Se recomienda disponer de esta documentación durante el proceso de desarrollo de la práctica.</p>
 </div>
-<h3 id="eventos-wifi">Eventos WiFi</h3>
+<h3 id="eventos-wi-fi">Eventos Wi-Fi</h3>
 <p>A continuación, se listan algunos de los eventos más utilizados en la gestión
-de conexiones WiFi, que utilizaremos en los ejemplos posteriores.</p>
+de conexiones Wi-Fi, que utilizaremos en los ejemplos posteriores.</p>
 <ul>
 <li>
 <p><code>WIFI_EVENT_SCAN_DONE</code>:</p>
@@ -353,7 +353,7 @@ aplicación.</p>
 <p>Este evento se envía cuando, tras la invocación a <code>esp_wifi_connect()</code>,
 esta devuelve <code>ESP_OK</code>. Tras la recepción de este evento, arranca un 
 cliente DHCP para la obtención de una dirección IP. A continuación,
-si todo ha ido bien, el driver WiFi está listo para enviar y recibir
+si todo ha ido bien, el driver Wi-Fi está listo para enviar y recibir
 datos.</p>
 <p>Dicho instante es el adecuado para comenzar con la lógica de nuestra aplicación,
 siempre que esta no dependa de la correcta obtención de una dirección IP. 
@@ -367,13 +367,13 @@ esperando al evento <code>WIFI_EVENT_STA_GOT_IP</code>.</p>
 <li>Cuando se invoca a las funciones
 <code>esp_wifi_disconnect()</code>, <code>esp_wifi_stop()</code>, <code>esp_wifi_deinit()</code> o
 <code>esp_wifi_restart()</code> y la estación está conectada al punto de acceso.</li>
-<li>Cuando se invoca a <code>esp_wifi_connect()</code>, pero el driver WiFi no 
+<li>Cuando se invoca a <code>esp_wifi_connect()</code>, pero el driver Wi-Fi no 
 consigue configurar una conexión con el AP debido a cualquier razón
 (por ejemplo, el escaneo no puede encontrar el AP objetivo, el proceso
 de autenticación no tiene éxito, etc). Si hay más de un AP con el mismo
 SSID, el evento se emite solo cuando el dispositivo no puede conectar
 a ninguno de los APs encontrados.</li>
-<li>Cuando la conexión WiFi se interrumpe, por ejemplo porque el dispositivo
+<li>Cuando la conexión Wi-Fi se interrumpe, por ejemplo porque el dispositivo
 pierde N <em>beacons</em> emitidos por el AP, el AP expulsa al dispositivo, el modo
 de autenticación cambia, etc.</li>
 </ul>
@@ -404,7 +404,7 @@ sockets abiertos.</p>
 <p><code>IP_EVENT_STA_LOST_IP</code>:</p>
 <p>Evento emitido cuando una dirección IPv4 se convierte en una dirección
 inválida. El evento no se emite inmediatamente tras la desconexión
-WiFi, sino que inicializa un temporizador de tipo <em>address lost</em>. Si se
+Wi-Fi, sino que inicializa un temporizador de tipo <em>address lost</em>. Si se
 obtiene una IP antes de su expiración, el evento no se emite. En otro
 caso, se emite justo en el instante de expiración del temporizador.</p>
 <p>Normalmente, las aplicaciones no deben tratar este evento (suele usarse
@@ -426,7 +426,7 @@ obtener información sobre la estación conectada, por ejemplo.</p>
 <ul>
 <li>La aplicación invoca a <code>esp_wifi_disconnect()</code> o <code>esp_wifi_deauth_sta()</code>
 para desconectarla manualmente del punto de acceso.</li>
-<li>El driver WiFi expulsa al dispositivo (<em>station</em>), por ejemplo en una
+<li>El driver Wi-Fi expulsa al dispositivo (<em>station</em>), por ejemplo en una
 situación en la que el AP no ha recibido paquetes en los últimos minutos.</li>
 </ul>
 <p>Cuando ocurre este evento, la aplicación necesitaría (idealmente) tomar
@@ -440,7 +440,7 @@ principales que pueden darse en modo <em>station</em>:</p>
 <p><img alt="" src="img/stadiag.png" /></p>
 <p>Se analizan a continuación las fases principales en este tipo de <em>firmware</em>
 (no todas tienen que estar necesariamente presentes en cualquier escenario).</p>
-<p><strong>Fase 1: inicialización WiFi</strong></p>
+<p><strong>Fase 1: inicialización Wi-Fi</strong></p>
 <ol>
 <li>La tarea principal invoca a <code>esp_netif_init()</code> para crear la pila
   TCP/IP y realizar las tareas de inicialización pertinentes.</li>
@@ -448,19 +448,19 @@ principales que pueden darse en modo <em>station</em>:</p>
   inicializar el sistema de eventos.</li>
 <li>La tarea principal invoca a <code>esp_netif_create_default_wifi_sta()</code> para
   crear la interfaz de red correspondiente al modo <em>station</em>,
-  que conecta el driver WiFi con la pila TCP/IP.</li>
+  que conecta el driver Wi-Fi con la pila TCP/IP.</li>
 <li>La tarea principal invoca a <code>esp_wifi_init()</code> para crear la tarea que
-  manejará la conexión WiFi e inicializa el driver WiFi.</li>
+  manejará la conexión Wi-Fi e inicializa el driver Wi-Fi.</li>
 <li>Por último, se invoca (si así se desea, aunque es lo más común) a la
   API para la creación de la tarea o tareas de aplicación.</li>
 </ol>
 <p>Esta secuencia es la recomendada para la inicialización del sistema de 
-  comunicación WiFi, pero no es estrictamente obligatorio seguirla en dicho
+  comunicación Wi-Fi, pero no es estrictamente obligatorio seguirla en dicho
   orden o en su totalidad. Por ejemplo, se podría crear directamente una
   tarea de aplicación (paso 5) y realizar la configuración en su cuerpo, o se
   puede diferir su creación hasta la obtención de una dirección IP.</p>
-<p><strong>Fase 2: configuración WiFi</strong></p>
-<p>Una vez inicializado el driver WiFi, comienza su configuración. En 
+<p><strong>Fase 2: configuración Wi-Fi</strong></p>
+<p>Una vez inicializado el driver Wi-Fi, comienza su configuración. En 
 este escenario, el modo debe fijarse a <em>station</em> a través de una invocación
 a <code>esp_wifi_set_mode(WIFI_MODE_STA)</code>. Es posible invocar a continuación
 a otras rutinas de tipo <code>esp_wifi_set_*()</code> para configurar parámetros
@@ -468,14 +468,14 @@ adicionales (país, ancho de banda, modo de protocolo...).
 Para más información sobre los modos de operación (<em>station</em>, <em>AP</em> o
 modo combinado <em>station/AP</em>, consulta el siguiente
 <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html#wi-fi-mode">enlace</a>).</p>
-<p>Generalmente, es necesario configurar el driver WiFi antes de establecer
+<p>Generalmente, es necesario configurar el driver Wi-Fi antes de establecer
 una conexión, pero no es obligatorio: es posible reconfigurarlo en cualquier
 momento, siempre que el driver esté correctamente inicializado. En cualquier
 caso, si la configuración no tiene que modificarse tras la conexión, es mejor
 realizarla en este punto, ya que algunos de los parámetros que pueden variar
-forzarán una reconexión WiFi (aspecto que es mejor evitar).</p>
+forzarán una reconexión Wi-Fi (aspecto que es mejor evitar).</p>
 <p>La rutina <code>esp_wifi_set_config()</code> permite configurar los aspectos básicos
-de la conexión WiFi. Por ejemplo:</p>
+de la conexión Wi-Fi. Por ejemplo:</p>
 <pre><code class="language-c">    wifi_config_t wifi_config = {
         .sta = {
             .ssid = EXAMPLE_ESP_WIFI_SSID,
@@ -491,21 +491,21 @@ de la conexión WiFi. Por ejemplo:</p>
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &amp;wifi_config));
 </code></pre>
-<p>El código anterior realiza una configuración básica WiFi proporcionando SSID, contraseña y 
+<p>El código anterior realiza una configuración básica Wi-Fi proporcionando SSID, contraseña y 
 modo de autenticación antes de configurar la conexión.</p>
-<p><strong>Fase 3: inicio WiFi</strong></p>
+<p><strong>Fase 3: inicio Wi-Fi</strong></p>
 <ol>
-<li>Invocación a <code>esp_wifi_start()</code> para iniciar el driver WiFi.</li>
-<li>El driver WiFi envía un evento <code>WIFI_EVENT_STA_START</code>, que será tratado
+<li>Invocación a <code>esp_wifi_start()</code> para iniciar el driver Wi-Fi.</li>
+<li>El driver Wi-Fi envía un evento <code>WIFI_EVENT_STA_START</code>, que será tratado
 por la tarea de gestión de eventos por defecto para realizar las tareas
 necesarias e invocará a la rutina de tratamiento del evento a nivel de 
 aplicación.</li>
 <li>La aplicación deberá tratar el evento <code>WIFI_EVENT_STA_START</code>, invocando
 (se recomienda) a <code>esp_wifi_connect()</code>. </li>
 </ol>
-<p><strong>Fase 4: conexión WiFi</strong></p>
+<p><strong>Fase 4: conexión Wi-Fi</strong></p>
 <ol>
-<li>Una vez invocada <code>esp_wifi_connect()</code>, el driver WiFi comienza un proceso
+<li>Una vez invocada <code>esp_wifi_connect()</code>, el driver Wi-Fi comienza un proceso
 interno de escaneado/conexión.</li>
 <li>Si dicho proceso tiene éxito, se genera un evento <code>WIFI_EVENT_STA_CONNECTED</code>.
 Automáticamente se invoca al cliente DHCP y comienza el proceso de obtención de 
@@ -526,9 +526,9 @@ de tipo <code>WIFI_EVENT_STA_DISCONNECTED</code> y se proporcionará la causa de
      sockets TCP/UDP. Es imprescindible la recepción de una dirección IP antes
      de la inicialización de sockets.</li>
 </ol>
-<p><strong>Fase 6: desconexión WiFi</strong></p>
+<p><strong>Fase 6: desconexión Wi-Fi</strong></p>
 <ol>
-<li>Cuando finaliza de forma abrupta una conexión WiFi, por ejemplo al apagar
+<li>Cuando finaliza de forma abrupta una conexión Wi-Fi, por ejemplo al apagar
 el punto de acceso (AP), si la calidad de recepción (RSSI) es baja, etc,
 se emite un evento <code>WIFI_EVENT_STA_DISCONNECTED</code>.</li>
 <li>La tarea de aplicación debería tratar este evento para, típicamente, 
@@ -541,11 +541,11 @@ de tipo <code>IP_EVENT_STA_GOT_IP</code>.</li>
 <li>La aplicación debería tomar las medidas necesarias (por ejemplo, recreación
 de sockets) para mantener en estado consistente.</li>
 </ol>
-<p><strong>Fase 8: terminación WiFi</strong></p>
+<p><strong>Fase 8: terminación Wi-Fi</strong></p>
 <ol>
 <li>Invocación a <code>esp_wifi_disconnect()</code> para desconectar la conexión en marcha.</li>
-<li>Invocación a <code>esp_wifi_stop()</code> para parar el driver WiFi.</li>
-<li>Invocación a <code>esp_wifi_deinit()</code> para descargar el driver WiFi.</li>
+<li>Invocación a <code>esp_wifi_stop()</code> para parar el driver Wi-Fi.</li>
+<li>Invocación a <code>esp_wifi_deinit()</code> para descargar el driver Wi-Fi.</li>
 </ol>
 <h3 id="analisis-del-ejemplo-station">Análisis del ejemplo <em>station</em></h3>
 <div class="admonition danger">
@@ -564,10 +564,10 @@ basta con mostrar/explicar qué acciones podrían realizarse en cada caso.</p>
 </div>
 <h2 id="modo-punto-de-acceso-ap">Modo punto de acceso (<em>AP</em>)</h2>
 <p>La siguiente figura describe, a grandes rasgos, algunos de los escenarios
-principales que pueden darse en el modo AP:</p>
+principales que pueden darse en el modo <em>AP</em>:</p>
 <p><img alt="" src="img/apdiag.png" /></p>
 <p>El flujo de trabajo es muy similar al del modo <em>station</em>, con la diferencia
-básica del tipo de configuración WiFi a realizar (<code>WIFI_MODE_AP</code>) y obviamente
+básica del tipo de configuración Wi-Fi a realizar (<code>WIFI_MODE_AP</code>) y obviamente
 los parámetros de configuración. Observa el siguiente ejemplo de configuración:</p>
 <pre><code class="language-c">    wifi_config_t wifi_config = {
         .ap = {
@@ -609,7 +609,7 @@ de acceso (campo <code>.ap</code>) y otra con los campos asociados a la
 de configuración <code>esp_wifi_set_config</code> con cada una de dichas estructuras.
 Por último, también es necesario inicializar la interfaz de red (<em>netif</em>)
 tanto en modo estación (<code>esp_netif_create_default_wifi_sta()</code>)
-como en modo AP (<code>esp_netif_create_default_wifi_ap()</code>).</p>
+como en modo <em>AP</em> (<code>esp_netif_create_default_wifi_ap()</code>).</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 4</p>
 <p>Modifica el ejemplo <em>station</em> para que el ESP32 se comporte simultáneamente
@@ -619,9 +619,9 @@ Comprueba que el ESP32 se conecta correctamente a un punto de acceso
 y que, al mismo tiempo, es posible conectar otro dispositivo al ESP32.
 Conecta tu PC al ESP32 y comprueba la conectividad con el comando ping.</p>
 </div>
-<h2 id="escaneado-de-redes-wifi">Escaneado de redes WiFi</h2>
-<h3 id="modos-de-escaneado-de-redes-wifi">Modos de escaneado de redes WiFi</h3>
-<p>El modo de escaneo de redes WiFi (es decir, la invocación de la rutina
+<h2 id="escaneado-de-redes-wi-fi">Escaneado de redes Wi-Fi</h2>
+<h3 id="modos-de-escaneado-de-redes-wi-fi">Modos de escaneado de redes Wi-Fi</h3>
+<p>El modo de escaneo de redes Wi-Fi (es decir, la invocación de la rutina
 <code>esp_wifi_scan_start()</code>) solo está soportada en la actualidad en modo
 <em>station</em> o <em>station+AP</em>. En este modo, se da soporte a distintos tipos de
 escaneado de redes:</p>
@@ -633,16 +633,16 @@ cada canal y esperando el envío por parte de los APs de paquetes baliza
 (<em>beacons</em>). El modo activo o pasivo puede configurarse desde la aplicación, 
 mediante el campo <code>scan_type</code> de la estructura <code>wifi_scan_config_t</code> (lo verás
 en el siguiente ejemplo).</li>
-<li><strong>Escaneado en primer plano:</strong> se utiliza cuando no hay conexión WiFi activa
+<li><strong>Escaneado en primer plano:</strong> se utiliza cuando no hay conexión Wi-Fi activa
 en el momento del escaneado.</li>
-<li><strong>Escaneado en segundo plano:</strong> se utiliza cuando hay conexión WiFi activa
+<li><strong>Escaneado en segundo plano:</strong> se utiliza cuando hay conexión Wi-Fi activa
 en el momento del escaneado.</li>
 <li><strong>Escaneado de todos los canales:</strong> escanea SSIDs en todos los canales. 
 La forma de activarlo es mediante el valor 0 en el campo correspondiente
 de <code>wifi_scan_config_t</code>.</li>
 <li><strong>Escaneado de canal específico:</strong> escanea únicamente en un canal. </li>
 </ul>
-<p>Así, existen 8 modos distintos de escaneado de red WiFi, resultantes de la
+<p>Así, existen 8 modos distintos de escaneado de red Wi-Fi, resultantes de la
 combinación de los anteriores modos:</p>
 <ol>
 <li><em>All-Channel Background Active Scan.</em></li>
@@ -654,7 +654,7 @@ combinación de los anteriores modos:</p>
 <li><em>Specific-Channel Foreground Active Scan.</em></li>
 <li><em>Specific-Channel Foreground Passive Scan.</em></li>
 </ol>
-<h3 id="configuracion-del-escaneado-de-redes-wifi">Configuración del escaneado de redes WiFi</h3>
+<h3 id="configuracion-del-escaneado-de-redes-wi-fi">Configuración del escaneado de redes Wi-Fi</h3>
 <p>Para configurar una sesión de escaneado, se utilizan los campos correspondientes
 de la estructura de tipo <code>wifi_scan_config_t</code>, proporcionada a la función 
 <code>esp_wifi_scan_start()</code> encargada de iniciar el escaneo. Los campos
@@ -689,7 +689,7 @@ se ha especificado en la sección anterior.</p>
 <p><strong>Fase 2: escaneado</strong></p>
 <ol>
 <li>
-<p>El driver WiFi cambia al canal 1 y emite (en caso de escaneado activo)
+<p>El driver Wi-Fi cambia al canal 1 y emite (en caso de escaneado activo)
 en modo <em>broadcast</em> un paquete de tipo <em>probe request</em>. En caso de escaneado
 pasivo, seguirá escuchando en el canal 1 durante un tiempo determinado a la
 espera de <em>beacons</em>. En cualquier caso, el valor por defecto de espera es de

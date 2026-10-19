@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="../../RPI-I/P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
+    <a href="../../RPI-I/P2/" class="dropdown-item">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../../RPI-I/P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../../RPI-I/P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../../RPI-I/P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
+    <a href="../../RPI-I/P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../../RPI-I/P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../../RPI-I/P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -214,7 +214,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#tls-en-el-esp32-el-componente-wolfssl-version-572" class="nav-link">TLS en el ESP32. El componente wolfSSL (version 5.7.2)</a>
+            <li class="nav-item" data-bs-level="2"><a href="#tls-en-el-esp32-el-componente-wolfssl-version-5821" class="nav-link">TLS en el ESP32. El componente wolfSSL (version 5.8.2~1)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -241,7 +241,7 @@
 <p>De las principales librerías que implementan protocolos de seguridad, sin duda alguna la más eficiente es <a href="https://www.wolfssl.com/">WolfSSL</a> y es por ello que esta práctica se centra en ella.</p>
 <h3 id="instalacion-linux">Instalación (Linux)</h3>
 <p>Aunque se pueden emplear paquetes binarios de la propia distribución de Linux, es recomendable partir del código fuente y compilarlo/instalarlo.</p>
-<p>Por lo tanto, lo primero es descargar el fichero <code>wolfssl-5.7.2.zip</code> de este <a href="https://www.wolfssl.com/download/">enlace</a> y descomprimirlo en una ruta sin espacios <em>(esta recomendación es aplicable a todas las prácticas)</em>.</p>
+<p>Por lo tanto, lo primero es descargar el fichero <code>wolfssl-5.x.x.zip</code> de este <a href="https://www.wolfssl.com/download/">enlace</a> y descomprimirlo en una ruta sin espacios <em>(esta recomendación es aplicable a todas las prácticas)</em>.</p>
 <p>Antes de proceder a su compilación es necesario instalar una serie de pre-requisitos:</p>
 <pre><code class="language-sh">sudo apt install build-essential libtool-bin autoconf libevent-dev
 </code></pre>
@@ -413,7 +413,7 @@ esta conexión.</p>
 <h2 id="clienteservidor-dtls-ejemplo-basico-en-host">Cliente/servidor DTLS. Ejemplo básico en host</h2>
 <p>El desarrollo de un sistema básico cliente/servidor con soporte DTLS utilizando
 WolfSSL es muy similar al visto anteriormente para TLS. Observa el contenido del fichero <code>dtls/server-dtls.c</code>.</p>
-<p>Eel código sigue una filosofía similar a TLS, adaptado, obviamente,
+<p>El código sigue una filosofía similar a TLS, adaptado, obviamente,
 a las características de UDP (tipo de socket, ausencia de conexión, etc.), por
 lo que se deja como ejercicio su análisis y ejecución.</p>
 <div class="admonition danger">
@@ -427,11 +427,11 @@ de datos DTLS. ¿Cuál/cuáles son esos campos y por qué aparecen? Realiza una 
 del tráfico total generado en ambos casos para exactamente la misma cantidad de datos 
 transferidos.</p>
 </div>
-<h2 id="tls-en-el-esp32-el-componente-wolfssl-version-572">TLS en el ESP32. El componente wolfSSL (version 5.7.2)</h2>
-<p>La librería WolfSSL está disponible como <a href="https://components.espressif.com/components/wolfssl/wolfssl/versions/5.7.2?language=en">componente de Espressif</a>. A continuación veremos un ejemplo de uso de cliente TLS apto para conectarse el servidor anterior.</p>
+<h2 id="tls-en-el-esp32-el-componente-wolfssl-version-5821">TLS en el ESP32. El componente wolfSSL (version 5.8.2~1)</h2>
+<p>La librería WolfSSL está disponible como <a href="https://components.espressif.com/components/wolfssl/wolfssl/versions/5.8.2~1">componente de Espressif</a>. A continuación veremos un ejemplo de uso de cliente TLS apto para conectarse el servidor anterior.</p>
 <p>Aunque es posible usar el GUI de la Extensión de ESP-IDF de VSCode, por brevedad vamos a realizar los pasos desde línea de comandos en el terminal <code>ESP-IDF Terminal</code>.</p>
 <p>Moverse a la carpeta dónde se quiera importar el ejemplo y ejecutar el siguiente comando.</p>
-<pre><code>idf.py create-project-from-example &quot;wolfssl/wolfssl^5.7.2:wolfssl_client&quot;
+<pre><code>idf.py create-project-from-example &quot;wolfssl/wolfssl^5.8.2~1:wolfssl_client&quot;
 cd wolfssl_client`
 </code></pre>
 <p>Ejecuta la utilidad <code>menuconfig</code> :</p>

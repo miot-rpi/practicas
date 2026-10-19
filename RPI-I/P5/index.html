@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="../P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
+    <a href="../P2/" class="dropdown-item">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -522,9 +522,9 @@ utilizando la función <code>esp_ble_gatts_app_register()</code>:</p>
 </code></pre>
 <h2 id="registro-de-aplicacion">Registro de aplicación</h2>
 <p>El evento de registro de aplicación <code>ESP_GATTS_REG_EVT</code> es el primero que se
-generará en la vida del programa. Este evento es tratado por el callback
+generará en la vida del programa. Este evento es tratado por el <em>callback</em>
 registrado como manejador de eventos del servidor GATT, que en nuestro ejemplo
-lo termina delegando en el callback asociado al perfil de aplicación
+lo termina delegando en el <em>callback</em> asociado al perfil de aplicación
 (<code>gatts_profile_event_handler</code>):</p>
 <pre><code class="language-c">static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
@@ -563,7 +563,7 @@ esp_gatt_if_t gatts_if;      /* Interfaz GATTS asignada por la pila BLE */
 <p>A partir de ese momento deberá usarse la interfaz <code>gatts_if</code> para operar, por
 lo que la función registra esta interfaz en la tabla de descripción del perfil
 de aplicación (<code>heart_rate_profile_tab</code>).</p>
-<p>Finalmente, la función delega el evento en el callback registrado para tratar
+<p>Finalmente, la función delega el evento en el <em>callback</em> registrado para tratar
 los eventos asociados al perfil (<code>gatts_profile_event_handler</code>).</p>
 <h2 id="parametros-gap">Parámetros GAP</h2>
 <p>Como hemos visto arriba, el evento <code>ESP_GATTS_REG_EVT</code> es delegado en la
@@ -801,7 +801,7 @@ sobre los atributos.</p>
 <p>Como hemos visto antes, en el procesamiento del evento de registro de
 aplicación se establecen los datos de anuncio. Cuando se complete esta
 inicialización, la pila BLE emitirá un evento de tipo
-<code>ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT</code>, que será manejado por el callback
+<code>ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT</code>, que será manejado por el <em>callback</em>
 registrado como GAP handler. Si se ha configurado un anuncio scannable y una
 respuesta al escaneado (en nuestro ejemplo se ha configurado), la pila BLE
 emitirá también un evento de tipo

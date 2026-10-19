@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>LAB4. ESP WiFi Mesh - Máster IoT UCM - Prácticas (26/27)</title>
+        <title>LAB4. ESP Wi-Fi mesh - Máster IoT UCM - Prácticas (26/27)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="../P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
+    <a href="../P2/" class="dropdown-item">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">LAB4. ESP WiFi Mesh</a>
+    <a href="./" class="dropdown-item active" aria-current="page">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -196,21 +196,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#lab4-esp-wifi-mesh" class="nav-link">LAB4. ESP WiFi Mesh</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lab4-esp-wi-fi-mesh" class="nav-link">LAB4. ESP Wi-Fi mesh</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#objetivos" class="nav-link">Objetivos</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#esp-wifi-mesh" class="nav-link">ESP WiFi Mesh</a>
+            <li class="nav-item" data-bs-level="2"><a href="#esp-wi-fi-mesh" class="nav-link">ESP Wi-Fi mesh</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#despliegue-conjunto-de-una-red-wifi-mesh" class="nav-link">Despliegue conjunto de una red WiFi Mesh</a>
+            <li class="nav-item" data-bs-level="2"><a href="#despliegue-conjunto-de-una-red-wi-fi-mesh" class="nav-link">Despliegue conjunto de una red Wi-Fi mesh</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#despliegue-conjunto-de-redes-wifi-mesh-de-menores-dimensiones" class="nav-link">Despliegue conjunto de redes WiFi Mesh de menores dimensiones</a>
+            <li class="nav-item" data-bs-level="2"><a href="#despliegue-de-redes-wi-fi-mesh-de-menores-dimensiones" class="nav-link">Despliegue de redes Wi-Fi mesh de menores dimensiones</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -221,162 +221,154 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="lab4-esp-wifi-mesh">LAB4. ESP WiFi Mesh</h1>
+<h1 id="lab4-esp-wi-fi-mesh">LAB4. ESP Wi-Fi mesh</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
-<li>Revisar los conceptos básicos para la construcción de una red MESH WiFi
+<li>Revisar los conceptos básicos para la construcción de una red Wi-Fi mesh
   autogestionada.</li>
 <li>Presentar la API básica para la creación de aplicaciones basadas en la pila
-  ESP-MESH.</li>
-<li>Observar en funcionamiento una red ESP-MESH, así como sus capacidades de
+  ESP-WIFI-MESH.</li>
+<li>Observar en funcionamiento una red ESP-WIFI-MESH, así como sus capacidades de
   autoconfiguración.</li>
 </ul>
-<div class="admonition danger">
-<p class="admonition-title">Entregable</p>
-<p>Para esta práctica los estudiantes harán un breve informe documentando las 
-tareas realizadas y los resultados obtenidos.</p>
-</div>
-<h2 id="esp-wifi-mesh">ESP WiFi Mesh</h2>
-<p>El <em>stack</em> ESP-MESH está construido por encima del <em>driver</em> WiFi
-(es decir, hace uso de sus servicios), y en algunos
-casos también hace uso de servicios de la pila TCP/IP (<em>lwIP</em>), por ejemplo
-en el nodo raíz, que es el único con comunicación IP contra un router
-de borde. El siguiente diagrama muestra la situación de la pila Mesh
+<h2 id="esp-wi-fi-mesh">ESP Wi-Fi mesh</h2>
+<p>La pila ESP-WIFI-MESH se construye sobre el driver Wi-Fi (es decir, hace uso de sus
+servicios). En algunos casos, también hace uso de los servicios de la pila TCP/IP
+(<em>lwIP</em>), como ocurre en el nodo mesh raíz, que es el único que se comunica mediante
+IP con un router de borde. El siguiente diagrama muestra la situación de la pila mesh
 en ESP-IDF:</p>
 <p><img alt="" src="img/mesh-software-stack.png" /></p>
-<p>Como cualquier otro componente ESP-IDF, ESP-MESH se comunica con las aplicaciones
-a través de eventos propios:</p>
+<p>Como otros componentes de ESP-IDF, ESP-WIFI-MESH se comunica con las aplicaciones a
+través de eventos específicos:</p>
 <p><img alt="" src="img/mesh-events-delivery.png" /></p>
-<p>El tipo <code>mesh_event_id_t</code> define todos los posibles eventos que pueden surgir
-en las distintas fases del ciclo de vida de una red (por ejemplo, para un
-nodo determinado, conexión o desconexión de su nodo padre, o de uno de sus
-nodos hijo). Antes de utilizar los eventos ESP-MESH para gestionar u observar
-el funcionamiento de la red, es necesario registrarlos vía
-<code>esp_event_handler_register()</code>. </p>
-<p>Algunos usos típicos de los eventos incluyen, por ejemplo, la situación de
-conexión de un nodo padre (<code>MESH_EVENT_PARENT_CONNECTED</code>) o de un hijo
-(<code>MESH_EVENT_CHILD_CONNECTED</code>), indicando, respectivamente, que un nodo puede
-comenzar a emitir hacia arriba en el grafo o hacia abajo. Del mismo modo, en un
-nodo raíz, la recepción de los eventos <code>IP_EVENT_STA_GOT_IP</code> y
-<code>IP_EVENT_STA_LOST_IP</code> se pueden aprovechar para indicar que dicho nodo raíz
-puede o no enviar datos a la red IP externa.</p>
-<h3 id="eventos">Eventos</h3>
+<p>El tipo <code>mesh_event_id_t</code> define los eventos que pueden producirse durante las distintas
+fases del ciclo de vida de una red mesh (por ejemplo, para un nodo determinado, la
+conexión o desconexión de su nodo padre o de uno de sus nodos hijo). Antes de utilizar
+los eventos de ESP-WIFI-MESH para gestionar u observar el funcionamiento de la red mesh,
+es necesario registrar los manejadores vía <code>esp_event_handler_register()</code>.</p>
+<p>Algunos usos típicos de estos eventos incluyen, por ejemplo, detectar la conexión con un
+nodo padre (<code>MESH_EVENT_PARENT_CONNECTED</code>) o de un nodo hijo (<code>MESH_EVENT_CHILD_CONNECTED</code>).
+Estos eventos indican, respectivamente, que el nodo puede comenzar a transmitir datos hacia
+el nodo padre o que un nuevo nodo hijo se ha conectado. Del mismo modo, en el nodo raíz, los
+eventos <code>IP_EVENT_STA_GOT_IP</code> e <code>IP_EVENT_STA_LOST_IP</code> permiten detectar si el nodo tiene
+dirección IP y, por tanto, si puede comunicarse con la red IP externa.</p>
+<h3 id="eventos-esp-wifi-mesh">Eventos ESP-WIFI-MESH</h3>
 <ul>
 <li>
-<p><code>MESH_EVENT_STARTED</code>: <em>mesh</em> iniciada.</p>
+<p><code>MESH_EVENT_STARTED</code>: mesh iniciada.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_STOPPED</code>: <em>mesh</em> finalizada.</p>
+<p><code>MESH_EVENT_STOPPED</code>: mesh finalizada.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_CHANNEL_SWITCH</code>: cambio de canal.</p>
+<p><code>MESH_EVENT_CHANNEL_SWITCH</code>: cambio de canal Wi-Fi.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_CHILD_CONNECTED</code>: un hijo ha conectado a la interfaz <code>softAP</code>.</p>
+<p><code>MESH_EVENT_CHILD_CONNECTED</code>: un hijo se ha conectado a la interfaz <code>softAP</code>.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_CHILD_DISCONNECTED</code>: un hijo ha desconectado de la interfaz <code>softAP</code>.</p>
+<p><code>MESH_EVENT_CHILD_DISCONNECTED</code>: un hijo se ha desconectado de la interfaz <code>softAP</code>.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_ROUTING_TABLE_ADD</code>: se han añadido nuevas entradas a la tabla de enrutamiento añadiendo nuevos hijos.</p>
+<p><code>MESH_EVENT_ROUTING_TABLE_ADD</code>: se han añadido entradas a la tabla de encaminamiento debido a la incorporación de nuevos hijos.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_ROUTING_TABLE_REMOVE</code>: se ha eliminado entradas de la tabla de enrutamiento eliminado hijos que han abandonado la red.</p>
+<p><code>MESH_EVENT_ROUTING_TABLE_REMOVE</code>: se han eliminado entradas de la tabla de encaminamiento debido a la salida de nodos hijo.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_PARENT_CONNECTED</code>: un padre se ha conectado a la interfaz <code>station</code>.</p>
+<p><code>MESH_EVENT_PARENT_CONNECTED</code>: el nodo se ha conectado a un padre a través de la interfaz <code>sta</code>.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_PARENT_DISCONNECTED</code>: un padre se ha desconectado de la interfaz <code>station</code>.</p>
+<p><code>MESH_EVENT_PARENT_DISCONNECTED</code>: el nodo se ha desconectado de su padre (interfaz <code>sta</code>).</p>
 </li>
 <li>
 <p><code>MESH_EVENT_NO_PARENT_FOUND</code>: no se ha encontrado un padre.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_LAYER_CHANGE</code>: el nodo ha cambiado de nivel en la red.</p>
+<p><code>MESH_EVENT_LAYER_CHANGE</code>: el nodo ha cambiado de nivel en la red mesh.</p>
 </li>
 <li>
 <p><code>MESH_EVENT_TODS_STATE</code>: indica que el nodo raíz es capaz de acceder a la red IP externa.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_VOTE_STARTED</code>: el proceso de voto de un nuevo nodo raíz ha comenzado.</p>
+<p><code>MESH_EVENT_VOTE_STARTED</code>: ha comenzado el proceso de elección de un nuevo nodo raíz.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_VOTE_STOPPED</code>: el proceso de voto de un nuevo nodo raíz ha finalizado.</p>
+<p><code>MESH_EVENT_VOTE_STOPPED</code>: se ha detenido/ha finalizado el proceso de elección de un nuevo nodo raíz.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_ROOT_ADDRESS</code>: se ha obtenido la dirección del nodo raíz.</p>
+<p><code>MESH_EVENT_ROOT_ADDRESS</code>: se ha obtenido la dirección MAC del nodo raíz.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_ROOT_SWITCH_REQ</code>: un nodo raíz candidato ya elegido solicita un cambio de nodo raíz.</p>
+<p><code>MESH_EVENT_ROOT_SWITCH_REQ</code>: un nodo votado como nuevo nodo raíz solicita sustituir al nodo raíz actual.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_ROOT_SWITCH_ACK</code>: respuesta a la anterior petición por parte del nodo raíz actual.</p>
+<p><code>MESH_EVENT_ROOT_SWITCH_ACK</code>: el nodo raíz actual responde a la solicitud de cambio.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_NETWORK_STATE</code>: la actual red tiene un nodo raíz.</p>
+<p><code>MESH_EVENT_NETWORK_STATE</code>: se ha producido un cambio en el estado de la red mesh (por ejemplo, se ha encontrado un nodo raíz).</p>
 </li>
 <li>
-<p><code>MESH_EVENT_STOP_RECONNECTION</code>: el nodo raíz detiene el proceso de reconexión al router y los demás nodos detienen los procesos de conexión a sus nodos padre.</p>
+<p><code>MESH_EVENT_STOP_RECONNECTION</code>: se han detenido los intentos de reconexión del nodo raíz al router de borde y de los demás nodos a sus respectivos padres.</p>
 </li>
 <li>
-<p><code>MESH_EVENT_FIND_NETWORK</code>: si el canal solicitado es 0, la pila escaneará 
-todos los canales para encontrar una red mesh a la que conectar, devolviendo
-el canal en el que lo ha conseguido.</p>
+<p><code>MESH_EVENT_FIND_NETWORK</code>: se ha encontrado una red mesh a la que el nodo puede unirse. Si el canal configurado es 0, la pila explorará todos los canales disponibles, devolviendo el canal de la red encontrada.</p>
 </li>
 </ul>
 <h3 id="uso-de-la-pila-tcpip-lwip">Uso de la pila TCP/IP (lwIP)</h3>
-<p>El código de una aplicación que haga uso de ESP-MESH puede acceder directamente
-a la pila MESH sin pasar por la pila TCP/IP. De hecho, la pila TCP/IP solo es
-estrictamente necesaria por parte del nodo raíz, al ser el único que puede
-recibir o transmitir datos desde o hacia la red IP externa. </p>
-<p>Sin embargo, como cualquier nodo de la topología puede potencialmente
-convertirse en nodo raíz (ya que su selección es automática), todos los nodos
-deberán inicializar la pila TCP/IP. Cada nodo que pueda convertirse en root debe
-inicializar LwIP llamando a <code>esp_netif_init()</code>. Para prevenir el acceso de nodos
-no-root a LwIP, la aplicación no debe crear o registrar ninguna interfaz de red
-usando el API de <code>esp_netif</code>.</p>
-<p>ESP-WIFI-MESH requiere que un nodo raíz esté conectado con un router. Por lo
-tanto, en el caso de que un nodo se convierta en raíz, el manejador
-correspondiente debe iniciar el servicio cliente DHCP y obtener inmediatamente
-una dirección IP. Hacer esto permitirá a otros nodos comenzar a
-transmitir/recibir paquetes hacia/desde la red IP externa. Sin embargo, este
-paso es innecesario si se utilizan configuraciones IP estáticas.</p>
-<h3 id="estructura-basica-de-una-aplicacion-esp-mesh">Estructura básica de una aplicación ESP-MESH</h3>
-<p>Los requisitos previos para iniciar ESP-WIFI-MESH es inicializar LwIP y WiFi.
-El siguiente fragmento de código muestra los pasos necesarios antes de que ESP-WIFI-MESH en sí se pueda inicializar:</p>
+<p>Una aplicación que haga uso de ESP-WIFI-MESH puede transmitir datos a través de
+la propia pila ESP-WIFI-MESH sin recurrir a la pila TCP/IP. De hecho, la pila
+TCP/IP solo es estrictamente necesaria en el nodo raíz, ya que es el único nodo
+de la red mesh que se comunica con la red IP externa.</p>
+<p>Sin embargo, dado que cualquier nodo de la topología puede convertirse potencialmente
+en el nodo raíz (ya que su elección es automática), todos los nodos deberán inicializar
+lwIP llamando a <code>esp_netif_init()</code>. Para prevenir el acceso de los nodos que no son
+raíz a la red IP externa, la aplicación no debe crear interfaces de red adicionales usando
+la API de <code>esp_netif</code> (más allá de las creadas con <code>esp_netif_create_default_wifi_mesh_netifs</code>).</p>
+<p>ESP-WIFI-MESH requiere que el nodo raíz esté conectado a un router de borde. Por lo tanto,
+en el caso de que un nodo se convierta en raíz, su manejador de eventos correspondiente
+debe iniciar el cliente DHCP para obtener inmediatamente una dirección IP. Esto
+permitirá a los demás nodos conectarse y comenzar a transmitir/recibir paquetes
+hacia/desde la red IP externa. Sin embargo, este paso no será necesario si se utilizan
+direcciones IP estáticas.</p>
+<h3 id="estructura-basica-de-una-aplicacion-esp-wifi-mesh">Estructura básica de una aplicación ESP-WIFI-MESH</h3>
+<p>Los requisitos previos para iniciar ESP-WIFI-MESH son inicializar las pilas lwIP y Wi-Fi.
+El siguiente fragmento de código muestra los pasos necesarios que deben completarse antes
+de inicializar ESP-WIFI-MESH:</p>
 <pre><code class="language-c">ESP_ERROR_CHECK(esp_netif_init());
 
-/*  event initialization */
+/* event initialization */
 ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-/*  WiFi initialization */
+/* wifi initialization */
 wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
 ESP_ERROR_CHECK(esp_wifi_init(&amp;config));
 
-/*  register IP events handler */
+/* register IP event handler */
 ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &amp;ip_event_handler, NULL));
 ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_FLASH));
 ESP_ERROR_CHECK(esp_wifi_start());
 </code></pre>
-<p>Tras inicializar LwIP y WiFi, el proceso para poner en marcha una red
-ESP-WIFI-MESH puede resumirse en los tres pasos siguientes:</p>
+<p>Tras inicializar lwIP y Wi-Fi, el proceso para poner en marcha una red ESP-WIFI-MESH
+puede resumirse en los siguientes tres pasos:</p>
 <ol>
-<li>Inicializar ESP-MESH.</li>
-<li>Configurar una red ESP-WIFI-MESH.</li>
-<li>Iniciar Mesh.</li>
+<li>Inicializar la pila ESP-WIFI-MESH.</li>
+<li>Configurar los parámetros de la red mesh.</li>
+<li>Iniciar la red mesh.</li>
 </ol>
-<h3 id="paso-1-inicializar-esp-mesh">Paso 1. Inicializar ESP-MESH</h3>
-<p>La inicialización de ESP-MESH y el registro de eventos propios es sencilla:</p>
-<pre><code class="language-c">/*  mesh initialization */
+<h4 id="paso-1-inicializar-esp-wifi-mesh">Paso 1. Inicializar ESP-WIFI-MESH</h4>
+<p>La inicialización de la pila ESP-WIFI-MESH y el registro del manejador de eventos mesh
+se realizan de la siguiente forma:</p>
+<pre><code class="language-c">/* mesh initialization */
 ESP_ERROR_CHECK(esp_mesh_init());
-/*  register mesh events handler */
+
+/* register mesh event handler */
 ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &amp;mesh_event_handler, NULL));
 </code></pre>
-<h3 id="paso-2-configurar-una-red-esp-wifi-mesh">Paso 2. Configurar una red ESP-WIFI-MESH</h3>
-<p>ESP-WIFI-MESH se configura a través de <code>esp_mesh_set_config()</code>, que recibe sus
-argumentos usando la estructura <code>mesh_cfg_t</code>. La estructura contiene los
-siguientes parámetros utilizados para configurar ESP-WIFI-MESH:</p>
+<h4 id="paso-2-configurar-la-red-mesh">Paso 2. Configurar la red mesh</h4>
+<p>ESP-WIFI-MESH se configura mediante la función <code>esp_mesh_set_config()</code>, que recibe como
+argumento una estructura de tipo <code>mesh_cfg_t</code>. Esta estructura contiene los siguientes
+parámetros de configuración:</p>
 <table>
 <thead>
 <tr>
@@ -387,120 +379,111 @@ siguientes parámetros utilizados para configurar ESP-WIFI-MESH:</p>
 <tbody>
 <tr>
 <td><em>Channel</em></td>
-<td>Canal (entre 1 y 14)</td>
+<td>Canal Wi-Fi (entre 1 y 14)</td>
 </tr>
 <tr>
 <td><em>Mesh ID</em></td>
-<td>Identificación de la red MESH (6 bytes)</td>
+<td>Identificador de la red mesh (6 bytes)</td>
 </tr>
 <tr>
 <td><em>Router</em></td>
-<td>SSID y contraseña de conexión al router de salida</td>
+<td>SSID y contraseña del router de borde</td>
 </tr>
 <tr>
 <td><em>Mesh AP</em></td>
-<td>Configuración específica del AP generado por cada nodo</td>
+<td>Configuración específica del AP generado por cada nodo mesh</td>
 </tr>
 <tr>
-<td>Crypto functions</td>
-<td>Funciones criptográficas para Mesh IE (para el intercambio de información de control)</td>
+<td><em>Crypto functions</em></td>
+<td>Funciones criptográficas para Mesh IE (intercambio de información de control)</td>
 </tr>
 </tbody>
 </table>
 <p>Un ejemplo de configuración podría ser:</p>
-<pre><code class="language-c">/* Enable the Mesh IE encryption by default */
+<pre><code class="language-c">/* default mesh configuration */
 mesh_cfg_t cfg = MESH_INIT_CONFIG_DEFAULT();
+
 /* mesh ID */
 memcpy((uint8_t *) &amp;cfg.mesh_id, MESH_ID, 6);
+
 /* channel (must match the router's channel) */
 cfg.channel = CONFIG_MESH_CHANNEL;
+
 /* router */
 cfg.router.ssid_len = strlen(CONFIG_MESH_ROUTER_SSID);
 memcpy((uint8_t *) &amp;cfg.router.ssid, CONFIG_MESH_ROUTER_SSID, cfg.router.ssid_len);
 memcpy((uint8_t *) &amp;cfg.router.password, CONFIG_MESH_ROUTER_PASSWD, strlen(CONFIG_MESH_ROUTER_PASSWD));
+
 /* mesh softAP */
 cfg.mesh_ap.max_connection = CONFIG_MESH_AP_CONNECTIONS;
 memcpy((uint8_t *) &amp;cfg.mesh_ap.password, CONFIG_MESH_AP_PASSWD, strlen(CONFIG_MESH_AP_PASSWD));
 ESP_ERROR_CHECK(esp_mesh_set_config(&amp;cfg));
 </code></pre>
-<h3 id="paso-3-arranque-de-la-red">Paso 3. Arranque de la red</h3>
-<p>El arranque de la red MESH es sencillo:</p>
+<h4 id="paso-3-iniciar-la-red-mesh">Paso 3. Iniciar la red mesh</h4>
+<p>El arranque de la red mesh es sencillo:</p>
 <pre><code class="language-c">/* mesh start */
 ESP_ERROR_CHECK(esp_mesh_start());
 </code></pre>
-<p>Tras el arranque, la aplicación debería comprobar los eventos para determinar si
-la conexión a la red ha sido exitosa. Tras la conexión, la aplicación puede
-comenzar a transmitir paquetes a través de la red MESH utilizando las rutinas
-<code>esp_mesh_send()</code> y <code>esp_mesh_recv()</code>.</p>
-<h2 id="despliegue-conjunto-de-una-red-wifi-mesh">Despliegue conjunto de una red WiFi Mesh</h2>
-<p>La forma más conveniente de observar el comportamiento de una red WiFi
-Mesh es desplegar una infraestructura con suficiente número de nodos pertenecientes
-a una misma red. Desafortunadamente, para ello es necesario disponer
-de dichos nodos en un espacio cercano.</p>
-<p>En la presente práctica, desplegaremos una red WiFi Mesh en el laboratorio,
-utilizando vuestro o vuestros ESP32 como elementos de la red. Para ello,
-configuraremos, compilaremos y ejecutaremos el ejemplo
-<code>examples/mesh/internal_communication</code>. Antes de proceder, configuraremos
-el proyecto para:</p>
+<p>Tras iniciar la red, el nodo debe comprobar los eventos recibidos para determinar si
+la conexión ha sido exitosa. Una vez conectado, este podrá comenzar a transmitir y
+recibir paquetes a través de ESP-WIFI-MESH utilizando las funciones <code>esp_mesh_send()</code>
+y <code>esp_mesh_recv()</code>.</p>
+<h2 id="despliegue-conjunto-de-una-red-wi-fi-mesh">Despliegue conjunto de una red Wi-Fi mesh</h2>
+<p>La forma más adecuada de observar el comportamiento de una red Wi-Fi mesh es desplegar
+una infraestructura con un número suficiente de nodos que pertenezcan a una misma red.</p>
+<p>En esta práctica vamos a desplegar una red Wi-Fi mesh en el laboratorio utilizando
+vuestros ESP32 como nodos. Para ello, configuraremos, compilaremos y ejecutaremos
+el ejemplo <strong><em>internal_communication</em></strong>, ubicado en la carpeta <em>mesh</em>. Antes de
+proceder, configuraremos el proyecto para:</p>
 <ol>
-<li>Conectar al punto de acceso común del laboratorio (<em>Router SSID y Router
-password</em>).</li>
-<li>Configurar la red ESP-MESH para utilizar WPA2_PSK y seleccionar
-como contraseña <code>password</code>.</li>
-<li>Aumentar el número de conexiones al AP a 10.</li>
+<li>Conectarse al AP común del laboratorio (SSID de 2.4 GHz).</li>
+<li>Configurar el AP de cada nodo mesh para que utilice autenticación WPA2-PSK
+y la contraseña <strong><em>password</em></strong>.</li>
+<li>Aumentar a 10 el número máximo de conexiones (hijos) del AP de cada nodo mesh.</li>
 </ol>
-<p>De momento, no realizaremos ningún cambio en el código del ejemplo.</p>
-<p>Compila y ejecuta tu código. Monitoriza la salida estándar del nodo para obtener
-la siguiente información: </p>
+<p>De momento no realizaremos ningún cambio en el código del ejemplo. Una vez configurado
+el proyecto, compílalo, ejecútalo y monitoriza la salida estándar del nodo para obtener
+la siguiente información:</p>
 <ol>
-<li>Direcciones MAC de las interfaces <code>STA</code> y <code>SoftAP</code> (lo observarás en los
-primeros mensajes de salida).</li>
-<li>Capa de la topología Mesh en la que se encuentra tu nodo (lo observarás
-en formato <code>layer:XX</code> en los envíos y recepciones de datos).</li>
-<li>En caso de haber sido elegido nodo raíz, anota también esta circunstancia
-y la IP asignada por el <em>router</em> (observa la respuesta al evento correspondiente).</li>
+<li>Direcciones MAC de las interfaces <code>sta</code> y <code>softAP</code> de tu nodo mesh.</li>
+<li>Capa de la topología mesh en la que se encuentra tu nodo.</li>
+<li>En caso de haber sido elegido nodo raíz, anota también la IP asignada por el router
+de borde.</li>
 </ol>
-<p>Apunta toda esta información en la <a href="https://docs.google.com/spreadsheets/d/1nkcB_KkNYBX2A5M0GL5qHcZmMSBSI_vR7Hnfy87FBeI/edit?usp=sharing">siguiente hoja de Google</a>
-accesible por todos los estudiantes. Además, anota el ID de la red Mesh que se ha
-utilizado para conectar. Antes de rellenar la capa y la MAC del padre, espera a que el
-profesor te indique que la topología ha convergido, y que por tanto no habrá
-ningún cambio más en ella (siempre que ningún nodo deje de formar parte de la
-misma).</p>
+<p>Apunta toda esta información en la siguiente <a href="https://docs.google.com/spreadsheets/d/1TA2H8bN15cz3IVLtNOqxHP73AZ1flaX7sLl5Hms8xaY/edit?usp=sharing">hoja de Google</a>.
+Antes de rellenar los campos correspondientes a la capa y la dirección MAC del padre,
+espera a que el profesor te indique que la topología ha convergido y que, por tanto,
+no se producirán más cambios en esta (siempre que ningún nodo deje la red).</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 1</p>
 <p>Captura el estado de la red cuando todos/as tus compañeros/as hayan llegado al
-estado de convergencia. Determina en forma de grafo la topología de la red.</p>
+estado de convergencia. Documenta el proceso y las salidas de tus nodos mesh, y
+representa la topología final mediante un grafo.</p>
 </div>
-<p>A continuación, apagaremos el nodo raíz y esperaremos a la vuelta a la 
-convergencia de la red.</p>
+<p>A continuación, apagaremos el nodo raíz y esperaremos a que la red elija un nuevo nodo
+raíz y vuelva a converger.</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 2</p>
-<p>Captura de nuevo el estado de la red cuando todos/as tus compañeros/as hayan llegado al
-estado de convergencia. Determina en forma de grafo la nueva topología.
-Documenta el proceso en tu informe, así como los resultados observados.</p>
+<p>Captura de nuevo el estado de la red cuando todos/as tus compañeros/as hayan
+llegado al estado de convergencia. Documenta el proceso y las salidas de tus nodos
+mesh, y representa la nueva topología final mediante un grafo.</p>
 </div>
-<h2 id="despliegue-conjunto-de-redes-wifi-mesh-de-menores-dimensiones">Despliegue conjunto de redes WiFi Mesh de menores dimensiones</h2>
-<p>Como último ejercicio, vamos a crear nuevas redes Mesh en función del puesto
-en el que estés sentado. Observa los colores asignados a cada puesto del laboratorio en la hoja de Google.</p>
-<p>Modifica tu código para que el canal de escucha y el identificador de red
-coincidan con el indicado. Puedes configurar el canal a través del menú de 
-configuración del ejemplo (<em>channel</em>) y el identificador modificando
-la variable correspondiente en el fichero <code>mesh_main.c</code>.</p>
-<p>Una vez hecho esto, reconstruid la información de las tablas para reflejar
-las nuevas topologías. Podéis hacer pruebas posteriores apagando el 
-nodo raíz y observando la convergencia de la red.</p>
+<h2 id="despliegue-de-redes-wi-fi-mesh-de-menores-dimensiones">Despliegue de redes Wi-Fi mesh de menores dimensiones</h2>
+<p>Finalmente, vamos a crear nuevas redes mesh en función del puesto en el que estés
+sentado/a. Consulta los colores asignados a cada puesto del laboratorio en la hoja
+de Google y modifica el ejemplo para que el identificador de la red (<em>Mesh ID</em>)
+coincida con el indicado.</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 3</p>
-<p>Captura el estado de la red cuando todos/as tus compañeros/as hayan llegado al
-estado de convergencia. Determina en forma de grafo la topología de la red.
-Documenta esta actividad en tu informe.</p>
+<p>Captura el estado de la red cuando los demás nodos de tu red mesh hayan llegado al
+estado de convergencia. Documenta el proceso y las salidas de tus nodos mesh, y
+representa la topología final mediante un grafo.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 4</p>
-<p>Analiza el código del ejemplo. Observa el tratamiento de eventos y la fase
-de configuración de la red. Intenta entender el funcionamiento del código
-(envíos y recepciones, destinatarios de los mismos, etc). Explica en tu
-informe lo que hace esta aplicación WiFi Mesh.</p>
+<p>Analiza el código del ejemplo e intenta comprender su funcionamiento, en particular,
+cómo se envían y reciben los datos y quiénes son sus destinatarios. ¿Qué hace realmente
+esta aplicación Wi-Fi mesh?</p>
 </div></div>
             </div>
         </div>

@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="../P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
+    <a href="../P2/" class="dropdown-item">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -226,7 +226,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#escaneado-de-redes-wifi" class="nav-link">Escaneado de redes WiFi</a>
+            <li class="nav-item" data-bs-level="2"><a href="#escaneado-de-redes-wi-fi" class="nav-link">Escaneado de redes Wi-Fi</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -248,7 +248,7 @@
 <li>Ser capaz de compilar, <em>flashear</em> y monitorizar proyectos sencillos basados
   en ESP-IDF.</li>
 <li>Entender el funcionamiento básico de una aplicación ESP-IDF que haga uso de
-  las capacidades WiFi del ESP32.</li>
+  las capacidades Wi-Fi del ESP32.</li>
 <li>Personalizar variables de configuración de proyectos ESP-IDF.</li>
 <li>Responder a eventos básicos de red en ESP-IDF.</li>
 </ul>
@@ -263,14 +263,14 @@
 <p>ESP-IDF (<em>Espressif IoT Development Framework</em>) es el entorno de desarrollo
 oficial de Espressif para los SoCs ESP32. Este entorno de desarrollo
 y conjunto de herramientas permite desarrollar <em>firmwares</em> eficientes para
-dichas placas utilizando las interfaces de comunicación WiFi y Bluetooth, así
+dichas placas utilizando las interfaces de comunicación Wi-Fi y Bluetooth, así
 como gestionar múltiples características de los SoCs que iremos desgranando
 en futuras prácticas.</p>
 <p>ESP-IDF utiliza como base <a href="https://freertos.org">FreeRTOS</a> pero añade multitud de componentes que, por ejemplo, implementan los protocolos de comunicación de bajo y alto nivel usados en proyectos IoT.</p>
 <p>Esta práctica es una introducción básica a la puesta en marcha del entorno de desarrollo ESP-IDF.
 Además, veremos de forma superficial la estructura básica de un programa
 sencillo desarrollado usando ESP-IDF, así como ejemplos básicos para la puesta
-en marcha de la interfaz WiFi sobre una placa ESP32.</p>
+en marcha de la interfaz Wi-Fi sobre una placa ESP32.</p>
 <h2 id="visual-studio-code-y-su-extension-de-espressif-esp-idf">Visual Studio Code y su extensión de Espressif ESP-IDF</h2>
 <p>Utilizaremos Visual Studio Code como entorno de desarrollo integrado.
 Este entorno tiene una organización sencilla, como un editor de textos simple, pero es ampliamente configurable con un sistema de plugins fáciles de instalar y configurar.</p>
@@ -355,7 +355,7 @@ void app_main(void)
     /* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&amp;chip_info);
-    printf(&quot;This is %s chip with %d CPU cores, WiFi%s%s, &quot;,
+    printf(&quot;This is %s chip with %d CPU cores, Wi-Fi%s%s, &quot;,
             CONFIG_IDF_TARGET,
             chip_info.cores,
             (chip_info.features &amp; CHIP_FEATURE_BT) ? &quot;/BT&quot; : &quot;&quot;,
@@ -392,7 +392,7 @@ que está ejecutando el <em>firmware</em>:</p>
 <pre><code class="language-c">/* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&amp;chip_info);
-    printf(&quot;This is %s chip with %d CPU cores, WiFi%s%s, &quot;,
+    printf(&quot;This is %s chip with %d CPU cores, Wi-Fi%s%s, &quot;,
             CONFIG_IDF_TARGET,
             chip_info.cores,
             (chip_info.features &amp; CHIP_FEATURE_BT) ? &quot;/BT&quot; : &quot;&quot;,
@@ -431,7 +431,7 @@ comprueba que este cambio modifica efectivamente el comportamiento del <em>firmw
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 2</p>
 <p>Modifica el programa para que únicamente compruebe si el SoC
-dispone de capacidades WiFi y BLE y muestre la información correspondiente (Sí/No) por la salida estándar.
+dispone de capacidades Wi-Fi y BLE y muestre la información correspondiente (Sí/No) por la salida estándar.
 Prueba a ejecutar el programa en los dos tipos de ESP32 de los que disponemos: ESP32 y ESP32-C3.</p>
 </div>
 <h3 id="creacion-de-tareas">Creación de tareas</h3>
@@ -540,7 +540,7 @@ dos tareas que hayas definido en el ejercicio 3. Haz uso de ellas en
 tu código y comprueba que su modificación a través del sistema
 de menús permite una personalización del comportamiento de tu código.</p>
 </div>
-<h2 id="escaneado-de-redes-wifi">Escaneado de redes WiFi</h2>
+<h2 id="escaneado-de-redes-wi-fi">Escaneado de redes Wi-Fi</h2>
 <p>A modo de ejemplo, y en preparación para el código que trabajaremos
 en futuras prácticas, vamos a analizar un ejemplo concreto de
 <em>firmware</em> cuya tarea es el escaneado de redes inalámbricas al alcance del ESP32,
@@ -550,7 +550,7 @@ Para cada red escaneada, se reportarán sus características principales.</p>
 <p class="admonition-title">Ejercicio 6</p>
 <p>Compila, flashea y monitoriza el ejemplo <strong><em>scan</em></strong> situado en el directorio <em>wifi</em>.
 Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración.
-Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado por el ESP32.</p>
+Crea un punto de acceso Wi-Fi con tu teléfono móvil y observa que es escaneado por el ESP32.</p>
 </div>
 <p>Observa su funcionamiento. El <em>firmware</em> simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
@@ -596,7 +596,7 @@ la tarea principal, se divide básicamente en dos partes:</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 9</p>
 <p>Modifica el <em>firmware</em> para que el <em>handler</em> (función <code>event_handler()</code>) encargado del tratamiento de la obtención
-de una dirección IP sea independiente del tratamiento del resto de eventos del sistema WiFi.
+de una dirección IP sea independiente del tratamiento del resto de eventos del sistema Wi-Fi.
 Comprueba que, efectivamente sigue observándose la salida asociada a dicho evento, aun cuando ambas
 funciones sean independientes.</p>
 </div></div>

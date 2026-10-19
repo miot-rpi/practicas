@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="../P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
+    <a href="../P2/" class="dropdown-item">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -263,9 +263,9 @@ necesaria después para configurar nuestro gateway.</p>
 ya que solo disponemos de un gateway LoRaWAN comercial, concretamente el modelo Sentrius RG186 de Laird.
 De todas maneras, a continuación se describe el procedimiento que deberíamos seguir para configurar dicho
 gateway y conectarlo con TTN.</p>
-<p>Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz WiFi.
+<p>Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz Wi-Fi.
 Para ello, pulsaremos el botón de usuario durante unos 10 segundos y luego lo soltamos.
-Esto configurará un punto de acceso WiFi con SSID y contraseña <em>rg1xx294c1f</em>, al cual podremos conectarnos desde nuestro PC.</p>
+Esto configurará un punto de acceso Wi-Fi con SSID y contraseña <em>rg1xx294c1f</em>, al cual podremos conectarnos desde nuestro PC.</p>
 <p>Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
 usuario y la contraseña (<code>sentrius</code> y <code>RG1xx</code>).
 Seleccionamos la opción LoRa en el menú superior.
@@ -277,7 +277,7 @@ siguiendo estas <a href="https://www.thethingsindustries.com/docs/gateways/conce
 y utilizando la API key generada en TTN para el gateway:</p>
 <p><img alt="" src="img/ttn-rg1xx-gateway-config.png" /></p>
 <p>Ahora ya podemos conectar el gateway a TTN mediante su interfaz Ethernet o
-activar su interfaz WiFi (previamente configurada en el panel web).
+activar su interfaz Wi-Fi (previamente configurada en el panel web).
 Si todo ha ido correctamente, veremos en el dashboard de TTN que nuestro gateway se ha conectado:</p>
 <p><img alt="" src="img/ttn-rg1xx-gateway-connected.png" /></p>
 <h3 id="registro-de-aplicacion-en-ttn">Registro de aplicación en TTN</h3>
@@ -448,7 +448,7 @@ const char *appKey = &quot;8427407CC943D5B188160CC89F176846&quot;;
 #define TTN_PIN_DIO0      0
 #define TTN_PIN_DIO1      1
 </code></pre>
-<p>Una vez configurado el fichero fuente <em>main.c</em>, ejecutaremos menuconfig para
+<p>Una vez configurado el fichero fuente <em>main.c</em>, ejecutaremos <code>menuconfig</code> para
 configurar la librería <em>ttn-esp32</em>. Al final del menú, 
 encontraremos la entrada <em>The Things Network</em>, que configuraremos tal
 como se muestra en la siguiente captura:</p>

@@ -46,15 +46,15 @@
 </li>
                                     
 <li>
-    <a href="../P2/" class="dropdown-item">LAB2. WiFi en el ESP32</a>
+    <a href="../P2/" class="dropdown-item">LAB2. Wi-Fi en el ESP32</a>
 </li>
                                     
 <li>
-    <a href="../P3/" class="dropdown-item">LAB3. WiFi: provisionamiento y ahorro de energía</a>
+    <a href="../P3/" class="dropdown-item">LAB3. Wi-Fi: aprovisionamiento y ahorro de energía</a>
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP WiFi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -235,14 +235,14 @@
 
 <h1 id="lab8-6lowpan-y-simulador-cooja">LAB8. 6LoWPAN y simulador <em>Cooja</em></h1>
 <h2 id="introduccion-y-objetivos">Introducción y objetivos</h2>
-<p>Los routers de borde son enrutadores que pueden encontrarse en el borde de una
+<p>Los routers de borde son encaminadores que pueden encontrarse en el borde de una
 red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.</p>
 <p>En esta práctica, usaremos el simulador <em>Cooja</em>, del proyecto Contiki-NG, para
 construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL
 (<em>Routing Protocol for Low-Power and Lossy Networks</em>) como
 algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-NG.
-Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
+Veremos cómo un router de borde puede utilizarse para encaminar tráfico entre una
 red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
 siguiente diagrama:</p>
 <p><img alt="" src="img/diagram.png" /></p>
@@ -322,7 +322,7 @@ El repositorio de Contiki-NG se encuentra en un directorio con el mismo nombre d
 <p>En el desarrollo de la práctica utilizaremos algunos de los ejemplos incluidos en la
 instalación de Contiki-NG (ubicados en el directorio <code>contiki-ng/examples</code>):</p>
 <ul>
-<li><code>rpl-border-router/border_router.c</code>: contiene la lógica de enrutamiento
+<li><code>rpl-border-router/border_router.c</code>: contiene la lógica de encaminamiento
   del router de borde, que será la raíz del DODAG (<em>Destination-Oriented Directed Acyclic Graph</em>).</li>
 <li><code>hello-world/hello-world.c</code>: será ejecutado por el resto de nodos de la red RPL.</li>
 </ul>
