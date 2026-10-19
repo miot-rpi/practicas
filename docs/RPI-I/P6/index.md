@@ -329,7 +329,7 @@ case ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT: {
 El escaneo se inicia mediante la función `esp_ble_gap_start_scanning()`, que toma un parámetro que representa la duración del escaneo continuo (en segundos).
 
 !!! danger "Ejercicio 2"
-    Analiza el código y modifícalo para que el proceso de escaneo se produzca indefinidamente. Además, añade al código los parámetros de intervalo y ventana de escaneo a través de `menuconfig` (tomando valores en ms) para poder configurar la frecuencia de escaneo. Comprueba que efectivamente el tiempo en el que el dispositivo se encuentra en fase de escaneo es el seleccionado.
+    Analiza el código y modifícalo para que el proceso de escaneo se produzca indefinidamente. Además, añade al código los parámetros de intervalo y ventana de escaneo a través de *menuconfig* (tomando valores en ms) para poder configurar la frecuencia de escaneo. Comprueba que efectivamente el tiempo en el que el dispositivo se encuentra en fase de escaneo es el seleccionado.
 
 Los resultados del escaneo se muestran tan pronto como llegan con el evento `ESP_GAP_BLE_SCAN_RESULT_EVT`, que incluye los siguientes parámetros:
 
@@ -412,7 +412,7 @@ Para extraer el nombre del dispositivo del paquete publicitario, utilizamos la f
     Muestra también por pantalla el valor de RSSI de cada dispositivo BLE encontrado.
 
 !!! danger "Ejercicio 4"
-    Añade a través de `menuconfig` un campo que indique la dirección BLE de un dispositivo (conocido) que esté en fase de anuncio. Modifica la fase de escaneado para que únicamente se muestre la información del dispositivo cuya dirección BLE se haya configurado.
+    Añade a través de *menuconfig* un campo que indique la dirección BLE de un dispositivo (conocido) que esté en fase de anuncio. Modifica la fase de escaneado para que únicamente se muestre la información del dispositivo cuya dirección BLE se haya configurado.
 
 !!! danger "Ejercicio 5"
     Modifica el *firmware* para que, en función del valor de RSSI obtenido para el dispositivo de interés, el cliente reporte por pantalla un valor proporcional a la distancia aproximada con dicho dispositivo (por ejemplo, un número de puntos `.` concreto según la distancia). Para ello, establece un mínimo y un máximo de RSSI y aplica la siguiente fórmula: 

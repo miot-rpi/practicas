@@ -338,7 +338,7 @@ configuración de proyectos en tiempo de compilación sencillo y extensible. Par
 ilustrar su funcionamiento, utilizaremos el ejemplo ***blink*** que puedes encontrar
 en el repositorio de ejemplos de ESP-IDF. Crea un nuevo proyecto a partir de dicho ejemplo.
 
-Para configurar un proyecto ESP-IDF, se puede pulsar el botón *SDK Configuration Editor (Menuconfig)* de la barra de comandos de ESP-IDF, ejecutar dicho comando desde la paleta de comandos de Visual Studio Code o bien ejecutar el comando `menuconfig` desde el terminal:
+Para configurar un proyecto ESP-IDF, se puede pulsar el botón *SDK Configuration Editor (Menuconfig)* de la barra de comandos de ESP-IDF, ejecutar dicho comando desde la paleta de comandos de Visual Studio Code o bien ejecutar el comando *menuconfig* desde el terminal:
 
 ```sh
 idf.py menuconfig
