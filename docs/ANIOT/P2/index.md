@@ -17,7 +17,7 @@ Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura
 * [Documentación sobre la librería Argtable](https://www.argtable.org/)
 * [Documentación sobre CMake](https://cmake.org/)
 * [API de High Resolution Timers](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/system/esp_timer.html)
-* [API sobre GPIO en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32c3/api-reference/peripherals/gpio.html)
+* [API sobre GPIO en ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/peripherals/gpio.html)
 * [Documentación del componente `console`](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/console.html)
 
 ## Proyectos ESP-IDF
@@ -84,28 +84,38 @@ En ocasiones, encontraremos códigos no incluidos en el registro oficial de Espr
     La placa de desarrollo ESP32-C3-DevKit-RUST-1 tiene dos sensores de temperatura. Uno está integrado en el propio ESP32-C3 (puedes econtrar su API en [la documentación de ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/peripherals/temp_sensor.html)). El segundo está en la placa, tal y como se indica en [su documentación](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file). Se trata de un sensor [SHTC3 de Sensirion](https://github.com/esp-rs/esp-rust-board?tab=readme-ov-file#:~:text=SHTC3-,Datasheet,-Link) que está conectado al SoC mediante el bus I2C.
 
     * Crea un nuevo proyecto a partir del template más sencillo que encentres.
-    * A partir del código disponible en [este repositorio de Github https://github.com/mauriciobarroso/shtc3 ](https://github.com/mauriciobarroso/shtc3)  crea un componente llamado `shtc3` para poder utilizar el sensor sin necesidad de consultar el *datasheet*.  Los ficheros del repositorio ya están preparados para usarse como un componente en ESP-IDF v5.5.1 Sólo debes ubicarlos en la carpeta correcta. 
+    * A partir del código disponible en [este repositorio de Github https://github.com/mauriciobarroso/shtc3 ](https://github.com/mauriciobarroso/shtc3)  crea un componente llamado `shtc3` para poder utilizar el sensor sin necesidad de consultar el *datasheet*.  Los ficheros del repositorio ya están preparados para usarse como un componente en ESP-IDF v6 Sólo debes ubicarlos en la carpeta correcta. 
     * En el fichero principal de tu aplicación, deberás inicializar el driver del bus I2C y el propio sensor. Puedes usar el código que se proporciona a continuación.
+    * EL CMakeLists.txt dentro de la carpeta del componente debería de incluir como requerimientos a parte del `driver`, `esp_driver_i2c`, `esp_timer`: **`REQUIRES driver esp_driver_i2c esp_timer`**
 
 
 ```c
+// Handles globales para sensores y temporizador
 shtc3_t tempSensor;
-  i2c_master_bus_handle_t bus_handle;
+i2c_master_bus_handle_t bus_handle;
+temperature_sensor_handle_t internal_temp_handle = NULL;
+esp_timer_handle_t periodic_timer = NULL;
+
+static void delay_ms(uint32_t ms) {
+    vTaskDelay(pdMS_TO_TICKS(ms));
+}
 
 void init_i2c(void) {
- uint16_t id;
-i2c_master_bus_config_t i2c_bus_config = {
+    i2c_master_bus_config_t i2c_bus_config = {
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .i2c_port = I2C_NUM_0,
-        .scl_io_num = 8,
-        .sda_io_num = 10,
+        .scl_io_num = GPIO_NUM_8,
+        .sda_io_num = GPIO_NUM_10,
         .glitch_ignore_cnt = 7,
         .flags.enable_internal_pullup = true,
     };
 
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_config, &bus_handle));
-
-   shtc3_init(&tempSensor, bus_handle, 0x70);
+    
+    // Inicialización adaptada al shtc3_init de tu fichero shtc3.c
+    if (shtc3_init(&tempSensor, bus_handle, 0x70, delay_ms) != 0) {
+        ESP_LOGE(TAG, "Error al inicializar el sensor SHTC3");
+    }
 }
 ```
 
@@ -158,7 +168,6 @@ La placa de desarrollo ESP32-C3-DevKit-RUST-1 tiene dos LEDs, uno de ellos conec
 
 !!! danger "Tarea"
 	Configura el  GPIO asociado al LED (GPIO 7) como salida. Programa un *timer* para cambiar el estado del LED cada segundo. 
-
 
 
 ## Controladores GPIO
@@ -241,7 +250,7 @@ Completa este ejercicio después de haber resuelto los anteriores. Recuerda que,
     * Muestre el progreso de la temperatura en el LED programable de la placa. Si la temperatura es inferior a 20 grados, estará apagado. Por cada grado que suba la temperatura, se modificará el color/intensidad del LED.
         * Para variar el color/intensidad, sólo debes cambiar los 3 últimos argumentos de la llamada `led_strip_set_pixel()` del código de ejemplo. 
     * Se programará un segundo timer que mostrará por pantalla (puerto serie) la última medida de temperatura realizada cada 10 segundos. 
-    * [Opcional] Configura el GPIO 9, al que está conectado el botón BOOT, para que genere interrupciones cuando soltemos el botón. ¿Qué valor lógico se lee del GPIO 9 con el botón pulsado?. Consulta [la documentación de GPIO](https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/gpio.html) y el [ejemplo de GPIO genérico](https://github.com/espressif/esp-idf/tree/v5.3.1/examples/peripherals/gpio/generic_gpio) para entender cómo configurar un GPIO como entrada por interrupciones.
+    * [Opcional] Configura el GPIO 9, al que está conectado el botón BOOT, para que genere interrupciones cuando soltemos el botón. ¿Qué valor lógico se lee del GPIO 9 con el botón pulsado?. Consulta [la documentación de GPIO](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/gpio.html) y el [ejemplo de GPIO genérico](https://github.com/espressif/esp-idf/tree/latest/examples/peripherals/gpio/generic_gpio) para entender cómo configurar un GPIO como entrada por interrupciones.
     * [Opcional] En lugar de usar el componente `shtc3` descargado, busca un componente similar en el **ESPRegistry** y configura el proyecto para usar dicho componente. 
 
 

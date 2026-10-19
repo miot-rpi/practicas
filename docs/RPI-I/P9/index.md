@@ -278,6 +278,6 @@ para convertir rápidamente el payload hexadecimal a ASCII y comprobar que el me
     Incluye en la memoria las capturas de pantalla necesarias.
 
 !!! danger "Ejercicio 3"
-    Modifica el código para que se envíen mensajes con el payload {0xAA, 0xBB,
-    0xCC, 0xDD} y comprueba en el dashboard que se reciben correctamente.
+    Modifica el código para que se envíen mensajes con el payload `{0xAA, 0xBB, 0xCC, 0xDD}`
+    y comprueba en el dashboard que se reciben correctamente.
     Incluye en la memoria las capturas de pantalla necesarias.

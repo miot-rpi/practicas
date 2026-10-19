@@ -17,7 +17,7 @@
 
 El *stack* ESP-MESH está construido por encima del *driver* WiFi
 (es decir, hace uso de sus servicios), y en algunos
-casos también hace uso de servicios de la pila IP (*lwIP*), por ejemplo
+casos también hace uso de servicios de la pila TCP/IP (*lwIP*), por ejemplo
 en el nodo raíz, que es el único con comunicación IP contra un router
 de borde. El siguiente diagrama muestra la situación de la pila Mesh
 en ESP-IDF:
@@ -88,16 +88,16 @@ puede o no enviar datos a la red IP externa.
 todos los canales para encontrar una red mesh a la que conectar, devolviendo
 el canal en el que lo ha conseguido.
 
-### Uso de la pila IP (lwIP)
+### Uso de la pila TCP/IP (lwIP)
 
 El código de una aplicación que haga uso de ESP-MESH puede acceder directamente
-a la pila MESH sin pasar por la pila IP. De hecho, la pila IP solo es
+a la pila MESH sin pasar por la pila TCP/IP. De hecho, la pila TCP/IP solo es
 estrictamente necesaria por parte del nodo raíz, al ser el único que puede
 recibir o transmitir datos desde o hacia la red IP externa. 
 
 Sin embargo, como cualquier nodo de la topología puede potencialmente
 convertirse en nodo raíz (ya que su selección es automática), todos los nodos
-deberán inicializar la pila IP. Cada nodo que pueda convertirse en root debe
+deberán inicializar la pila TCP/IP. Cada nodo que pueda convertirse en root debe
 inicializar LwIP llamando a `esp_netif_init()`. Para prevenir el acceso de nodos
 no-root a LwIP, la aplicación no debe crear o registrar ninguna interfaz de red
 usando el API de `esp_netif`.
