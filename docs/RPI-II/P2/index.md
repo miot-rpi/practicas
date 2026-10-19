@@ -257,7 +257,9 @@ lo que se deja como ejercicio su análisis y ejecución.
     del tráfico total generado en ambos casos para exactamente la misma cantidad de datos 
     transferidos.
 
-## TLS en el ESP32. El componente wolfSSL (version 5.8.2~1)
+## TLS en el ESP32. El componente wolfSSL (ESP-IDF 5.5.x)
+
+Este apartado utiliza **ESP-IDF 5.5.x** y el componente **wolfssl/wolfssl 5.8.2~1**. Comprueba el entorno activo con `idf.py --version`. Esta combinación debe verificarse con la revisión concreta instalada; no se presupone su compatibilidad con ESP-IDF 6.1.
 
 La librería WolfSSL está disponible como [componente de Espressif](https://components.espressif.com/components/wolfssl/wolfssl/versions/5.8.2~1). A continuación veremos un ejemplo de uso de cliente TLS apto para conectarse el servidor anterior.
 
@@ -267,7 +269,8 @@ Moverse a la carpeta dónde se quiera importar el ejemplo y ejecutar el siguient
 
 ```
 idf.py create-project-from-example "wolfssl/wolfssl^5.8.2~1:wolfssl_client"
-cd wolfssl_client`
+cd wolfssl_client
+idf.py set-target esp32
 ```
 
 Ejecuta la utilidad `menuconfig` :
@@ -278,14 +281,14 @@ idf.py menuconfig
 
 Y configura los diferentes parámetros para el dispositivo objetivo, junto con la configuración local de WiFi:
 
-* Host de destino: `CONFIG_WOLFSSL_TARGET_HOST` (en nuestro caso del del host en el que se ejecute el servidor TLS)
+* Host de destino: `CONFIG_WOLFSSL_TARGET_HOST` (la IPv4 LAN del host en el que se ejecute el servidor TLS)
 * Puerto de destino: `CONFIG_WOLFSSL_TARGET_PORT` (por defecto 11111)
 * SSID de WiFi de ejemplo: `CONFIG_EXAMPLE_WIFI_SSID`
 * Contraseña de WiFi de ejemplo: `CONFIG_EXAMPLE_WIFI_PASSWORD`
 
 Cabe señalar que los *makefiles* de este ejemplo no requieren la instalación de wolfSSL copiando archivos localmente.
 
-Es preciso señalar que hay un pequeño error en el código de ejemplo y preciso realizar la siguiente modificación del fichero `main\include\client-tls.h` o de lo contrario no usa la dirección destino configurada previamente:
+Comprueba en `main/include/client-tls.h` que la dirección configurada se utiliza en `TLS_SMP_TARGET_HOST`. Si aparece una dirección fija, adapta el bloque de esta forma:
 
 ```c
 /* See main/Kconfig.projbuild for default configuration settings */
@@ -304,6 +307,62 @@ idf.py flash
 idf.py monitor
 ```
 
+### Uso de un certificado propio
+
+Para utilizar certificados propios, el servidor debe cargar su certificado y su clave privada, y el ESP32 debe confiar en la CA que lo firma. No se debe copiar la clave privada del servidor al ESP32 ni desactivar la verificación del certificado. Este procedimiento también se aplica a la tarea con ESP-IDF 6.1 del apartado siguiente.
+
+En macOS/Linux, con OpenSSL 3, ejecuta en una carpeta de trabajo nueva:
+
+```sh
+mkdir certificados
+cd certificados
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 365 \
+  -keyout ca-key.pem -out ca-cert.pem -subj "/CN=CA laboratorio RPI2" \
+  -addext "basicConstraints=critical,CA:TRUE" \
+  -addext "keyUsage=critical,keyCertSign,cRLSign"
+openssl req -newkey rsa:2048 -nodes -sha256 \
+  -keyout server-key.pem -out server.csr -subj "/CN=tls-lab.local"
+cat > server.ext <<'EXT'
+basicConstraints=critical,CA:FALSE
+keyUsage=critical,digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+subjectAltName=DNS:tls-lab.local
+EXT
+openssl x509 -req -in server.csr -CA ca-cert.pem -CAkey ca-key.pem \
+  -CAcreateserial -out server-cert.pem -days 90 -sha256 -extfile server.ext
+chmod 600 ca-key.pem server-key.pem
+openssl verify -CAfile ca-cert.pem server-cert.pem
+```
+
+La última orden debe devolver `OK`. En macOS, si el OpenSSL del sistema no admite `-addext`, utiliza OpenSSL 3 (por ejemplo, instalado mediante Homebrew). En el servidor `tls/server-tls.c`, configura `CERT_FILE` y `KEY_FILE` con las rutas a `server-cert.pem` y `server-key.pem`, respectivamente. No confundas el certificado del servidor con el de la CA.
+
+Para el cliente de **ESP-IDF 5.5.x**, copia `ca-cert.pem` a `wolfssl_client/main/ca-cert.pem` y añade `EMBED_TXTFILES "ca-cert.pem"` a la llamada **existente** a `idf_component_register(...)` de `main/CMakeLists.txt`. En `main/client-tls.c`, declara:
+
+```c
+extern const unsigned char ca_cert_pem_start[] asm("_binary_ca_cert_pem_start");
+extern const unsigned char ca_cert_pem_end[]   asm("_binary_ca_cert_pem_end");
+```
+
+Sustituye la carga de la CA de ejemplo (`wolfSSL_CTX_load_verify_buffer`, que utiliza `CTX_CA_CERT`) por:
+
+```c
+ret_i = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_pem_start,
+    (long)(ca_cert_pem_end - ca_cert_pem_start), WOLFSSL_FILETYPE_PEM);
+/* Si ret_i != WOLFSSL_SUCCESS, abortar la conexión y liberar los recursos. */
+wolfSSL_CTX_set_verify(ctx, WOLFSSL_VERIFY_PEER, NULL);
+```
+
+Asegúrate de que se ejecuta la rama de verificación (`doPeerCheck != 0`) y de que no se sobrescribe después con `WOLFSSL_VERIFY_NONE`. Para autenticación solo del servidor, elimina de esa rama las cargas del certificado y clave de cliente de ejemplo (`CTX_CLIENT_CERT` y `CTX_CLIENT_KEY`); no son necesarias si el servidor no exige autenticación mutua.
+
+Tras crear el objeto `ssl`, antes del handshake, comprueba también la identidad esperada:
+
+```c
+ret_i = wolfSSL_check_domain_name(ssl, "tls-lab.local");
+/* Si ret_i != WOLFSSL_SUCCESS, abortar la conexión y liberar los recursos. */
+```
+
+El socket puede conectarse a la IPv4 del host configurada en `menuconfig`; `tls-lab.local` es el nombre que se comprobará contra el SAN del certificado, por lo que no necesita resolver por DNS en esta variante. Mantén el reloj del ESP32 sincronizado y la comprobación de fechas activa. Recompila y vuelve a cargar el firmware después de cambiar el certificado embebido.
+
 !!! danger "Tarea entregable"
     Compila y ejecuta el cliente TLS en el ESP32, y consigue que interactúe con
     el servidor TLS que probaste anteriormente en el *host*. Comprueba que, efectivamente,
@@ -313,200 +372,145 @@ idf.py monitor
 !!! danger "Tarea entregable"
     Repite el mismo proceso para el cliente DTLS.
 
-## TLS en el ESP32. El componente ESP-TLS
+## TLS en el ESP32. El componente esp-wolfssl (ESP-IDF 6.1)
 
-ESP-IDF proporciona un componente (ESP-TLS) que ofrece una interfaz ([API](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/esp_tls.html))
-simplificada para acceder a funcionalidad básica TLS. Aún así, ofrece 
-una funcionalidad suficientemente amplia como para implementar casos de uso
-comunes en entornos IoT. 
+Como alternativa para ESP-IDF 6.1, utilizaremos el port [espressif/esp-wolfssl](https://github.com/espressif/esp-wolfssl), distinto del componente `wolfssl/wolfssl` anterior. Su ejemplo nativo consulta por HTTPS `https://api.github.com/zen`: lo dejaremos con ese destino para comprobar inicialmente la integración, la conexión WiFi y TLS.
 
-La API de ESP-TLS es sencilla, y se basa en el uso de cuatro funciones básicas:
+!!! note "Compatibilidad"
+    Esta ruta incorpora cambios para IDF 6.x, incluida la desactivación de la aceleración criptográfica ESP32 incompatible con ciertas API nuevas. No implica que cualquier revisión de IDF 6.1 esté validada: el CMake del port cita pruebas con IDF master `v6.2-dev`. Los pasos siguientes están contrastados con las fuentes, pero requieren comprobar compilación y ejecución con la versión concreta del laboratorio.
 
-### Establecimiento de conexión TLS (`esp_tls_conn_new_sync()`)
+Abre un terminal con **ESP-IDF 6.1** activado y descarga el repositorio en una carpeta nueva. Se fija una revisión para que el ejemplo y sus rutas sean reproducibles:
 
-* Prototipo:
-
-```c
-int esp_tls_conn_new_sync(const char *hostname, int hostlen, int port, const esp_tls_cfg_t *cfg, esp_tls_t *tls)
+```sh
+idf.py --version
+git clone https://github.com/espressif/esp-wolfssl.git
+cd esp-wolfssl
+git checkout 16e338a7bf817f58416d6a3f520ffa14ce91b6f2
+git submodule update --init --recursive
+cd examples/wolfssl_client
+idf.py set-target esp32
+idf.py menuconfig
 ```
 
-* Descripción: Crea una nueva conexión TLS/SSL bloqueante, estableciendo dicha
-  conexión contra un servidor establecido. 
+En `Example Connection Configuration`, configura WiFi, SSID y contraseña (`CONFIG_EXAMPLE_WIFI_SSID` y `CONFIG_EXAMPLE_WIFI_PASSWORD`). En `Example Configuration`, conserva activada **Enable Server Certificate Verification** (`CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y`). No es necesario seleccionar el backend ESP-TLS personalizado: este ejemplo usa la API nativa de wolfSSL. Mantén la estructura del repositorio; no copies el ejemplo aislado ni añadas además el componente `wolfssl/wolfssl` del registro.
 
-* Parámetros: 
-    - `hostname`: Identificación del host.
-    - `hostlen`: Longitud del parámetro `hostname`.
-    - `port`: Puerto de conexión con el host.
-    - `cfg`: Configuración de la conexión TLS.
-    - `tls`: Puntero a `esp_tls_t` (manejador de la conexión). Devuelve `NULL` si se produce un error en la conexión.
+El archivo del cliente es `examples/wolfssl_client/main/wolfssl_client_demo.c` dentro de `esp-wolfssl`. Conserva `WEB_SERVER`, `WEB_PORT`, `WEB_URL`, `REQUEST` y el certificado embebido originales para la prueba con GitHub. El ejemplo sincroniza el reloj mediante SNTP antes del handshake: necesita acceso a Internet, DNS y NTP.
 
-### Destrucción de conexión TLS (`esp_tls_conn_delete()`)
+Para probar **TLS 1.3**, activa la línea `#define WOLFSSL_TLS13` en `esp-wolfssl/port/user_settings.h` (en la revisión indicada está comentada). Así, el ejemplo selecciona `wolfTLSv1_3_client_method()`; sin ese cambio utiliza TLS 1.2. Tras un `wolfSSL_connect()` exitoso y antes de liberar `ssl`, añade:
 
 ```c
- void esp_tls_server_session_delete(esp_tls_t *tls)
+ESP_LOGI(TAG, "Protocolo: %s; cifrado: %s",
+         wolfSSL_get_version(ssl), wolfSSL_get_cipher(ssl));
 ```
 
-* Descripción: Cierra la conexión TLS/SSL. 
-
-* Parámetros: 
-    - `tls`: Manejador de la conexión.
-
-### Escritura de datos (`esp_tls_conn_read()`)
+Para verificar también la identidad de GitHub, después de crear y comprobar `ssl`, antes de `wolfSSL_connect()`, añade:
 
 ```c
-ssize_t esp_tls_conn_write(esp_tls_t *tls, const void *data, size_t datalen)
-```
-
-* Descripción: Escribe en la conexión TLS/SSL indicada el contenido del buffer
-  `data`.
-
-* Parámetros: 
-    - `tls`: Manejador de la conexión. 
-    - `data`: Buffer de envío.
-    - `datalen`: Longitud del buffer de envío (o número máximo 
-       de bytes a escribir).
-
-* Valor de retorno: 
-    - `>=0`: éxito en el envío. Número de bytes efectivamente enviados.
-    - `<0`: error en el envío.
-
-### Lectura de datos (`esp_tls_conn_read()`)
-
-```c
-ssize_t esp_tls_conn_read(esp_tls_t *tls, void *data, size_t datalen)
-```
-
-* Descripción: Lee desde la conexión TLS/SSL indicada hacia el buffer `data`.
-
-* Parámetros: 
-    - `tls`: Manejador de la conexión. 
-    - `data`: Buffer de recepción.
-    - `datalen`: Longitud del buffer de recepción (o número máximo 
-       de bytes a leer).
-
-* Valor de retorno: 
-    - `>0`: éxito en la recepción. Número de bytes efectivamente leídos.
-    - `=0`: error en la recepción. La conexión se cerró.
-    - `<0`: error en la recepción. 
-
-### Estructura básica de un cliente TCP usando ESP-IDF
-
-Un cliente TCP implementado sobre ESP-IDF para dar soporte TLS, 
-requiere ciertas modificaciones con respecto a la versión sin TLS. 
-De hecho, el uso de ESP-IDF simplifica el código del cliente. La
-estructura básica resultaría:
-
-```c
-/// Includes anteriores.
-#include "esp_tls.h"
-
-// Puede tomarse desde menuconfig.
-#define HOST_IP_ADDR DIRECCION_DE_HOST
-#define PORT PUERTO 
-
-static const char *payload = "Hola, mundo via TLS";
-
-// ...
-
-static void tls_client_task( void  *pvParameters )
-{
-  // ...
-
-  // Configuración de ESP-TLS (vacío para opciones defecto).
-  esp_tls_cfg_t cfg = { };
-
-  // Creación de conexión.
-  struct esp_tls tls;
-  ret = esp_tls_conn_new_sync( HOST_IP_ADDR, longitud, PORT, &cfg, &tls);
-
-  // Chequeo de errores.
-  // ...
-
-  // Envío de datos.
-  ret = esp_tls_conn_write(tls, payload, strlen(payload));
-
-  // Chequeo de errores.
-  // ...
-
-  // Lectura de datos
-  ret = esp_tls_conn_read(tls, (char *)rx_buffer, 128);
-
-  // Chequeo de errores.
-  // ...
-
-  // Destrucción de la conexión
-  esp_tls_server_session_delete( tls );
-
-  vTaskDelete( NULL );
-}
-
-void app_main( void )
-{
-  // ...
+if (wolfSSL_check_domain_name(ssl, WEB_SERVER) != WOLFSSL_SUCCESS) {
+    ESP_LOGE(TAG, "No se pudo configurar el nombre esperado");
+    goto failed4;
 }
 ```
+
+Desde `examples/wolfssl_client`, compila y carga (sustituye el puerto serie):
+
+```sh
+idf.py build
+idf.py -p /dev/PUERTO_SERIE flash monitor
+```
+
+Comprueba que se obtiene respuesta HTTP de GitHub y que se registra `TLSv1.3` con la suite negociada. Si falla la validación, revisa hora, vigencia y CA del servidor; no la desactives. Fuentes del ejemplo: [cliente](https://github.com/espressif/esp-wolfssl/blob/16e338a7bf817f58416d6a3f520ffa14ce91b6f2/examples/wolfssl_client/main/wolfssl_client_demo.c) y [configuración del port](https://github.com/espressif/esp-wolfssl/blob/16e338a7bf817f58416d6a3f520ffa14ce91b6f2/port/user_settings.h).
+
+### Adaptación al servidor de la práctica y certificado propio
+
+Para la conexión local, genera los certificados como se describe en «Uso de un certificado propio» y configura en el servidor sus rutas `CERT_FILE` y `KEY_FILE`. Copia **`ca-cert.pem`** a `esp-wolfssl/examples/wolfssl_client/main/server_root_cert.pem`, sustituyendo la CA de GitHub: este archivo ya está embebido por el CMake del ejemplo. Conserva `CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y` y `WOLFSSL_VERIFY_PEER`.
+
+En `wolfssl_client_demo.c`, cambia `WEB_SERVER` por la IPv4 LAN del host y `WEB_PORT` por `11111`. Sustituye el bloque `REQUEST` de HTTP por un mensaje sencillo (`#define REQUEST "Hola desde ESP32\n"`), acorde con el servidor de las primeras secciones. Si añadiste la comprobación de nombre para GitHub, cambia su segundo argumento por `"tls-lab.local"`, el SAN del certificado propio. Recompila y recarga el firmware; la CA privada del laboratorio no sirve para autenticar GitHub.
+
+El servidor original utiliza TLS 1.2. Para exigir **TLS 1.3 en ambos extremos**, recompila la biblioteca wolfSSL del host con `--enable-tls13`, sustituye en `server-tls.c` el método por `wolfTLSv1_3_server_method()` y recompila el servidor. Arráncalo en macOS/Linux antes de conectar la placa; permite TCP/11111 en el cortafuegos y comprueba que escucha en la interfaz LAN. Usa una red WiFi sin aislamiento entre clientes.
 
 !!! danger "Tarea entregable"
-    Estudia y prueba el ejemplo base `examples/protocols/https_request`. 
-    Opcionalmente, modifica este ejemplo para que interactue con el servidor 
-    TLS empleando previamente.
+    Adapta el cliente para conectarlo con el servidor TLS desarrollado en las primeras secciones, ejecutado en macOS o Linux. Usa un certificado propio y conserva su verificación. Entrega los cambios, las versiones utilizadas y los registros que acrediten intercambio de mensajes y TLS 1.3. Captura el tráfico en la interfaz LAN del servidor con Wireshark (`tcp.port == 11111`; si es necesario, «Decode As… → TLS»). Comprueba en ServerHello que Supported Versions selecciona `0x0304` (TLS 1.3), aunque el campo legacy_version indique `0x0303`. Explica por qué los mensajes posteriores a ServerHello y los datos de aplicación no aparecen en claro. No entregues claves privadas ni la contraseña WiFi.
 
+## TLS en el ESP32. El componente ESP-TLS (ampliación opcional, ESP-IDF 6.1)
 
-#### Desactivación de la comprobación de certificado de servidor
+ESP-TLS sigue disponible en ESP-IDF 6.1. Ofrece una API simplificada para establecer conexiones TLS y verificar certificados, utilizando **MbedTLS por defecto**. También permite registrar una pila TLS personalizada. La aplicación utiliza las funciones `esp_tls_*`, mientras que la biblioteca subyacente implementa TLS. Consulta la [API de ESP-TLS para ESP-IDF 6.1](https://docs.espressif.com/projects/esp-idf/en/v6.1/esp32/api-reference/protocols/esp_tls.html).
 
-Basta con modificar la configuración del proyecto del siguiente modo:
+Esta ampliación sirve para comparar el uso directo de wolfSSL con la interfaz de ESP-IDF. La conexión wolfSSL con el servidor de las primeras secciones sigue siendo la tarea obligatoria; aquí utilizaremos ESP-TLS con su backend MbedTLS predeterminado. La integración de wolfSSL como backend personalizado queda fuera del alcance de esta ampliación.
 
+### API básica del cliente
+
+Incluye `esp_tls.h` y declara `esp-tls` como dependencia del componente de la aplicación cuando corresponda.
+
+| Función | Uso y resultado |
+|---|---|
+| `esp_tls_init()` | Crea el manejador; devuelve un `esp_tls_t *` o `NULL` si falla. |
+| `esp_tls_conn_new_sync(host, hostlen, port, &cfg, tls)` | Establece la conexión bloqueante; devuelve `1` si tiene éxito. Cualquier otro resultado debe tratarse como conexión no establecida. |
+| `esp_tls_conn_write(tls, datos, longitud)` | Devuelve los bytes escritos; puede escribir menos de los solicitados. |
+| `esp_tls_conn_read(tls, buffer, capacidad)` | Devuelve los bytes leídos; `0` indica cierre de la conexión. |
+| `esp_tls_conn_destroy(tls)` | Cierra y libera la conexión del cliente. |
+
+En lectura y escritura, trata los códigos `ESP_TLS_ERR_SSL_WANT_READ` y `ESP_TLS_ERR_SSL_WANT_WRITE` como condiciones de reintento; los demás valores negativos indican error. No supongas que una única llamada transfiere un mensaje completo.
+
+El manejador se obtiene mediante `esp_tls_init()`; no se declara `struct esp_tls` en la pila. Para liberar una conexión de **cliente**, utiliza `esp_tls_conn_destroy()`, no `esp_tls_server_session_delete()`.
+
+### Prueba con el ejemplo HTTPS
+
+Copia el ejemplo incluido en **tu instalación de IDF 6.1** a una carpeta nueva, para conservar sus dependencias y configuración:
+
+```sh
+idf.py --version
+cp -R "$IDF_PATH/examples/protocols/https_request" ./esp_tls_https
+cd esp_tls_https
+idf.py set-target esp32
+idf.py menuconfig
+idf.py build
+idf.py -p /dev/PUERTO_SERIE flash monitor
 ```
-# CONFIG_EXAMPLE_CLIENT_SESSION_TICKETS is not set
-CONFIG_ESP_TLS_INSECURE=y
-CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY=y
-# CONFIG_MBEDTLS_CERTIFICATE_BUNDLE is not set
-```
 
-Y comentar estás líneas del fichero `https_request_example_main.c` para borrar la configuración de la entidad de certificación (de lo contrario prevalecería sobre la opción `CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY`):
+Configura SSID y contraseña en `Example Connection Configuration` y sustituye el puerto serie por el real. Conserva inicialmente el destino HTTPS y el mecanismo de confianza del ejemplo. Comprueba la respuesta HTTP y estudia dónde se configuran los certificados y se realizan las llamadas `esp_tls_*`. El ejemplo incluye sincronización horaria, necesaria para validar las fechas de los certificados. [Código del ejemplo HTTPS de IDF 6.1](https://github.com/espressif/esp-idf/blob/v6.1/examples/protocols/https_request/main/https_request_example_main.c).
+
+### Uso de la CA propia de la práctica
+
+Para una prueba local, reutiliza los certificados generados en «Uso de un certificado propio». Copia **`ca-cert.pem`** a `main/ca-cert.pem` y añade `EMBED_TXTFILES "ca-cert.pem"` a la llamada existente a `idf_component_register(...)` en `main/CMakeLists.txt`. En el cliente declara:
 
 ```c
-  esp_tls_cfg_t cfg = {
-  //    .cacert_buf = (const unsigned char *) server_root_cert_pem_start,
-  //    .cacert_bytes = server_root_cert_pem_end - server_root_cert_pem_start,
-  ...
-  };
+extern const unsigned char ca_cert_pem_start[] asm("_binary_ca_cert_pem_start");
+extern const unsigned char ca_cert_pem_end[]   asm("_binary_ca_cert_pem_end");
 ```
 
-#### Servidor web de test con certificado autofirmado
+Configura la conexión con esa CA y el nombre incluido en el SAN del certificado:
 
-Para comprobar el ejemplo `examples/protocols/https_request` con un servidor https local con certificado autofirmado se pueden emplear los siguientes comandos de `openssl`.
+```c
+esp_tls_cfg_t cfg = {
+    .cacert_buf = ca_cert_pem_start,
+    .cacert_bytes = ca_cert_pem_end - ca_cert_pem_start,
+    .common_name = "tls-lab.local",
+    .skip_common_name = false,
+    .timeout_ms = 10000,
+};
 
-* *Generación del certificado autofirmado.* Es preciso proporciona cierta información, entre otras cosas la dirección IP o nombre del host.
+esp_tls_t *tls = esp_tls_init();
+if (tls == NULL) {
+    /* Registrar el error y terminar la tarea. */
+    return;
+}
 
-```sh
-openssl openssl genrsa -out server.key 2048
+const char *host = "192.168.1.50"; /* IPv4 LAN real del servidor */
+if (esp_tls_conn_new_sync(host, strlen(host), 11111, &cfg, tls) == 1) {
+    /* Intercambiar mensajes mediante esp_tls_conn_write/read.
+       Comprobar resultados, transferencias parciales y reintentos. */
+} else {
+    /* Registrar el fallo de conexión o de validación. */
+}
+esp_tls_conn_destroy(tls);
 ```
 
-```sh
-openssl openssl req -new -x509 -key server.key -out server.crt -days 365
+Este fragmento ilustra el ciclo de vida de la conexión dentro de una función auxiliar; requiere `string.h`, red conectada y reloj sincronizado. Si se integra directamente en una tarea FreeRTOS, termina la tarea mediante `vTaskDelete(NULL)` en lugar de retornar. La dirección IP selecciona el servidor TCP y `common_name` establece la identidad esperada `tls-lab.local`.
 
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [AU]:ES
-State or Province Name (full name) [Some-State]:Madrid
-Locality Name (eg, city) []:Madrid
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:UCM
-Organizational Unit Name (eg, section) []:FDI
-Common Name (e.g. server FQDN or YOUR name) []:<IP HOST>
-Email Address []:lpinuel@ucm.es
-```
+En la configuración local, no combines esta CA con `.crt_bundle_attach` o `.use_global_ca_store`: selecciona un único mecanismo de confianza. Mantén desactivadas `CONFIG_ESP_TLS_INSECURE` y `CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY`. Una configuración vacía de `esp_tls_cfg_t` no basta para autenticar al servidor y falla por defecto si no se proporciona un mecanismo de verificación.
 
-* *Arranque del servidor web*.
+Si adaptas `https_request`, cambia también su destino y petición: el servidor wolfSSL de la práctica intercambia mensajes TLS, por lo que no tiene por qué devolver una respuesta HTTP. Conserva en el host el certificado y la clave privada del servidor; solo el certificado público de la CA se incorpora al firmware. Recompila y recarga tras cambiarlo. Para conectarte al servidor configurado exclusivamente con TLS 1.3, comprueba que MbedTLS tiene habilitado ese protocolo y verifica la versión negociada.
 
-```sh
-openssl openssl s_server -accept 8443 -cert server.crt -key server.key -www
-
-Using default temp DH parameters
-ACCEPT
-```
+!!! note "Actividad opcional"
+    Ejecuta el ejemplo HTTPS y compara su API con la del cliente wolfSSL. Como ampliación, conéctalo al servidor local con tu CA propia y captura el tráfico. Explica qué tareas realiza ESP-TLS y cuáles siguen siendo responsabilidad de la aplicación: configuración de confianza, identidad del servidor, sincronización horaria y gestión de los mensajes.
