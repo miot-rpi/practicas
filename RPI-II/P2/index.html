@@ -494,13 +494,13 @@ extern const unsigned char ca_cert_pem_end[]   asm(&quot;_binary_ca_cert_pem_end
 <p>Sustituye la carga de la CA de ejemplo (<code>wolfSSL_CTX_load_verify_buffer</code>, que utiliza <code>CTX_CA_CERT</code>) por:</p>
 <pre><code class="language-c">ret_i = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_pem_start,
     (long)(ca_cert_pem_end - ca_cert_pem_start), WOLFSSL_FILETYPE_PEM);
-/* Si ret_i != WOLFSSL_SUCCESS, abortar la conexión y liberar los recursos. */
+/* If ret_i != WOLFSSL_SUCCESS, abort the connection and release resources. */
 wolfSSL_CTX_set_verify(ctx, WOLFSSL_VERIFY_PEER, NULL);
 </code></pre>
 <p>Asegúrate de que se ejecuta la rama de verificación (<code>doPeerCheck != 0</code>) y de que no se sobrescribe después con <code>WOLFSSL_VERIFY_NONE</code>. Para autenticación solo del servidor, elimina de esa rama las cargas del certificado y clave de cliente de ejemplo (<code>CTX_CLIENT_CERT</code> y <code>CTX_CLIENT_KEY</code>); no son necesarias si el servidor no exige autenticación mutua.</p>
 <p>Tras crear el objeto <code>ssl</code>, antes del handshake, comprueba también la identidad esperada:</p>
 <pre><code class="language-c">ret_i = wolfSSL_check_domain_name(ssl, &quot;tls-lab.local&quot;);
-/* Si ret_i != WOLFSSL_SUCCESS, abortar la conexión y liberar los recursos. */
+/* If ret_i != WOLFSSL_SUCCESS, abort the connection and release resources. */
 </code></pre>
 <p>El socket puede conectarse a la IPv4 del host configurada en <code>menuconfig</code>; <code>tls-lab.local</code> es el nombre que se comprobará contra el SAN del certificado, por lo que no necesita resolver por DNS en esta variante. Mantén el reloj del ESP32 sincronizado y la comprobación de fechas activa. Recompila y vuelve a cargar el firmware después de cambiar el certificado embebido.</p>
 <div class="admonition danger">
@@ -533,12 +533,12 @@ idf.py menuconfig
 <p>En <code>Example Connection Configuration</code>, configura WiFi, SSID y contraseña (<code>CONFIG_EXAMPLE_WIFI_SSID</code> y <code>CONFIG_EXAMPLE_WIFI_PASSWORD</code>). En <code>Example Configuration</code>, conserva activada <strong>Enable Server Certificate Verification</strong> (<code>CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y</code>). No es necesario seleccionar el backend ESP-TLS personalizado: este ejemplo usa la API nativa de wolfSSL. Mantén la estructura del repositorio; no copies el ejemplo aislado ni añadas además el componente <code>wolfssl/wolfssl</code> del registro.</p>
 <p>El archivo del cliente es <code>examples/wolfssl_client/main/wolfssl_client_demo.c</code> dentro de <code>esp-wolfssl</code>. Conserva <code>WEB_SERVER</code>, <code>WEB_PORT</code>, <code>WEB_URL</code>, <code>REQUEST</code> y el certificado embebido originales para la prueba con GitHub. El ejemplo sincroniza el reloj mediante SNTP antes del handshake: necesita acceso a Internet, DNS y NTP.</p>
 <p>Para probar <strong>TLS 1.3</strong>, activa la línea <code>#define WOLFSSL_TLS13</code> en <code>esp-wolfssl/port/user_settings.h</code> (en la revisión indicada está comentada). Así, el ejemplo selecciona <code>wolfTLSv1_3_client_method()</code>; sin ese cambio utiliza TLS 1.2. Tras un <code>wolfSSL_connect()</code> exitoso y antes de liberar <code>ssl</code>, añade:</p>
-<pre><code class="language-c">ESP_LOGI(TAG, &quot;Protocolo: %s; cifrado: %s&quot;,
+<pre><code class="language-c">ESP_LOGI(TAG, &quot;Protocol: %s; cipher: %s&quot;,
          wolfSSL_get_version(ssl), wolfSSL_get_cipher(ssl));
 </code></pre>
 <p>Para verificar también la identidad de GitHub, después de crear y comprobar <code>ssl</code>, antes de <code>wolfSSL_connect()</code>, añade:</p>
 <pre><code class="language-c">if (wolfSSL_check_domain_name(ssl, WEB_SERVER) != WOLFSSL_SUCCESS) {
-    ESP_LOGE(TAG, &quot;No se pudo configurar el nombre esperado&quot;);
+    ESP_LOGE(TAG, &quot;Failed to configure the expected server name&quot;);
     goto failed4;
 }
 </code></pre>
@@ -549,8 +549,19 @@ idf.py -p /dev/PUERTO_SERIE flash monitor
 <p>Comprueba que se obtiene respuesta HTTP de GitHub y que se registra <code>TLSv1.3</code> con la suite negociada. Si falla la validación, revisa hora, vigencia y CA del servidor; no la desactives. Fuentes del ejemplo: <a href="https://github.com/espressif/esp-wolfssl/blob/16e338a7bf817f58416d6a3f520ffa14ce91b6f2/examples/wolfssl_client/main/wolfssl_client_demo.c">cliente</a> y <a href="https://github.com/espressif/esp-wolfssl/blob/16e338a7bf817f58416d6a3f520ffa14ce91b6f2/port/user_settings.h">configuración del port</a>.</p>
 <h3 id="adaptacion-al-servidor-de-la-practica-y-certificado-propio">Adaptación al servidor de la práctica y certificado propio</h3>
 <p>Para la conexión local, genera los certificados como se describe en «Uso de un certificado propio» y configura en el servidor sus rutas <code>CERT_FILE</code> y <code>KEY_FILE</code>. Copia <strong><code>ca-cert.pem</code></strong> a <code>esp-wolfssl/examples/wolfssl_client/main/server_root_cert.pem</code>, sustituyendo la CA de GitHub: este archivo ya está embebido por el CMake del ejemplo. Conserva <code>CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y</code> y <code>WOLFSSL_VERIFY_PEER</code>.</p>
-<p>En <code>wolfssl_client_demo.c</code>, cambia <code>WEB_SERVER</code> por la IPv4 LAN del host y <code>WEB_PORT</code> por <code>11111</code>. Sustituye el bloque <code>REQUEST</code> de HTTP por un mensaje sencillo (<code>#define REQUEST "Hola desde ESP32\n"</code>), acorde con el servidor de las primeras secciones. Si añadiste la comprobación de nombre para GitHub, cambia su segundo argumento por <code>"tls-lab.local"</code>, el SAN del certificado propio. Recompila y recarga el firmware; la CA privada del laboratorio no sirve para autenticar GitHub.</p>
+<p>En <code>wolfssl_client_demo.c</code>, cambia <code>WEB_SERVER</code> por la IPv4 LAN del host y <code>WEB_PORT</code> por <code>11111</code>. Sustituye el bloque <code>REQUEST</code> de HTTP por un mensaje sencillo (<code>#define REQUEST "Hello from ESP32\n"</code>), acorde con el servidor de las primeras secciones. Si añadiste la comprobación de nombre para GitHub, cambia su segundo argumento por <code>"tls-lab.local"</code>, el SAN del certificado propio. Recompila y recarga el firmware; la CA privada del laboratorio no sirve para autenticar GitHub.</p>
 <p>El servidor original utiliza TLS 1.2. Para exigir <strong>TLS 1.3 en ambos extremos</strong>, recompila la biblioteca wolfSSL del host con <code>--enable-tls13</code>, sustituye en <code>server-tls.c</code> el método por <code>wolfTLSv1_3_server_method()</code> y recompila el servidor. Arráncalo en macOS/Linux antes de conectar la placa; permite TCP/11111 en el cortafuegos y comprueba que escucha en la interfaz LAN. Usa una red WiFi sin aislamiento entre clientes.</p>
+<p>En la versión del servidor adaptada a TLS 1.3 (<code>servidor-tls13.c</code>), desactiva la exigencia de un certificado de cliente: esta práctica autentica al servidor ante el ESP32, sin autenticación mutua. Sustituye el bloque:</p>
+<pre><code class="language-c">/* Require mutual authentication */
+wolfSSL_CTX_set_verify(ctx,
+    WOLFSSL_VERIFY_PEER | WOLFSSL_VERIFY_FAIL_IF_NO_PEER_CERT, NULL);
+</code></pre>
+<p>por:</p>
+<pre><code class="language-c">/* Do not require a client certificate: server authentication only */
+wolfSSL_CTX_set_verify(ctx, WOLFSSL_VERIFY_NONE, NULL);
+</code></pre>
+<p>Esta configuración debe establecerse después de crear y comprobar <code>ctx</code> y antes de crear <code>ssl</code>; comprueba que no se sobrescribe posteriormente con otra llamada a <code>wolfSSL_CTX_set_verify()</code> o <code>wolfSSL_set_verify()</code>. Conserva la carga del certificado y la clave privada del servidor. Recompila el servidor y vuelve a ejecutarlo. Si se exige autenticación mutua sin configurar un certificado en el ESP32, <code>wolfSSL_accept()</code> puede fallar con <code>-345</code> (<code>NO_PEER_CERT</code>).</p>
+<p>El cambio se aplica <strong>solo al servidor</strong>. En el ESP32 conserva <code>CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y</code>, <code>WOLFSSL_VERIFY_PEER</code>, la CA propia y la comprobación de identidad mediante <code>wolfSSL_check_domain_name(ssl, "tls-lab.local")</code>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
 <p>Adapta el cliente para conectarlo con el servidor TLS desarrollado en las primeras secciones, ejecutado en macOS o Linux. Usa un certificado propio y conserva su verificación. Entrega los cambios, las versiones utilizadas y los registros que acrediten intercambio de mensajes y TLS 1.3. Captura el tráfico en la interfaz LAN del servidor con Wireshark (<code>tcp.port == 11111</code>; si es necesario, «Decode As… → TLS»). Comprueba en ServerHello que Supported Versions selecciona <code>0x0304</code> (TLS 1.3), aunque el campo legacy_version indique <code>0x0303</code>. Explica por qué los mensajes posteriores a ServerHello y los datos de aplicación no aparecen en claro. No entregues claves privadas ni la contraseña WiFi.</p>
@@ -619,16 +630,16 @@ extern const unsigned char ca_cert_pem_end[]   asm(&quot;_binary_ca_cert_pem_end
 
 esp_tls_t *tls = esp_tls_init();
 if (tls == NULL) {
-    /* Registrar el error y terminar la tarea. */
+    /* Log the error and terminate the task. */
     return;
 }
 
-const char *host = &quot;192.168.1.50&quot;; /* IPv4 LAN real del servidor */
+const char *host = &quot;192.168.1.50&quot;; /* Actual LAN IPv4 address of the server */
 if (esp_tls_conn_new_sync(host, strlen(host), 11111, &amp;cfg, tls) == 1) {
-    /* Intercambiar mensajes mediante esp_tls_conn_write/read.
-       Comprobar resultados, transferencias parciales y reintentos. */
+    /* Exchange messages using esp_tls_conn_write/read.
+       Check return values, partial transfers, and retries. */
 } else {
-    /* Registrar el fallo de conexión o de validación. */
+    /* Log the connection or verification failure. */
 }
 esp_tls_conn_destroy(tls);
 </code></pre>
