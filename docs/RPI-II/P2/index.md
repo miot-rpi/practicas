@@ -15,7 +15,7 @@ De las principales librerías que implementan protocolos de seguridad, sin duda 
 
 Aunque se pueden emplear paquetes binarios de la propia distribución de Linux, es recomendable partir del código fuente y compilarlo/instalarlo.
 
-Por lo tanto, lo primero es descargar el fichero `wolfssl-5.7.2.zip` de este [enlace](https://www.wolfssl.com/download/) y descomprimirlo en una ruta sin espacios *(esta recomendación es aplicable a todas las prácticas)*.
+Por lo tanto, lo primero es descargar el fichero `wolfssl-5.x.x.zip` de este [enlace](https://www.wolfssl.com/download/) y descomprimirlo en una ruta sin espacios *(esta recomendación es aplicable a todas las prácticas)*.
 
 Antes de proceder a su compilación es necesario instalar una serie de pre-requisitos:
 
@@ -243,7 +243,7 @@ Por último, finalizaremos la conexión con la invocación de la función
 El desarrollo de un sistema básico cliente/servidor con soporte DTLS utilizando
 WolfSSL es muy similar al visto anteriormente para TLS. Observa el contenido del fichero `dtls/server-dtls.c`.
 
-Eel código sigue una filosofía similar a TLS, adaptado, obviamente,
+El código sigue una filosofía similar a TLS, adaptado, obviamente,
 a las características de UDP (tipo de socket, ausencia de conexión, etc.), por
 lo que se deja como ejercicio su análisis y ejecución.
 
@@ -257,16 +257,16 @@ lo que se deja como ejercicio su análisis y ejecución.
     del tráfico total generado en ambos casos para exactamente la misma cantidad de datos 
     transferidos.
 
-## TLS en el ESP32. El componente wolfSSL (version 5.7.2)
+## TLS en el ESP32. El componente wolfSSL (version 5.8.2~1)
 
-La librería WolfSSL está disponible como [componente de Espressif](https://components.espressif.com/components/wolfssl/wolfssl/versions/5.7.2?language=en). A continuación veremos un ejemplo de uso de cliente TLS apto para conectarse el servidor anterior.
+La librería WolfSSL está disponible como [componente de Espressif](https://components.espressif.com/components/wolfssl/wolfssl/versions/5.8.2~1). A continuación veremos un ejemplo de uso de cliente TLS apto para conectarse el servidor anterior.
 
 Aunque es posible usar el GUI de la Extensión de ESP-IDF de VSCode, por brevedad vamos a realizar los pasos desde línea de comandos en el terminal `ESP-IDF Terminal`.
 
 Moverse a la carpeta dónde se quiera importar el ejemplo y ejecutar el siguiente comando.
 
 ```
-idf.py create-project-from-example "wolfssl/wolfssl^5.7.2:wolfssl_client"
+idf.py create-project-from-example "wolfssl/wolfssl^5.8.2~1:wolfssl_client"
 cd wolfssl_client`
 ```
 
