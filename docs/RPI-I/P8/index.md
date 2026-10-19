@@ -2,7 +2,7 @@
 
 ## Introducción y objetivos
 
-Los routers de borde son enrutadores que pueden encontrarse en el borde de una
+Los routers de borde son encaminadores que pueden encontrarse en el borde de una
 red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.
 
@@ -10,7 +10,7 @@ En esta práctica, usaremos el simulador *Cooja*, del proyecto Contiki-NG, para
 construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL
 (*Routing Protocol for Low-Power and Lossy Networks*) como
 algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-NG.
-Veremos cómo un router de borde puede utilizarse para enrutar tráfico entre una
+Veremos cómo un router de borde puede utilizarse para encaminar tráfico entre una
 red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
 siguiente diagrama:
 
@@ -123,7 +123,7 @@ El repositorio de Contiki-NG se encuentra en un directorio con el mismo nombre d
 En el desarrollo de la práctica utilizaremos algunos de los ejemplos incluidos en la
 instalación de Contiki-NG (ubicados en el directorio `contiki-ng/examples`):
 
-* `rpl-border-router/border_router.c`: contiene la lógica de enrutamiento
+* `rpl-border-router/border_router.c`: contiene la lógica de encaminamiento
   del router de borde, que será la raíz del DODAG (*Destination-Oriented Directed Acyclic Graph*).
 * `hello-world/hello-world.c`: será ejecutado por el resto de nodos de la red RPL.
 

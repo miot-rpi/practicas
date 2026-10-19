@@ -6,7 +6,7 @@
 * Ser capaz de compilar, *flashear* y monitorizar proyectos sencillos basados
   en ESP-IDF.
 * Entender el funcionamiento básico de una aplicación ESP-IDF que haga uso de
-  las capacidades WiFi del ESP32.
+  las capacidades Wi-Fi del ESP32.
 * Personalizar variables de configuración de proyectos ESP-IDF.
 * Responder a eventos básicos de red en ESP-IDF.
 
@@ -23,7 +23,7 @@ Se entregará un .zip (o similar) con:
 ESP-IDF (*Espressif IoT Development Framework*) es el entorno de desarrollo
 oficial de Espressif para los SoCs ESP32. Este entorno de desarrollo
 y conjunto de herramientas permite desarrollar *firmwares* eficientes para
-dichas placas utilizando las interfaces de comunicación WiFi y Bluetooth, así
+dichas placas utilizando las interfaces de comunicación Wi-Fi y Bluetooth, así
 como gestionar múltiples características de los SoCs que iremos desgranando
 en futuras prácticas.
 
@@ -32,7 +32,7 @@ ESP-IDF utiliza como base [FreeRTOS](https://freertos.org) pero añade multitud 
 Esta práctica es una introducción básica a la puesta en marcha del entorno de desarrollo ESP-IDF.
 Además, veremos de forma superficial la estructura básica de un programa
 sencillo desarrollado usando ESP-IDF, así como ejemplos básicos para la puesta
-en marcha de la interfaz WiFi sobre una placa ESP32.
+en marcha de la interfaz Wi-Fi sobre una placa ESP32.
 
 ## Visual Studio Code y su extensión de Espressif ESP-IDF
 
@@ -159,7 +159,7 @@ void app_main(void)
     /* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);
-    printf("This is %s chip with %d CPU cores, WiFi%s%s, ",
+    printf("This is %s chip with %d CPU cores, Wi-Fi%s%s, ",
             CONFIG_IDF_TARGET,
             chip_info.cores,
             (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
@@ -200,7 +200,7 @@ que está ejecutando el *firmware*:
 /* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);
-    printf("This is %s chip with %d CPU cores, WiFi%s%s, ",
+    printf("This is %s chip with %d CPU cores, Wi-Fi%s%s, ",
             CONFIG_IDF_TARGET,
             chip_info.cores,
             (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
@@ -244,7 +244,7 @@ principal:
 
 !!! danger "Ejercicio 2"
     Modifica el programa para que únicamente compruebe si el SoC
-    dispone de capacidades WiFi y BLE y muestre la información correspondiente (Sí/No) por la salida estándar.
+    dispone de capacidades Wi-Fi y BLE y muestre la información correspondiente (Sí/No) por la salida estándar.
     Prueba a ejecutar el programa en los dos tipos de ESP32 de los que disponemos: ESP32 y ESP32-C3.
 
 ### Creación de tareas
@@ -371,7 +371,7 @@ a definir.
     tu código y comprueba que su modificación a través del sistema
     de menús permite una personalización del comportamiento de tu código.
 
-## Escaneado de redes WiFi
+## Escaneado de redes Wi-Fi
 
 A modo de ejemplo, y en preparación para el código que trabajaremos
 en futuras prácticas, vamos a analizar un ejemplo concreto de
@@ -382,7 +382,7 @@ Para cada red escaneada, se reportarán sus características principales.
 !!! danger "Ejercicio 6"
     Compila, flashea y monitoriza el ejemplo ***scan*** situado en el directorio *wifi*.
     Crea un nuevo proyecto a partir de este ejemplo y amplia el número máximo de redes a escanear a 20 a través del menú de configuración.
-    Crea un punto de acceso WiFi con tu teléfono móvil y observa que es escaneado por el ESP32.
+    Crea un punto de acceso Wi-Fi con tu teléfono móvil y observa que es escaneado por el ESP32.
 
 Observa su funcionamiento. El *firmware* simplemente escanea un subconjunto de
 las redes disponibles, reportando algunas de sus características (por ejemplo,
@@ -429,6 +429,6 @@ la tarea principal, se divide básicamente en dos partes:
 
 !!! danger "Ejercicio 9"
     Modifica el *firmware* para que el *handler* (función `event_handler()`) encargado del tratamiento de la obtención
-    de una dirección IP sea independiente del tratamiento del resto de eventos del sistema WiFi.
+    de una dirección IP sea independiente del tratamiento del resto de eventos del sistema Wi-Fi.
     Comprueba que, efectivamente sigue observándose la salida asociada a dicho evento, aun cuando ambas
     funciones sean independientes.

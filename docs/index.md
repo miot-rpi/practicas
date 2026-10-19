@@ -5,12 +5,12 @@
 | Práctica | Día   | Título                                                                    |
 |----------|-------|---------------------------------------------------------------------------|
 | LAB1     | 28/09 | [Introducción al entorno de desarrollo ESP-IDF](RPI-I/P1/index.md)        |
-| LAB2     | 05/10 | [WiFi en el ESP32](RPI-I/P2/index.md)                                     |
-| LAB3     | 19/10 | [WiFi: provisionamiento y ahorro de energía](RPI-I/P3/index.md)           |
-| LAB4     | 26/10 | [ESP WiFi Mesh](RPI-I/P4/index.md)                                        |
+| LAB2     | 05/10 | [Wi-Fi en el ESP32](RPI-I/P2/index.md)                                     |
+| LAB3     | 19/10 | [Wi-Fi: aprovisionamiento y ahorro de energía](RPI-I/P3/index.md)           |
+| LAB4     | 26/10 | [ESP Wi-Fi mesh](RPI-I/P4/index.md)                                        |
 | LAB5     | 04/11 y 11/11 | [BLE: servidor GATT](RPI-I/P5/index.md)                           |
 | LAB6     | 16/11 | [BLE: cliente GATT](RPI-I/P6/index.md)                                    |
-| LAB7     | 23/11 | [BLE Mesh](RPI-I/P7/index.md)                                             |
+| LAB7     | 23/11 | [BLE mesh](RPI-I/P7/index.md)                                             |
 | LAB8     | 30/11 | [6LoWPAN y simulador Cooja](RPI-I/P8/index.md)                            |
 | LAB9     | 14/12 | [LoRa y LoRaWAN](RPI-I/P9/index.md)                                       |
 
