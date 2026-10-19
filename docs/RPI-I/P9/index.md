@@ -256,10 +256,9 @@ Para la conexión entre el ESP32 y el transceptor (indicada arriba en la tabla),
 #define TTN_PIN_DIO1      1
 ```
 
-Una vez configurado el fichero fuente *main.c*, ejecutaremos `menuconfig` para
-configurar la librería *ttn-esp32*. Al final del menú, 
-encontraremos la entrada *The Things Network*, que configuraremos tal
-como se muestra en la siguiente captura:
+Una vez preparado el fichero fuente *main.c*, configuraremos la librería *ttn-esp32*
+desde *menuconfig*. Al final del menú, encontraremos la entrada *The Things Network*,
+que configuraremos tal como se muestra en la siguiente captura:
 
 ![](img/ttn-esp32-menuconfig.png)
 

@@ -404,7 +404,7 @@ como en modo *AP* (`esp_netif_create_default_wifi_ap()`).
 !!! danger "Ejercicio 4"
     Modifica el ejemplo *station* para que el ESP32 se comporte simultáneamente
     como estación y como punto de acceso. Añade las opciones de configuración
-    necesarias para que los parámetros se puedan modificar mediante `menuconfig`.
+    necesarias para que los parámetros se puedan modificar mediante *menuconfig*.
     Comprueba que el ESP32 se conecta correctamente a un punto de acceso
     y que, al mismo tiempo, es posible conectar otro dispositivo al ESP32.
     Conecta tu PC al ESP32 y comprueba la conectividad con el comando ping.
@@ -535,7 +535,7 @@ pasos:
 [este enlace](https://ssii.ucm.es/file/eduroam). Copia el fichero descargado, 
 con nombre `eduroam.crt` al directorio `main`, y asígnale el nombre `ca.pem`.
 
-2. Configura el proyecto a través de `menuconfig` con los siguientes parámetros:
+2. Configura el proyecto a través de *menuconfig* con los siguientes parámetros:
     * SSID: eduroam
     * Validate server: activo
     * EAP method: TTLS

@@ -231,7 +231,7 @@ de la información adicional que deseemos intercambiar:
     Utilizando las aplicaciones móviles, aprovisiona tu ESP32 tanto mediante BLE como
     mediante SoftAP, empleando las credenciales de la red Wi-Fi del laboratorio, de tu
     casa o de un AP creado con otro móvil. Cambia el modo de aprovisionamiento desde
-    `menuconfig`. Antes de repetir cada experimento, ejecuta `idf.py erase-flash` para
+    *menuconfig*. Antes de repetir cada experimento, ejecuta `idf.py erase-flash` para
     borrar también la información de aprovisionamiento de sesiones anteriores.
 
 !!! danger "Ejercicio 2"
@@ -269,7 +269,7 @@ en 192.168.4.1:80 al que se conectará la herramienta para realizar el aprovisio
 y enviar las credenciales indicadas en la línea de comandos:
 
 ```sh
-python esp_prov.py --transport softap --service_name "192.168.4.1:80" --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
+python esp_prov.py --transport softap --service_name 192.168.4.1:80 --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
 ```
 
 Podemos monitorizar el tráfico de red utilizando herramientas de captura de paquetes
@@ -298,7 +298,8 @@ la herramienta solicitará de forma interactiva la información que falte.
     *--custom_data* de `esp_prov.py` para enviar un nombre de dispositivo.
     Antes, modifica el programa para que en el bucle principal se muestre el
     mensaje "*Hello world from ...*", sustituyendo los puntos suspensivos por
-    el nombre recibido durante el aprovisionamiento.
+    el nombre recibido durante el aprovisionamiento. Captura el tráfico de red
+    con Wireshark e identifica el paquete que contiene el nombre del dispositivo.
 
 ## Parte 2. Modos de ahorro de consumo Wi-Fi
 
@@ -356,7 +357,7 @@ podrían perder estas tramas si permanecen dormidas cuando se transmiten.
 
 El ejemplo ***power_save***, incluido en el directorio *wifi*, ilustra mediante un código
 sencillo la configuración de una estación en los dos modos de ahorro energético. Estos modos
-pueden seleccionarse a través de `menuconfig`. Además, se ofrece una opción para modificar
+pueden seleccionarse a través de *menuconfig*. Además, se ofrece una opción para modificar
 el intervalo de escucha en el modo de ahorro *máximo*.
 
 !!! danger "Ejercicio 5"
@@ -369,5 +370,5 @@ el intervalo de escucha en el modo de ahorro *máximo*.
     pings.
 
     Para cada modo, representa gráficamente el tiempo de respuesta de los pings.
-    Relaciona los resultados con los intervalos *DTIM* y de escucha, y discute los
+    Relaciona los resultados con los intervalos *DTIM* y de escucha y discute los
     resultados obtenidos.
