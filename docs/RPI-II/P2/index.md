@@ -487,7 +487,17 @@ idf.py build
 idf.py -p /dev/PUERTO_SERIE flash monitor
 ```
 
-Configura SSID y contraseña en `Example Connection Configuration` y sustituye el puerto serie por el real. Conserva inicialmente el destino HTTPS y el mecanismo de confianza del ejemplo. Comprueba la respuesta HTTP y estudia dónde se configuran los certificados y se realizan las llamadas `esp_tls_*`. El ejemplo incluye sincronización horaria, necesaria para validar las fechas de los certificados. [Código del ejemplo HTTPS de IDF 6.1](https://github.com/espressif/esp-idf/blob/v6.1/examples/protocols/https_request/main/https_request_example_main.c).
+Antes de compilar, en `main/https_request_example_main.c`, sustituye el bloque `if (esp_reset_reason() == ESP_RST_POWERON) { ... }` que llama a `update_time_from_nvs()` por:
+
+```c
+/* Synchronize the clock before starting HTTPS. */
+ESP_LOGI(TAG, "Synchronizing system time using SNTP");
+ESP_ERROR_CHECK(fetch_and_store_time_in_nvs(NULL));
+```
+
+Déjalo después de `ESP_ERROR_CHECK(example_connect());` y antes de iniciar la tarea HTTPS. Así se obtiene la hora actual mediante SNTP en cada arranque, en lugar de reutilizar una fecha antigua de NVS que puede provocar un error de verificación del certificado (`-0x2700`). La red debe permitir el acceso a NTP. Si ya habías cargado el ejemplo, recompila y vuelve a cargarlo.
+
+Configura SSID y contraseña en `Example Connection Configuration` y sustituye el puerto serie por el real. Conserva inicialmente el destino HTTPS y el mecanismo de confianza del ejemplo. Comprueba la respuesta HTTP y estudia dónde se configuran los certificados y se realizan las llamadas `esp_tls_*`. La sincronización horaria es necesaria para validar las fechas de los certificados. [Código del ejemplo HTTPS de IDF 6.1](https://github.com/espressif/esp-idf/blob/v6.1/examples/protocols/https_request/main/https_request_example_main.c).
 
 ### Uso de la CA propia de la práctica
 
