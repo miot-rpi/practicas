@@ -613,7 +613,13 @@ idf.py menuconfig
 idf.py build
 idf.py -p /dev/PUERTO_SERIE flash monitor
 </code></pre>
-<p>Configura SSID y contraseña en <code>Example Connection Configuration</code> y sustituye el puerto serie por el real. Conserva inicialmente el destino HTTPS y el mecanismo de confianza del ejemplo. Comprueba la respuesta HTTP y estudia dónde se configuran los certificados y se realizan las llamadas <code>esp_tls_*</code>. El ejemplo incluye sincronización horaria, necesaria para validar las fechas de los certificados. <a href="https://github.com/espressif/esp-idf/blob/v6.1/examples/protocols/https_request/main/https_request_example_main.c">Código del ejemplo HTTPS de IDF 6.1</a>.</p>
+<p>Antes de compilar, en <code>main/https_request_example_main.c</code>, sustituye el bloque <code>if (esp_reset_reason() == ESP_RST_POWERON) { ... }</code> que llama a <code>update_time_from_nvs()</code> por:</p>
+<pre><code class="language-c">/* Synchronize the clock before starting HTTPS. */
+ESP_LOGI(TAG, &quot;Synchronizing system time using SNTP&quot;);
+ESP_ERROR_CHECK(fetch_and_store_time_in_nvs(NULL));
+</code></pre>
+<p>Déjalo después de <code>ESP_ERROR_CHECK(example_connect());</code> y antes de iniciar la tarea HTTPS. Así se obtiene la hora actual mediante SNTP en cada arranque, en lugar de reutilizar una fecha antigua de NVS que puede provocar un error de verificación del certificado (<code>-0x2700</code>). La red debe permitir el acceso a NTP. Si ya habías cargado el ejemplo, recompila y vuelve a cargarlo.</p>
+<p>Configura SSID y contraseña en <code>Example Connection Configuration</code> y sustituye el puerto serie por el real. Conserva inicialmente el destino HTTPS y el mecanismo de confianza del ejemplo. Comprueba la respuesta HTTP y estudia dónde se configuran los certificados y se realizan las llamadas <code>esp_tls_*</code>. La sincronización horaria es necesaria para validar las fechas de los certificados. <a href="https://github.com/espressif/esp-idf/blob/v6.1/examples/protocols/https_request/main/https_request_example_main.c">Código del ejemplo HTTPS de IDF 6.1</a>.</p>
 <h3 id="uso-de-la-ca-propia-de-la-practica">Uso de la CA propia de la práctica</h3>
 <p>Para una prueba local, reutiliza los certificados generados en «Uso de un certificado propio». Copia <strong><code>ca-cert.pem</code></strong> a <code>main/ca-cert.pem</code> y añade <code>EMBED_TXTFILES "ca-cert.pem"</code> a la llamada existente a <code>idf_component_register(...)</code> en <code>main/CMakeLists.txt</code>. En el cliente declara:</p>
 <pre><code class="language-c">extern const unsigned char ca_cert_pem_start[] asm(&quot;_binary_ca_cert_pem_start&quot;);
