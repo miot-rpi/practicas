@@ -522,7 +522,7 @@ typedef struct {
 <p>El escaneo se inicia mediante la función <code>esp_ble_gap_start_scanning()</code>, que toma un parámetro que representa la duración del escaneo continuo (en segundos).</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 2</p>
-<p>Analiza el código y modifícalo para que el proceso de escaneo se produzca indefinidamente. Además, añade al código los parámetros de intervalo y ventana de escaneo a través de <code>menuconfig</code> (tomando valores en ms) para poder configurar la frecuencia de escaneo. Comprueba que efectivamente el tiempo en el que el dispositivo se encuentra en fase de escaneo es el seleccionado.</p>
+<p>Analiza el código y modifícalo para que el proceso de escaneo se produzca indefinidamente. Además, añade al código los parámetros de intervalo y ventana de escaneo a través de <em>menuconfig</em> (tomando valores en ms) para poder configurar la frecuencia de escaneo. Comprueba que efectivamente el tiempo en el que el dispositivo se encuentra en fase de escaneo es el seleccionado.</p>
 </div>
 <p>Los resultados del escaneo se muestran tan pronto como llegan con el evento <code>ESP_GAP_BLE_SCAN_RESULT_EVT</code>, que incluye los siguientes parámetros:</p>
 <pre><code class="language-c">/**
@@ -597,7 +597,7 @@ typedef enum {
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 4</p>
-<p>Añade a través de <code>menuconfig</code> un campo que indique la dirección BLE de un dispositivo (conocido) que esté en fase de anuncio. Modifica la fase de escaneado para que únicamente se muestre la información del dispositivo cuya dirección BLE se haya configurado.</p>
+<p>Añade a través de <em>menuconfig</em> un campo que indique la dirección BLE de un dispositivo (conocido) que esté en fase de anuncio. Modifica la fase de escaneado para que únicamente se muestre la información del dispositivo cuya dirección BLE se haya configurado.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 5</p>

@@ -465,7 +465,7 @@ de la información adicional que deseemos intercambiar:</p>
 <p>Utilizando las aplicaciones móviles, aprovisiona tu ESP32 tanto mediante BLE como
 mediante SoftAP, empleando las credenciales de la red Wi-Fi del laboratorio, de tu
 casa o de un AP creado con otro móvil. Cambia el modo de aprovisionamiento desde
-<code>menuconfig</code>. Antes de repetir cada experimento, ejecuta <code>idf.py erase-flash</code> para
+<em>menuconfig</em>. Antes de repetir cada experimento, ejecuta <code>idf.py erase-flash</code> para
 borrar también la información de aprovisionamiento de sesiones anteriores.</p>
 </div>
 <div class="admonition danger">
@@ -498,7 +498,7 @@ comunicarse con el dispositivo mediante BLE o SoftAP.</p>
 a aprovisionar. El componente de aprovisionamiento del ESP32 expondrá un servidor HTTP
 en 192.168.4.1:80 al que se conectará la herramienta para realizar el aprovisionamiento
 y enviar las credenciales indicadas en la línea de comandos:</p>
-<pre><code class="language-sh">python esp_prov.py --transport softap --service_name &quot;192.168.4.1:80&quot; --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
+<pre><code class="language-sh">python esp_prov.py --transport softap --service_name 192.168.4.1:80 --sec_ver 0 --ssid SSID_EJEMPLO --passphrase CLAVE_EJEMPLO
 </code></pre>
 <p>Podemos monitorizar el tráfico de red utilizando herramientas de captura de paquetes
 como Wireshark. Esto nos permitirá inspeccionar el contenido de los paquetes
@@ -523,7 +523,8 @@ claves se intercambian cifradas.</p>
 <em>--custom_data</em> de <code>esp_prov.py</code> para enviar un nombre de dispositivo.
 Antes, modifica el programa para que en el bucle principal se muestre el
 mensaje "<em>Hello world from ...</em>", sustituyendo los puntos suspensivos por
-el nombre recibido durante el aprovisionamiento.</p>
+el nombre recibido durante el aprovisionamiento. Captura el tráfico de red
+con Wireshark e identifica el paquete que contiene el nombre del dispositivo.</p>
 </div>
 <h2 id="parte-2-modos-de-ahorro-de-consumo-wi-fi">Parte 2. Modos de ahorro de consumo Wi-Fi</h2>
 <p>ESP-IDF admite distintos modos de ahorro de energía, con soporte tanto a
@@ -578,7 +579,7 @@ tramas <em>unicast</em> destinadas a las estaciones conectadas a dicho AP, pero 
 podrían perder estas tramas si permanecen dormidas cuando se transmiten.</p>
 <p>El ejemplo <strong><em>power_save</em></strong>, incluido en el directorio <em>wifi</em>, ilustra mediante un código
 sencillo la configuración de una estación en los dos modos de ahorro energético. Estos modos
-pueden seleccionarse a través de <code>menuconfig</code>. Además, se ofrece una opción para modificar
+pueden seleccionarse a través de <em>menuconfig</em>. Además, se ofrece una opción para modificar
 el intervalo de escucha en el modo de ahorro <em>máximo</em>.</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 5</p>
@@ -590,7 +591,7 @@ varía el tiempo de respuesta. En el modo de ahorro <em>máximo</em>, prueba dis
 intervalos de escucha y comprueba cómo afectan a los tiempos de respuesta de los
 pings.</p>
 <p>Para cada modo, representa gráficamente el tiempo de respuesta de los pings.
-Relaciona los resultados con los intervalos <em>DTIM</em> y de escucha, y discute los
+Relaciona los resultados con los intervalos <em>DTIM</em> y de escucha y discute los
 resultados obtenidos.</p>
 </div></div>
             </div>

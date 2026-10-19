@@ -448,10 +448,9 @@ const char *appKey = &quot;8427407CC943D5B188160CC89F176846&quot;;
 #define TTN_PIN_DIO0      0
 #define TTN_PIN_DIO1      1
 </code></pre>
-<p>Una vez configurado el fichero fuente <em>main.c</em>, ejecutaremos <code>menuconfig</code> para
-configurar la librería <em>ttn-esp32</em>. Al final del menú, 
-encontraremos la entrada <em>The Things Network</em>, que configuraremos tal
-como se muestra en la siguiente captura:</p>
+<p>Una vez preparado el fichero fuente <em>main.c</em>, configuraremos la librería <em>ttn-esp32</em>
+desde <em>menuconfig</em>. Al final del menú, encontraremos la entrada <em>The Things Network</em>,
+que configuraremos tal como se muestra en la siguiente captura:</p>
 <p><img alt="" src="img/ttn-esp32-menuconfig.png" /></p>
 <p>En este punto, podemos compilar el proyecto y flashearlo en la placa.
 Monitorizamos el dispositivo y, si todo ha ido correctamente, veremos en el dashboard de nuestra
