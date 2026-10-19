@@ -348,7 +348,7 @@ Sustituye la carga de la CA de ejemplo (`wolfSSL_CTX_load_verify_buffer`, que ut
 ```c
 ret_i = wolfSSL_CTX_load_verify_buffer(ctx, ca_cert_pem_start,
     (long)(ca_cert_pem_end - ca_cert_pem_start), WOLFSSL_FILETYPE_PEM);
-/* Si ret_i != WOLFSSL_SUCCESS, abortar la conexión y liberar los recursos. */
+/* If ret_i != WOLFSSL_SUCCESS, abort the connection and release resources. */
 wolfSSL_CTX_set_verify(ctx, WOLFSSL_VERIFY_PEER, NULL);
 ```
 
@@ -358,7 +358,7 @@ Tras crear el objeto `ssl`, antes del handshake, comprueba también la identidad
 
 ```c
 ret_i = wolfSSL_check_domain_name(ssl, "tls-lab.local");
-/* Si ret_i != WOLFSSL_SUCCESS, abortar la conexión y liberar los recursos. */
+/* If ret_i != WOLFSSL_SUCCESS, abort the connection and release resources. */
 ```
 
 El socket puede conectarse a la IPv4 del host configurada en `menuconfig`; `tls-lab.local` es el nombre que se comprobará contra el SAN del certificado, por lo que no necesita resolver por DNS en esta variante. Mantén el reloj del ESP32 sincronizado y la comprobación de fechas activa. Recompila y vuelve a cargar el firmware después de cambiar el certificado embebido.
@@ -399,7 +399,7 @@ El archivo del cliente es `examples/wolfssl_client/main/wolfssl_client_demo.c` d
 Para probar **TLS 1.3**, activa la línea `#define WOLFSSL_TLS13` en `esp-wolfssl/port/user_settings.h` (en la revisión indicada está comentada). Así, el ejemplo selecciona `wolfTLSv1_3_client_method()`; sin ese cambio utiliza TLS 1.2. Tras un `wolfSSL_connect()` exitoso y antes de liberar `ssl`, añade:
 
 ```c
-ESP_LOGI(TAG, "Protocolo: %s; cifrado: %s",
+ESP_LOGI(TAG, "Protocol: %s; cipher: %s",
          wolfSSL_get_version(ssl), wolfSSL_get_cipher(ssl));
 ```
 
@@ -407,7 +407,7 @@ Para verificar también la identidad de GitHub, después de crear y comprobar `s
 
 ```c
 if (wolfSSL_check_domain_name(ssl, WEB_SERVER) != WOLFSSL_SUCCESS) {
-    ESP_LOGE(TAG, "No se pudo configurar el nombre esperado");
+    ESP_LOGE(TAG, "Failed to configure the expected server name");
     goto failed4;
 }
 ```
@@ -425,9 +425,28 @@ Comprueba que se obtiene respuesta HTTP de GitHub y que se registra `TLSv1.3` co
 
 Para la conexión local, genera los certificados como se describe en «Uso de un certificado propio» y configura en el servidor sus rutas `CERT_FILE` y `KEY_FILE`. Copia **`ca-cert.pem`** a `esp-wolfssl/examples/wolfssl_client/main/server_root_cert.pem`, sustituyendo la CA de GitHub: este archivo ya está embebido por el CMake del ejemplo. Conserva `CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y` y `WOLFSSL_VERIFY_PEER`.
 
-En `wolfssl_client_demo.c`, cambia `WEB_SERVER` por la IPv4 LAN del host y `WEB_PORT` por `11111`. Sustituye el bloque `REQUEST` de HTTP por un mensaje sencillo (`#define REQUEST "Hola desde ESP32\n"`), acorde con el servidor de las primeras secciones. Si añadiste la comprobación de nombre para GitHub, cambia su segundo argumento por `"tls-lab.local"`, el SAN del certificado propio. Recompila y recarga el firmware; la CA privada del laboratorio no sirve para autenticar GitHub.
+En `wolfssl_client_demo.c`, cambia `WEB_SERVER` por la IPv4 LAN del host y `WEB_PORT` por `11111`. Sustituye el bloque `REQUEST` de HTTP por un mensaje sencillo (`#define REQUEST "Hello from ESP32\n"`), acorde con el servidor de las primeras secciones. Si añadiste la comprobación de nombre para GitHub, cambia su segundo argumento por `"tls-lab.local"`, el SAN del certificado propio. Recompila y recarga el firmware; la CA privada del laboratorio no sirve para autenticar GitHub.
 
 El servidor original utiliza TLS 1.2. Para exigir **TLS 1.3 en ambos extremos**, recompila la biblioteca wolfSSL del host con `--enable-tls13`, sustituye en `server-tls.c` el método por `wolfTLSv1_3_server_method()` y recompila el servidor. Arráncalo en macOS/Linux antes de conectar la placa; permite TCP/11111 en el cortafuegos y comprueba que escucha en la interfaz LAN. Usa una red WiFi sin aislamiento entre clientes.
+
+En la versión del servidor adaptada a TLS 1.3 (`servidor-tls13.c`), desactiva la exigencia de un certificado de cliente: esta práctica autentica al servidor ante el ESP32, sin autenticación mutua. Sustituye el bloque:
+
+```c
+/* Require mutual authentication */
+wolfSSL_CTX_set_verify(ctx,
+    WOLFSSL_VERIFY_PEER | WOLFSSL_VERIFY_FAIL_IF_NO_PEER_CERT, NULL);
+```
+
+por:
+
+```c
+/* Do not require a client certificate: server authentication only */
+wolfSSL_CTX_set_verify(ctx, WOLFSSL_VERIFY_NONE, NULL);
+```
+
+Esta configuración debe establecerse después de crear y comprobar `ctx` y antes de crear `ssl`; comprueba que no se sobrescribe posteriormente con otra llamada a `wolfSSL_CTX_set_verify()` o `wolfSSL_set_verify()`. Conserva la carga del certificado y la clave privada del servidor. Recompila el servidor y vuelve a ejecutarlo. Si se exige autenticación mutua sin configurar un certificado en el ESP32, `wolfSSL_accept()` puede fallar con `-345` (`NO_PEER_CERT`).
+
+El cambio se aplica **solo al servidor**. En el ESP32 conserva `CONFIG_EXAMPLE_SERVER_CERT_VERIFY=y`, `WOLFSSL_VERIFY_PEER`, la CA propia y la comprobación de identidad mediante `wolfSSL_check_domain_name(ssl, "tls-lab.local")`.
 
 !!! danger "Tarea entregable"
     Adapta el cliente para conectarlo con el servidor TLS desarrollado en las primeras secciones, ejecutado en macOS o Linux. Usa un certificado propio y conserva su verificación. Entrega los cambios, las versiones utilizadas y los registros que acrediten intercambio de mensajes y TLS 1.3. Captura el tráfico en la interfaz LAN del servidor con Wireshark (`tcp.port == 11111`; si es necesario, «Decode As… → TLS»). Comprueba en ServerHello que Supported Versions selecciona `0x0304` (TLS 1.3), aunque el campo legacy_version indique `0x0303`. Explica por qué los mensajes posteriores a ServerHello y los datos de aplicación no aparecen en claro. No entregues claves privadas ni la contraseña WiFi.
@@ -492,16 +511,16 @@ esp_tls_cfg_t cfg = {
 
 esp_tls_t *tls = esp_tls_init();
 if (tls == NULL) {
-    /* Registrar el error y terminar la tarea. */
+    /* Log the error and terminate the task. */
     return;
 }
 
-const char *host = "192.168.1.50"; /* IPv4 LAN real del servidor */
+const char *host = "192.168.1.50"; /* Actual LAN IPv4 address of the server */
 if (esp_tls_conn_new_sync(host, strlen(host), 11111, &cfg, tls) == 1) {
-    /* Intercambiar mensajes mediante esp_tls_conn_write/read.
-       Comprobar resultados, transferencias parciales y reintentos. */
+    /* Exchange messages using esp_tls_conn_write/read.
+       Check return values, partial transfers, and retries. */
 } else {
-    /* Registrar el fallo de conexión o de validación. */
+    /* Log the connection or verification failure. */
 }
 esp_tls_conn_destroy(tls);
 ```
