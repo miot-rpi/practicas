@@ -69,9 +69,9 @@ ya que solo disponemos de un gateway LoRaWAN comercial, concretamente el modelo 
 De todas maneras, a continuación se describe el procedimiento que deberíamos seguir para configurar dicho
 gateway y conectarlo con TTN.
 
-Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz WiFi.
+Comenzaremos conectándonos al panel web de configuración del gateway usando su interfaz Wi-Fi.
 Para ello, pulsaremos el botón de usuario durante unos 10 segundos y luego lo soltamos.
-Esto configurará un punto de acceso WiFi con SSID y contraseña *rg1xx294c1f*, al cual podremos conectarnos desde nuestro PC.
+Esto configurará un punto de acceso Wi-Fi con SSID y contraseña *rg1xx294c1f*, al cual podremos conectarnos desde nuestro PC.
 
 Una vez conectados, abriremos un navegador web, nos conectaremos a la dirección 192.168.1.1 e introducimos el
 usuario y la contraseña (`sentrius` y `RG1xx`).
@@ -87,7 +87,7 @@ y utilizando la API key generada en TTN para el gateway:
 ![](img/ttn-rg1xx-gateway-config.png)
 
 Ahora ya podemos conectar el gateway a TTN mediante su interfaz Ethernet o
-activar su interfaz WiFi (previamente configurada en el panel web).
+activar su interfaz Wi-Fi (previamente configurada en el panel web).
 Si todo ha ido correctamente, veremos en el dashboard de TTN que nuestro gateway se ha conectado:
 
 ![](img/ttn-rg1xx-gateway-connected.png)
@@ -256,7 +256,7 @@ Para la conexión entre el ESP32 y el transceptor (indicada arriba en la tabla),
 #define TTN_PIN_DIO1      1
 ```
 
-Una vez configurado el fichero fuente *main.c*, ejecutaremos menuconfig para
+Una vez configurado el fichero fuente *main.c*, ejecutaremos `menuconfig` para
 configurar la librería *ttn-esp32*. Al final del menú, 
 encontraremos la entrada *The Things Network*, que configuraremos tal
 como se muestra en la siguiente captura:

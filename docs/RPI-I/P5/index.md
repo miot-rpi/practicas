@@ -316,9 +316,9 @@ esp_ble_gatts_app_register(ESP_APP_ID);
 ## Registro de aplicación
 
 El evento de registro de aplicación `ESP_GATTS_REG_EVT` es el primero que se
-generará en la vida del programa. Este evento es tratado por el callback
+generará en la vida del programa. Este evento es tratado por el *callback*
 registrado como manejador de eventos del servidor GATT, que en nuestro ejemplo
-lo termina delegando en el callback asociado al perfil de aplicación
+lo termina delegando en el *callback* asociado al perfil de aplicación
 (`gatts_profile_event_handler`):
 
 ```c
@@ -364,7 +364,7 @@ A partir de ese momento deberá usarse la interfaz `gatts_if` para operar, por
 lo que la función registra esta interfaz en la tabla de descripción del perfil
 de aplicación (`heart_rate_profile_tab`).
 
-Finalmente, la función delega el evento en el callback registrado para tratar
+Finalmente, la función delega el evento en el *callback* registrado para tratar
 los eventos asociados al perfil (`gatts_profile_event_handler`).
 
 ## Parámetros GAP
@@ -634,7 +634,7 @@ sobre los atributos.
 Como hemos visto antes, en el procesamiento del evento de registro de
 aplicación se establecen los datos de anuncio. Cuando se complete esta
 inicialización, la pila BLE emitirá un evento de tipo
-`ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT`, que será manejado por el callback
+`ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT`, que será manejado por el *callback*
 registrado como GAP handler. Si se ha configurado un anuncio scannable y una
 respuesta al escaneado (en nuestro ejemplo se ha configurado), la pila BLE
 emitirá también un evento de tipo

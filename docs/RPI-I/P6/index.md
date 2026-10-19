@@ -116,7 +116,7 @@ void app_main()
 }
 ```
 
-La función principal comienza inicializando la biblioteca de almacenamiento no volátil. Esta biblioteca permite guardar pares clave-valor en la memoria flash y se utiliza en algunos componentes, como la biblioteca WiFi, para guardar el SSID y la contraseña:
+La función principal comienza inicializando la biblioteca de almacenamiento no volátil. Esta biblioteca permite guardar pares clave-valor en la memoria flash y se utiliza en algunos componentes, como la biblioteca Wi-Fi, para guardar el SSID y la contraseña:
 
 ```c
 esp_err_t ret = nvs_flash_init();
