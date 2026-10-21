@@ -879,15 +879,23 @@ permitirán depurar tu desarrollo, observando los valores devueltos
 por el servidor HTTP.</p>
 </div>
 <h4 id="notas-adicionales-incorporacion-de-cbor-al-servidor-rest">Notas adicionales: Incorporación de CBOR al servidor REST</h4>
-<p>Desde la raíz del proyecto REST, añade la dependencia:</p>
+<p>Vuelve al proyecto del servidor REST utilizado en la primera parte de la
+práctica (<code>restful_server</code>). Desde su directorio raíz, donde está el
+<code>CMakeLists.txt</code> principal, añade la dependencia:</p>
 <pre><code class="language-sh">idf.py add-dependency &quot;espressif/cbor^7.0.0&quot;
 </code></pre>
 <p>El gestor registra la dependencia en <code>main/idf_component.yml</code> y la descarga
 al configurar o compilar. <code>^7.0.0</code> admite versiones compatibles; para reproducir
 exactamente la versión estudiada, utiliza <code>espressif/cbor=7.0.0</code>.</p>
-<p>Incluye las cabeceras necesarias en el código:</p>
-<pre><code class="language-c">#include &quot;cbor.h&quot;      // Codificación y parseado.
-#include &quot;cborjson.h&quot;  // Sólo para convertir a JSON.
+<p>En <code>main/rest_server.c</code>, al principio del fichero y junto al resto de
+instrucciones <code>#include</code>, añade:</p>
+<pre><code class="language-c">#include &quot;cbor.h&quot;
+</code></pre>
+<p>Esta cabecera permite codificar y parsear CBOR. Para construir la respuesta
+binaria y enviarla por HTTP es suficiente. Si además utilizas
+<code>cbor_value_to_json()</code> para visualizar o depurar los datos, añade también
+en ese mismo fichero:</p>
+<pre><code class="language-c">#include &quot;cborjson.h&quot;
 </code></pre>
 <p>Compila de nuevo tras implementar la extensión REST.</p>
 <h4 id="notas-adicionales-creacion-y-consulta-de-un-endpoint-cbor-en-la-api-rest">Notas adicionales: creación y consulta de un <em>endpoint</em> CBOR en la API REST</h4>
