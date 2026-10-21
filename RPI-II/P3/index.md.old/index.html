@@ -246,7 +246,8 @@ funcionalidades ofrecidas por ESP-IDF, un servidor HTTP que exponga una API
 REST mediante la cual será posible interactuar, en modos lectura y escritura,
 con un servidor (en nuestro caso, un dispositivo ESP32). 
 Concretamente, trabajaremos con el ejemplo 
-<code>examples/protocols/http_server/restful_server</code> de la distribución de IDF.</p>
+<code>examples/protocols/http_server/restful_server</code> de ESP-IDF 6.1. El código de referencia está en el <a href="https://github.com/espressif/esp-idf/tree/release/v6.1/examples/protocols/http_server/restful_server">repositorio oficial de Espressif</a>.</p>
+<p>Los fragmentos indicados como extractos del ejemplo oficial conservan su lógica; se han añadido comentarios docentes.</p>
 <h3 id="descripcion-de-la-api">Descripción de la API</h3>
 <p>El ejemplo que estudiaremos construye una sencilla interfaz (API) con
 tres <em>endpoints</em> que permiten interactuar con distintas funcionalidades
@@ -269,22 +270,22 @@ posibles ejemplos de valores enviados o devueltos a/por el servidor:</p>
 <tr>
 <td><code>/api/v1/system/info</code></td>
 <td><code>GET</code></td>
-<td>{<br />"version":"v6.1",<br />"cores":2<br />}</td>
+<td>{<br />"chip":"esp32",<br />"idf_version":"v6.1",<br />"cores":2<br />}</td>
 <td>Utilizado por los clientes para obtener información de la placa (versión, número de cores, ...)</td>
 <td><code>/</code></td>
 </tr>
 <tr>
 <td><code>/api/v1/temp/raw</code></td>
 <td><code>GET</code></td>
-<td>{<br />"raw":22<br />}</td>
-<td>Utilizado por los clientes para obtener datos de temperatura desde un sensor (no disponible en el ESP32)</td>
+<td>{<br />"raw":12<br />}</td>
+<td>Utilizado por los clientes para obtener una temperatura simulada mediante un número aleatorio entre 0 y 19</td>
 <td><code>/chart</code></td>
 </tr>
 <tr>
 <td><code>/api/v1/light/brightness</code></td>
 <td><code>POST</code></td>
 <td>{ <br />"red":160,<br />"green":160,<br />"blue":160<br />}</td>
-<td>Utilizado por los clientes para escribir en la placa valores de control para controlar la luminosidad de LEDs</td>
+<td>Utilizado por los clientes para enviar componentes RGB que el ejemplo registra en el monitor, sin accionar LEDs</td>
 <td><code>/light</code></td>
 </tr>
 </tbody>
@@ -331,7 +332,7 @@ idf.py monitor
 <p>Si todo ha ido bien, podrás observar en la salida de monitorización la
 IP proporcionada al ESP32. Abre un navegador en la máquina virtual o 
 en tu PC (estando conectada a la misma red que tu ESP32), navega hacia 
-la dirección IP del ESP32 o simplemente <code>esp-home-nombre</code> si el equipo host soporta mDNS, 
+<code>http://&lt;IP-del-ESP32&gt;/</code> o <code>http://esp-home-nombre.local/</code> si el equipo host soporta mDNS, 
 y deberías observar una página como la siguiente:</p>
 <p><img alt="" src="../img/captura1.png" /></p>
 <p>Esta es una página web servida por el propio ESP32, que te permitirá interactuar
@@ -339,31 +340,35 @@ con él. Concretamente, la página dispone de dos funcionalidades:</p>
 <ul>
 <li>
 <p><strong>Chart</strong>: consulta periódicamente el valor de temperatura devuelto por
-el ESP32 a través del <em>endpoint</em> <code>/api/v1/temp/raw</code>.</p>
+el ESP32 a través del <em>endpoint</em> <code>/api/v1/temp/raw</code>. Es un valor simulado
+mediante <code>esp_random() % 20</code>, no una lectura de un sensor físico.</p>
 </li>
 <li>
 <p><strong>Light</strong>: permite enviar al ESP32 nuevos valores para las tres componentes
-de luminosidad que hipotéticamente podría equipar el ESP32.</p>
+RGB de una luz hipotética. El ejemplo sólo muestra los valores recibidos
+en el monitor; para controlar un LED físico sería necesario añadir el controlador
+correspondiente a la placa y su conexión.</p>
 </li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Tarea 3.1</p>
-<p>Interactúa con el sensor de luminosidad del ESP32 enviando distintos
+<p>Interactúa con el control de luminosidad simulado del ESP32 enviando distintos
 valores. Observa cómo la salida de monitorización del ESP32 responde mostrando
 los valores recibidos. Analiza el tráfico generado para una de dichas peticiones
 utilizando Wireshark. ¿Cómo se codifican los datos en el envío? ¿Cómo se
 codifican los datos periódicos de temperatura recibidos?</p>
 </div>
 <h3 id="interaccion-con-el-dispositivo-via-linea-de-comandos-curl">Interacción con el dispositivo vía línea de comandos (<code>curl</code>)</h3>
-<p><code>curl</code> es una herramienta orientada a la transferencia de archivos por red.     Entre
+<p><code>curl</code> es una herramienta orientada a la transferencia de datos por red. Entre
 otras (muchas) funcionalidades, <code>curl</code> soporta los métodos <code>GET</code> y <code>POST</code> del 
 protocolo HTTP, justo las necesarias para realizar peticiones de lectura y 
 escritura sobre nuestro servidor HTTP REST. </p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>La versión de <code>curl</code> de <code>PowerShell</code> en Windows hace uso de <code>Invoke-WebRequest</code> 
-y es mejor evitarla. Es preferible usar la versión de <code>curl</code> de <code>CMD</code> que es más
-compatible con las versiones UNIX (Linux/MacOS). </p>
+<p>En Windows PowerShell, <code>curl</code> puede ser un alias de <code>Invoke-WebRequest</code>.
+Utiliza <code>curl.exe</code> para ejecutar el programa curl. Los ejemplos de comillas
+mostrados aquí corresponden a una consola tipo Unix (Linux/macOS); adapta
+las comillas si utilizas otra consola. </p>
 </div>
 <p>Concretamente, para realizar una petición HTTP <code>GET</code> sobre nuestro servidor, 
 podemos ejecutar:</p>
@@ -373,13 +378,12 @@ podemos ejecutar:</p>
 <pre><code class="language-sh">curl http://192.168.1.26/api/v1/temp/raw
 </code></pre>
 <p>(siendo <code>192.168.1.26</code> la IP del ESP32)
-nos responderá con el valor de temperatura instantánea.</p>
+nos responderá con un valor de temperatura simulado.</p>
 <p>Del mismo modo, para escribir (método <code>POST</code>) sobre el servidor, utilizaremos
 el parámetro <code>-d</code>, seguido del recurso que queramos enviar. Ten en cuenta
 que es responsabilidad del cliente enviar un recurso bien formado e interpretable
 por el dispositivo:</p>
-<pre><code class="language-sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; 
--X POST http://192.168.1.26/api/v1/light/brightness
+<pre><code class="language-sh">curl -d '{&quot;red&quot;:70,&quot;green&quot;:80,&quot;blue&quot;:99}' -H &quot;Content-Type: application/json&quot; -X POST http://192.168.1.26/api/v1/light/brightness
 </code></pre>
 <p>Observa que hemos incluido el tipo de recurso enviado (<code>JSON</code>) y la operación
 solicitada (<code>POST</code>). Volveremos a esto en breve.</p>
@@ -388,7 +392,11 @@ solicitada (<code>POST</code>). Volveremos a esto en breve.</p>
 <p>Comprueba que, efectivamente, el tráfico generado por las anteriores órdenes
 es el mismo que el que observaste en el caso del  cliente web. Observa qué 
 ocurre si consultas un <em>endpoint</em> inexistente, o si envías un JSON mal
-formado o con información incorrecta.</p>
+formado o con información incorrecta. El manejador oficial no valida el
+resultado del parseado ni la presencia y el tipo de los campos RGB; por ello,
+una entrada incorrecta puede provocar un fallo, no necesariamente una respuesta
+HTTP de error controlada. Como mejora propuesta para tus propios manejadores,
+valida esos datos antes de acceder a ellos y devuelve un error apropiado.</p>
 </div>
 <h3 id="interaccion-con-el-dispositivo-via-node-red">Interacción con el dispositivo vía Node-RED<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h3>
 <p>Para interactuar con el dispositivo vía Node-RED, simplemente despliega un flujo
@@ -407,7 +415,7 @@ aunque esto lo veremos en las siguientes secciones.</p>
 <em>HTTP Server</em>, que implementa toda la funcionalidad necesaria para tal fin
 de forma eficiente y ligera. La construcción de un servidor puede
 resumirse en tres funciones principales (observa la implementación de la
-función <code>start_rest_server</code> en el fichero <code>rest_server.c</code>) del ejemplo:</p>
+función <code>start_rest_server</code> en el fichero <code>rest_server.c</code> del ejemplo):</p>
 <ul>
 <li>
 <p><code>httpd_start</code>: crea una instancia de servidor HTTP, y aloja recursos para
@@ -442,25 +450,27 @@ en el servidor, preparando previamente la estructura de tipo <code>httpd_uri_t</
     };
     httpd_register_uri_handler(server, &amp;system_info_get_uri);
 </code></pre>
+<p>El bloque anterior es un extracto del registro de URIs del ejemplo oficial.</p>
 <p>En este caso, la operación asociada a la invocación del handler será, exclusivamente
 <code>GET</code>; de hecho, si invocamos a un método <code>POST</code> sobre este <em>endpoint</em>, el 
 servidor nos responderá automáticamente con un aviso que indicará que dicho método
 no está soportado.</p>
 <p>El procesamiento de la petición <code>GET</code> se realiza en la función 
 <code>system_info_get_handler</code>, y el esquema que se sigue es, en cualquier caso,
-sencillo:</p>
+sencillo. El siguiente esquema didáctico abreviado no es código compilable:</p>
 <pre><code class="language-c">static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Preparación del tipo de respuesta.
     httpd_resp_set_type(req, &quot;application/json&quot;);
 
     // Preparación del buffer de respuesta.
-    char * buffer = // En el ejemplo preparamos un buffer JSON.
+    char *buffer = /* Cadena JSON preparada por el manejador. */ NULL;
 
     // Envío de respuesta.
     httpd_resp_sendstr( req, buffer  );
 
     return ESP_OK;
+}
 </code></pre>
 <p>Alternativamente, si la respuesta es binaria, podríamos utilizar la función
 <code>httpd_resp_send( req, buffer, buffer_len  )</code> para procesarla y enviarla 
@@ -479,7 +489,8 @@ anterior:</p>
 </code></pre>
 <p>Observa el cuerpo de la función <code>light_brightness_post_handler</code>. La recepción
 del objeto enviado por parte del cliente se realiza en base a múltiples
-invocaciones a la rutina <code>httpd_req_recv</code>:</p>
+invocaciones a la rutina <code>httpd_req_recv</code>. Este extracto reproduce la lógica
+del ejemplo oficial y se interrumpe antes del parseado JSON:</p>
 <pre><code class="language-c">/* Simple handler for light brightness control */
 static esp_err_t light_brightness_post_handler(httpd_req_t *req)
 {
@@ -511,22 +522,23 @@ static esp_err_t light_brightness_post_handler(httpd_req_t *req)
 <p>Observa y estudia los códigos de los manejadores implementados en el ejemplo. 
 Extiende la API proporcionada para crear un nuevo <em>endpoint</em> que permita
 obtener la temperatura (número aleatorio), pero transformándola a 
-grados Fahrenheit. En este caso, el valor devuelto en el fichero 
-JSON será un número en punto flotante (en la siguiente sección te
+grados Fahrenheit, usando <code>F = C * 9.0 / 5.0 + 32</code>. En este caso, el valor devuelto en el fichero 
+JSON será un número en punto flotante (en la siguiente sección
 se explicará cómo hacerlo, por lo que de momento puedes enviar 
 únicamente la parte entera del mismo). </p>
 </div>
 <h2 id="representacion-de-la-informacion-json">Representación de la información. JSON</h2>
 <p>JSON es un formato de representación de datos en modo texto para el
 intercambio de datos entre sistemas informáticos. Se creó inicialmente
-como una notación literal de los objetos Javascript, pero dada su amplia
+como una notación literal de los objetos JavaScript, pero dada su amplia
 aceptación (realmente como alternativa a XML), se considera a día de hoy
 un componente totalmente independiente al lenguaje.</p>
 <p>Los tipos de datos soportados por JSON incluyen:</p>
 <ul>
 <li>
-<p>Valores numéricos: permitiendo números con y sin signo, y con parte
-decimal en notación separada por puntos.</p>
+<p>Valores numéricos: enteros o números con parte fraccionaria separada por
+un punto, con signo negativo opcional y exponente opcional. JSON no admite
+<code>NaN</code> ni infinitos.</p>
 </li>
 <li>
 <p>Cadenas: secuencias de cero o más caracteres.</p>
@@ -535,12 +547,16 @@ decimal en notación separada por puntos.</p>
 <p>Booleanos: <code>true</code> y <code>false</code>.</p>
 </li>
 <li>
+<p>Valor nulo: <code>null</code>.</p>
+</li>
+<li>
 <p>Arrays: listas ordenadas de cero o más valores de cualquier tipo, separados
 por comas y encerrados entre corchetes.</p>
 </li>
 <li>
 <p>Objetos: colecciones no ordenadas de pares <code>&lt;nombre&gt;:&lt;valor&gt;</code>, separados
-por comas y encerrados entre llaves.</p>
+por comas y encerrados entre llaves. Los nombres son cadenas entre comillas
+dobles, al igual que los valores de tipo cadena.</p>
 </li>
 </ul>
 <p>ESP-IDF incluye el componente <a href="https://github.com/DaveGamble/cJSON">cJSON</a>
@@ -567,8 +583,9 @@ typedef struct cJSON
 <li><code>cJSON_True</code> (<code>cJSON_IsTrue()</code>): representa un valor booleano verdadero.</li>
 <li><code>cJSON_NULL</code> (<code>cJSON_IsNULL()</code>): representa un valor nulo.</li>
 <li><code>cJSON_Number</code> (<code>cJSON_IsNumber()</code>): representa un valor numérico. Dicho
-valor se almacena en el campo <code>valuedouble</code> como flotante y en <code>valueint</code>
-como entero.</li>
+valor se almacena en <code>valuedouble</code> como <code>double</code>; <code>valueint</code> ofrece una
+conversión a entero limitada al intervalo de <code>int</code>. Para temperaturas con
+decimales, utiliza <code>valuedouble</code>.</li>
 <li><code>cJSON_String</code> (<code>cJSON_IsString()</code>): representa un valor cadena, y se 
 almacena en el campo <code>valuestring</code> como un array de bytes terminado por
 el carácter nulo ('\0').</li>
@@ -577,12 +594,12 @@ campo <code>child</code> se almacena una lista enlazada con los elementos del ar
 terminada en NULL.</li>
 <li><code>cJSON_Object</code> (<code>cJSON_IsObject()</code>): representa un valor objeto. Sus
 valores se almacenan de la misma manera que el array anterior, pero en el
-campo <code>string</code> se almacenan además las claves del objeto a modo de lista.</li>
+campo <code>string</code> de cada nodo hijo se almacena la clave correspondiente.</li>
 </ul>
 <h3 id="creacion-y-parseado-de-una-estructura-json">Creación y parseado de una estructura JSON</h3>
 <p>Para cada tipo de datos, existe una rutina asociada con nombre
-<code>cJSON_Create...</code> que permite crear un item del tipo correspondiente.
-Todas estas funciones alojan memoria suficiente como para albergar 
+<code>cJSON_Create...</code> que permite crear un elemento del tipo correspondiente.
+Todas estas funciones reservan memoria para albergar 
 el dato creado. </p>
 <p>Dado un objeto JSON en forma de cadena, es posible analizarlo (parsearlo)
 utilizando la función <code>cJSON_Parse</code>:</p>
@@ -592,11 +609,18 @@ utilizando la función <code>cJSON_Parse</code>:</p>
 hacer uso de la función <code>cJSON_Print(json)</code>:</p>
 <pre><code class="language-c">char * string = cJSON_Print( json );
 </code></pre>
+<p>Comprueba si <code>cJSON_Parse</code>, las funciones de creación o <code>cJSON_Print</code>
+devuelven <code>NULL</code> antes de usar su resultado. Al terminar, libera el árbol con
+<code>cJSON_Delete(json)</code> y la cadena impresa con <code>cJSON_free(string)</code>
+(o <code>free</code> si se utiliza el asignador predeterminado, como en el ejemplo oficial).
+<code>cJSON_PrintUnformatted</code> permite generar JSON sin espacios de presentación,
+lo que resulta útil para comparar tamaños de mensajes.</p>
 <h3 id="ejemplos">Ejemplos</h3>
 <p>Observa de nuevo el contenido de las funciones manejadoras en nuestro servidor
 REST. Concretamente, céntrate en la función <code>system_info_get_handler</code>, que
-construye un objeto JSON con dos campos, de tipo cadena ("version")
-y numérico ("cores"):</p>
+construye un objeto JSON con tres campos: las cadenas <code>"chip"</code> e
+<code>"idf_version"</code>, y el número <code>"cores"</code>. El siguiente extracto corresponde
+al ejemplo oficial de ESP-IDF 6.1, con comentarios docentes:</p>
 <pre><code class="language-c">/* Simple handler for getting system handler */
 static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
@@ -610,10 +634,11 @@ static esp_err_t system_info_get_handler(httpd_req_t *req)
     esp_chip_info_t chip_info;
     esp_chip_info(&amp;chip_info);
 
-    // Anyadimos un campo de tipo cadena.
-    cJSON_AddStringToObject(root, &quot;version&quot;, IDF_VER);
+    // Añadimos los campos de tipo cadena.
+    cJSON_AddStringToObject(root, &quot;chip&quot;, CONFIG_IDF_TARGET);
+    cJSON_AddStringToObject(root, &quot;idf_version&quot;, IDF_VER);
 
-    // Anyadimos un campo de tipo numérico.
+    // Añadimos un campo de tipo numérico.
     cJSON_AddNumberToObject(root, &quot;cores&quot;, chip_info.cores);
 
     // Imprimimos a cadena previo al envío.
@@ -632,7 +657,9 @@ static esp_err_t system_info_get_handler(httpd_req_t *req)
 }
 </code></pre>
 <p>La función <code>light_brightness_post_handler</code> realiza un parseado del objeto
-JSON recibido. Observa su cuerpo:</p>
+JSON recibido. El siguiente extracto conserva la lógica del ejemplo oficial
+y añade comentarios docentes; las validaciones propuestas en la tarea 3.2
+son mejoras para el alumno, no comprobaciones que ya realice este código:</p>
 <pre><code class="language-c">    // buf contiene la cadena recibida a través de HTTP (método POST).
     // ...
     // Parseamos el objeto JSON.
@@ -649,10 +676,11 @@ JSON recibido. Observa su cuerpo:</p>
     // Liberamos recursos JSON.
     cJSON_Delete(root);
 
-    // Enviamos una respuesta generica en modo texto.
+    // Enviamos una respuesta genérica en modo texto.
     httpd_resp_sendstr(req, &quot;Post control value successfully&quot;);
 
     return ESP_OK;
+}
 </code></pre>
 <div class="admonition danger">
 <p class="admonition-title">Tarea entregable</p>
@@ -670,33 +698,30 @@ especialmente, el número de bytes transportados para enviar/recibir tus
 mensajes JSON.</p>
 </div>
 <h2 id="representacion-de-la-informacion-cbor">Representación de la información. CBOR</h2>
-<p>CBOR (<em>Concise Binary Object Representation</em>) es el formato de serialización
-de datos recomendado en muchos de los <em>stacks</em> IoT, específicamente en aquellos
-basados en CoAP. Pese a ser un formato binario, CBOR guarda similitudes con
-JSON, ya que sigue su mismo modelo de datos: valores numéricos, <em>strings</em>,
-arrays, mapas (objetos en JSON) y valores booleanos y nulos. </p>
-<p>Sin embargo, a diferencia de JSON, un objeto CBOR es autodescriptivo, y en
-este punto radica una de sus ventajas: es posible intercambiar datos entre
-un cliente y un servidor sin ceñirse a un esquema de datos concreto conocido
-por ambas partes.</p>
-<p>El hecho de ser un formato binario implica mejoras sustanciales con respecto a
-JSON, por ejemplo al transportar datos binarios (claves de cifrado, datos
-gráficos, o valores flotantes sensorizados, entre otros muchos); estos
-datos solían codificarse en JSON utilizando, por ejemplo, formato <em>base64</em>, 
-añadiendo complejidad al proceso de codificación/decodificación. 
-En general, el uso de un formato binario implica menor complejidad a la hora
-de ser integrado en aplicaciones, y es por esta razón por la que se considera
-óptimo para nodos de bajas prestaciones, típicos en IoT. </p>
-<p>El formato CBOR está documentado en el <a href="https://tools.ietf.org/html/rfc7049">RFC 7049</a>,
-y por tanto se considera un estándar bien documentado y estable de cara al futuro.</p>
+<p>CBOR (<em>Concise Binary Object Representation</em>) es un formato binario de
+serialización utilizado en aplicaciones IoT, entre ellas las basadas en CoAP.
+Su modelo de datos amplía el de JSON: además de números, cadenas de texto,
+arrays, mapas, booleanos y valores nulos, admite cadenas de bytes, etiquetas
+y otros valores simples. Las claves de un mapa CBOR no tienen que ser cadenas.</p>
+<p>Tanto JSON como CBOR permiten reconocer los tipos y la estructura de los datos
+sin un esquema externo. En ambos casos, cliente y servidor necesitan acordar
+el significado de los campos para interpretarlos correctamente.</p>
+<p>CBOR puede reducir el tamaño de los mensajes y el coste de conversión de
+números. Las cadenas de bytes permiten transportar datos binarios directamente;
+en JSON suelen representarse mediante una codificación como <em>base64</em>.
+Los números con decimales, en cambio, sí pueden representarse directamente en JSON.
+El ahorro depende de los datos y de la codificación utilizada: se comprobará
+experimentalmente en esta práctica, sin asumir que todo mensaje CBOR sea menor.</p>
+<p>El formato se especifica en el <a href="https://www.rfc-editor.org/rfc/rfc8949.html">RFC 8949</a>,
+que sustituye al RFC 7049 y mantiene la compatibilidad del formato de intercambio.</p>
 <h3 id="cbor-en-el-esp32">CBOR en el ESP32</h3>
-<p>ESP-IDF incluye la biblioteca <code>tinyCBOR</code> como implementación ligera del estándar,
+<p>El ejemplo CBOR de ESP-IDF utiliza la biblioteca <code>TinyCBOR</code> como implementación ligera del estándar,
 que permite tanto codificar distintos tipos de datos a formato CBOR, parsear
 estructuras CBOR y convertir dichas estructuras tanto a formato texto visualizable
-como a JSON. TinyCBOR está mantenido como proyecto de software libre por parte
-de Intel, y su documentación detallada (se sugiere consultarla) se encuentra
+como a JSON. TinyCBOR es un proyecto de software libre cuya documentación detallada
+(se sugiere consultarla) se encuentra
 disponible en el siguiente <a href="https://intel.github.io/tinycbor/current/">enlace</a>.</p>
-<p>Estudiaremos el funcionamiento de <code>tinyCBOR</code> a través de un ejemplo
+<p>Estudiaremos el funcionamiento de <code>TinyCBOR</code> a través de un ejemplo
 funcional (lo puedes encontrar en <code>examples/protocols/cbor</code>). El ejemplo
 muestra los mecanismos necesarios para, en primer lugar, crear un objeto
 CBOR completo utilizando la biblioteca, y en segundo lugar, el mecanismo
@@ -734,19 +759,22 @@ de un array formado por cinco elementos:</p>
 <li>Un <em>mapa</em> (conjunto no ordenado de pares <em>clave-valor</em>), combinando cadenas,
 booleanos y un segundo array para especificar una dirección IP.</li>
 <li>Un valor flotante (3.14).</li>
-<li>Un valor numérico "simple" (99).</li>
-<li>Una fecha (en forma de cadena).</li>
-<li>Un valor indefinido.</li>
+<li>Un valor simple CBOR con código 99 (<code>simple(99)</code>), distinto del entero 99.</li>
+<li>Una cadena de texto que representa una fecha, sin etiqueta semántica de fecha CBOR.</li>
+<li>El valor <code>undefined</code>, distinto de <code>null</code>.</li>
 </ol>
 <p>El <em>firmware</em> procede en tres etapas:</p>
 <h3 id="etapa-1-creacion-codificacion-del-objeto-cbor">Etapa 1: creación (codificación) del objeto CBOR</h3>
 <p>Observa el cuerpo de la tarea principal (<code>app_main</code>). El codificador 
 CBOR se basa en dos variables:</p>
-<pre><code class="language-c">CborEncoder Root_encoder; // Codificador CBOR.
-uint8_t buf[100];         // Buffer para alojar el objeto CBOR (array de bytes). 
+<pre><code class="language-c">CborEncoder root_encoder; // Codificador CBOR.
+uint8_t buf[100];         // Buffer para alojar el objeto CBOR (array de bytes).
+
+cbor_encoder_init(&amp;root_encoder, buf, sizeof(buf), 0);
 </code></pre>
 <p>En segundo lugar, y ya que utilizaremos un array y un mapa, necesitaremos
-constructores especiales para dichos objetos:</p>
+codificadores de contenedores para dichos objetos. Los tamaños indican
+cinco elementos para el array y tres pares clave-valor para el mapa:</p>
 <pre><code class="language-c">// Creación de Array.
 CborEncoder array_encoder;
 CborEncoder map_encoder;
@@ -799,6 +827,11 @@ cbor_encoder_close_container(&amp;root_encoder, &amp;array_encoder); // ]
 ESP_LOGI(TAG, &quot;encoded buffer size %d&quot;, cbor_encoder_get_buffer_size(&amp;root_encoder, buf));
 </code></pre>
 <h3 id="etapa-2-conversion-a-json">Etapa 2: conversión a JSON</h3>
+<p>La conversión no conserva necesariamente todos los tipos CBOR. En la salida
+del ejemplo, <code>"simple(99)"</code> y <code>"undefined"</code> son cadenas JSON usadas como
+representaciones de valores CBOR que no tienen un equivalente directo en JSON.
+El valor 3.1400001049041748 refleja la precisión del número codificado
+como flotante de 32 bits.</p>
 <p>La conversión a JSON (típicamente por motivos de visualización o depuración), 
 puede realizarse del siguiente modo:</p>
 <pre><code class="language-c">    // Initialize the cbor parser and the value iterator
@@ -824,15 +857,20 @@ la misma información que el <em>endpoint</em> JSON desarrollado en la anterior
 tarea, pero en esta ocasión, utilizando formato CBOR. El objetivo del 
 ejercicio es comparar la cantidad de tráfico generado en cada 
 representación, por lo que se sugiere que el objeto intercambiado 
-sea relativamente complejo (es decir, incluya disintos tipos de datos numéricos,
-arrays, o mapas). A continuación se incluyen notas adicionales que te 
+sea relativamente complejo (es decir, incluya distintos tipos de datos numéricos,
+arrays o mapas). Compara los mismos datos y valores en ambas representaciones,
+distinguiendo los bytes del cuerpo HTTP de las cabeceras y del tráfico total.
+Indica también si el JSON contiene espacios de presentación. A continuación se incluyen notas adicionales que te 
 permitirán depurar tu desarrollo, observando los valores devueltos
 por el servidor HTTP.</p>
 </div>
 <h3 id="notas-adicionales-creacion-y-consulta-de-un-endpoint-cbor-en-la-api-rest">Notas adicionales: creación y consulta de un <em>endpoint</em> CBOR en la API REST</h3>
 <p>Las modificaciones a realizar en la función manejadora del <em>endpoint</em> para 
 responder con un objeto CBOR son mínimas. De hecho, se centran simplemente en 
-el tipo de respuesta y el mecanismo a usar para enviarla, véase:</p>
+el tipo de respuesta y el mecanismo a usar para enviarla. El siguiente
+esquema es una adaptación didáctica propuesta, no un manejador del ejemplo
+REST oficial. Completa la codificación y regístralo en una URI nueva
+(por ejemplo, <code>/api/v1/system/info/cbor</code>) para conservar el recurso JSON:</p>
 <pre><code class="language-c">static esp_err_t system_info_get_handler(httpd_req_t *req)
 {
     // Tipo de respuesta.
@@ -851,29 +889,31 @@ el tipo de respuesta y el mecanismo a usar para enviarla, véase:</p>
     httpd_resp_send(req, (char*)buf, cbor_encoder_get_buffer_size( &amp;root_encoder, buf));
 
     return ESP_OK;
+}
 </code></pre>
 <p>Para consultar desde línea de comandos sobre este <em>endpoint</em>, podemos utilizar
 directamente <code>curl</code>, volcando la salida recibida a un fichero (por
 ejemplo, <code>output.cbor</code>):</p>
-<pre><code class="language-sh">curl http://192.168.1.26/api/v1/system/info &gt; output.cbor
+<pre><code class="language-sh">curl http://192.168.1.26/api/v1/system/info/cbor &gt; output.cbor
 </code></pre>
 <p>Si visualizas el contenido del fichero, verás que contiene datos binarios
 difícilmente interpretables. A continuación veremos distintos mecanismos
 de visualización.</p>
 <h3 id="notas-adicionales-visualizacion-de-datos-cbor">Notas adicionales: visualización de datos CBOR</h3>
 <p>Una opción de visualización consiste en utilizar la web <a href="http://cbor.me/">cbor.me</a>.
-En el panel derecho, podrás pegar el contenido binario leído. Si necesitas
-realizar la conversión antes de pegarlo en la web, puedes hacerlo con la orden:</p>
+En el panel derecho, pega la representación hexadecimal del contenido
+binario, no sus bytes directamente. Puedes obtenerla con la orden:</p>
 <pre><code class="language-sh">xxd -ps output.cbor
 </code></pre>
-<p>Un ejemplo de salida (a pegar en el panel derecho de la web), podría ser:</p>
+<p>Un ejemplo de salida para el array CBOR de cinco elementos estudiado antes
+(no para el objeto de información del sistema), a pegar en el panel derecho, sería:</p>
 <pre><code class="language-sh">$ xxd -ps output.cbor 
 85a3646368697065657370333267756e69636f7265f46269708418c018a8
 011864fa4048f5c3f8637818323031392d30372d31302030393a30303a30
 302b30303030f7
 </code></pre>
 <p>Deberías observar una salida similar a la siguiente (ten en cuenta que 
-la herramiente automáticamente indenta el contenido del panel derecho; 
+la herramienta interpreta el hexadecimal y presenta su contenido; 
 recuerda que simplemente debes pegar la salida generada por <code>xxd</code>):</p>
 <p><img alt="" src="../img/cbor.me.png" /></p>
 <!--Otra opción de visualización puede ser un programa Python (podrías integrarlo

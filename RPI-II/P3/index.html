@@ -725,20 +725,36 @@ experimentalmente en esta práctica, sin asumir que todo mensaje CBOR sea menor.
 <p>El formato se especifica en el <a href="https://www.rfc-editor.org/rfc/rfc8949.html">RFC 8949</a>,
 que sustituye al RFC 7049 y mantiene la compatibilidad del formato de intercambio.</p>
 <h3 id="cbor-en-el-esp32">CBOR en el ESP32</h3>
-<p>El ejemplo CBOR de ESP-IDF utiliza la biblioteca <code>TinyCBOR</code> como implementación ligera del estándar,
-que permite tanto codificar distintos tipos de datos a formato CBOR, parsear
-estructuras CBOR y convertir dichas estructuras tanto a formato texto visualizable
-como a JSON. TinyCBOR es un proyecto de software libre cuya documentación detallada
-(se sugiere consultarla) se encuentra
-disponible en el siguiente <a href="https://intel.github.io/tinycbor/current/">enlace</a>.</p>
-<p>Estudiaremos el funcionamiento de <code>TinyCBOR</code> a través de un ejemplo
-funcional (lo puedes encontrar en <code>examples/protocols/cbor</code>). El ejemplo
-muestra los mecanismos necesarios para, en primer lugar, crear un objeto
-CBOR completo utilizando la biblioteca, y en segundo lugar, el mecanismo
-para convertir dicho objeto a representación JSON, así como para parsearlo
-manualmente.</p>
-<p>En primer lugar, compila, flashea y ejecuta el ejemplo. 
-Verás que la salida debería ser similar a la siguiente:</p>
+<p>En ESP-IDF 6.1, el componente y el ejemplo CBOR se obtienen del
+<a href="https://components.espressif.com/components/espressif/cbor/versions/7.0.0/readme">ESP Component Registry: <code>espressif/cbor</code> 7.0.0</a>.
+Ya no se utiliza la ruta <code>examples/protocols/cbor</code> de ESP-IDF.
+El componente empaqueta TinyCBOR y expone su API. Puedes consultar la
+<a href="https://intel.github.io/tinycbor/current/">documentación de TinyCBOR</a>.</p>
+<h4 id="preparacion-del-ejemplo-independiente">Preparación del ejemplo independiente</h4>
+<p>Con el entorno ESP-IDF activado, ejecuta desde tu directorio de trabajo:</p>
+<pre><code class="language-sh">idf.py create-project-from-example &quot;espressif/cbor=7.0.0:cbor&quot;
+cd cbor
+idf.py set-target esp32
+idf.py build
+idf.py flash monitor
+</code></pre>
+<p>Adapta <code>esp32</code> al chip de tu placa. Este proyecto permite estudiar la
+codificación CBOR, su conversión a JSON y el parseado manual.
+Los fragmentos siguientes son extractos comentados y esquemas docentes;
+consulta el proyecto descargado para ver el código completo.</p>
+<h4 id="incorporacion-de-cbor-al-servidor-rest">Incorporación de CBOR al servidor REST</h4>
+<p>Desde la raíz del proyecto REST, añade la dependencia:</p>
+<pre><code class="language-sh">idf.py add-dependency &quot;espressif/cbor^7.0.0&quot;
+</code></pre>
+<p>El gestor registra la dependencia en <code>main/idf_component.yml</code> y la descarga
+al configurar o compilar. <code>^7.0.0</code> admite versiones compatibles; para reproducir
+exactamente la versión estudiada, utiliza <code>espressif/cbor=7.0.0</code>.</p>
+<p>Incluye las cabeceras necesarias en el código:</p>
+<pre><code class="language-c">#include &quot;cbor.h&quot;      // Codificación y parseado.
+#include &quot;cborjson.h&quot;  // Sólo para convertir a JSON.
+</code></pre>
+<p>Compila de nuevo tras implementar la extensión REST.</p>
+<p>Verás que la salida del ejemplo independiente debería ser similar a la siguiente:</p>
 <pre><code class="language-sh">I (320) example: encoded buffer size 67
 I (320) example: convert CBOR to JSON
 [{&quot;chip&quot;:&quot;esp32&quot;,&quot;unicore&quot;:false,&quot;ip&quot;:[192,168,1,100]},3.1400001049041748,&quot;simple(99)&quot;,&quot;2019-07-10 09:00:00+0000&quot;,&quot;undefined&quot;]
