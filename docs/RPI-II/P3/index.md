@@ -528,22 +528,52 @@ que sustituye al RFC 7049 y mantiene la compatibilidad del formato de intercambi
 
 ### CBOR en el ESP32
 
-El ejemplo CBOR de ESP-IDF utiliza la biblioteca `TinyCBOR` como implementación ligera del estándar,
-que permite tanto codificar distintos tipos de datos a formato CBOR, parsear
-estructuras CBOR y convertir dichas estructuras tanto a formato texto visualizable
-como a JSON. TinyCBOR es un proyecto de software libre cuya documentación detallada
-(se sugiere consultarla) se encuentra
-disponible en el siguiente [enlace](https://intel.github.io/tinycbor/current/).
+En ESP-IDF 6.1, el componente y el ejemplo CBOR se obtienen del
+[ESP Component Registry: `espressif/cbor` 7.0.0](https://components.espressif.com/components/espressif/cbor/versions/7.0.0/readme).
+Ya no se utiliza la ruta `examples/protocols/cbor` de ESP-IDF.
+El componente empaqueta TinyCBOR y expone su API. Puedes consultar la
+[documentación de TinyCBOR](https://intel.github.io/tinycbor/current/).
 
-Estudiaremos el funcionamiento de `TinyCBOR` a través de un ejemplo
-funcional (lo puedes encontrar en `examples/protocols/cbor`). El ejemplo
-muestra los mecanismos necesarios para, en primer lugar, crear un objeto
-CBOR completo utilizando la biblioteca, y en segundo lugar, el mecanismo
-para convertir dicho objeto a representación JSON, así como para parsearlo
-manualmente.
+#### Preparación del ejemplo independiente
 
-En primer lugar, compila, flashea y ejecuta el ejemplo. 
-Verás que la salida debería ser similar a la siguiente:
+Con el entorno ESP-IDF activado, ejecuta desde tu directorio de trabajo:
+
+```sh
+idf.py create-project-from-example "espressif/cbor=7.0.0:cbor"
+cd cbor
+idf.py set-target esp32
+idf.py build
+idf.py flash monitor
+```
+
+Adapta `esp32` al chip de tu placa. Este proyecto permite estudiar la
+codificación CBOR, su conversión a JSON y el parseado manual.
+Los fragmentos siguientes son extractos comentados y esquemas docentes;
+consulta el proyecto descargado para ver el código completo.
+
+#### Incorporación de CBOR al servidor REST
+
+Desde la raíz del proyecto REST, añade la dependencia:
+
+```sh
+idf.py add-dependency "espressif/cbor^7.0.0"
+```
+
+El gestor registra la dependencia en `main/idf_component.yml` y la descarga
+al configurar o compilar. `^7.0.0` admite versiones compatibles; para reproducir
+exactamente la versión estudiada, utiliza `espressif/cbor=7.0.0`.
+
+Incluye las cabeceras necesarias en el código:
+
+```c
+#include "cbor.h"      // Codificación y parseado.
+#include "cborjson.h"  // Sólo para convertir a JSON.
+```
+
+Compila de nuevo tras implementar la extensión REST.
+
+Verás que la salida del ejemplo independiente debería ser similar a la siguiente:
+
 
 ```sh
 I (320) example: encoded buffer size 67
