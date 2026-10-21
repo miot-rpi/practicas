@@ -551,27 +551,6 @@ codificación CBOR, su conversión a JSON y el parseado manual.
 Los fragmentos siguientes son extractos comentados y esquemas docentes;
 consulta el proyecto descargado para ver el código completo.
 
-#### Incorporación de CBOR al servidor REST
-
-Desde la raíz del proyecto REST, añade la dependencia:
-
-```sh
-idf.py add-dependency "espressif/cbor^7.0.0"
-```
-
-El gestor registra la dependencia en `main/idf_component.yml` y la descarga
-al configurar o compilar. `^7.0.0` admite versiones compatibles; para reproducir
-exactamente la versión estudiada, utiliza `espressif/cbor=7.0.0`.
-
-Incluye las cabeceras necesarias en el código:
-
-```c
-#include "cbor.h"      // Codificación y parseado.
-#include "cborjson.h"  // Sólo para convertir a JSON.
-```
-
-Compila de nuevo tras implementar la extensión REST.
-
 Verás que la salida del ejemplo independiente debería ser similar a la siguiente:
 
 
@@ -729,7 +708,39 @@ caso `CborIntegerType`).
     permitirán depurar tu desarrollo, observando los valores devueltos
     por el servidor HTTP.
 
-### Notas adicionales: creación y consulta de un *endpoint* CBOR en la API REST
+#### Notas adicionales: Incorporación de CBOR al servidor REST
+
+Vuelve al proyecto del servidor REST utilizado en la primera parte de la
+práctica (`restful_server`). Desde su directorio raíz, donde está el
+`CMakeLists.txt` principal, añade la dependencia:
+
+```sh
+idf.py add-dependency "espressif/cbor^7.0.0"
+```
+
+El gestor registra la dependencia en `main/idf_component.yml` y la descarga
+al configurar o compilar. `^7.0.0` admite versiones compatibles; para reproducir
+exactamente la versión estudiada, utiliza `espressif/cbor=7.0.0`.
+
+En `main/rest_server.c`, al principio del fichero y junto al resto de
+instrucciones `#include`, añade:
+
+```c
+#include "cbor.h"
+```
+
+Esta cabecera permite codificar y parsear CBOR. Para construir la respuesta
+binaria y enviarla por HTTP es suficiente. Si además utilizas
+`cbor_value_to_json()` para visualizar o depurar los datos, añade también
+en ese mismo fichero:
+
+```c
+#include "cborjson.h"
+```
+
+Compila de nuevo tras implementar la extensión REST.
+
+#### Notas adicionales: creación y consulta de un *endpoint* CBOR en la API REST
 
 Las modificaciones a realizar en la función manejadora del *endpoint* para 
 responder con un objeto CBOR son mínimas. De hecho, se centran simplemente en 
@@ -772,7 +783,7 @@ Si visualizas el contenido del fichero, verás que contiene datos binarios
 difícilmente interpretables. A continuación veremos distintos mecanismos
 de visualización.
 
-### Notas adicionales: visualización de datos CBOR
+#### Notas adicionales: visualización de datos CBOR
 
 Una opción de visualización consiste en utilizar la web [cbor.me](http://cbor.me/).
 En el panel derecho, pega la representación hexadecimal del contenido
