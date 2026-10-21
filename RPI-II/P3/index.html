@@ -742,18 +742,6 @@ idf.py flash monitor
 codificación CBOR, su conversión a JSON y el parseado manual.
 Los fragmentos siguientes son extractos comentados y esquemas docentes;
 consulta el proyecto descargado para ver el código completo.</p>
-<h4 id="incorporacion-de-cbor-al-servidor-rest">Incorporación de CBOR al servidor REST</h4>
-<p>Desde la raíz del proyecto REST, añade la dependencia:</p>
-<pre><code class="language-sh">idf.py add-dependency &quot;espressif/cbor^7.0.0&quot;
-</code></pre>
-<p>El gestor registra la dependencia en <code>main/idf_component.yml</code> y la descarga
-al configurar o compilar. <code>^7.0.0</code> admite versiones compatibles; para reproducir
-exactamente la versión estudiada, utiliza <code>espressif/cbor=7.0.0</code>.</p>
-<p>Incluye las cabeceras necesarias en el código:</p>
-<pre><code class="language-c">#include &quot;cbor.h&quot;      // Codificación y parseado.
-#include &quot;cborjson.h&quot;  // Sólo para convertir a JSON.
-</code></pre>
-<p>Compila de nuevo tras implementar la extensión REST.</p>
 <p>Verás que la salida del ejemplo independiente debería ser similar a la siguiente:</p>
 <pre><code class="language-sh">I (320) example: encoded buffer size 67
 I (320) example: convert CBOR to JSON
@@ -890,7 +878,19 @@ Indica también si el JSON contiene espacios de presentación. A continuación s
 permitirán depurar tu desarrollo, observando los valores devueltos
 por el servidor HTTP.</p>
 </div>
-<h3 id="notas-adicionales-creacion-y-consulta-de-un-endpoint-cbor-en-la-api-rest">Notas adicionales: creación y consulta de un <em>endpoint</em> CBOR en la API REST</h3>
+<h4 id="notas-adicionales-incorporacion-de-cbor-al-servidor-rest">Notas adicionales: Incorporación de CBOR al servidor REST</h4>
+<p>Desde la raíz del proyecto REST, añade la dependencia:</p>
+<pre><code class="language-sh">idf.py add-dependency &quot;espressif/cbor^7.0.0&quot;
+</code></pre>
+<p>El gestor registra la dependencia en <code>main/idf_component.yml</code> y la descarga
+al configurar o compilar. <code>^7.0.0</code> admite versiones compatibles; para reproducir
+exactamente la versión estudiada, utiliza <code>espressif/cbor=7.0.0</code>.</p>
+<p>Incluye las cabeceras necesarias en el código:</p>
+<pre><code class="language-c">#include &quot;cbor.h&quot;      // Codificación y parseado.
+#include &quot;cborjson.h&quot;  // Sólo para convertir a JSON.
+</code></pre>
+<p>Compila de nuevo tras implementar la extensión REST.</p>
+<h4 id="notas-adicionales-creacion-y-consulta-de-un-endpoint-cbor-en-la-api-rest">Notas adicionales: creación y consulta de un <em>endpoint</em> CBOR en la API REST</h4>
 <p>Las modificaciones a realizar en la función manejadora del <em>endpoint</em> para 
 responder con un objeto CBOR son mínimas. De hecho, se centran simplemente en 
 el tipo de respuesta y el mecanismo a usar para enviarla. El siguiente
@@ -925,7 +925,7 @@ ejemplo, <code>output.cbor</code>):</p>
 <p>Si visualizas el contenido del fichero, verás que contiene datos binarios
 difícilmente interpretables. A continuación veremos distintos mecanismos
 de visualización.</p>
-<h3 id="notas-adicionales-visualizacion-de-datos-cbor">Notas adicionales: visualización de datos CBOR</h3>
+<h4 id="notas-adicionales-visualizacion-de-datos-cbor">Notas adicionales: visualización de datos CBOR</h4>
 <p>Una opción de visualización consiste en utilizar la web <a href="http://cbor.me/">cbor.me</a>.
 En el panel derecho, pega la representación hexadecimal del contenido
 binario, no sus bytes directamente. Puedes obtenerla con la orden:</p>
