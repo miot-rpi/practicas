@@ -3,7 +3,8 @@
 
 ## Objetivos
 El objetivo de esta práctica es conocer el funcionamiento del bus I2C y la interfaz que ofrece ESP-IDF para su uso.
-Trabajaremos los siguientes aspectos del API de ESP-IDF: 
+Trabajaremos los siguientes aspectos del API de ESP-IDF:
+
 * Configuración y uso del controlador I2C.
 * Uso de sensor de temperatura y humedad (Si7021).
 * Uso del sensor ICM-42670-P (IMU)
@@ -22,6 +23,7 @@ Fue desarrollado en la empresa **Philips** (ahora **NXP**) en la década de los 
 Proporciona una conexión *serie síncrona unidireccional* (no permite envíos en dos direcciones de forma simultanea). La velocida máxima de comunicación era originalmente de 100 kbit/s, y muchas aplicaciones no requieren de velocidades mayores. Existe un *fast mode* a 400kbits/s, *fast mode plus*  (1Mbits/s), ambos compatibles hacia atrás y sin lógica adicional (aunque puede suponer ajustes en las resistencias de *pull-up* para controlar las corrientes requeridas).  La especificación  *high speed mode - HS I2C* permite conexiones a 3.4Mbits/s, pero exige lógica adicional. En nuestras pruebas, se recomienda mantener 400 kbits/s.
 
 Las principales características de I2C son:
+
 * Sólo require dos líneas: SDA y SCL. 
 * No hay requerimientos estrictos de *baud rate* como en RS232, ya que el *master* genera la señal de reloj.
 * Existe una relación sencilla *master/slave* entre todos los componentes.
