@@ -240,10 +240,12 @@
 <h1 id="practica-4-bus-i2c-sensor-de-temperatura">Práctica 4. Bus I2C. Sensor de temperatura</h1>
 <h2 id="objetivos">Objetivos</h2>
 <p>El objetivo de esta práctica es conocer el funcionamiento del bus I2C y la interfaz que ofrece ESP-IDF para su uso.
-Trabajaremos los siguientes aspectos del API de ESP-IDF: 
-* Configuración y uso del controlador I2C.
-* Uso de sensor de temperatura y humedad (Si7021).
-* Uso del sensor ICM-42670-P (IMU)</p>
+Trabajaremos los siguientes aspectos del API de ESP-IDF:</p>
+<ul>
+<li>Configuración y uso del controlador I2C.</li>
+<li>Uso de sensor de temperatura y humedad (Si7021).</li>
+<li>Uso del sensor ICM-42670-P (IMU)</li>
+</ul>
 <h2 id="material-de-consulta">Material de consulta</h2>
 <p>Para ver los detalles de cada aspecto de esta práctica se recomienda la lectura de los siguientes enlaces:</p>
 <ul>
@@ -254,12 +256,14 @@ Trabajaremos los siguientes aspectos del API de ESP-IDF:
 <h2 id="bus-i2c">Bus I2C</h2>
 <p>Fue desarrollado en la empresa <strong>Philips</strong> (ahora <strong>NXP</strong>) en la década de los 80 con el objetivo de  comunicar circuitos integrados con número mínimo de pines. El nombre I2C viene de <em>Inter IC</em>. Se usa tanto la abreviatura I2C como IIC. En 2014, <em>NXP</em> publicó la Rev. 6 del protocolo.</p>
 <p>Proporciona una conexión <em>serie síncrona unidireccional</em> (no permite envíos en dos direcciones de forma simultanea). La velocida máxima de comunicación era originalmente de 100 kbit/s, y muchas aplicaciones no requieren de velocidades mayores. Existe un <em>fast mode</em> a 400kbits/s, <em>fast mode plus</em>  (1Mbits/s), ambos compatibles hacia atrás y sin lógica adicional (aunque puede suponer ajustes en las resistencias de <em>pull-up</em> para controlar las corrientes requeridas).  La especificación  <em>high speed mode - HS I2C</em> permite conexiones a 3.4Mbits/s, pero exige lógica adicional. En nuestras pruebas, se recomienda mantener 400 kbits/s.</p>
-<p>Las principales características de I2C son:
-* Sólo require dos líneas: SDA y SCL. 
-* No hay requerimientos estrictos de <em>baud rate</em> como en RS232, ya que el <em>master</em> genera la señal de reloj.
-* Existe una relación sencilla <em>master/slave</em> entre todos los componentes.
-* Permite tener varios <em>master</em> pues proporciona mecanismos de arbitraje y detección de colisiones.
-* Cada dispositivo tiene una única dirección de 7-bits (en ocasiones, de 10 bits) que proporciona el fabricante.</p>
+<p>Las principales características de I2C son:</p>
+<ul>
+<li>Sólo require dos líneas: SDA y SCL. </li>
+<li>No hay requerimientos estrictos de <em>baud rate</em> como en RS232, ya que el <em>master</em> genera la señal de reloj.</li>
+<li>Existe una relación sencilla <em>master/slave</em> entre todos los componentes.</li>
+<li>Permite tener varios <em>master</em> pues proporciona mecanismos de arbitraje y detección de colisiones.</li>
+<li>Cada dispositivo tiene una única dirección de 7-bits (en ocasiones, de 10 bits) que proporciona el fabricante.</li>
+</ul>
 <h2 id="nueva-interfaz-i2c-en-esp-idf">Nueva interfaz I2C en ESP-IDF</h2>
 <p>ESP-IDF ha cambiado completamente el interfaz para el uso de dispositivos I2C, simplificando significativamente su uso. La nueva estructura puede observarse en la siguiente figura, obtenida de la <a href="https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/i2c.html">documentación de ESP-IDF</a>.</p>
 <p><img alt="estructura" src="img/i2c-structure.png" />
