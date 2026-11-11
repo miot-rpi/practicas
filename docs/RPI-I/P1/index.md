@@ -198,20 +198,20 @@ que está ejecutando el *firmware*:
 
 ```c
 /* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&chip_info);
-    printf("This is %s chip with %d CPU cores, Wi-Fi%s%s, ",
-            CONFIG_IDF_TARGET,
-            chip_info.cores,
-            (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
-            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
+esp_chip_info_t chip_info;
+esp_chip_info(&chip_info);
+printf("This is %s chip with %d CPU cores, Wi-Fi%s%s, ",
+        CONFIG_IDF_TARGET,
+        chip_info.cores,
+        (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
+        (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
 
-    printf("silicon revision %d, ", chip_info.revision);
+printf("silicon revision %d, ", chip_info.revision);
 
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
-            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
+        (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
-    printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
+printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
 ```
 
 A continuación, dentro de un bucle sencillo, el sistema muestra un mensaje y
@@ -223,19 +223,19 @@ deseamos suspender la tarea entre la duración de un *tick*.
 FreeRTOS proporciona la constante `portTICK_PERIOD_MS`, que nos da la duración en milisegundos de un *tick*:
 
 ```c
-    for (int i = 10; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
+for (int i = 10; i >= 0; i--) {
+    printf("Restarting in %d seconds...\n", i);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+}
 ```
 
 Finalmente, la tarea reinicia el sistema tras la finalización de la tarea
 principal:
 
 ```c
-    printf("Restarting now.\n");
-    fflush(stdout);
-    esp_restart();
+printf("Restarting now.\n");
+fflush(stdout);
+esp_restart();
 ```
 
 !!! danger "Ejercicio 1"
@@ -258,12 +258,12 @@ La función `xTaskCreate()` (incluida en `task.h`) permite la creación de nueva
 tareas:
 
 ```c
- BaseType_t xTaskCreate(TaskFunction_t pvTaskCode,
-                        const char * const pcName,
-                        configSTACK_DEPTH_TYPE usStackDepth,
-                        void *pvParameters,
-                        UBaseType_t uxPriority,
-                        TaskHandle_t *pxCreatedTask);
+BaseType_t xTaskCreate(TaskFunction_t pvTaskCode,
+                       const char * const pcName,
+                       configSTACK_DEPTH_TYPE usStackDepth,
+                       void *pvParameters,
+                       UBaseType_t uxPriority,
+                       TaskHandle_t *pxCreatedTask);
 ```
 
 Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para ejecución, recibiendo como parámetros:
@@ -273,21 +273,21 @@ Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
   ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete()` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
 
 ```c
- void vATaskFunction(void *pvParameters)
+void vATaskFunction(void *pvParameters)
+{
+    for(;;)
     {
-        for(;;)
-        {
-            -- Task application code here --
-        }
-
-        /* Tasks must not attempt to return from their implementing
-        function or otherwise exit. In newer FreeRTOS ports
-        attempting to do so will result in an configASSERT() being
-        called if it is defined. If it is necessary for a task to
-        exit then have the task call vTaskDelete(NULL) to ensure
-        its exit is clean. */
-        vTaskDelete(NULL);
+        -- Task application code here --
     }
+
+    /* Tasks must not attempt to return from their implementing
+    function or otherwise exit. In newer FreeRTOS ports
+    attempting to do so will result in an configASSERT() being
+    called if it is defined. If it is necessary for a task to
+    exit then have the task call vTaskDelete(NULL) to ensure
+    its exit is clean. */
+    vTaskDelete(NULL);
+}
 ```
 
 * `pcName`: nombre descriptivo de la tarea a ejecutar, típicamente usado en tiempo de depuración.

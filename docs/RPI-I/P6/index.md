@@ -573,13 +573,11 @@ El cliente puede registrarse para recibir notificaciones del servidor cada vez q
 Después de obtener la característica, verificamos sus propiedades (lectura, escritura, notificaciones...) y utilizamos la función `esp_ble_gattc_register_for_notify()` para registrarnos localmente y recibir notificaciones. Los argumentos de la función son: la interfaz GATT, la dirección del servidor GATT remoto y el handle del que queremos recibir notificaciones.
 
 ```c
-…
 if (count > 0 && (char_elem_result[0].properties & ESP_GATT_CHAR_PROP_BIT_NOTIFY))
 {
     gl_profile_tab[PROFILE_A_APP_ID].char_handle = char_elem_result[0].char_handle;
     esp_ble_gattc_register_for_notify(gattc_if, gl_profile_tab[PROFILE_A_APP_ID].remote_bda, char_elem_result[0].char_handle);
 }
-…
 ```
 
 Este procedimiento registra notificaciones en la pila BLE y desencadena un evento `ESP_GATTC_REG_FOR_NOTIFY_EVT`. Este evento se utiliza para escribir en el descriptor CCC (Client Characteristic Configuration) del servidor con el fin de habilitar las notificaciones para dicho cliente:

@@ -151,7 +151,7 @@ por lo que será necesario utilizar cables de puente (*jumper wires*) para sacar
 las conexiones de uno de los lados, dejando el otro accesible para conexiones directas.
 Lo más sencillo es sacar el pin G1 (cable bajo el transceptor), ya que es el único que necesitamos de ese lado.
 
-El pinout de la ESP32-C3 DevKit RUST es el siguiente:
+El pinout del ESP32-C3 DevKit RUST es el siguiente:
 
 ![](img/dev-kit-rust-pinout.png)
 

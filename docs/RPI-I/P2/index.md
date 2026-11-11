@@ -254,20 +254,20 @@ La rutina `esp_wifi_set_config()` permite configurar los aspectos básicos
 de la conexión Wi-Fi. Por ejemplo:
 
 ```c
-    wifi_config_t wifi_config = {
-        .sta = {
-            .ssid = EXAMPLE_ESP_WIFI_SSID,
-            .password = EXAMPLE_ESP_WIFI_PASS,
-	        .threshold.authmode = WIFI_AUTH_WPA2_PSK,
+wifi_config_t wifi_config = {
+    .sta = {
+        .ssid = EXAMPLE_ESP_WIFI_SSID,
+        .password = EXAMPLE_ESP_WIFI_PASS,
+      .threshold.authmode = WIFI_AUTH_WPA2_PSK,
 
-            .pmf_cfg = {
-                .capable = true,
-                .required = false
-            },
+        .pmf_cfg = {
+            .capable = true,
+            .required = false
         },
-    };
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
+    },
+};
+ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
 ```
 
 El código anterior realiza una configuración básica Wi-Fi proporcionando SSID, contraseña y 
@@ -355,22 +355,22 @@ básica del tipo de configuración Wi-Fi a realizar (`WIFI_MODE_AP`) y obviament
 los parámetros de configuración. Observa el siguiente ejemplo de configuración:
 
 ```c
-    wifi_config_t wifi_config = {
-        .ap = {
-            .ssid = EXAMPLE_ESP_WIFI_SSID,
-            .ssid_len = strlen(EXAMPLE_ESP_WIFI_SSID),
-            .channel = EXAMPLE_ESP_WIFI_CHANNEL,
-            .password = EXAMPLE_ESP_WIFI_PASS,
-            .max_connection = EXAMPLE_MAX_STA_CONN,
-            .authmode = WIFI_AUTH_WPA_WPA2_PSK
-        },
-    };
-    if (strlen(EXAMPLE_ESP_WIFI_PASS) == 0) {
-        wifi_config.ap.authmode = WIFI_AUTH_OPEN;
-    }
+wifi_config_t wifi_config = {
+    .ap = {
+        .ssid = EXAMPLE_ESP_WIFI_SSID,
+        .ssid_len = strlen(EXAMPLE_ESP_WIFI_SSID),
+        .channel = EXAMPLE_ESP_WIFI_CHANNEL,
+        .password = EXAMPLE_ESP_WIFI_PASS,
+        .max_connection = EXAMPLE_MAX_STA_CONN,
+        .authmode = WIFI_AUTH_WPA_WPA2_PSK
+    },
+};
+if (strlen(EXAMPLE_ESP_WIFI_PASS) == 0) {
+    wifi_config.ap.authmode = WIFI_AUTH_OPEN;
+}
 
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
-    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &wifi_config));
+ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &wifi_config));
 ```
 
 Para más información sobre los parámetros de configuración de un punto 
