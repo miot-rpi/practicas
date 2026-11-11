@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi Mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
 </li>
                                     
 <li>
@@ -390,20 +390,20 @@ o invocar a otras funciones que la implementen.</p>
 <p>En este ejemplo, se muestra en primer lugar información genérica sobre el SoC
 que está ejecutando el <em>firmware</em>:</p>
 <pre><code class="language-c">/* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&amp;chip_info);
-    printf(&quot;This is %s chip with %d CPU cores, Wi-Fi%s%s, &quot;,
-            CONFIG_IDF_TARGET,
-            chip_info.cores,
-            (chip_info.features &amp; CHIP_FEATURE_BT) ? &quot;/BT&quot; : &quot;&quot;,
-            (chip_info.features &amp; CHIP_FEATURE_BLE) ? &quot;/BLE&quot; : &quot;&quot;);
+esp_chip_info_t chip_info;
+esp_chip_info(&amp;chip_info);
+printf(&quot;This is %s chip with %d CPU cores, Wi-Fi%s%s, &quot;,
+        CONFIG_IDF_TARGET,
+        chip_info.cores,
+        (chip_info.features &amp; CHIP_FEATURE_BT) ? &quot;/BT&quot; : &quot;&quot;,
+        (chip_info.features &amp; CHIP_FEATURE_BLE) ? &quot;/BLE&quot; : &quot;&quot;);
 
-    printf(&quot;silicon revision %d, &quot;, chip_info.revision);
+printf(&quot;silicon revision %d, &quot;, chip_info.revision);
 
-    printf(&quot;%dMB %s flash\n&quot;, spi_flash_get_chip_size() / (1024 * 1024),
-            (chip_info.features &amp; CHIP_FEATURE_EMB_FLASH) ? &quot;embedded&quot; : &quot;external&quot;);
+printf(&quot;%dMB %s flash\n&quot;, spi_flash_get_chip_size() / (1024 * 1024),
+        (chip_info.features &amp; CHIP_FEATURE_EMB_FLASH) ? &quot;embedded&quot; : &quot;external&quot;);
 
-    printf(&quot;Minimum free heap size: %d bytes\n&quot;, esp_get_minimum_free_heap_size());
+printf(&quot;Minimum free heap size: %d bytes\n&quot;, esp_get_minimum_free_heap_size());
 </code></pre>
 <p>A continuación, dentro de un bucle sencillo, el sistema muestra un mensaje y
 después suspende su ejecución por un determinado período de tiempo
@@ -412,16 +412,16 @@ Esta función recibe como parámetro el número de <em>ticks</em> de reloj duran
 suspender la ejecución de la tarea, que pueden calcularse dividiendo el tiempo que
 deseamos suspender la tarea entre la duración de un <em>tick</em>.
 FreeRTOS proporciona la constante <code>portTICK_PERIOD_MS</code>, que nos da la duración en milisegundos de un <em>tick</em>:</p>
-<pre><code class="language-c">    for (int i = 10; i &gt;= 0; i--) {
-        printf(&quot;Restarting in %d seconds...\n&quot;, i);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
+<pre><code class="language-c">for (int i = 10; i &gt;= 0; i--) {
+    printf(&quot;Restarting in %d seconds...\n&quot;, i);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+}
 </code></pre>
 <p>Finalmente, la tarea reinicia el sistema tras la finalización de la tarea
 principal:</p>
-<pre><code class="language-c">    printf(&quot;Restarting now.\n&quot;);
-    fflush(stdout);
-    esp_restart();
+<pre><code class="language-c">printf(&quot;Restarting now.\n&quot;);
+fflush(stdout);
+esp_restart();
 </code></pre>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 1</p>
@@ -441,12 +441,12 @@ brevemente la API básica para la gestión de tareas (en nuestro caso solo neces
 Verás muchos más detalles sobre esta API en la asignatura ANIOT, por lo que aquí no veremos más detalles de los estrictamente necesarios.</p>
 <p>La función <code>xTaskCreate()</code> (incluida en <code>task.h</code>) permite la creación de nuevas
 tareas:</p>
-<pre><code class="language-c"> BaseType_t xTaskCreate(TaskFunction_t pvTaskCode,
-                        const char * const pcName,
-                        configSTACK_DEPTH_TYPE usStackDepth,
-                        void *pvParameters,
-                        UBaseType_t uxPriority,
-                        TaskHandle_t *pxCreatedTask);
+<pre><code class="language-c">BaseType_t xTaskCreate(TaskFunction_t pvTaskCode,
+                       const char * const pcName,
+                       configSTACK_DEPTH_TYPE usStackDepth,
+                       void *pvParameters,
+                       UBaseType_t uxPriority,
+                       TaskHandle_t *pxCreatedTask);
 </code></pre>
 <p>Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para ejecución, recibiendo como parámetros:</p>
 <ul>
@@ -454,21 +454,21 @@ tareas:</p>
   implementarse como un bucle infinito. No deben retornar de la función de entrada
   ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función <code>vTaskDelete()</code> con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a <code>vTaskDelete</code> la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:</li>
 </ul>
-<pre><code class="language-c"> void vATaskFunction(void *pvParameters)
+<pre><code class="language-c">void vATaskFunction(void *pvParameters)
+{
+    for(;;)
     {
-        for(;;)
-        {
-            -- Task application code here --
-        }
-
-        /* Tasks must not attempt to return from their implementing
-        function or otherwise exit. In newer FreeRTOS ports
-        attempting to do so will result in an configASSERT() being
-        called if it is defined. If it is necessary for a task to
-        exit then have the task call vTaskDelete(NULL) to ensure
-        its exit is clean. */
-        vTaskDelete(NULL);
+        -- Task application code here --
     }
+
+    /* Tasks must not attempt to return from their implementing
+    function or otherwise exit. In newer FreeRTOS ports
+    attempting to do so will result in an configASSERT() being
+    called if it is defined. If it is necessary for a task to
+    exit then have the task call vTaskDelete(NULL) to ensure
+    its exit is clean. */
+    vTaskDelete(NULL);
+}
 </code></pre>
 <ul>
 <li><code>pcName</code>: nombre descriptivo de la tarea a ejecutar, típicamente usado en tiempo de depuración.</li>

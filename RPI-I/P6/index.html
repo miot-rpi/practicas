@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi Mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
 </li>
                                     
 <li>
@@ -718,13 +718,11 @@ Una vez en este evento, para descubrir un servicio concreto se utiliza la funci�
 <h2 id="registro-para-notificaciones">Registro para notificaciones</h2>
 <p>El cliente puede registrarse para recibir notificaciones del servidor cada vez que cambia el valor de la característica. En este ejemplo, queremos registrarnos para recibir notificaciones de la característica identificada con el UUID <code>0xFF01</code>.</p>
 <p>Después de obtener la característica, verificamos sus propiedades (lectura, escritura, notificaciones...) y utilizamos la función <code>esp_ble_gattc_register_for_notify()</code> para registrarnos localmente y recibir notificaciones. Los argumentos de la función son: la interfaz GATT, la dirección del servidor GATT remoto y el handle del que queremos recibir notificaciones.</p>
-<pre><code class="language-c">…
-if (count &gt; 0 &amp;&amp; (char_elem_result[0].properties &amp; ESP_GATT_CHAR_PROP_BIT_NOTIFY))
+<pre><code class="language-c">if (count &gt; 0 &amp;&amp; (char_elem_result[0].properties &amp; ESP_GATT_CHAR_PROP_BIT_NOTIFY))
 {
     gl_profile_tab[PROFILE_A_APP_ID].char_handle = char_elem_result[0].char_handle;
     esp_ble_gattc_register_for_notify(gattc_if, gl_profile_tab[PROFILE_A_APP_ID].remote_bda, char_elem_result[0].char_handle);
 }
-…
 </code></pre>
 <p>Este procedimiento registra notificaciones en la pila BLE y desencadena un evento <code>ESP_GATTC_REG_FOR_NOTIFY_EVT</code>. Este evento se utiliza para escribir en el descriptor CCC (Client Characteristic Configuration) del servidor con el fin de habilitar las notificaciones para dicho cliente:</p>
 <pre><code class="language-c">case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
