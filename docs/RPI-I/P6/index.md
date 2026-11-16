@@ -2,27 +2,27 @@
 
 ## Objetivos
 
-* Diseccionar en detalle un *firmware* de un cliente GATT utilizando la API de ESP-IDF.
+* Analizar en detalle el *firmware* de un cliente GATT utilizando la API de ESP-IDF.
 * Aprender a realizar un escaneo de dispositivos BLE.
-* Conocer la información disponible en los anuncios BLE.
-* Gestionar la conexión desde un cliente BLE a un servidor GATT BLE.
+* Extraer e interpretar la información que contienen los anuncios BLE.
+* Gestionar la conexión desde un cliente BLE a un servidor GATT.
 
-# Implementación de un cliente GATT para escaneo y conexión a servidor
+# Implementación de un cliente GATT
 
-En esta práctica se revisa el código de ejemplo para la construcción de un cliente GATT para el ESP32 utilizando ESP-IDF. El código implementa un cliente GATT que escanea servidores periféricos cercanos y se conecta a un servicio predefinido. El cliente busca características disponibles y se suscribe a una característica conocida para recibir indicaciones o notificaciones. El ejemplo puede registrar un perfil de aplicación e inicializa una secuencia de eventos que se pueden utilizar para configurar parámetros GAP y para manejar eventos como el escaneo, la conexión a periféricos y la lectura y escritura de características.
+## Introducción
 
-El desarrollo de esta práctica requiere el uso de dos placas: una ejecutando el servidor GATT básico (o modificado) que usaste en la práctica anterior, y otra ejecutando el código cliente.
+En esta práctica desplegaremos un cliente GATT utilizando la API de ESP-IDF. El código del ejemplo que vamos a analizar permite escanear dispositivos BLE y establecer una conexión con un servidor GATT que ofrece un servicio predefinido (el *Heart Rate Service*).
 
-## Descripción del código de ejemplo
+Una vez establecida la conexión, el cliente descubrirá los servicios y características disponibles en el servidor. El ejemplo registra un perfil de aplicación (modo cliente) e inicializa una secuencia de manejadores de eventos que permiten configurar los parámetros GAP y gestionar las diferentes operaciones del cliente: el escaneo de dispositivos, la conexión con servidores GATT, el descubrimiento de atributos, y la lectura, escritura y suscripción a características.
 
-El ejemplo que seguiremos y adaptaremos se encuentra en la carpeta de ejemplos de ESP-IDF en `bluetooth/bluedroid/ble/gatt_client/main`. El archivo `gattc_demo.c` contiene todas las funcionalidades que vamos a revisar. 
+Para realizar esta práctica se necesitan dos placas ESP32, una ejecutando el servidor GATT modificado de la práctica anterior y otra ejecutando el código del cliente (ejemplo ***gatt_client*** del directorio *bluetooth/bluedroid/ble*).
 
 !!! note "Nota"
-    Antes de comenzar, asegúrate de que la variable `remote_device_name` NO coincide con la de tu servidor GATT.
+    Antes de empezar, asegúrate de que la variable `remote_device_name` NO coincide con el nombre de tu servidor GATT (de lo contrario se establecería la conexión automáticamente).
 
-## Ficheros de cabecera
+## Inclusión de cabeceras
 
-Observa los ficheros de cabecera incluidos en `gattc_demo.c` (similares a los de la práctica anterior):
+Observa los ficheros de cabecera necesarios:
 
 ```c
 #include <stdint.h>
@@ -31,7 +31,6 @@ Observa los ficheros de cabecera incluidos en `gattc_demo.c` (similares a los de
 #include <stdio.h>
 #include "nvs.h"
 #include "nvs_flash.h"
-#include "controller.h"
 
 #include "esp_bt.h"
 #include "esp_gap_ble_api.h"
@@ -39,144 +38,60 @@ Observa los ficheros de cabecera incluidos en `gattc_demo.c` (similares a los de
 #include "esp_gatt_defs.h"
 #include "esp_bt_main.h"
 #include "esp_gatt_common_api.h"
+#include "esp_log.h"
+#include "freertos/FreeRTOS.h"
 ```
 
-Estos `includes` son necesarios para que funcionen los componentes del sistema subyacente y FreeRTOS, incluida la funcionalidad de registro y una biblioteca para almacenar datos en memoria flash no volátil. Estamos interesados en `"esp_bt.h"`, `"esp_bt_main.h"`, `"esp_gap_ble_api.h"` y `"esp_gattc_api.h"`, que exponen las APIs BLE necesarias para implementar este ejemplo:
+Al igual que en la implementación del servidor, estas cabeceras son necesarias para el correcto funcionamiento de FreeRTOS y de sus componentes. Resultan especialmente interesantes las cabeceras `esp_bt.h`, `esp_bt_main.h`, `esp_gap_ble_api.h` y `esp_gattc_api.h`, las cuales exponen las APIs BLE necesarias para la implementación del cliente:
 
-* `esp_bt.h`: configura el controlador BT y VHCI desde el lado del host.
-* `esp_bt_main.h`: inicializa y habilita la pila Bluedroid.
-* `esp_gap_ble_api.h`: implementa la configuración GAP, por ejemplo los anuncios de dispositivos y los parámetros de conexión.
-* `esp_gattc_api.h`: implementa la configuración del cliente GATT, como la conexión a periféricos y la búsqueda de servicios.
+* `esp_bt.h`: proporciona las funciones relacionadas con el controlador Bluetooth.
+* `esp_bt_main.h`: declara las funciones de inicialización y activación de la pila Bluedroid.
+* `esp_gap_ble_api.h`: proporciona la API GAP (para la configuración de los parámetros de anuncio y conexión).
+* `esp_gattc_api.h`: proporciona la API del cliente GATT (para la conexión a servidores y el descubrimiento de atributos).
 
-## Punto de entrada principal
+## Inicio de la aplicación
 
-La función de punto de entrada del programa es `app_main()`:
+El punto de entrada de la aplicación se implementa mediante la función `app_main()`. Esta comienza inicializando la biblioteca de almacenamiento no volátil, que permite almacenar pares clave-valor en la memoria flash. Esta biblioteca es utilizada por diferentes componentes de ESP-IDF, como por el controlador Wi-Fi para almacenar el SSID y la contraseña de la red.
 
-```c
-void app_main()
-{
-    // Inicializar NVS.
-    esp_err_t ret = nvs_flash_init();
-    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-        ESP_ERROR_CHECK(nvs_flash_erase());
-        ret = nvs_flash_init();
-    }
-    ESP_ERROR_CHECK(ret);
-
-    esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
-    ret = esp_bt_controller_init(&bt_cfg);
-    if (ret) {
-        ESP_LOGE(GATTC_TAG, "%s inicialización del controlador fallida, código de error = %x", __func__, ret);
-        return;
-    }
-
-    ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
-    if (ret) {
-        ESP_LOGE(GATTC_TAG, "%s habilitación del controlador fallida, código de error = %x", __func__, ret);
-        return;
-    }
-
-    esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
-    ret = esp_bluedroid_init_with_cfg(&bluedroid_cfg);
-    if (ret) {
-        ESP_LOGE(GATTC_TAG, "%s inicialización de Bluetooth fallida, código de error = %x", __func__, ret);
-        return;
-    }
-
-    ret = esp_bluedroid_enable();
-    if (ret) {
-        ESP_LOGE(GATTC_TAG, "%s habilitación de Bluetooth fallida, código de error = %x", __func__, ret);
-        return;
-    }
-
-    // Registrar la función de devolución de llamada en el módulo GAP
-    ret = esp_ble_gap_register_callback(esp_gap_cb);
-    if (ret){
-        ESP_LOGE(GATTC_TAG, "%s registro de GAP fallido, código de error = %x", __func__, ret);
-        return;
-    }
-
-    // Registrar la función de devolución de llamada en el módulo GATTC
-    ret = esp_ble_gattc_register_callback(esp_gattc_cb);
-    if(ret){
-        ESP_LOGE(GATTC_TAG, "%s registro de GATTC fallido, código de error = %x", __func__, ret);
-        return;
-    }
-
-    ret = esp_ble_gattc_app_register(PROFILE_A_APP_ID);
-    if (ret){
-        ESP_LOGE(GATTC_TAG, "%s registro de la aplicación GATTC fallido, código de error = %x", __func__, ret);
-    }
-
-    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
-    if (local_mtu_ret){
-        ESP_LOGE(GATTC_TAG, "configuración del MTU local fallida, código de error = %x", local_mtu_ret);
-    }
-
-}
-```
-
-La función principal comienza inicializando la biblioteca de almacenamiento no volátil. Esta biblioteca permite guardar pares clave-valor en la memoria flash y se utiliza en algunos componentes, como la biblioteca Wi-Fi, para guardar el SSID y la contraseña:
-
-```c
-esp_err_t ret = nvs_flash_init();
-if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-    ESP_ERROR_CHECK(nvs_flash_erase());
-    ret = nvs_flash_init();
-}
-ESP_ERROR_CHECK(ret);
-```
-## Inicialización del controlador Bluetooth y la pila BLE
-
-La función principal también inicializa el controlador BT al crear primero una estructura de configuración del controlador BT llamada `esp_bt_controller_config_t` con ajustes predeterminados generados por la macro `BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. El controlador BT implementa la interfaz HCI en el lado del controlador, la capa de enlace (LL) y la capa física (PHY). El controlador BT es invisible para las aplicaciones de usuario y se encarga de las capas inferiores de la pila BLE. La configuración del controlador incluye el tamaño de la pila del controlador BT, la prioridad y la velocidad de baudios HCI para la transmisión. Con la configuración creada, se inicializa y habilita el controlador BT con la función `esp_bt_controller_init()`:
+La función principal también inicializa el controlador Bluetooth. Para ello, primero crea una estructura de configuración de tipo `esp_bt_controller_config_t`, cuyos campos se inicializan con los valores por defecto proporcionados por la macro `BT_CONTROLLER_INIT_CONFIG_DEFAULT()`. Recuerda que el controlador Bluetooth implementa la interfaz *Host Controller Interface* (HCI), la capa de enlace y la capa física. Una vez creada la estructura de configuración, se inicializa el controlador mediante la función `esp_bt_controller_init()`:
 
 ```c
 esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
 ret = esp_bt_controller_init(&bt_cfg);
 ```
 
-A continuación, el controlador se habilita en modo BLE:
+A continuación, se habilita el controlador en modo BLE (usando la opción `ESP_BT_MODE_BLE`):
 
 ```c
 ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
 ```
 
-Hay cuatro modos de Bluetooth admitidos:
-
-1. `ESP_BT_MODE_IDLE`: Bluetooth no se está ejecutando.
-2. `ESP_BT_MODE_BLE`: modo BLE.
-3. `ESP_BT_MODE_CLASSIC_BT`: modo BT clásico.
-4. `ESP_BT_MODE_BTDM`: modo dual (BLE + BT clásico).
-
-Después de la inicialización del controlador BT, se inicializa y habilita la pila Bluedroid, que incluye las definiciones y APIs comunes tanto para BT clásico como para BLE. Esto se realiza mediante:
+Después de activar el controlador Bluetooth, se inicializa y habilita la pila Bluedroid (capas superiores), que incluye APIs tanto para BLE como para Bluetooth clásico:
 
 ```c
-ret = esp_bluedroid_init();
+ret = esp_bluedroid_init_with_cfg(&cfg);    /* Configuración de seguridad para Bluetooth clásico */
 ret = esp_bluedroid_enable();
 ```
 
-La función principal finaliza registrando los controladores de eventos GAP y GATT así como el perfil de aplicación, y configurando el tamaño máximo admitido de MTU:
+La función principal finaliza registrando dos funciones de *callback* para gestionar los eventos BLE, una para GAP y otra para GATT (cliente), así como registrando el perfil de aplicación (modo cliente) y configurando el tamaño máximo de MTU admitido:
 
 ```c
-// Registrar la función de devolución de llamada en el módulo GAP
+// Register the callback function to the gap module
 ret = esp_ble_gap_register_callback(esp_gap_cb);
 
-// Registrar la función de devolución de llamada en el módulo GATTC
+// Register the callback function to the gattc module
 ret = esp_ble_gattc_register_callback(esp_gattc_cb);
 
 ret = esp_ble_gattc_app_register(PROFILE_A_APP_ID);
 
 esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
-if (local_mtu_ret){
-    ESP_LOGE(GATTC_TAG, "configuración del MTU local fallida, código de error = %x", local_mtu_ret);
-}
 ```
 
-Los controladores de eventos GAP y GATT son las funciones utilizadas para capturar los eventos generados por la pila BLE y ejecutar funciones para configurar los parámetros de la aplicación. Además, los controladores de eventos también se utilizan para manejar eventos de lectura y escritura que provienen del dispositivo central. El controlador de eventos GAP se encarga del escaneo y la conexión a servidores, y el controlador GATT administra los eventos que ocurren después de que el cliente se haya conectado a un servidor, como la búsqueda de servicios y la escritura y lectura de datos.
+El manejador de eventos GAP (`esp_gap_cb()`) se encarga de gestionar el escaneo y la conexión con servidores GATT. Por su parte, el manejador GATT (`esp_gattc_cb()`) gestionará las operaciones propias del cliente GATT, como el descubrimiento de atributos y la lectura y escritura de datos.
 
 ## Perfiles de aplicación
 
-Los perfiles de aplicación son una forma de agrupar funcionalidades diseñadas para una o más aplicaciones de servidor. Por ejemplo, puede tener un perfil de aplicación conectado a sensores de ritmo cardíaco y otro conectado a sensores de temperatura. Cada perfil de aplicación crea una interfaz GATT para conectarse a otros dispositivos. Las estructuras de perfiles de aplicación en el código son instancias de la estructura `gattc_profile_inst`, que se define como:
+Las estructuras que representan los perfiles de aplicación desde el punto de vista del cliente GATT son instancias del tipo personalizado `gattc_profile_inst`:
 
 ```c
 struct gattc_profile_inst {
@@ -191,70 +106,64 @@ struct gattc_profile_inst {
 };
 ```
 
-La estructura de un perfil de aplicación contiene:
+* `gattc_cb`: función de *callback* del perfil de aplicación.
+* `gattc_if`: ID de la interfaz lógica del cliente asociada al perfil.
+* `app_id`: ID asignado al perfil de aplicación.
+* `conn_id`: ID de la conexión GATT.
+* `service_start_handle`: handle de inicio del servicio descubierto.
+* `service_end_handle`: handle de fin del servicio descubierto.
+* `char_handle`: handle de la característica objetivo (*Heart Rate Measurement*).
+* `remote_bda`: dirección Bluetooth del dispositivo remoto al que está conectado el cliente.
 
-- `gattc_cb`: función de devolución de llamada del cliente GATT.
-- `gattc_if`: número de interfaz del cliente GATT para este perfil.
-- `app_id`: número de ID del perfil de aplicación.
-- `conn_id`: ID de conexión.
-- `service_start_handle`: handle de inicio del servicio.
-- `service_end_handle`: handle de fin del servicio.
-- `char_handle`: handle de característica.
-- `remote_bda`: dirección del dispositivo remoto conectado a este cliente.
-
-En este ejemplo, hay un perfil de aplicación y su ID se define como:
+En el ejemplo se utiliza un único perfil de aplicación, asociado al servicio *Heart Rate*, cuyo identificador/índice es 0:
 
 ```c
 #define PROFILE_NUM 1
 #define PROFILE_A_APP_ID 0
 ```
 
-Los perfiles de aplicación se almacenan en el array `gl_profile_tab`, que se inicializa de la siguiente manera:
+El perfil de aplicación se almacena en el array `gl_profile_tab`:
 
 ```c
-/* Un perfil basado en GATT, un app_id y un gattc_if, este arreglo almacenará el gattc_if devuelto por ESP_GATTS_REG_EVT */
+/* One gatt-based profile one app_id and one gattc_if, this array will store the gattc_if returned by ESP_GATTS_REG_EVT */
 static struct gattc_profile_inst gl_profile_tab[PROFILE_NUM] = {
     [PROFILE_A_APP_ID] = {
         .gattc_cb = gattc_profile_event_handler,
-        .gattc_if = ESP_GATT_IF_NONE, /* No se obtiene el gatt_if, por lo que se inicializa como ESP_GATT_IF_NONE */
+        .gattc_if = ESP_GATT_IF_NONE,       /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
     },
 };
 ```
 
-La inicialización del array de tablas de perfiles de aplicación incluye la definición de la función de devolución de llamada para el perfil (`gattc_profile_event_handler()`). Además, la interfaz GATT se inicializa con el valor predeterminado de `ESP_GATT_IF_NONE`. Más adelante cuando se registre el perfil de aplicación, la pila BLE devolverá una instancia de interfaz GATT para usar con ese perfil de aplicación.
+En la inicialización del array `gl_profile_tab` se configura el manejador del perfil de aplicación (`gattc_profile_event_handler()`). Además, `gattc_if` se inicializa con el valor `ESP_GATT_IF_NONE` (sin interfaz).
 
-El registro del perfil desencadena un evento `ESP_GATTC_REG_EVT`, que es manejado por el manejador de eventos `esp_gattc_cb()`. El manejador toma la interfaz GATT devuelta por el evento y la almacena en la tabla de perfiles:
+Cuando se registra el perfil mediante `esp_ble_gattc_app_register()`, se desencadena el evento `ESP_GATTC_REG_EVT`, que es gestionado por el manejador de eventos GATT `esp_gattc_cb()`. Este toma el ID de la interfaz GATT proporcionado en el evento y lo almacena en la tabla de perfiles:
 
 ```c
 static void esp_gattc_cb(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gattc_cb_param_t *param)
 {
-    ESP_LOGI(GATTC_TAG, "EVT %d, gattc if %d", event, gattc_if);
-
-    /* Si el evento es un evento de registro, almacena el gattc_if para cada perfil */
+    /* If event is register event, store the gattc_if for each profile */
     if (event == ESP_GATTC_REG_EVT) {
         if (param->reg.status == ESP_GATT_OK) {
             gl_profile_tab[param->reg.app_id].gattc_if = gattc_if;
         } else {
-            ESP_LOGI(GATTC_TAG, "registro de aplicación fallido, app_id %04x, estado %d",
-                    param->reg.app_id,
-                    param->reg.status);
+            ESP_LOGI(GATTC_TAG, "reg app failed, app_id %04x, status %d", param->reg.app_id, param->reg.status);
             return;
         }
     }
-…
+    ...
 ```
 
-Finalmente, la función de devolución de llamada invoca el manejador de eventos correspondiente para cada perfil de la tabla `gl_profile_tab`:
+Finalmente, la función delega el manejo de eventos en el *callback* asociado al perfil de aplicación (`gattc_profile_event_handler()`):
 
 ```c
-…
-    /* Si gattc_if es igual al perfil A, llamar al manejador de cb del perfil A,
-    * por lo tanto, aquí llamar a la función cb de cada perfil */
+    ...
+    /* If the gattc_if equal to profile A, call profile A cb handler,
+     * so here call each profile's callback */
     do {
         int idx;
         for (idx = 0; idx < PROFILE_NUM; idx++) {
-            if (gattc_if == ESP_GATT_IF_NONE || /* ESP_GATT_IF_NONE, no especifica un cierto gatt_if, es necesario llamar a cada función cb del perfil */
-                    gattc_if == gl_profile_tab[idx].gattc_if) {
+            /* ESP_GATT_IF_NONE, not specify a certain gatt_if, need to call every profile cb function */
+            if (gattc_if == ESP_GATT_IF_NONE || gattc_if == gl_profile_tab[idx].gattc_if) {
                 if (gl_profile_tab[idx].gattc_cb) {
                     gl_profile_tab[idx].gattc_cb(event, gattc_if, param);
                 }
@@ -264,17 +173,16 @@ Finalmente, la función de devolución de llamada invoca el manejador de eventos
 }
 ```
 
-## Configuración de parámetros de escaneo
+## Parámetros GAP (escaneo)
 
-El cliente GATT normalmente escanea servidores cercanos y trata de conectarse a estos si está interesado. Sin embargo, para realizar el escaneo, primero es necesario configurar los parámetros de configuración. Esto se hace después del registro de los perfiles de aplicación, porque una vez completado el registro, se desencadena un evento `ESP_GATTC_REG_EVT`. La primera vez que se desencadena este evento, el manejador de eventos GATT lo captura y asigna una interfaz GATT al perfil A. Luego, el evento se reenvía al manejador de eventos GATT del perfil A. En este manejador de eventos, el evento se utiliza para llamar a la función `esp_ble_gap_set_scan_params()`, que toma una instancia de estructura `ble_scan_params` como parámetro. Esta estructura se define como:
+El cliente GATT normalmente escanea servidores GATT y trata de conectarse a estos si está interesado. Sin embargo, antes de realizar el escaneo, es necesario configurar sus parámetros. Esta configuración se lleva a cabo durante la gestión del evento `ESP_GATTC_REG_EVT` (manejador `gattc_profile_event_handler()`). En este, el evento se utiliza para llamar a la función `esp_ble_gap_set_scan_params()`, que recibe como argumento una estructura de tipo `esp_ble_scan_params_t` con los parámetros de escaneo:
 
 ```c
-// Parámetros de escaneo BLE
 typedef struct {
     esp_ble_scan_type_t     scan_type;              /*!< Tipo de escaneo */
     esp_ble_addr_type_t     own_addr_type;          /*!< Tipo de dirección propia */
-    esp_ble_scan_filter_t   scan_filter_policy;     /*!< Política de filtro de escaneo */
-    uint16_t                scan_interval;          /*!< Intervalo de escaneo. Se define como el intervalo de tiempo desde que el controlador comenzó su último escaneo LE hasta que comienza el siguiente escaneo LE */
+    esp_ble_scan_filter_t   scan_filter_policy;     /*!< Política de filtrado del escaneo */
+    uint16_t                scan_interval;          /*!< Intervalo de escaneo. Se define como el intervalo de tiempo desde que el controlador comenzó su último escaneo LE hasta que comienza el siguiente */
                                                     // Rango: 0x0004 a 0x4000
                                                     // Predeterminado: 0x0010 (10 ms)
                                                     // Tiempo = N * 0.625 ms
@@ -284,189 +192,144 @@ typedef struct {
                                                     // Predeterminado: 0x0010 (10 ms)
                                                     // Tiempo = N * 0.625 ms
                                                     // Rango de tiempo: 2.5 ms a 10.24 segundos
+    esp_ble_scan_duplicate_t  scan_duplicate;       /*!< Indica si se deben filtrar los anuncios duplicados */
 } esp_ble_scan_params_t;
 ```
 
-Y se inicializa de la siguiente manera:
+La estructura se inicializa de la siguiente manera:
 
 ```c
 static esp_ble_scan_params_t ble_scan_params = {
     .scan_type              = BLE_SCAN_TYPE_ACTIVE,
     .own_addr_type          = BLE_ADDR_TYPE_PUBLIC,
     .scan_filter_policy     = BLE_SCAN_FILTER_ALLOW_ALL,
-    .scan_interval          = 0x50,
-    .scan_window            = 0x30
+    .scan_interval          = ESP_BLE_GAP_SCAN_ITVL_MS(50),
+    .scan_window            = ESP_BLE_GAP_SCAN_WIN_MS(30),
+    .scan_duplicate         = BLE_SCAN_DUPLICATE_DISABLE
 };
 ```
 
-Los parámetros de escaneo BLE se configuran de manera que el tipo de escaneo sea activo (incluye la lectura de la respuesta de escaneo), es de tipo público, permite leer cualquier dispositivo anunciado y tiene un intervalo de escaneo de 50 ms (0x50 * 0.625 ms) y una ventana de escaneo de 30 ms (0x30 * 0.625 ms).
-
-Los valores de escaneo se establecen utilizando la función `esp_ble_gap_set_scan_params()`:
-
-```c
-case ESP_GATTC_REG_EVT:
-    ESP_LOGI(GATTC_TAG, "REG_EVT");
-    esp_err_t scan_ret = esp_ble_gap_set_scan_params(&ble_scan_params);
-    if (scan_ret) {
-        ESP_LOGE(GATTC_TAG, "error al configurar parámetros de escaneo, código de error = %x", scan_ret);
-    }
-    break;
-```
+Los parámetros de escaneo se configuran para realizar un escaneo activo (incluye el envío de *scan requests*), utilizar una dirección Bluetooth pública y aceptar anuncios de cualquier dispositivo. Además, se establece un intervalo de escaneo de 50 ms (0x50 * 0.625 ms) y una ventana de escaneo de 30 ms (0x30 * 0.625 ms).
 
 !!! danger "Ejercicio 1"
-    Configura los parámetros de escaneo para que este se produzca con menos frecuencia (cada segundo).
+    Modifica los parámetros de escaneo para que este se realice con menor frecuencia. Añade estos parámetros a través de *menuconfig*. ¿Qué diferencia hay entre el intervalo de escaneo y la ventana de escaneo? Muestra cómo cambia el comportamiento del escaneo al modificar ambos parámetros.
 
-Una vez que se establecen los parámetros de escaneo, se desencadena un evento `ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT`, que es manejado por el manejador de eventos GAP `esp_gap_cb()`. Este evento se utiliza para iniciar el escaneo de los servidores GATT cercanos:
-
-```c
-case ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT: {
-    uint32_t duration = 30; // En segundos
-    esp_ble_gap_start_scanning(duration);
-    break;
-}
-```
-
-El escaneo se inicia mediante la función `esp_ble_gap_start_scanning()`, que toma un parámetro que representa la duración del escaneo continuo (en segundos).
+Al establecer los parámetros de escaneo con `esp_ble_gap_set_scan_params()` se desencadena el evento `ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT`, que es gestionado por el manejador de eventos GAP `esp_gap_cb()`. Este evento se utiliza para iniciar el escaneo con la función `esp_ble_gap_start_scanning()`.
 
 !!! danger "Ejercicio 2"
-    Analiza el código y modifícalo para que el proceso de escaneo se produzca indefinidamente. Además, añade al código los parámetros de intervalo y ventana de escaneo a través de *menuconfig* (tomando valores en ms) para poder configurar la frecuencia de escaneo. Comprueba que efectivamente el tiempo en el que el dispositivo se encuentra en fase de escaneo es el seleccionado.
+    ¿Por qué llega un momento en el que el escaneo se detiene? Analiza el código y modifícalo para que el proceso de escaneo se realice indefinidamente. Comprueba que el tiempo durante el cual el dispositivo permanece en fase de escaneo corresponde al valor seleccionado.
 
-Los resultados del escaneo se muestran tan pronto como llegan con el evento `ESP_GAP_BLE_SCAN_RESULT_EVT`, que incluye los siguientes parámetros:
+Los resultados del escaneo se muestran por consola a medida que se reciben mediante el evento `ESP_GAP_BLE_SCAN_RESULT_EVT`. Cada resultado se representa con una estructura de tipo `ble_scan_result_evt_param`:
 
 ```c
-/**
- * @brief ESP_GAP_BLE_SCAN_RESULT_EVT
- */
 struct ble_scan_result_evt_param {
-    esp_gap_search_evt_t search_evt;            /*!< Tipo de evento de búsqueda (subevento) */
-    esp_bd_addr_t bda;                          /*!< Dirección del dispositivo Bluetooth que ha sido buscado */
+    esp_gap_search_evt_t search_evt;            /*!< Tipo de subevento */
+    esp_bd_addr_t bda;                          /*!< Dirección Bluetooth del dispositivo detectado */
     esp_bt_dev_type_t dev_type;                 /*!< Tipo de dispositivo */
-    esp_ble_addr_type_t ble_addr_type;          /*!< Tipo de dirección del dispositivo BLE */
-    esp_ble_evt_type_t ble_evt_type;            /*!< Tipo de evento de resultado de escaneo BLE */
-    int rssi;                                   /*!< RSSI del dispositivo buscado (potencia recibida) */
-    uint8_t ble_adv[ESP_BLE_ADV_DATA_LEN_MAX + ESP_BLE_SCAN_RSP_DATA_LEN_MAX]; /*!< Datos de publicidad recibidos */
-    int flag;                                   /*!< Bit de indicación de datos de publicidad */
-    int num_resps;                              /*!< Número de resultados de escaneo */
-    uint8_t adv_data_len;                       /*!< Longitud de datos de publicidad */
-    uint8_t scan_rsp_len;                       /*!< Longitud de respuesta de escaneo */
-} scan_rst;                                     /*!< Parámetro de evento de ESP_GAP_BLE_SCAN_RESULT_EVT */
+    esp_ble_addr_type_t ble_addr_type;          /*!< Tipo de dirección BLE del dispositivo */
+    esp_ble_evt_type_t ble_evt_type;            /*!< Tipo de anuncio BLE recibido */
+    int rssi;                                   /*!< RSSI del dispositivo detectado (potencia recibida) */
+    uint8_t ble_adv[ESP_BLE_ADV_DATA_LEN_MAX + ESP_BLE_SCAN_RSP_DATA_LEN_MAX]; /*!< Datos del anuncio recibido */
+    int flag;                                   /*!< Flag de los datos del anuncio */
+    int num_resps;                              /*!< Número de resultados de escaneo asociados al dispositivo */
+    uint8_t adv_data_len;                       /*!< Longitud del anuncio recibido (en bytes) */
+    uint8_t scan_rsp_len;                       /*!< Longitud del scan response recibido (en bytes) */
+    uint32_t num_dis;                           /*!< Número de resultados de escaneo descartados */
+} scan_rst;
 ```
 
-Este evento también incluye una lista de subeventos:
+Dentro del evento `ESP_GAP_BLE_SCAN_RESULT_EVT`, los resultados del escaneo se gestionan según el valor del campo `search_evt`, que permite identificar el tipo de subevento recibido. Entre sus posibles valores se encuentran:
 
 ```c
-// Subevento de ESP_GAP_BLE_SCAN_RESULT_EVT
 typedef enum {
-    ESP_GAP_SEARCH_INQ_RES_EVT             = 0,      /*!< Resultado de la búsqueda para un dispositivo BLE */
-    ESP_GAP_SEARCH_INQ_CMPL_EVT            = 1,      /*!< Escaneo finalizado */
-    …
+    ESP_GAP_SEARCH_INQ_RES_EVT             = 0,      /*!< Resultado de búsqueda de un dispositivo */
+    ESP_GAP_SEARCH_INQ_CMPL_EVT            = 1,      /*!< Búsqueda finalizada */
+    ...
 } esp_gap_search_evt_t;
 ```
 
-Concretamente, nos interesa el evento `ESP_GAP_SEARCH_INQ_RES_EVT`, que se llama cada vez que se encuentra un nuevo dispositivo. También nos podría interesar el evento `ESP_GAP_SEARCH_INQ_CMPL_EVT`, que se desencadena cuando se completa el escaneo y se puede utilizar para reiniciar el procedimiento de escaneo:
+Concretamente, nos interesa el evento `ESP_GAP_SEARCH_INQ_RES_EVT`, que se desencadena cada vez que se detecta un dispositivo. También puede resultar útil el evento `ESP_GAP_SEARCH_INQ_CMPL_EVT`, que se emite cuando finaliza el escaneo y podría utilizarse para reiniciarlo:
 
 ```c
 case ESP_GAP_BLE_SCAN_RESULT_EVT: {
-        esp_ble_gap_cb_param_t *scan_result = (esp_ble_gap_cb_param_t *)param;
-        switch (scan_result->scan_rst.search_evt) {
-            case ESP_GAP_SEARCH_INQ_RES_EVT:
-                adv_name = esp_ble_resolve_adv_data_by_type(scan_result->scan_rst.ble_adv,
-                                                            scan_result->scan_rst.adv_data_len + scan_result->scan_rst.scan_rsp_len,
-                                                            ESP_BLE_AD_TYPE_NAME_CMPL,
-                                                            &adv_name_len);
-                ESP_LOGI(GATTC_TAG, "Scan result, device " ESP_BD_ADDR_STR ", name len %u", ESP_BD_ADDR_HEX(scan_result->scan_rst.bda), adv_name_len);
-                ESP_LOG_BUFFER_CHAR(GATTC_TAG, adv_name, adv_name_len);
-                …
-                if (adv_name != NULL) {
-                    if (strlen(remote_device_name) == adv_name_len && strncmp((char *)adv_name, remote_device_name, adv_name_len) == 0) {
-                        ESP_LOGI(GATTC_TAG, "Device found %s", remote_device_name);
-                        if (connect == false) {
-                            connect = true;
-                            ESP_LOGI(GATTC_TAG, "Connect to the remote device");
-                            esp_ble_gap_stop_scanning();
-                            esp_ble_gatt_creat_conn_params_t creat_conn_params = {0};
-                            memcpy(&creat_conn_params.remote_bda, scan_result->scan_rst.bda, ESP_BD_ADDR_LEN);
-                            creat_conn_params.remote_addr_type = scan_result->scan_rst.ble_addr_type;
-                            creat_conn_params.own_addr_type = BLE_ADDR_TYPE_PUBLIC;
-                            creat_conn_params.is_direct = true;
-                            creat_conn_params.is_aux = false;
-                            creat_conn_params.phy_mask = 0x0;
-                            esp_ble_gattc_enh_open(gl_profile_tab[PROFILE_A_APP_ID].gattc_if, &creat_conn_params);
-                        }
-                    }
+    esp_ble_gap_cb_param_t *scan_result = (esp_ble_gap_cb_param_t *)param;
+    switch (scan_result->scan_rst.search_evt) {
+    case ESP_GAP_SEARCH_INQ_RES_EVT:
+        adv_name = esp_ble_resolve_adv_data_by_type(scan_result->scan_rst.ble_adv,
+                                                    scan_result->scan_rst.adv_data_len + scan_result->scan_rst.scan_rsp_len,
+                                                    ESP_BLE_AD_TYPE_NAME_CMPL,
+                                                    &adv_name_len);
+        ESP_LOGI(GATTC_TAG, "Scan result, device "ESP_BD_ADDR_STR", name len %u", ESP_BD_ADDR_HEX(scan_result->scan_rst.bda), adv_name_len);
+        ESP_LOG_BUFFER_CHAR(GATTC_TAG, adv_name, adv_name_len);
+        ...
+        if (adv_name != NULL) {
+            if (strlen(remote_device_name) == adv_name_len && strncmp((char *)adv_name, remote_device_name, adv_name_len) == 0) {
+                // Note: If there are multiple devices with the same device name, the device may connect to an unintended one.
+                // It is recommended to change the default device name to ensure it is unique.
+                ESP_LOGI(GATTC_TAG, "Device found %s", remote_device_name);
+                if (connect == false) {
+                    connect = true;
+                    ESP_LOGI(GATTC_TAG, "Connect to the remote device");
+                    esp_ble_gap_stop_scanning();
+                    esp_ble_gatt_creat_conn_params_t creat_conn_params = {0};
+                    memcpy(&creat_conn_params.remote_bda, scan_result->scan_rst.bda, ESP_BD_ADDR_LEN);
+                    creat_conn_params.remote_addr_type = scan_result->scan_rst.ble_addr_type;
+                    creat_conn_params.own_addr_type = BLE_ADDR_TYPE_PUBLIC;
+                    creat_conn_params.is_direct = true;
+                    creat_conn_params.is_aux = false;
+                    creat_conn_params.phy_mask = 0x0;
+                    esp_ble_gattc_enh_open(gl_profile_tab[PROFILE_A_APP_ID].gattc_if, &creat_conn_params);
                 }
-                break;
-            case ESP_GAP_SEARCH_INQ_CMPL_EVT:
-                …
-                break;
-```
-
-En el código anterior se obtiene/resuelve el nombre del dispositivo remoto de los datos del anuncio recibido y se compara con el nombre del dispositivo del servidor GATT en el que estamos interesados (variable `remote_device_name`). Si coincide con el nombre del servidor GATT que estamos buscando, se detiene el escaneo.
-
-!!! note "Nota"
-    Recuerda que al inicio de la práctica cambiamos la variable `remote_device_name` para que no coincidiera con la de tu servidor GATT. Lo dejamos así por ahora.
-
-Para extraer el nombre del dispositivo del paquete publicitario, utilizamos la función `esp_ble_resolve_adv_data_by_type()`, que toma los datos anunciados almacenados en `scan_result->scan_rst.ble_adv`, la longitud de los datos y su tipo. Una vez obtenido, se imprime el nombre del dispositivo.
-
-!!! danger "Ejercicio 3"
-    Muestra también por pantalla el valor de RSSI de cada dispositivo BLE encontrado.
-
-!!! danger "Ejercicio 4"
-    Añade a través de *menuconfig* un campo que indique la dirección BLE de un dispositivo (conocido) que esté en fase de anuncio. Modifica la fase de escaneado para que únicamente se muestre la información del dispositivo cuya dirección BLE se haya configurado.
-
-!!! danger "Ejercicio 5"
-    Modifica el *firmware* para que, en función del valor de RSSI obtenido para el dispositivo de interés, el cliente reporte por pantalla un valor proporcional a la distancia aproximada con dicho dispositivo (por ejemplo, un número de puntos `.` concreto según la distancia). Para ello, establece un mínimo y un máximo de RSSI y aplica la siguiente fórmula: 
-    `(RSSI - RSSI_MIN) / (RSSI_MAX - RSSI_MIN)`. Prueba a configurar un intervalo de escaneo pequeño y a alejar físicamente los dispositivos entre sí.
-
-!!! note "Nota"
-    A partir de este punto puedes volver a fijar el nombre del dispositivo remoto de interés en función del nombre otorgado en el servidor GATT.
-
-Finalmente, si el nombre del dispositivo remoto es el mismo que hemos definido anteriormente, el dispositivo local detiene el escaneo y trata de abrir una conexión con el dispositivo remoto utilizando la función `esp_ble_gattc_enh_open()`. Esta función toma parámetros como la interfaz GATT del perfil de aplicación y la dirección del servidor remoto, entre otros. Ten en cuenta que el cliente abre una conexión virtual con el servidor y que la conexión virtual devuelve un ID de conexión (`conn_id`). La conexión virtual es la conexión entre el perfil de aplicación y el servidor remoto. Dado que muchos perfiles de aplicación pueden ejecutarse en un ESP32, podría haber muchas conexiones virtuales abiertas al mismo servidor remoto. También está la conexión física, que es el enlace BLE real entre el cliente y el servidor. Por lo tanto, si la conexión física se desconecta con la función `esp_ble_gap_disconnect()`, se cierran todas las demás conexiones virtuales.
-
-En este ejemplo, cada perfil de aplicación crea una conexión virtual al mismo servidor con la función `esp_ble_gattc_enh_open()`, por lo que si se llamase a la función de cierre (`esp_ble_gattc_close()`), solo se cerraría esa conexión del perfil de aplicación, mientras que si se llamase a la función de desconexión GAP, se cerrarían ambas conexiones. Además, los eventos de conexión se propagan a todos los perfiles porque se relacionan con la conexión física, mientras que los eventos de apertura se propagan solo al perfil que crea la conexión virtual.
-
-## Configuración del tamaño de MTU
-
-El MTU se define como el tamaño máximo de cualquier paquete enviado entre un cliente y un servidor. Cuando el cliente se conecta al servidor, informa al servidor qué tamaño de MTU usar intercambiando PDUs de solicitud y respuesta de MTU. Esto se hace después de abrir la conexión.
-
-Cabe destacar que después de abrir una conexión se desencadena el evento `ESP_GATTC_CONNECT_EVT`:
-
-```c
-case ESP_GATTC_CONNECT_EVT:
-{
-    ESP_LOGI(GATTC_TAG, "Connected, conn_id %d, remote " ESP_BD_ADDR_STR "", p_data->connect.conn_id, ESP_BD_ADDR_HEX(p_data->connect.remote_bda));
-    gl_profile_tab[PROFILE_A_APP_ID].conn_id = p_data->connect.conn_id;
-    memcpy(gl_profile_tab[PROFILE_A_APP_ID].remote_bda, p_data->connect.remote_bda, sizeof(esp_bd_addr_t));
-    esp_err_t mtu_ret = esp_ble_gattc_send_mtu_req(gattc_if, p_data->connect.conn_id);
-    if (mtu_ret) {
-        ESP_LOGE(GATTC_TAG, "Config MTU error, error code = %x", mtu_ret);
+            }
+        }
+        break;
+    case ESP_GAP_SEARCH_INQ_CMPL_EVT:
+        break;
+    default:
+        break;
     }
     break;
 }
 ```
 
-Como se puede observar, el ID de conexión (`conn_id`) y la dirección del dispositivo remoto (`remote_bda`) se almacenan en la tabla de perfiles de aplicación y se imprimen por consola.
+En el código anterior se obtiene/resuelve el nombre del dispositivo remoto a partir de los datos del anuncio recibido (función `esp_ble_resolve_adv_data_by_type()`) y se compara con el nombre del servidor GATT que nos interesa (variable `remote_device_name`). Si ambos nombres coinciden, se detiene el escaneo con `esp_ble_gap_stop_scanning()`. Recuerda que al principio de la práctica modificamos la variable `remote_device_name` para que no coincidiera con el nombre de nuestro servidor GATT.
 
-El tamaño típico del MTU para una conexión Bluetooth 4.0 es de 23 bytes. Un cliente puede cambiar el tamaño del MTU utilizando la función `esp_ble_gattc_send_mtu_req()`, que toma la interfaz GATT y el ID de conexión. El tamaño del MTU solicitado se define localmente mediante `esp_ble_gatt_set_local_mtu()`. Luego, el servidor puede aceptar o rechazar la solicitud. El ESP32 admite un tamaño de MTU de hasta 517 bytes. En este ejemplo, el tamaño del MTU se establece en 500 bytes.
+!!! danger "Ejercicio 3"
+    Muestra también por pantalla el valor del RSSI de cada dispositivo BLE detectado.
 
-La apertura de la conexión también desencadena un evento `ESP_GATTC_OPEN_EVT`, que se utiliza para comprobar si la apertura de la conexión se realizó con éxito; de lo contrario, se imprime un error y se sale del programa:
+!!! danger "Ejercicio 4"
+    Añade a *menuconfig* un campo que permita configurar la dirección Bluetooth de un dispositivo conocido. Modifica el código para que únicamente se muestre la información del dispositivo cuya dirección se haya configurado.
+
+!!! danger "Ejercicio 5"
+    Modifica el código para que, en función del valor de RSSI obtenido para el dispositivo de interés, el cliente muestre por pantalla un indicador proporcional a la distancia aproximada a dicho dispositivo (por ejemplo, un número concreto de puntos según la distancia). Para ello, establece un valor mínimo y otro máximo de RSSI y aplica la siguiente fórmula: `(RSSI - RSSI_MIN) / (RSSI_MAX - RSSI_MIN)`. Prueba a alejar físicamente los dispositivos entre sí.
+
+## Establecimiento de la conexión
+
+!!! note "Nota"
+    A partir de aquí puedes volver a configurar la variable `remote_device_name` con el nombre asignado a tu servidor GATT.
+
+Si el valor de `remote_device_name` coincide con el nombre del dispositivo remoto, el cliente detiene el escaneo e intenta establecer una conexión con este utilizando la función `esp_ble_gattc_enh_open()`. Esta función recibe, entre otros parámetros, la interfaz GATT del perfil de aplicación y la dirección Bluetooth del servidor remoto.
+
+Ten en cuenta que, además de la conexión física, el cliente establece una conexión virtual con el servidor, a la que se le asigna un ID (`conn_id`). Dado que pueden ejecutarse varios perfiles de aplicación en un mismo ESP32, es posible establecer varias conexiones virtuales con un mismo servidor remoto.
+
+En el cliente, cada perfil de aplicación registrado crea una conexión virtual con el servidor mediante la función `esp_ble_gattc_enh_open()`. Por tanto, si posteriormente se llamase a la función `esp_ble_gattc_close()`, solo se cerraría la conexión virtual correspondiente a ese perfil de aplicación. En cambio, si se llama a la función de desconexión GAP (`esp_ble_gap_disconnect()`), se cerrarán ambas conexiones (física y todas las virtuales).
+
+Una vez establecida la conexión, se desencadena el evento `ESP_GATTC_CONNECT_EVT`:
 
 ```c
-if (param->open.status != ESP_GATT_OK) {
-    ESP_LOGE(GATTC_TAG, "Open failed, status %d", p_data->open.status);
-    break;
+case ESP_GATTC_CONNECT_EVT:{
+    ESP_LOGI(GATTC_TAG, "Connected, conn_id %d, remote "ESP_BD_ADDR_STR"", p_data->connect.conn_id, ESP_BD_ADDR_HEX(p_data->connect.remote_bda));
+    gl_profile_tab[PROFILE_A_APP_ID].conn_id = p_data->connect.conn_id;
+    memcpy(gl_profile_tab[PROFILE_A_APP_ID].remote_bda, p_data->connect.remote_bda, sizeof(esp_bd_addr_t));
+    ...
 }
-ESP_LOGI(GATTC_TAG, "Open successfully, MTU %u", p_data->open.mtu);
-break;
 ```
 
-Cuando se intercambia el MTU, se desencadena el evento `ESP_GATTC_CFG_MTU_EVT`, que en este ejemplo se utiliza simplemente para imprimir el nuevo tamaño del MTU:
+Como se observa en el código, el ID de conexión (`conn_id`) y la dirección del dispositivo remoto (`remote_bda`) se almacenan en la tabla de perfiles de aplicación y se imprimen por consola.
 
-```c
-case ESP_GATTC_CFG_MTU_EVT:
-    ESP_LOGI(GATTC_TAG, "MTU exchange, status %d, MTU %d", param->cfg_mtu.status, param->cfg_mtu.mtu);
-    break;
-```
+
+
+
 
 El evento `ESP_GATTC_CONNECT_EVT` también se utiliza como punto de partida para descubrir los servicios disponibles en el servidor al que se ha conectado el cliente: el stack BLE ejecuta internamente un descubrimiento de servicios inicial, generando el evento `ESP_GATTC_DIS_SRVC_CMPL_EVT`.
 Una vez en este evento, para descubrir un servicio concreto se utiliza la función `esp_ble_gattc_search_service()`. Los parámetros de la función son la interfaz GATT, el ID de conexión y el UUID del servicio que le interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:
@@ -527,7 +390,7 @@ Podemos obtener las características de ese servicio utilizando la función `esp
 
 ```c
 case ESP_GATTC_SEARCH_CMPL_EVT:
-    …
+    ...
     if (get_server) {
         uint16_t count = 0;
         esp_gatt_status_t status = esp_ble_gattc_get_attr_count(gattc_if,
@@ -537,7 +400,7 @@ case ESP_GATTC_SEARCH_CMPL_EVT:
                                                                 gl_profile_tab[PROFILE_A_APP_ID].service_end_handle,
                                                                 INVALID_HANDLE,
                                                                 &count);
-        …
+        ...
         if (count > 0) {
             char_elem_result = (esp_gattc_char_elem_t *)malloc(sizeof(esp_gattc_char_elem_t) * count);
             if (!char_elem_result) {
@@ -552,7 +415,7 @@ case ESP_GATTC_SEARCH_CMPL_EVT:
                                                         remote_filter_char_uuid,
                                                         char_elem_result,
                                                         &count);
-                …
+                ...
             }
         }
         else {
@@ -584,7 +447,7 @@ Este procedimiento registra notificaciones en la pila BLE y desencadena un event
 
 ```c
 case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
-    …
+    ...
     if (count > 0 && descr_elem_result[0].uuid.len == ESP_UUID_LEN_16 && descr_elem_result[0].uuid.uuid.uuid16 == ESP_GATT_UUID_CHAR_CLIENT_CONFIG) {
         ret_status = esp_ble_gattc_write_char_descr(gattc_if,
                                                     gl_profile_tab[PROFILE_A_APP_ID].conn_id,
@@ -594,7 +457,7 @@ case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
                                                     ESP_GATT_WRITE_TYPE_RSP,
                                                     ESP_GATT_AUTH_REQ_NONE);
     }
-    …
+    ...
 }
 ```
 

@@ -2,9 +2,9 @@
 
 ## Objetivos
 
-* Diseccionar en detalle un *firmware* de construcción de tabla GATT (servidor
-GATT) utilizando la API de ESP-IDF.
-* Aprender a utilizar la herramienta `gatttool` para interactuar con el servidor GATT.
+* Analizar en detalle un *firmware* de construcción de tabla GATT (servidor GATT) utilizando
+la API de ESP-IDF.
+* Aprender a utilizar la herramienta `bluetoothctl` para interactuar con el servidor GATT.
 * Modificar el servidor GATT para que acepte solicitudes de suscripción a notificaciones
 por parte del cliente y permita enviar valores actualizados de una característica determinada.
 
@@ -12,7 +12,7 @@ por parte del cliente y permita enviar valores actualizados de una característi
 
 ## Introducción
 
-En esta práctica, desplegaremos un servidor GATT utilizando la API de ESP-IDF. Dicha API expone
+En esta práctica desplegaremos un servidor GATT utilizando la API de ESP-IDF. Dicha API expone
 las funcionalidades de Bluedroid, la pila de protocolos Bluetooth (incluido BLE) que proporciona
 ESP-IDF para el desarrollo de aplicaciones Bluetooth.
 
@@ -56,7 +56,7 @@ Los siguientes ficheros de cabecera son necesarios para dotar de funcionalidad B
 Estas cabeceras son necesarias para el correcto funcionamiento de FreeRTOS y de sus componentes,
 incluyendo funcionalidades relativas a *logging* y al almacenamiento no volátil. Resultan especialmente
 interesantes las cabeceras `esp_bt.h`, `esp_bt_main.h`, `esp_gap_ble_api.h` y `esp_gatts_api.h`,
-ya que exponen la API BLE necesaria para la implementación del *firmware*:
+las cuales exponen las APIs BLE necesarias para la implementación del servidor:
 
 * `esp_bt.h`: proporciona las funciones relacionadas con el controlador Bluetooth.
 * `esp_bt_main.h`: declara las funciones de inicialización y activación de la pila Bluedroid.
@@ -104,7 +104,7 @@ o CCCD), que permite al cliente habilitar/deshabilitar las notificaciones de dic
 
 ## Inicio de la aplicación
 
-El punto de entrada de la aplicación (`app_main()`) se implementa de la siguiente manera:
+El punto de entrada de la aplicación (`app_main()`) se implementa como sigue:
 
 ```c
 void app_main(void)
@@ -210,11 +210,11 @@ Existen cuatro modos de funcionamiento del controlador Bluetooth:
 * `ESP_BT_MODE_CLASSIC_BT`: modo Bluetooth clásico.
 * `ESP_BT_MODE_BTDM`: modo dual (BLE + Bluetooth clásico).
 
-Tras la inicialización y activación del controlador Bluetooth, se inicializa y activa la pila Bluedroid
-(capas superiores), que incluye APIs tanto para BLE como para Bluetooth clásico:
+Tras activar el controlador Bluetooth, se inicializa y habilita la pila Bluedroid (capas superiores),
+que incluye APIs tanto para BLE como para Bluetooth clásico:
 
 ```c
-ret = esp_bluedroid_init();
+ret = esp_bluedroid_init_with_cfg(&cfg);    /* Configuración de seguridad para Bluetooth clásico */
 ret = esp_bluedroid_enable();
 ```
 
@@ -223,8 +223,8 @@ ninguna lógica de aplicación. Dicha funcionalidad se define mediante el clási
 eventos, que pueden emitirse, por ejemplo, cuando otro dispositivo intenta leer o escribir atributos o
 establecer una conexión.
 
-La aplicación necesita registrar dos funciones de *callback* para gestionar los eventos de BLE, una para
-GATT y otra para GAP:
+La aplicación necesita registrar dos funciones de *callback* para gestionar los eventos BLE, una para
+GATT (servidor) y otra para GAP:
 
 ```c
 ret = esp_ble_gatts_register_callback(gatts_event_handler);
@@ -234,7 +234,7 @@ ret = esp_ble_gap_register_callback(gap_event_handler);
 En la aplicación de ejemplo, estos *callbacks* son las funciones `gatts_event_handler()` y
 `gap_event_handler()`, encargadas de manejar los eventos enviados por la pila BLE a la aplicación.
 
-### Perfiles de aplicación
+## Perfiles de aplicación
 
 El objetivo es implementar un perfil de aplicación para el servicio *Heart Rate*. Un perfil de
 aplicación es un mecanismo que permite agrupar funcionalidades diseñadas para ser utilizadas por un
@@ -271,7 +271,7 @@ static struct gatts_profile_inst heart_rate_profile_tab[PROFILE_NUM] = {
 };
 ```
 
-La estructura `gatts_profile_inst` presenta los siguientes campos (no todos se utilizan en el ejemplo):
+La estructura personalizada `gatts_profile_inst` presenta los siguientes campos (no todos se utilizan en el ejemplo):
 
 ```c
 struct gatts_profile_inst
@@ -339,10 +339,10 @@ uint16_t app_id;             /* ID de aplicación (0x55) */
 A partir de este momento se deberá usar la interfaz `gatts_if` para operar, por lo que la función registra
 esta interfaz en el array de descripción de perfiles de aplicación (`heart_rate_profile_tab`).
 
-Finalmente, la función delega el evento en el *callback* registrado para tratar los eventos asociados a la
-aplicación (`gatts_profile_event_handler()`).
+Finalmente, la función delega el manejo de eventos en el *callback* asociado al perfil de aplicación
+(`gatts_profile_event_handler()`).
 
-## Parámetros GAP
+## Parámetros GAP (anuncios)
 
 Como ya hemos visto, el manejo del evento `ESP_GATTS_REG_EVT` es delegado a la función `gatts_profile_event_handler()`
 por el manejador de eventos de GATT:
@@ -550,7 +550,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
             }
             break;
     #else
-    ...
+        ...
 }
 ```
 
@@ -702,11 +702,11 @@ static void publish_data_task(void *pvParameters)
     while (1) {
         ESP_LOGI("APP", "Sending data..."); 
 
-        // Paso 1: actualizo el valor
+        /* Paso 1: actualizo el valor */
 
-        // Paso 2: si las notificaciones están activas, envío el valor
+        /* Paso 2: si las notificaciones están activas, envío el valor */
 
-        // Paso 3: duermo X segundos...
+        /* Paso 3: duermo X segundos */
     }
 }
 ```
