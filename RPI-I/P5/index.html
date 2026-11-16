@@ -223,11 +223,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#perfiles-de-aplicacion" class="nav-link">Perfiles de aplicación</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#evento-de-registro-de-la-aplicacion" class="nav-link">Evento de registro de la aplicación</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#parametros-gap" class="nav-link">Parámetros GAP</a>
+            <li class="nav-item" data-bs-level="2"><a href="#parametros-gap-anuncios" class="nav-link">Parámetros GAP (anuncios)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -262,15 +266,15 @@
 <h1 id="lab5-ble-servidor-gatt">LAB5. BLE: servidor GATT</h1>
 <h2 id="objetivos">Objetivos</h2>
 <ul>
-<li>Diseccionar en detalle un <em>firmware</em> de construcción de tabla GATT (servidor
-GATT) utilizando la API de ESP-IDF.</li>
-<li>Aprender a utilizar la herramienta <code>gatttool</code> para interactuar con el servidor GATT.</li>
+<li>Analizar en detalle un <em>firmware</em> de construcción de tabla GATT (servidor GATT) utilizando
+la API de ESP-IDF.</li>
+<li>Aprender a utilizar la herramienta <code>bluetoothctl</code> para interactuar con el servidor GATT.</li>
 <li>Modificar el servidor GATT para que acepte solicitudes de suscripción a notificaciones
 por parte del cliente y permita enviar valores actualizados de una característica determinada.</li>
 </ul>
 <h1 id="implementacion-de-un-servidor-gatt">Implementación de un servidor GATT</h1>
 <h2 id="introduccion">Introducción</h2>
-<p>En esta práctica, desplegaremos un servidor GATT utilizando la API de ESP-IDF. Dicha API expone
+<p>En esta práctica desplegaremos un servidor GATT utilizando la API de ESP-IDF. Dicha API expone
 las funcionalidades de Bluedroid, la pila de protocolos Bluetooth (incluido BLE) que proporciona
 ESP-IDF para el desarrollo de aplicaciones Bluetooth.</p>
 <p>El ejemplo que vamos a trabajar es <strong><em>gatt_server_service_table</em></strong>, dentro de la carpeta
@@ -306,7 +310,7 @@ correspondiente a la medición de ritmo cardíaco, que incluye el valor de medic
 <p>Estas cabeceras son necesarias para el correcto funcionamiento de FreeRTOS y de sus componentes,
 incluyendo funcionalidades relativas a <em>logging</em> y al almacenamiento no volátil. Resultan especialmente
 interesantes las cabeceras <code>esp_bt.h</code>, <code>esp_bt_main.h</code>, <code>esp_gap_ble_api.h</code> y <code>esp_gatts_api.h</code>,
-ya que exponen la API BLE necesaria para la implementación del <em>firmware</em>:</p>
+las cuales exponen las APIs BLE necesarias para la implementación del servidor:</p>
 <ul>
 <li><code>esp_bt.h</code>: proporciona las funciones relacionadas con el controlador Bluetooth.</li>
 <li><code>esp_bt_main.h</code>: declara las funciones de inicialización y activación de la pila Bluedroid.</li>
@@ -349,7 +353,7 @@ o CCCD), que permite al cliente habilitar/deshabilitar las notificaciones de dic
 <li><code>IDX_NB</code>: número total de elementos de la tabla.</li>
 </ul>
 <h2 id="inicio-de-la-aplicacion">Inicio de la aplicación</h2>
-<p>El punto de entrada de la aplicación (<code>app_main()</code>) se implementa de la siguiente manera:</p>
+<p>El punto de entrada de la aplicación (<code>app_main()</code>) se implementa como sigue:</p>
 <pre><code class="language-c">void app_main(void)
 {
     esp_err_t ret;
@@ -440,23 +444,23 @@ ret = esp_bt_controller_init(&amp;bt_cfg);
 <li><code>ESP_BT_MODE_CLASSIC_BT</code>: modo Bluetooth clásico.</li>
 <li><code>ESP_BT_MODE_BTDM</code>: modo dual (BLE + Bluetooth clásico).</li>
 </ul>
-<p>Tras la inicialización y activación del controlador Bluetooth, se inicializa y activa la pila Bluedroid
-(capas superiores), que incluye APIs tanto para BLE como para Bluetooth clásico:</p>
-<pre><code class="language-c">ret = esp_bluedroid_init();
+<p>Tras activar el controlador Bluetooth, se inicializa y habilita la pila Bluedroid (capas superiores),
+que incluye APIs tanto para BLE como para Bluetooth clásico:</p>
+<pre><code class="language-c">ret = esp_bluedroid_init_with_cfg(&amp;cfg);    /* Configuración de seguridad para Bluetooth clásico */
 ret = esp_bluedroid_enable();
 </code></pre>
 <p>La pila Bluetooth está, a partir de este punto, lista para funcionar, pero todavía no se ha implementado
 ninguna lógica de aplicación. Dicha funcionalidad se define mediante el clásico mecanismo basado en
 eventos, que pueden emitirse, por ejemplo, cuando otro dispositivo intenta leer o escribir atributos o
 establecer una conexión.</p>
-<p>La aplicación necesita registrar dos funciones de <em>callback</em> para gestionar los eventos de BLE, una para
-GATT y otra para GAP:</p>
+<p>La aplicación necesita registrar dos funciones de <em>callback</em> para gestionar los eventos BLE, una para
+GATT (servidor) y otra para GAP:</p>
 <pre><code class="language-c">ret = esp_ble_gatts_register_callback(gatts_event_handler);
 ret = esp_ble_gap_register_callback(gap_event_handler);
 </code></pre>
 <p>En la aplicación de ejemplo, estos <em>callbacks</em> son las funciones <code>gatts_event_handler()</code> y
 <code>gap_event_handler()</code>, encargadas de manejar los eventos enviados por la pila BLE a la aplicación.</p>
-<h3 id="perfiles-de-aplicacion">Perfiles de aplicación</h3>
+<h2 id="perfiles-de-aplicacion">Perfiles de aplicación</h2>
 <p>El objetivo es implementar un perfil de aplicación para el servicio <em>Heart Rate</em>. Un perfil de
 aplicación es un mecanismo que permite agrupar funcionalidades diseñadas para ser utilizadas por un
 cliente de la aplicación, por ejemplo, una aplicación móvil. Un mismo servidor GATT puede implementar
@@ -484,7 +488,7 @@ static struct gatts_profile_inst heart_rate_profile_tab[PROFILE_NUM] = {
     },
 };
 </code></pre>
-<p>La estructura <code>gatts_profile_inst</code> presenta los siguientes campos (no todos se utilizan en el ejemplo):</p>
+<p>La estructura personalizada <code>gatts_profile_inst</code> presenta los siguientes campos (no todos se utilizan en el ejemplo):</p>
 <pre><code class="language-c">struct gatts_profile_inst
 {
     esp_gatts_cb_t gatts_cb;
@@ -538,9 +542,9 @@ uint16_t app_id;             /* ID de aplicación (0x55) */
 </code></pre>
 <p>A partir de este momento se deberá usar la interfaz <code>gatts_if</code> para operar, por lo que la función registra
 esta interfaz en el array de descripción de perfiles de aplicación (<code>heart_rate_profile_tab</code>).</p>
-<p>Finalmente, la función delega el evento en el <em>callback</em> registrado para tratar los eventos asociados a la
-aplicación (<code>gatts_profile_event_handler()</code>).</p>
-<h2 id="parametros-gap">Parámetros GAP</h2>
+<p>Finalmente, la función delega el manejo de eventos en el <em>callback</em> asociado al perfil de aplicación
+(<code>gatts_profile_event_handler()</code>).</p>
+<h2 id="parametros-gap-anuncios">Parámetros GAP (anuncios)</h2>
 <p>Como ya hemos visto, el manejo del evento <code>ESP_GATTS_REG_EVT</code> es delegado a la función <code>gatts_profile_event_handler()</code>
 por el manejador de eventos de GATT:</p>
 <pre><code class="language-c">static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
@@ -724,7 +728,7 @@ para iniciar el proceso de anuncio mediante la función <code>esp_ble_gap_start_
             }
             break;
     #else
-    ...
+        ...
 }
 </code></pre>
 <p>La función de inicio de anuncios recibe una estructura de tipo <code>esp_ble_adv_params_t</code> con los parámetros de
@@ -851,11 +855,11 @@ cliente GATT cada X segundos, siempre que las notificaciones estén activas:</p>
     while (1) {
         ESP_LOGI(&quot;APP&quot;, &quot;Sending data...&quot;); 
 
-        // Paso 1: actualizo el valor
+        /* Paso 1: actualizo el valor */
 
-        // Paso 2: si las notificaciones están activas, envío el valor
+        /* Paso 2: si las notificaciones están activas, envío el valor */
 
-        // Paso 3: duermo X segundos...
+        /* Paso 3: duermo X segundos */
     }
 }
 </code></pre>
