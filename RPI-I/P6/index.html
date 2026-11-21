@@ -608,10 +608,10 @@ static esp_bt_uuid_t remote_filter_service_uuid = {
 <p>Donde <code>ESP_GATT_UUID_CHAR_CLIENT_CONFIG</code> contiene el UUID estándar que identifica al descriptor CCCD:</p>
 <pre><code class="language-c">#define ESP_GATT_UUID_CHAR_CLIENT_CONFIG 0x2902
 </code></pre>
-<p>En el evento se llama a la función <code>esp_ble_gattc_write_char_descr()</code> para escribir en el descriptor CCCD. El valor que se escribe es 1 (variable <code>notify_en</code>). También pasamos <code>ESP_GATT_WRITE_TYPE_RSP</code> para pedir que el servidor responda a la solicitud de habilitación, y <code>ESP_GATT_AUTH_REQ_NONE</code> para indicar que el cliente no requiere autenticación ni cifrado.</p>
+<p>En el evento se llama a la función <code>esp_ble_gattc_write_char_descr()</code> para escribir en el descriptor CCCD. El valor que se escribe es 1 (variable <code>notify_en</code>). También pasamos <code>ESP_GATT_WRITE_TYPE_RSP</code> para pedir que el servidor responda a la solicitud de habilitación y <code>ESP_GATT_AUTH_REQ_NONE</code> para indicar que el cliente no requiere autenticación ni cifrado.</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 6</p>
-<p>Conecta el cliente GATT con el servidor modificado del último ejercicio de la práctica anterior para que las notificaciones se reciban y se muestren por consola.</p>
+<p>Conecta el cliente GATT al servidor modificado del último ejercicio de la práctica anterior para recibir notificaciones y mostrarlas por consola.</p>
 </div></div>
             </div>
         </div>
