@@ -450,7 +450,7 @@ Donde `ESP_GATT_UUID_CHAR_CLIENT_CONFIG` contiene el UUID estándar que identifi
 #define ESP_GATT_UUID_CHAR_CLIENT_CONFIG 0x2902
 ```
 
-En el evento se llama a la función `esp_ble_gattc_write_char_descr()` para escribir en el descriptor CCCD. El valor que se escribe es 1 (variable `notify_en`). También pasamos `ESP_GATT_WRITE_TYPE_RSP` para pedir que el servidor responda a la solicitud de habilitación, y `ESP_GATT_AUTH_REQ_NONE` para indicar que el cliente no requiere autenticación ni cifrado.
+En el evento se llama a la función `esp_ble_gattc_write_char_descr()` para escribir en el descriptor CCCD. El valor que se escribe es 1 (variable `notify_en`). También pasamos `ESP_GATT_WRITE_TYPE_RSP` para pedir que el servidor responda a la solicitud de habilitación y `ESP_GATT_AUTH_REQ_NONE` para indicar que el cliente no requiere autenticación ni cifrado.
 
 !!! danger "Ejercicio 6"
-    Conecta el cliente GATT con el servidor modificado del último ejercicio de la práctica anterior para que las notificaciones se reciban y se muestren por consola.
+    Conecta el cliente GATT al servidor modificado del último ejercicio de la práctica anterior para recibir notificaciones y mostrarlas por consola.
