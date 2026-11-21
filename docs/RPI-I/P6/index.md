@@ -175,7 +175,7 @@ Finalmente, la función delega el manejo de eventos en el *callback* asociado al
 
 ## Parámetros GAP (escaneo)
 
-El cliente GATT normalmente escanea servidores GATT y trata de conectarse a estos si está interesado. Sin embargo, antes de realizar el escaneo, es necesario configurar sus parámetros. Esta configuración se lleva a cabo durante la gestión del evento `ESP_GATTC_REG_EVT` (manejador `gattc_profile_event_handler()`). En este, el evento se utiliza para llamar a la función `esp_ble_gap_set_scan_params()`, que recibe como argumento una estructura de tipo `esp_ble_scan_params_t` con los parámetros de escaneo:
+El cliente GATT normalmente escanea servidores GATT y trata de conectarse a estos si está interesado. Sin embargo, antes de realizar el escaneo, es necesario configurar sus parámetros. Esta configuración se lleva a cabo durante la gestión del evento `ESP_GATTC_REG_EVT` (manejador `gattc_profile_event_handler()`). En este, el evento se utiliza para llamar a la función `esp_ble_gap_set_scan_params()`, que recibe como parámetro una estructura de tipo `esp_ble_scan_params_t` con los parámetros de escaneo:
 
 ```c
 typedef struct {
@@ -209,7 +209,7 @@ static esp_ble_scan_params_t ble_scan_params = {
 };
 ```
 
-Los parámetros de escaneo se configuran para realizar un escaneo activo (incluye el envío de *scan requests*), utilizar una dirección Bluetooth pública y aceptar anuncios de cualquier dispositivo. Además, se establece un intervalo de escaneo de 50 ms (0x50 * 0.625 ms) y una ventana de escaneo de 30 ms (0x30 * 0.625 ms).
+Los parámetros de escaneo se configuran para realizar un escaneo activo (incluye el envío de *scan requests*), utilizar una dirección Bluetooth pública y aceptar anuncios de cualquier dispositivo. Además, se establece un intervalo de escaneo de 50 ms (`0x50` * 0.625 ms) y una ventana de escaneo de 30 ms (`0x30` * 0.625 ms).
 
 !!! danger "Ejercicio 1"
     Modifica los parámetros de escaneo para que este se realice con menor frecuencia. Añade estos parámetros a través de *menuconfig*. ¿Qué diferencia hay entre el intervalo de escaneo y la ventana de escaneo? Muestra cómo cambia el comportamiento del escaneo al modificar ambos parámetros.
@@ -325,16 +325,13 @@ case ESP_GATTC_CONNECT_EVT:{
 }
 ```
 
-Como se observa en el código, el ID de conexión (`conn_id`) y la dirección del dispositivo remoto (`remote_bda`) se almacenan en la tabla de perfiles de aplicación y se imprimen por consola.
+Como se observa en el código, el ID de conexión (`conn_id`) y la dirección del dispositivo remoto (`remote_bda`) se guardan en la tabla de perfiles de aplicación y se imprimen por consola.
 
-
-
-
-
-El evento `ESP_GATTC_CONNECT_EVT` también se utiliza como punto de partida para descubrir los servicios disponibles en el servidor al que se ha conectado el cliente: el stack BLE ejecuta internamente un descubrimiento de servicios inicial, generando el evento `ESP_GATTC_DIS_SRVC_CMPL_EVT`.
-Una vez en este evento, para descubrir un servicio concreto se utiliza la función `esp_ble_gattc_search_service()`. Los parámetros de la función son la interfaz GATT, el ID de conexión y el UUID del servicio que le interesa al cliente. El servicio que estamos buscando se define de la siguiente manera:
+En este punto, la pila Bluedroid realiza internamente el descubrimiento de los servicios disponibles en el servidor, almacenando su información en la caché GATT local y desencadenando el evento `ESP_GATTC_DIS_SRVC_CMPL_EVT` al finalizar. En el manejador de este evento se utiliza la función `esp_ble_gattc_search_service()` para buscar/seleccionar un servicio concreto de la caché. Esta función recibe como parámetros la interfaz GATT, el ID de conexión y el UUID del servicio que le interesa al cliente. Este último parámetro se define de la siguiente manera:
 
 ```c
+#define REMOTE_SERVICE_UUID 0x00FF
+
 static esp_bt_uuid_t remote_filter_service_uuid = {
     .len = ESP_UUID_LEN_16,
     .uuid = {
@@ -343,29 +340,15 @@ static esp_bt_uuid_t remote_filter_service_uuid = {
 };
 ```
 
-Donde,
+Hay que tener en cuenta que el ESP32 utiliza little-endian para almacenar los datos. En el caso de los UUIDs de servicio de 16/32 bits, puedes definir directamente su valor en el orden habitual, ya que se utilizan campos enteros para almacenarlos. Sin embargo, para un UUID de 128 bits debes invertir el orden de los bytes (se utiliza un array de bytes). Por ejemplo, si el UUID del servicio es 12345678-a1b2-c3d4-e5f6-9fafd205e457, `REMOTE_SERVICE_UUID` debe definirse como `{0x57, 0xE4, 0x05, 0xD2, 0xAF, 0x9F, 0xF6, 0xE5, 0xD4, 0xC3, 0xB2, 0xA1, 0x78, 0x56, 0x34, 0x12}`.
+
+Por cada servicio encontrado mediante `esp_ble_gattc_search_service()`, se desencadena un evento `ESP_GATTC_SEARCH_RES_EVT`:
 
 ```c
-#define REMOTE_SERVICE_UUID 0x00FF
-```
-
-Nota: si el UUID del servicio que te interesa es de 128 bits, hay que tener en cuenta que el ESP32 usa "little-endian" para almacenar los datos. En el modo de almacenamiento en "little-endian" puedes definir directamente el UUID del servicio en el orden normal si es un UUID de 16 bits o 32 bits. Para UUIDs de servicio de 128 bits, el orden de los bytes debe invertirse. Por ejemplo, si el UUID del servicio es 12345678-a1b2-c3d4-e5f6-9fafd205e457, `REMOTE_SERVICE_UUID` debería definirse como {0x57,0xE4,0x05,0xD2,0xAF,0x9F,0xF6,0xE5,0xD4,0xC3,0xB2,0xA1,0x78,0x56,0x34,0x12}.
-
-Como ya se ha comentado, los servicios se descubren con la función `esp_ble_gattc_search_service()`:
-
-```c
-esp_ble_gattc_search_service(gattc_if, param->dis_srvc_cmpl.conn_id, &remote_filter_service_uuid);
-```
-
-Para cada servicio encontrado (si los hay), se desencadena un evento `ESP_GATTC_SEARCH_RES_EVT`:
-
-```c
-case ESP_GATTC_SEARCH_RES_EVT:
-{
+case ESP_GATTC_SEARCH_RES_EVT: {
     ESP_LOGI(GATTC_TAG, "Service search result, conn_id = %x, is primary service %d", p_data->search_res.conn_id, p_data->search_res.is_primary);
     ESP_LOGI(GATTC_TAG, "start handle %d, end handle %d, current handle value %d", p_data->search_res.start_handle, p_data->search_res.end_handle, p_data->search_res.srvc_id.inst_id);
-    if (p_data->search_res.srvc_id.uuid.len == ESP_UUID_LEN_16 && p_data->search_res.srvc_id.uuid.uuid.uuid16 == REMOTE_SERVICE_UUID)
-    {
+    if (p_data->search_res.srvc_id.uuid.len == ESP_UUID_LEN_16 && p_data->search_res.srvc_id.uuid.uuid.uuid16 == REMOTE_SERVICE_UUID) {
         ESP_LOGI(GATTC_TAG, "Service found");
         get_server = true;
         gl_profile_tab[PROFILE_A_APP_ID].service_start_handle = p_data->search_res.start_handle;
@@ -376,17 +359,19 @@ case ESP_GATTC_SEARCH_RES_EVT:
 }
 ```
 
-En caso de que el cliente encuentre el servicio que busca, la bandera `get_server` se establece a true y se guardan los handles de inicio y fin que se utilizarán posteriormente para obtener todas las características de este servicio. Una vez que se han devuelto todos los resultados de los servicios, se completa la búsqueda y se desencadena un evento `ESP_GATTC_SEARCH_CMPL_EVT`.
+Si el cliente encuentra el servicio que está buscando, la variable `get_server` se establece a true y se guardan los handles de inicio y fin del servicio que se utilizarán posteriormente para localizar sus características.
+
+Una vez finalizada la búsqueda de servicios, se desencadena el evento `ESP_GATTC_SEARCH_CMPL_EVT`.
 
 ## Obteniendo características
 
-Este ejemplo implementa la obtención de datos de características de un servicio predefinido. El servicio del cual queremos obtener características tiene un UUID de 0x00FF, y la característica de interés tiene un UUID de 0xFF01:
+Nuestro cliente GATT de ejemplo implementa la obtención de la característica *Heart Rate Measurement* del servicio *Heart Rate*. Como ya hemos visto, el servicio objetivo tiene el UUID `0x00FF`, mientras que la característica que nos interesa:
 
 ```c
 #define REMOTE_NOTIFY_CHAR_UUID 0xFF01
 ```
 
-Podemos obtener las características de ese servicio utilizando la función `esp_ble_gattc_get_char_by_uuid()`, la cual se llama en el evento `ESP_GATTC_SEARCH_CMPL_EVT` después de que se haya completado la búsqueda de servicios y el cliente haya encontrado el servicio que estaba buscando:
+Podemos obtener las características del servicio utilizando la función `esp_ble_gattc_get_char_by_uuid()`, la cual se llama durante la gestión del evento `ESP_GATTC_SEARCH_CMPL_EVT`:
 
 ```c
 case ESP_GATTC_SEARCH_CMPL_EVT:
@@ -406,8 +391,7 @@ case ESP_GATTC_SEARCH_CMPL_EVT:
             if (!char_elem_result) {
                 ESP_LOGE(GATTC_TAG, "gattc no mem");
                 break;
-            }
-            else {
+            } else {
                 status = esp_ble_gattc_get_char_by_uuid(gattc_if,
                                                         p_data->search_cmpl.conn_id,
                                                         gl_profile_tab[PROFILE_A_APP_ID].service_start_handle,
@@ -417,23 +401,22 @@ case ESP_GATTC_SEARCH_CMPL_EVT:
                                                         &count);
                 ...
             }
-        }
-        else {
+        } else {
             ESP_LOGE(GATTC_TAG, "no char found");
         }
     }
     break;
 ```
 
-`esp_ble_gattc_get_attr_count()` obtiene el número de atributos de tipo característica en un rango concreto. Los parámetros de esta función son: la interfaz GATT, el ID de conexión, el tipo de atributo que se busca (`ESP_GATT_DB_CHARACTERISTIC`), handles de inicio y final, el handle de la característica (este parámetro solo es válido cuando el tipo se establece en `ESP_GATT_DB_DESCRIPTOR`) y la salida del número de atributos encontrados.
+En primer lugar, la función `esp_ble_gattc_get_attr_count()` obtiene el número de atributos de tipo característica que hay dentro del rango de handles del servicio. Sus parámetros son: la interfaz GATT, el ID de conexión, el tipo de atributo que se busca (`ESP_GATT_DB_CHARACTERISTIC`), los handles de inicio y fin, el handle de la característica (para cuando se buscan descriptores) y el número de atributos encontrados (variable de salida).
 
-Después, se reserva memoria (variable `char_elem_result`) para guardar la característica que encuentre después la función `esp_ble_gattc_get_char_by_uuid()`. Esta función busca la característica con el UUID de característica `0xFF01` (usando `remote_filter_char_uuid`). Cabe destacar que en un servidor puede haber más de una característica con el mismo UUID. Sin embargo, en nuestro ejemplo de servidor GATT, cada característica tiene un UUID único y es por eso que solo usamos la primera característica de `char_elem_result` (index 0).
+Después, se reserva memoria en la variable `char_elem_result` para almacenar las características que encuentre `esp_ble_gattc_get_char_by_uuid()`. Esta función busca las características con UUID `0xFF01` (especificado en la variable `remote_filter_char_uuid`). Cabe destacar que un servidor puede contener varias características con el mismo UUID. En nuestro ejemplo de servidor GATT, cada característica tiene un UUID único, por lo que solo usaremos el primer elemento de `char_elem_result` (índice 0).
 
 ## Registro para notificaciones
 
-El cliente puede registrarse para recibir notificaciones del servidor cada vez que cambia el valor de la característica. En este ejemplo, queremos registrarnos para recibir notificaciones de la característica identificada con el UUID `0xFF01`.
+Un cliente GATT puede registrarse para recibir notificaciones del servidor cada vez que cambie el valor de una característica. En este caso, queremos recibir notificaciones de la característica `0xFF01` (*Heart Rate Measurement*).
 
-Después de obtener la característica, verificamos sus propiedades (lectura, escritura, notificaciones...) y utilizamos la función `esp_ble_gattc_register_for_notify()` para registrarnos localmente y recibir notificaciones. Los argumentos de la función son: la interfaz GATT, la dirección del servidor GATT remoto y el handle del que queremos recibir notificaciones.
+Tras obtener la característica y almacenarla en `char_elem_result`, comprobamos sus propiedades (en concreto, si admite notificaciones) y utilizamos la función `esp_ble_gattc_register_for_notify()` para habilitar la recepción de notificaciones. Esta función recibe como parámetros la interfaz GATT, la dirección Bluetooth del servidor y el handle de la característica de la que queremos recibir notificaciones.
 
 ```c
 if (count > 0 && (char_elem_result[0].properties & ESP_GATT_CHAR_PROP_BIT_NOTIFY))
@@ -443,7 +426,7 @@ if (count > 0 && (char_elem_result[0].properties & ESP_GATT_CHAR_PROP_BIT_NOTIFY
 }
 ```
 
-Este procedimiento registra notificaciones en la pila BLE y desencadena un evento `ESP_GATTC_REG_FOR_NOTIFY_EVT`. Este evento se utiliza para escribir en el descriptor CCC (Client Characteristic Configuration) del servidor con el fin de habilitar las notificaciones para dicho cliente:
+Lo anterior solo activa las notificaciones en la pila BLE del cliente y desencadena un evento `ESP_GATTC_REG_FOR_NOTIFY_EVT`. Este evento es el que realmente se usa para escribir en el descriptor CCCD del servidor con el fin de habilitar el envío de notificaciones a ese cliente:
 
 ```c
 case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
@@ -461,13 +444,13 @@ case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
 }
 ```
 
-Donde `ESP_GATT_UUID_CHAR_CLIENT_CONFIG` se define con el UUID estándar que identifica a un descriptor CCC:
+Donde `ESP_GATT_UUID_CHAR_CLIENT_CONFIG` contiene el UUID estándar que identifica al descriptor CCCD:
 
 ```c
 #define ESP_GATT_UUID_CHAR_CLIENT_CONFIG 0x2902
 ```
 
-En el evento se utiliza la función `esp_ble_gattc_write_char_descr()` para escribir en el descriptor CCC. El valor a escribir es "1" (variable `notify_en`) para habilitar las notificaciones. También pasamos `ESP_GATT_WRITE_TYPE_RSP` para solicitar que el servidor responda a la solicitud de habilitar las notificaciones y `ESP_GATT_AUTH_REQ_NONE` para indicar que la solicitud de escritura no requiere autenticación.
+En el evento se llama a la función `esp_ble_gattc_write_char_descr()` para escribir en el descriptor CCCD. El valor que se escribe es 1 (variable `notify_en`). También pasamos `ESP_GATT_WRITE_TYPE_RSP` para pedir que el servidor responda a la solicitud de habilitación, y `ESP_GATT_AUTH_REQ_NONE` para indicar que el cliente no requiere autenticación ni cifrado.
 
 !!! danger "Ejercicio 6"
-    Conecta el cliente GATT con el servidor GATT modificado del último ejercicio de la práctica anterior para que las notificaciones sean recibidas y mostradas por consola.
+    Conecta el cliente GATT con el servidor modificado del último ejercicio de la práctica anterior para que las notificaciones se reciban y se muestren por consola.

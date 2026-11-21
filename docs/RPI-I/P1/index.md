@@ -270,7 +270,7 @@ Concretamente, crea una nueva tarea y la añade a la lista de tareas listas para
 
 * `pvTaskCode`: La dirección de la función de entrada para la tarea. Las tareas suelen
   implementarse como un bucle infinito. No deben retornar de la función de entrada
-  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete()` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
+  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función `vTaskDelete()` con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como parámetro a `vTaskDelete` la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:
 
 ```c
 void vATaskFunction(void *pvParameters)
@@ -409,8 +409,8 @@ dirección IP o la conexión exitosa a un punto de acceso.
     Acuérdate de modificar el SSID de la red a la que se conectará, así como la contraseña elegida a través del sistema de menús de configuración.
 
 Observa su funcionamiento. El *firmware* simplemente inicializa el dispositivo
-en modo *station* (en contraposición al modo *Access Point*, que veremos en
-el próximo laboratorio), realizando una conexión al punto de acceso preconfigurado
+en modo *station* (en contraposición al modo *Access Point*, que veremos en la
+práctica siguiente), realizando una conexión al punto de acceso preconfigurado
 a través del menú de configuración.
 
 Analiza el código de la función `wifi_init_sta()`. Esta función, que implementa

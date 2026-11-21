@@ -143,9 +143,8 @@ ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &mesh_e
 
 #### Paso 2. Configurar la red mesh
 
-ESP-WIFI-MESH se configura mediante la función `esp_mesh_set_config()`, que recibe como
-argumento una estructura de tipo `mesh_cfg_t`. Esta estructura contiene los siguientes
-parámetros de configuración:
+ESP-WIFI-MESH se configura mediante la función `esp_mesh_set_config()`, que recibe una estructura de
+tipo `mesh_cfg_t`. Esta estructura contiene los siguientes parámetros de configuración:
 
 | Parámetro          | Descripción                                                                   |
 | ------------------ | ----------------------------------------------------------------------------- |

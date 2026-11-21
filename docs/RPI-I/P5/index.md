@@ -148,25 +148,25 @@ void app_main(void)
     }
 
     ret = esp_ble_gatts_register_callback(gatts_event_handler);
-    if (ret){
+    if (ret) {
         ESP_LOGE(GATTS_TABLE_TAG, "gatts register error, error code = %x", ret);
         return;
     }
 
     ret = esp_ble_gap_register_callback(gap_event_handler);
-    if (ret){
+    if (ret) {
         ESP_LOGE(GATTS_TABLE_TAG, "gap register error, error code = %x", ret);
         return;
     }
 
     ret = esp_ble_gatts_app_register(ESP_APP_ID);
-    if (ret){
+    if (ret) {
         ESP_LOGE(GATTS_TABLE_TAG, "gatts app register error, error code = %x", ret);
         return;
     }
 
     esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
-    if (local_mtu_ret){
+    if (local_mtu_ret) {
         ESP_LOGE(GATTS_TABLE_TAG, "set local  MTU failed, error code = %x", local_mtu_ret);
     }
 }
@@ -353,17 +353,17 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
     switch (event) {
         case ESP_GATTS_REG_EVT:{
             esp_err_t set_dev_name_ret = esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
-            if (set_dev_name_ret){
+            if (set_dev_name_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, "set device name failed, error code = %x", set_dev_name_ret);
             }
     #ifdef CONFIG_SET_RAW_ADV_DATA
             esp_err_t raw_adv_ret = esp_ble_gap_config_adv_data_raw(raw_adv_data, sizeof(raw_adv_data));
-            if (raw_adv_ret){
+            if (raw_adv_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, "config raw adv data failed, error code = %x ", raw_adv_ret);
             }
             adv_config_done |= ADV_CONFIG_FLAG;
             esp_err_t raw_scan_ret = esp_ble_gap_config_scan_rsp_data_raw(raw_scan_rsp_data, sizeof(raw_scan_rsp_data));
-            if (raw_scan_ret){
+            if (raw_scan_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, "config raw scan rsp data failed, error code = %x", raw_scan_ret);
             }
             adv_config_done |= SCAN_RSP_CONFIG_FLAG;
@@ -371,7 +371,7 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
             ...
     #endif
             esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
-            if (create_attr_ret){
+            if (create_attr_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, "create attr table failed, error code = %x", create_attr_ret);
             }
         }
@@ -429,7 +429,7 @@ dentro de una aplicación).
 
 ## Estructura de la tabla GATT
 
-Como hemos visto, la función `esp_ble_gatts_create_attr_tab()` toma como primer argumento `gatt_db`, un
+Como hemos visto, la función `esp_ble_gatts_create_attr_tab()` toma como primer parámetro `gatt_db`, un
 array de estructuras de tipo `esp_gatts_attr_db_t` cuyos elementos pueden identificarse con los índices
 definidos en la enumeración del fichero `gatts_table_creat_demo.h`.
 
@@ -477,7 +477,7 @@ servicio:
 * `[IDX_SVC]`: índice del atributo dentro de la tabla GATT.
 * `ESP_GATT_AUTO_RSP`: configuración de respuesta automática.
 * `ESP_UUID_LEN_16`: longitud del UUID del tipo de atributo (16 bits).
-* `(uint8_t *)&primary_service_uuid`: UUID que identifica el atributo como servicio primario (0x2800).
+* `(uint8_t *)&primary_service_uuid`: UUID que identifica el atributo como servicio primario (`0x2800`).
 * `ESP_GATT_PERM_READ`: permisos del atributo (solo lectura).
 * `sizeof(uint16_t)`: longitud máxima del valor del atributo (16 bits).
 * `sizeof(GATTS_SERVICE_UUID_TEST)`: longitud del valor del atributo (16 bits).
@@ -506,10 +506,10 @@ inicializa el servicio utilizando la función `esp_ble_gatts_start_service()`:
 
 ```c
 case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
-    if (param->add_attr_tab.status != ESP_GATT_OK){
+    if (param->add_attr_tab.status != ESP_GATT_OK) {
         ESP_LOGE(GATTS_TABLE_TAG, "create attribute table failed, error code=0x%x", param->add_attr_tab.status);
     }
-    else if (param->add_attr_tab.num_handle != HRS_IDX_NB){
+    else if (param->add_attr_tab.num_handle != HRS_IDX_NB) {
         ESP_LOGE(GATTS_TABLE_TAG, "create attribute table abnormally, num_handle (%d) \
                 doesn't equal to HRS_IDX_NB(%d)", param->add_attr_tab.num_handle, HRS_IDX_NB);
     }
@@ -539,13 +539,13 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
     #ifdef CONFIG_SET_RAW_ADV_DATA
         case ESP_GAP_BLE_ADV_DATA_RAW_SET_COMPLETE_EVT:
             adv_config_done &= (~ADV_CONFIG_FLAG);
-            if (adv_config_done == 0){
+            if (adv_config_done == 0) {
                 esp_ble_gap_start_advertising(&adv_params);
             }
             break;
         case ESP_GAP_BLE_SCAN_RSP_DATA_RAW_SET_COMPLETE_EVT:
             adv_config_done &= (~SCAN_RSP_CONFIG_FLAG);
-            if (adv_config_done == 0){
+            if (adv_config_done == 0) {
                 esp_ble_gap_start_advertising(&adv_params);
             }
             break;

@@ -155,7 +155,7 @@ El pinout del ESP32-C3 DevKit RUST es el siguiente:
 
 ![](img/dev-kit-rust-pinout.png)
 
-Una posible conexión entre el transceptor y la ESP32-C3 DevKit RUST sería la
+Una posible conexión entre el transceptor y el ESP32-C3 DevKit RUST sería la
 siguiente:
 
 | Adafruit 3070 | ESP32-C3 DevKit RUST | Función  |
