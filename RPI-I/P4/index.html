@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>LAB4. ESP Wi-Fi Mesh - Máster IoT UCM - Prácticas (26/27)</title>
+        <title>LAB4. ESP Wi-Fi mesh - Máster IoT UCM - Prácticas (26/27)</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">LAB4. ESP Wi-Fi Mesh</a>
+    <a href="./" class="dropdown-item active" aria-current="page">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -366,9 +366,8 @@ ESP_ERROR_CHECK(esp_mesh_init());
 ESP_ERROR_CHECK(esp_event_handler_register(MESH_EVENT, ESP_EVENT_ANY_ID, &amp;mesh_event_handler, NULL));
 </code></pre>
 <h4 id="paso-2-configurar-la-red-mesh">Paso 2. Configurar la red mesh</h4>
-<p>ESP-WIFI-MESH se configura mediante la función <code>esp_mesh_set_config()</code>, que recibe como
-argumento una estructura de tipo <code>mesh_cfg_t</code>. Esta estructura contiene los siguientes
-parámetros de configuración:</p>
+<p>ESP-WIFI-MESH se configura mediante la función <code>esp_mesh_set_config()</code>, que recibe una estructura de
+tipo <code>mesh_cfg_t</code>. Esta estructura contiene los siguientes parámetros de configuración:</p>
 <table>
 <thead>
 <tr>

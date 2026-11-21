@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -395,25 +395,25 @@ o CCCD), que permite al cliente habilitar/deshabilitar las notificaciones de dic
     }
 
     ret = esp_ble_gatts_register_callback(gatts_event_handler);
-    if (ret){
+    if (ret) {
         ESP_LOGE(GATTS_TABLE_TAG, &quot;gatts register error, error code = %x&quot;, ret);
         return;
     }
 
     ret = esp_ble_gap_register_callback(gap_event_handler);
-    if (ret){
+    if (ret) {
         ESP_LOGE(GATTS_TABLE_TAG, &quot;gap register error, error code = %x&quot;, ret);
         return;
     }
 
     ret = esp_ble_gatts_app_register(ESP_APP_ID);
-    if (ret){
+    if (ret) {
         ESP_LOGE(GATTS_TABLE_TAG, &quot;gatts app register error, error code = %x&quot;, ret);
         return;
     }
 
     esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
-    if (local_mtu_ret){
+    if (local_mtu_ret) {
         ESP_LOGE(GATTS_TABLE_TAG, &quot;set local  MTU failed, error code = %x&quot;, local_mtu_ret);
     }
 }
@@ -552,17 +552,17 @@ por el manejador de eventos de GATT:</p>
     switch (event) {
         case ESP_GATTS_REG_EVT:{
             esp_err_t set_dev_name_ret = esp_ble_gap_set_device_name(SAMPLE_DEVICE_NAME);
-            if (set_dev_name_ret){
+            if (set_dev_name_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, &quot;set device name failed, error code = %x&quot;, set_dev_name_ret);
             }
     #ifdef CONFIG_SET_RAW_ADV_DATA
             esp_err_t raw_adv_ret = esp_ble_gap_config_adv_data_raw(raw_adv_data, sizeof(raw_adv_data));
-            if (raw_adv_ret){
+            if (raw_adv_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, &quot;config raw adv data failed, error code = %x &quot;, raw_adv_ret);
             }
             adv_config_done |= ADV_CONFIG_FLAG;
             esp_err_t raw_scan_ret = esp_ble_gap_config_scan_rsp_data_raw(raw_scan_rsp_data, sizeof(raw_scan_rsp_data));
-            if (raw_scan_ret){
+            if (raw_scan_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, &quot;config raw scan rsp data failed, error code = %x&quot;, raw_scan_ret);
             }
             adv_config_done |= SCAN_RSP_CONFIG_FLAG;
@@ -570,7 +570,7 @@ por el manejador de eventos de GATT:</p>
             ...
     #endif
             esp_err_t create_attr_ret = esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, HRS_IDX_NB, SVC_INST_ID);
-            if (create_attr_ret){
+            if (create_attr_ret) {
                 ESP_LOGE(GATTS_TABLE_TAG, &quot;create attr table failed, error code = %x&quot;, create_attr_ret);
             }
         }
@@ -622,7 +622,7 @@ a través del array <code>gatt_db</code>, indicándose también la interfaz <cod
 <code>HRS_IDX_NB</code> y el ID de instancia del servicio <code>SVC_INST_ID</code> (puede definirse varias veces el mismo servicio
 dentro de una aplicación).</p>
 <h2 id="estructura-de-la-tabla-gatt">Estructura de la tabla GATT</h2>
-<p>Como hemos visto, la función <code>esp_ble_gatts_create_attr_tab()</code> toma como primer argumento <code>gatt_db</code>, un
+<p>Como hemos visto, la función <code>esp_ble_gatts_create_attr_tab()</code> toma como primer parámetro <code>gatt_db</code>, un
 array de estructuras de tipo <code>esp_gatts_attr_db_t</code> cuyos elementos pueden identificarse con los índices
 definidos en la enumeración del fichero <code>gatts_table_creat_demo.h</code>.</p>
 <p>Las estructuras <code>esp_gatts_attr_db_t</code> tienen dos miembros:</p>
@@ -666,7 +666,7 @@ servicio:</p>
 <li><code>[IDX_SVC]</code>: índice del atributo dentro de la tabla GATT.</li>
 <li><code>ESP_GATT_AUTO_RSP</code>: configuración de respuesta automática.</li>
 <li><code>ESP_UUID_LEN_16</code>: longitud del UUID del tipo de atributo (16 bits).</li>
-<li><code>(uint8_t *)&amp;primary_service_uuid</code>: UUID que identifica el atributo como servicio primario (0x2800).</li>
+<li><code>(uint8_t *)&amp;primary_service_uuid</code>: UUID que identifica el atributo como servicio primario (<code>0x2800</code>).</li>
 <li><code>ESP_GATT_PERM_READ</code>: permisos del atributo (solo lectura).</li>
 <li><code>sizeof(uint16_t)</code>: longitud máxima del valor del atributo (16 bits).</li>
 <li><code>sizeof(GATTS_SERVICE_UUID_TEST)</code>: longitud del valor del atributo (16 bits).</li>
@@ -688,10 +688,10 @@ el número de elementos de la enumeración (<code>HRS_IDX_NB</code>). Si la tabl
 array <code>heart_rate_handle_table</code> los handles asignados por el servidor GATT a los atributos. Finalmente, se
 inicializa el servicio utilizando la función <code>esp_ble_gatts_start_service()</code>:</p>
 <pre><code class="language-c">case ESP_GATTS_CREAT_ATTR_TAB_EVT:{
-    if (param-&gt;add_attr_tab.status != ESP_GATT_OK){
+    if (param-&gt;add_attr_tab.status != ESP_GATT_OK) {
         ESP_LOGE(GATTS_TABLE_TAG, &quot;create attribute table failed, error code=0x%x&quot;, param-&gt;add_attr_tab.status);
     }
-    else if (param-&gt;add_attr_tab.num_handle != HRS_IDX_NB){
+    else if (param-&gt;add_attr_tab.num_handle != HRS_IDX_NB) {
         ESP_LOGE(GATTS_TABLE_TAG, &quot;create attribute table abnormally, num_handle (%d) \
                 doesn't equal to HRS_IDX_NB(%d)&quot;, param-&gt;add_attr_tab.num_handle, HRS_IDX_NB);
     }
@@ -717,13 +717,13 @@ para iniciar el proceso de anuncio mediante la función <code>esp_ble_gap_start_
     #ifdef CONFIG_SET_RAW_ADV_DATA
         case ESP_GAP_BLE_ADV_DATA_RAW_SET_COMPLETE_EVT:
             adv_config_done &amp;= (~ADV_CONFIG_FLAG);
-            if (adv_config_done == 0){
+            if (adv_config_done == 0) {
                 esp_ble_gap_start_advertising(&amp;adv_params);
             }
             break;
         case ESP_GAP_BLE_SCAN_RSP_DATA_RAW_SET_COMPLETE_EVT:
             adv_config_done &amp;= (~SCAN_RSP_CONFIG_FLAG);
-            if (adv_config_done == 0){
+            if (adv_config_done == 0) {
                 esp_ble_gap_start_advertising(&amp;adv_params);
             }
             break;

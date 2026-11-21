@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi Mesh</a>
+    <a href="../P4/" class="dropdown-item">LAB4. ESP Wi-Fi mesh</a>
 </li>
                                     
 <li>
@@ -66,7 +66,7 @@
 </li>
                                     
 <li>
-    <a href="../P7/" class="dropdown-item">LAB7. BLE Mesh</a>
+    <a href="../P7/" class="dropdown-item">LAB7. BLE mesh</a>
 </li>
                                     
 <li>
@@ -452,7 +452,7 @@ tareas:</p>
 <ul>
 <li><code>pvTaskCode</code>: La dirección de la función de entrada para la tarea. Las tareas suelen
   implementarse como un bucle infinito. No deben retornar de la función de entrada
-  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función <code>vTaskDelete()</code> con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como argumento a <code>vTaskDelete</code> la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:</li>
+  ni finalizar abruptamente. Para finalizar correctamente una tarea, esta debe ejecutar la función <code>vTaskDelete()</code> con el parámetro NULL. Alternativamente, puede usarse esta función para eliminar otra tarea, pasando como parámetro a <code>vTaskDelete</code> la dirección del manejador inicializado en el proceso de creación (último parámetro en la creación). Por ejemplo, la siguiente función presenta un esquema de código correcto para la función de entrada de una tarea en FreeRTOS:</li>
 </ul>
 <pre><code class="language-c">void vATaskFunction(void *pvParameters)
 {
@@ -576,8 +576,8 @@ Compílalo, flaséalo y monitoriza su salida estándar.
 Acuérdate de modificar el SSID de la red a la que se conectará, así como la contraseña elegida a través del sistema de menús de configuración.</p>
 </div>
 <p>Observa su funcionamiento. El <em>firmware</em> simplemente inicializa el dispositivo
-en modo <em>station</em> (en contraposición al modo <em>Access Point</em>, que veremos en
-el próximo laboratorio), realizando una conexión al punto de acceso preconfigurado
+en modo <em>station</em> (en contraposición al modo <em>Access Point</em>, que veremos en la
+práctica siguiente), realizando una conexión al punto de acceso preconfigurado
 a través del menú de configuración.</p>
 <p>Analiza el código de la función <code>wifi_init_sta()</code>. Esta función, que implementa
 la tarea principal, se divide básicamente en dos partes:</p>
