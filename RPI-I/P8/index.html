@@ -238,28 +238,28 @@
 <p>Los routers de borde son encaminadores que pueden encontrarse en el borde de una
 red, encaminando el tráfico de dicha red hacia una segunda red externa. Su
 función, en definitiva, es conectar una red con otra.</p>
-<p>En esta práctica, usaremos el simulador <em>Cooja</em>, del proyecto Contiki-NG, para
+<p>En esta práctica, usaremos el simulador <em>Cooja</em> (del proyecto Contiki-NG) para
 construir una red de nodos que se comuniquen por 6LoWPAN, usando RPL
 (<em>Routing Protocol for Low-Power and Lossy Networks</em>) como
 algoritmo de encaminamiento. Los nodos simulados usan el RTOS de Contiki-NG.
 Veremos cómo un router de borde puede utilizarse para encaminar tráfico entre una
-red RPL (una red de sensores simulada) y una red IPv4 externa, siguiendo el
+red RPL (una red de sensores simulada) y una red externa, siguiendo el
 siguiente diagrama:</p>
 <p><img alt="" src="img/diagram.png" /></p>
 <p>El objetivo de la práctica es ofrecer una visión general sobre cómo desplegar
-tanto una red RPL con Contiki-NG en el simulador <em>Cooja</em>, así como conseguir
-hacerla interactuar con una segunda red externa real utilizando la herramienta
-<code>tunslip</code>.</p>
+una red RPL con Contiki-NG en el simulador <em>Cooja</em>, así como conseguir
+hacerla interactuar con una red externa no simulada utilizando la herramienta de
+Contiki-NG <code>tunslip6</code>.</p>
 <h2 id="instalacion-de-cooja">Instalación de <em>Cooja</em></h2>
 <p>Se ofrecen dos alternativas para instalar y usar el simulador <em>Cooja</em>:</p>
 <ul>
 <li>Instalación mediante contenedores Docker.</li>
-<li>Uso de una máquina virtual de VirtualBox proporcionada por el profesor.</li>
+<li>Uso de una máquina virtual VirtualBox proporcionada por el profesor.</li>
 </ul>
 <h3 id="alternativa-1-instalacion-con-docker">Alternativa 1: instalación con Docker</h3>
 <p>A continuación, indicamos los pasos a seguir para realizar la instalación del
 software necesario en un sistema GNU/Linux. Los detalles de instalación para
-Windows y macOS están en la <a href="https://docs.contiki-ng.org/en/develop/doc/getting-started/Docker.html"><em>getting started guide</em> de
+Windows y macOS están disponibles en la <a href="https://docs.contiki-ng.org/en/develop/doc/getting-started/Docker.html"><em>getting started guide</em> de
 Contiki-NG</a>.</p>
 <p>Comenzaremos por instalar Docker si no lo tenemos instalado ya, haciendo:</p>
 <pre><code class="language-sh">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -301,7 +301,7 @@ See &quot;man sudo_root&quot; for details.
 
 user@e2d84745c836:~/contiki-ng$ cooja
 </code></pre>
-<p>La primera vez que lo ejecutemos tardará un poco porque se descargará una serie
+<p>La primera vez que lo ejecutemos tardará un poco ya que se descargará una serie
 de archivos Java necesarios para el simulador. Es posible que se produzca un
 error en la resolución de nombres (DNS). En ese caso, debemos configurar el DNS
 de Docker:</p>
@@ -309,10 +309,9 @@ de Docker:</p>
 </code></pre>
 <h3 id="alternativa-2-uso-de-maquina-virtual">Alternativa 2: uso de máquina virtual</h3>
 <p>Si no tenemos VirtualBox instalado en nuestro equipo, lo primero será instalarlo
-descargando el instalador desde la página oficial de <a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox</a>.</p>
-<p>A continuación, descargaremos la máquina virtual Debian con Contiki-NG instalado
-desde <a href="https://drive.google.com/file/d/1RMv7yfqvhENRwD1GXS_5Qw5suOLt_98c/view?usp=sharing">este enlace de Google
-Drive</a>.
+descargándolo desde la página oficial de <a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox</a>.</p>
+<p>A continuación, descargaremos la máquina virtual Debian con Contiki-NG desde
+<a href="https://drive.google.com/file/d/1RMv7yfqvhENRwD1GXS_5Qw5suOLt_98c/view?usp=sharing">aquí</a>.
 Se trata de un archivo .ova que tendremos que importar en VirtualBox.</p>
 <p>Una vez importado, podemos arrancar la máquina virtual (el usuario es <em>user</em> y la
 contraseña <em>contiki</em>).
@@ -333,17 +332,14 @@ resto de nodos de la red RPL para que configuren sus respectivas direcciones IPv
 globales. Una vez recibido el prefijo, el router de borde se configura como
 raíz del DODAG y envía el prefijo al resto de nodos de la red.</p>
 <h2 id="simulacion-en-cooja">Simulación en <em>Cooja</em></h2>
-<p>Para crear una simulación completa en <em>Cooja</em>, arrancamos el simulador usando el
-siguiente comando:</p>
+<p>Para crear una simulación completa en <em>Cooja</em>, arrancamos el simulador con el siguiente comando:</p>
 <pre><code class="language-sh">To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.
 See &quot;man sudo_root&quot; for details.
 
 user@e2d84745c836:~/contiki-ng$ cooja
 </code></pre>
-<p>Si estamos utilizando la máquina virtual, basta con ejecutar <em>Cooja</em> desde un terminal.
-De aquí en adelante se pueden ignorar todos los detalles relativos a Docker si
-hemos optado por usar la máquina virtual.</p>
-<p>Si todo ha ido correctamente, debería aparecer la ventana principal del simulador:</p>
+<p>Si estamos utilizando la máquina virtual, basta con ejecutar <em>Cooja</em> desde un terminal. Si todo ha
+ido correctamente, debería aparecer la ventana principal del simulador:</p>
 <p><img alt="" src="img/Cooja_Window.png" /></p>
 <p>A partir de ahora, sigue los pasos indicados para crear una simulación en <em>Cooja</em>.</p>
 <div class="admonition danger">
@@ -377,9 +373,9 @@ Revisa la ventana <code>Network</code> y la salida de las motas en la ventana <c
 <h2 id="asignando-el-prefijo-de-red">Asignando el prefijo de red</h2>
 <p>Como ya se ha comentado, un router de borde actúa como enlace para conectar una red con
 otra. En este ejemplo, el router de borde se utiliza para establecer una ruta de datos
-entre la red RPL y una máquina externa (ya sea un contenedor Docker o nuestra máquina virtual).
-Para ello, utilizaremos la herramienta <em>tunslip6</em> proporcionada por Contiki-NG
-en el directorio <code>tools/serial-io</code>, que se puede compilar de la siguiente forma:</p>
+entre la red RPL y nuestra máquina externa. Para ello, utilizaremos la herramienta <code>tunslip6</code>
+proporcionada por Contiki-NG en el directorio <code>tools/serial-io</code>, que se puede compilar de la
+siguiente forma:</p>
 <pre><code class="language-sh">make tunslip6
 </code></pre>
 <p>Una vez compilado, ejecutamos el binario resultante para establecer una conexión
@@ -413,11 +409,10 @@ tun0: flags=4305&lt;UP,POINTOPOINT,RUNNING,NOARP,MULTICAST&gt;  mtu 1500
 [INFO: BR        ]   aaaa::201:1:1:1
 [INFO: BR        ]   fe80::201:1:1:1
 </code></pre>
-<p>La herramienta <em>tunslip6</em> ha creado una interfaz puente <code>tun0</code> con IPv4 127.0.1.1 y ha
-enviado, a través de la conexión serie, un mensaje de configuración al router de borde indicándole el
-prefijo IPv6 deseado para todos los nodos de la red RPL (<code>aaaa::/64</code>).
-Las dos últimas líneas de la salida anterior indican cuáles son las direcciones
-IPv6 del router de borde tras recibir el prefijo.</p>
+<p>La herramienta <code>tunslip6</code> ha creado una interfaz puente <code>tun0</code> en la máquina externa y ha enviado, a través
+de una conexión SLIP con el router de borde, un mensaje de configuración indicándole el prefijo IPv6 deseado
+para todos los nodos de la red RPL (<code>aaaa::/64</code>). Las dos últimas líneas de la salida anterior indican
+cuáles son las direcciones IPv6 del router de borde tras recibir el prefijo.</p>
 <p>Vuelve al simulador <em>Cooja</em> y observa el mensaje que ha aparecido en la ventana <code>Serial Socket (SERVER)</code>
 (apartado <em>status</em>).</p>
 <h2 id="verificacion-de-resultados">Verificación de resultados</h2>
@@ -454,7 +449,7 @@ Para ello, en el menú <code>Analyzer</code> de la ventana <code>Radio Messages<
 <code>6LoWPAN Analyzer with PCAP</code>.</p>
 <p>A continuación, reiniciamos la simulación anterior pulsando el botón <code>Reload</code> en la ventana
 principal de <em>Cooja</em>. Esto interrumpirá la comunicación con la máquina externa, por lo que
-será necesario volver a ejecutar <em>tunslip6</em>.</p>
+será necesario volver a ejecutar <code>tunslip6</code>.</p>
 <p>Ahora estamos listos para volver a simular la red capturando todos los paquetes
 enviados entre los nodos.
 Dejamos que la simulación se ejecute durante un tiempo y luego la paramos.
@@ -473,7 +468,7 @@ del nodo raíz:</p>
 <div class="admonition danger">
 <p class="admonition-title">Ejercicio 3</p>
 <p>Crea una red RPL con un router de borde y 10 motas de tipo <code>Cooja</code>.
-  Conéctala a tu red local mediante <em>tunslip6</em>.
+  Conéctala a tu red local mediante <code>tunslip6</code>.
 Asegúrate de que no todos los nodos estén al alcance del router de borde (implementa 3 niveles).
 Comprueba la conectividad con todas las motas y documenta el proceso.</p>
 </div>
