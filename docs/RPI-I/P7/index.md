@@ -1,35 +1,28 @@
-# LAB7. BLE Mesh
+# LAB7. BLE mesh
 
 ## Objetivos
 
-* Poner en práctica los conceptos vistos en teoría en relación a BLE Mesh,
+* Poner en práctica los conceptos vistos en teoría en relación a BLE mesh,
 específicamente aprovisionamiento y modelos cliente/servidor.
-
 * Desplegar una infraestructura de aprovisionamiento de un modelo *Generic OnOff Server*
-con aprovisionamiento desde aplicación móvil para el control remoto de 
-encendido/apagado de un LED.
-
-* Desplegar una infraestructura de aprovisionamiento de un modelo *Generic Sensor*
+con aprovisionamiento desde aplicación móvil para el control remoto del 
+encendido/apagado de LEDs.
+* Desplegar una infraestructura de aprovisionamiento de un modelo *Sensor*
 con aprovisionamiento desde ESP32.
 
 ## Estructura de la práctica
 
 Esta práctica está dividida en dos partes. En la primera parte trabajaremos un
-ejemplo de modelo genérico *OnOff* en el que se simulará una red domótica con un interruptor y varias luces conectadas a
-una red BLE Mesh (o un solo led RGB). Si disponemos de ellos, podemos conectar
-leds a los pines GPIO indicados en el fichero board.h para ver físicamente el
-efecto del encendido y apagado de las luces.
+ejemplo del modelo genérico *OnOff* en el que se simulará una red domótica con un interruptor y varias luces conectadas a
+una red BLE mesh.
 
-En la segunda parte trabajaremos un ejemplo de modelo Sensor, en el que un sensor enviará información de un sensor
-virtual (simulado con números aleatorios) a los clientes conectados en la red BLE Mesh.
+En la segunda parte trabajaremos con un ejemplo del modelo *Sensor*, en el que un sensor enviará información (simulada con números aleatorios) a los clientes conectados a la red BLE mesh.
 
 ## Requisitos previos
 
-Los códigos que estudiaremos en la práctica se encuentran en el directorio
-`examples/bluetooth/esp_ble_mesh/onoff_models` en el caso del sistema
-*OnOff* (primera parte de la práctica) y en
-`examples/bluetooth/esp_ble_mesh/sensor_models` en el caso del modelo sensor (segunda parte de
-la práctica).
+Los ejemplos que estudiaremos en esta práctica son ***onoff_models***, correspondiente al sistema
+*OnOff* (primera parte de la práctica), y ***sensor_models*** para el caso del modelo *Sensor* (segunda parte de
+la práctica). Ambos se encuentran disponibles en el directorio *bluetooth/esp_ble_mesh*.
 
 Por otro lado, descarga e instala la aplicación *nRF Mesh* en tu móvil (disponible para Android e iOS).
 
@@ -37,10 +30,9 @@ Por otro lado, descarga e instala la aplicación *nRF Mesh* en tu móvil (dispon
 
 ### El servidor *OnOff*
 
-El servidor implementa un único elemento en el cual se integran dos modelos
-distintos:
+El servidor implementa un único elemento en el cual se integran dos modelos distintos:
 
-1. Modelo *Configuration Server*: obligatorio en todo nodo BLE Mesh, implementa la configuración de 
+1. Modelo *Configuration Server*: obligatorio en todo nodo BLE mesh, implementa la configuración de 
 claves (*NetKey* y *AppKey*) así como configuraciones genéricas del servidor (suscripciones, tamaño de TTL o funcionalidad de *relay* de mensajes).
 2. Modelo *Generic OnOff Server*: implementa la funcionalidad básica de encendido/apagado de una luz.
 
@@ -48,16 +40,15 @@ El código en el fichero `main.c` contiene la funcionalidad básica del servidor
 que podemos resumir en:
 
 * Inicialización de la pila BLE (*bluedroid*).
-* Inicialización de la pila BLE Mesh.
-* Registro de las funciones de *callback* para el proceso de aprovisionamiento y
-  del modelo/modelos implementados.
-* Implementación e inicialización del elemento BLE Mesh.
+* Inicialización de la pila BLE mesh.
+* Registro de las funciones de *callback* para el proceso de aprovisionamiento y del modelo/modelos implementados.
+* Implementación e inicialización del elemento BLE mesh.
 * Implementación e inicialización del modelo *Configuration Server* y *Generic OnOff Server*.
 * Soporte para operaciones *Get Opcode* y *Set Opcode* en el modelo de configuración.
 
 #### Análisis básico del código
 
-Primero, la tarea principal (*app_main*) se encarga de la inicialización de las pilas BLE y BLE Mesh:
+Primero, la tarea principal (*app_main*) se encarga de la inicialización de las pilas BLE y BLE mesh:
 
 ```c
 void app_main(void)
@@ -93,7 +84,7 @@ void app_main(void)
 
 En particular, el código incluye invocaciones a `bluetooth_init()` y
 `ble_mesh_init()` encargadas de ambas inicializaciones.
-La inicialización de la pila BLE Mesh requiere alguna explicación adicional:
+La inicialización de la pila BLE mesh requiere alguna explicación adicional:
 
 ```c
 static esp_err_t ble_mesh_init(void)
@@ -127,12 +118,12 @@ static esp_err_t ble_mesh_init(void)
 Observa que el código incluye la siguiente funcionalidad:
 
 * `esp_ble_mesh_register_prov_callback(example_ble_mesh_provisioning_cb)`: registra la
-  función de *callback* de provisionado en la pila BLE Mesh. Esta función se ejecuta durante
-  el proceso de configuración y permite a la pila BLE Mesh generar eventos y
+  función de *callback* de provisionado en la pila BLE mesh. Esta función se ejecuta durante
+  el proceso de configuración y permite a la pila BLE mesh generar eventos y
   notificar a la aplicación sobre eventos importantes en el proceso de
   configuración. Los eventos principales que pueden emitirse son:
 	  - `ESP_BLE_MESH_PROV_REGISTER_COMP_EVT` y `ESP_BLE_MESH_NODE_PROV_ENABLE_COMP_EVT`:
-    generados cuando se completa la inicialización de la pila BLE Mesh.
+    generados cuando se completa la inicialización de la pila BLE mesh.
     En este punto, el nodo está listo para ser descubierto por un aprovisionador.
     - `ESP_BLE_MESH_NODE_PROV_ENABLE_COMP_EVT`: generado cuando 
 	  - `ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT`: generado cuando un aprovisionador y
@@ -161,7 +152,7 @@ Observa que el código incluye la siguiente funcionalidad:
 * `board_led_operation(LED_G, LED_ON)`: inicializa un hipotético LED RGB, que se
   controlará remotamente.
 
-En este punto, la inicialización de la pila BLE Mesh se ha completado, por
+En este punto, la inicialización de la pila BLE mesh se ha completado, por
 lo que un aprovisionador podría identificar dispositivos para aprovisionamiento de
 parámetros de red y transmisión de datos.
 
@@ -318,17 +309,16 @@ void example_ble_mesh_send_gen_onoff_set(void)
 }
 ```
 
-### Aprovisionamiento y control desde una aplicación móvil
+### Aprovisionamiento y control desde aplicación móvil
 
-En primer lugar, nos dividiremos en grupos de 3-5 personas. Uno de los integrantes del grupo,
-utilizando la aplicación móvil *nRF Mesh*, actuará como aprovisionador de la red,
-proporcionando las claves de red y aplicación (*NetKey* y *AppKey*), así como información básica de red
-(por ejemplo, las direcciones unicast). Además, podrá crear grupos de nodos y
-suscribir/desuscribir modelos a dichos grupos.
+En primer lugar, uno de los integrantes del grupo utilizará la aplicación *nRF Mesh* para actuar
+como aprovisionador de la red. Este se encargará de proporcionar las claves de red y aplicación
+(*NetKey* y *AppKey*), así como información básica de la red (por ejemplo, las direcciones *unicast*).
+Además, podrá crear grupos de nodos y suscribir/desuscribir modelos a dichos grupos.
 
-Además, se requiere que uno de vuestros ESP32 actúe como cliente, mientras que el resto
-como servidores. De este modo, emularemos una sala por grupo con múltiples luces y un único
-interruptor que controlará su estado de encendido/apagado.
+Se requiere que uno de vuestros ESP32 actúe como cliente, mientras que los demás lo hagan
+como servidores. De este modo, emularemos una sala domótica por grupo con múltiples luces y un único
+interruptor que controlará el encendido/apagado.
 
 !!! danger "Ejercicio 1"
 	Documenta la configuración de la red mesh y el proceso de aprovisionamiento de nodos que vas a realizar a continuación.
@@ -358,7 +348,7 @@ interruptor que controlará su estado de encendido/apagado.
 
 * *PASO 6*: tras repetir este paso con todos los nodos del grupo, veremos
   una pantalla como la siguiente.
-  Observa y anota las direcciones unicast de cada nodo provisionado.
+  Observa y anota las direcciones *unicast* de cada nodo provisionado.
   El nodo con un elemento es el cliente *OnOff*, mientras que los nodos con tres
   elementos son los servidores *OnOff*:
 
@@ -392,7 +382,7 @@ Si vuelves a la pestaña *Groups* y seleccionas el grupo, verás que aparece una
 ![](img/APP/11_estado_sala_estar.png)
 
 En este punto, si estás monitorizando la salida de todos los ESP32 de tu red mesh, verás que el
-estado del LED cambia a petición de la aplicación. Además, verás que también
+estado de los LED cambia a petición de la aplicación. Además, verás que también
 cambia si presionas el botón *BOOT* del interruptor (cliente) en la
 placa.
 
@@ -403,10 +393,10 @@ placa.
 	mensajes de solicitud de cambio de estado. Finalmente, vuelve a suscribir uno de los modelos
 	desuscritos.
 
-## Modelo sensor
+## Modelo *Sensor*
 
-En este ejemplo (`examples/bluetooth/esp_ble_mesh/sensor_models`), se implementa tanto un cliente
-de modelo sensor (que además es aprovisionador) como un servidor de modelo sensor configurable.
+En el ejemplo ***sensor_models*** se implementan tanto un cliente del modelo *Sensor* (que además es
+aprovisionador) como un servidor del modelo *Sensor* configurable.
 
 El modelo *Sensor Server* permite exponer datos de sensores. El modelo *Sensor Client* se utiliza
 para consumir los valores de sensores (*Sensor States*) expuestos por el servidor:
@@ -436,14 +426,14 @@ en estos ejemplos están preinicializados.
 
 En primer lugar, arranca un nodo cliente/aprovisionador y monitoriza
 su salida. Cuando un/a compañero/a arranque un nodo servidor, verás que es
-provisionado por tu cliente, otorgándole una dirección unicast. Anótala.
+provisionado por tu cliente, otorgándole una dirección *unicast*. Anótala.
 
 El funcionamiento general del ejemplo es el siguiente:
 
 1. El dispositivo *A* ejecuta el ejemplo *sensor_client*, mientras que el dispositivo *B* ejecuta el
   ejemplo *sensor_server*.
 2. *A* actúa como aprovisionador. Cuando detecta el dispositivo no provisionado *B*,
-  inicia el proceso de aprovisionamiento y le asigna una dirección unicast.
+  inicia el proceso de aprovisionamiento y le asigna una dirección *unicast*.
 3. En *A*, cada pulsación del botón *BOOT* supondrá una petición al nodo *B*.
 4. Estas peticiones serán, sucesivamente y en este orden:
     - *Sensor Descriptor*.
